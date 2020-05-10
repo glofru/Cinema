@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Nella classe Posto sono contenuti attributi e metodo necessari alla creazione e gestione del singolo posto presente in una sala del cinema
+ * Nella classe posto sono contenuti attributi e metodo necessari alla creazione e gestione del singolo numeroposto presente in una sala del cinema
  * I suoi attributi sono i seguenti:
- * - fila: lettera necessaria ad individuare la fila nella quale si trova il posto;
- * - posto: valore numercio che indica il numero di posto all'interno di una fila;
- * - occupato: booleano necessario ad individuare quale posto sia stato già acquistato e quale sia libero;
+ * - fila: lettera necessaria ad individuare la fila nella quale si trova il numeroposto;
+ * - numeroposto: valore numercio che indica il numero di numeroposto all'interno di una fila;
+ * - occupato: booleano necessario ad individuare quale numeroposto sia stato già acquistato e quale sia libero;
  * @access public
  * @author Lofrumento - Di Santo - Susanna
  * @package Model
  */
-class EPosto implements JsonSerializable
+class Enumeroposto implements JsonSerializable
 {
     /**
      * lettera assegnata alla specifica fila
@@ -21,16 +21,16 @@ class EPosto implements JsonSerializable
      * Numero progressivo che identifica i posti all'interno di una fila
      * @AttributeType int
      */
-    private int $posto;
+    private int $numeroposto;
     /**
-     * Attributo che identifica la disponibilità di un determinato posto
+     * Attributo che identifica la disponibilità di un determinato numeroposto
      * @AttributeType bool
      */
     private bool $occupato;
 
-    public function __construct(string $fila, int $posto){
+    public function __construct(string $fila, int $numeroposto){
         $this->fila = $fila;
-        $this->posto = $posto;
+        $this->numeroposto = $numeroposto;
         $this->occupato = false;
 }
 //-------------- SETTER ----------------------
@@ -41,13 +41,13 @@ class EPosto implements JsonSerializable
         $this->fila = $fila;
     }
     /**
-     * @param int $posto numero assegnato al posto
+     * @param int $numeroposto numero assegnato al numeroposto
      */
-    public function setPosto(int $posto){
-        $this->posto = $posto;
+    public function setnumeroposto(int $numeroposto){
+        $this->numeroposto = $numeroposto;
     }
     /**
-     * @param bool $occupato disponibilità del posto
+     * @param bool $occupato disponibilità del numeroposto
      */
     public function setOccupato(bool $occupato){
         $this->occupato = $occupato;
@@ -55,19 +55,19 @@ class EPosto implements JsonSerializable
 
 //----------------- GETTER --------------------
     /**
-     * @return string fila nella quale si trova il posto
+     * @return string fila nella quale si trova il numeroposto
      */
     public function getFila(): string {
         return $this->fila;
     }
     /**
-     * @return int numero di posto
+     * @return int numero di numeroposto
      */
-    public function getPosto(): int{
-        return $this->posto;
+    public function getnumeroposto(): int{
+        return $this->numeroposto;
     }
     /**
-     * @return bool disponibilità del posto
+     * @return bool disponibilità del numeroposto
      */
     public function getOccupato(): bool{
         return $this->occupato;
@@ -80,7 +80,7 @@ class EPosto implements JsonSerializable
         return
             [
                 'fila'   => $this->getFila(),
-                'posto' => $this->getPosto(),
+                'numeroposto' => $this->getnumeroposto(),
                 'occupato'   => $this->getOccupato(),
             ];
     }
@@ -95,6 +95,6 @@ class EPosto implements JsonSerializable
         else{
             $status = "occupato";
         }
-        return "Il posto " . strval($this->getPosto()) . " nella fila " . $this->getFila() . "è " . $status;
+        return "Il numeroposto " . strval($this->getnumeroposto()) . " nella fila " . $this->getFila() . "è " . $status;
     }
 }
