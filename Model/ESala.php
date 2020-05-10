@@ -12,7 +12,7 @@
 class ESala implements JsonSerializable
 {
     /**
-    * numero identificativo della sala
+    * Numero identificativo della sala
     * @AttributeType int
     */
     private int $numero;
