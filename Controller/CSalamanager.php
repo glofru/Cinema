@@ -46,7 +46,7 @@ class CSalamanager implements JsonSerializable
      */
     public function isValido(EPosto $posto): int
     {
-        $result = array_search($this->sala.getPosti(), $posto);
+        $result = array_search($posto,$this->sala->getPosti());
         if ($result === "") {
             return -1;
         } else {
