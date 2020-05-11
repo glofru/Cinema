@@ -85,6 +85,12 @@ class EBiglietto implements JsonSerializable
             ];
     }
 
-
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return "Biglietto per il film: " . $this->getProiezione() . "al posto " . $this->getPosto();
+    }
 
 }

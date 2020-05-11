@@ -85,4 +85,12 @@ class EProiezione implements JsonSerializable
             ];
     }
 
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return "Film: " . $this->getFilm() . "data ed ora: " . $this->getDataproieizone() . " nella sala: " . $this->getSala();
+    }
+
 }

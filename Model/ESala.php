@@ -98,6 +98,21 @@ class ESala implements JsonSerializable
     }
 
     /**
+     * Controlla se un posto è presente realmente nella sala gestita
+     * @param EPosto $posto posto che si vuole controllare
+     * @return int indice del posto nell'array dei posti in sala
+     */
+    public function isValido(EPosto $posto): int
+    {
+        $result = array_search($posto,$this->getPosti());
+        if ($result === "") {
+            return -1;
+        } else {
+            return $result;
+        }
+    }
+
+    /**
      * @return string
      */
     public function __toString()
