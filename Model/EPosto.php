@@ -10,7 +10,7 @@
  * @author Lofrumento - Di Santo - Susanna
  * @package Model
  */
-class Enumeroposto implements JsonSerializable
+class EPosto implements JsonSerializable
 {
     /**
      * lettera assegnata alla specifica fila
@@ -32,7 +32,7 @@ class Enumeroposto implements JsonSerializable
         $this->fila = $fila;
         $this->numeroposto = $numeroposto;
         $this->occupato = false;
-}
+    }
 //-------------- SETTER ----------------------
     /**
      * @param string $fila lettera assegnata alla fila
