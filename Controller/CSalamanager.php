@@ -5,9 +5,9 @@
  * - sala: oggetto contenente la sala da gestire;
  * @access public
  * @author Lofrumento - Di Santo - Susanna
- * @package Model
+ * @package Controller
  */
-class ESalamanager implements JsonSerializable
+class CSalamanager implements JsonSerializable
 {
     /**
      * Sala da gestire
@@ -46,7 +46,7 @@ class ESalamanager implements JsonSerializable
      */
     public function isValido(EPosto $posto): int
     {
-        $result = array_search($this->sala . getPosti(), $posto);
+        $result = array_search($this->sala.getPosti(), $posto);
         if ($result === "") {
             return -1;
         } else {
@@ -60,11 +60,11 @@ class ESalamanager implements JsonSerializable
      */
     public function isPostolibero(EPosto $posto): string
     {
-        $result = $this->isPostolibero($posto);
+        $result = $this->isValido($posto);
         if ($result === -1) {
-            return "Posto non presnete in sala";
+            return "Posto non presente in sala";
         }
-        if ($this->sala . getPosti()[$result] . getOccupato()) {
+        if ($this->sala.getPosti()[$result].getOccupato()) {
             return "false";
         } else {
             return "true";
