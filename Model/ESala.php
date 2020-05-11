@@ -27,7 +27,7 @@ class ESala implements JsonSerializable
      */
     private int $numeroposti;
 
-    public function __construct($numero,$nfile,$nposti){
+    public function __construct($numero,$nfile,$nposti) {
         $this->numero=$numero;
         $i=1;
         $value = 64;
@@ -87,8 +87,7 @@ class ESala implements JsonSerializable
     }
 
 //------------- ALTRI METODI ----------------
-    public function jsonSerialize ()
-    {
+    public function jsonSerialize () {
         return
             [
                 'numero'   => $this->getNumero(),
@@ -102,8 +101,7 @@ class ESala implements JsonSerializable
      * @param EPosto $posto posto che si vuole controllare
      * @return int indice del posto nell'array dei posti in sala
      */
-    public function isValido(EPosto $posto): int
-    {
+    public function esiste(EPosto $posto): int {
         $result = array_search($posto,$this->getPosti());
         if ($result === "") {
             return -1;
@@ -115,8 +113,7 @@ class ESala implements JsonSerializable
     /**
      * @return string
      */
-    public function __toString()
-    {
+    public function __toString(){
         return "La sala " . $this->getNumero() . "ha " . $this->getNumeroposti() . " posti.";
     }
 }
