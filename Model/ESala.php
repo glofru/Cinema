@@ -20,7 +20,7 @@ class ESala implements JsonSerializable
      * Insieme dei posti presenti in sala
      * @AttributeType array
      */
-    private array $posti = [];
+    private array $posti;
     /**
      * Numero di posti presenti in sala
      * @AttributeType int
