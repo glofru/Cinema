@@ -64,7 +64,7 @@ class CSalamanager implements JsonSerializable
         if ($result === -1) {
             return "Posto non presente in sala";
         }
-        if ($this->sala.getPosti()[$result].getOccupato()) {
+        if ($this->sala->getPosti()[$result]->getOccupato()) {
             return "false";
         } else {
             return "true";
@@ -78,8 +78,8 @@ class CSalamanager implements JsonSerializable
     public function occupaPosto(EPosto $posto): bool
     {
         if ($this->isPostolibero($posto) == "true") {
-            $result = array_search($posto, $this->sala.getPosti());
-            $this->sala.getPosti()[$result].setOccupato(false);
+            $result = array_search($posto, $this->sala->getPosti());
+            $this->sala->getPosti()[$result]->setOccupato(false);
         } else {
             return false;
         }
@@ -92,8 +92,8 @@ class CSalamanager implements JsonSerializable
     public function liberaPosto(EPosto $posto): bool
     {
         if ($this->isPostolibero($posto) === "false") {
-            $result = array_search($posto, $this->sala.getPosti());
-            $this->sala.getPosti()[$result].setOccupato(true);
+            $result = array_search($posto, $this->sala->getPosti());
+            $this->sala->getPosti()[$result]->setOccupato(true);
         } else {
             return false;
         }
@@ -104,8 +104,8 @@ class CSalamanager implements JsonSerializable
      */
     public function postiLiberi(): int{
         $count = 0;
-        foreach ($this->sala.getPosti() as $elem){
-            if($elem.getOccupato() === false){
+        foreach ($this->sala->getPosti() as $elem){
+            if($elem->getOccupato() === false){
                 $count += 1;
             }
         }
@@ -116,7 +116,7 @@ class CSalamanager implements JsonSerializable
      * @return int numero dei posti occupati in sala
      */
     public function postiOccupati(): int{
-        return $this->sala.getNumeroPosti() - $this->postiLiberi();
+        return $this->sala->getNumeroPosti() - $this->postiLiberi();
     }
 
     public function jsonSerialize ()
