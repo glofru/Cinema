@@ -12,17 +12,17 @@
 class EBiglietto implements JsonSerializable
 {
     /**
-     * proiezione alla quale si vuole assistere
+     * Proiezione alla quale si vuole assistere
      * @AttributeType EProiezione
      */
     private EProiezione $proiezione;
     /**
-     * posto che si vuole prendere
+     * Posto che si vuole prendere
      * @AttributeType EPosto
      */
     private EPosto $posto;
     /**
-     * utente che effettua l'acquisto
+     * Utente che effettua l'acquisto
      * @AttributeType EUtente
      */
     private EUtente $utente;
@@ -74,7 +74,7 @@ class EBiglietto implements JsonSerializable
         return $this->utente;
     }
 
-    //------------- ALTRI METODI ----------------
+//------------- ALTRI METODI ----------------
     public function jsonSerialize ()
     {
         return

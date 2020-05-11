@@ -12,12 +12,12 @@
 class EProiezione implements JsonSerializable
 {
     /**
-     * film che verrà proiettato
+     * Film che verrà proiettato
      * @AttributeType EFilm
      */
     private EFilm $film;
     /**
-     * sala nella quale verrà proiettato il film
+     * Sala nella quale verrà proiettato il film
      * @AttributeType ESala
      */
     private ESala $sala;
