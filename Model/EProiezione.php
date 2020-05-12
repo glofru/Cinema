@@ -29,9 +29,9 @@ class EProiezione implements JsonSerializable
 
     public function __construct(EFilm $film, ESala $sala, DateTime $dataproiezione)
     {
-        $this->film = $film;
-        $this->sala = $sala;
-        $this->dataproiezione = $dataproiezione;
+        $this->setFilm($film);
+        $this->setSala($sala);
+        $this->setDataproiezione($dataproiezione);
     }
 
 //-------------- SETTER ----------------------

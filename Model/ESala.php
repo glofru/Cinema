@@ -15,61 +15,61 @@ class ESala implements JsonSerializable
     * Numero identificativo della sala
     * @AttributeType int
     */
-    private int $numero;
+    private int $numeroSala;
     /**
      * Insieme dei posti presenti in sala
      * @AttributeType array
      */
     private array $posti;
     /**
-     * Numero di posti presenti in sala
      * @AttributeType int
      */
-    private int $numeroposti;
+    private int $nFile;
+    /**
+     * @var int
+     */
+    private int $nPosti;
 
-    public function __construct($numero,$nfile,$nposti) {
-        $this->numero=$numero;
-        $i=1;
-        $value = 64;
-        while($i <= $nfile){
-            $j = 1;
-            while($j < $nposti){
-                array_push($this->posti,new EPosto(chr($value+$i),$j));
-                $j += 1;
+    /**
+     * ESala constructor.
+     * @param int $numeroSala
+     * @param int $nFile
+     * @param int $nPosti
+     */
+    public function __construct(int $numeroSala, int $nFile, int $nPosti) {
+        $this->setNumeroSala($numeroSala);
+        $this->init($nFile, $nPosti);
+    }
+
+    /**
+     * @param $nfile
+     * @param $nposti
+     */
+    private function init($nfile, $nposti) {
+        $this->posti = array();
+        $value = 64; //64 = A
+        for ($i = 0; $i < $nfile; $i++) {
+            for ($j = 0; $j < $nposti; $j++) {
+                array_push($this->posti, new EPosto(chr($value + $i), $j));
             }
-            $i += 1;
         }
-        $this->numeroposti = $nfile * $nposti;
     }
 
 //-------------- SETTER ----------------------
-    /**
-     * @param int $numero numero identificativo della sala
-     */
-    public function setNumero(int $numero){
-        $this->numero = $numero;
-    }
 
     /**
-     * @param array $posti insieme dei posti a sedere presenti in sala
+     * @param int $numeroSala
      */
-    public function setPosti(array $posti){
-        $this->posti = $posti;
-    }
-
-    /**
-     * @param int $numeroposti numero complessivo dei posti a sedere in sala
-     */
-    public function setNumeroposti(int $numeroposti){
-        $this->numeroposti = $numeroposti;
+    public function setNumeroSala(int $numeroSala){
+        $this->numeroSala = $numeroSala;
     }
 
 //----------------- GETTER --------------------
     /**
      * @return int numero di sala
      */
-    public function getNumero(): int {
-        return $this->numero;
+    public function getNumeroSala(): int {
+        return $this->numeroSala;
     }
 
     /**
@@ -82,17 +82,38 @@ class ESala implements JsonSerializable
     /**
      * @return int numero complessivo di posti in sala
      */
-    public function getNumeroposti(): int {
-        return $this->numeroposti;
+    public function getNumeroPosti(): int {
+        return $this->nFile * $this->nPosti;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNFile(): int
+    {
+        return $this->nFile;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNPosti(): int
+    {
+        return $this->nPosti;
     }
 
 //------------- ALTRI METODI ----------------
+
+    /**
+     * @return array|mixed
+     */
     public function jsonSerialize () {
         return
             [
-                'numero'   => $this->getNumero(),
+                'numero'   => $this->getNumeroSala(),
                 'posti' => $this->getPosti(),
-                'numeroposti'   => $this->getNumeroposti(),
+                'nFile' => $this->getNFile(),
+                'nPosti' => $this->getNPosti()
             ];
     }
 
@@ -103,17 +124,83 @@ class ESala implements JsonSerializable
      */
     public function esiste(EPosto $posto): int {
         $result = array_search($posto,$this->getPosti());
-        if ($result === "") {
-            return -1;
-        } else {
+        if ($result !== "") {
             return $result;
         }
+
+        return -1;
+    }
+
+    /**
+     * Controlla se un posto è libero in sala
+     * @param EPosto $posto posto che si vuole controllare
+     * @return bool risultato del controllo
+     */
+    public function isPostolibero(EPosto $posto): bool
+    {
+        $result = $this->esiste($posto);
+        if ($result === -1) {
+            echo "errore";
+            return false;
+        }
+
+         return $this->getPosti()[$result]->getOccupato();
+    }
+    /**
+     * Controlla se un posto è occupato o meno in sala
+     * @param EPosto $posto posto che si vuole controllare
+     * @return string risultato del controllo
+     */
+    public function occupaPosto(EPosto $posto): bool
+    {
+        if ($this->isPostolibero($posto) == true) {
+            $result = array_search($posto, $this->getPosti());
+            $this->getPosti()[$result]->setOccupato(false);
+            return true;
+        }
+
+        return false;
+    }
+    /**
+     * Controlla se un posto è occupato in sala
+     * @param EPosto $posto posto che si vuole controllare
+     * @return bool risultato booleano del controllo
+     */
+    public function liberaPosto(EPosto $posto): bool
+    {
+        if ($this->isPostolibero($posto) === "false") {
+            $result = array_search($posto, $this->getPosti());
+            $this->getPosti()[$result]->setOccupato(true);
+            return true;
+        }
+
+        return false;
+    }
+    /**
+     * Conta il numero dei posti liberi in sala
+     * @return int numero dei posti liberi in sala
+     */
+    public function getPostiLiberi(): int{
+        $count = 0;
+        foreach ($this->getPosti() as $elem){
+            if($elem->getOccupato() === false){
+                $count += 1;
+            }
+        }
+        return $count;
+    }
+    /**
+     * Conta il numero dei posti occupati in sala
+     * @return int numero dei posti occupati in sala
+     */
+    public function postiOccupati(): int{
+        return $this->getNumeroPosti() - $this->getPostiLiberi();
     }
 
     /**
      * @return string
      */
     public function __toString(){
-        return "La sala " . $this->getNumero() . "ha " . $this->getNumeroposti() . " posti.";
+        return "La sala " . $this->getNumeroSala() . "ha " . $this->getNumeroPosti() . " posti.";
     }
 }
