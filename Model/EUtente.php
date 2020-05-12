@@ -12,14 +12,45 @@
  *
  * Class Utente
  */
-class EUtente
+class EUtente implements JsonSerializable
 {
+    /**
+     * @var string
+     */
     private string $nome;
+    /**
+     * @var string
+     */
     private string $cognome;
+    /**
+     * @var string
+     */
     private string $username;
+    /**
+     * @var string
+     */
     private string $password;
+    /**
+     * @var string
+     */
     private string $email;
-    private bool $isAdmin;
+
+    /**
+     * EUtente constructor.
+     * @param string $nome
+     * @param string $cognome
+     * @param string $username
+     * @param string $email
+     * @param string $password
+     */
+    public function __construct(string $nome, string $cognome, string $username, string $email, string $password)
+    {
+        $this->setNome($nome);
+        $this->setCognome($cognome);
+        $this->setUsername($username);
+        $this->setEmail($email);
+        $this->setPassword($password);
+    }
 
     /**
      * @return string
@@ -101,21 +132,18 @@ class EUtente
         $this->email = $email;
     }
 
-    /**
-     * @return bool
-     */
-    public function isAdmin()
-    {
-        return $this->isAdmin;
-    }
 
     /**
-     * @param bool $isAdmin
+     * @return mixed|void
      */
-    public function setIsAdmin($isAdmin)
+    public function jsonSerialize()
     {
-        $this->isAdmin = $isAdmin;
+        return [
+            'nome' => $this->getNome(),
+            'cognome' => $this->getCognome(),
+            'username' => $this->getUsername(),
+            'password' => $this->getPassword(),
+            'email' => $this->getEmail()
+        ];
     }
-
-
 }

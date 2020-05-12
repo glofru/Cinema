@@ -1,5 +1,4 @@
 <?php
-require_once ('EGiudizio.php');
 
 /**Nella clesse Utente sono presenti tutti i metodi e attributi necessari a definire il profilo di un utente
  * registrato
@@ -7,14 +6,24 @@ require_once ('EGiudizio.php');
  */
 class ERegistrato extends EUtente
 {
-   private array $listagiudizi=[];
+    /**
+     * @var array
+     */
+    private array $listagiudizi;
 
     /**
      * ERegistrato constructor.
+     * @param string $nome
+     * @param string $cognome
+     * @param string $username
+     * @param string $email
+     * @param string $password
      */
-    public function __construct()
+    public function __construct(string $nome, string $cognome, string $username, string $email, string $password)
     {
+        parent::__construct($nome, $cognome, $username, $email, $password);
 
+        $this->listagiudizi = array();
     }
 
 
@@ -29,9 +38,11 @@ class ERegistrato extends EUtente
     /**
      * @param array $listagiudizi
      */
-    public function setListagiudizi(array $listagiudizi): void
+    public function addGiudizio(EGiudizio $giudizio): void
     {
-        $this->listagiudizi = $listagiudizi;
+        array_push($this->listagiudizi, $giudizio);
     }
+
+    //TODO: override jsonsSerialization per aggiungere lista giudizi
 
 }
