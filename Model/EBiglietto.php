@@ -29,9 +29,9 @@ class EBiglietto implements JsonSerializable
 
     public function __construct(EProiezione $proiezione, EPosto $posto, EUtente $utente)
     {
-        $this->proiezione = $proiezione;
-        $this->posto = $posto;
-        $this->utente = $utente;
+        $this->setProiezione($proiezione);
+        $this->setPosto($posto);
+        $this->setUtente($utente);
     }
 
 //-------------- SETTER ----------------------
