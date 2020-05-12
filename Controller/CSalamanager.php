@@ -5,9 +5,9 @@
  * - sala: oggetto contenente la sala da gestire;
  * @access public
  * @author Lofrumento - Di Santo - Susanna
- * @package Model
+ * @package Controller
  */
-class ESalamanager implements JsonSerializable
+class CSalamanager implements JsonSerializable
 {
     /**
      * Sala da gestire
@@ -46,7 +46,7 @@ class ESalamanager implements JsonSerializable
      */
     public function isValido(EPosto $posto): int
     {
-        $result = array_search($this->sala . getPosti(), $posto);
+        $result = array_search($posto,$this->sala->getPosti());
         if ($result === "") {
             return -1;
         } else {
@@ -60,11 +60,11 @@ class ESalamanager implements JsonSerializable
      */
     public function isPostolibero(EPosto $posto): string
     {
-        $result = $this->isPostolibero($posto);
+        $result = $this->isValido($posto);
         if ($result === -1) {
-            return "Posto non presnete in sala";
+            return "Posto non presente in sala";
         }
-        if ($this->sala . getPosti()[$result] . getOccupato()) {
+        if ($this->sala->getPosti()[$result]->getOccupato()) {
             return "false";
         } else {
             return "true";
@@ -78,8 +78,8 @@ class ESalamanager implements JsonSerializable
     public function occupaPosto(EPosto $posto): bool
     {
         if ($this->isPostolibero($posto) == "true") {
-            $result = array_search($posto, $this->sala.getPosti());
-            $this->sala.getPosti()[$result].setOccupato(false);
+            $result = array_search($posto, $this->sala->getPosti());
+            $this->sala->getPosti()[$result]->setOccupato(false);
         } else {
             return false;
         }
@@ -92,8 +92,8 @@ class ESalamanager implements JsonSerializable
     public function liberaPosto(EPosto $posto): bool
     {
         if ($this->isPostolibero($posto) === "false") {
-            $result = array_search($posto, $this->sala.getPosti());
-            $this->sala.getPosti()[$result].setOccupato(true);
+            $result = array_search($posto, $this->sala->getPosti());
+            $this->sala->getPosti()[$result]->setOccupato(true);
         } else {
             return false;
         }
@@ -104,8 +104,8 @@ class ESalamanager implements JsonSerializable
      */
     public function postiLiberi(): int{
         $count = 0;
-        foreach ($this->sala.getPosti() as $elem){
-            if($elem.getOccupato() === false){
+        foreach ($this->sala->getPosti() as $elem){
+            if($elem->getOccupato() === false){
                 $count += 1;
             }
         }
@@ -116,7 +116,7 @@ class ESalamanager implements JsonSerializable
      * @return int numero dei posti occupati in sala
      */
     public function postiOccupati(): int{
-        return $this->sala.getNumeroPosti() - $this->postiLiberi();
+        return $this->sala->getNumeroPosti() - $this->postiLiberi();
     }
 
     public function jsonSerialize ()
