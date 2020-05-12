@@ -21,17 +21,18 @@ class EPosto implements JsonSerializable
      * Numero progressivo che identifica i posti all'interno di una fila
      * @AttributeType int
      */
-    private int $numeroposto;
+    private int $numeroPosto;
     /**
      * Attributo che identifica la disponibilità di un determinato numeroposto
      * @AttributeType bool
      */
     private bool $occupato;
 
-    public function __construct(string $fila, int $numeroposto){
-        $this->fila = $fila;
-        $this->numeroposto = $numeroposto;
-        $this->occupato = false;
+    public function __construct(string $fila, int $numeroPosto, bool $occupato = false)
+    {
+        $this->setFila($fila);
+        $this->setNumeroPosto($numeroPosto);
+        $this->setOccupato($occupato);
     }
 //-------------- SETTER ----------------------
     /**
@@ -43,8 +44,8 @@ class EPosto implements JsonSerializable
     /**
      * @param int $numeroposto numero assegnato al numeroposto
      */
-    public function setnumeroposto(int $numeroposto){
-        $this->numeroposto = $numeroposto;
+    public function setNumeroPosto(int $numeroPosto){
+        $this->numeroPosto = $numeroPosto;
     }
     /**
      * @param bool $occupato disponibilità del numeroposto
@@ -63,8 +64,8 @@ class EPosto implements JsonSerializable
     /**
      * @return int numero di numeroposto
      */
-    public function getnumeroposto(): int{
-        return $this->numeroposto;
+    public function getNumeroPosto(): int{
+        return $this->numeroPosto;
     }
     /**
      * @return bool disponibilità del numeroposto
@@ -80,7 +81,7 @@ class EPosto implements JsonSerializable
         return
             [
                 'fila'   => $this->getFila(),
-                'numeroposto' => $this->getnumeroposto(),
+                'numeroposto' => $this->getNumeroPosto(),
                 'occupato'   => $this->getOccupato(),
             ];
     }
@@ -95,6 +96,6 @@ class EPosto implements JsonSerializable
         else{
             $status = "occupato";
         }
-        return "Il numeroposto " . strval($this->getnumeroposto()) . " nella fila " . $this->getFila() . "è " . $status;
+        return "Il numeroposto " . strval($this->getNumeroPosto()) . " nella fila " . $this->getFila() . "è " . $status;
     }
 }

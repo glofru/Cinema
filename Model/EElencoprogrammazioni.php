@@ -14,7 +14,7 @@
      */
     private array $elencoprogrammazioni;
 
-    public function __construct(){
+    public function __construct() {
         $this->elencoprogrammazioni = [];
     }
 
@@ -24,7 +24,7 @@
     /**
      * @return array insieme delle programmazioni
      */
-    public function getElencoprogrammazioni(): array{
+    public function getElencoprogrammazioni(): array {
         return $this->elencoprogrammazioni;
     }
 
@@ -33,8 +33,8 @@
      * Aggiunge una programmazione all'insieme
      * @param EProgrammazionefilm $programmazione programmazione da aggiungere all'insieme
      */
-    public function aggiungiProgrammazione(EProgrammazionefilm $programmazione){
-        array_push($this->getElencoprogrammazioni(), $programmazione);
+    public function addProgrammazione(EProgrammazionefilm $programmazione){
+        array_push($this->elencoprogrammazioni, $programmazione);
     }
     /**
      * Aggiunge una programmazione all'insieme
