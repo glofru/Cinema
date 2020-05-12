@@ -14,17 +14,11 @@
      */
     private array $elencoprogrammazioni;
 
-    public function __construct(array $elencoprogrammazioni){
-        $this->elencoprogrammazioni = $elencoprogrammazioni;
+    public function __construct(){
+        $this->elencoprogrammazioni = [];
     }
 
 //-------------- SETTER ----------------------
-    /**
-     * @param array $elencoprogrammazioni elenco delle programmazioni del cinema
-     */
-    public function setElencoprogrammazioni(array $elencoprogrammazioni){
-        $this->elencoprogrammazioni = $elencoprogrammazioni;
-    }
 
 //----------------- GETTER --------------------
     /**
