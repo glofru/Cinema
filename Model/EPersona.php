@@ -15,9 +15,9 @@ class EPersona implements JsonSerializable
      */
     private string $cognome;
     /**
-     * @var DateTime
+     * @var string
      */
-    private DateTime $nascita;
+    private string $imdbUrl;
     /**
      * @var bool
      */
@@ -31,15 +31,15 @@ class EPersona implements JsonSerializable
      * EPersona constructor.
      * @param string $nome
      * @param string $cognome
-     * @param DateTime $nascita
+     * @param string $imdbUrl
      * @param bool $isAttore
      * @param bool $isRegista
      */
-    public function __construct(string $nome, string $cognome, DateTime $nascita, bool $isAttore, bool $isRegista)
+    public function __construct(string $nome, string $cognome, string $imdbUrl, bool $isAttore, bool $isRegista)
     {
         $this->setNome($nome);
         $this->setCognome($cognome);
-        $this->setNascita($nascita);
+        $this->setImdbUrl($imdbUrl);
         $this->setIsAttore($isAttore);
         $this->setIsRegista($isRegista);
     }
@@ -77,19 +77,19 @@ class EPersona implements JsonSerializable
     }
 
     /**
-     * @return DateTime
+     * @return string
      */
-    public function getNascita(): DateTime
+    public function getImdbUrl(): string
     {
-        return $this->nascita;
+        return $this->imdbUrl;
     }
 
     /**
-     * @param DateTime $nascita
+     * @param string $imdbUrl
      */
-    public function setNascita(DateTime $nascita): void
+    public function setImdbUrl(string $imdbUrl): void
     {
-        $this->nascita = $nascita;
+        $this->imdbUrl = $imdbUrl;
     }
 
     /**
@@ -132,7 +132,7 @@ class EPersona implements JsonSerializable
         return [
             'nome' => $this->getNome(),
             'cognome' => $this->getCognome(),
-            'nascita' => $this->getNascita()->format("Y-m-d"),
+            'imdbUrl' => $this->getImdbUrl(),
             'isAttore' => $this->isAttore(),
             'isRegista' => $this->isRegista()
         ];
