@@ -28,6 +28,12 @@ class EPosto implements JsonSerializable
      */
     private bool $occupato;
 
+    /**
+     * EPosto constructor.
+     * @param string $fila
+     * @param int $numeroPosto
+     * @param bool $occupato
+     */
     public function __construct(string $fila, int $numeroPosto, bool $occupato = false)
     {
         $this->setFila($fila);
@@ -76,6 +82,9 @@ class EPosto implements JsonSerializable
 
 //------------- ALTRI METODI ----------------
 
+    /**
+     * @return array|mixed
+     */
     public function jsonSerialize ()
     {
         return

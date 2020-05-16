@@ -9,7 +9,7 @@
  * @author Lofrumento - Di Santo - Susanna
  * @package Model
  */
-class ESala implements JsonSerializable
+class ESalaVirtuale implements JsonSerializable
 {
     /**
     * Numero identificativo della sala
@@ -31,7 +31,7 @@ class ESala implements JsonSerializable
     private int $nPosti;
 
     /**
-     * ESala constructor.
+     * ESalaVirtuale constructor.
      * @param int $numeroSala
      * @param int $nFile
      * @param int $nPosti
