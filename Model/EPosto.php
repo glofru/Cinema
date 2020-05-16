@@ -48,7 +48,7 @@ class EPosto implements JsonSerializable
         $this->fila = $fila;
     }
     /**
-     * @param int $numeroposto numero assegnato al numeroposto
+     * @param int $numeroPosto numero assegnato al numeroposto
      */
     public function setNumeroPosto(int $numeroPosto){
         $this->numeroPosto = $numeroPosto;
