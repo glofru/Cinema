@@ -18,16 +18,16 @@ class EProiezione implements JsonSerializable
     private EFilm $film;
     /**
      * Sala nella quale verrà proiettato il film
-     * @AttributeType ESala
+     * @AttributeType ESalaVirtuale
      */
-    private ESala $sala;
+    private ESalaVirtuale $sala;
     /**
      * Data ed orario della proiezione
      * @AttributeType DateTime
      */
     private DateTime $dataproiezione;
 
-    public function __construct(EFilm $film, ESala $sala, DateTime $dataproiezione)
+    public function __construct(EFilm $film, ESalaVirtuale $sala, DateTime $dataproiezione)
     {
         $this->setFilm($film);
         $this->setSala($sala);
@@ -42,9 +42,9 @@ class EProiezione implements JsonSerializable
         $this->film = $film;
     }
     /**
-     * @param ESala $sala sala che ospiterà al proeizione
+     * @param ESalaVirtuale $sala sala che ospiterà al proeizione
      */
-    public function setSala(ESala $sala){
+    public function setSala(ESalaVirtuale $sala){
         $this->sala = $sala;
     }
     /**
@@ -62,9 +62,9 @@ class EProiezione implements JsonSerializable
         return $this->film;
     }
     /**
-     * @return ESala sala nella quale si terrà al proiezione
+     * @return ESalaVirtuale sala nella quale si terrà al proiezione
      */
-    public function getSala(): ESala{
+    public function getSala(): ESalaVirtuale{
         return $this->sala;
     }
     /**
