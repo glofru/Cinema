@@ -42,17 +42,11 @@ class FDatabase
     }
 
     /**
-     *
-     */
-    public function closeDBConnection () {
-        static::$instance = null;
-    }
-
-    /**
      * @param $class
      * @param $values
+     * @return
      */
-    public function saveToDB($class, $values)
+    public function saveToDB(string $class, $values)
     {
         try {
             $this->db->beginTransaction();
@@ -60,11 +54,31 @@ class FDatabase
             $sender = $this->db->prepare($query);
             $class::associate($sender, $values);
             $sender->execute();
+            $id = $this->db->lastInsertId();
             $this->db->commit();
-            $this->closeDBConnection();
+            return $id;
         } catch (PDOException $exception) {
             $this->db->rollBack();
             echo ("Errore nel Database: " . $exception->getMessage());
+            return null;
+        }
+    }
+
+    public function saveToDBPosti(string $class, EProiezione $proiezione, EPosto $posto)
+    {
+        try {
+            $this->db->beginTransaction();
+            $query = "INSERT INTO " . $class::getTables() . " VALUES " . $class::getValues();
+            $sender = $this->db->prepare($query);
+            $class::associate($sender, $$proiezione, $posto);
+            $sender->execute();
+            $id = $this->db->lastInsertId();
+            $this->db->commit();
+            return $id;
+        } catch (PDOException $exception) {
+            $this->db->rollBack();
+            echo ("Errore nel Database: " . $exception->getMessage());
+            return null;
         }
     }
 
@@ -74,7 +88,7 @@ class FDatabase
      * @param $row
      * @return array
      */
-    public function loadFromDB($class, $value, $row): array {
+    public function loadFromDB(string $class, $value, string $row) {
             try {
                 $query = "SELECT * FROM " . $class::getTables() . " WHERE " . $row . "='" . $value . "';";
                 $sender = $this->db->prepare($query);
@@ -94,16 +108,81 @@ class FDatabase
                         $return[] = $elem;
                     }
                 }
-                $this->closeDBConnection();
                 return $return;
-
             }
             catch (PDOException $exception) {
                 echo "Errore nel Database: " . $exception->getMessage();
-                array_push($return,null);
-                return $return;
+                return null;
             }
         }
+
+    public function loadBetweenProiezione(string $datainizio, string $datafine) {
+        try {
+            $query = "SELECT * FROM Proiezioni WHERE Data BETWEEN '" . $datainizio . "' AND '" . $datafine . "';";
+            $sender = $this->db->prepare($query);
+            $sender->execute();
+            $returnedRows = $sender->rowCount();
+            $return = [];
+            if($returnedRows == 0){
+                array_push($return,null);
+            }
+            elseif ($returnedRows == 1) {
+                array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
+            }
+            else {
+                $sender->setFetchMode(PDO::FETCH_ASSOC);
+                while($elem = $sender->fetch()) {
+                    $return[] = $elem;
+                }
+            }
+            return $return;
+        }
+        catch(Exception $exception) {
+            echo "Errore nel Database: " . $exception->getMessage();
+            array_push($return,null);
+            return null;
+        }
+    }
+
+    public function checkDisponibilita(int $nsala, string $data, string $oraInizioNuovoFilm) {
+        try {
+            $query = "SELECT * FROM Proiezioni WHERE numeroSala = '" . strval($nsala) . "' AND data = '" . $data . "';";
+            $sender = $this->db->prepare($query);
+            $sender->execute();
+            $returnedRows = $sender->rowCount();
+            $return = [];
+            if($returnedRows == 0){
+                array_push($return,null);
+            }
+            elseif ($returnedRows == 1) {
+                array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
+            }
+            else {
+                $sender->setFetchMode(PDO::FETCH_ASSOC);
+                while($elem = $sender->fetch()) {
+                    $return[] = $elem;
+                }
+            }
+            for($i=0;$i<sizeof($return);$i++) {
+                $result = $this->loadFromDB("FFilm",$return[$i]["id"],"id");
+                $durata = $result["durata"];
+                $durata = new DateInterval($durata);
+                $oraFilmPresente = $return[$i]["ora"];
+                $oraFineFilmPresente = new DateTime('1970-01-01T' . $oraFilmPresente);
+                $oraFineFilmPresente = $oraFineFilmPresente->add($durata);
+                $oraFineFilmPresente = $oraFineFilmPresente->format('h:i:s');
+                if((strtotime($oraInizioNuovoFilm) - strtotime($oraFilmPresente) > 0) && (strtotime($oraFineFilmPresente) - strtotime($oraInizioNuovoFilm) > 0)) {
+                    return strval($return[$i]["numerosala"]) . "," . $return[$i]["ora"];
+                }
+            }
+            return "";
+        }
+        catch(Exception $exception) {
+            echo "Errore nel Database: " . $exception->getMessage();
+            array_push($return,null);
+            return null;
+        }
+    }
 
     /**
      * @param $class
@@ -111,7 +190,7 @@ class FDatabase
      * @param $row
      * @return int
      */
-    public function numberofRows($class, $value, $row): int {
+    public function numberofRows(string $class, $value, string $row): int {
         $result = $this->loadFromDB($class,$value,$row);
         if($result[0] == null) {
             return null;
@@ -126,19 +205,21 @@ class FDatabase
      * @param $class
      * @param $value
      * @param $row
+     * @return bool
      */
-    public function deleteFromDB($class, $value, $row) {
+    public function deleteFromDB(string $class, $value, string $row): bool {
         try{
             $this->db->beginTransaction();
             $query = "DELETE FROM " . $class::getTables() . " WHERE " . $row . "='" . $value . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
             $this->db->commit();
-            $this->closeDBConnection();
+            return true;
         }
         catch(PDOException $exception) {
             $this->db->rollBack();
             echo ("Errore nel Database: " . $exception->getMessage());
+            return false;
         }
     }
 
@@ -148,19 +229,21 @@ class FDatabase
      * @param $row
      * @param $newRow
      * @param $newValue
+     * @return bool
      */
-    public function updateTheDB($class, $value, $row, $newRow, $newValue) {
+    public function updateTheDB(string $class, $value, string $row, string $newRow, $newValue): bool {
         try {
             $this->db->beginTransaction();
             $query = "UPDATE " . $class::getTables() . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
             $this->db->commit();
-            $this->closeDBConnection();
+            return true;
         }
         catch(PDOException $exception) {
             $this->db->rollBack();
             echo ("Errore nel Database: " . $exception->getMessage());
+            return false;
         }
     }
 
@@ -169,7 +252,7 @@ class FDatabase
      * @param $password
      * @return object
      */
-    public function loginDB($value, $password): object {
+    public function loginDB(string $value, string $password): object {
         if (strpos($value, '@') !== false) {
             $row = "email";
         }
@@ -185,6 +268,10 @@ class FDatabase
             return $sender->fetch(PDO::FETCH_ASSOC);
         }
         return null;
+    }
+
+    public function occupaPosto() {
+        //TODO;
     }
 
 
