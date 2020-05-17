@@ -49,17 +49,29 @@ class FPosti
         return $return;
     }
 
-    public function update($value,$row,$newvalue,$newrow): bool {
+    public function loadDoppio(EProiezione $proiezione, string $posto) {
         $db = FDatabase::getInstance();
-        if($db->updateTheDB($this->getClassName(),$value,$row,$newvalue,$newrow)){
+        $result = $db->loadFromDBDebole($this->getClassName(),$proiezione->getId(),"idProiezione",$posto,"posizione");
+        if($result === null){
+            return $result;
+        }
+        $libero = $result["libero"];
+        $elem = explode(" ",$posto);
+        $return = new EPosto($elem[0],intval($elem[1]),$libero);
+        return $return;
+    }
+
+    public function update($value,$row,$value2,$row2,$newvalue,$newrow): bool {
+        $db = FDatabase::getInstance();
+        if($db->updateTheDBDebole($this->getClassName(),$value,$row,$value2,$row2,$newvalue,$newrow)){
             return true;
         }
         return false;
     }
 
-    public function delete(int $id, string $posto): bool {
+    public function delete($value,$row,$value2,$row2): bool {
         $db = FDatabase::getInstance();
-        if($db->deleteFromDBPosti($this->getClassName(),$id,$posto)){
+        if($db->deleteFromDBDebole($this->getClassName(),$value,$row,$value2,$row2)){
             return true;
         }
         return false;

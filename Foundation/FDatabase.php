@@ -116,6 +116,34 @@ class FDatabase
             }
         }
 
+    public function loadFromDBDebole(string $class, $value, string $row, $value2, $row2) {
+        try {
+            $query = "SELECT * FROM " . $class::getTables() . "' WHERE " . $row . "= '" . $value. "' AND " . $row2 . "= '" . $value2 . "';";
+            $sender = $this->db->prepare($query);
+            $class::associate($sender,$value);
+            $sender->execute();
+            $returnedRows = $sender->rowCount();
+            $return = [];
+            if($returnedRows == 0){
+                array_push($return,null);
+            }
+            elseif ($returnedRows == 1) {
+                array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
+            }
+            else {
+                $sender->setFetchMode(PDO::FETCH_ASSOC);
+                while($elem = $sender->fetch()) {
+                    $return[] = $elem;
+                }
+            }
+            return $return;
+        }
+        catch (PDOException $exception) {
+            echo "Errore nel Database: " . $exception->getMessage();
+            return null;
+        }
+    }
+
     public function loadBetweenProiezione(string $datainizio, string $datafine) {
         try {
             $query = "SELECT * FROM Proiezioni WHERE Data BETWEEN '" . $datainizio . "' AND '" . $datafine . "';";
@@ -223,10 +251,10 @@ class FDatabase
         }
     }
 
-    public function deleteFromDBPosti(string $class, int $id, string $posto): bool {
+    public function deleteFromDBDebole(string $class, $value, $row, $value2, $row2): bool {
         try{
             $this->db->beginTransaction();
-            $query = "DELETE FROM " . $class::getTables() . " WHERE idProiezione ='" . $id . "' AND posto = '" . $posto . "';";
+            $query = "DELETE FROM " . $class::getTables() . " WHERE " . $row . "='" . $value . "' AND ". $row2 . "= '" . $value2 . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
             $this->db->commit();
@@ -263,10 +291,10 @@ class FDatabase
         }
     }
 
-    public function updateTheDBPosti(string $class, $id, $posto, string $newRow, $newValue): bool {
+    public function updateTheDBDebole(string $class, $value, $row, $value2, $row2, string $newRow, $newValue): bool {
         try {
             $this->db->beginTransaction();
-            $query = "UPDATE " . $class::getTables() . " SET " . $newRow . "='" . $newValue . "' WHERE idProiezione = '" . $id . "' AND posto = '" . $posto . "';";
+            $query = "UPDATE " . $class::getTables() . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "= '" . $value. "' AND " . $row2 . "= '" . $value2 . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
             $this->db->commit();
