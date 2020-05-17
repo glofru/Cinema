@@ -57,9 +57,9 @@ class FPosti
         return false;
     }
 
-    public function delete($value,$row): bool {
+    public function delete(int $id, string $posto): bool {
         $db = FDatabase::getInstance();
-        if($db->deleteFromDB($this->getClassName(),$value,$row)){
+        if($db->deleteFromDBPosti($this->getClassName(),$id,$posto)){
             return true;
         }
         return false;

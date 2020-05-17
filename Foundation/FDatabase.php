@@ -223,6 +223,22 @@ class FDatabase
         }
     }
 
+    public function deleteFromDBPosti(string $class, int $id, string $posto): bool {
+        try{
+            $this->db->beginTransaction();
+            $query = "DELETE FROM " . $class::getTables() . " WHERE idProiezione ='" . $id . "' AND posto = '" . $posto . "';";
+            $sender = $this->db->prepare($query);
+            $sender->execute();
+            $this->db->commit();
+            return true;
+        }
+        catch(PDOException $exception) {
+            $this->db->rollBack();
+            echo ("Errore nel Database: " . $exception->getMessage());
+            return false;
+        }
+    }
+
     /**
      * @param $class
      * @param $value
@@ -235,6 +251,22 @@ class FDatabase
         try {
             $this->db->beginTransaction();
             $query = "UPDATE " . $class::getTables() . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
+            $sender = $this->db->prepare($query);
+            $sender->execute();
+            $this->db->commit();
+            return true;
+        }
+        catch(PDOException $exception) {
+            $this->db->rollBack();
+            echo ("Errore nel Database: " . $exception->getMessage());
+            return false;
+        }
+    }
+
+    public function updateTheDBPosti(string $class, $id, $posto, string $newRow, $newValue): bool {
+        try {
+            $this->db->beginTransaction();
+            $query = "UPDATE " . $class::getTables() . " SET " . $newRow . "='" . $newValue . "' WHERE idProiezione = '" . $id . "' AND posto = '" . $posto . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
             $this->db->commit();
