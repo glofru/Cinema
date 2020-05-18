@@ -11,7 +11,7 @@ class FPosti
 
     public function associate(PDOStatement $sender, EProiezione $proiezione, EPosto $posto){
         $sender->bindValue(':idProiezione', $proiezione->getId(), PDO::PARAM_INT);
-        $sender->bindValue(':posizione', $posto->getFila() ." ".strval($posto->getNumeroPosto()), PDO::PARAM_STR);
+        $sender->bindValue(':posizione', $posto, PDO::PARAM_STR);
         $sender->bindValue(':libero', true, PDO::PARAM_BOOL);
     }
     //----------------- GETTER --------------------

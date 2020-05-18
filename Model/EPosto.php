@@ -104,12 +104,6 @@ class EPosto implements JsonSerializable
      */
     public function __toString()
     {
-        if($this->getOccupato() == true){
-            $status = "libero";
-        }
-        else{
-            $status = "occupato";
-        }
-        return "Il numeroposto " . strval($this->getNumeroPosto()) . " nella fila " . $this->getFila() . "è " . $status;
+        return $this->getFila() . " " . strval($this->getNumeroPosto());
     }
 }
