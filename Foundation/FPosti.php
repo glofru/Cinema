@@ -15,29 +15,29 @@ class FPosti
         $sender->bindValue(':libero', true, PDO::PARAM_BOOL);
     }
     //----------------- GETTER --------------------
-    public function getClassName() {
+    public static function getClassName() {
         return self::$className;
     }
 
-    public function getTableName() {
+    public static function getTableName() {
         return self::$tableName;
     }
 
-    public function getValuesName() {
+    public static function getValuesName() {
         return self::$valuesName;
     }
 //------------- ALTRI METODI ----------------
 
-    public function store(EProiezione $proiezione) {
+    public static function store(EProiezione $proiezione) {
         $db = FDatabase::getInstance();
         foreach ($proiezione->getSala()->getPosti() as $elem) {
-            $db->saveToDBPosti($this->getClassName(),$proiezione,$elem);
+            $db->saveToDBPosti(self::getClassName(),$proiezione,$elem);
         }
     }
 
-    public function load(EProiezione $proiezione) {
+    public static function load(EProiezione $proiezione) {
         $db = FDatabase::getInstance();
-        $result = $db->loadFromDB($this->getClassName(),$proiezione->getId(),"idProiezione");
+        $result = $db->loadFromDB(self::getClassName(),$proiezione->getId(),"idProiezione");
         if($result === null){
             return $result;
         }
@@ -49,9 +49,9 @@ class FPosti
         return $return;
     }
 
-    public function loadDoppio(EProiezione $proiezione, string $posto) {
+    public static function loadDoppio(EProiezione $proiezione, string $posto) {
         $db = FDatabase::getInstance();
-        $result = $db->loadFromDBDebole($this->getClassName(),$proiezione->getId(),"idProiezione",$posto,"posizione");
+        $result = $db->loadFromDBDebole(self::getClassName(),$proiezione->getId(),"idProiezione",$posto,"posizione");
         if($result === null){
             return $result;
         }
@@ -61,17 +61,17 @@ class FPosti
         return $return;
     }
 
-    public function update($value,$row,$value2,$row2,$newvalue,$newrow): bool {
+    public static function update($value,$row,$value2,$row2,$newvalue,$newrow): bool {
         $db = FDatabase::getInstance();
-        if($db->updateTheDBDebole($this->getClassName(),$value,$row,$value2,$row2,$newvalue,$newrow)){
+        if($db->updateTheDBDebole(self::getClassName(),$value,$row,$value2,$row2,$newvalue,$newrow)){
             return true;
         }
         return false;
     }
 
-    public function delete($value,$row,$value2,$row2): bool {
+    public static function delete($value,$row,$value2,$row2): bool {
         $db = FDatabase::getInstance();
-        if($db->deleteFromDBDebole($this->getClassName(),$value,$row,$value2,$row2)){
+        if($db->deleteFromDBDebole(self::getClassName(),$value,$row,$value2,$row2)){
             return true;
         }
         return false;

@@ -330,8 +330,18 @@ class FDatabase
         return null;
     }
 
-    public function occupaPosto() {
-        //TODO;
+    public function occupaPosto($idProiezione,$posto) {
+        try {
+            $this->db->beginTransaction();
+            $query = "SELECT * FROM Posti WHERE idProiezione = '" . $idProiezione . "' AND posto = '" . $posto . "' LOCK IN SHARE MODE";
+            $sender = $this->db->prepare($query);
+            $sender->execute();
+            $posto = $sender->fetch(PDO::FETCH_ASSOC);
+        } catch(PDOException $exception) {
+            $this->db->rollBack();
+            echo ("Errore nel Database: " . $exception->getMessage());
+
+        }
     }
 
 

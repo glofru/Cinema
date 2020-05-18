@@ -16,27 +16,27 @@ class FSalaFisica
         $sender->bindValue(':disponibile', $salaFisica->isDisponibile(), PDO::PARAM_STR);
     }
 //----------------- GETTER --------------------
-    public function getClassName() {
+    public static function getClassName() {
         return self::$className;
     }
 
-    public function getTableName() {
+    public static function getTableName() {
         return self::$tableName;
     }
 
-    public function getValuesName() {
+    public static function getValuesName() {
         return self::$valuesName;
     }
 
 //------------- ALTRI METODI ----------------
-    public function save(ESalaFisica $salaFisica) {
+    public static function save(ESalaFisica $salaFisica) {
         $db = FDatabase::getInstance();
-        $db->saveToDB($this->getClassName(),$salaFisica);
+        $db->saveToDB(self::getClassName(),$salaFisica);
     }
 
-    public function load ($nSala) {
+    public static function load ($nSala) {
         $db = FDatabase::getInstance();
-        $result = $db->loadFromDB($this->getClassName(),$nSala,"nSala");
+        $result = $db->loadFromDB(self::getClassName(),$nSala,"nSala");
         if($result === null){
             return $result;
         }
@@ -44,17 +44,17 @@ class FSalaFisica
         return ESalaVirtuale::fromSalaFisica($sala);
     }
 
-    public function update($value,$row,$newvalue,$newrow): bool {
+    public static function update($value,$row,$newvalue,$newrow): bool {
         $db = FDatabase::getInstance();
-        if($db->updateTheDB($this->getClassName(),$value,$row,$newvalue,$newrow)){
+        if($db->updateTheDB(self::getClassName(),$value,$row,$newvalue,$newrow)){
             return true;
         }
         return false;
     }
 
-    public function delete($value,$row): bool {
+    public static function delete($value,$row): bool {
         $db = FDatabase::getInstance();
-        if($db->deleteFromDB($this->getClassName(),$value,$row)){
+        if($db->deleteFromDB(self::getClassName(),$value,$row)){
             return true;
         }
         return false;

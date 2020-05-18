@@ -16,27 +16,27 @@ class FBiglietto
         $sender->bindValue(':costo',$biglietto->getCosto(),PDO::PARAM_STR);
     }
 //----------------- GETTER --------------------
-    public function getClassName() {
+    public static function getClassName() {
         return self::$className;
     }
 
-    public function getTableName() {
+    public static function getTableName() {
         return self::$tableName;
     }
 
-    public function getValuesName() {
+    public static function getValuesName() {
         return self::$valuesName;
     }
 
 //------------- ALTRI METODI ----------------
-    public function save(EBiglietto $biglietto) {
+    public static function save(EBiglietto $biglietto) {
         $db = FDatabase::getInstance();
-        $db->saveToDB($this->getClassName(),$biglietto);
+        $db->saveToDB(self::getClassName(),$biglietto);
     }
 
-    public function load($value,$row): array {
+    public static function load($value,$row): array {
         $db = FDatabase::getInstance();
-        $result = $db->loadFromDB($this->getClassName(),$value,$row);
+        $result = $db->loadFromDB(self::getClassName(),$value,$row);
         if($result === null){
             return $result;
         }
@@ -59,38 +59,35 @@ class FBiglietto
         return $return;
     }
 
-    public function loadDoppio ($value,$row,$value2,$row2): EBiglietto {
+    public static function loadDoppio ($value,$row,$value2,$row2): EBiglietto {
         $db = FDatabase::getInstance();
-        $result = $db->loadFromDBDebole($this->getClassName(),$value,$row,$value2,$row2);
+        $result = $db->loadFromDBDebole(self::getClassName(),$value,$row,$value2,$row2);
         if($result === null){
             return $result;
         }
         //PROIEZIONE
         $id = $result["idProiezione"];
-        $proiezione = new FProiezioni();
-        $proiezione = $proiezione->load($id,"id",true,null,null)[0];
+        $proiezione = FProiezioni::load($id,"id",true,null,null)[0];
         //POSTO
         $posto = $result["posto"];
-        $temp = new FPosti();
-        $posto = $temp->loadDoppio($proiezione,$posto);
+        $posto = FPosti::loadDoppio($proiezione,$posto);
         //UTENTE
         $email = $result["emailUtente"];
-        $temp = new FUtente();
-        $utente = $temp->load($email);
+        $utente = FUtente::load($email);
         return new EBiglietto($proiezione,$posto,$utente,floatval($result["costo"]));
     }
 
-    public function update($value,$row,$value2,$row2,$newvalue,$newrow): bool {
+    public static function update($value,$row,$value2,$row2,$newvalue,$newrow): bool {
         $db = FDatabase::getInstance();
-        if($db->updateTheDBDebole($this->getClassName(),$value,$row,$value2,$row2,$newvalue,$newrow)){
+        if($db->updateTheDBDebole(self::getClassName(),$value,$row,$value2,$row2,$newvalue,$newrow)){
             return true;
         }
         return false;
     }
 
-    public function delete($value,$row,$value2,$row2): bool {
+    public static function delete($value,$row,$value2,$row2): bool {
         $db = FDatabase::getInstance();
-        if($db->deleteFromDBDebole($this->getClassName(),$value,$row,$value2,$row2)){
+        if($db->deleteFromDBDebole(self::getClassName(),$value,$row,$value2,$row2)){
             return true;
         }
         return false;

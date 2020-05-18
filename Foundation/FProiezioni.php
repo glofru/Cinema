@@ -17,31 +17,30 @@ class FProiezioni
         $sender->bindValue(':numerosala',$proiezione->getSala(),PDO::PARAM_BOOL);
     }
 //----------------- GETTER --------------------
-    public function getClassName() {
+    public static function getClassName() {
         return self::$className;
     }
 
-    public function getTableName() {
+    public static function getTableName() {
         return self::$tableName;
     }
 
-    public function getValuesName() {
+    public static function getValuesName() {
         return self::$valuesName;
     }
 
 //------------- ALTRI METODI ----------------
-    public function save(EProiezione $proiezione) {
+    public static function save(EProiezione $proiezione) {
         $db = FDatabase::getInstance();
-        $id = $db->saveToDB($this->getClassName(),$proiezione);
+        $id = $db->saveToDB(self::getClassName(),$proiezione);
         $proiezione->setId($id);
-        $posti = new FPosti();
-        $posti->store($proiezione);
+        FPosti::store($proiezione);
     }
 
-    public function load($value,$row,$puntuale,$inizio,$fine): array {
+    public static function load($value,$row,$puntuale,$inizio,$fine): array {
         $db = FDatabase::getInstance();
         if($puntuale === true) {
-            $result = $db->loadFromDB($this->getClassName(),$value,$row);
+            $result = $db->loadFromDB(self::getClassName(),$value,$row);
         }
         else {
             $result = $db->loadBetweenProiezione($inizio,$fine);
@@ -59,17 +58,15 @@ class FProiezioni
            $data = $return[$i]["data"];
            $ora = $return[$i]["ora"];
            //DATI DEL FILM
-           $film = new FFilm();
-           $film = $film->load('id',$id);
+           $film = FFilm::load('id',$id);
            $durata = DateInterval::createFromDateString($film["durata"]);
            $dataRilascio = $film["dataRilascio"];
            $dataRilascio = new DateTime($dataRilascio);
            $genere = $film["genere"];
            $genere = EGenere::$genere;
            //DATI DELLA SALAVIRTUALE
-           $sala = new FSalaFisica();
            //COSTRUISCO L'OGGETTO SALAVIRTUALE
-            $salaV = $sala->load($nSala);
+            $salaV = FSalaFisica::load($nSala);
            //COSTRUISCO L'OGGETTO FILM
            $film = new EFilm($id,$film["nome"],$film["descrizione"],$durata,$film["trailerURL"],$film["votoCritica"],$dataRilascio,$genere);
            //COSTRUSICO L'OGGETTO DATAORA
@@ -81,17 +78,17 @@ class FProiezioni
         return $return;
     }
 
-    public function update($value,$row,$newvalue,$newrow): bool {
+    public static function update($value,$row,$newvalue,$newrow): bool {
         $db = FDatabase::getInstance();
-        if($db->updateTheDB($this->getClassName(),$value,$row,$newvalue,$newrow)){
+        if($db->updateTheDB(self::getClassName(),$value,$row,$newvalue,$newrow)){
             return true;
         }
         return false;
     }
 
-    public function delete($value,$row): bool {
+    public static function delete($value,$row): bool {
         $db = FDatabase::getInstance();
-        if($db->deleteFromDB($this->getClassName(),$value,$row)){
+        if($db->deleteFromDB(self::getClassName(),$value,$row)){
             return true;
         }
         return false;
