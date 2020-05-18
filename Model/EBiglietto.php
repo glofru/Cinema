@@ -27,11 +27,14 @@ class EBiglietto implements JsonSerializable
      */
     private EUtente $utente;
 
-    public function __construct(EProiezione $proiezione, EPosto $posto, EUtente $utente)
+    private float $costo;
+
+    public function __construct(EProiezione $proiezione, EPosto $posto, EUtente $utente, float $costo)
     {
         $this->setProiezione($proiezione);
         $this->setPosto($posto);
         $this->setUtente($utente);
+        $this->setCosto($costo);
     }
 
 //-------------- SETTER ----------------------
@@ -54,6 +57,10 @@ class EBiglietto implements JsonSerializable
         $this->utente = $utente;
     }
 
+    public function setCosto(float $costo){
+        $this->costo = $costo;
+    }
+
 //----------------- GETTER --------------------
     /**
      * @return EProiezione la proiezione alla quale si vuole assistere
@@ -72,6 +79,10 @@ class EBiglietto implements JsonSerializable
      */
     public function getUtente() : EUtente{
         return $this->utente;
+    }
+
+    public function getCosto(): float{
+        return $this->costo;
     }
 
 //------------- ALTRI METODI ----------------

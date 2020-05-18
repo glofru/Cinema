@@ -27,6 +27,7 @@ class EProiezione implements JsonSerializable
      */
     private DateTime $dataproiezione;
 
+    private int $id;
     public function __construct(EFilm $film, ESalaVirtuale $sala, DateTime $dataproiezione)
     {
         $this->setFilm($film);
@@ -54,6 +55,14 @@ class EProiezione implements JsonSerializable
         $this->dataproiezione = $dataproiezione;
     }
 
+    public function setId(int $id){
+        $this->id = $id;
+    }
+
+    public function getId(): int{
+        return $this->id;
+    }
+
 //----------------- GETTER --------------------
     /**
      * @return EFilm film che verrà proiettao
@@ -72,6 +81,14 @@ class EProiezione implements JsonSerializable
      */
     public function getDataproieizone(): DateTime{
         return $this->dataproiezione;
+    }
+
+    public function getData(): string {
+        return $this->dataproiezione->format('Y-m-d');
+    }
+
+    public function getOra(): string {
+        return $this->dataproiezione->format('H:i:s');
     }
 
 //------------- ALTRI METODI ----------------
