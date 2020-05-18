@@ -35,9 +35,9 @@ class FPosti
         }
     }
 
-    public static function load(EProiezione $proiezione) {
+    public static function load(int $idproiezione) {
         $db = FDatabase::getInstance();
-        $result = $db->loadFromDB(self::getClassName(),$proiezione->getId(),"idProiezione");
+        $result = $db->loadFromDB(self::getClassName(),$idproiezione,"idProiezione");
         if($result === null){
             return $result;
         }
@@ -48,9 +48,9 @@ class FPosti
         return $return;
     }
 
-    public static function loadDoppio(EProiezione $proiezione, string $posto) {
+    public static function loadDoppio($idProiezione, string $posto) {
         $db = FDatabase::getInstance();
-        $result = $db->loadFromDBDebole(self::getClassName(),$proiezione->getId(),"idProiezione",$posto,"posizione");
+        $result = $db->loadFromDBDebole(self::getClassName(),$idProiezione,"idProiezione",$posto,"posizione");
         if($result === null){
             return $result;
         }
