@@ -32,9 +32,15 @@ class FProiezioni
 //------------- ALTRI METODI ----------------
     public static function save(EProiezione $proiezione) {
         $db = FDatabase::getInstance();
-        $id = $db->saveToDB(self::getClassName(),$proiezione);
-        $proiezione->setId($id);
-        FPosti::store($proiezione);
+        $test = $db->checkDisponibilita($proiezione->getSala()->getNumeroSala(),$proiezione->getData(),$proiezione->getOra());
+        if(sizeof($test) < 2){
+            $id = $db->saveToDB(self::getClassName(),$proiezione);
+            $proiezione->setId($id);
+            FPosti::store($proiezione);
+            return true;
+        } else {
+            return $test;
+        }
     }
 
     public static function load($value,$row,$puntuale,$inizio,$fine): array {
@@ -66,7 +72,7 @@ class FProiezioni
            $genere = EGenere::$genere;
            //DATI DELLA SALAVIRTUALE
            //COSTRUISCO L'OGGETTO SALAVIRTUALE
-            $salaV = FSalaFisica::load($nSala);
+            $salaV = FSalaFisica::load($nSala,"numeroSala");
            //COSTRUISCO L'OGGETTO FILM
            $film = new EFilm($id,$film["nome"],$film["descrizione"],$durata,$film["trailerURL"],$film["votoCritica"],$dataRilascio,$genere);
            //COSTRUSICO L'OGGETTO DATAORA

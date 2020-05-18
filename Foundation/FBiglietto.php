@@ -58,7 +58,7 @@ class FBiglietto
         return $return;
     }
 
-    public static function loadDoppio ($value,$row,$value2,$row2): EBiglietto {
+    public static function loadDoppio($value,$row,$value2,$row2): EBiglietto {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDBDebole(self::getClassName(),$value,$row,$value2,$row2);
         if($result === null){

@@ -178,9 +178,11 @@ class FDatabase
             $sender = $this->db->prepare($query);
             $sender->execute();
             $returnedRows = $sender->rowCount();
-            $return = [];
+            $result = [];
+            $output = [];
             if($returnedRows == 0){
                 array_push($return,null);
+                return $return;
             }
             elseif ($returnedRows == 1) {
                 array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
@@ -200,10 +202,10 @@ class FDatabase
                 $oraFineFilmPresente = $oraFineFilmPresente->add($durata);
                 $oraFineFilmPresente = $oraFineFilmPresente->format('h:i:s');
                 if((strtotime($oraInizioNuovoFilm) - strtotime($oraFilmPresente) > 0) && (strtotime($oraFineFilmPresente) - strtotime($oraInizioNuovoFilm) > 0)) {
-                    return strval($return[$i]["numerosala"]) . "," . $return[$i]["ora"];
+                    array_push($output,new EProiezione(FFilm::load($return[$i]["id"],"id"), FSalaFisica::load($nsala,"numeroSala"),new DateTime($return["data"])));
                 }
             }
-            return "";
+            return $output;
         }
         catch(Exception $exception) {
             echo "Errore nel Database: " . $exception->getMessage();

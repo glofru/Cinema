@@ -27,10 +27,15 @@ class FPersistentManager
         return self::$instance;
     }
 
-    public function store($istanza) {
+    public function save($istanza) {
         $class = get_class($istanza);
         $class[0] = "F";
         $class::save($istanza);
+    }
+
+    public function saveProiezione(EProiezione $proiezione) {
+        $result = FProiezioni::save($proiezione);
+        return $result;
     }
 
     public function load($value,$row,$class) {
@@ -38,7 +43,7 @@ class FPersistentManager
     }
 
     public function loadDebole($value,$row,$value2,$row2,$class) {
-        return $class::load($value,$row,$value2,$row2);
+        return $class::loadDoppio($value,$row,$value2,$row2);
     }
 
     public function loadProiezioni($value,$row,$puntuale,$inizio,$fine,$class) {
@@ -59,6 +64,10 @@ class FPersistentManager
 
     public function updateDebole($value,$row,$value2,$row2,$newValue,$newRow,$class) {
         $class::update($value,$row,$value2,$row2,$newValue,$newRow);
+    }
+
+    public function occupaPosto() {
+
     }
 
 
