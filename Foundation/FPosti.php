@@ -69,10 +69,13 @@ class FPosti
         return false;
     }
 
-    public static function delete($value,$row,$value2,$row2): bool {
+    public static function delete($value,$row): bool {
         $db = FDatabase::getInstance();
-        if($db->deleteFromDBDebole(self::getClassName(),$value,$row,$value2,$row2)){
-            return true;
+        if($db->deleteFromDB(self::getClassName(),$value,$row)){
+            if(FPosti::delete($value,"idProiezione")){
+                return true;
+            }
+            return false;
         }
         return false;
     }
