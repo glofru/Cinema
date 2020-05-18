@@ -66,9 +66,19 @@ class FPersistentManager
         $class::update($value,$row,$value2,$row2,$newValue,$newRow);
     }
 
-    public function occupaPosto() {
-
+    public function occupaPosto($idProiezione,$posto,$emailUtente,$costo) {
+        return FProiezioni::occupaPosto($idProiezione,$posto,$emailUtente,$costo);
     }
 
+    public function liberaPosto($idProiezione,$posto,$emailUtente)  {
+        return FProiezioni::liberaPosto($idProiezione,$posto,$emailUtente);
+    }
 
+    public function login(string $username,string $emailUtente,string $password){
+        if(isset($username)) {
+            return FUtente::login($username,$password);
+        } else {
+            return FUtente::loginEmail($emailUtente,$password);
+        }
+    }
 }

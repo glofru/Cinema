@@ -100,5 +100,17 @@ class FProiezioni
         return false;
     }
 
+    public static function occupaPosto($idProiezione,$posto,$emailUtente,$costo) {
+        $db = FDatabase::getInstance();
+        $biglietto = $db->occupaPosto($idProiezione,$posto,$emailUtente,$costo);
+        return $biglietto;
+    }
+
+    public static function liberaPosto($idProiezione,$posto,$emailUtente) {
+        $db = FDatabase::getInstance();
+        $return = $db->liberaPosto($idProiezione,$posto, $emailUtente);
+        return $return;
+    }
+
 
 }
