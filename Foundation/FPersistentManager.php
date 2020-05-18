@@ -27,9 +27,20 @@ class FPersistentManager
         return self::$instance;
     }
 
+    private function getClass(string $class){
+        $class[0] = "F";
+        if($class === "FPosto"){
+            return "FPosti";
+        }
+        if($class === "FProiezione"){
+            return "Fproiezioni";
+        }
+        return $class;
+    }
+
     public function save($istanza) {
         $class = get_class($istanza);
-        $class[0] = "F";
+        $class = self::getClass($class);
         $class::save($istanza);
     }
 
