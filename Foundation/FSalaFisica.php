@@ -34,9 +34,9 @@ class FSalaFisica
         $db->saveToDB(self::getClassName(),$salaFisica);
     }
 
-    public static function load ($nSala) {
+    public static function load (int $nSala, string $row) {
         $db = FDatabase::getInstance();
-        $result = $db->loadFromDB(self::getClassName(),$nSala,"nSala");
+        $result = $db->loadFromDB(self::getClassName(),$nSala,$row);
         if($result === null){
             return $result;
         }
