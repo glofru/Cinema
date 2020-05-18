@@ -1,9 +1,9 @@
 <?php
 
 
-class FBiglietto
+class FBiglietti
 {
-    private static string $className = "FBiglietto";
+    private static string $className = "FBiglietti";
     private static string $tableName = "Biglietto";
     private static string $valuesName = "(:idProiezione,:posto,:emailUtente,:costo";
 

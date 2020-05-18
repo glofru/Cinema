@@ -350,7 +350,7 @@ class FDatabase
                 $proiezione = FProiezioni::load($idProiezione,"id",true,null,null);
                 $proiezione = $proiezione[0];
                 $biglietto = new EBiglietto($proiezione,$posto,$utente,$costo);
-                FBiglietto::save($biglietto);
+                FBiglietti::save($biglietto);
                 return $biglietto;
             }
             return null;
@@ -369,13 +369,13 @@ class FDatabase
             $sender->execute();
             $acquisto = $sender->fetch(PDO::FETCH_ASSOC);
             $islibero = $acquisto["libero"];
-            $biglietto = FBiglietto::loadDoppio($idProiezione,"idProiezione",$posto,"posto");
+            $biglietto = FBiglietti::loadDoppio($idProiezione,"idProiezione",$posto,"posto");
             if(boolval($islibero) === false && ($biglietto->getUtente()->getEmail() === $emailUtente)) {
                 $query = "UPDATE Posti SET libero = 'FALSE' WHERE idProiezione = '" . $idProiezione . "' AND posto = '" . $posto . "' LOCK IN SHARE MODE";
                 $sender = $this->db->prepare($query);
                 $sender->execute();
                 $this->db->commit();
-                FBiglietto::delete($idProiezione,"idProiezione",$posto,"posto");
+                FBiglietti::delete($idProiezione,"idProiezione",$posto,"posto");
                 return true;
             }
             return false;

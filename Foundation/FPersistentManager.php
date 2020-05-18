@@ -33,7 +33,10 @@ class FPersistentManager
             return "FPosti";
         }
         if($class === "FProiezione"){
-            return "Fproiezioni";
+            return "FProiezioni";
+        }
+        if($class === "FBiglietto"){
+            return "FBiglietti";
         }
         return $class;
     }
