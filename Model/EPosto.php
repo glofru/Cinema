@@ -40,6 +40,11 @@ class EPosto implements JsonSerializable
         $this->setNumeroPosto($numeroPosto);
         $this->setOccupato($occupato);
     }
+
+    public static function fromString(string $posto, bool $libero) {
+        $elem = explode(" ",$posto);
+        return new EPosto($elem[0],intval($elem[1]),$libero);
+    }
 //-------------- SETTER ----------------------
     /**
      * @param string $fila lettera assegnata alla fila

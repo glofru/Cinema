@@ -52,8 +52,7 @@ class FBiglietto
             $posto = $temp->loadDoppio($proiezione,$posto);
             //UTENTE
             $email = $elem["emailUtente"];
-            $temp = new FUtente();
-            $utente = $temp->loadEmail($email);
+            $utente = FUtente::loadEmail($email);
             array_push($return,new EBiglietto($proiezione,$posto,$utente,floatval($elem["costo"])));
         }
         return $return;

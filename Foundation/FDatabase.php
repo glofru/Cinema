@@ -330,17 +330,57 @@ class FDatabase
         return null;
     }
 
-    public function occupaPosto($idProiezione,$posto) {
+    public function occupaPosto($idProiezione,$posto,$emailUtente,$costo) {
         try {
             $this->db->beginTransaction();
             $query = "SELECT * FROM Posti WHERE idProiezione = '" . $idProiezione . "' AND posto = '" . $posto . "' LOCK IN SHARE MODE";
             $sender = $this->db->prepare($query);
             $sender->execute();
-            $posto = $sender->fetch(PDO::FETCH_ASSOC);
+            $acquisto = $sender->fetch(PDO::FETCH_ASSOC);
+            $islibero = $acquisto["libero"];
+            if(boolval($islibero) === true) {
+                $query = "UPDATE Posti SET libero = 'TRUE' WHERE idProiezione = '" . $idProiezione . "' AND posto = '" . $posto . "' LOCK IN SHARE MODE";
+                $sender = $this->db->prepare($query);
+                $sender->execute();
+                $this->db->commit();
+                $utente = FUtente::loadEmail($emailUtente);
+                $posto = EPosto::fromString($posto,"false");
+                $proiezione = FProiezioni::load($idProiezione,"id",true,null,null);
+                $proiezione = $proiezione[0];
+                $biglietto = new EBiglietto($proiezione,$posto,$utente,$costo);
+                FBiglietto::save($biglietto);
+                return $biglietto;
+            }
+            return null;
         } catch(PDOException $exception) {
             $this->db->rollBack();
             echo ("Errore nel Database: " . $exception->getMessage());
+            return null;
+        }
+    }
 
+    public function liberaPosto($idProiezione,$posto, $emailUtente) {
+        try {
+            $this->db->beginTransaction();
+            $query = "SELECT * FROM Posti WHERE idProiezione = '" . $idProiezione . "' AND posto = '" . $posto . "' LOCK IN SHARE MODE";
+            $sender = $this->db->prepare($query);
+            $sender->execute();
+            $acquisto = $sender->fetch(PDO::FETCH_ASSOC);
+            $islibero = $acquisto["libero"];
+            $biglietto = FBiglietto::loadDoppio($idProiezione,"idProiezione",$posto,"posto");
+            if(boolval($islibero) === false && ($biglietto->getUtente()->getEmail() === $emailUtente)) {
+                $query = "UPDATE Posti SET libero = 'FALSE' WHERE idProiezione = '" . $idProiezione . "' AND posto = '" . $posto . "' LOCK IN SHARE MODE";
+                $sender = $this->db->prepare($query);
+                $sender->execute();
+                $this->db->commit();
+                FBiglietto::delete($idProiezione,"idProiezione",$posto,"posto");
+                return true;
+            }
+            return false;
+        } catch(PDOException $exception) {
+            $this->db->rollBack();
+            echo ("Errore nel Database: " . $exception->getMessage());
+            return null;
         }
     }
 

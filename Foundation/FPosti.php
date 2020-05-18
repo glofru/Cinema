@@ -43,8 +43,7 @@ class FPosti
         }
         $return = [];
         foreach ($result as $elem) {
-            $elem2 = explode(" ",$elem);
-            array_push($return,new EPosto($elem2[0],intval($elem2[1]),$elem["libero"]));
+            array_push($return,EPosto::fromString($elem["posizione"],$elem["libero"]));
         }
         return $return;
     }
@@ -56,9 +55,7 @@ class FPosti
             return $result;
         }
         $libero = $result["libero"];
-        $elem = explode(" ",$posto);
-        $return = new EPosto($elem[0],intval($elem[1]),$libero);
-        return $return;
+        return EPosto::fromString($posto,$libero);
     }
 
     public static function update($value,$row,$value2,$row2,$newvalue,$newrow): bool {
