@@ -49,7 +49,7 @@ class FProiezioni
             $result = $db->loadFromDB(self::getClassName(),$value,$row);
         }
         else {
-            $result = $db->loadBetweenProiezione($inizio,$fine);
+            $result = $db->loadBetween(self::getClassName(),$inizio,$fine,"data");
         }
         if($result === null) {
             return [];
