@@ -220,15 +220,13 @@ class FDatabase
      * @param $row
      * @return int
      */
-    public function numberofRows(string $class, $value, string $row): int {
+    public function numberofRows(string $class, $value, string $row) {
         $result = $this->loadFromDB($class,$value,$row);
         if($result[0] == null) {
             return null;
         }
-        else
-        {
-            return sizeof($result);
-        }
+
+        return sizeof($result);
     }
 
     /**
@@ -244,13 +242,14 @@ class FDatabase
             $sender = $this->db->prepare($query);
             $sender->execute();
             $this->db->commit();
-            return true;
         }
         catch(PDOException $exception) {
             $this->db->rollBack();
             echo ("Errore nel Database: " . $exception->getMessage());
             return false;
         }
+
+        return true;
     }
 
     public function deleteFromDBDebole(string $class, $value, $row, $value2, $row2): bool {
@@ -260,13 +259,14 @@ class FDatabase
             $sender = $this->db->prepare($query);
             $sender->execute();
             $this->db->commit();
-            return true;
         }
         catch(PDOException $exception) {
             $this->db->rollBack();
             echo ("Errore nel Database: " . $exception->getMessage());
             return false;
         }
+
+        return true;
     }
 
     /**
@@ -284,13 +284,14 @@ class FDatabase
             $sender = $this->db->prepare($query);
             $sender->execute();
             $this->db->commit();
-            return true;
         }
         catch(PDOException $exception) {
             $this->db->rollBack();
             echo ("Errore nel Database: " . $exception->getMessage());
             return false;
         }
+
+        return true;
     }
 
     public function updateTheDBDebole(string $class, $value, $row, $value2, $row2, string $newRow, $newValue): bool {
@@ -300,13 +301,14 @@ class FDatabase
             $sender = $this->db->prepare($query);
             $sender->execute();
             $this->db->commit();
-            return true;
         }
         catch(PDOException $exception) {
             $this->db->rollBack();
             echo ("Errore nel Database: " . $exception->getMessage());
             return false;
         }
+
+        return true;
     }
 
     /**
@@ -314,7 +316,7 @@ class FDatabase
      * @param $password
      * @return object
      */
-    public function loginDB(string $value, string $password): object {
+    public function loginDB(string $value, string $password) {
         if (strpos($value, '@') !== false) {
             $row = "email";
         }
@@ -353,7 +355,6 @@ class FDatabase
                 FBiglietti::save($biglietto);
                 return $biglietto;
             }
-            return null;
         } catch(PDOException $exception) {
             $this->db->rollBack();
             echo ("Errore nel Database: " . $exception->getMessage());
