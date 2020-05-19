@@ -11,4 +11,29 @@ class EGenere {
     public static string $ANIMAZIONE = "ANIMAZIONE";
     public static string $COMMEDIA = "COMMEDIA";
     public static string $ROMANTICO = "ROMANTICO";
+    public static string $NOT_DEFINED = "NOT_DEFINED";
+
+    public static function fromString(string $s)
+    {
+        switch ($s) {
+            case "AZIONE":
+                return self::$AZIONE;
+            case "AVVENTURA":
+                return self::$AVVENTURA;
+            case "DRAMMATICO":
+                return self::$DRAMMATICO;
+            case "GUERRA":
+                return self::$GUERRA;
+            case "GIALLO":
+                return self::$GIALLO;
+            case "ANIMAZIONE":
+                return self::$ANIMAZIONE;
+            case "COMMEDIA":
+                return self::$COMMEDIA;
+            case "ROMANTICO":
+                return self::$ROMANTICO;
+            default:
+                return self::$NOT_DEFINED;
+        }
+    }
 }
