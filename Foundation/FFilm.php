@@ -102,5 +102,20 @@ class FFilm
         return $return;
     }
 
+    public static function update($value,$row,$newvalue,$newrow): bool {
+        $db = FDatabase::getInstance();
+        if($db->updateTheDB(self::getClassName(), $value, $row, $newvalue, $newrow))
+        {
+            return true;
+        }
+        return false;
+    }
 
+    public static function delete($value, $row): bool {
+        $db = FDatabase::getInstance();
+        if($db->deleteFromDB(self::getClassName(),$value,$row)){
+            return true;
+        }
+        return false;
+    }
 }
