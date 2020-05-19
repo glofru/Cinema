@@ -33,7 +33,7 @@ class EFilm implements JsonSerializable
     /**
      * @var DateTime
      */
-    private DateTime $dataDiRilascio;
+    private DateTime $dataRilascio;
     /**
      * @var EGenere
      */
@@ -171,17 +171,17 @@ class EFilm implements JsonSerializable
     /**
      * @return DateTime
      */
-    public function getDataDiRilascio(): DateTime
+    public function getDataRilascio(): DateTime
     {
-        return $this->dataDiRilascio;
+        return $this->dataRilascio;
     }
 
     /**
-     * @param DateTime $dataDiRilascio
+     * @param DateTime $dataRilascio
      */
-    public function setDataDiRilascio(DateTime $dataDiRilascio): void
+    public function setDataRilascio(DateTime $dataRilascio): void
     {
-        $this->dataDiRilascio = $dataDiRilascio;
+        $this->dataRilascio = $dataRilascio;
     }
 
     /**

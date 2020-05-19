@@ -55,20 +55,25 @@ class FProiezioni
             return [];
         }
         $return = array();
-        for($i=0;$i<sizeof($result);$i++) {
+        foreach ($result as $row)
+        {
            //DATI DELLA PROIEZIONE
-           $id = $result[$i]["idFilm"];
-           $nSala = intval($result[$i]["nSala"]);
-           $data = $result[$i]["data"];
-           $ora = $result[$i]["ora"];
+           $id = $row["idFilm"];
+           $nSala = intval($row["nSala"]);
+           $data = $row["data"];
+           $ora = $row["ora"];
            //OTTENGO L'OGGETTO FILM
-           $film = FFilm::load('id',$id);
+           $film = FFilm::load('id',$id)[0];
            //DATI DELLA SALAVIRTUALE
            //COSTRUISCO L'OGGETTO SALAVIRTUALE
            $salaV = ESalaVirtuale::fromSalaFisica(FSalaFisica::load($nSala,"numeroSala"));
            //COSTRUSICO L'OGGETTO DATAORA
-           $dataora = new DateTime($data . "T" . $ora);
-           //AGGIUNGO LA PROIEZIONE ALLA LISTA DI RITORNO
+            try {
+                $dataora = new DateTime($data . "T" . $ora);
+            } catch (Exception $e) {
+                $dataora = time();
+            }
+            //AGGIUNGO LA PROIEZIONE ALLA LISTA DI RITORNO
            array_push($return,new EProiezione($film,$salaV,$dataora));
         }
 
