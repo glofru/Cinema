@@ -142,4 +142,23 @@ class FFilm
 
         return $return;
     }
+
+    public static function ricercaPerGenere($class, EGenere $genere)
+    {
+        $db = FDatabase::getInstance();
+        $result = $db->loadFromDB($class, $genere, "genere");
+
+        if ($result == null || sizeof($result) == 0)
+        {
+            return null;
+        }
+
+        $return = array();
+        foreach ($result as $row)
+        {
+            array_push($return, self::fromRow($row));
+        }
+
+        return $return;
+    }
 }
