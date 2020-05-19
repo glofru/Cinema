@@ -167,9 +167,35 @@ class FDatabase
         }
         catch(Exception $exception) {
             echo "Errore nel Database: " . $exception->getMessage();
-            array_push($return,null);
             return null;
         }
+    }
+
+    public function loadLike($class, string $value, string $row) {
+        try {
+            $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . " LIKE '%" . $value . "%';";
+            $sender = $this->db->prepare($query);
+            $sender->execute();
+            $returnedRows = $sender->rowCount();
+            $return = [];
+            if($returnedRows == 0){
+                return [];
+            }
+            elseif ($returnedRows == 1) {
+                array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
+            }
+            else {
+                $sender->setFetchMode(PDO::FETCH_ASSOC);
+                while($elem = $sender->fetch()) {
+                $return[] = $elem;
+            }
+        }
+        return $return;
+    }
+        catch(Exception $exception) {
+            echo "Errore nel Database: " . $exception->getMessage();
+            return null;
+}
     }
 
     public function checkDisponibilita(int $nsala, string $data, string $oraInizioNuovoFilm) {
@@ -201,7 +227,7 @@ class FDatabase
                 $oraFineFilmPresente = $oraFineFilmPresente->add($durata);
                 $oraFineFilmPresente = $oraFineFilmPresente->format('h:i:s');
                 if((strtotime($oraInizioNuovoFilm) - strtotime($oraFilmPresente) > 0) && (strtotime($oraFineFilmPresente) - strtotime($oraInizioNuovoFilm) > 0)) {
-                    array_push($output,new EProiezione(FFilm::load($return[$i]["id"],"id"), ESalaVirtuale::fromSalaFisica(FSalaFisica::load($nsala,"numeroSala")),new DateTime($return["data"])));
+                    array_push($output,new EProiezione(FFilm::load($return[$i]["id"],"id")[0], ESalaVirtuale::fromSalaFisica(FSalaFisica::load($nsala,"numeroSala")),new DateTime($return["data"])));
                 }
             }
             return $output;
