@@ -72,7 +72,7 @@ class FProiezioni
            $genere = EGenere::$genere;
            //DATI DELLA SALAVIRTUALE
            //COSTRUISCO L'OGGETTO SALAVIRTUALE
-            $salaV = FSalaFisica::load($nSala,"numeroSala");
+            $salaV = ESalaVirtuale::fromSalaFisica(FSalaFisica::load($nSala,"numeroSala"));
            //COSTRUISCO L'OGGETTO FILM
            $film = new EFilm($id,$film["nome"],$film["descrizione"],$durata,$film["trailerURL"],$film["votoCritica"],$dataRilascio,$genere);
            //COSTRUSICO L'OGGETTO DATAORA

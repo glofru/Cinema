@@ -41,7 +41,7 @@ class FSalaFisica
             return $result;
         }
         $sala = new ESalaFisica($result["nSala"],$result["nFile"],$result["nPostiFila"],$result["disponibile"]);
-        return ESalaVirtuale::fromSalaFisica($sala);
+        return $sala;
     }
 
     public static function update($value,$row,$newvalue,$newrow): bool {
