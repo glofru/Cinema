@@ -46,11 +46,11 @@ class FDatabase
      * @param $values
      * @return
      */
-    public function saveToDB(string $class, $values)
+    public function saveToDB($class, $values)
     {
         try {
             $this->db->beginTransaction();
-            $query = "INSERT INTO " . $class::getTables() . " VALUES " . $class::getValues();
+            $query = "INSERT INTO " . $class::getTableName() . " VALUES " . $class::getValuesName();
             $sender = $this->db->prepare($query);
             $class::associate($sender, $values);
             $sender->execute();
@@ -64,11 +64,11 @@ class FDatabase
         }
     }
 
-    public function saveToDBPosti(string $class, EProiezione $proiezione, EPosto $posto)
+    public function saveToDBPosti($class, EProiezione $proiezione, EPosto $posto)
     {
         try {
             $this->db->beginTransaction();
-            $query = "INSERT INTO " . $class::getTables() . " VALUES " . $class::getValues();
+            $query = "INSERT INTO " . $class::getTableName() . " VALUES " . $class::getValuesName();
             $sender = $this->db->prepare($query);
             $class::associate($sender, $$proiezione, $posto);
             $sender->execute();
@@ -88,16 +88,16 @@ class FDatabase
      * @param $row
      * @return array
      */
-    public function loadFromDB(string $class, $value, string $row) {
+    public function loadFromDB($class, $value, string $row) {
             try {
-                $query = "SELECT * FROM " . $class::getTables() . " WHERE " . $row . "='" . $value . "';";
+                $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . "='" . $value . "';";
                 $sender = $this->db->prepare($query);
                 $class::associate($sender,$value);
                 $sender->execute();
                 $returnedRows = $sender->rowCount();
                 $return = [];
                 if($returnedRows == 0){
-                    array_push($return,null);
+                    return [];
                 }
                 elseif ($returnedRows == 1) {
                     array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
@@ -116,9 +116,9 @@ class FDatabase
             }
         }
 
-    public function loadFromDBDebole(string $class, $value, string $row, $value2, $row2) {
+    public function loadFromDBDebole($class, $value, string $row, $value2, $row2) {
         try {
-            $query = "SELECT * FROM " . $class::getTables() . "' WHERE " . $row . "= '" . $value. "' AND " . $row2 . "= '" . $value2 . "';";
+            $query = "SELECT * FROM " . $class::getTableName() . "' WHERE " . $row . "= '" . $value. "' AND " . $row2 . "= '" . $value2 . "';";
             $sender = $this->db->prepare($query);
             $class::associate($sender,$value);
             $sender->execute();
@@ -144,9 +144,9 @@ class FDatabase
         }
     }
 
-    public function loadBetweenProiezione(string $datainizio, string $datafine) {
+    public function loadBetween($class, string $datainizio, string $datafine, string $row) {
         try {
-            $query = "SELECT * FROM Proiezioni WHERE Data BETWEEN '" . $datainizio . "' AND '" . $datafine . "';";
+            $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . " BETWEEN '" . $datainizio . "' AND '" . $datafine . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
             $returnedRows = $sender->rowCount();
@@ -202,7 +202,7 @@ class FDatabase
                 $oraFineFilmPresente = $oraFineFilmPresente->add($durata);
                 $oraFineFilmPresente = $oraFineFilmPresente->format('h:i:s');
                 if((strtotime($oraInizioNuovoFilm) - strtotime($oraFilmPresente) > 0) && (strtotime($oraFineFilmPresente) - strtotime($oraInizioNuovoFilm) > 0)) {
-                    array_push($output,new EProiezione(FFilm::load($return[$i]["id"],"id"), FSalaFisica::load($nsala,"numeroSala"),new DateTime($return["data"])));
+                    array_push($output,new EProiezione(FFilm::load($return[$i]["id"],"id"), ESalaVirtuale::fromSalaFisica(FSalaFisica::load($nsala,"numeroSala")),new DateTime($return["data"])));
                 }
             }
             return $output;
@@ -240,7 +240,7 @@ class FDatabase
     public function deleteFromDB(string $class, $value, string $row): bool {
         try{
             $this->db->beginTransaction();
-            $query = "DELETE FROM " . $class::getTables() . " WHERE " . $row . "='" . $value . "';";
+            $query = "DELETE FROM " . $class::getTableName() . " WHERE " . $row . "='" . $value . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
             $this->db->commit();
@@ -256,7 +256,7 @@ class FDatabase
     public function deleteFromDBDebole(string $class, $value, $row, $value2, $row2): bool {
         try{
             $this->db->beginTransaction();
-            $query = "DELETE FROM " . $class::getTables() . " WHERE " . $row . "='" . $value . "' AND ". $row2 . "= '" . $value2 . "';";
+            $query = "DELETE FROM " . $class::getTableName() . " WHERE " . $row . "='" . $value . "' AND ". $row2 . "= '" . $value2 . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
             $this->db->commit();
@@ -280,7 +280,7 @@ class FDatabase
     public function updateTheDB(string $class, $value, string $row, string $newRow, $newValue): bool {
         try {
             $this->db->beginTransaction();
-            $query = "UPDATE " . $class::getTables() . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
+            $query = "UPDATE " . $class::getTableName() . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
             $this->db->commit();
@@ -296,7 +296,7 @@ class FDatabase
     public function updateTheDBDebole(string $class, $value, $row, $value2, $row2, string $newRow, $newValue): bool {
         try {
             $this->db->beginTransaction();
-            $query = "UPDATE " . $class::getTables() . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "= '" . $value. "' AND " . $row2 . "= '" . $value2 . "';";
+            $query = "UPDATE " . $class::getTableName() . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "= '" . $value. "' AND " . $row2 . "= '" . $value2 . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
             $this->db->commit();
@@ -323,7 +323,7 @@ class FDatabase
             $row = "username";
         }
         $class = "FUtenteLoggato";
-        $query = "SELECT * FROM " . $class::getTables() . " WHERE " . $row . "='" . $value . "' AND password ='" . $password . "';";
+        $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . "='" . $value . "' AND password ='" . $password . "';";
         $sender = $this->db->prepare($query);
         $sender->execute();
         if($sender->rowCount() != 0) {
