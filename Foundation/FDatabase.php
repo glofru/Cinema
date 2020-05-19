@@ -46,7 +46,7 @@ class FDatabase
      * @param $values
      * @return
      */
-    public function saveToDB(string $class, $values)
+    public function saveToDB($class, $values)
     {
         try {
             $this->db->beginTransaction();
@@ -64,7 +64,7 @@ class FDatabase
         }
     }
 
-    public function saveToDBPosti(string $class, EProiezione $proiezione, EPosto $posto)
+    public function saveToDBPosti($class, EProiezione $proiezione, EPosto $posto)
     {
         try {
             $this->db->beginTransaction();
@@ -88,7 +88,7 @@ class FDatabase
      * @param $row
      * @return array
      */
-    public function loadFromDB(string $class, $value, string $row) {
+    public function loadFromDB($class, $value, string $row) {
             try {
                 $query = "SELECT * FROM " . $class::getTables() . " WHERE " . $row . "='" . $value . "';";
                 $sender = $this->db->prepare($query);
@@ -97,7 +97,7 @@ class FDatabase
                 $returnedRows = $sender->rowCount();
                 $return = [];
                 if($returnedRows == 0){
-                    array_push($return,null);
+                    return [];
                 }
                 elseif ($returnedRows == 1) {
                     array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
@@ -116,7 +116,7 @@ class FDatabase
             }
         }
 
-    public function loadFromDBDebole(string $class, $value, string $row, $value2, $row2) {
+    public function loadFromDBDebole($class, $value, string $row, $value2, $row2) {
         try {
             $query = "SELECT * FROM " . $class::getTables() . "' WHERE " . $row . "= '" . $value. "' AND " . $row2 . "= '" . $value2 . "';";
             $sender = $this->db->prepare($query);
@@ -202,7 +202,7 @@ class FDatabase
                 $oraFineFilmPresente = $oraFineFilmPresente->add($durata);
                 $oraFineFilmPresente = $oraFineFilmPresente->format('h:i:s');
                 if((strtotime($oraInizioNuovoFilm) - strtotime($oraFilmPresente) > 0) && (strtotime($oraFineFilmPresente) - strtotime($oraInizioNuovoFilm) > 0)) {
-                    array_push($output,new EProiezione(FFilm::load($return[$i]["id"],"id"), FSalaFisica::load($nsala,"numeroSala"),new DateTime($return["data"])));
+                    array_push($output,new EProiezione(FFilm::load($return[$i]["id"],"id"), ESalaVirtuale::fromSalaFisica(FSalaFisica::load($nsala,"numeroSala")),new DateTime($return["data"])));
                 }
             }
             return $output;
