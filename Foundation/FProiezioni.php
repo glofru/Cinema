@@ -64,13 +64,12 @@ class FProiezioni
            //DATI DEL FILM
            $film = FFilm::load('id',$id);
            $durata = DateInterval::createFromDateString($film["durata"]);
-           $dataRilascio = $film["dataRilascio"];
-           $dataRilascio = new DateTime($dataRilascio);
+           $dataRilascio = DateTime::createFromFormat('Y-m-d', $film["dataRilascio"]);
            $genere = $film["genere"];
            $genere = EGenere::$genere;
            //DATI DELLA SALAVIRTUALE
            //COSTRUISCO L'OGGETTO SALAVIRTUALE
-            $salaV = ESalaVirtuale::fromSalaFisica(FSalaFisica::load($nSala,"numeroSala"));
+           $salaV = ESalaVirtuale::fromSalaFisica(FSalaFisica::load($nSala,"numeroSala"));
            //COSTRUISCO L'OGGETTO FILM
            $film = new EFilm($id,$film["nome"],$film["descrizione"],$durata,$film["trailerURL"],$film["votoCritica"],$dataRilascio,$genere);
            //COSTRUSICO L'OGGETTO DATAORA
