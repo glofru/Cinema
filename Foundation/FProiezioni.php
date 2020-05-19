@@ -57,20 +57,15 @@ class FProiezioni
         $return = array();
         for($i=0;$i<sizeof($result);$i++) {
            //DATI DELLA PROIEZIONE
-           $id = $return[$i]["idFilm"];
-           $nSala = intval($return[$i]["nSala"]);
-           $data = $return[$i]["data"];
-           $ora = $return[$i]["ora"];
-           //DATI DEL FILM
+           $id = $result[$i]["idFilm"];
+           $nSala = intval($result[$i]["nSala"]);
+           $data = $result[$i]["data"];
+           $ora = $result[$i]["ora"];
+           //OTTENGO L'OGGETTO FILM
            $film = FFilm::load('id',$id);
-           $durata = DateInterval::createFromDateString($film["durata"]);
-           $dataRilascio = DateTime::createFromFormat('Y-m-d', $film["dataRilascio"]);
-           $genere = EGenere::fromString($film["genere"]);
            //DATI DELLA SALAVIRTUALE
            //COSTRUISCO L'OGGETTO SALAVIRTUALE
            $salaV = ESalaVirtuale::fromSalaFisica(FSalaFisica::load($nSala,"numeroSala"));
-           //COSTRUISCO L'OGGETTO FILM
-           $film = new EFilm($id,$film["nome"],$film["descrizione"],$durata,$film["trailerURL"],$film["votoCritica"],$dataRilascio,$genere);
            //COSTRUSICO L'OGGETTO DATAORA
            $dataora = new DateTime($data . "T" . $ora);
            //AGGIUNGO LA PROIEZIONE ALLA LISTA DI RITORNO
