@@ -220,7 +220,7 @@ class FDatabase
      * @param $row
      * @return int
      */
-    public function numberofRows(string $class, $value, string $row) {
+    public function numberofRows($class, $value, string $row) {
         $result = $this->loadFromDB($class,$value,$row);
         if($result[0] == null) {
             return null;
@@ -235,7 +235,7 @@ class FDatabase
      * @param $row
      * @return bool
      */
-    public function deleteFromDB(string $class, $value, string $row): bool {
+    public function deleteFromDB($class, $value, string $row): bool {
         try{
             $this->db->beginTransaction();
             $query = "DELETE FROM " . $class::getTableName() . " WHERE " . $row . "='" . $value . "';";
@@ -252,7 +252,7 @@ class FDatabase
         return true;
     }
 
-    public function deleteFromDBDebole(string $class, $value, $row, $value2, $row2): bool {
+    public function deleteFromDBDebole($class, $value, $row, $value2, $row2): bool {
         try{
             $this->db->beginTransaction();
             $query = "DELETE FROM " . $class::getTableName() . " WHERE " . $row . "='" . $value . "' AND ". $row2 . "= '" . $value2 . "';";
@@ -277,7 +277,7 @@ class FDatabase
      * @param $newValue
      * @return bool
      */
-    public function updateTheDB(string $class, $value, string $row, string $newRow, $newValue): bool {
+    public function updateTheDB($class, $value, string $row, string $newRow, $newValue): bool {
         try {
             $this->db->beginTransaction();
             $query = "UPDATE " . $class::getTableName() . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
@@ -294,7 +294,7 @@ class FDatabase
         return true;
     }
 
-    public function updateTheDBDebole(string $class, $value, $row, $value2, $row2, string $newRow, $newValue): bool {
+    public function updateTheDBDebole($class, $value, $row, $value2, $row2, string $newRow, $newValue): bool {
         try {
             $this->db->beginTransaction();
             $query = "UPDATE " . $class::getTableName() . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "= '" . $value. "' AND " . $row2 . "= '" . $value2 . "';";

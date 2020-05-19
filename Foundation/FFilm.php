@@ -75,31 +75,35 @@ class FFilm
         }
 
         $return = array();
-        for($i = 0; $i < sizeof($result); $i++)
+        foreach ($result as $row)
         {
-            $row = $result[$i];
-            $id = $row["idFilm"];
-            $nome = $row["nome"];
-            $descrizione = $row["descrizione"];
-            $durata = DateInterval::createFromDateString($row["durata"]);
-            $trailerURL = $row["trailerURL"];
-            $votoCritica = floatval($row["votoCritica"]);
-            $dataRilascio = DateTime::createFromFormat("Y-m-d", $row["dataRilascio"]);
-            $genere = EGenere::fromString($row["genere"]);
-            $film = new EFilm($id, $nome, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere);
-            foreach (self::recreateArray($row["attori"]) as $attore)
-            {
-                $film->addAttore($attore);
-            }
-            foreach (self::recreateArray($row["registi"]) as $regista)
-            {
-                $film->addRegista($regista);
-            }
-
-            array_push($return, $film);
+            array_push($return, self::fromRow($row));
         }
 
         return $return;
+    }
+
+    private static function fromRow(array $row): EFilm
+    {
+        $id = $row["idFilm"];
+        $nome = $row["nome"];
+        $descrizione = $row["descrizione"];
+        $durata = DateInterval::createFromDateString($row["durata"]);
+        $trailerURL = $row["trailerURL"];
+        $votoCritica = floatval($row["votoCritica"]);
+        $dataRilascio = DateTime::createFromFormat("Y-m-d", $row["dataRilascio"]);
+        $genere = EGenere::fromString($row["genere"]);
+        $film = new EFilm($id, $nome, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere);
+        foreach (self::recreateArray($row["attori"]) as $attore)
+        {
+            $film->addAttore($attore);
+        }
+        foreach (self::recreateArray($row["registi"]) as $regista)
+        {
+            $film->addRegista($regista);
+        }
+
+        return $film;
     }
 
     public static function update($value,$row,$newvalue,$newrow): bool {
@@ -117,5 +121,25 @@ class FFilm
             return true;
         }
         return false;
+    }
+
+
+    public static function ricercaPerData($class, string $dataInizio, string $dataFine)
+    {
+        $db = FDatabase::getInstance();
+        $result = $db->loadBetween($class::getClassName(), $dataInizio, $dataFine, "dataRilascio");
+
+        if ($result == null || sizeof($result) == 0)
+        {
+            return null;
+        }
+
+        $return = array();
+        foreach ($result as $row)
+        {
+            array_push($return, self::fromRow($row));
+        }
+
+        return $return;
     }
 }
