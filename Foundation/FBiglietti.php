@@ -5,14 +5,14 @@ class FBiglietti
 {
     private static string $className = "FBiglietti";
     private static string $tableName = "Biglietto";
-    private static string $valuesName = "(:idProiezione,:posto,:emailUtente,:costo";
+    private static string $valuesName = "(:idProiezione,:posto,:idUtente,:costo";
 
     public function __construct() {}
 
     public function associate(PDOStatement $sender, EBiglietto $biglietto) {
         $sender->bindValue(':idProiezione', $biglietto->getProiezione()->getId(), PDO::PARAM_INT);
         $sender->bindValue(':posto', $biglietto->getPosto(), PDO::PARAM_STR);
-        $sender->bindValue(':emailUtente',$biglietto->getUtente()->getEmail(),PDO::PARAM_STR);
+        $sender->bindValue(':idUtente',$biglietto->getUtente()->getId(),PDO::PARAM_INT);
         $sender->bindValue(':costo',$biglietto->getCosto(),PDO::PARAM_STR);
     }
 //----------------- GETTER --------------------
@@ -51,8 +51,7 @@ class FBiglietti
             $temp = new FPosti();
             $posto = $temp->loadDoppio($proiezione,$posto);
             //UTENTE
-            $email = $elem["emailUtente"];
-            $utente = FUtente::loadEmail($email);
+            $utente = FUtente::load(intval($result["idUtente"]));
             array_push($return,new EBiglietto($proiezione,$posto,$utente,floatval($elem["costo"])));
         }
         return $return;
@@ -71,8 +70,7 @@ class FBiglietti
         $posto = $result["posto"];
         $posto = FPosti::loadDoppio($proiezione,$posto);
         //UTENTE
-        $email = $result["emailUtente"];
-        $utente = FUtente::load($email);
+        $utente = FUtente::load(intval($result["idUtente"]));
         return new EBiglietto($proiezione,$posto,$utente,floatval($result["costo"]));
     }
 
