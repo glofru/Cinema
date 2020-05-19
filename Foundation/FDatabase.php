@@ -125,7 +125,7 @@ class FDatabase
             $returnedRows = $sender->rowCount();
             $return = [];
             if($returnedRows == 0){
-                array_push($return,null);
+                return [];
             }
             elseif ($returnedRows == 1) {
                 array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
@@ -152,7 +152,7 @@ class FDatabase
             $returnedRows = $sender->rowCount();
             $return = [];
             if($returnedRows == 0){
-                array_push($return,null);
+                return [];
             }
             elseif ($returnedRows == 1) {
                 array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
@@ -181,8 +181,7 @@ class FDatabase
             $result = [];
             $output = [];
             if($returnedRows == 0){
-                array_push($return,null);
-                return $return;
+                return [];
             }
             elseif ($returnedRows == 1) {
                 array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
@@ -220,7 +219,7 @@ class FDatabase
      * @param $row
      * @return int
      */
-    public function numberofRows(string $class, $value, string $row): int {
+    public function numberofRows(string $class, $value, string $row) {
         $result = $this->loadFromDB($class,$value,$row);
         if($result[0] == null) {
             return null;
@@ -314,7 +313,7 @@ class FDatabase
      * @param $password
      * @return object
      */
-    public function loginDB(string $value, string $password): object {
+    public function loginDB(string $value, string $password) {
         if (strpos($value, '@') !== false) {
             $row = "email";
         }
