@@ -52,15 +52,13 @@ class FProiezioni
             $result = $db->loadBetweenProiezione($inizio,$fine);
         }
         if($result === null) {
-            $result = [];
-            array_push($result,null);
-            return $result;
+            return [];
         }
         $return = array();
         for($i=0;$i<sizeof($result);$i++) {
            //DATI DELLA PROIEZIONE
            $id = $return[$i]["idFilm"];
-           $nSala = intval($return[$i]["numerosala"]);
+           $nSala = intval($return[$i]["nSala"]);
            $data = $return[$i]["data"];
            $ora = $return[$i]["ora"];
            //DATI DEL FILM

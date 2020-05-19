@@ -5,12 +5,12 @@ class FSalaFisica
 {
     private static string $className = "FSalaFisica";
     private static string $tableName = "SalaFisica";
-    private static string $valuesName = "(:nsala,:nFile,:nPostiFila,:disponibile)";
+    private static string $valuesName = "(:nSala,:nFile,:nPostiFila,:disponibile)";
 
     public function __construct() {}
 
     public function associate(PDOStatement $sender, ESalaFisica $salaFisica){
-        $sender->bindValue(':nsala', $salaFisica->getNumeroSala(), PDO::PARAM_INT);
+        $sender->bindValue(':nSala', $salaFisica->getNumeroSala(), PDO::PARAM_INT);
         $sender->bindValue(':nFile', $salaFisica->getNFile(), PDO::PARAM_INT);
         $sender->bindValue(':nPostiFila', $salaFisica->getNPostiFila(), PDO::PARAM_STR);
         $sender->bindValue(':disponibile', $salaFisica->isDisponibile(), PDO::PARAM_STR);
