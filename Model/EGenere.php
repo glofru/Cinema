@@ -11,6 +11,8 @@ class EGenere {
     public static string $ANIMAZIONE = "ANIMAZIONE";
     public static string $COMMEDIA = "COMMEDIA";
     public static string $ROMANTICO = "ROMANTICO";
+    public static string $SCIFI = "SCI-FI";
+    public static string $BIOGRAFICO = "BIOGRAFICO";
     public static string $NOT_DEFINED = "NOT_DEFINED";
 
     public static function fromString(string $s)
@@ -32,6 +34,10 @@ class EGenere {
                 return self::$COMMEDIA;
             case "ROMANTICO":
                 return self::$ROMANTICO;
+            case "SCI-FI";
+                return self::$SCIFI;
+            case "BIOGRAFICO";
+                return self::$BIOGRAFICO;
             default:
                 return self::$NOT_DEFINED;
         }
