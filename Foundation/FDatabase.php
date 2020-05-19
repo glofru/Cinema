@@ -125,7 +125,7 @@ class FDatabase
             $returnedRows = $sender->rowCount();
             $return = [];
             if($returnedRows == 0){
-                array_push($return,null);
+                return [];
             }
             elseif ($returnedRows == 1) {
                 array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
@@ -152,7 +152,7 @@ class FDatabase
             $returnedRows = $sender->rowCount();
             $return = [];
             if($returnedRows == 0){
-                array_push($return,null);
+                return [];
             }
             elseif ($returnedRows == 1) {
                 array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
@@ -181,8 +181,7 @@ class FDatabase
             $result = [];
             $output = [];
             if($returnedRows == 0){
-                array_push($return,null);
-                return $return;
+                return [];
             }
             elseif ($returnedRows == 1) {
                 array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
