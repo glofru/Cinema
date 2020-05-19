@@ -92,8 +92,9 @@ CREATE TABLE Giudizio(
 CREATE TABLE Media(
     `id` INTEGER NOT NULL,
     `isLocandina` BOOLEAN NOT NULL,
-    `tipo` TEXT DEFAULT NULL,
-    `immagine` BLOB DEFAULT NULL,
+    `tipo` TEXT NOT NULL,
+    `nome` TEXT NOT NULL,
+    `immagine` BLOB NOT NULL,
     PRIMARY KEY (`id`,`isLocandina`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
