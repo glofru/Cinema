@@ -374,10 +374,10 @@ class FDatabase
                 $this->db->commit();
                 $utente = FUtente::loadEmail($emailUtente);
                 $posto = EPosto::fromString($posto,"false");
-                $proiezione = FProiezioni::load($idProiezione,"id",true,null,null);
+                $proiezione = FProiezione::load($idProiezione,"id",true,null,null);
                 $proiezione = $proiezione[0];
                 $biglietto = new EBiglietto($proiezione,$posto,$utente,$costo);
-                FBiglietti::save($biglietto);
+                FBiglietto::save($biglietto);
                 return $biglietto;
             }
         } catch(PDOException $exception) {
@@ -395,13 +395,13 @@ class FDatabase
             $sender->execute();
             $acquisto = $sender->fetch(PDO::FETCH_ASSOC);
             $islibero = $acquisto["libero"];
-            $biglietto = FBiglietti::loadDoppio($idProiezione,"idProiezione",$posto,"posto");
+            $biglietto = FBiglietto::loadDoppio($idProiezione,"idProiezione",$posto,"posto");
             if(boolval($islibero) === false && ($biglietto->getUtente()->getEmail() === $emailUtente)) {
                 $query = "UPDATE Posti SET libero = 'FALSE' WHERE idProiezione = '" . $idProiezione . "' AND posto = '" . $posto . "' LOCK IN SHARE MODE";
                 $sender = $this->db->prepare($query);
                 $sender->execute();
                 $this->db->commit();
-                FBiglietti::delete($idProiezione,"idProiezione",$posto,"posto");
+                FBiglietto::delete($idProiezione,"idProiezione",$posto,"posto");
                 return true;
             }
             return false;

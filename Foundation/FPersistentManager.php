@@ -29,15 +29,6 @@ class FPersistentManager
 
     private function getClass(string $class){
         $class[0] = "F";
-        if($class === "FPosto"){
-            return "FPosti";
-        }
-        if($class === "FProiezione"){
-            return "FProiezioni";
-        }
-        if($class === "FBiglietto"){
-            return "FBiglietti";
-        }
         return $class;
     }
 
@@ -48,7 +39,7 @@ class FPersistentManager
     }
 
     public function saveProiezione(EProiezione $proiezione) {
-        $result = FProiezioni::save($proiezione);
+        $result = FProiezione::save($proiezione);
         return $result;
     }
 
@@ -81,11 +72,11 @@ class FPersistentManager
     }
 
     public function occupaPosto($idProiezione,$posto,$emailUtente,$costo) {
-        return FProiezioni::occupaPosto($idProiezione,$posto,$emailUtente,$costo);
+        return FProiezione::occupaPosto($idProiezione,$posto,$emailUtente,$costo);
     }
 
     public function liberaPosto($idProiezione,$posto,$emailUtente)  {
-        return FProiezioni::liberaPosto($idProiezione,$posto,$emailUtente);
+        return FProiezione::liberaPosto($idProiezione,$posto,$emailUtente);
     }
 
     public function login(string $username,string $emailUtente,string $password){

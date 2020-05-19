@@ -1,9 +1,9 @@
 <?php
 
 
-class FProiezioni
+class FProiezione
 {
-    private static string $className = "FProiezioni";
+    private static string $className = "FProiezione";
     private static string $tableName = "Proiezioni";
     private static string $valuesName = "(:id,:idFilm,:data,:ora,:numerosala)";
 
@@ -36,7 +36,7 @@ class FProiezioni
         if(sizeof($test) < 2){
             $id = $db->saveToDB(self::getClassName(),$proiezione);
             $proiezione->setId($id);
-            FPosti::store($proiezione);
+            FPosto::store($proiezione);
             return true;
         } else {
             return $test;

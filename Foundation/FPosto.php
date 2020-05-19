@@ -1,9 +1,9 @@
 <?php
 
 
-class FPosti
+class FPosto
 {
-    private static string $className = "FPosti";
+    private static string $className = "FPosto";
     private static string $tableName = "Posti";
     private static string $valuesName = "(:idProiezione,:posizione,:libero)";
 
@@ -69,7 +69,7 @@ class FPosti
     public static function delete($value,$row): bool {
         $db = FDatabase::getInstance();
         if($db->deleteFromDB(self::getClassName(),$value,$row)){
-            if(FPosti::delete($value,"idProiezione")){
+            if(FPosto::delete($value,"idProiezione")){
                 return true;
             }
             return false;

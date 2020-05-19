@@ -1,9 +1,9 @@
 <?php
 
 
-class FBiglietti
+class FBiglietto
 {
-    private static string $className = "FBiglietti";
+    private static string $className = "FBiglietto";
     private static string $tableName = "Biglietto";
     private static string $valuesName = "(:idProiezione,:posto,:idUtente,:costo";
 
@@ -44,11 +44,11 @@ class FBiglietti
         foreach ($result as $elem) {
             //PROIEZIONE
             $id = $elem["idProiezione"];
-            $proiezione = new FProiezioni();
+            $proiezione = new FProiezione();
             $proiezione = $proiezione->load($id,"id",true,null,null)[0];
             //POSTO
             $posto = $elem["posto"];
-            $temp = new FPosti();
+            $temp = new FPosto();
             $posto = $temp->loadDoppio($proiezione,$posto);
             //UTENTE
             $utente = FUtente::load(intval($result["idUtente"]));
@@ -65,10 +65,10 @@ class FBiglietti
         }
         //PROIEZIONE
         $id = $result["idProiezione"];
-        $proiezione = FProiezioni::load($id,"id",true,null,null)[0];
+        $proiezione = FProiezione::load($id,"id",true,null,null)[0];
         //POSTO
         $posto = $result["posto"];
-        $posto = FPosti::loadDoppio($proiezione,$posto);
+        $posto = FPosto::loadDoppio($proiezione,$posto);
         //UTENTE
         $utente = FUtente::load(intval($result["idUtente"]));
         return new EBiglietto($proiezione,$posto,$utente,floatval($result["costo"]));

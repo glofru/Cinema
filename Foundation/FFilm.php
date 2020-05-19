@@ -13,10 +13,10 @@ class FFilm
         $sender->bindValue(':idFilm', $film->getId(), PDO::PARAM_INT);
         $sender->bindValue(':nome', $film->getNome(), PDO::PARAM_STR);
         $sender->bindValue(':descrizione',$film->getDescrizione(),PDO::PARAM_STR);
-        $sender->bindValue(':durata',$film->getDurata()->format("H:i"),PDO::PARAM_STR);
+        $sender->bindValue(':durata',$film->getDurataString(),PDO::PARAM_STR);
         $sender->bindValue(':trailerURL', $film->getTrailerURL(), PDO::PARAM_STR);
         $sender->bindValue(':votoCritica', $film->getVotoCritica(), PDO::PARAM_STR);
-        $sender->bindValue(':dataRilascio', $film->getDataRilascio()->format("Y-m-d"), PDO::PARAM_STR);
+        $sender->bindValue(':dataRilascio', $film->getDataRilascioString(), PDO::PARAM_STR);
         $sender->bindValue(':genere', $film->getGenere(), PDO::PARAM_STR);
         $sender->bindValue(':attori', self::splitArray($film->getAttori()), PDO::PARAM_STR);
         $sender->bindValue(':registi', self::splitArray($film->getRegisti()), PDO::PARAM_STR);
@@ -88,7 +88,11 @@ class FFilm
         $id = $row["idFilm"];
         $nome = $row["nome"];
         $descrizione = $row["descrizione"];
-        $durata = DateInterval::createFromDateString($row["durata"]);
+        try {
+            $durata = new DateInterval ("PT" . $row["durata"] . "M");
+        } catch (Exception $e) {
+            $durata = null;
+        }
         $trailerURL = $row["trailerURL"];
         $votoCritica = floatval($row["votoCritica"]);
         $dataRilascio = DateTime::createFromFormat("Y-m-d", $row["dataRilascio"]);
@@ -124,10 +128,10 @@ class FFilm
     }
 
 
-    public static function ricercaPerData($class, string $dataInizio, string $dataFine)
+    public static function ricercaPerData(string $dataInizio, string $dataFine)
     {
         $db = FDatabase::getInstance();
-        $result = $db->loadBetween($class::getClassName(), $dataInizio, $dataFine, "dataRilascio");
+        $result = $db->loadBetween(self::getClassName(), $dataInizio, $dataFine, "dataRilascio");
 
         if ($result == null || sizeof($result) == 0)
         {
@@ -143,16 +147,32 @@ class FFilm
         return $return;
     }
 
-    public static function ricercaPerGenere($class, EGenere $genere)
+    public static function ricercaPerGenere(EGenere $genere)
     {
         $db = FDatabase::getInstance();
-        $result = $db->loadFromDB($class, $genere, "genere");
+        $result = $db->loadFromDB(self::getClassName(), $genere, "genere");
 
         if ($result == null || sizeof($result) == 0)
         {
             return null;
         }
 
+        $return = array();
+        foreach ($result as $row)
+        {
+            array_push($return, self::fromRow($row));
+        }
+
+        return $return;
+    }
+
+    public static function ricercaperNome(string $nome) {
+        $db = FDatabase::getInstance();
+        $result = $db->loadLike(self::getClassName(),$nome,"nome");
+        if ($result == null || sizeof($result) == 0)
+        {
+            return null;
+        }
         $return = array();
         foreach ($result as $row)
         {
