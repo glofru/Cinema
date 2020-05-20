@@ -16,7 +16,7 @@ class FFilm
         $sender->bindValue(':durata',$film->getDurataString(),PDO::PARAM_STR);
         $sender->bindValue(':trailerURL', $film->getTrailerURL(), PDO::PARAM_STR);
         $sender->bindValue(':votoCritica', $film->getVotoCritica(), PDO::PARAM_STR);
-        $sender->bindValue(':dataRilascio', $film->getDataRilascioString(), PDO::PARAM_STR);
+        $sender->bindValue(':dataRilascio', $film->getdataRilascioSQL(), PDO::PARAM_STR);
         $sender->bindValue(':genere', $film->getGenere(), PDO::PARAM_STR);
         $sender->bindValue(':attori', self::splitArray($film->getAttori()), PDO::PARAM_STR);
         $sender->bindValue(':registi', self::splitArray($film->getRegisti()), PDO::PARAM_STR);
@@ -96,7 +96,7 @@ class FFilm
         }
         $trailerURL = $row["trailerURL"];
         $votoCritica = floatval($row["votoCritica"]);
-        $dataRilascio = DateTime::createFromFormat("d-m-Y", $row["dataRilascio"]);
+        $dataRilascio = DateTime::createFromFormat("Y-m-d", $row["dataRilascio"]);
         $genere = EGenere::fromString($row["genere"]);
         $film = new EFilm($id, $nome, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere);
         foreach (self::recreateArray($row["attori"]) as $attore)

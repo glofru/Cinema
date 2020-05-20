@@ -12,7 +12,7 @@ class FProiezione
     public function associate(PDOStatement $sender, EProiezione $proiezione) {
         $sender->bindValue(':id', NULL, PDO::PARAM_INT);
         $sender->bindValue(':idFilm', $proiezione->getFilm()->getId(), PDO::PARAM_INT);
-        $sender->bindValue(':data',$proiezione->getData(),PDO::PARAM_STR);
+        $sender->bindValue(':data',$proiezione->getDataSQL(),PDO::PARAM_STR);
         $sender->bindValue(':ora',$proiezione->getOra(),PDO::PARAM_STR);
         $sender->bindValue(':numerosala',$proiezione->getSala(),PDO::PARAM_BOOL);
     }

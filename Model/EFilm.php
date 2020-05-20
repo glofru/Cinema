@@ -184,6 +184,10 @@ class EFilm implements JsonSerializable
         return $this->getDataRilascio()->format("d-m-Y");
     }
 
+    public function getdataRilascioSQL(): string {
+        return $this->getDataRilascio()->format("Y-m-d");
+    }
+
     /**
      * @param DateTime $dataRilascio
      */
