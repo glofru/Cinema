@@ -74,41 +74,7 @@ class FFilm
             return [];
         }
 
-        $return = array();
-        foreach ($result as $row)
-        {
-            array_push($return, self::fromRow($row));
-        }
-
-        return $return;
-    }
-
-    private static function fromRow(array $row): EFilm
-    {
-        $id = $row["idFilm"];
-        $nome = $row["nome"];
-        $descrizione = $row["descrizione"];
-        $durata = explode(':',$row["durata"]);
-        try {
-            $durata = new DateInterval ("PT" . $durata[0] . "H" . $durata[1] . "M");
-        } catch (Exception $e) {
-            $durata = null;
-        }
-        $trailerURL = $row["trailerURL"];
-        $votoCritica = floatval($row["votoCritica"]);
-        $dataRilascio = DateTime::createFromFormat("Y-m-d", $row["dataRilascio"]);
-        $genere = EGenere::fromString($row["genere"]);
-        $film = new EFilm($id, $nome, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere);
-        foreach (self::recreateArray($row["attori"]) as $attore)
-        {
-            $film->addAttore($attore);
-        }
-        foreach (self::recreateArray($row["registi"]) as $regista)
-        {
-            $film->addRegista($regista);
-        }
-
-        return $film;
+        return self::parseResult($result);
     }
 
     public static function update($value,$row,$newvalue,$newrow): bool {
@@ -139,13 +105,7 @@ class FFilm
             return null;
         }
 
-        $return = array();
-        foreach ($result as $row)
-        {
-            array_push($return, self::fromRow($row));
-        }
-
-        return $return;
+        return self::parseResult($result);
     }
 
     public static function ricercaPerGenere(EGenere $genere)
@@ -158,26 +118,49 @@ class FFilm
             return null;
         }
 
-        $return = array();
-        foreach ($result as $row)
-        {
-            array_push($return, self::fromRow($row));
-        }
-
-        return $return;
+        return self::parseResult($result);
     }
 
     public static function ricercaperNome(string $nome) {
         $db = FDatabase::getInstance();
-        $result = $db->loadLike(self::getClassName(),$nome,"nome");
+        $result = $db->loadLike(self::getClassName(), $nome, "nome");
         if ($result == null || sizeof($result) == 0)
         {
             return null;
         }
+
+        return self::parseResult($result);
+    }
+
+    private static function parseResult(array $result): array
+    {
         $return = array();
         foreach ($result as $row)
         {
-            array_push($return, self::fromRow($row));
+            $id = $row["idFilm"];
+            $nome = $row["nome"];
+            $descrizione = $row["descrizione"];
+            $durata = explode(':',$row["durata"]);
+            try {
+                $durata = new DateInterval ("PT" . $durata[0] . "H" . $durata[1] . "M");
+            } catch (Exception $e) {
+                $durata = null;
+            }
+            $trailerURL = $row["trailerURL"];
+            $votoCritica = floatval($row["votoCritica"]);
+            $dataRilascio = DateTime::createFromFormat("Y-m-d", $row["dataRilascio"]);
+            $genere = EGenere::fromString($row["genere"]);
+            $film = new EFilm($id, $nome, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere);
+            foreach (self::recreateArray($row["attori"]) as $attore)
+            {
+                $film->addAttore($attore);
+            }
+            foreach (self::recreateArray($row["registi"]) as $regista)
+            {
+                $film->addRegista($regista);
+            }
+
+            array_push($return, $film);
         }
 
         return $return;
