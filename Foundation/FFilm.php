@@ -61,12 +61,14 @@ class FFilm
         return self::$valuesName;
     }
 
-    public static function save(EFilm $film) {
+    public static function save(EFilm $film)
+    {
         $db = FDatabase::getInstance();
         $db->saveToDB(self::getClassName(), $film);
     }
 
-    public static function load (string $value, string $row): array {
+    public static function load (string $value, string $row): array
+    {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
 
@@ -77,7 +79,8 @@ class FFilm
         return self::parseResult($result);
     }
 
-    public static function update($value,$row,$newvalue,$newrow): bool {
+    public static function update($value,$row,$newvalue,$newrow): bool
+    {
         $db = FDatabase::getInstance();
         if($db->updateTheDB(self::getClassName(), $value, $row, $newvalue, $newrow))
         {
@@ -86,7 +89,8 @@ class FFilm
         return false;
     }
 
-    public static function delete($value, $row): bool {
+    public static function delete($value, $row): bool
+    {
         $db = FDatabase::getInstance();
         if($db->deleteFromDB(self::getClassName(),$value,$row)){
             return true;

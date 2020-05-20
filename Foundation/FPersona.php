@@ -42,7 +42,7 @@ class FPersona
     public static function update($value, $row, $newvalue, $newrow): bool
     {
         $db = FDatabase::getInstance();
-        
+
         if($db->updateTheDB(self::getClassName(), $value, $row, $newvalue, $newrow))
         {
             return true;

@@ -24,19 +24,27 @@ class EMedia implements JsonSerializable
     private DateTime $date;
 
     /**
+     * @var
+     */
+    private $immagine;
+
+    /**
      * EMedia constructor.
      * @param string $id
      * @param string $fileName
      * @param string $mimeType
      * @param DateTime $date
+     * @param $immagine
      */
-    public function __construct(string $id, string $fileName, string $mimeType, DateTime $date)
+    public function __construct(string $id, string $fileName, string $mimeType, DateTime $date, $immagine)
     {
         $this->setId($id);
         $this->setFileName($fileName);
         $this->setMimeType($mimeType);
         $this->setDate($date);
+        $this->setImmagine($immagine);
     }
+
 
     /**
      * @return string
@@ -107,6 +115,22 @@ class EMedia implements JsonSerializable
         {
             $this->date = $date;
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImmagine()
+    {
+        return $this->immagine;
+    }
+
+    /**
+     * @param mixed $immagine
+     */
+    public function setImmagine($immagine): void
+    {
+        $this->immagine = $immagine;
     }
 
     /**

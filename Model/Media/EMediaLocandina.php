@@ -17,11 +17,12 @@ class EMediaLocandina extends EMedia
      * @param string $fileName
      * @param string $mimeType
      * @param DateTime $date
+     * @param $immagine
      * @param EFilm $film
      */
-    public function __construct(string $id, string $fileName, string $mimeType, DateTime $date, EFilm $film)
+    public function __construct(string $id, string $fileName, string $mimeType, DateTime $date, $immagine, EFilm $film)
     {
-        parent::__construct($id, $fileName, $mimeType, $date);
+        parent::__construct($id, $fileName, $mimeType, $date, $immagine);
         $this->setFilm($film);
     }
 

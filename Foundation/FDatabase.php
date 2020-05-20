@@ -70,7 +70,7 @@ class FDatabase
             $this->db->beginTransaction();
             $query = "INSERT INTO " . $class::getTableName() . " VALUES " . $class::getValuesName();
             $sender = $this->db->prepare($query);
-            $class::associate($sender, $$proiezione, $posto);
+            $class::associate($sender, $proiezione, $posto);
             $sender->execute();
             $id = $this->db->lastInsertId();
             $this->db->commit();
@@ -387,7 +387,7 @@ class FDatabase
         }
     }
 
-    public function liberaPosto($idProiezione,$posto, $emailUtente) {
+    public function liberaPosto($idProiezione, $posto, $emailUtente) {
         try {
             $this->db->beginTransaction();
             $query = "SELECT * FROM Posti WHERE idProiezione = '" . $idProiezione . "' AND posto = '" . $posto . "' LOCK IN SHARE MODE";
@@ -395,7 +395,7 @@ class FDatabase
             $sender->execute();
             $acquisto = $sender->fetch(PDO::FETCH_ASSOC);
             $islibero = $acquisto["libero"];
-            $biglietto = FBiglietto::loadDoppio($idProiezione,"idProiezione",$posto,"posto");
+            $biglietto = FBiglietto::loadDoppio($idProiezione, "idProiezione", $posto, "posto");
             if(boolval($islibero) === false && ($biglietto->getUtente()->getEmail() === $emailUtente)) {
                 $query = "UPDATE Posti SET libero = 'FALSE' WHERE idProiezione = '" . $idProiezione . "' AND posto = '" . $posto . "' LOCK IN SHARE MODE";
                 $sender = $this->db->prepare($query);
@@ -412,5 +412,23 @@ class FDatabase
         }
     }
 
+    public function storeMedia($class, EMedia $media)
+    {
+        try {
+            $this->db->beginTransaction();
+            $query = "INSERT INTO ".$class::getTable($media)." VALUES ".$class::getValues($media);
+            $sender = $this->db->prepare($query);
+            $class::associate($sender, $media);
+            $sender->execute();
+            $id=$this->db->lastInsertId();
+            $this->db->commit();
+            return $id;
+        }
+        catch(PDOException $exception) {
+            $this->db->rollBack();
+            echo ("Errore nel Database: " . $exception->getMessage());
+            return null;
+        }
+    }
 
 }

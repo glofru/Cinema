@@ -17,11 +17,12 @@ class EMediaUtente extends EMedia
      * @param string $fileName
      * @param string $mimeType
      * @param DateTime $date
+     * @param $immagine
      * @param EUtente $utente
      */
-    public function __construct(string $id, string $fileName, string $mimeType, DateTime $date, EUtente $utente)
+    public function __construct(string $id, string $fileName, string $mimeType, DateTime $date, $immagine, EUtente $utente)
     {
-        parent::__construct($id, $fileName, $mimeType, $date);
+        parent::__construct($id, $fileName, $mimeType, $date, $immagine);
         $this->setUtente($utente);
     }
 
@@ -41,6 +42,9 @@ class EMediaUtente extends EMedia
         $this->utente = $utente;
     }
 
+    /**
+     * @return array|mixed
+     */
     public function jsonSerialize()
     {
         $temp = parent::jsonSerialize();
