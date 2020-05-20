@@ -46,7 +46,7 @@ class FPersona
 
         if ($result == null || sizeof($result) == 0)
         {
-            return null;
+            return [];
         }
 
         $row = $result[0];

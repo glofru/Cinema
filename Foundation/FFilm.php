@@ -102,7 +102,7 @@ class FFilm
 
         if ($result == null || sizeof($result) == 0)
         {
-            return null;
+            return [];
         }
 
         return self::parseResult($result);
@@ -115,7 +115,7 @@ class FFilm
 
         if ($result == null || sizeof($result) == 0)
         {
-            return null;
+            return [];
         }
 
         return self::parseResult($result);
@@ -126,7 +126,7 @@ class FFilm
         $result = $db->loadLike(self::getClassName(), $nome, "nome");
         if ($result == null || sizeof($result) == 0)
         {
-            return null;
+            return [];
         }
 
         return self::parseResult($result);
