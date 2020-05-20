@@ -34,27 +34,14 @@ class FBiglietto
         $db->saveToDB(self::getClassName(),$biglietto);
     }
 
-    public static function load($value,$row): array {
+    public static function load($value,$row) {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(),$value,$row);
         if($result === null){
-            return $result;
+            return null;
         }
-        $return = [];
-        foreach ($result as $elem) {
-            //PROIEZIONE
-            $id = $elem["idProiezione"];
-            $proiezione = new FProiezione();
-            $proiezione = $proiezione->load($id,"id",true,null,null)[0];
-            //POSTO
-            $posto = $elem["posto"];
-            $temp = new FPosto();
-            $posto = $temp->loadDoppio($proiezione,$posto);
-            //UTENTE
-            $utente = FUtente::load(intval($result["idUtente"]));
-            array_push($return,new EBiglietto($proiezione,$posto,$utente,floatval($elem["costo"])));
-        }
-        return $return;
+
+        return self::parseResult($result);
     }
 
     public static function loadDoppio($value,$row,$value2,$row2): EBiglietto {
@@ -63,15 +50,8 @@ class FBiglietto
         if($result === null){
             return $result;
         }
-        //PROIEZIONE
-        $id = $result["idProiezione"];
-        $proiezione = FProiezione::load($id,"id",true,null,null)[0];
-        //POSTO
-        $posto = $result["posto"];
-        $posto = FPosto::loadDoppio($proiezione,$posto);
-        //UTENTE
-        $utente = FUtente::load(intval($result["idUtente"]));
-        return new EBiglietto($proiezione,$posto,$utente,floatval($result["costo"]));
+
+        return self::parseResult($result)[0];
     }
 
     public static function update($value,$row,$value2,$row2,$newvalue,$newrow): bool {
@@ -88,5 +68,23 @@ class FBiglietto
             return true;
         }
         return false;
+    }
+
+    private static function parseResult(array $result): array
+    {
+        $return = [];
+        foreach ($result as $row) {
+            //PROIEZIONE
+            $id = $row["idProiezione"];
+            $proiezione = FProiezione::load($id, "id", true, null, null)[0];
+            //POSTO
+            $posto = $row["posto"];
+            $posto = FPosto::loadDoppio($proiezione, $posto);
+            //UTENTE
+            $utente = FUtente::load(intval($result["idUtente"]));
+            $costo = floatval($row["costo"]);
+            array_push($return, new EBiglietto($proiezione,$posto,$utente,$costo));
+        }
+        return $return;
     }
 }
