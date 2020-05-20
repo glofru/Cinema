@@ -35,9 +35,9 @@ class EFilm implements JsonSerializable
      */
     private DateTime $dataRilascio;
     /**
-     * @var EGenere
+     * @var string
      */
-    private EGenere $genere;
+    private string $genere;
     /**
      * @var array
      */
@@ -58,7 +58,7 @@ class EFilm implements JsonSerializable
      * @param DateTime $dataDiRilascio
      * @param EGenere $genere
      */
-    public function __construct(int $id, string $nome, string $descrizione, DateInterval $durata, string $trailerURL, float $votoCritica, DateTime $dataDiRilascio, EGenere $genere)
+    public function __construct(int $id, string $nome, string $descrizione, DateInterval $durata, string $trailerURL, float $votoCritica, DateTime $dataDiRilascio, string $genere)
     {
         $this->setId($id);
         $this->setNome($nome);
@@ -197,17 +197,17 @@ class EFilm implements JsonSerializable
     }
 
     /**
-     * @return EGenere
+     * @return string
      */
-    public function getGenere(): EGenere
+    public function getGenere(): string
     {
         return $this->genere;
     }
 
     /**
-     * @param EGenere $genere
+     * @param string $genere
      */
-    public function setGenere(EGenere $genere): void
+    public function setGenere(string $genere): void
     {
         $this->genere = $genere;
     }
