@@ -1,11 +1,26 @@
 <?php
 
 
-class EMedia
+/**
+ * Class EMedia
+ */
+class EMedia implements JsonSerializable
 {
+    /**
+     * @var string
+     */
     private string $id;
+    /**
+     * @var string
+     */
     private string $fileName;
+    /**
+     * @var string
+     */
     private string $mimeType;
+    /**
+     * @var DateTime
+     */
     private DateTime $date;
 
     /**
@@ -84,8 +99,26 @@ class EMedia
      */
     public function setDate(DateTime $date): void
     {
-        $this->date = $date;
+        if ($date == null)
+        {
+            $date = time();
+        }
+        else
+        {
+            $this->date = $date;
+        }
     }
 
-
+    /**
+     * @return array|mixed
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'fileName' => $this->getFileName(),
+            'mimeType' => $this->getMimeType(),
+            'date' => $this->getDate()->format("Y-m-d h:i:s")
+        ];
+    }
 }

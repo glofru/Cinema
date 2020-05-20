@@ -41,5 +41,10 @@ class EMediaUtente extends EMedia
         $this->utente = $utente;
     }
 
-
+    public function jsonSerialize()
+    {
+        $temp = parent::jsonSerialize();
+        $temp["utente"] = $this->utente->getId();
+        return $temp;
+    }
 }

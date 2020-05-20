@@ -41,5 +41,13 @@ class EMediaLocandina extends EMedia
         $this->film = $film;
     }
 
-
+    /**
+     * @return array|mixed
+     */
+    public function jsonSerialize()
+    {
+        $temp = parent::jsonSerialize();
+        $temp["film"] = $this->film->getId();
+        return $temp;
+    }
 }
