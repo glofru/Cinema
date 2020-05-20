@@ -94,7 +94,6 @@ class FFilm
         return false;
     }
 
-
     public static function ricercaPerData(string $dataInizio, string $dataFine)
     {
         $db = FDatabase::getInstance();
