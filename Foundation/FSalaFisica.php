@@ -38,10 +38,15 @@ class FSalaFisica
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(),$nSala,$row);
         if($result === null){
-            return $result;
+            return null;
         }
-        $sala = new ESalaFisica($result["nSala"],$result["nFile"],$result["nPostiFila"],$result["disponibile"]);
-        return $sala;
+
+        $nSala = $result["nSala"];
+        $nFile = $result["nFile"];
+        $nPostiFila = $result["nPostiFila"];
+        $disponibile = $result["disponibile"];
+
+        return new ESalaFisica($nSala, $nFile, $nPostiFila, $disponibile);
     }
 
     public static function update($value,$row,$newvalue,$newrow): bool {

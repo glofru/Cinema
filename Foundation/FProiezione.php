@@ -58,34 +58,6 @@ class FProiezione
         return self::parseResult($result);
     }
 
-    private static function parseResult(array $result): array
-    {
-        $return = array();
-        foreach ($result as $row)
-        {
-            //DATI DELLA PROIEZIONE
-            $id = $row["idFilm"];
-            $nSala = intval($row["nSala"]);
-            $data = $row["data"];
-            $ora = $row["ora"];
-            //OTTENGO L'OGGETTO FILM
-            $film = FFilm::load('id', $id)[0];
-            //DATI DELLA SALAVIRTUALE
-            //COSTRUISCO L'OGGETTO SALAVIRTUALE
-            $salaV = ESalaVirtuale::fromSalaFisica(FSalaFisica::load($nSala, "numeroSala"));
-            //COSTRUSICO L'OGGETTO DATAORA
-            try {
-                $dataora = new DateTime($data . "T" . $ora);
-            } catch (Exception $e) {
-                $dataora = time();
-            }
-            //AGGIUNGO LA PROIEZIONE ALLA LISTA DI RITORNO
-            array_push($return, new EProiezione($film,$salaV,$dataora));
-        }
-
-        return $return;
-    }
-
     public static function update($value,$row,$newvalue,$newrow): bool {
         $db = FDatabase::getInstance();
         if($db->updateTheDB(self::getClassName(),$value,$row,$newvalue,$newrow)){
@@ -114,5 +86,31 @@ class FProiezione
         return $return;
     }
 
+    private static function parseResult(array $result): array
+    {
+        $return = array();
+        foreach ($result as $row)
+        {
+            //DATI DELLA PROIEZIONE
+            $id = $row["idFilm"];
+            $nSala = intval($row["nSala"]);
+            $data = $row["data"];
+            $ora = $row["ora"];
+            //OTTENGO L'OGGETTO FILM
+            $film = FFilm::load('id', $id)[0];
+            //DATI DELLA SALAVIRTUALE
+            //COSTRUISCO L'OGGETTO SALAVIRTUALE
+            $salaV = ESalaVirtuale::fromSalaFisica(FSalaFisica::load($nSala, "numeroSala"));
+            //COSTRUSICO L'OGGETTO DATAORA
+            try {
+                $dataora = new DateTime($data . "T" . $ora);
+            } catch (Exception $e) {
+                $dataora = time();
+            }
+            //AGGIUNGO LA PROIEZIONE ALLA LISTA DI RITORNO
+            array_push($return, new EProiezione($film,$salaV,$dataora));
+        }
 
+        return $return;
+    }
 }
