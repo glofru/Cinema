@@ -84,11 +84,11 @@ class EProiezione implements JsonSerializable
     }
 
     public function getData(): string {
-        return $this->dataproiezione->format('Y-m-d');
+        return $this->dataproiezione->format('d-m-Y');
     }
 
     public function getOra(): string {
-        return $this->dataproiezione->format('H:i:s');
+        return $this->dataproiezione->format('H:I:S');
     }
 
 //------------- ALTRI METODI ----------------

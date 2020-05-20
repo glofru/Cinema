@@ -223,9 +223,9 @@ class FDatabase
                 $durata = $result["durata"];
                 $durata = new DateInterval($durata);
                 $oraFilmPresente = $return[$i]["ora"];
-                $oraFineFilmPresente = new DateTime('1970-01-01T' . $oraFilmPresente);
-                $oraFineFilmPresente = $oraFineFilmPresente->add($durata);
-                $oraFineFilmPresente = $oraFineFilmPresente->format('h:i:s');
+                $oraFineFilmPresente = new DateTime($data . 'T' . $oraFilmPresente);
+                $oraFineFilmPresente->add($durata);
+                $oraFineFilmPresente = $oraFineFilmPresente->format('H:I:s');
                 if((strtotime($oraInizioNuovoFilm) - strtotime($oraFilmPresente) > 0) && (strtotime($oraFineFilmPresente) - strtotime($oraInizioNuovoFilm) > 0)) {
                     array_push($output,new EProiezione(FFilm::load($return[$i]["id"],"id")[0], ESalaVirtuale::fromSalaFisica(FSalaFisica::load($nsala,"numeroSala")),new DateTime($return["data"])));
                 }

@@ -129,7 +129,7 @@ class EFilm implements JsonSerializable
     }
 
     public function getDurataString() : string {
-        return $this->getDurata()->format('%i');
+        return $this->getDurata()->format('%h:%I');
     }
 
     /**
@@ -181,7 +181,7 @@ class EFilm implements JsonSerializable
     }
 
     public function getDataRilascioString(): string {
-        return $this->getDataRilascio()->format("Y-m-d");
+        return $this->getDataRilascio()->format("d-m-Y");
     }
 
     /**
@@ -260,7 +260,7 @@ class EFilm implements JsonSerializable
             'durata' => $this->getDurata()->i,
             'trailerURL' => $this->getTrailerURL(),
             'votoCritica' => $this->getVotoCritica(),
-            'dataDiRilascio' => $this->getDataRilascio()->format('Y-m-d'),
+            'dataDiRilascio' => $this->getDataRilascio()->format('d-m-Y'),
             'genere' => $this->getGenere(),
             'attori' => $this->getAttori(),
             'registi' => $this->getRegisti()

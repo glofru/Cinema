@@ -88,14 +88,15 @@ class FFilm
         $id = $row["idFilm"];
         $nome = $row["nome"];
         $descrizione = $row["descrizione"];
+        $durata = explode(':',$row["durata"]);
         try {
-            $durata = new DateInterval ("PT" . $row["durata"] . "M");
+            $durata = new DateInterval ("PT" . $durata[0] . "H" . $durata[1] . "M");
         } catch (Exception $e) {
             $durata = null;
         }
         $trailerURL = $row["trailerURL"];
         $votoCritica = floatval($row["votoCritica"]);
-        $dataRilascio = DateTime::createFromFormat("Y-m-d", $row["dataRilascio"]);
+        $dataRilascio = DateTime::createFromFormat("d-m-Y", $row["dataRilascio"]);
         $genere = EGenere::fromString($row["genere"]);
         $film = new EFilm($id, $nome, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere);
         foreach (self::recreateArray($row["attori"]) as $attore)
