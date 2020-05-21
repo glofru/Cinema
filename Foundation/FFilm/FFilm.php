@@ -83,7 +83,7 @@ class FFilm implements Foundation
         return self::parseResult($result);
     }
 
-    public static function update($value,$row,$newvalue,$newrow): bool
+    public static function update($value, $row, $newvalue, $newrow): bool
     {
         $db = FDatabase::getInstance();
         if($db->updateTheDB(self::getClassName(), $value, $row, $newvalue, $newrow))
@@ -96,7 +96,7 @@ class FFilm implements Foundation
     public static function delete($value, $row): bool
     {
         $db = FDatabase::getInstance();
-        if($db->deleteFromDB(self::getClassName(),$value,$row)){
+        if($db->deleteFromDB(self::getClassName(), $value, $row)){
             return true;
         }
         return false;

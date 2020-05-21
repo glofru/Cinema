@@ -64,7 +64,7 @@ class FDatabase
         }
     }
 
-    public function saveToDBPosti($class, EProiezione $proiezione, EPosto $posto)
+    public function saveToDBDebole($class, EProiezione $proiezione, EPosto $posto)
     {
         try {
             $this->db->beginTransaction();
