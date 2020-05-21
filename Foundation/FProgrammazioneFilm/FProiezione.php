@@ -48,17 +48,16 @@ class FProiezione implements Foundation
         }
     }
 
-    public static function load($value,$row,$puntuale,$inizio,$fine): array {
+    public static function load($value, $row): array {
         $db = FDatabase::getInstance();
-        if($puntuale === true) {
-            $result = $db->loadFromDB(self::getClassName(),$value,$row);
-        }
-        else {
-            $result = $db->loadBetween(self::getClassName(),$inizio,$fine,"data");
-        }
-        if($result === null) {
-            return [];
-        }
+        $result = $db->loadFromDB(self::getClassName(),$value,$row);
+
+        return self::parseResult($result);
+    }
+
+    public static function loadBetween($value,$row,$inizio,$fine): array {
+        $db = FDatabase::getInstance();
+        $result = $db->loadBetween(self::getClassName(),$inizio,$fine,"data");
 
         return self::parseResult($result);
     }

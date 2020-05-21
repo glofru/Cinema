@@ -1,7 +1,7 @@
 <?php
 
 
-class FBiglietto implements Foundation
+class FBiglietto implements FoundationDebole
 {
     private static string $className = "FBiglietto";
     private static string $tableName = "Biglietto";
@@ -9,7 +9,7 @@ class FBiglietto implements Foundation
 
     public function __construct() {}
 
-    public static function associate(PDOStatement $sender, $biglietto) {
+    public static function associate(PDOStatement $sender, $biglietto, $obj2 = null) {
         if ($biglietto instanceof EBiglietto) {
             $sender->bindValue(':idProiezione', $biglietto->getProiezione()->getId(), PDO::PARAM_INT);
             $sender->bindValue(':posto', $biglietto->getPosto(), PDO::PARAM_STR);
@@ -58,7 +58,7 @@ class FBiglietto implements Foundation
         return self::parseResult($result)[0];
     }
 
-    public static function update($value,$row,$value2,$row2,$newvalue,$newrow): bool {
+    public static function update($value, $row, $value2, $row2, $newvalue, $newrow): bool {
         $db = FDatabase::getInstance();
         if($db->updateTheDBDebole(self::getClassName(),$value,$row,$value2,$row2,$newvalue,$newrow)){
             return true;

@@ -43,7 +43,7 @@ class EPosto implements JsonSerializable
 
     public static function fromString(string $posto, bool $libero) {
         $elem = explode(" ",$posto);
-        return new EPosto($elem[0],intval($elem[1]),$libero);
+        return new EPosto($elem[0], intval($elem[1]), $libero);
     }
 //-------------- SETTER ----------------------
     /**
