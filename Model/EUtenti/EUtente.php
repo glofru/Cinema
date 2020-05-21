@@ -52,6 +52,7 @@ class EUtente implements JsonSerializable
         $this->setUsername($username);
         $this->setEmail($email);
         $this->setPassword($password);
+
     }
 
     /**
