@@ -13,15 +13,16 @@ class ERegistrato extends EUtente
 
     /**
      * ERegistrato constructor.
+     * @param string $id
      * @param string $nome
      * @param string $cognome
      * @param string $username
      * @param string $email
      * @param string $password
      */
-    public function __construct(string $nome, string $cognome, string $username, string $email, string $password)
+    public function __construct(string $id, string $nome, string $cognome, string $username, string $email, string $password)
     {
-        parent::__construct($nome, $cognome, $username, $email, $password);
+        parent::__construct($id, $nome, $cognome, $username, $email, $password);
 
         $this->listagiudizi = array();
     }

@@ -39,20 +39,21 @@ class EUtente implements JsonSerializable
 
     /**
      * EUtente constructor.
+     * @param string $id
      * @param string $nome
      * @param string $cognome
      * @param string $username
      * @param string $email
      * @param string $password
      */
-    public function __construct(string $nome, string $cognome, string $username, string $email, string $password)
+    public function __construct(string $id, string $nome, string $cognome, string $username, string $email, string $password)
     {
+        $this->setId($id);
         $this->setNome($nome);
         $this->setCognome($cognome);
         $this->setUsername($username);
         $this->setEmail($email);
         $this->setPassword($password);
-
     }
 
     /**

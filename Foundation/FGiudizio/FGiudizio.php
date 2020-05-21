@@ -5,7 +5,7 @@ class FGiudizio
 {
     private static string $className = "FRegistrato";
     private static string $tableName = "Registrato";
-    private static string $valuesName = "(:idRegistrato,:film,:punteggio,:commento)";
+    private static string $valuesName = "(:idUtente,:film,:punteggio,:commento)";
 
     public function __construct()
     {
@@ -13,7 +13,7 @@ class FGiudizio
     }
     public function associate(PDOStatement $sender, EGiudizio $giudizio, FRegistrato $registrato)
     {
-        $sender->bindValue(':idRegistrato', $registrato->getidRegistrato(), PDO::PARAM_INT);
+        $sender->bindValue(':idUtente', $registrato->getidRegistrato(), PDO::PARAM_INT);
         $sender->bindValue(':film', $giudizio->getFilm(), PDO::PARAM_STR);
         $sender->bindValue(':emailUtente', $giudizio->getPunteggio(), PDO::PARAM_INT);
         $sender->bindValue(':costo', $giudizio->getCommento(), PDO::PARAM_STR);
@@ -47,7 +47,7 @@ class FGiudizio
         }
 
         $row = $result[0];
-        $idRegistrato = $row["idRegistrato"];
+        $idRegistrato = $row["idUtente"];
         $film = $row["film"];
         $punteggio = $row["commento"];
         $commento = $row["punteggio"];
@@ -65,7 +65,7 @@ class FGiudizio
             return $result;
         }
 
-        $idRegistrato = $result["idRegistrato"];
+        $idRegistrato = $result["idUtente"];
         $film = $row["film"];
         $punteggio = $row["commento"];
         $commento = $row["punteggio"];
