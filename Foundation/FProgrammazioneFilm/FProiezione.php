@@ -4,7 +4,7 @@
 class FProiezione implements Foundation
 {
     private static string $className = "FProiezione";
-    private static string $tableName = "Proiezioni";
+    private static string $tableName = "Proiezione";
     private static string $valuesName = "(:id,:idFilm,:data,:ora,:numerosala)";
 
     public function __construct() {}
@@ -15,7 +15,7 @@ class FProiezione implements Foundation
             $sender->bindValue(':idFilm', $proiezione->getFilm()->getId(), PDO::PARAM_INT);
             $sender->bindValue(':data',$proiezione->getDataSQL(),PDO::PARAM_STR);
             $sender->bindValue(':ora',$proiezione->getOra(),PDO::PARAM_STR);
-            $sender->bindValue(':numerosala',$proiezione->getSala(),PDO::PARAM_BOOL);
+            $sender->bindValue(':numerosala',$proiezione->getSala()->getNumeroSala(),PDO::PARAM_INT);
         } else {
             die("Not a projection!!");
         }
@@ -37,7 +37,7 @@ class FProiezione implements Foundation
 //------------- ALTRI METODI ----------------
     public static function save(EProiezione $proiezione) {
         $db = FDatabase::getInstance();
-        $test = $db->checkDisponibilita($proiezione->getSala()->getNumeroSala(),$proiezione->getData(),$proiezione->getOra());
+        $test = $db->checkDisponibilita($proiezione->getSala()->getNumeroSala(),$proiezione->getDataSQL(),$proiezione->getOra());
         if(sizeof($test) < 2){
             $id = $db->saveToDB(self::getClassName(),$proiezione);
             $proiezione->setId($id);
@@ -97,14 +97,17 @@ class FProiezione implements Foundation
         {
             //DATI DELLA PROIEZIONE
             $id = $row["idFilm"];
-            $nSala = intval($row["nSala"]);
+            $ID = $row["id"];
+            $nsala = intval($row["numerosala"]);
             $data = $row["data"];
             $ora = $row["ora"];
             //OTTENGO L'OGGETTO FILM
-            $film = FFilm::load('id', $id)[0];
+            $film = FFilm::load($id, 'id');
+            $film = $film[0];
             //DATI DELLA SALAVIRTUALE
             //COSTRUISCO L'OGGETTO SALAVIRTUALE
-            $salaV = ESalaVirtuale::fromSalaFisica(FSalaFisica::load($nSala, "numeroSala"));
+            $salaFisica = FSalaFisica::load(strval($nsala),"nSala");
+            $salaVirtuale = ESalaVirtuale::fromSalaFisica($salaFisica);
             //COSTRUSICO L'OGGETTO DATAORA
             try {
                 $dataora = new DateTime($data . "T" . $ora);
@@ -112,7 +115,10 @@ class FProiezione implements Foundation
                 $dataora = time();
             }
             //AGGIUNGO LA PROIEZIONE ALLA LISTA DI RITORNO
-            array_push($return, new EProiezione($film,$salaV,$dataora));
+            $new = new EProiezione($film,$salaVirtuale,$dataora);
+            $new->setId($ID);
+            array_push($return, $new);
+
         }
 
         return $return;

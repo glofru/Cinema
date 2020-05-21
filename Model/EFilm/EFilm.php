@@ -131,6 +131,11 @@ class EFilm implements JsonSerializable
         return $this->getDurata()->format('%h:%I');
     }
 
+    public function getDurataDB() : string {
+        $durata = explode(":",$this->getDurataString());
+        return "PT" . $durata[0] . "H" . $durata[1] . "M";
+    }
+
     /**
      * @param DateInterval $durata
      */

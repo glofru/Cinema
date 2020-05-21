@@ -58,7 +58,7 @@ class FPosto implements FoundationDebole
         if($result === null){
             return $result;
         }
-        $libero = $result["libero"];
+        $libero = $result[0]["libero"];
         return EPosto::fromString($posto,$libero);
     }
 

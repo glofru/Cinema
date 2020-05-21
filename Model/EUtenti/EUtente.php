@@ -141,7 +141,7 @@ class EUtente implements JsonSerializable
     }
 
     public function getId(): int {
-        return $this->id();
+        return $this->id;
     }
 
     /**

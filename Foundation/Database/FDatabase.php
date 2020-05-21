@@ -117,9 +117,8 @@ class FDatabase
 
     public function loadFromDBDebole($class, $value, string $row, $value2, $row2) {
         try {
-            $query = "SELECT * FROM " . $class::getTableName() . "' WHERE " . $row . "= '" . $value. "' AND " . $row2 . "= '" . $value2 . "';";
+            $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . "= '" . $value. "' AND " . $row2 . "= '" . $value2 . "';";
             $sender = $this->db->prepare($query);
-            $class::associate($sender,$value);
             $sender->execute();
             $returnedRows = $sender->rowCount();
             $return = [];
@@ -199,34 +198,37 @@ class FDatabase
 
     public function checkDisponibilita(int $nsala, string $data, string $oraInizioNuovoFilm) {
         try {
-            $query = "SELECT * FROM Proiezioni WHERE numeroSala = '" . strval($nsala) . "' AND data = '" . $data . "';";
+            $query = "SELECT * FROM Proiezione WHERE numerosala = '" . strval($nsala) . "' AND data = '" . $data . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
             $returnedRows = $sender->rowCount();
-            $result = [];
+            $proiezioni = [];
             $output = [];
             if($returnedRows == 0){
                 return [];
             }
             elseif ($returnedRows == 1) {
-                array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
+                array_push($proiezioni,$sender->fetch(PDO::FETCH_ASSOC));
             }
             else {
                 $sender->setFetchMode(PDO::FETCH_ASSOC);
                 while($elem = $sender->fetch()) {
-                    $return[] = $elem;
+                    $proiezioni[] = $elem;
                 }
             }
-            for($i=0;$i<sizeof($return);$i++) {
-                $result = $this->loadFromDB("FFilm",$return[$i]["id"],"id");
-                $durata = $result["durata"];
-                $durata = new DateInterval($durata);
-                $oraFilmPresente = $return[$i]["ora"];
-                $oraFineFilmPresente = new DateTime($data . 'T' . $oraFilmPresente);
-                $oraFineFilmPresente->add($durata);
-                $oraFineFilmPresente = $oraFineFilmPresente->format('H:i:s');
-                if((strtotime($oraInizioNuovoFilm) - strtotime($oraFilmPresente) > 0) && (strtotime($oraFineFilmPresente) - strtotime($oraInizioNuovoFilm) > 0)) {
-                    array_push($output,new EProiezione(FFilm::load($return[$i]["id"],"id")[0], ESalaVirtuale::fromSalaFisica(FSalaFisica::load($nsala,"numeroSala")),new DateTime($return["data"])));
+            for($i=0;$i<sizeof($proiezioni);$i++) {
+                $film = FFilm::load($proiezioni[$i]["idFilm"],"id");
+                $durata = $film[0]->getDurataDB();
+                $durata = new DateInterval("PT" . $durata[0] . "H" . $durata[1] . "M");
+                $oraFilmPresente = $proiezioni[$i]["ora"];
+                $oraFine = DateTime::createFromFormat("H:i:s",$oraFilmPresente);
+                $oraFine->add($durata);
+                if((strtotime($oraInizioNuovoFilm) - strtotime($oraFilmPresente) >= 0) && (strtotime($oraInizioNuovoFilm) - strtotime($oraInizioNuovoFilm)) >= 0) {
+                    $salaFisica = FSalaFisica::load(strval($nsala),"nSala");
+                    $salaVirtuale = ESalaVirtuale::fromSalaFisica($salaFisica);
+                    $data = DateTime::createFromFormat("Y-m-d",$proiezioni[$i]["data"]);
+                    $proiezione = new EProiezione($film[0], $salaVirtuale, $data);
+                    array_push($output,$proiezione);
                 }
             }
             return $output;
@@ -361,19 +363,21 @@ class FDatabase
     public function occupaPosto($idProiezione,$posto,$emailUtente,$costo) {
         try {
             $this->db->beginTransaction();
-            $query = "SELECT * FROM Posti WHERE idProiezione = '" . $idProiezione . "' AND posto = '" . $posto . "' LOCK IN SHARE MODE";
+            $query = "SELECT * FROM " . "Posti" . " WHERE " . "idProiezione" . "= '" . $idProiezione. "' AND " . "posizione" . "= '" . $posto . "' LOCK IN SHARE MODE;";
             $sender = $this->db->prepare($query);
             $sender->execute();
             $acquisto = $sender->fetch(PDO::FETCH_ASSOC);
+            echo "POSTO: " . $acquisto["posizione"];
             $islibero = $acquisto["libero"];
             if(boolval($islibero) === true) {
-                $query = "UPDATE Posti SET libero = 'TRUE' WHERE idProiezione = '" . $idProiezione . "' AND posto = '" . $posto . "' LOCK IN SHARE MODE";
+                $query = "UPDATE Posti SET libero = '0' WHERE idProiezione = '" . $idProiezione . "' AND posizione = '" . $posto . "';";
+                echo $query;
                 $sender = $this->db->prepare($query);
                 $sender->execute();
                 $this->db->commit();
-                $utente = FUtente::loadEmail($emailUtente);
+                $utente = FUtente::load($emailUtente,"email");
                 $posto = EPosto::fromString($posto,"false");
-                $proiezione = FProiezione::load($idProiezione,"id",true,null,null);
+                $proiezione = FProiezione::load($idProiezione,"id");
                 $proiezione = $proiezione[0];
                 $biglietto = new EBiglietto($proiezione,$posto,$utente,$costo);
                 FBiglietto::save($biglietto);
@@ -381,7 +385,7 @@ class FDatabase
             }
         } catch(PDOException $exception) {
             $this->db->rollBack();
-            echo ("Errore nel Database: " . $exception->getMessage());
+            echo("Errore nel Database: " . $exception->getMessage());
             return null;
         }
     }
@@ -389,14 +393,14 @@ class FDatabase
     public function liberaPosto($idProiezione, $posto, $emailUtente) {
         try {
             $this->db->beginTransaction();
-            $query = "SELECT * FROM Posti WHERE idProiezione = '" . $idProiezione . "' AND posto = '" . $posto . "' LOCK IN SHARE MODE";
+            $query = "SELECT * FROM " . "Posti" . " WHERE " . "idProiezione" . "= '" . $idProiezione. "' AND " . "posizione" . "= '" . $posto . "' LOCK IN SHARE MODE;";
             $sender = $this->db->prepare($query);
             $sender->execute();
             $acquisto = $sender->fetch(PDO::FETCH_ASSOC);
             $islibero = $acquisto["libero"];
             $biglietto = FBiglietto::loadDoppio($idProiezione, "idProiezione", $posto, "posto");
             if(boolval($islibero) === false && ($biglietto->getUtente()->getEmail() === $emailUtente)) {
-                $query = "UPDATE Posti SET libero = 'FALSE' WHERE idProiezione = '" . $idProiezione . "' AND posto = '" . $posto . "' LOCK IN SHARE MODE";
+                $query = "UPDATE Posti SET libero = '1' WHERE idProiezione = '" . $idProiezione . "' AND posizione = '" . $posto . "';";
                 $sender = $this->db->prepare($query);
                 $sender->execute();
                 $this->db->commit();

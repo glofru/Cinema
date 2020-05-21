@@ -12,7 +12,7 @@ class FBiglietto implements FoundationDebole
     public static function associate(PDOStatement $sender, $biglietto, $obj2 = null) {
         if ($biglietto instanceof EBiglietto) {
             $sender->bindValue(':idProiezione', $biglietto->getProiezione()->getId(), PDO::PARAM_INT);
-            $sender->bindValue(':posto', $biglietto->getPosto(), PDO::PARAM_STR);
+            $sender->bindValue(':posto', $biglietto->getPosto()->getPostoDB(), PDO::PARAM_STR);
             $sender->bindValue(':idUtente',$biglietto->getUtente()->getId(),PDO::PARAM_INT);
             $sender->bindValue(':costo',$biglietto->getCosto(),PDO::PARAM_STR);
         } else {
@@ -80,12 +80,12 @@ class FBiglietto implements FoundationDebole
         foreach ($result as $row) {
             //PROIEZIONE
             $id = $row["idProiezione"];
-            $proiezione = FProiezione::load($id, "id", true, null, null)[0];
+            $proiezione = FProiezione::load($id, "id")[0];
             //POSTO
             $posto = $row["posto"];
-            $posto = FPosto::loadDoppio($proiezione, $posto);
+            $posto = FPosto::loadDoppio($proiezione->getId(), $posto);
             //UTENTE
-            $utente = FUtente::load(intval($result["idUtente"]));
+            $utente = FUtente::load(intval($row["idUtente"]),"id");
             $costo = floatval($row["costo"]);
             array_push($return, new EBiglietto($proiezione,$posto,$utente,$costo));
         }

@@ -5,7 +5,7 @@ class FUtente implements Foundation
 {
     private static string $className = "FUtente";
     private static string $tableName = "Utenti";
-    private static string $valuesName = "(:idUtente,:nome,:cognome,:username,:email,:password,:isAdmin)";
+    private static string $valuesName = "(:id,:username,:email,:nome,:cognome,:password,:isAdmin)";
 
     private bool $isAdmin;
     private int $idUtente;
@@ -47,11 +47,11 @@ class FUtente implements Foundation
 
     public static function associate(PDOStatement $sender, $utente){
         if ($utente instanceof EUtente) {
-            $sender->bindValue(':idUtente', NULL, PDO::PARAM_INT);
-            $sender->bindValue(':nome', $utente->getNome(), PDO::PARAM_STR);
-            $sender->bindValue(':cognome', $utente->getCognome(), PDO::PARAM_STR);
+            $sender->bindValue(':id', NULL, PDO::PARAM_INT);
             $sender->bindValue(':username', $utente->getUsername(), PDO::PARAM_STR);
             $sender->bindValue(':email', $utente->getEmail(), PDO::PARAM_STR);
+            $sender->bindValue(':nome', $utente->getNome(), PDO::PARAM_STR);
+            $sender->bindValue(':cognome', $utente->getCognome(), PDO::PARAM_STR);
             $sender->bindValue(':password', $utente->getPassword(), PDO::PARAM_STR);
             $sender->bindValue(':isAdmin', $utente instanceof EAdmin, PDO::PARAM_BOOL);
         } else {
@@ -198,7 +198,7 @@ class FUtente implements Foundation
         $return = [];
 
         foreach ($result as $row) {
-            $id = $row["idUtente"];
+            $id = $row["id"];
             $nome = $row["nome"];
             $cognome = $row["cognome"];
             $username = $row["username"];

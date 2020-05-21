@@ -85,6 +85,10 @@ class EPosto implements JsonSerializable
         return $this->occupato;
     }
 
+    public function getPostoDB(): string {
+        return $this->getFila() . " " . strval($this->getNumeroPosto());
+    }
+
 //------------- ALTRI METODI ----------------
 
     /**

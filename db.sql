@@ -36,10 +36,14 @@ CREATE TABLE Proiezione(
     `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
     `data` DATE NOT NULL,
     `ora` TEXT NOT NULL,
-    `nSala` INTEGER NOT NULL,
-    FOREIGN KEY (`nSala`)
+    `numerosala` INTEGER NOT NULL,
+    `idFilm` INTEGER NOT NULL,
+    FOREIGN KEY (`numerosala`)
         REFERENCES SalaFisica(`nSala`)
-    ON UPDATE CASCADE
+    ON UPDATE CASCADE,
+    FOREIGN KEY (`idFilm`)
+        REFERENCES Film(`id`)
+        ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 CREATE TABLE Posti(
