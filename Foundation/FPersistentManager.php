@@ -33,8 +33,7 @@ class FPersistentManager
     }
 
     public function save($istanza) {
-        $class = get_class($istanza);
-        $class = self::getClass($class);
+        $class = self::getClass(get_class($istanza));
         $class::save($istanza);
     }
 
@@ -44,30 +43,37 @@ class FPersistentManager
     }
 
     public function load($value,$row,$class) {
+        $class = self::getClass($class);
         return $class::load($value,$row);
     }
 
     public function loadDebole($value,$row,$value2,$row2,$class) {
+        $class = self::getClass($class);
         return $class::loadDoppio($value,$row,$value2,$row2);
     }
 
     public function loadProiezioni($value,$row,$puntuale,$inizio,$fine,$class) {
+        $class = self::getClass($class);
         return $class::load($value,$row,$puntuale,$inizio,$fine);
     }
 
     public function delete($value,$row,$class) {
+        $class = self::getClass($class);
         $class::delete($value,$row);
     }
 
     public function deleteDebole($value,$row,$value2,$row2,$class) {
+        $class = self::getClass($class);
         $class::delete($value,$row,$value2,$row2);
     }
 
     public function update($value,$row,$newValue,$newRow,$class) {
+        $class = self::getClass($class);
         $class::update($value,$row,$newValue,$newRow);
     }
 
     public function updateDebole($value,$row,$value2,$row2,$newValue,$newRow,$class) {
+        $class = $this::getClass($class);
         $class::update($value,$row,$value2,$row2,$newValue,$newRow);
     }
 

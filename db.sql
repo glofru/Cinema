@@ -63,13 +63,13 @@ CREATE TABLE Biglietto (
     `costo` TEXT NOT NULL,
     PRIMARY KEY (`idProiezione`,`posto`),
     FOREIGN KEY (`idUtente`)
-        REFERENCES UtenteRegistrato(`id`)
+        REFERENCES Utenti(`id`)
     ON UPDATE CASCADE,
     FOREIGN KEY (`idProiezione`)
         REFERENCES Proiezione(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE UtenteRegistrato(
+CREATE TABLE Utenti(
     `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
     `username` varchar(15) NOT NULL UNIQUE,
     `email` varchar(40) NOT NULL UNIQUE,
@@ -101,7 +101,7 @@ CREATE TABLE MediaUtente(
     `date` DATE NOT NULL,
     `immagine` BLOB NOT NULL,
     FOREIGN KEY (`idUtente`)
-        REFERENCES UtenteRegistrato(`id`)
+        REFERENCES Utenti(`id`)
     ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 

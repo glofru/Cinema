@@ -160,14 +160,14 @@ class FFilm implements Foundation
             $genere = EGenere::fromString($row["genere"]);
             $film = new EFilm($nome, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere);
             $film->setId($id);
-            foreach (self::recreateArray($row["attori"]) as $attore)
+            /*foreach (self::recreateArray($row["attori"]) as $attore)
             {
                 $film->addAttore($attore);
             }
             foreach (self::recreateArray($row["registi"]) as $regista)
             {
                 $film->addRegista($regista);
-            }
+            }*/
 
             array_push($return, $film);
         }

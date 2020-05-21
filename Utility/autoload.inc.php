@@ -24,9 +24,10 @@ function autoloader_foundation($class){
     include_once('../Foundation/FForum/' . $class  . '.php');
     include_once('../Foundation/FMedia/' . $class  . '.php');
     include_once('../Foundation/FPrenotazione/' . $class  . '.php');
-    include_once('../Foundation/FPrenotazioneFilm/' . $class  . '.php');
+    include_once('../Foundation/FProgrammazioneFilm/' . $class  . '.php');
     include_once('../Foundation/FSale/' . $class  . '.php');
     include_once('../Foundation/FUtente/' . $class  . '.php');
+    include_once('../Foundation/');
 }
 
 spl_autoload_register('autoloader_view');
