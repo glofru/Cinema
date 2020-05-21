@@ -5,11 +5,11 @@ class FMedia
 {
     private static string $className = "FMedia";
 
-    private static string $tableNameUtente = "MediaUtenti";
-    private static string $tableNameLocandina = "MediaLocandine";
+    private static string $tableNameUtente = "MediaUtente";
+    private static string $tableNameLocandina = "MediaLocandina";
 
-    private static string $valuesNameUtente = "(:idMedia,:fileName,:mimeType,:idUtente,:immagine)";
-    private static string $valuesNameLocandina = "(:idMedia,:fileName,:mimeType,:idFilm,:immagine)";
+    private static string $valuesNameUtente = "(:id,:fileName,:mimeType,:idUtente,:date,:immagine)";
+    private static string $valuesNameLocandina = "(:id,:fileName,:mimeType,:idFilm,:date,:immagine)";
 
     public function __construct() {}
 
@@ -17,10 +17,10 @@ class FMedia
     {
         $path = $_FILES[$media->getFileName()]['tmp_name'];
         $file = fopen($path,"rb") or die ("Errore nell'apertura del file");
-        $sender->bindValue(":idMedia", $media->getId(), PDO::PARAM_INT);
+        $sender->bindValue(":id", $media->getId(), PDO::PARAM_INT);
         $sender->bindValue(":fileName", $media->getFileName(), PDO::PARAM_STR);
         $sender->bindValue(":mimeType", $media->getMimeType(), PDO::PARAM_STR);
-
+        $sender->bindValue(":date",$media->getDateStringSQL(),PDO::PARAM_STR);
         if ($media instanceof EMediaUtente)
         {
             $sender->bindValue(":idUtente", $media->getUtente()->getId(), PDO::PARAM_STR);
@@ -92,16 +92,18 @@ class FMedia
         $fileName = $row["fileName"];
         $mimeType = $row["mimeType"];
         $immagine = $row["immagine"];
-
+        $date = $row["date"];
+        $date = DateTime::createFromFormat('Y-m-d',$date);
         if (array_key_exists("idUtente", $row))
         {
             $idUtente = $row["idUtente"];
-            return new EMediaUtente($idMedia, $fileName, $mimeType, $idUtente, $immagine);
+            $utente = FUtente::load($idUtente,"id");
+            return new EMediaUtente($idMedia, $fileName, $mimeType, null, $immagine,$utente);
         }
         else if (array_key_exists("idFilm", $row))
         {
             $idFilm = $row["idFilm"];
-            return new EMediaLocandina($idMedia, $fileName, $mimeType, $idFilm, $immagine);
+            return new EMediaLocandina($idMedia, $fileName, $mimeType, $date, $idFilm, $immagine);
         }
 
         return null;

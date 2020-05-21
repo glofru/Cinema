@@ -89,14 +89,29 @@ CREATE TABLE Giudizio(
     ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE Media(
-    `id` INTEGER NOT NULL,
-    `isLocandina` BOOLEAN NOT NULL,
-    `tipo` TEXT NOT NULL,
-    `nome` TEXT NOT NULL,
+CREATE TABLE MediaUtente(
+    `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
+    `fileName` TEXT NOT NULL,
+    `mimeType` TEXT NOT NULL,
+    `idUtente` INTEGER NOT NULL,
+    `date` DATE NOT NULL,
     `immagine` BLOB NOT NULL,
-    PRIMARY KEY (`id`,`isLocandina`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+    FOREIGN KEY (`idUtente`)
+        REFERENCES UtenteRegistrato(`id`)
+    ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+CREATE TABLE MediaLocandina(
+    `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
+    `fileName` TEXT NOT NULL,
+    `mimeType` TEXT NOT NULL,
+    `idFilm` INTEGER NOT NULL,
+    `date` DATE NOT NULL,
+    `immagine` BLOB NOT NULL,
+    FOREIGN KEY (`idFilm`)
+        REFERENCES Film(`id`)
+    ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 INSERT INTO `Film` (`id`, `nome`, `dataRilascio`, `trailerURL`, `descrizione`, `durata`, `votocritica`, `genere`) VALUES
 (1, 'LA SOTTILE LINEA ROSSA', '1998-12-22', 'https://www.youtube.com/watch?v=qOiTMswFkD8', 'La sottile linea rossa (The Thin Red Line) è un film del 1998 scritto e diretto da Terrence Malick, con un ricchissimo cast di star che hanno accettato anche ruoli secondari e minori pur di apparirvi. Si tratta del terzo lungometraggio del cineasta statunitense, che in 25 anni di carriera prima di quest''opera aveva realizzato solo altre due pellicole.\r\n\r\nIl film è tratto dall''omonimo romanzo di James Jones (1962), vero reduce della guerra nel Pacifico. Il titolo si riferisce a un verso di Rudyard Kipling dal suo poema "Tommy", tratto dalla collezione Barrack-Room Ballads, nel quale Kipling descrive i soldati come "una sottile linea rossa di eroi". Il poema di Kipling è a sua volta basato sull''azione dei soldati britannici nel 1854 durante la guerra di Crimea, chiamata "The Thin Red Line (Battle of Balaclava)".', '2:50', '8', 'GUERRA'),

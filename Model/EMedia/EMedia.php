@@ -117,6 +117,16 @@ class EMedia implements JsonSerializable
         }
     }
 
+    public function getDateString(): string
+    {
+        return $this->getDate()->format('d-m-Y');
+    }
+
+    public function getDateStringSQL(): string
+    {
+        return $this->getDate()->format('Y-m-d');
+    }
+
     /**
      * @return mixed
      */
