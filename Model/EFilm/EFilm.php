@@ -42,7 +42,7 @@ class EFilm implements JsonSerializable
      * @var array
      */
     private array $registi;
-    /**
+    /**,
      * @var array
      */
     private array $attori;
@@ -58,9 +58,8 @@ class EFilm implements JsonSerializable
      * @param DateTime $dataDiRilascio
      * @param EGenere $genere
      */
-    public function __construct(int $id, string $nome, string $descrizione, DateInterval $durata, string $trailerURL, float $votoCritica, DateTime $dataDiRilascio, string $genere)
+    public function __construct(string $nome, string $descrizione, DateInterval $durata, string $trailerURL, float $votoCritica, DateTime $dataDiRilascio, string $genere)
     {
-        $this->setId($id);
         $this->setNome($nome);
         $this->setDescrizione($descrizione);
         $this->setDurata($durata);

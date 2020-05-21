@@ -5,13 +5,13 @@ class FFilm implements Foundation
 {
     private static string $className = "FFilm";
     private static string $tableName = "Film";
-    private static string $valuesName = "(:idFilm,:nome,:descrizione,:durata,:trailerURL,:votoCritica,:dataDiRilascio,:genere,:attori,:registi)";
+    private static string $valuesName = "(:id,:nome,:descrizione,:durata,:trailerURL,:votoCritica,:dataRilascio,:genere,:attori,:registi)";
 
     public function __construct() {}
 
     public static function associate(PDOStatement $sender, $film) {
         if ($film instanceof EFilm) {
-            $sender->bindValue(':idFilm', $film->getId(), PDO::PARAM_INT);
+            $sender->bindValue(':id', NULL, PDO::PARAM_INT);
             $sender->bindValue(':nome', $film->getNome(), PDO::PARAM_STR);
             $sender->bindValue(':descrizione', $film->getDescrizione(), PDO::PARAM_STR);
             $sender->bindValue(':durata', $film->getDurataString(), PDO::PARAM_STR);
@@ -68,7 +68,8 @@ class FFilm implements Foundation
     public static function save(EFilm $film)
     {
         $db = FDatabase::getInstance();
-        $db->saveToDB(self::getClassName(), $film);
+        $id = $db->saveToDB(self::getClassName(), $film);
+        $film->setId($id);
     }
 
     public static function load (string $value, string $row): array
@@ -144,7 +145,7 @@ class FFilm implements Foundation
         $return = array();
         foreach ($result as $row)
         {
-            $id = $row["idFilm"];
+            $id = $row["id"];
             $nome = $row["nome"];
             $descrizione = $row["descrizione"];
             $durata = explode(':',$row["durata"]);
@@ -157,7 +158,8 @@ class FFilm implements Foundation
             $votoCritica = floatval($row["votoCritica"]);
             $dataRilascio = DateTime::createFromFormat("Y-m-d", $row["dataRilascio"]);
             $genere = EGenere::fromString($row["genere"]);
-            $film = new EFilm($id, $nome, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere);
+            $film = new EFilm($nome, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere);
+            $film->setId($id);
             foreach (self::recreateArray($row["attori"]) as $attore)
             {
                 $film->addAttore($attore);

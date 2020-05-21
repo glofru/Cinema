@@ -92,7 +92,6 @@ class FDatabase
             try {
                 $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . "='" . $value . "';";
                 $sender = $this->db->prepare($query);
-                $class::associate($sender,$value);
                 $sender->execute();
                 $returnedRows = $sender->rowCount();
                 $return = [];
