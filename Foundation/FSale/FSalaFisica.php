@@ -1,7 +1,7 @@
 <?php
 
 
-class FSalaFisica
+class FSalaFisica implements Foundation
 {
     private static string $className = "FSalaFisica";
     private static string $tableName = "SalaFisica";
@@ -9,11 +9,15 @@ class FSalaFisica
 
     public function __construct() {}
 
-    public function associate(PDOStatement $sender, ESalaFisica $salaFisica){
-        $sender->bindValue(':nSala', $salaFisica->getNumeroSala(), PDO::PARAM_INT);
-        $sender->bindValue(':nFile', $salaFisica->getNFile(), PDO::PARAM_INT);
-        $sender->bindValue(':nPostiFila', $salaFisica->getNPostiFila(), PDO::PARAM_STR);
-        $sender->bindValue(':disponibile', $salaFisica->isDisponibile(), PDO::PARAM_STR);
+    public static function associate(PDOStatement $sender, $salaFisica){
+        if ($salaFisica instanceof ESalaFisica) {
+            $sender->bindValue(':nSala', $salaFisica->getNumeroSala(), PDO::PARAM_INT);
+            $sender->bindValue(':nFile', $salaFisica->getNFile(), PDO::PARAM_INT);
+            $sender->bindValue(':nPostiFila', $salaFisica->getNPostiFila(), PDO::PARAM_STR);
+            $sender->bindValue(':disponibile', $salaFisica->isDisponibile(), PDO::PARAM_STR);
+        } else {
+            die("Not a phisical room!!");
+        }
     }
 //----------------- GETTER --------------------
     public static function getClassName() {

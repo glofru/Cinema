@@ -1,7 +1,7 @@
 <?php
 
 
-class FPersona
+class FPersona implements Foundation
 {
     private static string $className = "FPersona";
     private static string $tableName = "Persona";
@@ -9,13 +9,17 @@ class FPersona
 
     public function __construct() {}
 
-    public function associate(PDOStatement $sender, EPersona $persona) {
-        $sender->bindValue(':idPersona', $persona->getId(), PDO::PARAM_INT);
-        $sender->bindValue(':nome', $persona->getNome(), PDO::PARAM_STR);
-        $sender->bindValue(':cognome', $persona->getCognome(), PDO::PARAM_STR);
-        $sender->bindValue(':imdbUrl', $persona->getImdbUrl(), PDO::PARAM_STR);
-        $sender->bindValue(':isAttore', $persona->isAttore(), PDO::PARAM_BOOL);
-        $sender->bindValue(':isRegista', $persona->isRegista(), PDO::PARAM_BOOL);
+    public static function associate(PDOStatement $sender, $persona) {
+        if ($persona instanceof EPersona) {
+            $sender->bindValue(':idPersona', $persona->getId(), PDO::PARAM_INT);
+            $sender->bindValue(':nome', $persona->getNome(), PDO::PARAM_STR);
+            $sender->bindValue(':cognome', $persona->getCognome(), PDO::PARAM_STR);
+            $sender->bindValue(':imdbUrl', $persona->getImdbUrl(), PDO::PARAM_STR);
+            $sender->bindValue(':isAttore', $persona->isAttore(), PDO::PARAM_BOOL);
+            $sender->bindValue(':isRegista', $persona->isRegista(), PDO::PARAM_BOOL);
+        } else {
+            die("Not a person!!");
+        }
     }
 
     public static function getClassName()

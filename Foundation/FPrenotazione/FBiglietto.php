@@ -1,7 +1,7 @@
 <?php
 
 
-class FBiglietto
+class FBiglietto implements Foundation
 {
     private static string $className = "FBiglietto";
     private static string $tableName = "Biglietto";
@@ -9,11 +9,15 @@ class FBiglietto
 
     public function __construct() {}
 
-    public function associate(PDOStatement $sender, EBiglietto $biglietto) {
-        $sender->bindValue(':idProiezione', $biglietto->getProiezione()->getId(), PDO::PARAM_INT);
-        $sender->bindValue(':posto', $biglietto->getPosto(), PDO::PARAM_STR);
-        $sender->bindValue(':idUtente',$biglietto->getUtente()->getId(),PDO::PARAM_INT);
-        $sender->bindValue(':costo',$biglietto->getCosto(),PDO::PARAM_STR);
+    public static function associate(PDOStatement $sender, $biglietto) {
+        if ($biglietto instanceof EBiglietto) {
+            $sender->bindValue(':idProiezione', $biglietto->getProiezione()->getId(), PDO::PARAM_INT);
+            $sender->bindValue(':posto', $biglietto->getPosto(), PDO::PARAM_STR);
+            $sender->bindValue(':idUtente',$biglietto->getUtente()->getId(),PDO::PARAM_INT);
+            $sender->bindValue(':costo',$biglietto->getCosto(),PDO::PARAM_STR);
+        } else {
+            die("Not a ticket!!");
+        }
     }
 //----------------- GETTER --------------------
     public static function getClassName() {

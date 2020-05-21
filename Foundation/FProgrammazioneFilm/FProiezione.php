@@ -1,7 +1,7 @@
 <?php
 
 
-class FProiezione
+class FProiezione implements Foundation
 {
     private static string $className = "FProiezione";
     private static string $tableName = "Proiezioni";
@@ -9,12 +9,17 @@ class FProiezione
 
     public function __construct() {}
 
-    public function associate(PDOStatement $sender, EProiezione $proiezione) {
-        $sender->bindValue(':id', NULL, PDO::PARAM_INT);
-        $sender->bindValue(':idFilm', $proiezione->getFilm()->getId(), PDO::PARAM_INT);
-        $sender->bindValue(':data',$proiezione->getDataSQL(),PDO::PARAM_STR);
-        $sender->bindValue(':ora',$proiezione->getOra(),PDO::PARAM_STR);
-        $sender->bindValue(':numerosala',$proiezione->getSala(),PDO::PARAM_BOOL);
+    public static function associate(PDOStatement $sender, $proiezione) {
+        if ($proiezione instanceof EProiezione) {
+            $sender->bindValue(':id', NULL, PDO::PARAM_INT);
+            $sender->bindValue(':idFilm', $proiezione->getFilm()->getId(), PDO::PARAM_INT);
+            $sender->bindValue(':data',$proiezione->getDataSQL(),PDO::PARAM_STR);
+            $sender->bindValue(':ora',$proiezione->getOra(),PDO::PARAM_STR);
+            $sender->bindValue(':numerosala',$proiezione->getSala(),PDO::PARAM_BOOL);
+        } else {
+            die("Not a projection!!");
+        }
+
     }
 //----------------- GETTER --------------------
     public static function getClassName() {

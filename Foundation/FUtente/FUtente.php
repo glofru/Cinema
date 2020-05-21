@@ -1,7 +1,7 @@
 <?php
 
 
-class FUtente
+class FUtente implements Foundation
 {
     private static string $className = "FUtente";
     private static string $tableName = "Utenti";
@@ -45,14 +45,18 @@ class FUtente
 
     public function __construct() {}
 
-    public static function associate(PDOStatement $sender, EUtente $utente){
-        $sender->bindValue(':idUtente', NULL, PDO::PARAM_INT);
-        $sender->bindValue(':nome', $utente->getNome(), PDO::PARAM_STR);
-        $sender->bindValue(':cognome', $utente->getCognome(), PDO::PARAM_STR);
-        $sender->bindValue(':username', $utente->getUsername(), PDO::PARAM_STR);
-        $sender->bindValue(':email', $utente->getEmail(), PDO::PARAM_STR);
-        $sender->bindValue(':password', $utente->getPassword(), PDO::PARAM_STR);
-        $sender->bindValue(':isAdmin', $utente instanceof EAdmin, PDO::PARAM_BOOL);
+    public static function associate(PDOStatement $sender, $utente){
+        if ($utente instanceof EUtente) {
+            $sender->bindValue(':idUtente', NULL, PDO::PARAM_INT);
+            $sender->bindValue(':nome', $utente->getNome(), PDO::PARAM_STR);
+            $sender->bindValue(':cognome', $utente->getCognome(), PDO::PARAM_STR);
+            $sender->bindValue(':username', $utente->getUsername(), PDO::PARAM_STR);
+            $sender->bindValue(':email', $utente->getEmail(), PDO::PARAM_STR);
+            $sender->bindValue(':password', $utente->getPassword(), PDO::PARAM_STR);
+            $sender->bindValue(':isAdmin', $utente instanceof EAdmin, PDO::PARAM_BOOL);
+        } else {
+            die("Not a user!!");
+        }
     }
 
 

@@ -1,7 +1,7 @@
 <?php
 
 
-class FFilm
+class FFilm implements Foundation
 {
     private static string $className = "FFilm";
     private static string $tableName = "Film";
@@ -9,17 +9,21 @@ class FFilm
 
     public function __construct() {}
 
-    public function associate(PDOStatement $sender, EFilm $film) {
-        $sender->bindValue(':idFilm', $film->getId(), PDO::PARAM_INT);
-        $sender->bindValue(':nome', $film->getNome(), PDO::PARAM_STR);
-        $sender->bindValue(':descrizione',$film->getDescrizione(),PDO::PARAM_STR);
-        $sender->bindValue(':durata',$film->getDurataString(),PDO::PARAM_STR);
-        $sender->bindValue(':trailerURL', $film->getTrailerURL(), PDO::PARAM_STR);
-        $sender->bindValue(':votoCritica', $film->getVotoCritica(), PDO::PARAM_STR);
-        $sender->bindValue(':dataRilascio', $film->getdataRilascioSQL(), PDO::PARAM_STR);
-        $sender->bindValue(':genere', $film->getGenere(), PDO::PARAM_STR);
-        $sender->bindValue(':attori', self::splitArray($film->getAttori()), PDO::PARAM_STR);
-        $sender->bindValue(':registi', self::splitArray($film->getRegisti()), PDO::PARAM_STR);
+    public static function associate(PDOStatement $sender, $film) {
+        if ($film instanceof EFilm) {
+            $sender->bindValue(':idFilm', $film->getId(), PDO::PARAM_INT);
+            $sender->bindValue(':nome', $film->getNome(), PDO::PARAM_STR);
+            $sender->bindValue(':descrizione', $film->getDescrizione(), PDO::PARAM_STR);
+            $sender->bindValue(':durata', $film->getDurataString(), PDO::PARAM_STR);
+            $sender->bindValue(':trailerURL', $film->getTrailerURL(), PDO::PARAM_STR);
+            $sender->bindValue(':votoCritica', $film->getVotoCritica(), PDO::PARAM_STR);
+            $sender->bindValue(':dataRilascio', $film->getdataRilascioSQL(), PDO::PARAM_STR);
+            $sender->bindValue(':genere', $film->getGenere(), PDO::PARAM_STR);
+            $sender->bindValue(':attori', self::splitArray($film->getAttori()), PDO::PARAM_STR);
+            $sender->bindValue(':registi', self::splitArray($film->getRegisti()), PDO::PARAM_STR);
+        } else {
+            die("Not a film!!");
+        }
     }
 
     private static function splitArray(array $a): string

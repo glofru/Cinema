@@ -9,7 +9,7 @@ class FPosto
 
     public function __construct() {}
 
-    public function associate(PDOStatement $sender, EProiezione $proiezione, EPosto $posto){
+    public static function associate(PDOStatement $sender, EProiezione $proiezione, EPosto $posto){
         $sender->bindValue(':idProiezione', $proiezione->getId(), PDO::PARAM_INT);
         $sender->bindValue(':posizione', $posto, PDO::PARAM_STR);
         $sender->bindValue(':libero', true, PDO::PARAM_BOOL);

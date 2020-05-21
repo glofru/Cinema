@@ -1,7 +1,7 @@
 <?php
 
 
-class FMedia
+class FMedia implements Foundation
 {
     private static string $className = "FMedia";
 
@@ -13,27 +13,31 @@ class FMedia
 
     public function __construct() {}
 
-    public static function associate(PDOStatement $sender, EMedia $media)
+    public static function associate(PDOStatement $sender, $media)
     {
-        $path = $_FILES[$media->getFileName()]['tmp_name'];
-        $file = fopen($path,"rb") or die ("Errore nell'apertura del file");
-        $sender->bindValue(":id", $media->getId(), PDO::PARAM_INT);
-        $sender->bindValue(":fileName", $media->getFileName(), PDO::PARAM_STR);
-        $sender->bindValue(":mimeType", $media->getMimeType(), PDO::PARAM_STR);
-        $sender->bindValue(":date",$media->getDateStringSQL(),PDO::PARAM_STR);
-        if ($media instanceof EMediaUtente)
-        {
-            $sender->bindValue(":idUtente", $media->getUtente()->getId(), PDO::PARAM_STR);
-        }
-        else if ($media instanceof EMediaLocandina)
-        {
-            $sender->bindValue(":idFilm", $media->getFilm()->getId(), PDO::PARAM_STR);
-        }
+        if ($media instanceof EMedia) {
+            $path = $_FILES[$media->getFileName()]['tmp_name'];
+            $file = fopen($path,"rb") or die ("Errore nell'apertura del file");
+            $sender->bindValue(":id", $media->getId(), PDO::PARAM_INT);
+            $sender->bindValue(":fileName", $media->getFileName(), PDO::PARAM_STR);
+            $sender->bindValue(":mimeType", $media->getMimeType(), PDO::PARAM_STR);
+            $sender->bindValue(":date",$media->getDateStringSQL(),PDO::PARAM_STR);
+            if ($media instanceof EMediaUtente)
+            {
+                $sender->bindValue(":idUtente", $media->getUtente()->getId(), PDO::PARAM_STR);
+            }
+            else if ($media instanceof EMediaLocandina)
+            {
+                $sender->bindValue(":idFilm", $media->getFilm()->getId(), PDO::PARAM_STR);
+            }
 
-        $sender->bindValue(':immagine', fread($file,filesize($path)), PDO::PARAM_LOB);
+            $sender->bindValue(':immagine', fread($file,filesize($path)), PDO::PARAM_LOB);
 
-        unset($file);
-        unlink($path);
+            unset($file);
+            unlink($path);
+        } else {
+            die("Not a media!!");
+        }
     }
 
     public static function getClassName()
