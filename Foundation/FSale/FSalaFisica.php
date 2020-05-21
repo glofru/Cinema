@@ -38,9 +38,9 @@ class FSalaFisica implements Foundation
         $db->saveToDB(self::getClassName(),$salaFisica);
     }
 
-    public static function load (int $nSala, string $row) {
+    public static function load (string $nSala, string $row) {
         $db = FDatabase::getInstance();
-        $result = $db->loadFromDB(self::getClassName(),$nSala,$row);
+        $result = $db->loadFromDB(self::getClassName(), intval($nSala), $row);
         if($result === null){
             return null;
         }
