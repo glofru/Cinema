@@ -5,7 +5,7 @@ class FBiglietto implements FoundationDebole
 {
     private static string $className = "FBiglietto";
     private static string $tableName = "Biglietto";
-    private static string $valuesName = "(:idProiezione,:posto,:idUtente,:costo";
+    private static string $valuesName = "(:idProiezione,:posto,:idUtente,:costo)";
 
     public function __construct() {}
 

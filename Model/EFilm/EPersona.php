@@ -9,7 +9,7 @@ class EPersona implements JsonSerializable
     /**
      * @var string
      */
-    private string $id;
+    private int $id = 0;
     /**
      * @var string
      */
@@ -33,16 +33,14 @@ class EPersona implements JsonSerializable
 
     /**
      * EPersona constructor.
-     * @param string $id
      * @param string $nome
      * @param string $cognome
      * @param string $imdbUrl
      * @param bool $isAttore
      * @param bool $isRegista
      */
-    public function __construct(string $id, string $nome, string $cognome, string $imdbUrl, bool $isAttore, bool $isRegista)
+    public function __construct(string $nome, string $cognome, string $imdbUrl, bool $isAttore, bool $isRegista)
     {
-        $this->setId($id);
         $this->setNome($nome);
         $this->setCognome($cognome);
         $this->setImdbUrl($imdbUrl);
@@ -53,7 +51,7 @@ class EPersona implements JsonSerializable
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): int
     {
         return $this->id;
     }
@@ -61,7 +59,7 @@ class EPersona implements JsonSerializable
     /**
      * @param string $id
      */
-    public function setId(string $id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }

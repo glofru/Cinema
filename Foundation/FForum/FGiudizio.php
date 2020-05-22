@@ -3,20 +3,20 @@
 
 class FGiudizio
 {
-    private static string $className = "FRegistrato";
-    private static string $tableName = "Registrato";
-    private static string $valuesName = "(:idUtente,:film,:punteggio,:commento)";
+    private static string $className = "FGiudizio";
+    private static string $tableName = "Giudizio";
+    private static string $valuesName = "(:idUtente,:idFilm,:commento,:punteggio)";
 
     public function __construct()
     {
 
     }
-    public function associate(PDOStatement $sender, EGiudizio $giudizio, FRegistrato $registrato)
+    public function associate(PDOStatement $sender, EGiudizio $giudizio)
     {
-        $sender->bindValue(':idUtente', $registrato->getidRegistrato(), PDO::PARAM_INT);
-        $sender->bindValue(':film', $giudizio->getFilm(), PDO::PARAM_STR);
-        $sender->bindValue(':emailUtente', $giudizio->getPunteggio(), PDO::PARAM_INT);
-        $sender->bindValue(':costo', $giudizio->getCommento(), PDO::PARAM_STR);
+        $sender->bindValue(':idUtente', $giudizio->getUtente()->getId(), PDO::PARAM_INT);
+        $sender->bindValue(':idFilm', $giudizio->getFilm()->getId(), PDO::PARAM_INT);
+        $sender->bindValue(':commento', $giudizio->getCommento(), PDO::PARAM_STR);
+        $sender->bindValue(':punteggio', strval($giudizio->getPunteggio()), PDO::PARAM_STR);
     }
     //----------------- GETTER --------------------
     public static function getClassName() {
@@ -36,7 +36,7 @@ class FGiudizio
         $db->saveToDB(self::getClassName(),$giudizio);
     }
 
-    public static function load(string  $value, string $row)
+    public static function load(string  $value, string $row): array
     {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
@@ -46,13 +46,7 @@ class FGiudizio
             return null;
         }
 
-        $row = $result[0];
-        $idRegistrato = $row["idUtente"];
-        $film = $row["film"];
-        $punteggio = $row["commento"];
-        $commento = $row["punteggio"];
-
-        return new EGiudizio($idRegistrato, $film, $punteggio, $commento);
+        return self::parseResult($result);
 
     }
 
@@ -60,19 +54,13 @@ class FGiudizio
     {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDBDebole(self::getClassName(),$value,$row,$value2,$row2);
+        echo $result["idFilm"];
         if($result === null)
         {
             return $result;
         }
 
-        $idRegistrato = $result["idUtente"];
-        $film = $row["film"];
-        $punteggio = $row["commento"];
-        $commento = $row["punteggio"];
-
-
-
-        return new EGiudizio($idRegistrato, $film, $punteggio, $commento);
+        return self::parseResult($result)[0];
     }
 
     public static function update($value,$row,$value2,$row2,$newvalue,$newrow): bool
@@ -91,6 +79,20 @@ class FGiudizio
             return true;
         }
         return false;
+    }
+
+    public static function parseResult($result): array {
+        $return = [];
+        foreach ($result as $row) {
+            $idRegistrato = $row["idUtente"];
+            $film = $row["idFilm"];
+            $punteggio = floatval($row["punteggio"]);
+            $commento = $row["commento"];
+            $utente = FUtente::load($idRegistrato,"id");
+            $film = FFilm::load($film,"id");
+            array_push($return,new EGiudizio($commento,$punteggio,$film[0],$utente));
+        }
+        return $return;
     }
 
 

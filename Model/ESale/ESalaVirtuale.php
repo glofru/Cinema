@@ -56,9 +56,9 @@ class ESalaVirtuale implements JsonSerializable
      */
     private function init($nFile, $nPostiFila) {
         $this->posti = array();
-        $value = 64; //64 = A
-        for ($i = 0; $i < $nFile; $i++) {
-            for ($j = 0; $j < $nPostiFila; $j++) {
+        $value = 64; //65 = A
+        for ($i = 1; $i <= $nFile; $i++) {
+            for ($j = 1; $j <= $nPostiFila; $j++) {
                 array_push($this->posti, new EPosto(chr($value + $i), $j));
             }
         }

@@ -219,7 +219,7 @@ class FDatabase
             for($i=0;$i<sizeof($proiezioni);$i++) {
                 $film = FFilm::load($proiezioni[$i]["idFilm"],"id");
                 $durata = $film[0]->getDurataDB();
-                $durata = new DateInterval("PT" . $durata[0] . "H" . $durata[1] . "M");
+                $durata = new DateInterval($durata);
                 $oraFilmPresente = $proiezioni[$i]["ora"];
                 $oraFine = DateTime::createFromFormat("H:i:s",$oraFilmPresente);
                 $oraFine->add($durata);
@@ -367,11 +367,9 @@ class FDatabase
             $sender = $this->db->prepare($query);
             $sender->execute();
             $acquisto = $sender->fetch(PDO::FETCH_ASSOC);
-            echo "POSTO: " . $acquisto["posizione"];
             $islibero = $acquisto["libero"];
             if(boolval($islibero) === true) {
                 $query = "UPDATE Posti SET libero = '0' WHERE idProiezione = '" . $idProiezione . "' AND posizione = '" . $posto . "';";
-                echo $query;
                 $sender = $this->db->prepare($query);
                 $sender->execute();
                 $this->db->commit();

@@ -78,14 +78,14 @@ class FUtente implements Foundation
     public static function save(EUtente $utente)
     {
         $db = FDatabase::getInstance();
-        $db->saveToDB(self::getClassName(), $utente);
+        $id = $db->saveToDB(self::getClassName(), $utente);
+        $utente->setId($id);
     }
 
     public static function load(string  $value, string $row)
     {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
-
         if ($result == null || sizeof($result) == 0)
         {
             return null;
@@ -208,15 +208,21 @@ class FUtente implements Foundation
 
             if ($isAdmin)
             {
-                array_push($return, new EAdmin($id, $nome, $cognome, $username, $email, $password));
+                $admin = new EAdmin($nome, $cognome, $username, $email, $password);
+                $admin->setId($id);
+                array_push($return, $admin);
             }
             elseif ($username != null && $username != "")
             {
-                array_push($return, new ERegistrato($id, $nome, $cognome, $username, $email, $password));
+                $reg =  new ERegistrato($nome, $cognome, $username, $email, $password);
+                $reg->setId($id);
+                array_push($return, $reg);
             }
             else
             {
-                array_push($return, new ENonRegistrato($id, $nome, $cognome, $username, $email, $password));
+                $nreg = new ENonRegistrato($nome, $cognome, $username, $email, $password);
+                $nreg->setId($id);
+                array_push($return, $nreg);
             }
         }
 

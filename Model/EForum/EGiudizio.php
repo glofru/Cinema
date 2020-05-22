@@ -10,19 +10,21 @@
 class EGiudizio implements JsonSerializable
 {
     private string $commento;
-    private int $punteggio;
+    private float $punteggio;
     private EFilm $film;
+    private ERegistrato $utente;
 
     /**
      * EGiudizio constructor.
      * @param string $commento
      * @param int $punteggio
      */
-    public function __construct(string $commento, int $punteggio, EFilm $film)
+    public function __construct(string $commento, float $punteggio, EFilm $film, ERegistrato $utente)
     {
         $this->setCommento($commento);
         $this->setPunteggio($punteggio);
         $this->setFilm($film);
+        $this->setUtente($utente);
     }
 
     /**
@@ -60,7 +62,7 @@ class EGiudizio implements JsonSerializable
     /**
      * @return int
      */
-    public function getPunteggio(): int
+    public function getPunteggio(): float
     {
         return $this->punteggio;
     }
@@ -68,9 +70,17 @@ class EGiudizio implements JsonSerializable
     /**
      * @param int $punteggio
      */
-    public function setPunteggio(int $punteggio): void
+    public function setPunteggio(float $punteggio): void
     {
         $this->punteggio = $punteggio;
+    }
+
+    public function setUtente(ERegistrato $utente){
+        $this->utente = $utente;
+    }
+
+    public function getUtente(): ERegistrato {
+        return $this->utente;
     }
 
 
@@ -79,7 +89,8 @@ class EGiudizio implements JsonSerializable
         return [
             'film' => $this->getFilm(),
             'commento' => $this->getCommento(),
-            'punteggio' => $this->getPunteggio()
+            'punteggio' => $this->getPunteggio(),
+            'utente' => $this->getUtente()
         ];
     }
 }

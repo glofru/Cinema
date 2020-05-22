@@ -27,7 +27,7 @@ class EProiezione implements JsonSerializable
      */
     private DateTime $dataproiezione;
 
-    private int $id;
+    private int $id = 0;
     public function __construct(EFilm $film, ESalaVirtuale $sala, DateTime $dataproiezione)
     {
         $this->setFilm($film);

@@ -35,7 +35,7 @@ class EUtente implements JsonSerializable
      */
     private string $email;
 
-    private int $id;
+    private int $id = 0;
 
     /**
      * EUtente constructor.
@@ -46,9 +46,8 @@ class EUtente implements JsonSerializable
      * @param string $email
      * @param string $password
      */
-    public function __construct(string $id, string $nome, string $cognome, string $username, string $email, string $password)
+    public function __construct(string $nome, string $cognome, string $username, string $email, string $password)
     {
-        $this->setId($id);
         $this->setNome($nome);
         $this->setCognome($cognome);
         $this->setUsername($username);

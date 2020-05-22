@@ -5,17 +5,17 @@ class FProiezione implements Foundation
 {
     private static string $className = "FProiezione";
     private static string $tableName = "Proiezione";
-    private static string $valuesName = "(:id,:idFilm,:data,:ora,:numerosala)";
+    private static string $valuesName = "(:id,:data,:ora,:numerosala,:idFilm)";
 
     public function __construct() {}
 
     public static function associate(PDOStatement $sender, $proiezione) {
         if ($proiezione instanceof EProiezione) {
             $sender->bindValue(':id', NULL, PDO::PARAM_INT);
-            $sender->bindValue(':idFilm', $proiezione->getFilm()->getId(), PDO::PARAM_INT);
             $sender->bindValue(':data',$proiezione->getDataSQL(),PDO::PARAM_STR);
             $sender->bindValue(':ora',$proiezione->getOra(),PDO::PARAM_STR);
             $sender->bindValue(':numerosala',$proiezione->getSala()->getNumeroSala(),PDO::PARAM_INT);
+            $sender->bindValue(':idFilm', $proiezione->getFilm()->getId(), PDO::PARAM_INT);
         } else {
             die("Not a projection!!");
         }
@@ -38,7 +38,7 @@ class FProiezione implements Foundation
     public static function save(EProiezione $proiezione) {
         $db = FDatabase::getInstance();
         $test = $db->checkDisponibilita($proiezione->getSala()->getNumeroSala(),$proiezione->getDataSQL(),$proiezione->getOra());
-        if(sizeof($test) < 2){
+        if(sizeof($test) < 1){
             $id = $db->saveToDB(self::getClassName(),$proiezione);
             $proiezione->setId($id);
             FPosto::store($proiezione);
@@ -55,7 +55,7 @@ class FProiezione implements Foundation
         return self::parseResult($result);
     }
 
-    public static function loadBetween($value,$row,$inizio,$fine): array {
+    public static function loadBetween($inizio,$fine): array {
         $db = FDatabase::getInstance();
         $result = $db->loadBetween(self::getClassName(),$inizio,$fine,"data");
 

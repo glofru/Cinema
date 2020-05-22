@@ -28,6 +28,9 @@ class FPersistentManager
     }
 
     private function getClass(string $class){
+        if($class === "EAdmin" || $class === "ERegistrato" || $class === "ENonRegistrato"){
+            return "FUtente";
+        }
         $class[0] = "F";
         return $class;
     }
@@ -52,9 +55,9 @@ class FPersistentManager
         return $class::loadDoppio($value,$row,$value2,$row2);
     }
 
-    public function loadProiezioni($value,$row,$puntuale,$inizio,$fine,$class) {
+    public function loadBetween($inizio,$fine,$class) {
         $class = self::getClass($class);
-        return $class::load($value,$row,$puntuale,$inizio,$fine);
+        return $class::loadBetween($inizio,$fine);
     }
 
     public function delete($value,$row,$class) {

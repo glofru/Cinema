@@ -5,16 +5,16 @@ class FPersona implements Foundation
 {
     private static string $className = "FPersona";
     private static string $tableName = "Persona";
-    private static string $valuesName = "(:idPersona,:nome,:cognome,:imdbUrl,:isAttore,:isRegista)";
+    private static string $valuesName = "(:id,:nome,:cognome,:imdbURL,:isAttore,:isRegista)";
 
     public function __construct() {}
 
     public static function associate(PDOStatement $sender, $persona) {
         if ($persona instanceof EPersona) {
-            $sender->bindValue(':idPersona', $persona->getId(), PDO::PARAM_INT);
+            $sender->bindValue(':id', $persona->getId(), PDO::PARAM_INT);
             $sender->bindValue(':nome', $persona->getNome(), PDO::PARAM_STR);
             $sender->bindValue(':cognome', $persona->getCognome(), PDO::PARAM_STR);
-            $sender->bindValue(':imdbUrl', $persona->getImdbUrl(), PDO::PARAM_STR);
+            $sender->bindValue(':imdbURL', $persona->getImdbUrl(), PDO::PARAM_STR);
             $sender->bindValue(':isAttore', $persona->isAttore(), PDO::PARAM_BOOL);
             $sender->bindValue(':isRegista', $persona->isRegista(), PDO::PARAM_BOOL);
         } else {
@@ -74,13 +74,14 @@ class FPersona implements Foundation
         }
 
         $row = $result[0];
-        $id = $row["idPersona"];
+        $id = $row["id"];
         $nome = $row["nome"];
         $cognome = $row["cognome"];
-        $imdbUrl = $row["imbdUrl"];
+        $imdbUrl = $row["imdbURL"];
         $isAttore = $row["isAttore"];
         $isRegista = $row["isRegista"];
-
-        return new EPersona($id, $nome, $cognome, $imdbUrl, $isAttore, $isRegista);
+        $p = new EPersona($nome, $cognome, $imdbUrl, boolval($isAttore), boolval($isRegista));
+        $p->setId($id);
+        return $p;
     }
 }

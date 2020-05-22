@@ -86,7 +86,7 @@ CREATE TABLE Giudizio(
     `punteggio` TEXT NOT NULL,
     PRIMARY KEY (`idUtente`,`idFilm`),
     FOREIGN KEY (`idUtente`)
-        REFERENCES Film(`id`)
+        REFERENCES Utenti(`id`)
     ON UPDATE CASCADE,
     FOREIGN KEY (`idFilm`)
         REFERENCES Film(`id`)

@@ -44,7 +44,7 @@ class FFilm implements Foundation
 
         foreach ($temp as $e)
         {
-            array_push($return, FPersona::load($e, "idPersona"));
+            array_push($return, FPersona::load($e, "id"));
         }
 
         return $return;
