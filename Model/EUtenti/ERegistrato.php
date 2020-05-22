@@ -11,6 +11,8 @@ class ERegistrato extends EUtente
      */
     private array $listagiudizi;
 
+    private array $listabiglietti;
+
     /**
      * ERegistrato constructor.
      * @param string $id
@@ -42,6 +44,19 @@ class ERegistrato extends EUtente
     public function addGiudizio(EGiudizio $giudizio): void
     {
         array_push($this->listagiudizi, $giudizio);
+    }
+
+    public function getListabiglietti(): array
+    {
+        return $this->listabiglietti;
+    }
+
+    /**
+     * @param array $listagiudizi
+     */
+    public function addBiglietto(EBiglietto $biglietto): void
+    {
+        array_push($this->listabiglietti, $biglietto);
     }
 
     //TODO: override jsonsSerialization per aggiungere lista giudizi
