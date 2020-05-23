@@ -155,9 +155,9 @@
 
 				<div class="col-12">
 					<div class="owl-carousel home__carousel">
-                    {if $array}
-                        {if is_array($array)}
-                            {foreach $array as $film}
+						{if $array}
+							{if is_array($array)}
+								{foreach $array as $film}
 						<div class="item">
 							<!-- card -->
 							<div class="card card--big">
@@ -177,8 +177,8 @@
 							</div>
 							<!-- end card -->
                         </div>
-						{/foreach}
-						{/if}
+								{/foreach}
+							{/if}
 						{/if}
 						</div>
 					</div>

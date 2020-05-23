@@ -77,10 +77,6 @@ class FFilm implements Foundation
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
 
-        if($result === null) {
-            return [];
-        }
-
         return self::parseResult($result);
     }
 
@@ -143,6 +139,7 @@ class FFilm implements Foundation
     private static function parseResult(array $result): array
     {
         $return = array();
+
         foreach ($result as $row)
         {
             $id = $row["id"];
