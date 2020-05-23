@@ -4,7 +4,7 @@ function autoloader_view($class){
 }
 
 function autoloader_control($class){
-    include_once('Control/' . $class . '.php');
+    include_once('Controller/' . $class . '.php');
 }
 
 function autoloader_model($class){
