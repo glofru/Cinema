@@ -1,0 +1,130 @@
+<?php
+/* Smarty version 3.1.36, created on 2020-05-23 14:28:14
+  from '/opt/lampp/htdocs/Smarty/templates/installation.tpl' */
+
+/* @var Smarty_Internal_Template $_smarty_tpl */
+if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
+  'version' => '3.1.36',
+  'unifunc' => 'content_5ec916dee44265_57969072',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    '237dc2a5e3bc89c13d03e86d491aa10c97b2a2df' => 
+    array (
+      0 => '/opt/lampp/htdocs/Smarty/templates/installation.tpl',
+      1 => 1590236893,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+),false)) {
+function content_5ec916dee44265_57969072 (Smarty_Internal_Template $_smarty_tpl) {
+?><!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="Smarty/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="Smarty/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="Smarty/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="Smarty/css/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="Smarty/css/nouislider.min.css">
+    <link rel="stylesheet" href="Smarty/css/ionicons.min.css">
+    <link rel="stylesheet" href="Smarty/css/plyr.css">
+    <link rel="stylesheet" href="Smarty/css/photoswipe.css">
+    <link rel="stylesheet" href="Smarty/css/default-skin.css">
+    <link rel="stylesheet" href="Smarty/css/main.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="Smarty/icon/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="Smarty/icon/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="Smarty/icon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="Smarty/icon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="Smarty/icon/apple-touch-icon-144x144.png">
+
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="Dmitry Volkov">
+    <title>Installazione</title>
+
+</head>
+<body class="body">
+
+<div class="sign section--bg" data-bg="Smarty/img/section/section.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="sign__content">
+                    <!-- authorization form -->
+                    <form action="/" class="sign__form" method="POST">
+                            <img src="Smarty/img/logo.svg" alt="">
+
+                        <div class="sign__group">
+                            <input type="text" class="sign__input" placeholder="Database Name" name="dbname">
+                        </div>
+
+                        <div class="sign__group">
+                            <input type="text" class="sign__input" placeholder="Username" name="username">
+                        </div>
+
+                        <div class="sign__group">
+                            <input type="password" class="sign__input" placeholder="Password" name="password">
+                        </div>
+
+                        <button class="sign__btn" type="submit">Install</button>
+
+                    </form>
+                    <!-- end authorization form -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<?php echo '<script'; ?>
+ src="Smarty/js/jquery-3.3.1.min.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ src="Smarty/js/bootstrap.bundle.min.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ src="Smarty/js/owl.carousel.min.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ src="Smarty/js/jquery.mousewheel.min.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ src="Smarty/js/jquery.mCustomScrollbar.min.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ src="Smarty/js/wNumb.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ src="Smarty/js/nouislider.min.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ src="Smarty/js/plyr.min.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ src="Smarty/js/jquery.morelines.min.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ src="Smarty/js/photoswipe.min.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ src="Smarty/js/photoswipe-ui-default.min.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ src="Smarty/js/main.js"><?php echo '</script'; ?>
+>
+</body>
+<?php }
+}
