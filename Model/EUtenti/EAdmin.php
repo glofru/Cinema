@@ -2,12 +2,13 @@
 
 
 /**
- * Class ENonRegistrato
+ * Class EAdmin
  */
-class ENonRegistrato extends EUtente
+class EAdmin extends EUtente
 {
     /**
-     * ENonRegistrato constructor.
+     * EAdmin constructor.
+     * @param string $id
      * @param string $nome
      * @param string $cognome
      * @param string $username
@@ -19,8 +20,7 @@ class ENonRegistrato extends EUtente
         parent::__construct($nome, $cognome, $username, $email, $password);
     }
 
-    public function compra() {
-        echo "Compra non registrato";
+    public function addFilm() {
+        echo "Aggiunta film";
     }
-
 }

@@ -35,8 +35,11 @@ class EUtente implements JsonSerializable
      */
     private string $email;
 
+    private int $id = 0;
+
     /**
      * EUtente constructor.
+     * @param string $id
      * @param string $nome
      * @param string $cognome
      * @param string $username
@@ -132,6 +135,13 @@ class EUtente implements JsonSerializable
         $this->email = $email;
     }
 
+    public function setId(int $id) {
+        $this->id = $id;
+    }
+
+    public function getId(): int {
+        return $this->id;
+    }
 
     /**
      * @return mixed|void

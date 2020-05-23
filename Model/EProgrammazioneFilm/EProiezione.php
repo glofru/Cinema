@@ -18,16 +18,17 @@ class EProiezione implements JsonSerializable
     private EFilm $film;
     /**
      * Sala nella quale verrà proiettato il film
-     * @AttributeType ESala
+     * @AttributeType ESalaVirtuale
      */
-    private ESala $sala;
+    private ESalaVirtuale $sala;
     /**
      * Data ed orario della proiezione
      * @AttributeType DateTime
      */
     private DateTime $dataproiezione;
 
-    public function __construct(EFilm $film, ESala $sala, DateTime $dataproiezione)
+    private int $id = 0;
+    public function __construct(EFilm $film, ESalaVirtuale $sala, DateTime $dataproiezione)
     {
         $this->setFilm($film);
         $this->setSala($sala);
@@ -42,9 +43,9 @@ class EProiezione implements JsonSerializable
         $this->film = $film;
     }
     /**
-     * @param ESala $sala sala che ospiterà al proeizione
+     * @param ESalaVirtuale $sala sala che ospiterà al proeizione
      */
-    public function setSala(ESala $sala){
+    public function setSala(ESalaVirtuale $sala){
         $this->sala = $sala;
     }
     /**
@@ -52,6 +53,14 @@ class EProiezione implements JsonSerializable
      */
     public function setDataproiezione(DateTime $dataproiezione){
         $this->dataproiezione = $dataproiezione;
+    }
+
+    public function setId(int $id){
+        $this->id = $id;
+    }
+
+    public function getId(): int{
+        return $this->id;
     }
 
 //----------------- GETTER --------------------
@@ -62,9 +71,9 @@ class EProiezione implements JsonSerializable
         return $this->film;
     }
     /**
-     * @return ESala sala nella quale si terrà al proiezione
+     * @return ESalaVirtuale sala nella quale si terrà al proiezione
      */
-    public function getSala(): ESala{
+    public function getSala(): ESalaVirtuale{
         return $this->sala;
     }
     /**
@@ -72,6 +81,18 @@ class EProiezione implements JsonSerializable
      */
     public function getDataproieizone(): DateTime{
         return $this->dataproiezione;
+    }
+
+    public function getData(): string {
+        return $this->dataproiezione->format('d-m-Y');
+    }
+
+    public function getDataSQL(): string {
+        return $this->dataproiezione->format('Y-m-d');
+    }
+
+    public function getOra(): string {
+        return $this->dataproiezione->format('H:i:s');
     }
 
 //------------- ALTRI METODI ----------------

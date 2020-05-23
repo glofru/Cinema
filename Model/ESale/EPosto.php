@@ -28,11 +28,22 @@ class EPosto implements JsonSerializable
      */
     private bool $occupato;
 
+    /**
+     * EPosto constructor.
+     * @param string $fila
+     * @param int $numeroPosto
+     * @param bool $occupato
+     */
     public function __construct(string $fila, int $numeroPosto, bool $occupato = false)
     {
         $this->setFila($fila);
         $this->setNumeroPosto($numeroPosto);
         $this->setOccupato($occupato);
+    }
+
+    public static function fromString(string $posto, bool $libero) {
+        $elem = explode(" ",$posto);
+        return new EPosto($elem[0], intval($elem[1]), $libero);
     }
 //-------------- SETTER ----------------------
     /**
@@ -42,7 +53,7 @@ class EPosto implements JsonSerializable
         $this->fila = $fila;
     }
     /**
-     * @param int $numeroposto numero assegnato al numeroposto
+     * @param int $numeroPosto numero assegnato al numeroposto
      */
     public function setNumeroPosto(int $numeroPosto){
         $this->numeroPosto = $numeroPosto;
@@ -74,8 +85,15 @@ class EPosto implements JsonSerializable
         return $this->occupato;
     }
 
+    public function getPostoDB(): string {
+        return $this->getFila() . " " . strval($this->getNumeroPosto());
+    }
+
 //------------- ALTRI METODI ----------------
 
+    /**
+     * @return array|mixed
+     */
     public function jsonSerialize ()
     {
         return
@@ -90,12 +108,6 @@ class EPosto implements JsonSerializable
      */
     public function __toString()
     {
-        if($this->getOccupato() == true){
-            $status = "libero";
-        }
-        else{
-            $status = "occupato";
-        }
-        return "Il numeroposto " . strval($this->getNumeroPosto()) . " nella fila " . $this->getFila() . "è " . $status;
+        return $this->getFila() . " " . strval($this->getNumeroPosto());
     }
 }

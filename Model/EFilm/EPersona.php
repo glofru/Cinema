@@ -9,6 +9,10 @@ class EPersona implements JsonSerializable
     /**
      * @var string
      */
+    private int $id = 0;
+    /**
+     * @var string
+     */
     private string $nome;
     /**
      * @var string
@@ -42,6 +46,22 @@ class EPersona implements JsonSerializable
         $this->setImdbUrl($imdbUrl);
         $this->setIsAttore($isAttore);
         $this->setIsRegista($isRegista);
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 
     /**

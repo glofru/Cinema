@@ -9,7 +9,7 @@
  * @author Lofrumento - Di Santo - Susanna
  * @package Model
  */
-class ESala implements JsonSerializable
+class ESalaVirtuale implements JsonSerializable
 {
     /**
     * Numero identificativo della sala
@@ -28,28 +28,37 @@ class ESala implements JsonSerializable
     /**
      * @var int
      */
-    private int $nPosti;
+    private int $nPostiFila;
 
     /**
-     * ESala constructor.
+     * ESalaVirtuale constructor.
      * @param int $numeroSala
      * @param int $nFile
-     * @param int $nPosti
+     * @param int $nPostiFila
      */
-    public function __construct(int $numeroSala, int $nFile, int $nPosti) {
+    public function __construct(int $numeroSala, int $nFile, int $nPostiFila) {
         $this->setNumeroSala($numeroSala);
-        $this->init($nFile, $nPosti);
+        $this->init($nFile, $nPostiFila);
     }
 
     /**
-     * @param $nfile
-     * @param $nposti
+     * @param ESalaFisica $salaFisica
+     * @return ESalaVirtuale
      */
-    private function init($nfile, $nposti) {
+    public static function fromSalaFisica(ESalaFisica $salaFisica): ESalaVirtuale
+    {
+        return new ESalaVirtuale($salaFisica->getNumeroSala(), $salaFisica->getNFile(), $salaFisica->getNPostiFila());
+    }
+
+    /**
+     * @param $nFile
+     * @param $nPostiFila
+     */
+    private function init($nFile, $nPostiFila) {
         $this->posti = array();
-        $value = 64; //64 = A
-        for ($i = 0; $i < $nfile; $i++) {
-            for ($j = 0; $j < $nposti; $j++) {
+        $value = 64; //65 = A
+        for ($i = 1; $i <= $nFile; $i++) {
+            for ($j = 1; $j <= $nPostiFila; $j++) {
                 array_push($this->posti, new EPosto(chr($value + $i), $j));
             }
         }
@@ -83,7 +92,7 @@ class ESala implements JsonSerializable
      * @return int numero complessivo di posti in sala
      */
     public function getNumeroPosti(): int {
-        return $this->nFile * $this->nPosti;
+        return $this->nFile * $this->nPostiFila;
     }
 
     /**
@@ -97,9 +106,9 @@ class ESala implements JsonSerializable
     /**
      * @return int
      */
-    public function getNPosti(): int
+    public function getNPostiFila(): int
     {
-        return $this->nPosti;
+        return $this->nPostiFila;
     }
 
 //------------- ALTRI METODI ----------------
@@ -113,7 +122,7 @@ class ESala implements JsonSerializable
                 'numero'   => $this->getNumeroSala(),
                 'posti' => $this->getPosti(),
                 'nFile' => $this->getNFile(),
-                'nPosti' => $this->getNPosti()
+                'nPostiFila' => $this->getNPostiFila()
             ];
     }
 

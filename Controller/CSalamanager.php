@@ -11,29 +11,29 @@ class CSalamanager implements JsonSerializable
 {
     /**
      * Sala da gestire
-     * @AttributeType ESala
+     * @AttributeType ESalaVirtuale
      */
-    private ESala $sala;
+    private ESalaVirtuale $sala;
 
-    public function __construct(ESala $sala)
+    public function __construct(ESalaVirtuale $sala)
     {
         $this->sala = $sala;
     }
 
 //-------------- SETTER ----------------------
     /**
-     * @param ESala $sala sala da gestire
+     * @param ESalaVirtuale $sala sala da gestire
      */
-    public function setSala(ESala $sala)
+    public function setSala(ESalaVirtuale $sala)
     {
         $this->sala = $sala;
     }
 
 //----------------- GETTER --------------------
     /**
-     * @return ESala la sala da gestire
+     * @return ESalaVirtuale la sala da gestire
      */
-    public function getSala(): ESala
+    public function getSala(): ESalaVirtuale
     {
         return $this->sala;
     }
