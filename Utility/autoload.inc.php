@@ -30,6 +30,11 @@ function autoloader_foundation($class){
     include_once('../Foundation/');
 }
 
+function autoloader_root($class){
+    include_once($class . '.php');
+}
+
+spl_autoload_register('autoloader_root');
 spl_autoload_register('autoloader_view');
 spl_autoload_register('autoloader_control');
 spl_autoload_register('autoloader_model');
