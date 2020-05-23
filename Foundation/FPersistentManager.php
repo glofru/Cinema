@@ -45,47 +45,47 @@ class FPersistentManager
         return $result;
     }
 
-    public function load($value,$row,$class) {
+    public function load($value, $row ,$class) {
         $class = self::getClass($class);
         return $class::load($value,$row);
     }
 
-    public function loadDebole($value,$row,$value2,$row2,$class) {
+    public function loadDebole($value, $row, $value2, $row2, $class) {
         $class = self::getClass($class);
-        return $class::loadDoppio($value,$row,$value2,$row2);
+        return $class::loadDoppio($value, $row, $value2, $row2);
     }
 
-    public function loadBetween($inizio,$fine,$class) {
+    public function loadBetween($inizio, $fine, $class) {
         $class = self::getClass($class);
-        return $class::loadBetween($inizio,$fine);
+        return $class::loadBetween($inizio, $fine);
     }
 
-    public function delete($value,$row,$class) {
+    public function delete($value, $row, $class) {
         $class = self::getClass($class);
-        $class::delete($value,$row);
+        $class::delete($value, $row);
     }
 
-    public function deleteDebole($value,$row,$value2,$row2,$class) {
+    public function deleteDebole($value, $row, $value2, $row2, $class) {
         $class = self::getClass($class);
-        $class::delete($value,$row,$value2,$row2);
+        $class::delete($value, $row, $value2, $row2);
     }
 
-    public function update($value,$row,$newValue,$newRow,$class) {
+    public function update($value, $row, $newValue, $newRow, $class) {
         $class = self::getClass($class);
-        $class::update($value,$row,$newValue,$newRow);
+        $class::update($value, $row, $newValue, $newRow);
     }
 
-    public function updateDebole($value,$row,$value2,$row2,$newValue,$newRow,$class) {
+    public function updateDebole($value, $row, $value2, $row2, $newValue, $newRow, $class) {
         $class = $this::getClass($class);
-        $class::update($value,$row,$value2,$row2,$newValue,$newRow);
+        $class::update($value, $row, $value2, $row2, $newValue, $newRow);
     }
 
-    public function occupaPosto($idProiezione,$posto,$emailUtente,$costo) {
-        return FProiezione::occupaPosto($idProiezione,$posto,$emailUtente,$costo);
+    public function occupaPosto($idProiezione, $posto, $emailUtente, $costo) {
+        return FProiezione::occupaPosto($idProiezione, $posto, $emailUtente, $costo);
     }
 
-    public function liberaPosto($idProiezione,$posto,$emailUtente)  {
-        return FProiezione::liberaPosto($idProiezione,$posto,$emailUtente);
+    public function liberaPosto($idProiezione, $posto, $emailUtente)  {
+        return FProiezione::liberaPosto($idProiezione, $posto, $emailUtente);
     }
 
     public function login(string $username,string $emailUtente,string $password){
