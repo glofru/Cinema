@@ -21,7 +21,8 @@ class FDatabase
      */
     private function __construct() {
         try {
-            $this->db = new PDO("mysql:dbname=".$GLOBALS['dbname']."host=localhost; charset=utf8;", $GLOBALS['username'],$GLOBALS['password']);
+            //$this->db = new PDO("mysql:dbname=".$GLOBALS['dbname']."host=localhost; charset=utf8;", $GLOBALS['username'],$GLOBALS['password']);
+            $this->db = new PDO("mysql:dbname=my_magicboulevardcinema; host=localhost; charset=utf8;", "root","");
         }
         catch (PDOException $exception) {
             die("Errore nel DB: " . $exception->getMessage());

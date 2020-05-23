@@ -9,7 +9,7 @@ class FPersistentManager
     /**
      * @var FPersistentManager
      */
-    private static FPersistentManager $instance;
+    private static $instance;
 
     /**
      * FPersistentManager constructor.
