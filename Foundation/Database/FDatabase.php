@@ -1,5 +1,6 @@
 <?php
 
+require_once "config.inc.php";
 
 /**
  * Class FDatabase
@@ -20,12 +21,16 @@ class FDatabase
      * FDatabase constructor.
      */
     private function __construct() {
+        $dbname = $GLOBALS["dbname"];
+        $username = $GLOBALS["username"];
+        $password = $GLOBALS["password"];
+
         try {
-            //$this->db = new PDO("mysql:dbname=".$GLOBALS['dbname']."host=localhost; charset=utf8;", $GLOBALS['username'],$GLOBALS['password']);
-            $this->db = new PDO("mysql:dbname=my_magicboulevardcinema; host=localhost; charset=utf8;", "root","");
+            $this->db = new PDO("mysql:dbname=" . $dbname . "; host=localhost; charset=utf8;", $username, $password);
         }
         catch (PDOException $exception) {
-            die("Errore nel DB: " . $exception->getMessage());
+            VError::error(1);
+            die();
         }
     }
 

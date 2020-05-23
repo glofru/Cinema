@@ -1,7 +1,7 @@
 <?php
 
 
-class Installator
+class Installer
 {
     static function checkInstall(): bool
     {
@@ -11,20 +11,22 @@ class Installator
     static function start()
     {
         $smarty = StartSmarty::configuration();
-        //check version PHP, cookie e JS
-        if ($_SERVER["REQUEST_METHOD"] == "GET")
+        $method = $_SERVER["REQUEST_METHOD"];
+        //TODO: check version PHP, cookie e JS
+        if ($method == "GET")
         {
             $smarty->display("installation.tpl");
         }
-        else
+        elseif ($method == "POST")
         {
             $dbname = $_POST['dbname'];
-            $user = $_POST['user'];
+            $username = $_POST['username'];
             $pwd = $_POST['password'];
+
             $db = null;
             try
             {
-                $db = new PDO("mysql:host=127.0.0.1;", $user, $pwd);
+                $db = new PDO("mysql:host=127.0.0.1;", $username, $pwd);
             }
             catch (PDOException $e)
             {
@@ -39,8 +41,15 @@ class Installator
                 $query = $query . file_get_contents('db.sql');
                 $db->exec($query);
                 $db->commit();
+
+                //REMOVE
+                $population = file_get_contents("populate.sql");
+                $db->beginTransaction();
+                $db->exec($population);
+                $db->commit();
+
                 $file = fopen('config.inc.php', 'c+');
-                $script = '<?php $GLOBALS[\'database\']= \'' . $dbname . '\'; $GLOBALS[\'username\']=  \'' . $user . '\'; $GLOBALS[\'password\']= \'' . $pwd . '\';?>';
+                $script = '<?php $GLOBALS[\'dbname\']= \'' . $dbname . '\'; $GLOBALS[\'username\']=  \'' . $username . '\'; $GLOBALS[\'password\']= \'' . $pwd . '\';?>';
                 fwrite($file, $script);
                 fclose($file);
                 $db=null;

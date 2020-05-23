@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.36, created on 2020-05-23 22:19:59
+/* Smarty version 3.1.36, created on 2020-05-24 00:01:31
   from '/opt/lampp/htdocs/Smarty/templates/error.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.36',
-  'unifunc' => 'content_5ec9856f847680_16373868',
+  'unifunc' => 'content_5ec99d3b7f9ae5_21314622',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '2670af8866c797bce77843ed81f4b8451b7924ac' => 
     array (
       0 => '/opt/lampp/htdocs/Smarty/templates/error.tpl',
-      1 => 1590265197,
+      1 => 1590265317,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5ec9856f847680_16373868 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5ec99d3b7f9ae5_21314622 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="it">
 
@@ -69,7 +69,7 @@ function content_5ec9856f847680_16373868 (Smarty_Internal_Template $_smarty_tpl)
 </h1>
                         <p class="page-404__text"><?php echo $_smarty_tpl->tpl_vars['error_description']->value;?>
 </p>
-                        <a href="/" class="page-404__btn">Torna indietro</a>
+                        <a href="/" class="page-404__btn">Torna alla Home</a>
                     </div>
                 </div>
             </div>

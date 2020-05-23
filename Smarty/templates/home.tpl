@@ -335,8 +335,7 @@
 				</div>
 				<!-- end section title -->
 				{if $array}
-					{if is_array($array)}
-						{foreach $array as $film}
+					{foreach $array as $film}
 				<!-- card -->
 				<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 					<div class="card">
@@ -358,7 +357,6 @@
 				<!-- end card -->
 					{/foreach}
 				{/if}
-			{/if}
 				
 
 				<!-- section btn -->

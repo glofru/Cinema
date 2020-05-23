@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.36, created on 2020-05-23 20:43:53
+/* Smarty version 3.1.36, created on 2020-05-23 23:56:35
   from '/opt/lampp/htdocs/Smarty/templates/home.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.36',
-  'unifunc' => 'content_5ec96ee94ad974_66162529',
+  'unifunc' => 'content_5ec99c13213305_96583586',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '1b98aaddd2d393797a38cbb18f7029f2c3b0fff5' => 
     array (
       0 => '/opt/lampp/htdocs/Smarty/templates/home.tpl',
-      1 => 1590259053,
+      1 => 1590270075,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5ec96ee94ad974_66162529 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5ec99c13213305_96583586 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="it">
 
@@ -125,7 +125,7 @@ function content_5ec96ee94ad974_66162529 (Smarty_Internal_Template $_smarty_tpl)
 
 								<a href="signin.html" class="header__sign-in">
 									<i class="icon ion-ios-log-in"></i>
-									<span>sign in</span>
+									<span>login</span>
 								</a>
 							</div>
 							<!-- end header auth -->
@@ -360,8 +360,8 @@ $_smarty_tpl->tpl_vars['film']->do_else = false;
 									<h3 class="card__title"><a href="#"><?php echo $_smarty_tpl->tpl_vars['film']->value->GetNome();?>
 </a></h3>
 									<span class="card__category">
-										<a href="#">Action</a>
-										<a href="#">Triler</a>
+										<a href="#"><?php echo $_smarty_tpl->tpl_vars['film']->value->getGenere();?>
+</a>
 									</span>
 									<span class="card__rate"><i class="icon ion-ios-star"></i><?php echo $_smarty_tpl->tpl_vars['film']->value->getVotoCritica();?>
 </span>
@@ -388,7 +388,13 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 					<h2 class="section__title">Prossime Uscite</h2>
 				</div>
 				<!-- end section title -->
-
+				<?php if ($_smarty_tpl->tpl_vars['array']->value) {?>
+					<?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['array']->value, 'film');
+$_smarty_tpl->tpl_vars['film']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['film']->value) {
+$_smarty_tpl->tpl_vars['film']->do_else = false;
+?>
 				<!-- card -->
 				<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 					<div class="card">
@@ -399,120 +405,23 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 							</a>
 						</div>
 						<div class="card__content">
-							<h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
+							<h3 class="card__title"><a href="#"><?php echo $_smarty_tpl->tpl_vars['film']->value->getNome();?>
+</a></h3>
 							<span class="card__category">
-								<a href="#">Action</a>
-								<a href="#">Triler</a>
+								<a href="#"><?php echo $_smarty_tpl->tpl_vars['film']->value->getGenere();?>
+</a>
 							</span>
-							<span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+							<span class="card__rate"><i class="icon ion-ios-star"></i><?php echo $_smarty_tpl->tpl_vars['film']->value->getVotoCritica();?>
+</span>
 						</div>
 					</div>
 				</div>
 				<!-- end card -->
-
-				<!-- card -->
-				<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-					<div class="card">
-						<div class="card__cover">
-							<img src="Smarty/img/covers/cover3.jpg" alt="">
-							<a href="#" class="card__play">
-								<i class="icon ion-ios-play"></i>
-							</a>
-						</div>
-						<div class="card__content">
-							<h3 class="card__title"><a href="#">Benched</a></h3>
-							<span class="card__category">
-								<a href="#">Comedy</a>
-							</span>
-							<span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-						</div>
-					</div>
-				</div>
-				<!-- end card -->
-
-				<!-- card -->
-				<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-					<div class="card">
-						<div class="card__cover">
-							<img src="Smarty/img/covers/cover2.jpg" alt="">
-							<a href="#" class="card__play">
-								<i class="icon ion-ios-play"></i>
-							</a>
-						</div>
-						<div class="card__content">
-							<h3 class="card__title"><a href="#">Whitney</a></h3>
-							<span class="card__category">
-								<a href="#">Romance</a>
-								<a href="#">Drama</a>
-								<a href="#">Music</a>
-							</span>
-							<span class="card__rate"><i class="icon ion-ios-star"></i>6.3</span>
-						</div>
-					</div>
-				</div>
-				<!-- end card -->
-
-				<!-- card -->
-				<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-					<div class="card">
-						<div class="card__cover">
-							<img src="Smarty/img/covers/cover6.jpg" alt="">
-							<a href="#" class="card__play">
-								<i class="icon ion-ios-play"></i>
-							</a>
-						</div>
-						<div class="card__content">
-							<h3 class="card__title"><a href="#">Blindspotting</a></h3>
-							<span class="card__category">
-								<a href="#">Comedy</a>
-								<a href="#">Drama</a>
-							</span>
-							<span class="card__rate"><i class="icon ion-ios-star"></i>7.9</span>
-						</div>
-					</div>
-				</div>
-				<!-- end card -->
-
-				<!-- card -->
-				<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-					<div class="card">
-						<div class="card__cover">
-							<img src="Smarty/img/covers/cover4.jpg" alt="">
-							<a href="#" class="card__play">
-								<i class="icon ion-ios-play"></i>
-							</a>
-						</div>
-						<div class="card__content">
-							<h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
-							<span class="card__category">
-								<a href="#">Action</a>
-								<a href="#">Triler</a>
-							</span>
-							<span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
-						</div>
-					</div>
-				</div>
-				<!-- end card -->
-
-				<!-- card -->
-				<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-					<div class="card">
-						<div class="card__cover">
-							<img src="Smarty/img/covers/cover5.jpg" alt="">
-							<a href="#" class="card__play">
-								<i class="icon ion-ios-play"></i>
-							</a>
-						</div>
-						<div class="card__content">
-							<h3 class="card__title"><a href="#">Benched</a></h3>
-							<span class="card__category">
-								<a href="#">Comedy</a>
-							</span>
-							<span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-						</div>
-					</div>
-				</div>
-				<!-- end card -->
+					<?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+				<?php }?>
+				
 
 				<!-- section btn -->
 				<div class="col-12">
