@@ -5,7 +5,8 @@ require_once 'StartSmarty.php';
 
 if (Installator::checkInstall())
 {
-    print "<b>TODO</b>";
+    $cmain = new CMain();
+    $cmain->run($_SERVER["REQUEST_URI"]);
 }
 else
 {
