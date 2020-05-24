@@ -167,14 +167,14 @@ class FFilm implements Foundation
             $etaConsigliata = $row["etaConsigliata"];
             $film = new EFilm($nome, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere, $paese, $etaConsigliata);
             $film->setId($id);
-            foreach (self::recreateArray($row["attori"]) as $attore)
-            {
-                $film->addAttore($attore);
-            }
-            foreach (self::recreateArray($row["registi"]) as $regista)
-            {
-                $film->addRegista($regista);
-            }
+//            foreach (self::recreateArray($row["attori"]) as $attore)
+//            {
+//                $film->addAttore($attore);
+//            }
+//            foreach (self::recreateArray($row["registi"]) as $regista)
+//            {
+//                $film->addRegista($regista);
+//            }
 
             array_push($return, $film);
         }

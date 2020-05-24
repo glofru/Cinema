@@ -3,21 +3,15 @@
 
 class VAdmin
 {
-    private Smarty $smarty;
-
-    public function __construct()
+    public static function addFilm($film = null, $riepilogo = false)
     {
-        $this->smarty = StartSmarty::configuration();
-    }
-
-    public function addFilm($film = null, $riepilogo = false)
-    {
+        $smarty = StartSmarty::configuration();
         if ($film != null)
         {
-            $this->smarty->assign("film", $film);
+            $smarty->assign("film", $film);
         }
-        $this->smarty->assign("riepilogo", $riepilogo);
-        $this->smarty->assign("generi", EGenere::getAll());
-        $this->smarty->display("addFilm.tpl");
+        $smarty->assign("riepilogo", $riepilogo);
+        $smarty->assign("generi", EGenere::getAll());
+        $smarty->display("addFilm.tpl");
     }
 }

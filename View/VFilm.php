@@ -3,22 +3,16 @@
 
 class VFilm
 {
-    private Smarty $smarty;
-
-    public function __construct()
+    public static function show(EFilm $film, bool $autoplay, EMedia $img, array $filmconsigliati, array $imgconsigliati)
     {
-        $this->smarty = StartSmarty::configuration();
-    }
-
-    public function show(EFilm $film, bool $autoplay, EMedia $img, array $filmconsigliati, array $imgconsigliati)
-    {
-        $this->smarty->assign("film", $film);
-        $this->smarty->assign("consigli", $filmconsigliati);
-        $this->smarty->assign("autoplay", $autoplay);
-        $this->smarty->assign("locandina", $img);
-        $this->smarty->assign("immagini", $imgconsigliati);
-        $this->smarty->assign("registi", $film->getRegisti());
-        $this->smarty->assign("attori", $film->getAttori());
-        $this->smarty->display("film.tpl");
+        $smarty = StartSmarty::configuration();
+        $smarty->assign("film", $film);
+        $smarty->assign("consigli", $filmconsigliati);
+        $smarty->assign("autoplay", $autoplay);
+        $smarty->assign("locandina", $img);
+        $smarty->assign("immagini", $imgconsigliati);
+        $smarty->assign("registi", $film->getRegisti());
+        $smarty->assign("attori", $film->getAttori());
+        $smarty->display("film.tpl");
     }
 }

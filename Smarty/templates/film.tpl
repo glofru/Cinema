@@ -169,12 +169,12 @@
                             <div class="card__content">
                                 <div class="card__wrap">
                                     {if ($film->getVotoCritica() != '0')}
-                                    <span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
+                                        <span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
                                     {/if}
                                     {if ($film->getEtaConsigliata() != "")}
-                                    <ul class="card__list">
-                                        <li>{$film->getEtaConsigliata()}</li>
-                                    </ul>
+                                        <ul class="card__list">
+                                            <li>{$film->getEtaConsigliata()}</li>
+                                        </ul>
                                     {/if}
                                 </div>
 

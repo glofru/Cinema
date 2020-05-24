@@ -25,7 +25,7 @@ class CFilm
         foreach($filmC as $loc) {
             array_push($locandine,$pm->load($loc->getId(),"idFilm","EMediaLocandina"));
         }
-        $vfilm = new VFilm();
-        $vfilm->show($film, $autoplay, $img, $filmC, $locandine);
+
+        VFilm::show($film, $autoplay, $img, $filmC, $locandine);
     }
 }
