@@ -94,9 +94,10 @@ class FDatabase
      * @param $row
      * @return array
      */
-    public function loadFromDB($class, $value, string $row) {
+    public function loadFromDB($class, $value, string $row, $media = null) {
             try {
-                $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . "='" . $value . "';";
+                $table = $media == null ? $class::getTableName() : $class::getTableName($media);
+                $query = "SELECT * FROM " . $table . " WHERE " . $row . "='" . $value . "';";
                 $sender = $this->db->prepare($query);
                 $sender->execute();
                 $returnedRows = $sender->rowCount();

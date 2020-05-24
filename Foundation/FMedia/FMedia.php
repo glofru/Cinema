@@ -45,11 +45,10 @@ class FMedia implements Foundation
         return self::$className;
     }
 
-    public static function getTableName(/*EMedia $media*/)
+    public static function getTableName(string $media)
     {
-       /* if ($media instanceof EMediaUtente) return self::$tableNameUtente;
-        else if ($media instanceof EMediaLocandina) return self::$tableNameLocandina;*/
-        return "MediaLocandina";
+       if ($media == "EMediaUtente") return self::$tableNameUtente;
+       else return self::$tableNameLocandina;
     }
 
     public static function getValuesName(EMedia $media)
@@ -86,7 +85,8 @@ class FMedia implements Foundation
     public static function load (string $value, string $row)
     {
         $db = FDatabase::getInstance();
-        $result = $db->loadFromDB(self::getClassName(), $value, $row);
+        $media = $row == "idFilm" ? "EMediaLocandina" : "EMediaUtente";
+        $result = $db->loadFromDB(self::getClassName(), $value, $row, $media);
 
         if($result === null) {
             return null;

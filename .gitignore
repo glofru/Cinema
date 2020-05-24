@@ -2,3 +2,5 @@
 .DS_Store
 
 config.inc.php
+
+Smarty/templates_c/
