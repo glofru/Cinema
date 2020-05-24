@@ -28,7 +28,15 @@ class CMain
                     if (array_key_exists(1, $res))
                     {
                         $function = $res[1];
-                        $controller::$function();
+
+                        if (sizeof($res) == 2)
+                        {
+                            $controller::$function();
+                        }
+                        elseif (sizeof($res) == 3)
+                        {
+                            $controller::$function($res[2]);
+                        }
                     }
                     else
                     {

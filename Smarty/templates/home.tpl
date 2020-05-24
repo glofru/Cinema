@@ -168,7 +168,7 @@
 									</a>
 								</div>
 								<div class="card__content">
-									<h3 class="card__title"><a href="#">{$film->getNome()}</a></h3>
+									<h3 class="card__title"><a href="/Film/show/{$film->getId()}">{$film->getNome()}</a></h3>
 									<span class="card__category">
 										<a href="#">{$film->getGenere()}</a>
 									</span>

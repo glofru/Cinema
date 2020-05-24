@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.36, created on 2020-05-24 00:52:31
+/* Smarty version 3.1.36, created on 2020-05-24 01:06:28
   from '/opt/lampp/htdocs/Smarty/templates/home.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.36',
-  'unifunc' => 'content_5ec9a92f30c2e5_33441962',
+  'unifunc' => 'content_5ec9ac74b40139_84256409',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '1b98aaddd2d393797a38cbb18f7029f2c3b0fff5' => 
     array (
       0 => '/opt/lampp/htdocs/Smarty/templates/home.tpl',
-      1 => 1590274350,
+      1 => 1590275186,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5ec9a92f30c2e5_33441962 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5ec9ac74b40139_84256409 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="it">
 
@@ -178,6 +178,8 @@ function content_5ec9a92f30c2e5_33441962 (Smarty_Internal_Template $_smarty_tpl)
 
 				<div class="col-12">
 					<div class="owl-carousel home__carousel">
+						<?php if ($_smarty_tpl->tpl_vars['array']->value) {?>
+							<?php if (is_array($_smarty_tpl->tpl_vars['array']->value)) {?>
 								<?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['array']->value, 'film');
 $_smarty_tpl->tpl_vars['film']->do_else = true;
@@ -194,7 +196,8 @@ $_smarty_tpl->tpl_vars['film']->do_else = false;
 									</a>
 								</div>
 								<div class="card__content">
-									<h3 class="card__title"><a href="#"><?php echo $_smarty_tpl->tpl_vars['film']->value->getNome();?>
+									<h3 class="card__title"><a href="/Film/show/<?php echo $_smarty_tpl->tpl_vars['film']->value->getId();?>
+"><?php echo $_smarty_tpl->tpl_vars['film']->value->getNome();?>
 </a></h3>
 									<span class="card__category">
 										<a href="#"><?php echo $_smarty_tpl->tpl_vars['film']->value->getGenere();?>
@@ -209,6 +212,8 @@ $_smarty_tpl->tpl_vars['film']->do_else = false;
 								<?php
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+							<?php }?>
+						<?php }?>
 						</div>
 					</div>
 				</div>

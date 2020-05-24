@@ -131,6 +131,10 @@ class EFilm implements JsonSerializable
         return $this->getDurata()->format('%h:%I');
     }
 
+    public function getDurataMinuti() {
+        return $this->getDurata()->m;
+    }
+
     public function getDurataDB() : string {
         $durata = explode(":",$this->getDurataString());
         return "PT" . $durata[0] . "H" . $durata[1] . "M";
@@ -150,6 +154,12 @@ class EFilm implements JsonSerializable
     public function getTrailerURL(): string
     {
         return $this->trailerURL;
+    }
+
+    public function getEmbedURL(): string
+    {
+        $videoID = explode("=", $this->getTrailerURL())[1];
+        return "https://youtube.com/embed/" . $videoID;
     }
 
     /**
@@ -190,6 +200,10 @@ class EFilm implements JsonSerializable
 
     public function getdataRilascioSQL(): string {
         return $this->getDataRilascio()->format("Y-m-d");
+    }
+
+    public function getAnno(): int {
+        return intval($this->getDataRilascio()->format("Y"));
     }
 
     /**
