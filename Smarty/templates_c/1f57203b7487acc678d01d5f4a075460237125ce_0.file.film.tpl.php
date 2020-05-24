@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.36, created on 2020-05-24 17:46:19
+/* Smarty version 3.1.36, created on 2020-05-24 03:29:34
   from '/opt/lampp/htdocs/Smarty/templates/film.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.36',
-  'unifunc' => 'content_5eca96cbaadf21_33079732',
+  'unifunc' => 'content_5ec9cdfee88527_70816146',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '1f57203b7487acc678d01d5f4a075460237125ce' => 
     array (
       0 => '/opt/lampp/htdocs/Smarty/templates/film.tpl',
-      1 => 1590335172,
+      1 => 1590283768,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5eca96cbaadf21_33079732 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5ec9cdfee88527_70816146 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -202,8 +202,7 @@ function content_5eca96cbaadf21_33079732 (Smarty_Internal_Template $_smarty_tpl)
 
                                     <ul class="card__list">
                                         <li>HD</li>
-                                        <li><?php echo $_smarty_tpl->tpl_vars['film']->value->getEtaConsigliata();?>
-</li>
+                                        <li>16+</li>
                                     </ul>
                                 </div>
 
@@ -214,8 +213,7 @@ function content_5eca96cbaadf21_33079732 (Smarty_Internal_Template $_smarty_tpl)
 </li>
                                     <li><span>Durata:</span> <?php echo $_smarty_tpl->tpl_vars['film']->value->getDurataMinuti();?>
 </li>
-                                    <li><span>Paese:</span> <a href="#"><?php echo $_smarty_tpl->tpl_vars['film']->value->getPaese();?>
-</a> </li>
+                                    <li><span>Paese:</span> <a href="#">USA</a> </li>
                                 </ul>
 
                                 <div class="card__description card__description--details">

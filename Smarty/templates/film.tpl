@@ -177,7 +177,7 @@
 
                                     <ul class="card__list">
                                         <li>HD</li>
-                                        <li>{$film->getEtaConsigliata()}</li>
+                                        <li>16+</li>
                                     </ul>
                                 </div>
 
@@ -185,7 +185,7 @@
                                     <li><span>Genere:</span> <a href="#">{$film->getGenere()}</a>
                                     <li><span>Anno di rilascio:</span> {$film->getAnno()}</li>
                                     <li><span>Durata:</span> {$film->getDurataMinuti()}</li>
-                                    <li><span>Paese:</span> <a href="#">{$film->getPaese()}</a> </li>
+                                    <li><span>Paese:</span> <a href="#">USA</a> </li>
                                 </ul>
 
                                 <div class="card__description card__description--details">

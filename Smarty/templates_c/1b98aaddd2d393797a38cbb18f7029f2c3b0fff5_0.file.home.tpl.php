@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.36, created on 2020-05-24 17:49:35
+/* Smarty version 3.1.36, created on 2020-05-24 03:32:34
   from '/opt/lampp/htdocs/Smarty/templates/home.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.36',
-  'unifunc' => 'content_5eca978f506b93_11814800',
+  'unifunc' => 'content_5ec9ceb2586610_46863298',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '1b98aaddd2d393797a38cbb18f7029f2c3b0fff5' => 
     array (
       0 => '/opt/lampp/htdocs/Smarty/templates/home.tpl',
-      1 => 1590335373,
+      1 => 1590283951,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5eca978f506b93_11814800 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5ec9ceb2586610_46863298 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="it">
 
@@ -86,7 +86,7 @@ function content_5eca978f506b93_11814800 (Smarty_Internal_Template $_smarty_tpl)
 								<!-- dropdown -->
 								<li class="header__nav-item">
 									<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cinema</a>
-									
+
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
 										<li><a href="catalog1.html">Prossime Uscite</a></li>
 										<li><a href="catalog2.html">Programmazione Settimanale</a></li>
@@ -106,15 +106,11 @@ function content_5eca978f506b93_11814800 (Smarty_Internal_Template $_smarty_tpl)
 								<!-- dropdown -->
 								<li class="dropdown header__nav-item">
 									<a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
-									 <?php if (($_smarty_tpl->tpl_vars['user']->value == '')) {?>
+
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
 										<li><a href="about.html">Su di noi</a></li>
 										<li><a href="signin.html">Login</a></li>
 										<li><a href="signup.html">Registrati</a></li>
-									<?php } else { ?>
-									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-										<li><a href="about.html">Su di noi</a></li>
-									<?php }?>
 									</ul>
 								</li>
 								<!-- end dropdown -->
@@ -126,14 +122,10 @@ function content_5eca978f506b93_11814800 (Smarty_Internal_Template $_smarty_tpl)
 								<button class="header__search-btn" type="button">
 									<i class="icon ion-ios-search"></i>
 								</button>
-								
+
 								<a href="signin.html" class="header__sign-in">
 									<i class="icon ion-ios-log-in"></i>
-									<?php if (($_smarty_tpl->tpl_vars['user']->value === '')) {?>
 									<span>login</span>
-									<?php } else { ?>
-									<span>Bentornato</span>
-									<?php }?>
 								</a>
 							</div>
 							<!-- end header auth -->
@@ -174,7 +166,7 @@ function content_5eca978f506b93_11814800 (Smarty_Internal_Template $_smarty_tpl)
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-					<h1 class="home__title"><b>PROSSIME</b> USCITE</h1>
+					<h1 class="home__title"><b>NUOVE USCITE</b> DELLA SETTIMANA</h1>
 
 					<button class="home__nav home__nav--prev" type="button">
 						<i class="icon ion-ios-arrow-round-back"></i>
@@ -186,11 +178,10 @@ function content_5eca978f506b93_11814800 (Smarty_Internal_Template $_smarty_tpl)
 
 				<div class="col-12">
 					<div class="owl-carousel home__carousel">
-						<?php if ($_smarty_tpl->tpl_vars['filmProssimi']->value) {?>
-							<?php if (is_array($_smarty_tpl->tpl_vars['filmProssimi']->value)) {?>
-							<?php $_smarty_tpl->_assignInScope('i', 0);?>
+						<?php if ($_smarty_tpl->tpl_vars['array']->value) {?>
+							<?php if (is_array($_smarty_tpl->tpl_vars['array']->value)) {?>
 								<?php
-$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['filmProssimi']->value, 'film');
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['array']->value, 'film');
 $_smarty_tpl->tpl_vars['film']->do_else = true;
 if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['film']->value) {
 $_smarty_tpl->tpl_vars['film']->do_else = false;
@@ -199,8 +190,7 @@ $_smarty_tpl->tpl_vars['film']->do_else = false;
 							<!-- card -->
 							<div class="card card--big">
 								<div class="card__cover">
-									<img src="<?php echo $_smarty_tpl->tpl_vars['immaginiProssimi']->value[$_smarty_tpl->tpl_vars['i']->value]->getImmagineHTML();?>
-" alt="">
+									<img src="Smarty/img/covers/cover.jpg" alt="">
 									<a href="/Film/show/?film=<?php echo $_smarty_tpl->tpl_vars['film']->value->getId();?>
 &autoplay=true" class="card__play">
 										<i class="icon ion-ios-play"></i>
@@ -214,12 +204,12 @@ $_smarty_tpl->tpl_vars['film']->do_else = false;
 										<a href="#"><?php echo $_smarty_tpl->tpl_vars['film']->value->getGenere();?>
 </a>
 									</span>
+									<span class="card__rate"><i class="icon ion-ios-star"></i><?php echo $_smarty_tpl->tpl_vars['film']->value->getVotoCritica();?>
+</span>
 								</div>
 							</div>
 							<!-- end card -->
-						</div>
-						<?php echo $_smarty_tpl->tpl_vars['i']->value++;?>
-
+                        </div>
 								<?php
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
@@ -231,7 +221,7 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 			</div>
 		</div>
 	</section>
-	<!-- end -->
+	<!-- end home -->
 
 	<!-- content -->
 	<section class="content">
@@ -246,15 +236,19 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 						<!-- content tabs nav -->
 						<ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist">
 							<li class="nav-item">
-								<a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Settimana prossima</a>
+								<a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">NEW RELEASES</a>
 							</li>
 
 							<li class="nav-item">
-								<a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Questa settimana</a>
+								<a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">MOVIES</a>
 							</li>
 
 							<li class="nav-item">
-								<a class="nav-link" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Settimana scorsa</a>
+								<a class="nav-link" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">TV SERIES</a>
+							</li>
+
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#tab-4" role="tab" aria-controls="tab-4" aria-selected="false">CARTOONS</a>
 							</li>
 						</ul>
 						<!-- end content tabs nav -->
@@ -268,11 +262,13 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 
 							<div class="content__mobile-tabs-menu dropdown-menu" aria-labelledby="mobile-tabs">
 								<ul class="nav nav-tabs" role="tablist">
-									<li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Questa settimana</a></li>
+									<li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">NEW RELEASES</a></li>
 
-									<li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Settimana prossima</a></li>
+									<li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">MOVIES</a></li>
 
-									<li class="nav-item"><a class="nav-link" id="3-tab" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Settimana scorsa</a></li>
+									<li class="nav-item"><a class="nav-link" id="3-tab" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">TV SERIES</a></li>
+
+									<li class="nav-item"><a class="nav-link" id="4-tab" data-toggle="tab" href="#tab-4" role="tab" aria-controls="tab-4" aria-selected="false">CARTOONS</a></li>
 								</ul>
 							</div>
 						</div>
@@ -287,11 +283,10 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 			<div class="tab-content" id="myTabContent">
 				<div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
 					<div class="row">
-						<?php if ($_smarty_tpl->tpl_vars['filmProgrammazione']->value) {?>
-							<?php if (is_array($_smarty_tpl->tpl_vars['filmProgrammazione']->value)) {?>
-							<?php $_smarty_tpl->_assignInScope('i', 0);?>
+						<?php if ($_smarty_tpl->tpl_vars['array2']->value) {?>
+                        	<?php if (is_array($_smarty_tpl->tpl_vars['array2']->value)) {?>
                             	<?php
-$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['filmProgrammazione']->value, 'film');
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['array2']->value, 'film');
 $_smarty_tpl->tpl_vars['film']->do_else = true;
 if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['film']->value) {
 $_smarty_tpl->tpl_vars['film']->do_else = false;
@@ -302,8 +297,7 @@ $_smarty_tpl->tpl_vars['film']->do_else = false;
 								<div class="row">
 									<div class="col-12 col-sm-4">
 										<div class="card__cover">
-											<img src="<?php echo $_smarty_tpl->tpl_vars['immaginiProgrammazione']->value[$_smarty_tpl->tpl_vars['i']->value]->getImmagineHTML();?>
-" alt="">
+											<img src="Smarty/img/covers/cover.jpg" alt="">
 											<a href="#" class="card__play">
 												<i class="icon ion-ios-play"></i>
 											</a>
@@ -322,18 +316,13 @@ $_smarty_tpl->tpl_vars['film']->do_else = false;
 											<div class="card__wrap">
 												<span class="card__rate"><i class="icon ion-ios-star"></i><?php echo $_smarty_tpl->tpl_vars['film']->value->getVotoCritica();?>
 </span>
-												
-												<?php if (($_smarty_tpl->tpl_vars['film']->value->getetaConsigliata() != '')) {?>
+
 												<ul class="card__list">
-													<li><?php echo $_smarty_tpl->tpl_vars['film']->value->getetaConsigliata();?>
-</li>
+													<li>HD</li>
+													<li>16+</li>
 												</ul>
-												<?php }?>
 											</div>
-											<div class="card__description">
-												<p>Programmazione: <br></p>
-												<p>SOSOSOSSOSOOSSOS</p>
-											</div>
+
 											<div class="card__description">
 												<p><?php echo $_smarty_tpl->tpl_vars['film']->value->getDescrizione();?>
 </p>
@@ -343,8 +332,6 @@ $_smarty_tpl->tpl_vars['film']->do_else = false;
 								</div>
 							</div>
 						</div>
-						<?php echo $_smarty_tpl->tpl_vars['i']->value++;?>
-
 						<!-- end card -->
 								<?php
 }
@@ -400,13 +387,12 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 			<div class="row">
 				<!-- section title -->
 				<div class="col-12">
-					<h2 class="section__title">Consigliati per te</h2>
+					<h2 class="section__title">Prossime Uscite</h2>
 				</div>
 				<!-- end section title -->
-				<?php if ($_smarty_tpl->tpl_vars['filmConsigliati']->value) {?>
-					<?php $_smarty_tpl->_assignInScope('i', 0);?>
+				<?php if ($_smarty_tpl->tpl_vars['array']->value) {?>
 					<?php
-$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['filmConsigliati']->value, 'film');
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['array']->value, 'film');
 $_smarty_tpl->tpl_vars['film']->do_else = true;
 if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['film']->value) {
 $_smarty_tpl->tpl_vars['film']->do_else = false;
@@ -415,8 +401,7 @@ $_smarty_tpl->tpl_vars['film']->do_else = false;
 				<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 					<div class="card">
 						<div class="card__cover">
-							<img src="<?php echo $_smarty_tpl->tpl_vars['immaginiConsigliati']->value[$_smarty_tpl->tpl_vars['i']->value]->getImmagineHTML();?>
-" alt="">
+							<img src="Smarty/img/covers/cover.jpg" alt="">
 							<a href="#" class="card__play">
 								<i class="icon ion-ios-play"></i>
 							</a>
@@ -434,8 +419,6 @@ $_smarty_tpl->tpl_vars['film']->do_else = false;
 					</div>
 				</div>
 				<!-- end card -->
-					<?php echo $_smarty_tpl->tpl_vars['i']->value++;?>
-
 					<?php
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
@@ -444,7 +427,7 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 
 				<!-- section btn -->
 				<div class="col-12">
-					<a href="#" class="section__btn">Altro</a>
+					<a href="#" class="section__btn">Show more</a>
 				</div>
 				<!-- end section btn -->
 			</div>
