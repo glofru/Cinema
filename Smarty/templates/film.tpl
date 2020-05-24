@@ -184,7 +184,7 @@
                                 <ul class="card__meta">
                                     <li><span>Genere:</span> <a href="#">{$film->getGenere()}</a>
                                     <li><span>Anno di rilascio:</span> {$film->getAnno()}</li>
-                                    <li><span>Durata:</span> {$film->getDurataMinuti()}</li>
+                                    <li><span>Durata:</span> {$film->getDurataMinuti()} min</li>
                                     <li><span>Paese:</span> <a href="#">{$film->getPaese()}</a> </li>
                                 </ul>
 
