@@ -52,11 +52,7 @@
 							<ul class="header__nav">
 								<!-- dropdown -->
 								<li class="header__nav-item">
-									<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
-
-									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuHome">
-										<li><a href="index.html">Pagina Principale</a></li>
-									</ul>
+									<a class="dropdown-toggle header__nav-link" href="/" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
 								</li>
 								<!-- end dropdown -->
 
@@ -66,7 +62,7 @@
 									
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
 										<li><a href="catalog1.html">Prossime Uscite</a></li>
-										<li><a href="catalog2.html">Programmazione Settimanale</a></li>
+										<li><a href="catalog2.html">Programmazione</a></li>
 										<li><a href="details1.html">Film più apprezzati</a></li>
 									</ul>
 								</li>

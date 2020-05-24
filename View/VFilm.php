@@ -15,6 +15,8 @@ class VFilm
         $this->smarty->assign("film", $film);
         $this->smarty->assign("autoplay", $autoplay);
         $this->smarty->assign("locandina", $img);
+        $this->smarty->assign("registi", $film->getRegisti());
+        $this->smarty->assign("attori", $film->getAttori());
         $this->smarty->display("film.tpl");
     }
 }
