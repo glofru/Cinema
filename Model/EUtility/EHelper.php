@@ -79,8 +79,8 @@ class EHelper
 
     public function getDatePassate():array {
         $oggi = new DateTime('first day of this month - 2 weeks');
-        $oggi->format('Y-m-d');
-        $fine = new DateTime('first day of this month - 6 months');
+        $oggi = $oggi->format('Y-m-d');
+        $fine = new DateTime('first day of this month - 30 years');
         $fine = $fine->format('Y-m-d');
         $date = [];
         array_push($date,$oggi,$fine);

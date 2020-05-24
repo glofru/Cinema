@@ -15,6 +15,7 @@ function autoloader_model($class){
     include_once('Model/EProgrammazioneFilm/' . $class  . '.php');
     include_once('Model/ESale/' . $class  . '.php');
     include_once('Model/EUtenti/' . $class  . '.php');
+    include_once('Model/EUtility/' . $class  . '.php');
 }
 
 function autoloader_foundation($class){

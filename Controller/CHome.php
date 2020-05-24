@@ -30,7 +30,7 @@ class CHome
         }
         $pm = FPersistentManager::getInstance();
         $date = $gestore->getDatePassate();
-        $filmConsigliati = $pm->loadBetween($date[0],$date[1],"EFilm");
+        $filmConsigliati = $pm->loadBetween($date[1],$date[0],"EFilm");
         $immaginiConsigliati = [];
         foreach($filmConsigliati as $film){
             array_push($immaginiConsigliati,$pm->load($film->getId(),"idFilm","EMedia"));
