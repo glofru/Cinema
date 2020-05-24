@@ -188,6 +188,8 @@
                                     <li><span>Anno di rilascio:</span> {$film->getAnno()}</li>
                                     <li><span>Durata:</span> {$film->getDurataMinuti()} min</li>
                                     <li><span>Paese:</span> <a href="#">{$film->getPaese()}</a> </li>
+                                    <li><span>Regista:</span> {foreach $registi as $reg} <a href="{$reg->getImdbUrl()}" target="_blank">{$reg->getNome()} {$reg->getCognome()} </a> {/foreach}</li>
+                                        
                                 </ul>
 
                                 <div class="card__description card__description--details">
