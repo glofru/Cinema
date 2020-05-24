@@ -9,7 +9,8 @@ class CFilm
         $filmID = $_GET["film"];
         $autoplay = isset($_GET["autoplay"]) && $_GET["autoplay"];
         $film = $pm->load($filmID, "id", "EFilm")[0];
+        $img = $pm->load($filmID,"idFilm","EMediaLocandina");
         $vfilm = new VFilm();
-        $vfilm->show($film, $autoplay);
+        $vfilm->show($film, $autoplay, $img);
     }
 }

@@ -63,11 +63,47 @@ class EHelper
 
     public function getSettimana(): array {
         $result = [];
-        $inizio = new DateTime('tomorrow');
+        $inizio = new DateTime('now');
         $giorno = $inizio->format('D');
         while($giorno != 'Mon') {
             $inizio->modify('-1 Day');
             $giorno = $inizio->format('D');
+        }
+        $inizio = $inizio->format('Y-m-d');
+        $fine = DateTime::createfromFormat('Y-m-d',$inizio);
+        $fine->modify('+ 6 Days');
+        $fine = $fine->format('Y-m-d');
+        array_push($result,$inizio,$fine);
+        return $result;
+    }
+
+    public function getSettimanaProssima(): array {
+        $result = [];
+        $inizio = new DateTime('now');
+        $giorno = $inizio->format('D');
+        while($giorno != 'Mon') {
+            $inizio->modify('+1 Day');
+            $giorno = $inizio->format('D');
+        }
+        $inizio = $inizio->format('Y-m-d');
+        $fine = DateTime::createfromFormat('Y-m-d',$inizio);
+        $fine->modify('+ 6 Days');
+        $fine = $fine->format('Y-m-d');
+        array_push($result,$inizio,$fine);
+        return $result;
+    }
+
+    public function getSettimanaScorsa(): array {
+        $result = [];
+        $inizio = new DateTime('now');
+        $giorno = $inizio->format('D');
+        $i = 0;
+        $found = false;
+        while(!$found) {
+            $inizio->modify('-1 Day');
+            $giorno = $inizio->format('D');
+            if($giorno == 'Mon' && $i > 6) {$found = true;}
+            $i++;
         }
         $inizio = $inizio->format('Y-m-d');
         $fine = DateTime::createfromFormat('Y-m-d',$inizio);
