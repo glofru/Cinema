@@ -22,7 +22,9 @@ CREATE TABLE Film(
     `dataRilascio` DATE,
     `genere` TEXT,
     `attori` TEXT,
-    `registi` TEXT
+    `registi` TEXT,
+    `paese` TEXT,
+    `etaConsigliata` TEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 CREATE TABLE SalaFisica(

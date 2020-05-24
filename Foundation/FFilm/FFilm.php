@@ -5,7 +5,7 @@ class FFilm implements Foundation
 {
     private static string $className = "FFilm";
     private static string $tableName = "Film";
-    private static string $valuesName = "(:id,:nome,:descrizione,:durata,:trailerURL,:votoCritica,:dataRilascio,:genere,:attori,:registi)";
+    private static string $valuesName = "(:id,:nome,:descrizione,:durata,:trailerURL,:votoCritica,:dataRilascio,:genere,:attori,:registi,:paese,:etaConsigliata)";
 
     public function __construct() {}
 
@@ -21,6 +21,8 @@ class FFilm implements Foundation
             $sender->bindValue(':genere', $film->getGenere(), PDO::PARAM_STR);
             $sender->bindValue(':attori', self::splitArray($film->getAttori()), PDO::PARAM_STR);
             $sender->bindValue(':registi', self::splitArray($film->getRegisti()), PDO::PARAM_STR);
+            $sender->bindValue(':paese', $film->getPaese(), PDO::PARAM_STR);
+            $sender->bindValue(':etaConsigliata', $film->getPaese(), PDO::PARAM_STR);
         } else {
             die("Not a film!!");
         }
@@ -155,7 +157,9 @@ class FFilm implements Foundation
             $votoCritica = floatval($row["votoCritica"]);
             $dataRilascio = DateTime::createFromFormat("Y-m-d", $row["dataRilascio"]);
             $genere = EGenere::fromString($row["genere"]);
-            $film = new EFilm($nome, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere);
+            $paese = $row["paese"];
+            $etaConsigliata = $row["etaConsigliata"];
+            $film = new EFilm($nome, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere, $paese, $etaConsigliata);
             $film->setId($id);
             /*foreach (self::recreateArray($row["attori"]) as $attore)
             {

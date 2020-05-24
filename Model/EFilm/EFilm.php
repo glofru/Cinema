@@ -47,6 +47,10 @@ class EFilm implements JsonSerializable
      */
     private array $attori;
 
+    private string $paese;
+
+    private string $etaConsigliata;
+
     /**
      * EFilm constructor.
      * @param int $id
@@ -58,7 +62,7 @@ class EFilm implements JsonSerializable
      * @param DateTime $dataDiRilascio
      * @param EGenere $genere
      */
-    public function __construct(string $nome, string $descrizione, DateInterval $durata, string $trailerURL, float $votoCritica, DateTime $dataDiRilascio, string $genere)
+    public function __construct(string $nome, string $descrizione, DateInterval $durata, string $trailerURL, float $votoCritica, DateTime $dataDiRilascio, string $genere, string $paese, string $etaConsigliata)
     {
         $this->setNome($nome);
         $this->setDescrizione($descrizione);
@@ -67,6 +71,8 @@ class EFilm implements JsonSerializable
         $this->setVotoCritica($votoCritica);
         $this->setDataRilascio($dataDiRilascio);
         $this->setGenere($genere);
+        $this->setPaese($paese);
+        $this->setetaconsigliata($etaConsigliata);
         $this->registi = array();
         $this->attori = array();
     }
@@ -273,6 +279,22 @@ class EFilm implements JsonSerializable
         } else {
             array_push($this->attori, $attore);
         }
+    }
+
+    public function setPaese(string $paese) {
+        $this->paese = $paese;
+    }
+
+    public function getPaese(): string {
+        return $this->paese;
+    }
+
+    public function setEtaConsigliata($etaConsigliata) {
+        $this->etaConsigliata = $etaConsigliata;
+    }
+
+    public function getEtaConsigliata(): string {
+        return $this->etaConsigliata;
     }
 
     /**
