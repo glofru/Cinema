@@ -19,8 +19,13 @@ class CHome
         $filmProiezioni = [];
         $immaginiProiezioni = [];
         foreach($temp as $pro){
-            if(!in_array($pro->getFilm(),$filmProiezioni))
-               array_push($filmProiezioni,$pro->getFilm());
+            $found = false;
+            foreach($filmProiezioni as $film){
+                if($pro->getFilm()->getNome() == $film->getNome())
+                    $found = true;
+            }
+            if(!$found)
+                array_push($filmProiezioni,$pro->getFilm());
         }
         foreach($filmProiezioni as $film){
             array_push($immaginiProiezioni,$pm->load($film->getId(),"idFilm","EMedia"));
