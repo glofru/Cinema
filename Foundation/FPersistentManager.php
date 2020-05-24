@@ -30,6 +30,8 @@ class FPersistentManager
     private function getClass(string $class){
         if($class === "EAdmin" || $class === "ERegistrato" || $class === "ENonRegistrato"){
             return "FUtente";
+        } elseif($class == "EMediaLocandina" || $class == "EMediaUtente") {
+            return "FMedia";
         }
         $class[0] = "F";
         return $class;

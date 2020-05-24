@@ -10,7 +10,7 @@ class CHome
         $filmProssimi = $pm->loadBetween($oggi,'2100-01-01',"EFilm");
         $immaginiProssimi = [];
         foreach($filmProssimi as $film){
-            array_push($immaginiProssimi,$pm->load($film->getId(),"idFilm","EMedia"));
+            array_push($immaginiProssimi,$pm->load($film->getId(),"idFilm","EMediaLocandina"));
         }
         $oggi = new DateTime('tomorrow');
         $week = new DateInterval('P6D');
