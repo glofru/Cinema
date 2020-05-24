@@ -201,7 +201,11 @@
 
             <!-- player -->
             <div class="col-12 col-xl-6">
-                <iframe width="500" height="300" style="border: 7px solid #000; border-radius: 25px;" src="{$film->getEmbedURL()}" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                {if $autoplay}
+                    <iframe width="500" height="300" style="border: 7px solid #000; border-radius: 25px;" src="{$film->getEmbedURL(true)}" frameborder="0" allow="autoplay;" allowfullscreen></iframe>
+                {else}
+                    <iframe width="500" height="300" style="border: 7px solid #000; border-radius: 25px;" src="{$film->getEmbedURL()}" frameborder="0" allowfullscreen></iframe>
+                {/if}
             </div>
             <!-- end player -->
 

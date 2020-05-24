@@ -156,10 +156,15 @@ class EFilm implements JsonSerializable
         return $this->trailerURL;
     }
 
-    public function getEmbedURL(): string
+    public function getEmbedURL($autoplay = false): string
     {
         $videoID = explode("=", $this->getTrailerURL())[1];
-        return "https://youtube.com/embed/" . $videoID;
+        $url = "https://youtube.com/embed/" . $videoID;
+        if ($autoplay)
+        {
+            $url .= "?autoplay=1&mute=1&enablejsapi=1";
+        }
+        return $url;
     }
 
     /**

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.36, created on 2020-05-24 01:06:28
+/* Smarty version 3.1.36, created on 2020-05-24 03:32:34
   from '/opt/lampp/htdocs/Smarty/templates/home.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.36',
-  'unifunc' => 'content_5ec9ac74b40139_84256409',
+  'unifunc' => 'content_5ec9ceb2586610_46863298',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '1b98aaddd2d393797a38cbb18f7029f2c3b0fff5' => 
     array (
       0 => '/opt/lampp/htdocs/Smarty/templates/home.tpl',
-      1 => 1590275186,
+      1 => 1590283951,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5ec9ac74b40139_84256409 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5ec9ceb2586610_46863298 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="it">
 
@@ -191,12 +191,13 @@ $_smarty_tpl->tpl_vars['film']->do_else = false;
 							<div class="card card--big">
 								<div class="card__cover">
 									<img src="Smarty/img/covers/cover.jpg" alt="">
-									<a href="#" class="card__play">
+									<a href="/Film/show/?film=<?php echo $_smarty_tpl->tpl_vars['film']->value->getId();?>
+&autoplay=true" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
 								</div>
 								<div class="card__content">
-									<h3 class="card__title"><a href="/Film/show/<?php echo $_smarty_tpl->tpl_vars['film']->value->getId();?>
+									<h3 class="card__title"><a href="/Film/show/?film=<?php echo $_smarty_tpl->tpl_vars['film']->value->getId();?>
 "><?php echo $_smarty_tpl->tpl_vars['film']->value->getNome();?>
 </a></h3>
 									<span class="card__category">

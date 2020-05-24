@@ -163,12 +163,12 @@
 							<div class="card card--big">
 								<div class="card__cover">
 									<img src="Smarty/img/covers/cover.jpg" alt="">
-									<a href="#" class="card__play">
+									<a href="/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
 								</div>
 								<div class="card__content">
-									<h3 class="card__title"><a href="/Film/show/{$film->getId()}">{$film->getNome()}</a></h3>
+									<h3 class="card__title"><a href="/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
 									<span class="card__category">
 										<a href="#">{$film->getGenere()}</a>
 									</span>

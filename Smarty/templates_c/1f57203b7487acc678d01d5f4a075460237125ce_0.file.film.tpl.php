@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.36, created on 2020-05-24 02:54:46
+/* Smarty version 3.1.36, created on 2020-05-24 03:29:34
   from '/opt/lampp/htdocs/Smarty/templates/film.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.36',
-  'unifunc' => 'content_5ec9c5d642c8e7_69609659',
+  'unifunc' => 'content_5ec9cdfee88527_70816146',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '1f57203b7487acc678d01d5f4a075460237125ce' => 
     array (
       0 => '/opt/lampp/htdocs/Smarty/templates/film.tpl',
-      1 => 1590281684,
+      1 => 1590283768,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5ec9c5d642c8e7_69609659 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5ec9cdfee88527_70816146 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -230,8 +230,13 @@ function content_5ec9c5d642c8e7_69609659 (Smarty_Internal_Template $_smarty_tpl)
 
             <!-- player -->
             <div class="col-12 col-xl-6">
-                <iframe width="500" height="300" style="border: 7px solid #000; border-radius: 25px;" src="<?php echo $_smarty_tpl->tpl_vars['film']->value->getEmbedURL();?>
-" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                <?php if ($_smarty_tpl->tpl_vars['autoplay']->value) {?>
+                    <iframe width="500" height="300" style="border: 7px solid #000; border-radius: 25px;" src="<?php echo $_smarty_tpl->tpl_vars['film']->value->getEmbedURL(true);?>
+" frameborder="0" allow="autoplay;" allowfullscreen></iframe>
+                <?php } else { ?>
+                    <iframe width="500" height="300" style="border: 7px solid #000; border-radius: 25px;" src="<?php echo $_smarty_tpl->tpl_vars['film']->value->getEmbedURL();?>
+" frameborder="0" allowfullscreen></iframe>
+                <?php }?>
             </div>
             <!-- end player -->
 

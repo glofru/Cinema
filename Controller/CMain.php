@@ -29,14 +29,7 @@ class CMain
                     {
                         $function = $res[1];
 
-                        if (sizeof($res) == 2)
-                        {
-                            $controller::$function();
-                        }
-                        elseif (sizeof($res) == 3)
-                        {
-                            $controller::$function($res[2]);
-                        }
+                        $controller::$function();
                     }
                     else
                     {
