@@ -151,7 +151,7 @@
             <div class="row">
                 <!-- title -->
                 <div class="col-12">
-                    <h1 class="details__title">UserName</h1>
+                    <h1 class="details__title">{$utente->getUsername()}</h1>
                 </div>
                 <!-- end title -->
 
@@ -173,9 +173,9 @@
 
 
                                     <ul class="card__meta">
-                                        <li><span>Nome:</span> <a href="#">Action</a>
-                                        <li><span>Cognome:</span> 2017</li>
-                                        <li><span>Email:</span> <a href="#">USA</a> </li>
+                                        <li><span>Nome:</span> <a href="#">{$utente->getNome()}</a>
+                                        <li><span>Cognome:</span>{$utente->getCognome()}</li>
+                                        <li><span>Email:</span> <a href="#">{$utente->getEmail()}</a> </li>
                                     </ul>
 
                                     <div class="card__description card__description--details">
