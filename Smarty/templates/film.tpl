@@ -52,12 +52,9 @@
                         <ul class="header__nav">
                             <!-- dropdown -->
                             <li class="header__nav-item">
-                                <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
+                                <a class="dropdown-toggle header__nav-link" href="../../index.php" role="button" >Home</a>
 
-                                <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuHome">
-                                    <li><a href="index.html">Home slideshow bg</a></li>
-                                    <li><a href="index2.html">Home static bg</a></li>
-                                </ul>
+                                
                             </li>
                             <!-- end dropdown -->
 
@@ -189,6 +186,7 @@
                                     <li><span>Durata:</span> {$film->getDurataMinuti()} min</li>
                                     <li><span>Paese:</span> <a href="#">{$film->getPaese()}</a> </li>
                                     <li><span>Regista:</span> {foreach $registi as $reg} <a href="{$reg->getImdbUrl()}" target="_blank">{$reg->getNome()} {$reg->getCognome()} </a> {/foreach}</li>
+                                    <li><span>Attori:</span> {foreach $attori as $att} <a href="{$att->getImdbUrl()}" target="_blank">{$att->getNome()} {$att->getCognome()} </a> {/foreach}</li>
                                         
                                 </ul>
 
