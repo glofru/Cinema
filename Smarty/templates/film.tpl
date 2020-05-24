@@ -164,7 +164,7 @@
                         <!-- card cover -->
                         <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-5">
                             <div class="card__cover">
-                                <img src="../../Smarty/img/covers/cover.jpg" alt="">
+                                <img src="{$locandina->getImmagineHTML()}" alt="">
                             </div>
                         </div>
                         <!-- end card cover -->
@@ -173,12 +173,14 @@
                         <div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-7">
                             <div class="card__content">
                                 <div class="card__wrap">
+                                    {if ($film->getVotoCritica() != '0')}
                                     <span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
-
+                                    {/if}
+                                    {if ($film->getEtaConsigliata() != "")}
                                     <ul class="card__list">
-                                        <li>HD</li>
                                         <li>{$film->getEtaConsigliata()}</li>
                                     </ul>
+                                    {/if}
                                 </div>
 
                                 <ul class="card__meta">

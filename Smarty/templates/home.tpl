@@ -204,22 +204,26 @@
 				<div class="row">
 					<div class="col-12">
 						<!-- content title -->
-						<h2 class="content__title">I film più apprezzati dagli spettatori</h2>
+						<h2 class="content__title">New items</h2>
 						<!-- end content title -->
 
 						<!-- content tabs nav -->
 						<ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist">
-							<li class="nav-item">
-								<a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Settimana prossima</a>
-							</li>
 
 							<li class="nav-item">
-								<a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Questa settimana</a>
+								<a class="nav-link" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="false">Settimana Scorsa</a>
 							</li>
 
+
 							<li class="nav-item">
-								<a class="nav-link" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Settimana scorsa</a>
+								<a class="nav-link active" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="true">Questa settimana</a>
 							</li>
+
+
+							<li class="nav-item">
+								<a class="nav-link" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Settimana prossima</a>
+							</li>
+
 						</ul>
 						<!-- end content tabs nav -->
 
@@ -232,11 +236,11 @@
 
 							<div class="content__mobile-tabs-menu dropdown-menu" aria-labelledby="mobile-tabs">
 								<ul class="nav nav-tabs" role="tablist">
-									<li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Questa settimana</a></li>
+									<li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-1" aria-selected="true">Settimana scorsa</a></li>
 
-									<li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Settimana prossima</a></li>
+									<li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-2" aria-selected="false">Questa settimana</a></li>
 
-									<li class="nav-item"><a class="nav-link" id="3-tab" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Settimana scorsa</a></li>
+									<li class="nav-item"><a class="nav-link" id="3-tab" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-3" aria-selected="false">Settimana prossima</a></li>
 								</ul>
 							</div>
 						</div>
@@ -245,24 +249,21 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="container">
 			<!-- content tabs -->
 			<div class="tab-content" id="myTabContent">
-				<div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
+				<div class="tab-pane fade" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
 					<div class="row">
-						{if $filmProgrammazione}
-							{if is_array($filmProgrammazione)}
-							{$i = 0}
-                            	{foreach $filmProgrammazione as $film}
+						{if $filmSettimanaScorsa}
+							{foreach $filmSettimanaScorsa as $key => $film}
 						<!-- card -->
 						<div class="col-6 col-sm-12 col-lg-6">
 							<div class="card card--list">
 								<div class="row">
 									<div class="col-12 col-sm-4">
 										<div class="card__cover">
-											<img src="{$immaginiProgrammazione[$i]->getImmagineHTML()}" alt="">
-											<a href="#" class="card__play">
+											<img src="{$immaginiSettimanaScorsa[$key]->getImmagineHTML()}" alt="">
+											<a href="/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
 												<i class="icon ion-ios-play"></i>
 											</a>
 										</div>
@@ -272,22 +273,18 @@
 										<div class="card__content">
 											<h3 class="card__title"><a href="#">{$film->getNome()}</a></h3>
 											<span class="card__category">
-												<a href="#">{$film->getGenere()}</a>
+												<a href="#">{$film->getVotoCritica()}</a>
 											</span>
 
 											<div class="card__wrap">
 												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
-												
 												{if ($film->getetaConsigliata() != "")}
 												<ul class="card__list">
 													<li>{$film->getetaConsigliata()}</li>
 												</ul>
 												{/if}
 											</div>
-											<div class="card__description">
-												<p>Programmazione: <br></p>
-												<p>SOSOSOSSOSOOSSOS</p>
-											</div>
+
 											<div class="card__description">
 												<p>{$film->getDescrizione()}</p>
 											</div>
@@ -296,42 +293,108 @@
 								</div>
 							</div>
 						</div>
-						{$i++}
 						<!-- end card -->
-								{/foreach}
-							{/if}
-						{/if}
-
-				<div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
+						{/foreach}
+					{/if}
+					</div>
+				</div>
+				<div class="tab-pane fade show active" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
 					<div class="row">
+						{if $filmProgrammazione}
+							{foreach $filmProgrammazione as $key => $film}
 						<!-- card -->
-						{if $array}
-                        	{if is_array($array)}
-                            	{foreach $array as $film}
-						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-							<div class="card">
-								<div class="card__cover">
-									<img src="Smarty/img/covers/cover.jpg" alt="">
-									<a href="#" class="card__play">
-										<i class="icon ion-ios-play"></i>
-									</a>
-								</div>
-								<div class="card__content">
-									<h3 class="card__title"><a href="#">{$film->GetNome()}</a></h3>
-									<span class="card__category">
-										<a href="#">{$film->getGenere()}</a>
-									</span>
-									<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
+						<div class="col-6 col-sm-12 col-lg-6">
+							<div class="card card--list">
+								<div class="row">
+									<div class="col-12 col-sm-4">
+										<div class="card__cover">
+											<img src="{$immaginiProgrammazione[$key]->getImmagineHTML()}" alt="">
+											<a href="/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
+												<i class="icon ion-ios-play"></i>
+											</a>
+										</div>
+									</div>
+
+									<div class="col-12 col-sm-8">
+										<div class="card__content">
+											<h3 class="card__title"><a href="#">{$film->getNome()}</a></h3>
+											<span class="card__category">
+												<a href="#">{$film->getVotoCritica()}</a>
+											</span>
+
+											<div class="card__wrap">
+												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
+												{if ($film->getetaConsigliata() != "")}
+												<ul class="card__list">
+													<li>{$film->getetaConsigliata()}</li>
+												</ul>
+												{/if}
+											</div>
+
+											<div class="card__description">
+												<p>{$film->getDescrizione()}</p>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 						<!-- end card -->
-								{/foreach}
-							{/if}
-						{/if}
+						{/foreach}
+					{/if}
+					</div>
+				</div>
+				{$i = 0}
+				<div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="3-tab">
+					<div class="row">
+						{if $filmSettimanaProssima}
+							{foreach $filmSettimanaProssima as $key => $film}
+						<!-- card -->
+						<div class="col-6 col-sm-12 col-lg-6">
+							<div class="card card--list">
+								<div class="row">
+									<div class="col-12 col-sm-4">
+										<div class="card__cover">
+											<img src="{$immaginiSettimanaProssima[$key]->getImmagineHTML()}" alt="">
+											<a href="/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
+												<i class="icon ion-ios-play"></i>
+											</a>
+										</div>
+									</div>
+
+									<div class="col-12 col-sm-8">
+										<div class="card__content">
+											<h3 class="card__title"><a href="#">{$film->getNome()}</a></h3>
+											<span class="card__category">
+												<a href="#">{$film->getVotoCritica()}</a>
+											</span>
+
+											<div class="card__wrap">
+												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
+												{if ($film->getetaConsigliata() != "")}
+												<ul class="card__list">
+													<li>{$film->getetaConsigliata()}</li>
+												</ul>
+												{/if}
+											</div>
+
+											<div class="card__description">
+												<p>{$film->getDescrizione()}</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- end card -->
+						{/foreach}
+					{/if}
+					</div>
+				</div>
+			</div>
 			<!-- end content tabs -->
 		</div>
-	</section>
+	</section>>
 	<!-- end content -->
 
 	<!-- expected premiere -->
@@ -351,7 +414,7 @@
 					<div class="card">
 						<div class="card__cover">
 							<img src="{$immaginiConsigliati[$i]->getImmagineHTML()}" alt="">
-							<a href="#" class="card__play">
+							<a href="/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
 								<i class="icon ion-ios-play"></i>
 							</a>
 						</div>
