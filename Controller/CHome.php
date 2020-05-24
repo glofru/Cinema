@@ -12,7 +12,7 @@ class CHome
         foreach($filmProssimi as $film){
             array_push($immaginiProssimi,$pm->load($film->getId(),"idFilm","EMedia"));
         }
-        $date = $gestore->getSettimana()
+        $date = $gestore->getSettimana();
         $temp = $pm->loadBetween($date[0],$date[1],"EProiezione");
         $filmProiezioni = [];
         $immaginiProiezioni = [];

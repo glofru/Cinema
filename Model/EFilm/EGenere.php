@@ -45,4 +45,21 @@ class EGenere {
                 return self::$NOT_DEFINED;
         }
     }
+
+    public static function getAll(): array
+    {
+        $return = [];
+        array_push($return, self::$AZIONE);
+        array_push($return, self::$AVVENTURA);
+        array_push($return, self::$DRAMMATICO);
+        array_push($return, self::$GUERRA);
+        array_push($return, self::$GIALLO);
+        array_push($return, self::$ANIMAZIONE);
+        array_push($return, self::$COMMEDIA);
+        array_push($return, self::$ROMANTICO);
+        array_push($return, self::$SCIFI);
+        array_push($return, self::$BIOGRAFICO);
+        array_push($return, self::$HORROR);
+        return $return;
+    }
 }
