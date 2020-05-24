@@ -1,4 +1,4 @@
-INSERT INTO `persona`(`id`, `nome`, `cognome`, `imdbURL`, `isAttore`, `isRegista`) VALUES
+INSERT INTO `Persona`(`id`, `nome`, `cognome`, `imdbURL`, `isAttore`, `isRegista`) VALUES
 (1, 'Jim', 'Caviezel', 'https://www.imdb.com/name/nm0001029/', 1, 0),
 (2, 'Sean Justin', 'Penn', 'https://www.imdb.com/name/nm0000576/', 1, 1),
 (3, 'Terrence Frederick', 'Malick', 'https://www.imdb.com/name/nm0000517/', 0, 1),
@@ -64,7 +64,7 @@ INSERT INTO `SalaFisica`(`nSala`, `nFile`, `nPostiFila`, `disponibile`) VALUES (
 INSERT INTO `Utenti`(`id`, `username`, `email`, `nome`, `cognome`, `password`, `isAdmin`) VALUES (1, 'bb3b', 'gianlucchio@mailer.com' , 'Gianluca', 'Lofrusanna', 'password', 0);
 
 
-INSERT INTO `proiezione`(`id`, `data`, `ora`, `numerosala`, `idFilm`) VALUES
+INSERT INTO `Proiezione`(`id`, `data`, `ora`, `numerosala`, `idFilm`) VALUES
 (1, '2020-05-25', '16:00', 1, 8),
 (2, '2020-05-25', '17:50', 1, 8),
 (3, '2020-05-25', '21:00', 1, 8),
