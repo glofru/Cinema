@@ -102,7 +102,7 @@ CREATE TABLE MediaUtente(
     `mimeType` TEXT NOT NULL,
     `idUtente` INTEGER NOT NULL,
     `date` DATE NOT NULL,
-    `immagine` BLOB NOT NULL,
+    `immagine` LONGBLOB NOT NULL,
     FOREIGN KEY (`idUtente`)
         REFERENCES Utenti(`id`)
     ON UPDATE CASCADE
@@ -114,7 +114,7 @@ CREATE TABLE MediaLocandina(
     `mimeType` TEXT NOT NULL,
     `idFilm` INTEGER NOT NULL,
     `date` DATE NOT NULL,
-    `immagine` BLOB NOT NULL,
+    `immagine` LONGBLOB NOT NULL,
     FOREIGN KEY (`idFilm`)
         REFERENCES Film(`id`)
     ON UPDATE CASCADE
