@@ -1,4 +1,27 @@
-<!DOCTYPE html>
+<?php
+/* Smarty version 3.1.36, created on 2020-05-24 17:33:35
+  from 'C:\xampp\htdocs\Smarty\templates\home.tpl' */
+
+/* @var Smarty_Internal_Template $_smarty_tpl */
+if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
+  'version' => '3.1.36',
+  'unifunc' => 'content_5eca93cff3f840_97296778',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    '62f0b3d6f151473eda28911516d16c9d31562ba5' => 
+    array (
+      0 => 'C:\\xampp\\htdocs\\Smarty\\templates\\home.tpl',
+      1 => 1590334413,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+),false)) {
+function content_5eca93cff3f840_97296778 (Smarty_Internal_Template $_smarty_tpl) {
+?><!DOCTYPE html>
 <html lang="it">
 
 <head>
@@ -83,15 +106,15 @@
 								<!-- dropdown -->
 								<li class="dropdown header__nav-item">
 									<a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
-									 {if ($user == "")}
+									 <?php if (($_smarty_tpl->tpl_vars['user']->value == '')) {?>
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
 										<li><a href="about.html">Su di noi</a></li>
 										<li><a href="signin.html">Login</a></li>
 										<li><a href="signup.html">Registrati</a></li>
-									{else}
+									<?php } else { ?>
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
 										<li><a href="about.html">Su di noi</a></li>
-									{/if}
+									<?php }?>
 									</ul>
 								</li>
 								<!-- end dropdown -->
@@ -106,11 +129,11 @@
 								
 								<a href="signin.html" class="header__sign-in">
 									<i class="icon ion-ios-log-in"></i>
-									{if ($user === "")}
+									<?php if (($_smarty_tpl->tpl_vars['user']->value === '')) {?>
 									<span>login</span>
-									{else}
+									<?php } else { ?>
 									<span>Bentornato</span>
-									{/if}
+									<?php }?>
 								</a>
 							</div>
 							<!-- end header auth -->
@@ -163,32 +186,45 @@
 
 				<div class="col-12">
 					<div class="owl-carousel home__carousel">
-						{if $filmProssimi}
-							{if is_array($filmProssimi)}
-							{$i = 0}
-								{foreach $filmProssimi as $film}
+						<?php if ($_smarty_tpl->tpl_vars['filmProssimi']->value) {?>
+							<?php if (is_array($_smarty_tpl->tpl_vars['filmProssimi']->value)) {?>
+							<?php $_smarty_tpl->_assignInScope('i', 0);?>
+								<?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['filmProssimi']->value, 'film');
+$_smarty_tpl->tpl_vars['film']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['film']->value) {
+$_smarty_tpl->tpl_vars['film']->do_else = false;
+?>
 						<div class="item">
 							<!-- card -->
 							<div class="card card--big">
 								<div class="card__cover">
-									<img src="{$immaginiProssimi[$i]->getImmagineHTML()}" alt="">
-									<a href="/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
+									<img src="<?php echo $_smarty_tpl->tpl_vars['immaginiProssimi']->value[$_smarty_tpl->tpl_vars['i']->value]->getImmagineHTML();?>
+" alt="">
+									<a href="/Film/show/?film=<?php echo $_smarty_tpl->tpl_vars['film']->value->getId();?>
+&autoplay=true" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
 								</div>
 								<div class="card__content">
-									<h3 class="card__title"><a href="/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
+									<h3 class="card__title"><a href="/Film/show/?film=<?php echo $_smarty_tpl->tpl_vars['film']->value->getId();?>
+"><?php echo $_smarty_tpl->tpl_vars['film']->value->getNome();?>
+</a></h3>
 									<span class="card__category">
-										<a href="#">{$film->getGenere()}</a>
+										<a href="#"><?php echo $_smarty_tpl->tpl_vars['film']->value->getGenere();?>
+</a>
 									</span>
 								</div>
 							</div>
 							<!-- end card -->
 						</div>
-						{$i++}
-								{/foreach}
-							{/if}
-						{/if}
+						<?php echo $_smarty_tpl->tpl_vars['i']->value++;?>
+
+								<?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+							<?php }?>
+						<?php }?>
 						</div>
 					</div>
 				</div>
@@ -251,17 +287,23 @@
 			<div class="tab-content" id="myTabContent">
 				<div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
 					<div class="row">
-						{if $filmProgrammazione}
-							{if is_array($filmProgrammazione)}
-							{$i = 0}
-                            	{foreach $filmProgrammazione as $film}
+						<?php if ($_smarty_tpl->tpl_vars['filmProgrammazione']->value) {?>
+							<?php if (is_array($_smarty_tpl->tpl_vars['filmProgrammazione']->value)) {?>
+							<?php $_smarty_tpl->_assignInScope('i', 0);?>
+                            	<?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['filmProgrammazione']->value, 'film');
+$_smarty_tpl->tpl_vars['film']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['film']->value) {
+$_smarty_tpl->tpl_vars['film']->do_else = false;
+?>
 						<!-- card -->
 						<div class="col-6 col-sm-12 col-lg-6">
 							<div class="card card--list">
 								<div class="row">
 									<div class="col-12 col-sm-4">
 										<div class="card__cover">
-											<img src="{$immaginiProgrammazione[$i]->getImmagineHTML()}" alt="">
+											<img src="<?php echo $_smarty_tpl->tpl_vars['immaginiProgrammazione']->value[$_smarty_tpl->tpl_vars['i']->value]->getImmagineHTML();?>
+" alt="">
 											<a href="#" class="card__play">
 												<i class="icon ion-ios-play"></i>
 											</a>
@@ -270,44 +312,57 @@
 
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
-											<h3 class="card__title"><a href="#">{$film->getNome()}</a></h3>
+											<h3 class="card__title"><a href="#"><?php echo $_smarty_tpl->tpl_vars['film']->value->getNome();?>
+</a></h3>
 											<span class="card__category">
-												<a href="#">{$film->getGenere()}</a>
+												<a href="#"><?php echo $_smarty_tpl->tpl_vars['film']->value->getGenere();?>
+</a>
 											</span>
 
 											<div class="card__wrap">
-												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
+												<span class="card__rate"><i class="icon ion-ios-star"></i><?php echo $_smarty_tpl->tpl_vars['film']->value->getVotoCritica();?>
+</span>
 												
-												{if ($film->getetaConsigliata() != "")}
+												<?php if (($_smarty_tpl->tpl_vars['film']->value->getetaConsigliata() != '')) {?>
 												<ul class="card__list">
-													<li>{$film->getetaConsigliata()}</li>
+													<li><?php echo $_smarty_tpl->tpl_vars['film']->value->getetaConsigliata();?>
+</li>
 												</ul>
-												{/if}
+												<?php }?>
 											</div>
 											<div class="card__description">
 												<p>Programmazione: <br></p>
 												<p>SOSOSOSSOSOOSSOS</p>
 											</div>
 											<div class="card__description">
-												<p>{$film->getDescrizione()}</p>
+												<p><?php echo $_smarty_tpl->tpl_vars['film']->value->getDescrizione();?>
+</p>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						{$i++}
+						<?php echo $_smarty_tpl->tpl_vars['i']->value++;?>
+
 						<!-- end card -->
-								{/foreach}
-							{/if}
-						{/if}
+								<?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+							<?php }?>
+						<?php }?>
 
 				<div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
 					<div class="row">
 						<!-- card -->
-						{if $array}
-                        	{if is_array($array)}
-                            	{foreach $array as $film}
+						<?php if ($_smarty_tpl->tpl_vars['array']->value) {?>
+                        	<?php if (is_array($_smarty_tpl->tpl_vars['array']->value)) {?>
+                            	<?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['array']->value, 'film');
+$_smarty_tpl->tpl_vars['film']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['film']->value) {
+$_smarty_tpl->tpl_vars['film']->do_else = false;
+?>
 						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 							<div class="card">
 								<div class="card__cover">
@@ -317,18 +372,23 @@
 									</a>
 								</div>
 								<div class="card__content">
-									<h3 class="card__title"><a href="#">{$film->GetNome()}</a></h3>
+									<h3 class="card__title"><a href="#"><?php echo $_smarty_tpl->tpl_vars['film']->value->GetNome();?>
+</a></h3>
 									<span class="card__category">
-										<a href="#">{$film->getGenere()}</a>
+										<a href="#"><?php echo $_smarty_tpl->tpl_vars['film']->value->getGenere();?>
+</a>
 									</span>
-									<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
+									<span class="card__rate"><i class="icon ion-ios-star"></i><?php echo $_smarty_tpl->tpl_vars['film']->value->getVotoCritica();?>
+</span>
 								</div>
 							</div>
 						</div>
 						<!-- end card -->
-								{/foreach}
-							{/if}
-						{/if}
+								<?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+							<?php }?>
+						<?php }?>
 			<!-- end content tabs -->
 		</div>
 	</section>
@@ -343,31 +403,43 @@
 					<h2 class="section__title">Consigliati per te</h2>
 				</div>
 				<!-- end section title -->
-				{if $filmConsigliati}
-					{$i = 0}
-					{foreach $filmConsigliati as $film}
+				<?php if ($_smarty_tpl->tpl_vars['filmConsigliati']->value) {?>
+					<?php $_smarty_tpl->_assignInScope('i', 0);?>
+					<?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['filmConsigliati']->value, 'film');
+$_smarty_tpl->tpl_vars['film']->do_else = true;
+if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['film']->value) {
+$_smarty_tpl->tpl_vars['film']->do_else = false;
+?>
 				<!-- card -->
 				<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 					<div class="card">
 						<div class="card__cover">
-							<img src="{$immaginiConsigliati[$i]->getImmagineHTML()}" alt="">
+							<img src="<?php echo $_smarty_tpl->tpl_vars['immaginiConsigliati']->value[$_smarty_tpl->tpl_vars['i']->value]->getImmagineHTML();?>
+" alt="">
 							<a href="#" class="card__play">
 								<i class="icon ion-ios-play"></i>
 							</a>
 						</div>
 						<div class="card__content">
-							<h3 class="card__title"><a href="#">{$film->getNome()}</a></h3>
+							<h3 class="card__title"><a href="#"><?php echo $_smarty_tpl->tpl_vars['film']->value->getNome();?>
+</a></h3>
 							<span class="card__category">
-								<a href="#">{$film->getGenere()}</a>
+								<a href="#"><?php echo $_smarty_tpl->tpl_vars['film']->value->getGenere();?>
+</a>
 							</span>
-							<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
+							<span class="card__rate"><i class="icon ion-ios-star"></i><?php echo $_smarty_tpl->tpl_vars['film']->value->getVotoCritica();?>
+</span>
 						</div>
 					</div>
 				</div>
 				<!-- end card -->
-					{$i++}
-					{/foreach}
-				{/if}
+					<?php echo $_smarty_tpl->tpl_vars['i']->value++;?>
+
+					<?php
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+				<?php }?>
 				
 
 				<!-- section btn -->
@@ -518,18 +590,43 @@
 	<!-- end footer -->
 
 	<!-- JS -->
-	<script src="Smarty/js/jquery-3.3.1.min.js"></script>
-	<script src="Smarty/js/bootstrap.bundle.min.js"></script>
-	<script src="Smarty/js/owl.carousel.min.js"></script>
-	<script src="Smarty/js/jquery.mousewheel.min.js"></script>
-	<script src="Smarty/js/jquery.mCustomScrollbar.min.js"></script>
-	<script src="Smarty/js/wNumb.js"></script>
-	<script src="Smarty/js/nouislider.min.js"></script>
-	<script src="Smarty/js/plyr.min.js"></script>
-	<script src="Smarty/js/jquery.morelines.min.js"></script>
-	<script src="Smarty/js/photoswipe.min.js"></script>
-	<script src="Smarty/js/photoswipe-ui-default.min.js"></script>
-	<script src="Smarty/js/main.js"></script>
+	<?php echo '<script'; ?>
+ src="Smarty/js/jquery-3.3.1.min.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ src="Smarty/js/bootstrap.bundle.min.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ src="Smarty/js/owl.carousel.min.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ src="Smarty/js/jquery.mousewheel.min.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ src="Smarty/js/jquery.mCustomScrollbar.min.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ src="Smarty/js/wNumb.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ src="Smarty/js/nouislider.min.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ src="Smarty/js/plyr.min.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ src="Smarty/js/jquery.morelines.min.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ src="Smarty/js/photoswipe.min.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ src="Smarty/js/photoswipe-ui-default.min.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ src="Smarty/js/main.js"><?php echo '</script'; ?>
+>
 </body>
 
-</html>
+</html><?php }
+}

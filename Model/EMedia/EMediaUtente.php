@@ -20,9 +20,9 @@ class EMediaUtente extends EMedia
      * @param $immagine
      * @param EUtente $utente
      */
-    public function __construct(string $id, string $fileName, string $mimeType, DateTime $date, $immagine, EUtente $utente)
+    public function __construct(string $fileName, string $mimeType, DateTime $date, $immagine, EUtente $utente)
     {
-        parent::__construct($id, $fileName, $mimeType, $date, $immagine);
+        parent::__construct($fileName, $mimeType, $date, $immagine);
         $this->setUtente($utente);
     }
 

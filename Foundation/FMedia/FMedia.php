@@ -45,10 +45,11 @@ class FMedia implements Foundation
         return self::$className;
     }
 
-    public static function getTableName(EMedia $media)
+    public static function getTableName(/*EMedia $media*/)
     {
-        if ($media instanceof EMediaUtente) return self::$tableNameUtente;
-        else if ($media instanceof EMediaLocandina) return self::$tableNameLocandina;
+       /* if ($media instanceof EMediaUtente) return self::$tableNameUtente;
+        else if ($media instanceof EMediaLocandina) return self::$tableNameLocandina;*/
+        return "MediaLocandina";
     }
 
     public static function getValuesName(EMedia $media)
@@ -102,12 +103,13 @@ class FMedia implements Foundation
         {
             $idUtente = $row["idUtente"];
             $utente = FUtente::load($idUtente,"id");
-            return new EMediaUtente($idMedia, $fileName, $mimeType, null, $immagine,$utente);
+            return new EMediaUtente($fileName, $mimeType, null, $immagine,$utente);
         }
         else if (array_key_exists("idFilm", $row))
         {
             $idFilm = $row["idFilm"];
-            return new EMediaLocandina($idMedia, $fileName, $mimeType, $date, $idFilm, $immagine);
+            $film = FFilm::load($idFilm,'id')[0];
+            return new EMediaLocandina($fileName, $mimeType, $date, $immagine, $film);
         }
 
         return null;

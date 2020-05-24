@@ -14,8 +14,7 @@ class CMain
         {
             if ($path == "/" || $path == "/index.php")
             {
-                $vhome = new VHome();
-                $vhome->home();
+                CHome::showHome();
             }
             else
             {
