@@ -276,10 +276,11 @@
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
 											<h3 class="card__title"><a href="#">{$film->getNome()}</a></h3>
+											{if ($punteggioSettimanaScorsa[$key] != '0')}
 											<span class="card__category">
-												<a href="#">{$film->getVotoCritica()}</a>
+												<a href="#">Voto utenti: {$punteggioSettimanaScorsa[$key]}</a>
 											</span>
-
+											{/if}
 											<div class="card__wrap">
 												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
 												{if ($film->getetaConsigliata() != "")}
@@ -322,10 +323,11 @@
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
 											<h3 class="card__title"><a href="#">{$film->getNome()}</a></h3>
+											{if ($punteggioProgrammazione[$key] != '0')}
 											<span class="card__category">
-												<a href="#">{$film->getVotoCritica()}</a>
+												<a href="#">Voto utenti: {$punteggioProgrammazione[$key]}</a>
 											</span>
-
+											{/if}
 											<div class="card__wrap">
 												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
 												{if ($film->getetaConsigliata() != "")}
@@ -348,7 +350,6 @@
 					{/if}
 					</div>
 				</div>
-				{$i = 0}
 				<div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="3-tab">
 					<div class="row">
 						{if $filmSettimanaProssima}
@@ -369,10 +370,11 @@
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
 											<h3 class="card__title"><a href="#">{$film->getNome()}</a></h3>
-											<span class="card__category">
-												<a href="#">{$film->getVotoCritica()}</a>
+											{if ($punteggioSettimanaProssima[$key] != '0')}
+											<span class="card__category">	
+												<a href="#">Voto utenti: {$punteggioSettimanaProssima[$key]}</a>
 											</span>
-
+											{/if}
 											<div class="card__wrap">
 												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
 												{if ($film->getetaConsigliata() != "")}

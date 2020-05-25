@@ -15,7 +15,6 @@ class CFilm
 
         foreach($filmC as $key => $f) {
             if ($f->getId() == $filmID) {
-                echo '<br>'. $filmID . " " . $key . '<br>';
                 unset($filmC[$key]);
             }
         }

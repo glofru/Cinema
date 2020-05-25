@@ -8,11 +8,11 @@ class CHome
         $cookie = $gestore->preferences($_COOKIE['preferences']);
         $prossimi = self::getProssimi($pm, $gestore);
         $consigliati = self::getConsigliati($pm, $gestore, $cookie);
-        $proiezioni = self::getProiezioni($pm, $gestore);
-        $prossima = self::getProiezioniProssima($pm, $gestore);
-        $scorsa = self::getProiezioniScorsa($pm, $gestore);
+        $proiezioni = self::getProiezioni($pm, $gestore->getSettimana(), $gestore);
+        $prossima = self::getProiezioni($pm, $gestore->getSettimanaProssima(), $gestore);
+        $scorsa = self::getProiezioni($pm, $gestore->getSettimanaScorsa(), $gestore);
         $home = new VHome();
-        $home->showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $scorsa[0], $scorsa[1], $prossima[0], $prossima[1], "alessio");
+        $home->showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2], $scorsa[0], $scorsa[1], $scorsa[2], $prossima[0], $prossima[1], $prossima[2], "alessio");
     }
 
     private static function getProssimi(FPersistentManager $pm, EHelper $gestore) {
@@ -59,69 +59,32 @@ class CHome
         return $result;
     }
 
-    public static function getProiezioni(FPersistentManager $pm, EHelper $gestore) {
-        $date = $gestore->getSettimana();
-        $temp = $pm->loadBetween($date[0],$date[1],"EProiezione");
+    public static function getProiezioni(FPersistentManager $pm, array $date, EHelper $gestore) {
+        $elencoprogrammazioni = $pm->loadBetween($date[0],$date[1],"EProiezione");
         $filmProiezioni = [];
         $immaginiProiezioni = [];
-        foreach($temp as $pro){
-            $found = false;
-            foreach($filmProiezioni as $film){
-                if($pro->getFilm()->getNome() == $film->getNome())
-                    $found = true;
+        $giudizifilm = [];
+        $punteggio = [];
+        foreach($elencoprogrammazioni->getElencoprogrammazioni() as $profilm){
+            array_push($filmProiezioni,$profilm->getFilm());
+            $giu = $pm->load($profilm->getFilm()->getId(),"idFilm","EGiudizio");
+            array_push($giudizifilm, $giu);
+        }
+        
+        foreach($giudizifilm as $g){
+            if(sizeof($g) > 0){
+                $p = $gestore->getMedia($g);
             }
-            if(!$found)        
-                array_push($filmProiezioni,$pro->getFilm());
+            else{
+                $p = 0;
+            }
+            array_push($punteggio,$p);
         }
         foreach($filmProiezioni as $film){
             array_push($immaginiProiezioni,$pm->load($film->getId(),"idFilm","EMedia"));
         }
         $result = [];
-        array_push($result,$filmProiezioni,$immaginiProiezioni);
-        return $result;
-    }
-
-    public static function getProiezioniProssima(FPersistentManager $pm, EHelper $gestore) {
-        $date = $gestore->getSettimanaProssima();
-        $temp = $pm->loadBetween($date[0],$date[1],"EProiezione");
-        $filmProiezioni = [];
-        $immaginiProiezioni = [];
-        foreach($temp as $pro){
-            $found = false;
-            foreach($filmProiezioni as $film){
-                if($pro->getFilm()->getNome() == $film->getNome())
-                    $found = true;
-            }
-            if(!$found)        
-                array_push($filmProiezioni,$pro->getFilm());
-        }
-        foreach($filmProiezioni as $film){
-            array_push($immaginiProiezioni,$pm->load($film->getId(),"idFilm","EMedia"));
-        }
-        $result = [];
-        array_push($result,$filmProiezioni,$immaginiProiezioni);
-        return $result;
-    }
-
-    public static function getProiezioniScorsa(FPersistentManager $pm, EHelper $gestore) {
-        $date = $gestore->getSettimanaScorsa();
-        $temp = $pm->loadBetween($date[0],$date[1],"EProiezione");
-        $filmProiezioni = [];
-        $immaginiProiezioni = [];
-        foreach($temp as $pro){
-            $found = false;
-            foreach($filmProiezioni as $film){
-                if($pro->getFilm()->getNome() == $film->getNome())
-                    $found = true;
-            }
-            if(!$found)        
-                array_push($filmProiezioni,$pro->getFilm());
-        }
-        foreach($filmProiezioni as $film){
-            array_push($immaginiProiezioni,$pm->load($film->getId(),"idFilm","EMedia"));
-        }
-        $result = [];
-        array_push($result,$filmProiezioni,$immaginiProiezioni);
+        array_push($result,$filmProiezioni,$immaginiProiezioni,$punteggio);
         return $result;
     }
 }

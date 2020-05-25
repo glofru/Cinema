@@ -164,4 +164,17 @@ class EHelper
         $cookie = serialize($cookie);
         setcookie('preferences',$cookie,time() + (86400 * 30), "/");
     }
+
+    public function getMedia(array $g) {
+        $p = 0;
+        $n = sizeof($g);
+        echo $n . "<br>";
+        if($n === 0){
+            return 0;
+        }
+        foreach($g as $elem){
+            $p+=$elem->getPunteggio();
+        }
+        return ($p/$n);
+    }
 }

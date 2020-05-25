@@ -40,10 +40,9 @@ class FGiudizio
     {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
-
         if ($result == null || sizeof($result) == 0)
         {
-            return null;
+            return [];
         }
 
         return self::parseResult($result);
@@ -54,7 +53,6 @@ class FGiudizio
     {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDBDebole(self::getClassName(),$value,$row,$value2,$row2);
-        echo $result["idFilm"];
         if($result === null)
         {
             return $result;
