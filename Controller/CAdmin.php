@@ -10,7 +10,9 @@ class CAdmin
 
         if ($method == "GET")
         {
-            VAdmin::addFilm();
+            $attori = FPersistentManager::getInstance()->load("1", "isAttore", "EPersona");
+            $registi = FPersistentManager::getInstance()->load("1", "isRegista", "EPersona");
+            VAdmin::addFilm($attori, $registi);
         }
         elseif ($method == "POST")
         {
@@ -36,6 +38,17 @@ class CAdmin
             $etaConsigliata = $_POST["etaConsigliata"];
 
             $film = new EFilm($titolo, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere, $paese, $etaConsigliata);
+
+            foreach (FFilm::recreateArray($_POST["attori"]) as $attore)
+            {
+                $film->addAttore($attore);
+            }
+
+            foreach (FFilm::recreateArray($_POST["registi"]) as $regista)
+            {
+                $film->addRegista($regista);
+            }
+
             FPersistentManager::getInstance()->save($film);
 
             $tempCop = $_FILES["copertina"];

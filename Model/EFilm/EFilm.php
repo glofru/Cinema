@@ -139,7 +139,7 @@ class EFilm implements JsonSerializable
     }
 
     public function getDurataMinuti(): int {
-        return $this->getDurata()->h * 60 + $this->getDurata()->m;
+        return $this->getDurata()->h * 60 + $this->getDurata()->i;
     }
 
     public function getDurataDB() : string {
