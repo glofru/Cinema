@@ -1,5 +1,6 @@
 <?php
 
+require_once "config.inc.php";
 
 /**
  * Class FDatabase
@@ -20,11 +21,16 @@ class FDatabase
      * FDatabase constructor.
      */
     private function __construct() {
+        $dbname = $GLOBALS["dbname"];
+        $username = $GLOBALS["username"];
+        $password = $GLOBALS["password"];
+
         try {
-            $this->db = new PDO("mysql:dbname=".$GLOBALS['dbname']."host=localhost; charset=utf8;", $GLOBALS['username'],$GLOBALS['password']);
+            $this->db = new PDO("mysql:dbname=" . $dbname . "; host=localhost; charset=utf8;", $username, $password);
         }
         catch (PDOException $exception) {
-            die("Errore nel DB: " . $exception->getMessage());
+            VError::error(1);
+            die();
         }
     }
 
@@ -88,9 +94,10 @@ class FDatabase
      * @param $row
      * @return array
      */
-    public function loadFromDB($class, $value, string $row) {
+    public function loadFromDB($class, $value, string $row, $media = null) {
             try {
-                $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . "='" . $value . "';";
+                $table = $media == null ? $class::getTableName() : $class::getTableName($media);
+                $query = "SELECT * FROM " . $table . " WHERE " . $row . "='" . $value . "';";
                 $sender = $this->db->prepare($query);
                 $sender->execute();
                 $returnedRows = $sender->rowCount();
@@ -417,7 +424,7 @@ class FDatabase
     {
         try {
             $this->db->beginTransaction();
-            $query = "INSERT INTO ".$class::getTable($media)." VALUES ".$class::getValues($media);
+            $query = "INSERT INTO ".$class::getTableName(get_class($media))." VALUES ".$class::getValuesName($media);
             $sender = $this->db->prepare($query);
             $class::associate($sender, $media);
             $sender->execute();

@@ -16,12 +16,11 @@ class FMedia implements Foundation
     public static function associate(PDOStatement $sender, $media)
     {
         if ($media instanceof EMedia) {
-            $path = $_FILES[$media->getFileName()]['tmp_name'];
-            $file = fopen($path,"rb") or die ("Errore nell'apertura del file");
-            $sender->bindValue(":id", $media->getId(), PDO::PARAM_INT);
+            $sender->bindValue(":id", NULL, PDO::PARAM_INT);
             $sender->bindValue(":fileName", $media->getFileName(), PDO::PARAM_STR);
             $sender->bindValue(":mimeType", $media->getMimeType(), PDO::PARAM_STR);
             $sender->bindValue(":date",$media->getDateStringSQL(),PDO::PARAM_STR);
+
             if ($media instanceof EMediaUtente)
             {
                 $sender->bindValue(":idUtente", $media->getUtente()->getId(), PDO::PARAM_STR);
@@ -31,10 +30,8 @@ class FMedia implements Foundation
                 $sender->bindValue(":idFilm", $media->getFilm()->getId(), PDO::PARAM_STR);
             }
 
-            $sender->bindValue(':immagine', fread($file,filesize($path)), PDO::PARAM_LOB);
+            $sender->bindValue(':immagine', $media->getImmagine(), PDO::PARAM_LOB);
 
-            unset($file);
-            unlink($path);
         } else {
             die("Not a media!!");
         }
@@ -45,10 +42,10 @@ class FMedia implements Foundation
         return self::$className;
     }
 
-    public static function getTableName(EMedia $media)
+    public static function getTableName(string $media)
     {
-        if ($media instanceof EMediaUtente) return self::$tableNameUtente;
-        else if ($media instanceof EMediaLocandina) return self::$tableNameLocandina;
+       if ($media == "EMediaUtente") return self::$tableNameUtente;
+       else return self::$tableNameLocandina;
     }
 
     public static function getValuesName(EMedia $media)
@@ -57,10 +54,11 @@ class FMedia implements Foundation
         else if ($media instanceof EMediaLocandina) return self::$valuesNameLocandina;
     }
 
-    public static function store(EMedia $media)
+    public static function save(EMedia $media)
     {
         $db = FDatabase::getInstance();
-        $db->storeMedia(static::getClassName(), $media);
+        $id = $db->storeMedia(static::getClassName(), $media);
+        $media->setId($id);
     }
 
     public static function delete($value, $row): bool
@@ -85,10 +83,11 @@ class FMedia implements Foundation
     public static function load (string $value, string $row)
     {
         $db = FDatabase::getInstance();
-        $result = $db->loadFromDB(self::getClassName(), $value, $row);
+        $media = $row == "idFilm" ? "EMediaLocandina" : "EMediaUtente";
+        $result = $db->loadFromDB(self::getClassName(), $value, $row, $media);
 
-        if($result === null) {
-            return null;
+        if($result == null) {
+            return new EMedia("","",new DateTime('now'),"");
         }
 
         $row = $result[0];
@@ -102,14 +101,13 @@ class FMedia implements Foundation
         {
             $idUtente = $row["idUtente"];
             $utente = FUtente::load($idUtente,"id");
-            return new EMediaUtente($idMedia, $fileName, $mimeType, null, $immagine,$utente);
+            return new EMediaUtente($fileName, $mimeType, null, $immagine,$utente);
         }
         else if (array_key_exists("idFilm", $row))
         {
             $idFilm = $row["idFilm"];
-            return new EMediaLocandina($idMedia, $fileName, $mimeType, $date, $idFilm, $immagine);
+            $film = FFilm::load($idFilm,'id')[0];
+            return new EMediaLocandina($fileName, $mimeType, $date, $immagine, $film);
         }
-
-        return null;
     }
 }

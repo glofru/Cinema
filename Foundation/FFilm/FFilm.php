@@ -5,7 +5,7 @@ class FFilm implements Foundation
 {
     private static string $className = "FFilm";
     private static string $tableName = "Film";
-    private static string $valuesName = "(:id,:nome,:descrizione,:durata,:trailerURL,:votoCritica,:dataRilascio,:genere,:attori,:registi)";
+    private static string $valuesName = "(:id,:nome,:descrizione,:durata,:trailerURL,:votoCritica,:dataRilascio,:genere,:attori,:registi,:paese,:etaConsigliata)";
 
     public function __construct() {}
 
@@ -21,6 +21,8 @@ class FFilm implements Foundation
             $sender->bindValue(':genere', $film->getGenere(), PDO::PARAM_STR);
             $sender->bindValue(':attori', self::splitArray($film->getAttori()), PDO::PARAM_STR);
             $sender->bindValue(':registi', self::splitArray($film->getRegisti()), PDO::PARAM_STR);
+            $sender->bindValue(':paese', $film->getPaese(), PDO::PARAM_STR);
+            $sender->bindValue(':etaConsigliata', $film->getEtaConsigliata(), PDO::PARAM_STR);
         } else {
             die("Not a film!!");
         }
@@ -29,22 +31,23 @@ class FFilm implements Foundation
     private static function splitArray(array $a): string
     {
         $s = "";
+        print_r($a);
         foreach ($a as $value)
         {
             $s .= $value->getId() . ";";
         }
-        $s[strlen($s)-1] = "";
+        $s = substr($s, 0, -1);
         return $s;
     }
 
-    private static function recreateArray(string $s): array
+    public static function recreateArray(string $s): array
     {
         $return = [];
+        if ($s == "") return $return;
         $temp = explode(";", $s);
-
         foreach ($temp as $e)
         {
-            array_push($return, FPersona::load($e, "id"));
+            array_push($return, FPersona::load($e, "id")[0]);
         }
 
         return $return;
@@ -77,10 +80,12 @@ class FFilm implements Foundation
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
 
-        if($result === null) {
-            return [];
-        }
+        return self::parseResult($result);
+    }
 
+    public static function loadBetween($inizio,$fine) {
+        $db = FDatabase::getInstance();
+        $result = $db->loadBetween(self::getClassName(),$inizio,$fine,"dataRilascio");
         return self::parseResult($result);
     }
 
@@ -143,6 +148,7 @@ class FFilm implements Foundation
     private static function parseResult(array $result): array
     {
         $return = array();
+
         foreach ($result as $row)
         {
             $id = $row["id"];
@@ -158,16 +164,20 @@ class FFilm implements Foundation
             $votoCritica = floatval($row["votoCritica"]);
             $dataRilascio = DateTime::createFromFormat("Y-m-d", $row["dataRilascio"]);
             $genere = EGenere::fromString($row["genere"]);
-            $film = new EFilm($nome, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere);
+            $paese = $row["paese"];
+            $etaConsigliata = $row["etaConsigliata"];
+            $film = new EFilm($nome, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere, $paese, $etaConsigliata);
             $film->setId($id);
-            /*foreach (self::recreateArray($row["attori"]) as $attore)
+
+            foreach (self::recreateArray($row["attori"]) as $attore)
             {
-                $film->addAttore($attore);
+               $film->addAttore($attore);
             }
+
             foreach (self::recreateArray($row["registi"]) as $regista)
             {
                 $film->addRegista($regista);
-            }*/
+            }
 
             array_push($return, $film);
         }
