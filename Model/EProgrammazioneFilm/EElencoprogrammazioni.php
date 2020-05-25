@@ -33,7 +33,7 @@
      * Aggiunge una programmazione all'insieme
      * @param EProgrammazionefilm $programmazione programmazione da aggiungere all'insieme
      */
-    public function addProgrammazione(EProgrammazionefilm $programmazione){
+    public function add(EProgrammazionefilm $programmazione){
         array_push($this->elencoprogrammazioni, $programmazione);
     }
     /**

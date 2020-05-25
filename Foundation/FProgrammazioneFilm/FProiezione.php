@@ -55,7 +55,7 @@ class FProiezione implements Foundation
         return self::parseResult($result);
     }
 
-    public static function loadBetween($inizio,$fine): array {
+    public static function loadBetween($inizio,$fine): EElencoProgrammazioni {
         $db = FDatabase::getInstance();
         $result = $db->loadBetween(self::getClassName(),$inizio,$fine,"data");
 
@@ -90,9 +90,10 @@ class FProiezione implements Foundation
         return $return;
     }
 
-    private static function parseResult(array $result): array
+    private static function parseResult(array $result): EElencoprogrammazioni
     {
-        $return = array();
+        $elencogenerale = new EElencoprogrammazioni();
+        $elencofilm = new EProgrammazionefilm();
         foreach ($result as $row)
         {
             //DATI DELLA PROIEZIONE
@@ -117,10 +118,26 @@ class FProiezione implements Foundation
             //AGGIUNGO LA PROIEZIONE ALLA LISTA DI RITORNO
             $new = new EProiezione($film,$salaVirtuale,$dataora);
             $new->setId($ID);
-            array_push($return, $new);
-
+            if(sizeof($elencogenerale->getElencoprogrammazioni()) === 0){
+                $elencofilm->add($new);
+                $elencogenerale->add($elencofilm);
+                $elencofilm = new EProgrammazionefilm();
+            }
+            else{
+                $found = false;
+                foreach($elencogenerale->getElencoprogrammazioni() as $elem){
+                    if($elem->getFilm()->getId() === $new->getFilm()->getId()){
+                        $elem->add($new);
+                        $found = true;
+                    }
+                }
+                if(!$found){
+                    $elencofilm->add($new);
+                    $elencogenerale->add($elencofilm);
+                    $elencofilm = new EProgrammazionefilm();
+                }
+            }
         }
-
-        return $return;
+        return $elencogenerale;
     }
 }

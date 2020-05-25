@@ -31,130 +31,74 @@
     <meta name="keywords" content="">
     <meta name="author" content="Dmitry Volkov">
     <title>Aggiungi un film</title>
+
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .custom_upload::-webkit-file-upload-button {
+            visibility: hidden;
+        }
+        .custom_upload::before {
+            content: 'Carica copertina';
+            display: inline-block;
+            background: linear-gradient(top, #f9f9f9, #e3e3e3);
+            border: 1px solid #999;
+            border-radius: 3px;
+            padding: 5px 8px;
+            outline: none;
+            white-space: nowrap;
+            -webkit-user-select: none;
+            cursor: pointer;
+            text-shadow: 1px 1px #fff;
+            font-weight: 700;
+            font-size: 10pt;
+        }
+        .custom_upload:hover::before {
+            border-color: black;
+        }
+        .custom_upload:active::before {
+            background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+        }
+    </style>
 </head>
 <body class="body">
-<!-- header -->
-<header class="header">
-    <div class="header__wrap">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="header__content">
-                        <!-- header logo -->
-                        <a href="index.html" class="header__logo">
-                            <img src="../../Smarty/img/logo.svg" alt="">
-                        </a>
-                        <!-- end header logo -->
-
-{*                        <!-- header nav -->*}
-{*                        <ul class="header__nav">*}
-{*                            <!-- dropdown -->*}
-{*                            <li class="header__nav-item">*}
-{*                                <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>*}
-
-{*                                <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuHome">*}
-{*                                    <li><a href="index.html">Home slideshow bg</a></li>*}
-{*                                    <li><a href="index2.html">Home static bg</a></li>*}
-{*                                </ul>*}
-{*                            </li>*}
-{*                            <!-- end dropdown -->*}
-
-{*                            <!-- dropdown -->*}
-{*                            <li class="header__nav-item">*}
-{*                                <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalog</a>*}
-
-{*                                <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">*}
-{*                                    <li><a href="catalog1.html">Catalog Grid</a></li>*}
-{*                                    <li><a href="catalog2.html">Catalog List</a></li>*}
-{*                                    <li><a href="details1.html">Details Movie</a></li>*}
-{*                                    <li><a href="details2.html">Details TV Series</a></li>*}
-{*                                </ul>*}
-{*                            </li>*}
-{*                            <!-- end dropdown -->*}
-
-{*                            <li class="header__nav-item">*}
-{*                                <a href="pricing.html" class="header__nav-link">Pricing Plan</a>*}
-{*                            </li>*}
-
-{*                            <li class="header__nav-item">*}
-{*                                <a href="faq.html" class="header__nav-link">Help</a>*}
-{*                            </li>*}
-
-{*                            <!-- dropdown -->*}
-{*                            <li class="dropdown header__nav-item">*}
-{*                                <a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>*}
-
-{*                                <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">*}
-{*                                    <li><a href="about.html">About</a></li>*}
-{*                                    <li><a href="signin.html">Sign In</a></li>*}
-{*                                    <li><a href="signup.html">Sign Up</a></li>*}
-{*                                    <li><a href="404.html">404 Page</a></li>*}
-{*                                </ul>*}
-{*                            </li>*}
-{*                            <!-- end dropdown -->*}
-{*                        </ul>*}
-{*                        <!-- end header nav -->*}
-
-{*                        <!-- header auth -->*}
-{*                        <div class="header__auth">*}
-{*                            <button class="header__search-btn" type="button">*}
-{*                                <i class="icon ion-ios-search"></i>*}
-{*                            </button>*}
-
-{*                            <a href="signin.html" class="header__sign-in">*}
-{*                                <i class="icon ion-ios-log-in"></i>*}
-{*                                <span>sign in</span>*}
-{*                            </a>*}
-{*                        </div>*}
-{*                        <!-- end header auth -->*}
-
-{*                        <!-- header menu btn -->*}
-{*                        <button class="header__btn" type="button">*}
-{*                            <span></span>*}
-{*                            <span></span>*}
-{*                            <span></span>*}
-{*                        </button>*}
-{*                        <!-- end header menu btn -->*}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- header search -->
-    <form action="#" class="header__search">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="header__search-content">
-                        <input type="text" placeholder="Search for a movie, TV Series that you are looking for">
-
-                        <button type="button">search</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-    <!-- end header search -->
-</header>
-<!-- end header -->
 <div class="sign section--bg" data-bg="../../Smarty/img/section/section.jpg">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="sign__content">
                     <!-- authorization form -->
-                    <form action="/Admin/addFilm" method="POST" class="sign__form">
+                    <form action="/Admin/addFilm" method="POST" class="sign__form" enctype="multipart/form-data">
 
                         <div class="sign__group">
-                            <input type="text" class="sign__input" placeholder="Titolo Film" name="titolo">
+                            <button id="insert_image" class="sign__btn" type="button" style="width: 200px" onclick="document.getElementById('choose_image').click()">Carica copertina</button>
+                            <input id="choose_image" type="file" name="copertina" style="display: none" accept=".jpg, .jpeg, .gif, .png">
+                            <br>
+                            <b><p id="image_name" class="faq__text" style="text-align: center; max-width: 300px">Nessuna immagine caricata</p></b>
                         </div>
 
+                        <!-- Titolo -->
+                        <div class="sign__group">
+                            <input type="text" class="sign__input" placeholder="Titolo del film" name="titolo">
+                        </div>
+
+                        <!-- Descrizione -->
                         <div class="sign__group">
                             <input type="text" class="sign__input" placeholder="Descrizione" name="descrizione">
                         </div>
 
-                        <div class="filter__item" id="filter__genre" style="margin: auto;">
+                        <!-- Genere -->
+                        <div class="filter__item" id="filter__genre" style="margin: auto; padding-bottom: 20px">
                             <span class="filter__item-label">Genere:</span>
 
                             <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-genre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -169,6 +113,49 @@
                             </ul>
                         </div>
 
+                        <!-- Durata -->
+                        <div class="sign__group">
+                            <input type="number" max="500" class="sign__input" placeholder="Durata (minuti)" name="durata">
+                        </div>
+
+                        <!-- TrailerURL -->
+                        <div class="sign__group">
+                            <input type="url" class="sign__input" placeholder="Trailer" name="trailerURL">
+                        </div>
+
+                        <!-- Voto critica -->
+                        <div class="sign__group" style="position:relative;">
+                            <input style="padding-right: 30px;" type="number" class="sign__input" placeholder="Voto della critica" name="votoCritica">
+                            <span class="card__rate" style="position: absolute; right: 10px; bottom: 13px;"><i class="icon ion-ios-star"></i></span>
+                        </div>
+
+                        <!-- DataRilascio -->
+                        <div class="sign__group">
+                            <input type="date" class="sign__input" placeholder="GG/MM/AAAA" name="dataRilascio">
+                        </div>
+
+                        <!-- Paese -->
+                        <div class="sign__group">
+                            <input type="text" maxlength="3" class="sign__input" placeholder="Paese" name="paese">
+                        </div>
+
+                        <!-- Età consigliata -->
+                        <div class="filter__item" id="filter__age" style="margin: auto; padding-bottom: 20px">
+                            <span class="filter__item-label">Età consigliata:</span>
+
+                            <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-age" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <input type="text" name="etaConsigliata" value="NO" readonly>
+                                <span></span>
+                            </div>
+
+                            <ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter-genre">
+                                <li>NO</li>
+                                <li>14+</li>
+                                <li>16+</li>
+                                <li>18+</li>
+                            </ul>
+                        </div>
+
                         <button class="sign__btn" type="submit">Aggiungi Film</button>
                     </form>
                     <!-- end authorization form -->
@@ -177,6 +164,7 @@
         </div>
     </div>
 </div>
+
 <!-- JS -->
 <script src="../../Smarty/js/jquery-3.3.1.min.js"></script>
 <script src="../../Smarty/js/bootstrap.bundle.min.js"></script>
@@ -190,5 +178,14 @@
 <script src="../../Smarty/js/photoswipe.min.js"></script>
 <script src="../../Smarty/js/photoswipe-ui-default.min.js"></script>
 <script src="../../Smarty/js/main.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $('#choose_image').change(function(e) {
+            document.getElementById("image_name").innerText = e.target.files[0].name;
+        });
+    });
+</script>
+
 </body>
 </html>

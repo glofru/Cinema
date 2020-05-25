@@ -53,14 +53,15 @@ class EFilm implements JsonSerializable
 
     /**
      * EFilm constructor.
-     * @param int $id
      * @param string $nome
      * @param string $descrizione
      * @param DateInterval $durata
      * @param string $trailerURL
      * @param float $votoCritica
      * @param DateTime $dataDiRilascio
-     * @param EGenere $genere
+     * @param string $genere
+     * @param string $paese
+     * @param string $etaConsigliata
      */
     public function __construct(string $nome, string $descrizione, DateInterval $durata, string $trailerURL, float $votoCritica, DateTime $dataDiRilascio, string $genere, string $paese, string $etaConsigliata)
     {

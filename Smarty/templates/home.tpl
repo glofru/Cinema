@@ -2,6 +2,14 @@
 <html lang="it">
 
 <head>
+	<script>
+		function ready(){
+			if (!navigator.cookieEnabled) {
+				alert('Caro utente, ti invitiamo ad abilitare i cookie sul nostro sito per permetterti un\'esperienza migliore e personalizzata in bae alle tue preferenze.');
+			}
+		}
+		document.addEventListener("DOMContentLoaded", ready);
+	</script>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -200,7 +208,7 @@
 				<div class="row">
 					<div class="col-12">
 						<!-- content title -->
-						<h2 class="content__title">New items</h2>
+						<h2 class="content__title">La nostra programmazione</h2>
 						<!-- end content title -->
 
 						<!-- content tabs nav -->
@@ -268,10 +276,11 @@
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
 											<h3 class="card__title"><a href="#">{$film->getNome()}</a></h3>
+											{if ($punteggioSettimanaScorsa[$key] != '0')}
 											<span class="card__category">
-												<a href="#">{$film->getVotoCritica()}</a>
+												<a href="#">Voto utenti: {$punteggioSettimanaScorsa[$key]}</a>
 											</span>
-
+											{/if}
 											<div class="card__wrap">
 												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
 												{if ($film->getetaConsigliata() != "")}
@@ -314,10 +323,11 @@
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
 											<h3 class="card__title"><a href="#">{$film->getNome()}</a></h3>
+											{if ($punteggioProgrammazione[$key] != '0')}
 											<span class="card__category">
-												<a href="#">{$film->getVotoCritica()}</a>
+												<a href="#">Voto utenti: {$punteggioProgrammazione[$key]}</a>
 											</span>
-
+											{/if}
 											<div class="card__wrap">
 												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
 												{if ($film->getetaConsigliata() != "")}
@@ -340,7 +350,6 @@
 					{/if}
 					</div>
 				</div>
-				{$i = 0}
 				<div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="3-tab">
 					<div class="row">
 						{if $filmSettimanaProssima}
@@ -361,10 +370,11 @@
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
 											<h3 class="card__title"><a href="#">{$film->getNome()}</a></h3>
-											<span class="card__category">
-												<a href="#">{$film->getVotoCritica()}</a>
+											{if ($punteggioSettimanaProssima[$key] != '0')}
+											<span class="card__category">	
+												<a href="#">Voto utenti: {$punteggioSettimanaProssima[$key]}</a>
 											</span>
-
+											{/if}
 											<div class="card__wrap">
 												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
 												{if ($film->getetaConsigliata() != "")}
@@ -419,7 +429,11 @@
 							<span class="card__category">
 								<a href="#">{$film->getGenere()}</a>
 							</span>
+							{if ($film->getVotoCritica() != 0)}
 							<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
+							{else}
+							<div class="card__description"> <p>Data di uscita: <br> {$film->getDataRilascioString()}</p></div>
+							{/if}
 						</div>
 					</div>
 				</div>
