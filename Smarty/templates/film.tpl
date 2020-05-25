@@ -239,7 +239,7 @@
             <div class="row">
                 <div class="col-12">
                     <!-- content title -->
-                    <h2 class="content__title">Discover</h2>
+                    <h2 class="content__title">Cosa ne pensano gli altri spettatori?</h2>
                     <!-- end content title -->
 
                     <!-- content tabs nav -->
@@ -299,6 +299,7 @@
                                       {/foreach}
                                     {/if}  
                                     </ul>
+                                    {if ($canView === true)}
                                     <form action="#" class="form">
                                         <input type="text" class="form__input" placeholder="Titolo">
                                         <textarea class="form__textarea" placeholder="Recensione"></textarea>
@@ -308,6 +309,7 @@
                                         </div>
                                         <button type="button" class="form__btn">Invia</button>
                                     </form>
+                                    {/if}
                                 </div>
                             </div>
                             <!-- end reviews -->

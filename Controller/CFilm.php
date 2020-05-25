@@ -29,12 +29,13 @@ class CFilm
         foreach($filmC as $loc) {
             array_push($locandine,$pm->load($loc->getId(),"idFilm","EMediaLocandina"));
         }
-        $rvw = self::getReview($pm,$filmID);
-        VFilm::show($film, $autoplay, $copertina, $filmC, $locandine,$rvw[0],$rvw[1]);
+        $rvw = self::getReview($pm, $filmID, $gestore);
+        VFilm::show($film, $autoplay, $copertina, $filmC, $locandine,$rvw[0],$rvw[1],$rvw[2]);
     }
 
-    private static function getReview(FPersistentManager $pm, $filmID) {
+    private static function getReview(FPersistentManager $pm, $filmID, EHelper $gestore) {
         $reviews = $pm->load($filmID,"idFilm","EGiudizio");
+        $canWrite = $gestore->checkWrite($_SESSION["userID"], $reviews);
         $img = [];
         foreach($reviews as $loc) {
             $temp = $pm->load($loc->getUtente()->getId(),"idUtente","EMediaUtente");
@@ -44,7 +45,7 @@ class CFilm
             array_push($img,$temp);
         }
         $result = [];
-        array_push($result,$reviews,$img);
+        array_push($result, $reviews, $img, $canWrite);
         return $result;
     }
 }

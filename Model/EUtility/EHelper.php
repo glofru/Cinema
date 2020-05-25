@@ -177,4 +177,16 @@ class EHelper
         }
         return ($p/$n);
     }
+
+    public function checkWrite($id,$array): bool {
+        if(isset($id)){
+            foreach($arr as $a){
+                if($a->getUtente()->getId() == $id){
+                    return false;
+                }
+            }
+            return true;
+        }
+            return false;
+    }
 }
