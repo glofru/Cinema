@@ -2,6 +2,14 @@
 <html lang="it">
 
 <head>
+	<script>
+		function ready(){
+			if (!navigator.cookieEnabled) {
+				alert('Caro utente, ti invitiamo ad abilitare i cookie sul nostro sito per permetterti un\'esperienza migliore e personalizzata in bae alle tue preferenze.');
+			}
+		}
+		document.addEventListener("DOMContentLoaded", ready);
+	</script>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -419,7 +427,11 @@
 							<span class="card__category">
 								<a href="#">{$film->getGenere()}</a>
 							</span>
+							{if ($film->getVotoCritica() != 0)}
 							<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
+							{else}
+							<div class="card__description"> <p>Data di uscita: <br> {$film->getDataRilascioString()}</p></div>
+							{/if}
 						</div>
 					</div>
 				</div>

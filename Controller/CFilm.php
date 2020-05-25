@@ -1,6 +1,4 @@
 <?php
-
-
 class CFilm
 {
     public static function show()
@@ -9,7 +7,10 @@ class CFilm
         $filmID = $_GET["film"];
         $autoplay = isset($_GET["autoplay"]) && $_GET["autoplay"];
         $film = $pm->load($filmID, "id", "EFilm")[0];
-
+        $gestore = EHelper::getInstance();
+        $cookie = $gestore->preferences($_COOKIE['preferences']);
+        $gestore->setPreferences($film->getGenere(),$cookie);
+        unset($cookie);
         $filmC = $pm->load($film->getGenere(),"Genere","EFilm");
 
         foreach($filmC as $key => $f) {
