@@ -86,8 +86,8 @@ class FMedia implements Foundation
         $media = $row == "idFilm" ? "EMediaLocandina" : "EMediaUtente";
         $result = $db->loadFromDB(self::getClassName(), $value, $row, $media);
 
-        if($result === null) {
-            return null;
+        if($result == null) {
+            return new EMedia("","",new DateTime('now'),"");
         }
 
         $row = $result[0];
@@ -109,7 +109,5 @@ class FMedia implements Foundation
             $film = FFilm::load($idFilm,'id')[0];
             return new EMediaLocandina($fileName, $mimeType, $date, $immagine, $film);
         }
-
-        return null;
     }
 }

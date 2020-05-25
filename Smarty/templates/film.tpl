@@ -213,7 +213,7 @@
                 <div class="details__wrap">
                     <!-- share -->
                     <div class="details__share">
-                        <span class="details__share-title">Share with friends:</span>
+                        <span class="details__share-title">Condividi il nostro sito con i tuoi amici:</span>
 
                         <ul class="details__share-list">
                             <li class="facebook"><a href="#"><i class="icon ion-logo-facebook"></i></a></li>
@@ -284,48 +284,29 @@
                             <div class="col-12">
                                 <div class="reviews">
                                     <ul class="reviews__list">
+                                        {if ($recensioni)}
+                                            {foreach $recensioni as $key => $rev}
                                         <li class="reviews__item">
                                             <div class="reviews__autor">
-                                                <img class="reviews__avatar" src="../../Smartyimg/user.png" alt="">
-                                                <span class="reviews__name">Best Marvel movie in my opinion</span>
-                                                <span class="reviews__time">24.08.2018, 17:53 by John Doe</span>
+                                                <img class="reviews__avatar" src="{$propic[$key]->getImmagine()}" alt="">
+                                                <span class="reviews__name">{$rev->getTitle()}</span>
+                                                <span class="reviews__time">{$rev->getUtente()->getUsername()}</span>
 
-                                                <span class="reviews__rating"><i class="icon ion-ios-star"></i>8.4</span>
+                                                <span class="reviews__rating"><i class="icon ion-ios-star"></i>{$rev->getPunteggio()}</span>
                                             </div>
-                                            <p class="reviews__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+                                            <p class="reviews__text">{$rev->getCommento()}</p>
                                         </li>
-
-                                        <li class="reviews__item">
-                                            <div class="reviews__autor">
-                                                <img class="reviews__avatar" src="../../Smartyimg/user.png" alt="">
-                                                <span class="reviews__name">Best Marvel movie in my opinion</span>
-                                                <span class="reviews__time">24.08.2018, 17:53 by John Doe</span>
-
-                                                <span class="reviews__rating"><i class="icon ion-ios-star"></i>9.0</span>
-                                            </div>
-                                            <p class="reviews__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                                        </li>
-
-                                        <li class="reviews__item">
-                                            <div class="reviews__autor">
-                                                <img class="reviews__avatar" src="../../Smartyimg/user.png" alt="">
-                                                <span class="reviews__name">Best Marvel movie in my opinion</span>
-                                                <span class="reviews__time">24.08.2018, 17:53 by John Doe</span>
-
-                                                <span class="reviews__rating"><i class="icon ion-ios-star"></i>7.5</span>
-                                            </div>
-                                            <p class="reviews__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                                        </li>
+                                      {/foreach}
+                                    {/if}  
                                     </ul>
-
                                     <form action="#" class="form">
-                                        <input type="text" class="form__input" placeholder="Title">
-                                        <textarea class="form__textarea" placeholder="Review"></textarea>
+                                        <input type="text" class="form__input" placeholder="Titolo">
+                                        <textarea class="form__textarea" placeholder="Recensione"></textarea>
                                         <div class="form__slider">
                                             <div class="form__slider-rating" id="slider__rating"></div>
                                             <div class="form__slider-value" id="form__slider-value"></div>
                                         </div>
-                                        <button type="button" class="form__btn">Send</button>
+                                        <button type="button" class="form__btn">Invia</button>
                                     </form>
                                 </div>
                             </div>

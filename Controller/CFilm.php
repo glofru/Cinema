@@ -29,7 +29,22 @@ class CFilm
         foreach($filmC as $loc) {
             array_push($locandine,$pm->load($loc->getId(),"idFilm","EMediaLocandina"));
         }
+        $rvw = self::getReview($pm,$filmID);
+        VFilm::show($film, $autoplay, $copertina, $filmC, $locandine,$rvw[0],$rvw[1]);
+    }
 
-        VFilm::show($film, $autoplay, $copertina, $filmC, $locandine);
+    private static function getReview(FPersistentManager $pm, $filmID) {
+        $reviews = $pm->load($filmID,"idFilm","EGiudizio");
+        $img = [];
+        foreach($reviews as $loc) {
+            $temp = $pm->load($loc->getUtente()->getId(),"idUtente","EMediaUtente");
+            if($temp->getImmagine() == ""){
+                $temp->setImmagine('../../Smarty/img/user.png');
+            }
+            array_push($img,$temp);
+        }
+        $result = [];
+        array_push($result,$reviews,$img);
+        return $result;
     }
 }

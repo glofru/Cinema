@@ -208,7 +208,7 @@
 				<div class="row">
 					<div class="col-12">
 						<!-- content title -->
-						<h2 class="content__title">New items</h2>
+						<h2 class="content__title">La nostra programmazione</h2>
 						<!-- end content title -->
 
 						<!-- content tabs nav -->
