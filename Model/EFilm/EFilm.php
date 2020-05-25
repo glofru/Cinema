@@ -256,10 +256,10 @@ class EFilm implements JsonSerializable
     public function addRegista(EPersona $regista): void
     {
         if ($regista->isRegista() != true) {
-            //TODO: So cazzi
-        } else {
-            array_push($this->registi, $regista);
+            return;
         }
+
+        array_push($this->registi, $regista);
     }
 
     /**
@@ -276,10 +276,10 @@ class EFilm implements JsonSerializable
     public function addAttore(EPersona $attore): void
     {
         if ($attore->isAttore() != true) {
-            //TODO: So cazzi di nuovo
-        } else {
-            array_push($this->attori, $attore);
+            return;
         }
+
+        array_push($this->attori, $attore);
     }
 
     public function setPaese(string $paese) {

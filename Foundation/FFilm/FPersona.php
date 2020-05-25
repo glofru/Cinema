@@ -63,25 +63,25 @@ class FPersona implements Foundation
         return false;
     }
 
-    public static function load (string $value, string $row)
+    public static function load (string $value, string $row): array
     {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
 
-        if ($result == null || sizeof($result) == 0)
-        {
-            return [];
+        $return = [];
+
+        foreach ($result as $row) {
+            $id = $row["id"];
+            $nome = $row["nome"];
+            $cognome = $row["cognome"];
+            $imdbUrl = $row["imdbURL"];
+            $isAttore = $row["isAttore"];
+            $isRegista = $row["isRegista"];
+            $p = new EPersona($nome, $cognome, $imdbUrl, boolval($isAttore), boolval($isRegista));
+            $p->setId($id);
+            array_push($return, $p);
         }
 
-        $row = $result[0];
-        $id = $row["id"];
-        $nome = $row["nome"];
-        $cognome = $row["cognome"];
-        $imdbUrl = $row["imdbURL"];
-        $isAttore = $row["isAttore"];
-        $isRegista = $row["isRegista"];
-        $p = new EPersona($nome, $cognome, $imdbUrl, boolval($isAttore), boolval($isRegista));
-        $p->setId($id);
-        return $p;
+        return $return;
     }
 }

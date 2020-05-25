@@ -42,11 +42,11 @@ class FFilm implements Foundation
     private static function recreateArray(string $s): array
     {
         $return = [];
+        if ($s == "") return $return;
         $temp = explode(";", $s);
-
         foreach ($temp as $e)
         {
-            array_push($return, FPersona::load($e, "id"));
+            array_push($return, FPersona::load($e, "id")[0]);
         }
 
         return $return;
@@ -167,14 +167,16 @@ class FFilm implements Foundation
             $etaConsigliata = $row["etaConsigliata"];
             $film = new EFilm($nome, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere, $paese, $etaConsigliata);
             $film->setId($id);
-           foreach (self::recreateArray($row["attori"]) as $attore)
+
+            foreach (self::recreateArray($row["attori"]) as $attore)
             {
                $film->addAttore($attore);
-           }
+            }
+
             foreach (self::recreateArray($row["registi"]) as $regista)
             {
                 $film->addRegista($regista);
-           }
+            }
 
             array_push($return, $film);
         }

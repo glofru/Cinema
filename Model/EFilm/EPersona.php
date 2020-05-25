@@ -7,7 +7,7 @@
 class EPersona implements JsonSerializable
 {
     /**
-     * @var string
+     * @var int
      */
     private int $id = 0;
     /**
@@ -94,6 +94,11 @@ class EPersona implements JsonSerializable
     public function setCognome(string $cognome): void
     {
         $this->cognome = $cognome;
+    }
+
+    public function getFullName(): string
+    {
+        return $this->getNome() . " " . $this->getCognome();
     }
 
     /**
