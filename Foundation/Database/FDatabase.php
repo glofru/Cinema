@@ -424,7 +424,7 @@ class FDatabase
     {
         try {
             $this->db->beginTransaction();
-            $query = "INSERT INTO ".$class::getTable($media)." VALUES ".$class::getValues($media);
+            $query = "INSERT INTO ".$class::getTableName(get_class($media))." VALUES ".$class::getValuesName($media);
             $sender = $this->db->prepare($query);
             $class::associate($sender, $media);
             $sender->execute();

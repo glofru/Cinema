@@ -14,6 +14,7 @@ class CAdmin
         }
         elseif ($method == "POST")
         {
+//            Costruzione oggetto Film
             $titolo = $_POST["titolo"];
             $descrizione = $_POST["descrizione"];
             $genere = EGenere::fromString($_POST["genere"]);
@@ -27,15 +28,25 @@ class CAdmin
             }
 
             $trailerURL = $_POST["trailerURL"];
-            $votoCritica = $_POST["votoCritica"];
+            $votoCritica = floatval($_POST["votoCritica"]);
 
-            $rilascio = str_replace("/", "-", $_POST["dataRilascio"]);
+            $rilascio = str_replace("/", "-", $_POST["dataRilascio"] == "" ? "01/01/1970" : $_POST["dataRilascio"]);
             $dataRilascio = DateTime::createFromFormat("d-m-Y", $rilascio);
             $paese = $_POST["paese"];
             $etaConsigliata = $_POST["etaConsigliata"];
 
             $film = new EFilm($titolo, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere, $paese, $etaConsigliata);
             FPersistentManager::getInstance()->save($film);
+
+            $tempCop = $_FILES["copertina"];
+            $name = $tempCop["name"];
+            $mimeType = $tempCop["type"];
+            $time = new DateTime("now");
+            $data = file_get_contents($tempCop["tmp_name"]);
+            $data = base64_encode($data);
+            $copertina = new EMediaLocandina($name, $mimeType, $time, $data, $film);
+            FPersistentManager::getInstance()->save($copertina);
+
             header("Location: /Film/show/?film=" . $film->getId());
         }
     }
