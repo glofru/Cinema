@@ -275,7 +275,7 @@
 
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
-											<h3 class="card__title"><a href="#">{$film->getNome()}</a></h3>
+											<h3 class="card__title"><a href="/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
 											{if ($punteggioSettimanaScorsa[$key] != '0')}
 											<span class="card__category">
 												<a href="#">Voto utenti: {$punteggioSettimanaScorsa[$key]}</a>
@@ -322,7 +322,7 @@
 
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
-											<h3 class="card__title"><a href="#">{$film->getNome()}</a></h3>
+											<h3 class="card__title"><a href="/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
 											{if ($punteggioProgrammazione[$key] != '0')}
 											<span class="card__category">
 												<a href="#">Voto utenti: {$punteggioProgrammazione[$key]}</a>
@@ -369,7 +369,7 @@
 
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
-											<h3 class="card__title"><a href="#">{$film->getNome()}</a></h3>
+											<h3 class="card__title"><a href="/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
 											{if ($punteggioSettimanaProssima[$key] != '0')}
 											<span class="card__category">	
 												<a href="#">Voto utenti: {$punteggioSettimanaProssima[$key]}</a>
@@ -425,7 +425,7 @@
 							</a>
 						</div>
 						<div class="card__content">
-							<h3 class="card__title"><a href="#">{$film->getNome()}</a></h3>
+							<h3 class="card__title"><a href="/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
 							<span class="card__category">
 								<a href="#">{$film->getGenere()}</a>
 							</span>
