@@ -156,7 +156,43 @@
                             </ul>
                         </div>
 
-                        <button class="sign__btn" type="submit">Aggiungi Film</button>
+                        <!-- Attori -->
+                        <div class="sign__group" style="position: relative; margin-bottom: 0;">
+                            <input id="actorChosen" list="actors" class="sign__input" placeholder="Attori">
+                            <button id="addActor" type="button" class="sign__btn" style="position: absolute; right: 10px; bottom: 15px; width: 20px; height: 20px">+</button>
+
+                            <datalist id="actors">
+                                {foreach $attori as $attore}
+                                    <option id="{$attore->getId()}" value="{$attore->getFullName()}">Ei</option>
+                                {/foreach}
+                            </datalist>
+
+                            <input id="attori" type="hidden" name="attori" value="">
+                        </div>
+                        <div>
+                            <ul id="displayActors" style="width:250px" class="dropdown-menu scrollbar-dropdown" aria-labelledby="filter-genre">
+                            </ul>
+                        </div>
+
+                        <!-- Registi -->
+                        <div class="sign__group" style="position: relative; margin-top: 15px; margin-bottom: 0px;">
+                            <input id="directorChosen" list="directors" class="sign__input" placeholder="Registi">
+                            <button id="addDirector" type="button" class="sign__btn" style="position: absolute; right: 10px; bottom: 15px; width: 20px; height: 20px">+</button>
+
+                            <datalist id="directors">
+                                {foreach $registi as $regista}
+                                    <option id="{$regista->getId()}" value="{$regista->getFullName()}">
+                                {/foreach}
+                            </datalist>
+
+                            <input id="registi" type="hidden" name="registi" value="">
+                        </div>
+                        <div>
+                            <ul id="displayDirectors" style="width:250px" class="dropdown-menu scrollbar-dropdown" aria-labelledby="filter-genre">
+                            </ul>
+                        </div>
+
+                        <button id="submit" class="sign__btn" type="submit">Aggiungi Film</button>
                     </form>
                     <!-- end authorization form -->
                 </div>
@@ -178,14 +214,68 @@
 <script src="../../Smarty/js/photoswipe.min.js"></script>
 <script src="../../Smarty/js/photoswipe-ui-default.min.js"></script>
 <script src="../../Smarty/js/main.js"></script>
-
 <script>
+    let actors = [];
+    let directors = [];
+
     $(document).ready(function(){
+        // Aggiorna nome copertina
         $('#choose_image').change(function(e) {
             document.getElementById("image_name").innerText = e.target.files[0].name;
         });
+
+        // Aggiungi attore
+        $('#addActor').click(function(e) {
+            let actorChosen = $("#actorChosen").val();
+            if (actorChosen !== "") {
+                let idActorChosen = $("#actors").find("option[value='" + actorChosen + "']").attr("id");
+
+                actors.push(idActorChosen);
+
+                $("#actorChosen").val("");
+
+                let button = $("<button type='button' name='" + idActorChosen + "' class='sign__btn' style='width: 20px; height: 20px; display: inline'>X</button>");
+                let list = $("#displayActors");
+                let li = $("<li id='" + idActorChosen + "' style=\"color: white; text-align: right\"></li>").append(actorChosen, " ", button);
+                li.click(function(e) {
+                    actors.splice(actors.indexOf($(this).attr("id")), 1);
+                    $(this).remove();
+                });
+                list.append(li);
+            }
+        });
+
+        $('#removeActor').click(function(e) {
+            console.log('we');
+        });
+
+        $('#addDirector').click(function(e) {
+            let directorChosen = $("#directorChosen").val();
+            if (directorChosen !== "") {
+                let idDirectorChosen = $("#directors").find("option[value='" + directorChosen + "']").attr("id");
+
+                directors.push(idDirectorChosen);
+
+                $("#directorChosen").val("");
+
+                let button = $("<button type='button' name='" + idDirectorChosen + "' class='sign__btn' style='width: 20px; height: 20px; display: inline'>X</button>");
+                let list = $("#displayDirectors");
+                let li = $("<li id='" + idDirectorChosen + "' style=\"color: white; text-align: right\"></li>").append(directorChosen, " ", button);
+                li.click(function(e) {
+                    directors.splice(directors.indexOf($(this).attr("id")), 1);
+                    $(this).remove();
+                });
+                list.append(li);
+            }
+        });
+
+        $('#submit').click(function(e) {
+            $('#attori').attr("value", actors.join(";"));
+            $('#registi').attr("value", directors.join(";"));
+        });
     });
 </script>
+
 
 </body>
 </html>

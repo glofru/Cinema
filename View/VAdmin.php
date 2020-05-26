@@ -3,14 +3,11 @@
 
 class VAdmin
 {
-    public static function addFilm($film = null, $riepilogo = false)
+    public static function addFilm(array $attori, array $registi)
     {
         $smarty = StartSmarty::configuration();
-        if ($film != null)
-        {
-            $smarty->assign("film", $film);
-        }
-        $smarty->assign("riepilogo", $riepilogo);
+        $smarty->assign("attori", $attori);
+        $smarty->assign("registi", $registi);
         $smarty->assign("generi", EGenere::getAll());
         $smarty->display("addFilm.tpl");
     }

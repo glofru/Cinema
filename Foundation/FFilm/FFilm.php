@@ -22,7 +22,7 @@ class FFilm implements Foundation
             $sender->bindValue(':attori', self::splitArray($film->getAttori()), PDO::PARAM_STR);
             $sender->bindValue(':registi', self::splitArray($film->getRegisti()), PDO::PARAM_STR);
             $sender->bindValue(':paese', $film->getPaese(), PDO::PARAM_STR);
-            $sender->bindValue(':etaConsigliata', $film->getPaese(), PDO::PARAM_STR);
+            $sender->bindValue(':etaConsigliata', $film->getEtaConsigliata(), PDO::PARAM_STR);
         } else {
             die("Not a film!!");
         }
@@ -31,22 +31,23 @@ class FFilm implements Foundation
     private static function splitArray(array $a): string
     {
         $s = "";
+        print_r($a);
         foreach ($a as $value)
         {
             $s .= $value->getId() . ";";
         }
-        $s[strlen($s)-1] = "";
+        $s = substr($s, 0, -1);
         return $s;
     }
 
-    private static function recreateArray(string $s): array
+    public static function recreateArray(string $s): array
     {
         $return = [];
+        if ($s == "") return $return;
         $temp = explode(";", $s);
-
         foreach ($temp as $e)
         {
-            array_push($return, FPersona::load($e, "id"));
+            array_push($return, FPersona::load($e, "id")[0]);
         }
 
         return $return;
@@ -167,14 +168,16 @@ class FFilm implements Foundation
             $etaConsigliata = $row["etaConsigliata"];
             $film = new EFilm($nome, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere, $paese, $etaConsigliata);
             $film->setId($id);
-           foreach (self::recreateArray($row["attori"]) as $attore)
+
+            foreach (self::recreateArray($row["attori"]) as $attore)
             {
                $film->addAttore($attore);
-           }
+            }
+
             foreach (self::recreateArray($row["registi"]) as $regista)
             {
                 $film->addRegista($regista);
-           }
+            }
 
             array_push($return, $film);
         }
