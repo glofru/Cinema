@@ -3,29 +3,26 @@
 
 class VHome
 {
-    private $smarty;
-
-    public function __construct()
+    public static function showHome($filmProssimi,$immaginiProssimi, $filmConsigliati, $immaginiConsigliati, $filmProgrammazione, $immaginiProgrammazione, $punteggioProgrammazione, $dateProgrammazione, $filmSettimanaScorsa,$immaginiSettimanaScorsa, $punteggioSettimanaScorsa, $dateSettimanaScorsa, $filmSettimanaProssima,$immaginiSettimanaProssima, $punteggioSettimanaProssima, $dateSettimanaProssima, $username)
     {
-        $this->smarty = StartSmarty::configuration();
-    }
-
-    public function showHome($filmProssimi,$immaginiProssimi, $filmConsigliati, $immaginiConsigliati, $filmProgrammazione, $immaginiProgrammazione, $punteggioProgrammazione, $filmSettimanaScorsa,$immaginiSettimanaScorsa, $punteggioSettimanaScorsa, $filmSettimanaProssima,$immaginiSettimanaProssima, $punteggioSettimanaProssima, $username)
-    {
-        $this->smarty->assign("filmProssimi", $filmProssimi);
-        $this->smarty->assign("immaginiProssimi",$immaginiProssimi);
-        $this->smarty->assign("filmConsigliati", $filmConsigliati);
-        $this->smarty->assign("immaginiConsigliati",$immaginiConsigliati);
-        $this->smarty->assign("filmProgrammazione", $filmProgrammazione);
-        $this->smarty->assign("immaginiProgrammazione",$immaginiProgrammazione);
-        $this->smarty->assign("punteggioProgrammazione", $punteggioProgrammazione);
-        $this->smarty->assign("filmSettimanaProssima", $filmSettimanaProssima);
-        $this->smarty->assign("immaginiSettimanaProssima",$immaginiSettimanaProssima);
-        $this->smarty->assign("punteggioSettimanaProssima",$punteggioSettimanaProssima);
-        $this->smarty->assign("filmSettimanaScorsa", $filmSettimanaScorsa);
-        $this->smarty->assign("immaginiSettimanaScorsa",$immaginiSettimanaScorsa);
-        $this->smarty->assign("punteggioSettimanaScorsa",$punteggioSettimanaScorsa);
-        $this->smarty->assign("user",$username);
-        $this->smarty->display("home.tpl");
+        $smarty = StartSmarty::configuration();
+        $smarty->assign("filmProssimi", $filmProssimi);
+        $smarty->assign("immaginiProssimi", $immaginiProssimi);
+        $smarty->assign("filmConsigliati", $filmConsigliati);
+        $smarty->assign("immaginiConsigliati", $immaginiConsigliati);
+        $smarty->assign("filmProgrammazione", $filmProgrammazione);
+        $smarty->assign("immaginiProgrammazione", $immaginiProgrammazione);
+        $smarty->assign("punteggioProgrammazione", $punteggioProgrammazione);
+        $smarty->assign("dateProgrammazione", $dateProgrammazione);
+        $smarty->assign("filmSettimanaProssima", $filmSettimanaProssima);
+        $smarty->assign("immaginiSettimanaProssima", $immaginiSettimanaProssima);
+        $smarty->assign("punteggioSettimanaProssima",$punteggioSettimanaProssima);
+        $smarty->assign("dateSettimanaProssima", $dateSettimanaProssima);
+        $smarty->assign("filmSettimanaScorsa", $filmSettimanaScorsa);
+        $smarty->assign("immaginiSettimanaScorsa", $immaginiSettimanaScorsa);
+        $smarty->assign("punteggioSettimanaScorsa", $punteggioSettimanaScorsa);
+        $smarty->assign("dateSettimanaScorsa", $dateSettimanaScorsa);
+        $smarty->assign("user", $username);
+        $smarty->display("home.tpl");
     }
 }

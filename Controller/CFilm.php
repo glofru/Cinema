@@ -30,7 +30,7 @@ class CFilm
             array_push($locandine,$pm->load($loc->getId(),"idFilm","EMediaLocandina"));
         }
         $rvw = self::getReview($pm, $filmID, $gestore);
-        VFilm::show($film, $autoplay, $copertina, $filmC, $locandine,$rvw[0],$rvw[1],$rvw[2]);
+    VFilm::show($film, $autoplay, $copertina, $filmC, $locandine,$rvw[0],$rvw[1],/*$rvw[2]*/true);
     }
 
     private static function getReview(FPersistentManager $pm, $filmID, EHelper $gestore) {
