@@ -5,17 +5,17 @@ class CHome
     public static function showHome() {
         $gestore = EHelper::getInstance();
         $cookie = $gestore->preferences($_COOKIE['preferences']);
-        $prossimi = self::getProssimi($gestore);
-        $consigliati = self::getConsigliati($gestore, $cookie);
+        $prossimi = self::getProssimi();
+        $consigliati = self::getConsigliati($cookie);
         $proiezioni = self::getProiezioni($gestore->getSettimana(), $gestore);
         $prossima = self::getProiezioni($gestore->getSettimanaProssima(), $gestore);
         $scorsa = self::getProiezioni($gestore->getSettimanaScorsa(), $gestore);
         VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2], $scorsa[0], $scorsa[1], $scorsa[2], $prossima[0], $prossima[1], $prossima[2], "alessio");
     }
 
-    private static function getProssimi(EHelper $gestore) {
+    private static function getProssimi() {
         $pm = FPersistentManager::getInstance();
-        $date = $gestore->getDateProssime();
+        $date = EHelper::getInstance()->getDateProssime();
         $filmProssimi = $pm->loadBetween($date[0], $date[1],"EFilm");
         $immaginiProssimi = [];
         foreach($filmProssimi as $film) {
@@ -26,11 +26,11 @@ class CHome
         return $result;
     }
 
-    private static function getConsigliati(EHelper $gestore, $cookie) {
+    private static function getConsigliati($cookie) {
         $pm = FPersistentManager::getInstance();
         $result = [];
-        if($gestore->getPreferences($cookie) === true) {
-            $date = $gestore->getDatePassate();
+        if(EHelper::getInstance()->getPreferences($cookie) === true) {
+            $date = EHelper::getInstance()->getDatePassate();
             $filmConsigliati = $pm->loadBetween($date[1], $date[0], "EFilm");
             shuffle($filmConsigliati);
             if(sizeof($filmConsigliati) > 6) {
@@ -43,8 +43,9 @@ class CHome
                 if($c !== 0) {
                     $f = $pm->load($key, "Genere", "EFilm");
                     shuffle($f);
-                    if(sizeof($f) > $c);
-                        {$f = array_slice($f, 0,$c);}
+                    if(sizeof($f) > $c) {
+                        $f = array_slice($f, 0,$c);
+                    }
                     foreach($f as $elem) {
                         array_push($filmConsigliati, $elem);
                     }
