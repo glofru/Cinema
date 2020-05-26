@@ -301,14 +301,15 @@
                                     </ul>
                                     {if ($canView === true)}
                                     <form action="/Giudizio/add" class="form" method="POST">
-                                        <input name="titolo" type="text" class="form__input" placeholder="Titolo">
-                                        <textarea name="commento" class="form__textarea" placeholder="Recensione"></textarea>
+                                        <input name="titolo" type="text" class="form__input" placeholder="Titolo (max 30 caratteri)" maxlength="30">
+                                        <textarea name="commento" class="form__textarea" placeholder="Recensione (max 200 caratteri)" maxlength="200"></textarea>
                                         <div class="form__slider">
                                             <div class="form__slider-rating" id="slider__rating"></div>
-                                            <div name="punteggio" class="form__slider-value" id="form__slider-value"></div>
+                                            <div class="form__slider-value" id="form__slider-value"></div>
                                         </div>
                                         <input type="hidden" id="film" name="filmId" value="{$film->getId()}">
-                                        <button type="submit" class="form__btn">Invia</button>
+                                        <input type="hidden" name="punteggio" id="punteggio">
+                                        <button type="submit" class="form__btn" onclick="getVal()">Invia</button>
                                     </form>
                                     {/if}
                                 </div>
@@ -483,6 +484,11 @@
 </div>
 
 <!-- JS -->
+<script>
+    function getVal() {
+        document.getElementById("punteggio").value = document.getElementById("form__slider-value").outerHTML;
+    }
+</script>
 <script src="../../Smarty/js/jquery-3.3.1.min.js"></script>
 <script src="../../Smarty/js/bootstrap.bundle.min.js"></script>
 <script src="../../Smarty/js/owl.carousel.min.js"></script>

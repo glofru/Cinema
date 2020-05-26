@@ -190,4 +190,17 @@ class EHelper
 
         return false;
     }
+
+    public function retriveVote(string $punteggio): float {
+        $punteggio = explode('.', $punteggio);
+        $found = false;
+        $str = $punteggio[0];
+        for($i=0;$i<strlen($str);$i++){
+            if(preg_match('/^[0-9]+$/', $str[$i])) {
+                $punteggio[0] = $str[$i];
+                break;
+            }
+        }
+        return floatval($punteggio[0] . "." . $punteggio[1][0]);
+    }
 }

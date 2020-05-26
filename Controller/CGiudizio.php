@@ -5,15 +5,16 @@ class CGiudizio{
             header("Location: /");
         }*/
         $pm = FPersistentManager::getInstance();
+        $g = EHelper::getInstance();
         $user = $pm->load(/*$SESSION_["userID"]*/1,"id","EUtente");
         $commento = $_POST["commento"];
         $titolo = $_POST["titolo"];
-        echo $titolo . " PT: " . $_POST["punteggio"];
-        //$punteggio = floatval($_POST["punteggio"]);
-        //$film = $pm->load($_POST["filmId"],"id","EFilm")[0];
-        //$giudizio = new EGiudizio($commento,$punteggio,$film,$user,$titolo);
-        //$pm->store($giudizio);
-        //header("Refresh:0");
+        $punteggio = $g->retriveVote($_POST["punteggio"]);
+        $id = $_POST["filmId"];
+        $film = $pm->load($id,"id","EFilm")[0];
+        $giudizio = new EGiudizio($commento,$punteggio,$film,$user,$titolo);
+        $pm->save($giudizio);
+        header("Location: /Film/show/?film=". $id . "&autoplay=true");
     }
 }
 ?>
