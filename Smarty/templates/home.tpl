@@ -291,7 +291,7 @@
 											</div>
 
 											<div class="card__description">
-												<p>{$film->getDescrizione()}</p>
+												<p>{$dateSettimanaScorsa[$key]}</p>
 											</div>
 										</div>
 									</div>
@@ -325,7 +325,7 @@
 											<h3 class="card__title"><a href="/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
 											{if ($punteggioProgrammazione[$key] != '0')}
 											<span class="card__category">
-												<a href="#">Voto utenti: {$punteggioProgrammazione[$key]}</a>
+												<a href="#" >Voto utenti: {$punteggioProgrammazione[$key]}</a>
 											</span>
 											{/if}
 											<div class="card__wrap">
@@ -338,7 +338,7 @@
 											</div>
 
 											<div class="card__description">
-												<p>{$film->getDescrizione()}</p>
+												<p>{$dateProgrammazione[$key]}</p>
 											</div>
 										</div>
 									</div>
@@ -385,7 +385,7 @@
 											</div>
 
 											<div class="card__description">
-												<p>{$film->getDescrizione()}</p>
+												<p>{$dateSettimanaProssima[$key]}</p>
 											</div>
 										</div>
 									</div>
@@ -413,13 +413,12 @@
 				</div>
 				<!-- end section title -->
 				{if $filmConsigliati}
-					{$i = 0}
-					{foreach $filmConsigliati as $film}
+					{foreach $filmConsigliati as $key => $film}
 				<!-- card -->
 				<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 					<div class="card">
 						<div class="card__cover">
-							<img src="{$immaginiConsigliati[$i]->getImmagineHTML()}" alt="">
+							<img src="{$immaginiConsigliati[$key]->getImmagineHTML()}" alt="">
 							<a href="/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
 								<i class="icon ion-ios-play"></i>
 							</a>
@@ -438,7 +437,6 @@
 					</div>
 				</div>
 				<!-- end card -->
-					{$i++}
 					{/foreach}
 				{/if}
 				

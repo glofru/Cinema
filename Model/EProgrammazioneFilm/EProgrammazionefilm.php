@@ -67,10 +67,42 @@ class EProgrammazionefilm implements JsonSerializable
         }
     }
 
-    public function clear() {
-        unset ($this->proiezioni);
-        $this->proiezioni = array();
+    public function getdateProiezioni(): string {
+        $dates = [];
+        foreach($this->proiezioni as $pro) {
+            array_push($dates, $pro->getDataproieizone());
+        }
+        usort($dates, "date_sort");
+        $sun = "DOM:";
+        $mon = "LUN:";
+        $tue = "MAR:";
+        $wed = "MER:";
+        $thu = "GIO:";
+        $fri = "VEN:";
+        $sat = "SAB:";
+        $days = [];
+        array_push($days, $mon, $tue, $wed, $thu, $fri, $sat, $sun);
+        foreach($dates as $d) {
+            switch($d->format("D")) {
+                case "Sun": $days[6] .= " " . $d->format("H:i"); break;
+                case "Mon": $days[0] .= " " . $d->format("H:i"); break;
+                case "Tue": $days[1] .= " " . $d->format("H:i"); break;
+                case "Wed": $days[2] .= " " . $d->format("H:i"); break;
+                case "Thu": $days[3] .= " " . $d->format("H:i"); break;
+                case "Fri": $days[4] .= " " . $d->format("H:i"); break;
+                case "Sat": $days[5] .= " " . $d->format("H:i"); break;
+            }
+        }
+        $result = "";
+        foreach($days as $d){
+            if(strlen($d) > 4) {
+                $result .= $d . "<br>";
+            }
+        }
+        substr($result, 0, -1);
+        return $result;
     }
+
     public function jsonSerialize ()
     {
         return

@@ -179,10 +179,10 @@
                                 </div>
 
                                 <ul class="card__meta">
-                                    <li><span>Genere:</span> <a>{$film->getGenere()}</a>
+                                    <li><span>Genere:</span> <a href="#">{$film->getGenere()}</a>
                                     <li><span>Anno di rilascio:</span> {$film->getAnno()}</li>
                                     <li><span>Durata:</span> {$film->getDurataMinuti()} min</li>
-                                    <li><span>Paese:</span> <a>{$film->getPaese()}</a> </li>
+                                    <li><span>Paese:</span> <a href="#">{$film->getPaese()}</a> </li>
                                     <li><span>Regista:</span> {foreach $registi as $reg} <a href="{$reg->getImdbUrl()}" target="_blank">{$reg->getNome()} {$reg->getCognome()} </a> {/foreach}</li>
                                     <li><span>Attori:</span> {foreach $attori as $att} <a href="{$att->getImdbUrl()}" target="_blank">{$att->getNome()} {$att->getCognome()} </a> {/foreach}</li>
                                         
@@ -300,14 +300,15 @@
                                     {/if}  
                                     </ul>
                                     {if ($canView === true)}
-                                    <form action="#" class="form">
-                                        <input type="text" class="form__input" placeholder="Titolo">
-                                        <textarea class="form__textarea" placeholder="Recensione"></textarea>
+                                    <form action="/Giudizio/add" class="form" method="POST">
+                                        <input name="titolo" type="text" class="form__input" placeholder="Titolo">
+                                        <textarea name="commento" class="form__textarea" placeholder="Recensione"></textarea>
                                         <div class="form__slider">
                                             <div class="form__slider-rating" id="slider__rating"></div>
-                                            <div class="form__slider-value" id="form__slider-value"></div>
+                                            <div name="punteggio" class="form__slider-value" id="form__slider-value"></div>
                                         </div>
-                                        <button type="button" class="form__btn">Invia</button>
+                                        <input type="hidden" id="film" name="filmId" value="{$film->getId()}">
+                                        <button type="submit" class="form__btn">Invia</button>
                                     </form>
                                     {/if}
                                 </div>
