@@ -3,19 +3,18 @@ class CHome
 {
 
     public static function showHome() {
-        $pm = FPersistentManager::getInstance();
         $gestore = EHelper::getInstance();
         $cookie = $gestore->preferences($_COOKIE['preferences']);
-        $prossimi = self::getProssimi($pm, $gestore);
-        $consigliati = self::getConsigliati($pm, $gestore, $cookie);
-        $proiezioni = self::getProiezioni($pm, $gestore->getSettimana(), $gestore);
-        $prossima = self::getProiezioni($pm, $gestore->getSettimanaProssima(), $gestore);
-        $scorsa = self::getProiezioni($pm, $gestore->getSettimanaScorsa(), $gestore);
-        $home = new VHome();
-        $home->showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2], $scorsa[0], $scorsa[1], $scorsa[2], $prossima[0], $prossima[1], $prossima[2], "alessio");
+        $prossimi = self::getProssimi($gestore);
+        $consigliati = self::getConsigliati($gestore, $cookie);
+        $proiezioni = self::getProiezioni($gestore->getSettimana(), $gestore);
+        $prossima = self::getProiezioni($gestore->getSettimanaProssima(), $gestore);
+        $scorsa = self::getProiezioni($gestore->getSettimanaScorsa(), $gestore);
+        VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2], $scorsa[0], $scorsa[1], $scorsa[2], $prossima[0], $prossima[1], $prossima[2], "alessio");
     }
 
-    private static function getProssimi(FPersistentManager $pm, EHelper $gestore) {
+    private static function getProssimi(EHelper $gestore) {
+        $pm = FPersistentManager::getInstance();
         $date = $gestore->getDateProssime();
         $filmProssimi = $pm->loadBetween($date[0], $date[1],"EFilm");
         $immaginiProssimi = [];
@@ -27,7 +26,8 @@ class CHome
         return $result;
     }
 
-    private static function getConsigliati(FPersistentManager $pm, EHelper $gestore, $cookie) { 
+    private static function getConsigliati(EHelper $gestore, $cookie) {
+        $pm = FPersistentManager::getInstance();
         $result = [];
         if($gestore->getPreferences($cookie) === true) {
             $date = $gestore->getDatePassate();
@@ -59,7 +59,8 @@ class CHome
         return $result;
     }
 
-    public static function getProiezioni(FPersistentManager $pm, array $date, EHelper $gestore) {
+    public static function getProiezioni(array $date, EHelper $gestore) {
+        $pm = FPersistentManager::getInstance();
         $elencoprogrammazioni = $pm->loadBetween($date[0], $date[1], "EProiezione");
         $filmProiezioni = [];
         $immaginiProiezioni = [];
