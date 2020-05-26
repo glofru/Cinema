@@ -125,7 +125,7 @@
 
                         <!-- Voto critica -->
                         <div class="sign__group" style="position:relative;">
-                            <input style="padding-right: 30px;" type="number" class="sign__input" placeholder="Voto della critica" name="votoCritica">
+                            <input style="padding-right: 30px;" type="number" step="0.1" class="sign__input" placeholder="Voto della critica" name="votoCritica">
                             <span class="card__rate" style="position: absolute; right: 10px; bottom: 13px;"><i class="icon ion-ios-star"></i></span>
                         </div>
 

@@ -37,11 +37,11 @@ class EHelper
     }
 
     public function date(string $date) {
-        $elem = explode("-",$date);
+        $elem = explode("-", $date);
         if(sizeof($elem) !== 3) {
             return false;
         }
-        return checkdate($elem[1],$elem[2],$elem[0]);
+        return checkdate($elem[1], $elem[2], $elem[0]);
     }
 
     public function hour(string $hour) {
@@ -57,7 +57,7 @@ class EHelper
         $oggi = new DateTime('now');
         $oggi = $oggi->format('Y-m-d');
         $fine = "2100-01-01";
-        array_push($result,$oggi,$fine);
+        array_push($result, $oggi, $fine);
         return $result;
     }
 
@@ -70,10 +70,10 @@ class EHelper
             $giorno = $inizio->format('D');
         }
         $inizio = $inizio->format('Y-m-d');
-        $fine = DateTime::createfromFormat('Y-m-d',$inizio);
+        $fine = DateTime::createfromFormat('Y-m-d', $inizio);
         $fine->modify('+ 6 Days');
         $fine = $fine->format('Y-m-d');
-        array_push($result,$inizio,$fine);
+        array_push($result, $inizio, $fine);
         return $result;
     }
 
@@ -90,10 +90,10 @@ class EHelper
             $i++;
         }
         $inizio = $inizio->format('Y-m-d');
-        $fine = DateTime::createfromFormat('Y-m-d',$inizio);
+        $fine = DateTime::createfromFormat('Y-m-d', $inizio);
         $fine->modify('+ 6 Days');
         $fine = $fine->format('Y-m-d');
-        array_push($result,$inizio,$fine);
+        array_push($result, $inizio, $fine);
         return $result;
     }
 
@@ -113,7 +113,7 @@ class EHelper
         $fine = DateTime::createfromFormat('Y-m-d',$inizio);
         $fine->modify('+ 6 Days');
         $fine = $fine->format('Y-m-d');
-        array_push($result,$inizio,$fine);
+        array_push($result, $inizio, $fine);
         return $result;
     }
 
@@ -123,7 +123,7 @@ class EHelper
         $fine = new DateTime('first day of this month - 30 years');
         $fine = $fine->format('Y-m-d');
         $date = [];
-        array_push($date,$oggi,$fine);
+        array_push($date, $oggi, $fine);
         return $date;
     }
 
@@ -135,7 +135,7 @@ class EHelper
                 $value[$key] = 0;
             }
             $value = serialize($value);
-            setcookie('preferences',$value,time() + (86400 * 30),"/");
+            setcookie('preferences', $value, time() + (86400 * 30), "/");
         }
         $value = unserialize($cookie);
         return $value;
@@ -145,13 +145,13 @@ class EHelper
         $isEmpty = true;
         $temp_values = [];
         $all = 0;
-            foreach($arr as $key => $a) {
-                if($a !== 0) {
-                    $isEmpty = false;
-                    $all++;
-                    $temp_values[$key] = $a;
-                }
+        foreach($arr as $key => $a) {
+            if($a !== 0) {
+                $isEmpty = false;
+                $all++;
+                $temp_values[$key] = $a;
             }
+        }
         if($isEmpty === true) {return true;}
         foreach($temp_values as $key => $arr) {
             $temp_values[$key] = round(round(($arr / $all) * 100) * (11/100));
@@ -162,7 +162,7 @@ class EHelper
     public function setPreferences(string $genere, $cookie) {
         $cookie[$genere]++;
         $cookie = serialize($cookie);
-        setcookie('preferences',$cookie,time() + (86400 * 30), "/");
+        setcookie('preferences', $cookie, time() + (86400 * 30), "/");
     }
 
     public function getMedia(array $g) {
@@ -180,13 +180,14 @@ class EHelper
 
     public function checkWrite($id,$array): bool {
         if(isset($id)){
-            foreach($arr as $a){
+            foreach($array as $a){
                 if($a->getUtente()->getId() == $id){
                     return false;
                 }
             }
             return true;
         }
-            return false;
+
+        return false;
     }
 }
