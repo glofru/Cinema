@@ -10,7 +10,7 @@ class CHome
         $proiezioni = self::getProiezioni($gestore->getSettimana(), $gestore);
         $prossima = self::getProiezioni($gestore->getSettimanaProssima(), $gestore);
         $scorsa = self::getProiezioni($gestore->getSettimanaScorsa(), $gestore);
-        VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2], $scorsa[0], $scorsa[1], $scorsa[2], $prossima[0], $prossima[1], $prossima[2], "alessio");
+        VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2] , $proiezioni[3], $scorsa[0], $scorsa[1], $scorsa[2], $scorsa[3], $prossima[0], $prossima[1], $prossima[2], $prossima[3], "alessio");
     }
 
     private static function getProssimi() {
@@ -66,11 +66,14 @@ class CHome
         $filmProiezioni = [];
         $immaginiProiezioni = [];
         $giudizifilm = [];
+        $dateProiezioni = [];
         $punteggio = [];
         foreach($elencoprogrammazioni->getElencoprogrammazioni() as $profilm) {
             array_push($filmProiezioni, $profilm->getFilm());
             $giu = $pm->load($profilm->getFilm()->getId(), "idFilm", "EGiudizio");
+            $temp = $profilm->getdateProiezioni();
             array_push($giudizifilm, $giu);
+            array_push($dateProiezioni,$temp);
         }
         
         foreach($giudizifilm as $g) {
@@ -86,7 +89,7 @@ class CHome
             array_push($immaginiProiezioni, $pm->load($film->getId(), "idFilm", "EMedia"));
         }
         $result = [];
-        array_push($result, $filmProiezioni, $immaginiProiezioni, $punteggio);
+        array_push($result, $filmProiezioni, $immaginiProiezioni, $punteggio, $dateProiezioni);
         return $result;
     }
 }
