@@ -5,7 +5,7 @@ class FGiudizio
 {
     private static string $className = "FGiudizio";
     private static string $tableName = "Giudizio";
-    private static string $valuesName = "(:idUtente,:idFilm,:commento,:punteggio,:titolo)";
+    private static string $valuesName = "(:idUtente,:idFilm,:commento,:punteggio,:titolo,:datapubblicazione)";
 
     public function __construct()
     {
@@ -18,6 +18,7 @@ class FGiudizio
         $sender->bindValue(':commento', $giudizio->getCommento(), PDO::PARAM_STR);
         $sender->bindValue(':punteggio', strval($giudizio->getPunteggio()), PDO::PARAM_STR);
         $sender->bindValue(':titolo', $giudizio->getTitle(), PDO::PARAM_STR);
+        $sender->bindValue(':datapubblicazione', $giudizio->getDataPubblicazioneDB(), PDO::PARAM_STR);
     }
     //----------------- GETTER --------------------
     public static function getClassName() {
@@ -90,7 +91,9 @@ class FGiudizio
             $utente = FUtente::load($idRegistrato,"id");
             $film = FFilm::load($film,"id");
             $titolo = $row["titolo"];
-            array_push($return,new EGiudizio($commento, $punteggio, $film[0], $utente, $titolo));
+            foreach($row as $key => $r) {echo $key . " : " . $r . "<br>";}
+            $data = DateTime::createfromFormat('Y-m-d', $row["datapubblicazione"]);
+            array_push($return,new EGiudizio($commento, $punteggio, $film[0], $utente, $titolo, $data));
         }
         return $return;
     }

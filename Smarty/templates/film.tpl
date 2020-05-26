@@ -290,7 +290,7 @@
                                             <div class="reviews__autor">
                                                 <img class="reviews__avatar" src="{$propic[$key]->getImmagine()}" alt="">
                                                 <span class="reviews__name">{$rev->getTitle()}</span>
-                                                <span class="reviews__time">{$rev->getUtente()->getUsername()}</span>
+                                                <span class="reviews__time">da {$rev->getUtente()->getUsername()} il {$rev->getDataPubblicazioneString()}</span>
 
                                                 <span class="reviews__rating"><i class="icon ion-ios-star"></i>{$rev->getPunteggio()}</span>
                                             </div>
