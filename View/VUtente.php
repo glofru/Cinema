@@ -3,17 +3,21 @@
 
 class VUtente
 {
-
-    private Smarty $smarty;
-
-    public function __construct()
+    public static function showUtente(EUtente $utente)
     {
-        $this->smarty = StartSmarty::configuration();
+        $smarty = StartSmarty::configuration();
+        $smarty->assign("utente", $utente);
+        $smarty->display("user.tpl");
     }
-
-    public function showUtente(EUtente $utente)
-    {
-        $this->smarty->assign("utente", $utente);
-        $this->smarty->display("user.tpl");
+    public function loginError() {
+        $smarty = StartSmarty::configuration();
+        $smarty->assign('error',"errore");
+        $smarty->display('login.tpl');
+    }
+    public function loginOk() {
+        $smarty = StartSmarty::configuration();
+        $smarty->assign('immagine', "/Cinema/Smarty/immagini/bb3b.png");
+        $smarty->assign('userlogged',"loggato");
+        $smarty->display('home.tpl');
     }
 }

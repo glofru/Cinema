@@ -9,16 +9,16 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet"> 
 
 	<!-- CSS -->
-	<link rel="stylesheet" href="css/bootstrap-reboot.min.css">
-	<link rel="stylesheet" href="css/bootstrap-grid.min.css">
-	<link rel="stylesheet" href="css/owl.carousel.min.css">
-	<link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
-	<link rel="stylesheet" href="css/nouislider.min.css">
-	<link rel="stylesheet" href="css/ionicons.min.css">
-	<link rel="stylesheet" href="css/plyr.css">
-	<link rel="stylesheet" href="css/photoswipe.css">
-	<link rel="stylesheet" href="css/default-skin.css">
-	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="../../Smarty/css/bootstrap-reboot.min.css">
+	<link rel="stylesheet" href="../../Smarty/css/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="../../Smarty/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="../../Smarty/css/jquery.mCustomScrollbar.min.css">
+	<link rel="stylesheet" href="../../Smarty/css/nouislider.min.css">
+	<link rel="stylesheet" href="../../Smarty/css/ionicons.min.css">
+	<link rel="stylesheet" href="../../Smarty/css/plyr.css">
+	<link rel="stylesheet" href="../../Smarty/css/photoswipe.css">
+	<link rel="stylesheet" href="../../Smarty/css/default-skin.css">
+	<link rel="stylesheet" href="../../Smarty/css/main.css">
 
 	<!-- Favicons -->
 	<link rel="icon" type="image/png" href="icon/favicon-32x32.png" sizes="32x32">
@@ -73,18 +73,18 @@
 	</div>
 
 	<!-- JS -->
-	<script src="js/jquery-3.3.1.min.js"></script>
-	<script src="js/bootstrap.bundle.min.js"></script>
-	<script src="js/owl.carousel.min.js"></script>
-	<script src="js/jquery.mousewheel.min.js"></script>
-	<script src="js/jquery.mCustomScrollbar.min.js"></script>
-	<script src="js/wNumb.js"></script>
-	<script src="js/nouislider.min.js"></script>
-	<script src="js/plyr.min.js"></script>
-	<script src="js/jquery.morelines.min.js"></script>
-	<script src="js/photoswipe.min.js"></script>
-	<script src="js/photoswipe-ui-default.min.js"></script>
-	<script src="js/main.js"></script>
+	<script src="../../Smarty/js/jquery-3.3.1.min.js"></script>
+	<script src="../../Smarty/js/bootstrap.bundle.min.js"></script>
+	<script src="../../Smarty/js/owl.carousel.min.js"></script>
+	<script src="../../Smarty/js/jquery.mousewheel.min.js"></script>
+	<script src="../../Smarty/js/jquery.mCustomScrollbar.min.js"></script>
+	<script src="../../Smarty/js/wNumb.js"></script>
+	<script src="../../Smarty/js/nouislider.min.js"></script>
+	<script src="../../Smarty/js/plyr.min.js"></script>
+	<script src="../../Smarty/js/jquery.morelines.min.js"></script>
+	<script src="../../Smarty/js/photoswipe.min.js"></script>
+	<script src="../../Smarty/js/photoswipe-ui-default.min.js"></script>
+	<script src="../../Smarty/js/main.js"></script>
 </body>
 
 </html>

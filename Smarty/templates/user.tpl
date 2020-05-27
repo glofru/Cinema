@@ -10,22 +10,22 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="../../Smarty/css/bootstrap-reboot.min.css">
-    <link rel="stylesheet" href="Smarty/css/bootstrap-grid.min.css">
-    <link rel="stylesheet" href="Smarty/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="Smarty/css/jquery.mCustomScrollbar.min.css">
-    <link rel="stylesheet" href="Smarty/css/nouislider.min.css">
-    <link rel="stylesheet" href="Smarty/css/ionicons.min.css">
-    <link rel="stylesheet" href="Smarty/css/plyr.css">
-    <link rel="stylesheet" href="Smarty/css/photoswipe.css">
-    <link rel="stylesheet" href="Smarty/css/default-skin.css">
-    <link rel="stylesheet" href="Smarty/css/main.css">
+    <link rel="stylesheet" href="../../Smarty/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="../../Smarty/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../../Smarty/css/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="../../Smarty/css/nouislider.min.css">
+    <link rel="stylesheet" href="../../Smarty/css/ionicons.min.css">
+    <link rel="stylesheet" href="../../Smarty/css/plyr.css">
+    <link rel="stylesheet" href="../../Smarty/css/photoswipe.css">
+    <link rel="stylesheet" href="../../Smarty/css/default-skin.css">
+    <link rel="stylesheet" href="../../Smarty/css/main.css">
 
     <!-- Favicons -->
-    <link rel="icon" type="image/png" href="Smarty/icon/favicon-32x32.png" sizes="32x32">
-    <link rel="apple-touch-icon" href="Smarty/icon/favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="Smarty/icon/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="Smarty/icon/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="Smarty/icon/apple-touch-icon-144x144.png">
+    <link rel="icon" type="image/png" href="../../Smarty/icon/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="../../Smarty/icon/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="../../Smarty/icon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="../../Smarty/icon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="../../Smarty/icon/apple-touch-icon-144x144.png">
 
     <meta name="description" content="">
     <meta name="keywords" content="">
