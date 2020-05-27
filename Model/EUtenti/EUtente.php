@@ -35,6 +35,8 @@ class EUtente implements JsonSerializable
      */
     private string $email;
 
+    private bool $isBanned;
+
     private int $id = 0;
 
     /**
@@ -46,13 +48,14 @@ class EUtente implements JsonSerializable
      * @param string $email
      * @param string $password
      */
-    public function __construct(string $nome, string $cognome, string $username, string $email, string $password)
+    public function __construct(string $nome, string $cognome, string $username, string $email, string $password, bool $isBanned)
     {
         $this->setNome($nome);
         $this->setCognome($cognome);
         $this->setUsername($username);
         $this->setEmail($email);
         $this->setPassword($password);
+        $this->isBanned($isBanned);
     }
 
     /**
@@ -141,6 +144,14 @@ class EUtente implements JsonSerializable
 
     public function getId(): int {
         return $this->id;
+    }
+
+    public function setIsBanned($isBanned) {
+        $this->isBanned = $isBanned;
+    }
+
+    public function getIsBanned(): bool {
+        return $this->isBanned;
     }
 
     /**
