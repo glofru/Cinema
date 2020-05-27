@@ -14,44 +14,6 @@ class EHelper
         return self::$instance;
     }
 
-    public function username(string $username): bool {
-        $res = preg_replace("/[^a-zA-Z]/", "", $username);
-        if(strlen($username) < 8 || $res !== $username ) {
-            return false;
-        }
-        return true;
-    }
-
-    public function password(string $password): bool {
-        if(strlen($password) < 8) {
-            return false;
-        }
-        return true;
-    }
-
-    public function email(string $email): bool {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return false;
-        }
-        return true;
-    }
-
-    public function date(string $date) {
-        $elem = explode("-", $date);
-        if(sizeof($elem) !== 3) {
-            return false;
-        }
-        return checkdate($elem[1], $elem[2], $elem[0]);
-    }
-
-    public function hour(string $hour) {
-        $res = strtotime($hour);
-        if($res !== false){
-            return true;
-        }
-        return $res;
-    }
-
     public function getDateProssime(): array {
         $result = [];
         $oggi = new DateTime('now');
@@ -189,5 +151,37 @@ class EHelper
         }
 
         return false;
+    }
+
+    public function retriveVote(string $punteggio): float {
+        $punteggio = explode('.', $punteggio);
+        $found = false;
+        $str = $punteggio[0];
+        for($i=0;$i<strlen($str);$i++){
+            if(preg_match('/^[0-9]+$/', $str[$i])) {
+                $punteggio[0] = $str[$i];
+                break;
+            }
+        }
+        return floatval($punteggio[0] . "." . $punteggio[1][0]);
+    }
+
+    public function programmazione(EProgrammazioneFilm $proiezionifilm, EFilm $film): array {
+        $result = [];
+        $today = new DateTime('now');
+        if(sizeof($proiezionifilm) === 0) {
+            return $result;
+        }
+        foreach($proiezionifilm->getProiezioni() as $pro) {
+            if($pro->getDataproieizone() > $today) {
+                array_push($result, $pro);
+            }
+            else if($pro->getDataproieizone() == $today){
+                if(strtotime($today->format('H:i')) - strtotime($pro->getDataProiezione()->format('H:i')) > 0) {
+                    array_push($result, $pro);
+                }
+            }
+        }
+        return $result;
     }
 }

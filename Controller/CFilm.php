@@ -30,7 +30,8 @@ class CFilm
             array_push($locandine,$pm->load($loc->getId(),"idFilm","EMediaLocandina"));
         }
         $rvw = self::getReview($pm, $filmID, $gestore);
-    VFilm::show($film, $autoplay, $copertina, $filmC, $locandine,$rvw[0],$rvw[1],/*$rvw[2]*/true);
+        $pro = self::getProiezioni($pm, $gestore, $filmID);
+        VFilm::show($film, $autoplay, $copertina, $filmC, $locandine,$rvw[0],$rvw[1], $pro, /*$rvw[2]*/true);
     }
 
     private static function getReview(FPersistentManager $pm, $filmID, EHelper $gestore) {
@@ -47,5 +48,12 @@ class CFilm
         $result = [];
         array_push($result, $reviews, $img, $canWrite);
         return $result;
+    }
+
+    private static function getProiezioni(FPersistentManager $pm, EHelper $gestore, $filmID): array {
+        $elenco = $pm->load($filmID, "idFilm", "EProiezione");
+        $film = $pm->load($filmID, "id","EFilm")[0];
+        $proiezionifilm = $elenco->getElencoprogrammazioni()[0];
+        return $gestore->programmazione($proiezionifilm, $film);
     }
 }
