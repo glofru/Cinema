@@ -124,9 +124,9 @@
             <div class="row">
                 <div class="col-12">
                     <div class="header__search-content">
-                        <input type="text" placeholder="Search for a movie, TV Series that you are looking for">
+                        <input type="text" placeholder="Scrivi qui il film che stai cercando...">
 
-                        <button type="button">search</button>
+                        <button type="button">Cerca</button>
                     </div>
                 </div>
             </div>
@@ -231,7 +231,7 @@
     <!-- end details content -->
 </section>
 <!-- end details -->
-
+{if (sizeof($proiezioni) > 0)}
 <!-- sala prenotazione -->
 <section class="content">
     <div class="content__head">
@@ -240,15 +240,18 @@
                 <div class="col-12">
                     <!-- Title -->
                     <h2 class="content__title">Prenota il tuo posto</h2>
-
                     <!-- content tabs nav -->
                     <ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist">
+                        {foreach $proiezioni as $key => $pro}
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Sala 1</a>
+                            {if $key == 0}
+                            <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true"> {$pro->getDataRed()}</a>
+
+                            {else}
+                            <a class="nav-link" data-toggle="tab" href="#tab-{$key+1}" role="tab" aria-controls="tab-{$key+1}" aria-selected="true"> {$pro->getDataRed()}</a>
+                            {/if}
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Sala 2</a>
-                        </li>
+                        {/foreach}
                     </ul>
                 </div>
             </div>
@@ -256,25 +259,42 @@
     </div>
 
     <div class="container">
-        <div class="row">
-            <form class="form">
-                <table id="t01">
-                    <tr>
-                        <th><img src="../../Smarty/img/cinema/sedia_libera.png"/></th>
-                        <th><img src="../../Smarty/img/cinema/sedia_occupata.png"/></th>
-                        <th><img src="../../Smarty/img/cinema/sedia_occupata.png"/></th>
-                    </tr>
-                    <tr>
-                        <td><img src="../../Smarty/img/cinema/sedia_libera.png" /></td>
-                        <td><img src="../../Smarty/img/cinema/sedia_libera.png"/></td>
-                        <td><img src="../../Smarty/img/cinema/sedia_libera.png"/></td>
-                    </tr>
-                </table>
-            </form>
+        <div class="tab-content" id="myTabContent">
+        {foreach $proiezioni as $key => $pro}
+            {if ($key == 0)}
+            <div class="tab-pane fade show active" id="tab-{$key+1}" role="tabpanel" aria-labelledby="{$key+1}-tab">
+            {else}
+            <div class="tab-pane fade" id="tab-{$key+1}" role="tabpanel" aria-labelledby="{$key+1}-tab">
+            {/if}
+            <div class="col-12">
+                <h2 class="section__title section__title--center">Sala: {$pro->getSala()->getNumeroSala()}</h2>
+            </div>
+                <div class="row--center">
+                    <form class="form">
+                        <table style="margin-left:auto;margin-right:auto;" id="t01">
+                            {for $i=0 to $pro->getSala()->getNFile()-1 step 1}
+                                <tr>   
+                                {for $j=0 to $pro->getSala()->getNPostiFila()-1 step 1}
+                                    {$posti = $pro->getSala()->getPosti()}
+                                    {if ($posti[$i+$j]->getOccupato() == false)}
+                                        <th><img onclick="changer('{$posti[$i+$j]}')" id = "{$posti[$i+$j]}" src="../../Smarty/img/cinema/sedia_libera.png"/></th>
+                                    {else}
+                                        <th><img onclick="changer('{$posti[$i+$j]}')" id = "{$posti[$i+$j]}" src="../../Smarty/img/cinema/sedia_occupata.png"/></th>
+                                    {/if}
+                                {/for}
+                            </tr>
+                            {/for}
+                        </table>
+                    </form>
+                </div>
+            </div>
+        {/foreach}
+        <div class="col-12--center">
+            <a href="#" class="section__btn">Acquista</a>
         </div>
     </div>
 </section>
-
+{/if}
 <!-- content -->
 <section class="content">
     <div class="content__head">
@@ -545,9 +565,29 @@
         document.getElementById("punteggio").value = document.getElementById("form__slider-value").outerHTML;
     }
     $('.cinema-seats .seat').on('click', function() {
-        $(this).toggleClass('active');
+        $(this).src="../../Smarty/img/cinema/sedia_in_occupazione.png";
     });
 </script>
+
+<script>
+    function changer (value) {
+
+        //alert(document.getElementById(value).src);        
+        if(document.getElementById(value).src == '../../Smarty/img/cinema/sedia_libera.png') {
+            alert("OCC");
+            document.getElementById(value).src='../../Smarty/img/cinema/sedia_in_occupazione.png';
+        }
+        else if(document.getElementById(value).src === '../../Smarty/img/cinema/sedia_in_occupazione.png')
+        {
+            alert("FREE");
+            document.getElementById(value).src='../../Smarty/img/cinema/sedia_libera.png';
+        }
+        else {
+            alert("LOCK");
+        }
+    }
+</script>
+
 </body>
 
 </html>

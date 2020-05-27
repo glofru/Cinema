@@ -49,7 +49,6 @@ class FSalaFisica implements Foundation
         $nFile = $result[0]["nFile"];
         $nPostiFila = $result[0]["nPostiFila"];
         $disponibile = $result[0]["disponibile"];
-
         return new ESalaFisica($nSala, $nFile, $nPostiFila, $disponibile);
     }
 

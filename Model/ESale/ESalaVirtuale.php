@@ -15,20 +15,20 @@ class ESalaVirtuale implements JsonSerializable
     * Numero identificativo della sala
     * @AttributeType int
     */
-    private int $numeroSala;
+    private int $numeroSala = 0;
     /**
      * Insieme dei posti presenti in sala
      * @AttributeType array
      */
-    private array $posti;
+    private array $posti = [];
     /**
      * @AttributeType int
      */
-    private int $nFile;
+    private int $nFile = 0;
     /**
      * @var int
      */
-    private int $nPostiFila;
+    private int $nPostiFila = 0;
 
     /**
      * ESalaVirtuale constructor.
@@ -47,7 +47,8 @@ class ESalaVirtuale implements JsonSerializable
      */
     public static function fromSalaFisica(ESalaFisica $salaFisica): ESalaVirtuale
     {
-        return new ESalaVirtuale($salaFisica->getNumeroSala(), $salaFisica->getNFile(), $salaFisica->getNPostiFila());
+        $sala = new ESalaVirtuale($salaFisica->getNumeroSala(), $salaFisica->getNFile(), $salaFisica->getNPostiFila());
+        return $sala;
     }
 
     /**
@@ -62,6 +63,8 @@ class ESalaVirtuale implements JsonSerializable
                 array_push($this->posti, new EPosto(chr($value + $i), $j));
             }
         }
+        $this->setNPosti($nPostiFila);
+        $this->setNFile($nFile);
     }
 
 //-------------- SETTER ----------------------
@@ -71,6 +74,14 @@ class ESalaVirtuale implements JsonSerializable
      */
     public function setNumeroSala(int $numeroSala){
         $this->numeroSala = $numeroSala;
+    }
+
+    public function setNPosti(int $nPostiFila) {
+        $this->nPostiFila = $nPostiFila;
+    }
+
+    public function setNFile(int $nFile) {
+        $this->nFile = $nFile;
     }
 
 //----------------- GETTER --------------------

@@ -272,7 +272,6 @@
 											</a>
 										</div>
 									</div>
-
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
 											<h3 class="card__title"><a href="/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
@@ -439,8 +438,6 @@
 				<!-- end card -->
 					{/foreach}
 				{/if}
-				
-
 				<!-- section btn -->
 				<div class="col-12">
 					<a href="#" class="section__btn">Altro</a>

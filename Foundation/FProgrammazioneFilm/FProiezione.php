@@ -48,7 +48,7 @@ class FProiezione implements Foundation
         }
     }
 
-    public static function load($value, $row): array {
+    public static function load($value, $row): EElencoProgrammazioni {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(),$value,$row);
 
@@ -109,6 +109,15 @@ class FProiezione implements Foundation
             //COSTRUISCO L'OGGETTO SALAVIRTUALE
             $salaFisica = FSalaFisica::load(strval($nsala),"nSala");
             $salaVirtuale = ESalaVirtuale::fromSalaFisica($salaFisica);
+            $posti = FPosto::load($ID,"idProiezione");
+            foreach($posti as $posto){
+                foreach($salaVirtuale->getPosti() as $updatingPosti) {
+                    if($updatingPosti->getPostoDB() == $posto->getPostoDB()){
+                        $updatingPosti->setOccupato($posto->getOccupato());
+                        break;
+                    }
+                }
+            }
             //COSTRUSICO L'OGGETTO DATAORA
             try {
                 $dataora = new DateTime($data . "T" . $ora);

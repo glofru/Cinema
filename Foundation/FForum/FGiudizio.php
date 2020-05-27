@@ -91,7 +91,6 @@ class FGiudizio
             $utente = FUtente::load($idRegistrato,"id");
             $film = FFilm::load($film,"id");
             $titolo = $row["titolo"];
-            foreach($row as $key => $r) {echo $key . " : " . $r . "<br>";}
             $data = DateTime::createfromFormat('Y-m-d', $row["datapubblicazione"]);
             array_push($return,new EGiudizio($commento, $punteggio, $film[0], $utente, $titolo, $data));
         }
