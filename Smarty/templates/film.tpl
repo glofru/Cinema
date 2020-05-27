@@ -232,6 +232,49 @@
 </section>
 <!-- end details -->
 
+<!-- sala prenotazione -->
+<section class="content">
+    <div class="content__head">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Title -->
+                    <h2 class="content__title">Prenota il tuo posto</h2>
+
+                    <!-- content tabs nav -->
+                    <ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Sala 1</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Sala 2</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <form class="form">
+                <table id="t01">
+                    <tr>
+                        <th><img src="../../Smarty/img/cinema/sedia_libera.png"/></th>
+                        <th><img src="../../Smarty/img/cinema/sedia_occupata.png"/></th>
+                        <th><img src="../../Smarty/img/cinema/sedia_occupata.png"/></th>
+                    </tr>
+                    <tr>
+                        <td><img src="../../Smarty/img/cinema/sedia_libera.png" /></td>
+                        <td><img src="../../Smarty/img/cinema/sedia_libera.png"/></td>
+                        <td><img src="../../Smarty/img/cinema/sedia_libera.png"/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</section>
+
 <!-- content -->
 <section class="content">
     <div class="content__head">
@@ -296,8 +339,8 @@
                                             </div>
                                             <p class="reviews__text">{$rev->getCommento()}</p>
                                         </li>
-                                      {/foreach}
-                                    {/if}  
+                                            {/foreach}
+                                        {/if}
                                     </ul>
                                     {if ($canView === true)}
                                     <form action="/Giudizio/add" class="form" method="POST">
@@ -352,8 +395,8 @@
                         </div>
                     </div>
                     <!-- end card -->
-                    {/foreach}
-                        {/if}
+                        {/foreach}
+                    {/if}
                 </div>
             </div>
             <!-- end sidebar -->
@@ -484,11 +527,6 @@
 </div>
 
 <!-- JS -->
-<script>
-    function getVal() {
-        document.getElementById("punteggio").value = document.getElementById("form__slider-value").outerHTML;
-    }
-</script>
 <script src="../../Smarty/js/jquery-3.3.1.min.js"></script>
 <script src="../../Smarty/js/bootstrap.bundle.min.js"></script>
 <script src="../../Smarty/js/owl.carousel.min.js"></script>
@@ -501,6 +539,15 @@
 <script src="../../Smarty/js/photoswipe.min.js"></script>
 <script src="../../Smarty/js/photoswipe-ui-default.min.js"></script>
 <script src="../../Smarty/js/main.js"></script>
+
+<script>
+    function getVal() {
+        document.getElementById("punteggio").value = document.getElementById("form__slider-value").outerHTML;
+    }
+    $('.cinema-seats .seat').on('click', function() {
+        $(this).toggleClass('active');
+    });
+</script>
 </body>
 
 </html>
