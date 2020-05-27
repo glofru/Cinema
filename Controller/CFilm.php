@@ -52,17 +52,8 @@ class CFilm
 
     private static function getProiezioni(FPersistentManager $pm, EHelper $gestore, $filmID): array {
         $elenco = $pm->load($filmID, "idFilm", "EProiezione");
+        $film = $pm->load($filmID, "id","EFilm")[0];
         $proiezionifilm = $elenco->getElencoprogrammazioni()[0];
-        $result = [];
-        $today = new DateTime('now');
-        if(sizeof($proiezionifilm) === 0) {
-            return [];
-        }
-        foreach($proiezionifilm->getProiezioni() as $pro) {
-            if($pro->getDataproieizone() >= $today) {
-                array_push($result, $pro);
-            }
-        }
-        return $result;
+        return $gestore->programmazione($proiezionifilm, $film);
     }
 }

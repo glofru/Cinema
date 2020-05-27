@@ -65,7 +65,8 @@ CREATE TABLE Utenti(
     `nome` TEXT NOT NULL,
     `cognome` TEXT NOT NULL,
     `password` TEXT NOT NULL,
-    `isAdmin` BOOLEAN NOT NULL
+    `isAdmin` BOOLEAN NOT NULL,
+    `isBanned` BOOLEAN DEFAULT FALSE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 CREATE TABLE Biglietto (
