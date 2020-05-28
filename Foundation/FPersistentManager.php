@@ -52,6 +52,11 @@ class FPersistentManager
         return $class::load($value,$row);
     }
 
+    public function loadLike($value, $row, $class) {
+        $class = self::getClass($class);
+        return $class::loadLike($value,$row);
+    }
+
     public function loadDebole($value, $row, $value2, $row2, $class) {
         $class = self::getClass($class);
         return $class::loadDoppio($value, $row, $value2, $row2);

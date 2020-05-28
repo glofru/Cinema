@@ -1,7 +1,7 @@
 <?php
 class CGiudizio{
     public static function add(){
-        /*if(!isset($SESSION_["userID"])){
+        /*if(!isset($SESSION_["user"])){
             header("Location: /");
         }*/
         $pm = FPersistentManager::getInstance();

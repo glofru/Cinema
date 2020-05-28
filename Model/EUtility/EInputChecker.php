@@ -23,7 +23,7 @@ class EInputChecker{
         if(strlen($password) < 8) {
             return "";
         }
-        $password = 'S4L7' + $password;
+        $password = 'S4L7' . $password;
         return hash('SHA512', $password);
     }
 

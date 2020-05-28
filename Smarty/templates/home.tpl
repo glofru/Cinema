@@ -140,14 +140,14 @@
 		</div>
 
 		<!-- header search -->
-		<form action="#" class="header__search">
+		<form action="/Ricerca/cercaFilm" method= "POST" class="header__search">
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
 						<div class="header__search-content">
-							<input type="text" placeholder="Cerca un film">
+							<input type="text" name="filmCercato" placeholder="Cerca un film">
 
-							<button type="button">Cerca</button>
+							<button type="submit">Cerca</button>
 						</div>
 					</div>
 				</div>

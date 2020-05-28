@@ -38,7 +38,7 @@ class CHome
         return $result;
     }
 
-    private static function getConsigliati($cookie) {
+    public static function getConsigliati($cookie) {
         $pm = FPersistentManager::getInstance();
         $result = [];
         if(EHelper::getInstance()->getPreferences($cookie) === true) {

@@ -89,6 +89,12 @@ class FFilm implements Foundation
         return self::parseResult($result);
     }
 
+    public static function loadLike($value, $row) {
+        $db = FDatabase::getInstance();
+        $result = $db->loadLike(self::getClassName(), $value, $row);
+        return self::parseResult($result);
+    }
+
     public static function update($value, $row, $newvalue, $newrow): bool
     {
         $db = FDatabase::getInstance();

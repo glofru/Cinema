@@ -140,17 +140,17 @@ class EHelper
         return ($p/$n);
     }
 
-    public function checkWrite($id,$array): bool {
-        if(isset($id)){
+    public function checkWrite(/*ERegistrato */ $utente,$array): bool {
+        /*if(isset($utente)){
             foreach($array as $a){
-                if($a->getUtente()->getId() == $id){
+                if($a->getUtente()->getId() == $utente->getId()){
                     return false;
                 }
             }
             return true;
         }
 
-        return false;
+        return false;*/ return true;
     }
 
     public function retriveVote(string $punteggio): float {
@@ -164,6 +164,17 @@ class EHelper
             }
         }
         return floatval($punteggio[0] . "." . $punteggio[1][0]);
+    }
+
+    public function retriveAnno(string $anno): float {
+        $str = "";
+        for($i=0;$i<strlen($anno);$i++){
+            if(preg_match('/^[0-9]+$/', $anno[$i])) {
+                $str = $anno[$i] . $anno[$i+1] . $anno[$i+2] . $anno[$i+3];
+                break;
+            }
+        }
+        return $str;
     }
 
     public function programmazione($proiezionifilm, EFilm $film): array {
@@ -180,6 +191,16 @@ class EHelper
                 if(strtotime($today->format('H:i')) - strtotime($pro->getDataProiezione()->format('H:i')) > 0) {
                     array_push($result, $pro);
                 }
+            }
+        }
+        return $result;
+    }
+
+    public function filter(array $film, float $votoInizio, float $votoFine, DateTime $annoInizio, DateTime $annoFine) {
+        $result = [];
+        foreach ($film as $f) {
+            if($f->getDataRilascio() <= $annoFine && $f->getDataRilascio() >= $annoInizio && $f->getVotoCritica() >= $votoInizio && $f->getVotoCritica() <= $votoFine) {
+                array_push($result, $f);
             }
         }
         return $result;

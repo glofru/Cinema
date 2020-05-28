@@ -10,8 +10,7 @@ class CUtente
                 //showuser($user);
 			}
 			else{
-				$view=new VUtente();
-				$view->formLogin();
+				VUtente::formLogin();
 			}
         }
         elseif ($_SERVER['REQUEST_METHOD']=="POST")
@@ -66,15 +65,7 @@ class CUtente
             header('/Cinema/Utente/formLogin');
         }
     }
-
-    public static function logout() {
-        if(isset($_COOKIE["PHPSESSID"])) {
-            session_start();
-            session_unset();
-            session_destroy();
-        }
-        header("Location: /");
-    }
+    
     static function mostraprofilo() {
         $view = new VUtente();
         $pm = FPersistentManager::getInstance();

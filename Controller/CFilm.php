@@ -36,7 +36,8 @@ class CFilm
 
     private static function getReview(FPersistentManager $pm, $filmID, EHelper $gestore) {
         $reviews = $pm->load($filmID,"idFilm","EGiudizio");
-        $canWrite = $gestore->checkWrite($_SESSION["userID"], $reviews);
+        session_start();
+        $canWrite = $gestore->checkWrite($_SESSION["user"], $reviews);
         $img = [];
         foreach($reviews as $loc) {
             $temp = $pm->load($loc->getUtente()->getId(),"idUtente","EMediaUtente");
