@@ -290,7 +290,7 @@
             </div>
         {/foreach}
         <div class="col-12--center">
-            <a href="#" class="section__btn">Acquista</a>
+            <a href="#" class="section__btn" id="acquista">Acquista</a>
         </div>
     </div>
 </section>

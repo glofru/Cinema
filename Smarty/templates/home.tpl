@@ -275,17 +275,18 @@
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
 											<h3 class="card__title"><a href="/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
-											{if ($punteggioSettimanaScorsa[$key] != '0')}
-											<span class="card__category">
-												<a href="#">Voto utenti: {$punteggioSettimanaScorsa[$key]}</a>
-											</span>
-											{/if}
+
 											<div class="card__wrap">
-												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
+												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()} &nbsp;</span>
+												{if ($punteggioProgrammazione[$key] != '0')}
+													<span class="card__category">
+													<a href="/Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggioProgrammazione[$key]}</a>
+												</span>
+												{/if}
 												{if ($film->getetaConsigliata() != "")}
-												<ul class="card__list">
-													<li>{$film->getetaConsigliata()}</li>
-												</ul>
+													<ul class="card__list">
+														<li>{$film->getetaConsigliata()}</li>
+													</ul>
 												{/if}
 											</div>
 
@@ -322,13 +323,14 @@
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
 											<h3 class="card__title"><a href="/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
-											{if ($punteggioProgrammazione[$key] != '0')}
-											<span class="card__category">
-												<a href="#" >Voto utenti: {$punteggioProgrammazione[$key]}</a>
-											</span>
-											{/if}
+
 											<div class="card__wrap">
-												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
+												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()} &nbsp;</span>
+												{if ($punteggioProgrammazione[$key] != '0')}
+												<span class="card__category">
+													<a href="/Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggioProgrammazione[$key]}</a>
+												</span>
+												{/if}
 												{if ($film->getetaConsigliata() != "")}
 												<ul class="card__list">
 													<li>{$film->getetaConsigliata()}</li>
@@ -369,17 +371,18 @@
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
 											<h3 class="card__title"><a href="/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
-											{if ($punteggioSettimanaProssima[$key] != '0')}
-											<span class="card__category">	
-												<a href="#">Voto utenti: {$punteggioSettimanaProssima[$key]}</a>
-											</span>
-											{/if}
+
 											<div class="card__wrap">
-												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
+												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()} &nbsp;</span>
+												{if ($punteggioProgrammazione[$key] != '0')}
+													<span class="card__category">
+													<a href="/Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggioProgrammazione[$key]}</a>
+												</span>
+												{/if}
 												{if ($film->getetaConsigliata() != "")}
-												<ul class="card__list">
-													<li>{$film->getetaConsigliata()}</li>
-												</ul>
+													<ul class="card__list">
+														<li>{$film->getetaConsigliata()}</li>
+													</ul>
 												{/if}
 											</div>
 
