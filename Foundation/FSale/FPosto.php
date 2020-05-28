@@ -43,18 +43,18 @@ class FPosto implements FoundationDebole
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), $value,$row);
         if($result === null){
-            return $result;
+            return null;
         }
         $return = [];
         foreach ($result as $elem) {
-            array_push($return,EPosto::fromString($elem["posizione"],$elem["libero"]));
+            array_push($return,EPosto::fromString($elem["posizione"], $elem["libero"]));
         }
         return $return;
     }
 
     public static function loadDoppio($idProiezione, string $posto) {
         $db = FDatabase::getInstance();
-        $result = $db->loadFromDBDebole(self::getClassName(),$idProiezione,"idProiezione",$posto,"posizione");
+        $result = $db->loadFromDBDebole(self::getClassName(), $idProiezione, "idProiezione", $posto, "posizione");
         if($result === null){
             return $result;
         }
@@ -62,15 +62,15 @@ class FPosto implements FoundationDebole
         return EPosto::fromString($posto,$libero);
     }
 
-    public static function update($value,$row,$value2,$row2,$newvalue,$newrow): bool {
+    public static function update($value, $row, $value2, $row2, $newvalue, $newrow): bool {
         $db = FDatabase::getInstance();
-        if($db->updateTheDBDebole(self::getClassName(),$value,$row,$value2,$row2,$newvalue,$newrow)){
+        if($db->updateTheDBDebole(self::getClassName(), $value, $row, $value2, $row2, $newvalue, $newrow)){
             return true;
         }
         return false;
     }
 
-    public static function delete($value,$row,$value2,$row2): bool {
+    public static function delete($value, $row, $value2, $row2): bool {
         $db = FDatabase::getInstance();
         if($db->deleteFromDB(self::getClassName(), $value, $row)) {
             return true;

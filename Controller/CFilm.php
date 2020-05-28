@@ -30,12 +30,21 @@ class CFilm
             array_push($locandine,$pm->load($loc->getId(),"idFilm","EMediaLocandina"));
         }
         $rvw = self::getReview($pm, $filmID, $gestore);
-        VFilm::show($film, $autoplay, $copertina, $filmC, $locandine,$rvw[0],$rvw[1],$rvw[2]);
+        $pro = self::getProiezioni($pm, $gestore, $filmID);
+        VFilm::show($film, $autoplay, $copertina, $filmC, $locandine,$rvw[0],$rvw[1], $pro, $rvw[2]);
     }
 
     private static function getReview(FPersistentManager $pm, $filmID, EHelper $gestore) {
         $reviews = $pm->load($filmID,"idFilm","EGiudizio");
-        $canWrite = $gestore->checkWrite($_SESSION["userID"], $reviews);
+        if(isset($_COOKIE["PHPSESSID"]))
+        {
+            session_start();
+            $canWrite = $gestore->checkWrite($_SESSION["utente"], $reviews);
+        }
+        else
+        {
+            $canWrite = false;
+        }
         $img = [];
         foreach($reviews as $loc) {
             $temp = $pm->load($loc->getUtente()->getId(),"idUtente","EMediaUtente");
@@ -47,5 +56,13 @@ class CFilm
         $result = [];
         array_push($result, $reviews, $img, $canWrite);
         return $result;
+
+    }
+
+    private static function getProiezioni(FPersistentManager $pm, EHelper $gestore, $filmID): array {
+        $elenco = $pm->load($filmID, "idFilm", "EProiezione");
+        $film = $pm->load($filmID, "id","EFilm")[0];
+        $proiezionifilm = $elenco->getElencoprogrammazioni()[0];
+        return $gestore->programmazione($proiezionifilm, $film);
     }
 }

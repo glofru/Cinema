@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 
 <head>
     <meta charset="utf-8">
@@ -119,14 +119,14 @@
     </div>
 
     <!-- header search -->
-    <form action="#" class="header__search">
+    <form action="/Ricerca/cercaFilm" method= "POST" class="header__search">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="header__search-content">
-                        <input type="text" placeholder="Search for a movie, TV Series that you are looking for">
+                        <input type="text" name="filmCercato" placeholder="Cerca un film">
 
-                        <button type="button">search</button>
+                        <button type="submit">Cerca</button>
                     </div>
                 </div>
             </div>
@@ -179,10 +179,10 @@
                                 </div>
 
                                 <ul class="card__meta">
-                                    <li><span>Genere:</span> <a>{$film->getGenere()}</a>
+                                    <li><span>Genere:</span> <a href="#">{$film->getGenere()}</a>
                                     <li><span>Anno di rilascio:</span> {$film->getAnno()}</li>
                                     <li><span>Durata:</span> {$film->getDurataMinuti()} min</li>
-                                    <li><span>Paese:</span> <a>{$film->getPaese()}</a> </li>
+                                    <li><span>Paese:</span> <a href="#">{$film->getPaese()}</a> </li>
                                     <li><span>Regista:</span> {foreach $registi as $reg} <a href="{$reg->getImdbUrl()}" target="_blank">{$reg->getNome()} {$reg->getCognome()} </a> {/foreach}</li>
                                     <li><span>Attori:</span> {foreach $attori as $att} <a href="{$att->getImdbUrl()}" target="_blank">{$att->getNome()} {$att->getCognome()} </a> {/foreach}</li>
                                         
@@ -231,7 +231,70 @@
     <!-- end details content -->
 </section>
 <!-- end details -->
+{if (sizeof($proiezioni) > 0)}
+<!-- sala prenotazione -->
+<section class="content">
+    <div class="content__head">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Title -->
+                    <h2 class="content__title">Prenota il tuo posto</h2>
+                    <!-- content tabs nav -->
+                    <ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist">
+                        {foreach $proiezioni as $key => $pro}
+                        <li class="nav-item">
+                            {if $key == 0}
+                            <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true"> {$pro->getDataRed()}</a>
 
+                            {else}
+                            <a class="nav-link" data-toggle="tab" href="#tab-{$key+1}" role="tab" aria-controls="tab-{$key+1}" aria-selected="true"> {$pro->getDataRed()}</a>
+                            {/if}
+                        </li>
+                        {/foreach}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="tab-content" id="myTabContent">
+        {foreach $proiezioni as $key => $pro}
+            {if ($key == 0)}
+            <div class="tab-pane fade show active" id="tab-{$key+1}" role="tabpanel" aria-labelledby="{$key+1}-tab">
+            {else}
+            <div class="tab-pane fade" id="tab-{$key+1}" role="tabpanel" aria-labelledby="{$key+1}-tab">
+            {/if}
+            <div class="col-12">
+                <h2 class="section__title section__title--center">Sala: {$pro->getSala()->getNumeroSala()}</h2>
+            </div>
+                <div class="row--center">
+                    <form id="book" class="form" action="/Acquisto/getBiglietti" method="POST">
+                        <input type="hidden" name="proiezione" value="{$pro->getId()}" />
+                        <table style="margin-left:auto;margin-right:auto;" id="t01">
+                            {foreach $pro->getSala()->getPosti() as $fila}
+                                <tr>
+                                    {foreach $fila as $posto}
+                                        {if $posto->isOccupato}
+                                            <th><img id="{$posto->getId()}" onclick="book(this)" src="../../Smarty/img/cinema/sedia_occupata.png" alt="Posto"/></th>
+                                        {else}
+                                            <th><img id="{$posto->getId()}" onclick="book(this)" src="../../Smarty/img/cinema/sedia_libera.png" alt="Posto"/></th>
+                                        {/if}
+                                    {/foreach}
+                                </tr>
+                            {/foreach}
+                        </table>
+                    </form>
+                </div>
+            </div>
+        {/foreach}
+        <div class="col-12--center">
+            <a onclick="acquista()" style="color: white; cursor:pointer;" class="section__btn" id="acquista">Acquista</a>
+        </div>
+    </div>
+</section>
+{/if}
 <!-- content -->
 <section class="content">
     <div class="content__head">
@@ -290,24 +353,26 @@
                                             <div class="reviews__autor">
                                                 <img class="reviews__avatar" src="{$propic[$key]->getImmagine()}" alt="">
                                                 <span class="reviews__name">{$rev->getTitle()}</span>
-                                                <span class="reviews__time">{$rev->getUtente()->getUsername()}</span>
+                                                <span class="reviews__time">da {$rev->getUtente()->getUsername()} il {$rev->getDataPubblicazioneString()}</span>
 
                                                 <span class="reviews__rating"><i class="icon ion-ios-star"></i>{$rev->getPunteggio()}</span>
                                             </div>
                                             <p class="reviews__text">{$rev->getCommento()}</p>
                                         </li>
-                                      {/foreach}
-                                    {/if}  
+                                            {/foreach}
+                                        {/if}
                                     </ul>
                                     {if ($canView === true)}
-                                    <form action="#" class="form">
-                                        <input type="text" class="form__input" placeholder="Titolo">
-                                        <textarea class="form__textarea" placeholder="Recensione"></textarea>
+                                    <form action="/Giudizio/add" class="form" method="POST">
+                                        <input name="titolo" type="text" class="form__input" placeholder="Titolo (max 30 caratteri)" maxlength="30">
+                                        <textarea name="commento" class="form__textarea" placeholder="Recensione (max 200 caratteri)" maxlength="200"></textarea>
                                         <div class="form__slider">
                                             <div class="form__slider-rating" id="slider__rating"></div>
                                             <div class="form__slider-value" id="form__slider-value"></div>
                                         </div>
-                                        <button type="button" class="form__btn">Invia</button>
+                                        <input type="hidden" id="film" name="filmId" value="{$film->getId()}">
+                                        <input type="hidden" name="punteggio" id="punteggio">
+                                        <button type="submit" class="form__btn" onclick="getVal()">Invia</button>
                                     </form>
                                     {/if}
                                 </div>
@@ -350,8 +415,8 @@
                         </div>
                     </div>
                     <!-- end card -->
-                    {/foreach}
-                        {/if}
+                        {/foreach}
+                    {/if}
                 </div>
             </div>
             <!-- end sidebar -->
@@ -494,6 +559,41 @@
 <script src="../../Smarty/js/photoswipe.min.js"></script>
 <script src="../../Smarty/js/photoswipe-ui-default.min.js"></script>
 <script src="../../Smarty/js/main.js"></script>
+
+<script>
+    function getVal() {
+        document.getElementById("punteggio").value = document.getElementById("form__slider-value").outerHTML;
+    }
+
+    let bookedSeat = [];
+    let libera = "../../Smarty/img/cinema/sedia_libera.png";
+    let occupazione = "../../Smarty/img/cinema/sedia_in_occupazione.png";
+
+    function acquista() {
+        if (bookedSeat.length > 0) {
+            $("#book").append(
+                "<input type='hidden' name='posti' value='" + bookedSeat.join(';') + "' />"
+            );
+            document.getElementById('book').submit()
+
+        } else {
+            alert("Selezionare almeno un posto prima di acquistare");
+        }
+    }
+
+    function book (value) {
+        let id = value.getAttribute("id");
+
+        if (bookedSeat.includes(id)) {
+            bookedSeat.splice(bookedSeat.indexOf(id), 1);
+            value.setAttribute("src", libera);
+        } else {
+            bookedSeat.push(id);
+            value.setAttribute("src", occupazione);
+        }
+    }
+</script>
+
 </body>
 
 </html>

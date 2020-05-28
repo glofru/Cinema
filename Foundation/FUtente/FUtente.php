@@ -5,7 +5,7 @@ class FUtente implements Foundation
 {
     private static string $className = "FUtente";
     private static string $tableName = "Utenti";
-    private static string $valuesName = "(:id,:username,:email,:nome,:cognome,:password,:isAdmin)";
+    private static string $valuesName = "(:id,:username,:email,:nome,:cognome,:password,:isAdmin,:isBanned)";
 
     private bool $isAdmin;
     private int $idUtente;
@@ -54,6 +54,7 @@ class FUtente implements Foundation
             $sender->bindValue(':cognome', $utente->getCognome(), PDO::PARAM_STR);
             $sender->bindValue(':password', $utente->getPassword(), PDO::PARAM_STR);
             $sender->bindValue(':isAdmin', $utente instanceof EAdmin, PDO::PARAM_BOOL);
+            $sender->bindValue(':isBanned', $utente->isBanned(), PDO::PARAM_BOOL);
         } else {
             die("Not a user!!");
         }
@@ -91,6 +92,17 @@ class FUtente implements Foundation
             return null;
         }
 
+        return self::parseResult($result)[0];
+    }
+
+    public static function login(string $value, string $pass, bool $isMail) {
+        $db = FDatabase::getInstance();
+        if($isMail) {
+            $result = $db->loadFromDBDebole(self::getClassName(), $value, "email", $pass, "password");
+        }
+        else {
+            $result = $db->loadFromDBDebole(self::getClassName(), $value, "username", $pass, "password");
+        }
         return self::parseResult($result)[0];
     }
 
@@ -205,22 +217,23 @@ class FUtente implements Foundation
             $email = $row["email"];
             $password = $row["password"];
             $isAdmin = $row["isAdmin"];
+            $isBanned = $row["isBanned"];
 
             if ($isAdmin)
             {
-                $admin = new EAdmin($nome, $cognome, $username, $email, $password);
+                $admin = new EAdmin($nome, $cognome, $username, $email, $password, $isBanned);
                 $admin->setId($id);
                 array_push($return, $admin);
             }
             elseif ($username != null && $username != "")
             {
-                $reg =  new ERegistrato($nome, $cognome, $username, $email, $password);
+                $reg =  new ERegistrato($nome, $cognome, $username, $email, $password, $isBanned);
                 $reg->setId($id);
                 array_push($return, $reg);
             }
             else
             {
-                $nreg = new ENonRegistrato($nome, $cognome, $username, $email, $password);
+                $nreg = new ENonRegistrato($nome, $cognome, $username, $email, $password, $isBanned);
                 $nreg->setId($id);
                 array_push($return, $nreg);
             }

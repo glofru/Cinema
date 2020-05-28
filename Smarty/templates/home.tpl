@@ -51,7 +51,7 @@
 					<div class="col-12">
 						<div class="header__content">
 							<!-- header logo -->
-							<a href="index.html" class="header__logo">
+							<a href="/" class="header__logo">
 								<img src="Smarty/img/logo.svg" alt="">
 							</a>
 							<!-- end header logo -->
@@ -87,10 +87,10 @@
 								<!-- dropdown -->
 								<li class="dropdown header__nav-item">
 									<a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
-									 {if ($user == "")}
+									 {if (!isset($user))}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
 										<li><a href="about.html">Su di noi</a></li>
-										<li><a href="signin.html">Login</a></li>
+										<li><a href="/Utente/loginForm">Login</a></li>
 										<li><a href="signup.html">Registrati</a></li>
 									{else}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
@@ -107,15 +107,24 @@
 								<button class="header__search-btn" type="button">
 									<i class="icon ion-ios-search"></i>
 								</button>
-								
-								<a href="signin.html" class="header__sign-in">
+
+								{if (!isset($utente))}
+								<a href="Utente/loginForm" methods="GET" class="header__sign-in">
 									<i class="icon ion-ios-log-in"></i>
-									{if ($user === "")}
-									<span>login</span>
-									{else}
-									<span>Bentornato</span>
-									{/if}
+									<span>Login</span>
 								</a>
+								</form>
+								{else}
+								<li class="header__nav-item">
+									<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{$utente->getUsername()}</a>
+									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+										<li><a href="">Il mio profilo</a></li>
+										<li><a href="">I miei acquisti</a></li>
+										<li><a href="https://www.youporn.com/watch/15481840/il-sole-sul-balcone-amatoriale-italianovery-myller/#1">I miei video porno</a></li>
+										<li><a href="/Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+									</ul>
+								</li>
+								{/if}
 							</div>
 							<!-- end header auth -->
 
@@ -133,14 +142,14 @@
 		</div>
 
 		<!-- header search -->
-		<form action="#" class="header__search">
+		<form action="/Ricerca/cercaFilm" method= "POST" class="header__search">
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
 						<div class="header__search-content">
-							<input type="text" placeholder="Cerca un film">
+							<input type="text" name="filmCercato" placeholder="Cerca un film">
 
-							<button type="button">Cerca</button>
+							<button type="submit">Cerca</button>
 						</div>
 					</div>
 				</div>
@@ -169,13 +178,12 @@
 					<div class="owl-carousel home__carousel">
 						{if $filmProssimi}
 							{if is_array($filmProssimi)}
-							{$i = 0}
-								{foreach $filmProssimi as $film}
+								{foreach $filmProssimi as $key => $film}
 						<div class="item">
 							<!-- card -->
 							<div class="card card--big">
 								<div class="card__cover">
-									<img src="{$immaginiProssimi[$i]->getImmagineHTML()}" alt="">
+									<img src="{$immaginiProssimi[$key]->getImmagineHTML()}" alt="">
 									<a href="/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -189,7 +197,6 @@
 							</div>
 							<!-- end card -->
 						</div>
-						{$i++}
 								{/foreach}
 							{/if}
 						{/if}
@@ -272,26 +279,26 @@
 											</a>
 										</div>
 									</div>
-
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
 											<h3 class="card__title"><a href="/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
-											{if ($punteggioSettimanaScorsa[$key] != '0')}
-											<span class="card__category">
-												<a href="#">Voto utenti: {$punteggioSettimanaScorsa[$key]}</a>
-											</span>
-											{/if}
+
 											<div class="card__wrap">
-												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
+												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()} &nbsp;</span>
+												{if ($punteggioProgrammazione[$key] != '0')}
+													<span class="card__category">
+													<a href="/Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggioProgrammazione[$key]}</a>
+												</span>
+												{/if}
 												{if ($film->getetaConsigliata() != "")}
-												<ul class="card__list">
-													<li>{$film->getetaConsigliata()}</li>
-												</ul>
+													<ul class="card__list">
+														<li>{$film->getetaConsigliata()}</li>
+													</ul>
 												{/if}
 											</div>
 
 											<div class="card__description">
-												<p>{$film->getDescrizione()}</p>
+												<p>{$dateSettimanaScorsa[$key]}</p>
 											</div>
 										</div>
 									</div>
@@ -323,13 +330,14 @@
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
 											<h3 class="card__title"><a href="/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
-											{if ($punteggioProgrammazione[$key] != '0')}
-											<span class="card__category">
-												<a href="#">Voto utenti: {$punteggioProgrammazione[$key]}</a>
-											</span>
-											{/if}
+
 											<div class="card__wrap">
-												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
+												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()} &nbsp;</span>
+												{if ($punteggioProgrammazione[$key] != '0')}
+												<span class="card__category">
+													<a href="/Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggioProgrammazione[$key]}</a>
+												</span>
+												{/if}
 												{if ($film->getetaConsigliata() != "")}
 												<ul class="card__list">
 													<li>{$film->getetaConsigliata()}</li>
@@ -338,7 +346,7 @@
 											</div>
 
 											<div class="card__description">
-												<p>{$film->getDescrizione()}</p>
+												<p>{$dateProgrammazione[$key]}</p>
 											</div>
 										</div>
 									</div>
@@ -370,22 +378,23 @@
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
 											<h3 class="card__title"><a href="/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
-											{if ($punteggioSettimanaProssima[$key] != '0')}
-											<span class="card__category">	
-												<a href="#">Voto utenti: {$punteggioSettimanaProssima[$key]}</a>
-											</span>
-											{/if}
+
 											<div class="card__wrap">
-												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
+												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()} &nbsp;</span>
+												{if ($punteggioProgrammazione[$key] != '0')}
+													<span class="card__category">
+													<a href="/Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggioProgrammazione[$key]}</a>
+												</span>
+												{/if}
 												{if ($film->getetaConsigliata() != "")}
-												<ul class="card__list">
-													<li>{$film->getetaConsigliata()}</li>
-												</ul>
+													<ul class="card__list">
+														<li>{$film->getetaConsigliata()}</li>
+													</ul>
 												{/if}
 											</div>
 
 											<div class="card__description">
-												<p>{$film->getDescrizione()}</p>
+												<p>{$dateSettimanaProssima[$key]}</p>
 											</div>
 										</div>
 									</div>
@@ -413,13 +422,12 @@
 				</div>
 				<!-- end section title -->
 				{if $filmConsigliati}
-					{$i = 0}
-					{foreach $filmConsigliati as $film}
+					{foreach $filmConsigliati as $key => $film}
 				<!-- card -->
 				<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
 					<div class="card">
 						<div class="card__cover">
-							<img src="{$immaginiConsigliati[$i]->getImmagineHTML()}" alt="">
+							<img src="{$immaginiConsigliati[$key]->getImmagineHTML()}" alt="">
 							<a href="/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
 								<i class="icon ion-ios-play"></i>
 							</a>
@@ -438,11 +446,8 @@
 					</div>
 				</div>
 				<!-- end card -->
-					{$i++}
 					{/foreach}
 				{/if}
-				
-
 				<!-- section btn -->
 				<div class="col-12">
 					<a href="#" class="section__btn">Altro</a>

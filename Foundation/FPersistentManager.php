@@ -52,6 +52,11 @@ class FPersistentManager
         return $class::load($value,$row);
     }
 
+    public function loadLike($value, $row, $class) {
+        $class = self::getClass($class);
+        return $class::loadLike($value,$row);
+    }
+
     public function loadDebole($value, $row, $value2, $row2, $class) {
         $class = self::getClass($class);
         return $class::loadDoppio($value, $row, $value2, $row2);
@@ -82,19 +87,15 @@ class FPersistentManager
         $class::update($value, $row, $value2, $row2, $newValue, $newRow);
     }
 
-    public function occupaPosto($idProiezione, $posto, $emailUtente, $costo) {
-        return FProiezione::occupaPosto($idProiezione, $posto, $emailUtente, $costo);
+    public function occupaPosto(EProiezione $proiezione, EPosto $posto, EUtente $utente, int $costo) {
+        return FProiezione::occupaPosto($proiezione, $posto, $utente, $costo);
     }
 
     public function liberaPosto($idProiezione, $posto, $emailUtente)  {
         return FProiezione::liberaPosto($idProiezione, $posto, $emailUtente);
     }
 
-    public function login(string $username,string $emailUtente,string $password){
-        if(isset($username)) {
-            return FUtente::login($username,$password);
-        } else {
-            return FUtente::loginEmail($emailUtente,$password);
-        }
+    public function login(string $value, string $password, bool $isMail){
+        return FUtente::login($value,$password,$isMail);
     }
 }

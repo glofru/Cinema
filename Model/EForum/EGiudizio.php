@@ -14,19 +14,21 @@ class EGiudizio implements JsonSerializable
     private EFilm $film;
     private ERegistrato $utente;
     private string $title;
+    private DateTime $dataPubblicazione;
 
     /**
      * EGiudizio constructor.
      * @param string $commento
      * @param int $punteggio
      */
-    public function __construct(string $commento, float $punteggio, EFilm $film, ERegistrato $utente, string $title)
+    public function __construct(string $commento, float $punteggio, EFilm $film, ERegistrato $utente, string $title, DateTime $dataPubblicazione)
     {
         $this->setCommento($commento);
         $this->setPunteggio($punteggio);
         $this->setFilm($film);
         $this->setUtente($utente);
         $this->setTitle($title);
+        $this->setDataPubblicazione($dataPubblicazione);
     }
 
     /**
@@ -91,6 +93,22 @@ class EGiudizio implements JsonSerializable
 
     public function getTitle(): string {
         return $this->title;
+    }
+
+    public function setDataPubblicazione(DateTime $dataPubblicazione) {
+        $this->dataPubblicazione = $dataPubblicazione;
+    }
+
+    public function getDataPubblicazione(): DateTime {
+        return $this->dataPubblicazione;
+    }
+
+    public function getDataPubblicazioneDB(): string {
+        return $this->dataPubblicazione->format('Y-m-d');
+    }
+
+    public function getDataPubblicazioneString(): string {
+        return $this->dataPubblicazione->format('d-m-Y');
     }
 
 

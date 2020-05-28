@@ -9,45 +9,17 @@
  * @author Lofrumento - Di Santo - Susanna
  * @package Model
  */
-class ESalaVirtuale implements JsonSerializable
+class ESalaVirtuale extends ESalaFisica implements JsonSerializable
 {
-    /**
-    * Numero identificativo della sala
-    * @AttributeType int
-    */
-    private int $numeroSala;
     /**
      * Insieme dei posti presenti in sala
      * @AttributeType array
      */
     private array $posti;
-    /**
-     * @AttributeType int
-     */
-    private int $nFile;
-    /**
-     * @var int
-     */
-    private int $nPostiFila;
 
-    /**
-     * ESalaVirtuale constructor.
-     * @param int $numeroSala
-     * @param int $nFile
-     * @param int $nPostiFila
-     */
-    public function __construct(int $numeroSala, int $nFile, int $nPostiFila) {
-        $this->setNumeroSala($numeroSala);
+    public function __construct(int $numeroSala, int $nFile, int $nPostiFila, bool $disponibile) {
+        parent::__construct($numeroSala, $nFile, $nPostiFila, $disponibile);
         $this->init($nFile, $nPostiFila);
-    }
-
-    /**
-     * @param ESalaFisica $salaFisica
-     * @return ESalaVirtuale
-     */
-    public static function fromSalaFisica(ESalaFisica $salaFisica): ESalaVirtuale
-    {
-        return new ESalaVirtuale($salaFisica->getNumeroSala(), $salaFisica->getNFile(), $salaFisica->getNPostiFila());
     }
 
     /**
@@ -56,29 +28,13 @@ class ESalaVirtuale implements JsonSerializable
      */
     private function init($nFile, $nPostiFila) {
         $this->posti = array();
-        $value = 64; //65 = A
-        for ($i = 1; $i <= $nFile; $i++) {
-            for ($j = 1; $j <= $nPostiFila; $j++) {
-                array_push($this->posti, new EPosto(chr($value + $i), $j));
+        $value = 65; //65 = A
+        for ($i = 0; $i < $nFile; $i++) {
+            array_push($this->posti, array());
+            for ($j = 0; $j < $nPostiFila; $j++) {
+                array_push($this->posti[$i], new EPosto(chr($value + $i), $j + 1));
             }
         }
-    }
-
-//-------------- SETTER ----------------------
-
-    /**
-     * @param int $numeroSala
-     */
-    public function setNumeroSala(int $numeroSala){
-        $this->numeroSala = $numeroSala;
-    }
-
-//----------------- GETTER --------------------
-    /**
-     * @return int numero di sala
-     */
-    public function getNumeroSala(): int {
-        return $this->numeroSala;
     }
 
     /**
@@ -86,29 +42,6 @@ class ESalaVirtuale implements JsonSerializable
      */
     public function getPosti(): array {
         return $this->posti;
-    }
-
-    /**
-     * @return int numero complessivo di posti in sala
-     */
-    public function getNumeroPosti(): int {
-        return $this->nFile * $this->nPostiFila;
-    }
-
-    /**
-     * @return int
-     */
-    public function getNFile(): int
-    {
-        return $this->nFile;
-    }
-
-    /**
-     * @return int
-     */
-    public function getNPostiFila(): int
-    {
-        return $this->nPostiFila;
     }
 
 //------------- ALTRI METODI ----------------
@@ -131,13 +64,16 @@ class ESalaVirtuale implements JsonSerializable
      * @param EPosto $posto posto che si vuole controllare
      * @return int indice del posto nell'array dei posti in sala
      */
-    public function esiste(EPosto $posto): int {
-        $result = array_search($posto,$this->getPosti());
-        if ($result !== "") {
-            return $result;
+    public function esiste(EPosto $posto): bool {
+        return array_key_exists($posto->getFila(), $this->posti) && array_key_exists($posto->getNumeroPosto(), $this->posti[$posto->getFila()]);
+    }
+
+    public function getIfExists(EPosto $posto) {
+        if ($this->esiste($posto)) {
+            return $this->posti[$posto->getFila()][$posto->getNumeroPosto()];
         }
 
-        return -1;
+        return null;
     }
 
     /**
@@ -145,15 +81,14 @@ class ESalaVirtuale implements JsonSerializable
      * @param EPosto $posto posto che si vuole controllare
      * @return bool risultato del controllo
      */
-    public function isPostolibero(EPosto $posto): bool
+    public function isPostolibero(EPosto $posto)
     {
-        $result = $this->esiste($posto);
-        if ($result === -1) {
-            echo "errore";
-            return false;
+        $p = $this->getIfExists($posto);
+        if ($p !== null) {
+            return $p->getOccupato();
         }
 
-         return $this->getPosti()[$result]->getOccupato();
+        return null;
     }
     /**
      * Controlla se un posto è occupato o meno in sala
@@ -162,9 +97,8 @@ class ESalaVirtuale implements JsonSerializable
      */
     public function occupaPosto(EPosto $posto): bool
     {
-        if ($this->isPostolibero($posto) == true) {
-            $result = array_search($posto, $this->getPosti());
-            $this->getPosti()[$result]->setOccupato(false);
+        if ($this->isPostolibero($posto)) {
+            $this->posti[$posto->getFila()][$posto->getNumeroPosto()]->setIsOccupato(true);
             return true;
         }
 
@@ -177,22 +111,26 @@ class ESalaVirtuale implements JsonSerializable
      */
     public function liberaPosto(EPosto $posto): bool
     {
-        if ($this->isPostolibero($posto) === "false") {
-            $result = array_search($posto, $this->getPosti());
-            $this->getPosti()[$result]->setOccupato(true);
+        if (!$this->isPostolibero($posto)) {
+            $this->posti[$posto->getFila()][$posto->getNumeroPosto()]->setIsOccupato(true);
             return true;
         }
 
         return false;
     }
+
+    public function getNumeroPosti(): int {
+        return sizeof($this->getPosti());
+    }
     /**
      * Conta il numero dei posti liberi in sala
      * @return int numero dei posti liberi in sala
      */
-    public function getPostiLiberi(): int{
+    public function getNumeroPostiLiberi(): int
+    {
         $count = 0;
         foreach ($this->getPosti() as $elem){
-            if($elem->getOccupato() === false){
+            if($elem->isOccupato() === false){
                 $count += 1;
             }
         }
@@ -203,7 +141,7 @@ class ESalaVirtuale implements JsonSerializable
      * @return int numero dei posti occupati in sala
      */
     public function postiOccupati(): int{
-        return $this->getNumeroPosti() - $this->getPostiLiberi();
+        return $this->getNumeroPosti() - $this->getNumeroPostiLiberi();
     }
 
     /**

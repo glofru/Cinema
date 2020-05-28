@@ -60,7 +60,7 @@ INSERT INTO `MediaLocandina`(`id`, `fileName`, `mimeType`, `idFilm`, `date`, `im
 INSERT INTO `SalaFisica`(`nSala`, `nFile`, `nPostiFila`, `disponibile`) VALUES (1,6,10,1), (2,5,9,1), (3,10,10,1), (4, 6, 11, 1);
 
 
-INSERT INTO `Utenti`(`id`, `username`, `email`, `nome`, `cognome`, `password`, `isAdmin`) VALUES (1, 'bb3b', 'gianlucchio@mailer.com' , 'Gianluca', 'Lofrusanna', 'password', 0);
+INSERT INTO `Utenti`(`id`, `username`, `email`, `nome`, `cognome`, `password`, `isAdmin`, `isBanned`) VALUES (1, 'bb3b', 'gianlucchio@mailer.com' , 'Gianluca', 'Lofrusanna', 'password', 0, 0);
 
 
 INSERT INTO `Proiezione`(`id`, `data`, `ora`, `numerosala`, `idFilm`) VALUES

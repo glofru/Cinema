@@ -10,22 +10,22 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="../../Smarty/css/bootstrap-reboot.min.css">
-    <link rel="stylesheet" href="Smarty/css/bootstrap-grid.min.css">
-    <link rel="stylesheet" href="Smarty/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="Smarty/css/jquery.mCustomScrollbar.min.css">
-    <link rel="stylesheet" href="Smarty/css/nouislider.min.css">
-    <link rel="stylesheet" href="Smarty/css/ionicons.min.css">
-    <link rel="stylesheet" href="Smarty/css/plyr.css">
-    <link rel="stylesheet" href="Smarty/css/photoswipe.css">
-    <link rel="stylesheet" href="Smarty/css/default-skin.css">
-    <link rel="stylesheet" href="Smarty/css/main.css">
+    <link rel="stylesheet" href="../../Smarty/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="../../Smarty/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../../Smarty/css/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="../../Smarty/css/nouislider.min.css">
+    <link rel="stylesheet" href="../../Smarty/css/ionicons.min.css">
+    <link rel="stylesheet" href="../../Smarty/css/plyr.css">
+    <link rel="stylesheet" href="../../Smarty/css/photoswipe.css">
+    <link rel="stylesheet" href="../../Smarty/css/default-skin.css">
+    <link rel="stylesheet" href="../../Smarty/css/main.css">
 
     <!-- Favicons -->
-    <link rel="icon" type="image/png" href="Smarty/icon/favicon-32x32.png" sizes="32x32">
-    <link rel="apple-touch-icon" href="Smarty/icon/favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="Smarty/icon/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="Smarty/icon/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="Smarty/icon/apple-touch-icon-144x144.png">
+    <link rel="icon" type="image/png" href="../../Smarty/icon/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="../../Smarty/icon/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="../../Smarty/icon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="../../Smarty/icon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="../../Smarty/icon/apple-touch-icon-144x144.png">
 
     <meta name="description" content="">
     <meta name="keywords" content="">
@@ -151,7 +151,7 @@
             <div class="row">
                 <!-- title -->
                 <div class="col-12">
-                    <h1 class="details__title">UserName</h1>
+                    <h1 class="details__title">{$utente->getUsername()}</h1>
                 </div>
                 <!-- end title -->
 
@@ -173,9 +173,9 @@
 
 
                                     <ul class="card__meta">
-                                        <li><span>Nome:</span> <a href="#">Action</a>
-                                        <li><span>Cognome:</span> 2017</li>
-                                        <li><span>Email:</span> <a href="#">USA</a> </li>
+                                        <li><span>Nome:</span> <a href="#">{$utente->getNome()}</a>
+                                        <li><span>Cognome:</span>{$utente->getCognome()}</li>
+                                        <li><span>Email:</span> <a href="#">{$utente->getEmail()}</a> </li>
                                     </ul>
 
                                     <div class="card__description card__description--details">
