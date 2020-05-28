@@ -178,13 +178,12 @@
 					<div class="owl-carousel home__carousel">
 						{if $filmProssimi}
 							{if is_array($filmProssimi)}
-							{$i = 0}
-								{foreach $filmProssimi as $film}
+								{foreach $filmProssimi as $key => $film}
 						<div class="item">
 							<!-- card -->
 							<div class="card card--big">
 								<div class="card__cover">
-									<img src="{$immaginiProssimi[$i]->getImmagineHTML()}" alt="">
+									<img src="{$immaginiProssimi[$key]->getImmagineHTML()}" alt="">
 									<a href="/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
@@ -198,7 +197,6 @@
 							</div>
 							<!-- end card -->
 						</div>
-						{$i++}
 								{/foreach}
 							{/if}
 						{/if}

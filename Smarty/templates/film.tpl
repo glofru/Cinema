@@ -574,6 +574,7 @@
                 "<input type='hidden' name='posti' value='" + bookedSeat.join(';') + "' />"
             );
             document.getElementById('book').submit()
+
         } else {
             alert("Selezionare almeno un posto prima di acquistare");
         }
