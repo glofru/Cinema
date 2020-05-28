@@ -36,6 +36,7 @@ class VUtente
     }
 
     public static function loginForm() {
-
+        $smarty = StartSmarty::configuration();
+        $smarty->display('login.tpl');
     }
 }

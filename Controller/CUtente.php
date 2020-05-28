@@ -5,9 +5,9 @@ class CUtente
 {
     public static function loginForm(){
         if($_SERVER['REQUEST_METHOD']=="GET"){
-            session_start();
-			if(isset($_COOKIE["PHPSESSID"]) && isset($_SESSION["user"])) {
-                $user = unserialize($_SESSION["user"]);
+			if(isset($_COOKIE["PHPSESSID"])) {
+			    session_start();
+                $user = unserialize($_SESSION["utente"]);
                 //showuser($user);
 			}
 			else{
@@ -15,7 +15,6 @@ class CUtente
 			}
         }
         elseif ($_SERVER['REQUEST_METHOD']=="POST")
-            echo "POST";
 			self::checkLogin();
     }
     
@@ -24,6 +23,7 @@ class CUtente
             session_start();
             session_unset();
             session_destroy();
+            setcookie("PHPSESSID","", time() - 3600,"/");
         }
         header("Location: /");
     }
@@ -32,7 +32,7 @@ class CUtente
         VError::error('1');
     }
 
-    static function checkLogin() {
+    private static function checkLogin() {
         $view = new VUtente();
         $pm = FPersistentManager::getInstance();
         $value = $_POST['log'];
@@ -41,7 +41,7 @@ class CUtente
             $isMail = false;
         }
         else if ($value === $gestore->email($value)) {
-            $isMail = false;
+            $isMail = true;
         }
         else {
             $isMail = false;
@@ -51,25 +51,28 @@ class CUtente
         if (sizeof($utente) != 0) {
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
+                session_regenerate_id(true);
+                session_set_cookie_params(3600,"/",null,false,false);
                 $salvare = serialize($utente);
                 $_SESSION['utente'] = $salvare;
-                if ($utente->getIsAdmin() === true) {
+                /*if ($utente->isAdmin() === true) {
                     header('Location: /Cinema/Home');
                 }
-                else {
-                    header('Location: /Cinema/Admin/homepage');
-                }
+                else {*/
+                    header('Location: /');
+                //}
             }
             else {
                 $view->loginError();
+                header('Location: /');
             }
         }
         else {
-            header('/Cinema/Utente/formLogin');
+            header('Location: /Utente/loginForm');
         }
     }
     
-    static function mostraProfilo() {
+    public static function mostraprofilo() {
         $view = new VUtente();
         $pm = FPersistentManager::getInstance();
         if($_SERVER['REQUEST_METHOD'] == "GET") {
@@ -91,7 +94,7 @@ class CUtente
         }
     }
 
-    static function registrazioneUtente(){
+    public static function registrazioneUtente(){
         if($_SERVER['REQUEST_METHOD']=="GET") {
             $view = new VUtente();
             $pm = FPersistentManager::getInstance();

@@ -51,7 +51,7 @@
 					<div class="col-12">
 						<div class="header__content">
 							<!-- header logo -->
-							<a href="index.html" class="header__logo">
+							<a href="/" class="header__logo">
 								<img src="Smarty/img/logo.svg" alt="">
 							</a>
 							<!-- end header logo -->
@@ -108,21 +108,20 @@
 									<i class="icon ion-ios-search"></i>
 								</button>
 
-								{if (!isset($user))}
+								{if (!isset($utente))}
 								<a href="Utente/loginForm" methods="GET" class="header__sign-in">
 									<i class="icon ion-ios-log-in"></i>
 									<span>Login</span>
 								</a>
 								</form>
 								{else}
-								&nbsp;&nbsp;&nbsp;&nbsp;
 								<li class="header__nav-item">
 									<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{$utente->getUsername()}</a>
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
 										<li><a href="">Il mio profilo</a></li>
-										<li><a href="">Le mie prenotazioni</a></li>
+										<li><a href="">I miei acquisti</a></li>
 										<li><a href="https://www.youporn.com/watch/15481840/il-sole-sul-balcone-amatoriale-italianovery-myller/#1">I miei video porno</a></li>
-										<li><a href="">Logout <i class="icon ion-ios-log-out"></i></a></li>
+										<li><a href="/Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
 									</ul>
 								</li>
 								{/if}
