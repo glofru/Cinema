@@ -1,7 +1,7 @@
 <?php
 
 
-class CAquisto
+class CAcquisto
 {
     public static function getBiglietti() {
         if($_SERVER['REQUEST_METHOD']=="POST") {

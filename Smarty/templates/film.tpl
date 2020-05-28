@@ -270,7 +270,8 @@
                 <h2 class="section__title section__title--center">Sala: {$pro->getSala()->getNumeroSala()}</h2>
             </div>
                 <div class="row--center">
-                    <form id="book" class="form" action="/" method="POST">
+                    <form id="book" class="form" action="/Acquisto/getBiglietti" method="POST">
+                        <input type="hidden" name="proiezione" value="{$pro->getId()}" />
                         <table style="margin-left:auto;margin-right:auto;" id="t01">
                             {foreach $pro->getSala()->getPosti() as $fila}
                                 <tr>
