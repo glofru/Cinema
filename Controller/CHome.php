@@ -17,7 +17,7 @@ class CHome
         if(isset($_COOKIE["PHPSESSID"])) {
             session_start();
             $utente = unserialize($_SESSION["utente"]);
-            if (gettype($utente) == "bool") {
+            if ($utente === false) {
                 header("Location: /Utente/logout");
             }
         }
