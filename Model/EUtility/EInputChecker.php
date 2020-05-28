@@ -12,10 +12,10 @@ class EInputChecker{
     }
 
     public function username(string $username): string {
-        $res = preg_replace("/[^a-zA-Z]/", "", $username);
+       /* $res = preg_replace("/[^a-zA-Z]/", "", $username);
         if(strlen($username) < 8 || $res !== $username ) {
             return "";
-        }
+        }*/
         return $username;
     }
 
@@ -23,8 +23,9 @@ class EInputChecker{
         if(strlen($password) < 8) {
             return "";
         }
-        $password = 'S4L7' . $password;
-        return hash('SHA512', $password);
+        //$password = 'S4L7' . $password;
+        //return hash('SHA512', $password);
+        return $password;
     }
 
     public function email(string $email): string {

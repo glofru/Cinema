@@ -12,16 +12,15 @@ class CHome
         $scorsa = self::getProiezioni($gestore->getSettimanaScorsa(), $gestore);
 
         //JUST FOR TEST
-        $utente = FUtente::load(1, "id");
+        //$utente = FUtente::load(1, "id");
         //DA USARE POI
-        /*if(isset($_COOKIE["PHPSESSID"]) {
+        if(isset($_COOKIE["PHPSESSID"])) {
             session_start();
-            $utente = unserialize($_SESSION["user"];)
+            $utente = unserialize($_SESSION["utente"]);
         }
         else {
             $utente = NULL;
-        }*/
-
+        }
         VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2] , $proiezioni[3], $scorsa[0], $scorsa[1], $scorsa[2], $scorsa[3], $prossima[0], $prossima[1], $prossima[2], $prossima[3], $utente);
     }
 
