@@ -67,14 +67,14 @@ class CUtente
         }
     }
 
-    public static function logout() {
-        if(isset($_COOKIE["PHPSESSID"])) {
-            session_start();
-            session_unset();
-            session_destroy();
-        }
-        header("Location: /");
-    }
+//    public static function logout() {
+//        if(isset($_COOKIE["PHPSESSID"])) {
+//            session_start();
+//            session_unset();
+//            session_destroy();
+//        }
+//        header("Location: /");
+//    }
     static function mostraprofilo() {
         $view = new VUtente();
         $pm = FPersistentManager::getInstance();

@@ -35,12 +35,12 @@ class FBiglietto implements FoundationDebole
 //------------- ALTRI METODI ----------------
     public static function save(EBiglietto $biglietto) {
         $db = FDatabase::getInstance();
-        $db->saveToDB(self::getClassName(),$biglietto);
+        $db->saveToDB(self::getClassName(), $biglietto);
     }
 
-    public static function load($value,$row) {
+    public static function load($value, $row) {
         $db = FDatabase::getInstance();
-        $result = $db->loadFromDB(self::getClassName(),$value,$row);
+        $result = $db->loadFromDB(self::getClassName(), $value, $row);
         if($result === null){
             return null;
         }
@@ -48,9 +48,9 @@ class FBiglietto implements FoundationDebole
         return self::parseResult($result);
     }
 
-    public static function loadDoppio($value,$row,$value2,$row2): EBiglietto {
+    public static function loadDoppio($value, $row, $value2, $row2): EBiglietto {
         $db = FDatabase::getInstance();
-        $result = $db->loadFromDBDebole(self::getClassName(),$value,$row,$value2,$row2);
+        $result = $db->loadFromDBDebole(self::getClassName(), $value, $row, $value2, $row2);
         if($result === null){
             return $result;
         }
@@ -60,15 +60,15 @@ class FBiglietto implements FoundationDebole
 
     public static function update($value, $row, $value2, $row2, $newvalue, $newrow): bool {
         $db = FDatabase::getInstance();
-        if($db->updateTheDBDebole(self::getClassName(),$value,$row,$value2,$row2,$newvalue,$newrow)){
+        if($db->updateTheDBDebole(self::getClassName(), $value, $row, $value2, $row2, $newvalue, $newrow)){
             return true;
         }
         return false;
     }
 
-    public static function delete($value,$row,$value2,$row2): bool {
+    public static function delete($value, $row, $value2, $row2): bool {
         $db = FDatabase::getInstance();
-        if($db->deleteFromDBDebole(self::getClassName(),$value,$row,$value2,$row2)){
+        if($db->deleteFromDBDebole(self::getClassName(), $value, $row, $value2, $row2)){
             return true;
         }
         return false;
@@ -76,18 +76,20 @@ class FBiglietto implements FoundationDebole
 
     private static function parseResult(array $result): array
     {
-        $return = [];
         foreach ($result as $row) {
             //PROIEZIONE
-            $id = $row["idProiezione"];
-            $proiezione = FProiezione::load($id, "id")[0];
+            $id = $row["id"];
+            $proiezione = FProiezione::load($id, "id");
+
             //POSTO
             $posto = $row["posto"];
             $posto = FPosto::loadDoppio($proiezione->getId(), $posto);
+
             //UTENTE
-            $utente = FUtente::load(intval($row["idUtente"]),"id");
+            $utente = FUtente::load(intval($row["idUtente"]), "id");
             $costo = floatval($row["costo"]);
-            array_push($return, new EBiglietto($proiezione,$posto,$utente,$costo));
+
+            array_push($return, new EBiglietto($proiezione, $posto, $utente, $costo));
         }
         return $return;
     }

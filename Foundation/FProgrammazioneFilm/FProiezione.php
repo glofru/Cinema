@@ -1,7 +1,7 @@
 <?php
 
 
-class FProgrammazione implements Foundation
+class FProiezione implements Foundation
 {
     private static string $className = "FProiezione";
     private static string $tableName = "Proiezione";
@@ -75,10 +75,9 @@ class FProgrammazione implements Foundation
         return false;
     }
 
-    public static function occupaPosto($idProiezione, $posto, $emailUtente, $costo) {
+    public static function occupaPosto($proiezione, $posto, $utente, $costo) {
         $db = FDatabase::getInstance();
-        $biglietto = $db->occupaPosto($idProiezione, $posto, $emailUtente, $costo);
-        return $biglietto;
+        return $db->occupaPosto($proiezione, $posto, $utente, $costo);
     }
 
     public static function liberaPosto($idProiezione, $posto, $emailUtente) {
@@ -86,43 +85,45 @@ class FProgrammazione implements Foundation
         return $db->liberaPosto($idProiezione, $posto, $emailUtente);
     }
 
-    private static function parseResult(array $result): EElencoProgrammazioni
+    private static function parseResult(array $result)
     {
         $elencoProgrammazioni = new EElencoProgrammazioni();
 
-        foreach ($result as $row)
-        {
-            //DATI DELLA PROIEZIONE
-            $id = $row["id"];
-            $data = $row["data"];
-            $ora = $row["ora"];
-
-            //OTTENGO L'OGGETTO FILM
-            $film = FFilm::load($row["idFilm"], "id")[0];
-
-            //COSTRUISCO L'OGGETTO SALAVIRTUALE
-            $sala = FSala::loadVirtuale($row["numerosala"], "nSala");
-            $posti = FPosto::load($id, "idProiezione");
-            foreach($posti as $posto) {
-                if ($posto->isOccupato()) {
-                    $sala->occupaPosto($posto);
-                }
-            }
-
-            //COSTRUSICO L'OGGETTO DATAORA
-            try {
-                $dataora = new DateTime($data . "T" . $ora);
-            } catch (Exception $e) {
-                $dataora = time();
-            }
-
-            //AGGIUNGO LA PROIEZIONE ALLA LISTA DI RITORNO
-            $proiezione = new EProiezione($film, $sala, $dataora);
-            $proiezione->setId($id);
-
-            $elencoProgrammazioni->addProiezione($proiezione);
+        foreach ($result as $row) {
+            $elencoProgrammazioni->addProiezione(self::parseProiezione($row));
         }
-        
+
         return $elencoProgrammazioni;
+    }
+
+    private static function parseProiezione($row): EProiezione {
+        $id = $row["id"];
+        $data = $row["data"];
+        $ora = $row["ora"];
+
+        //OTTENGO L'OGGETTO FILM
+        $film = FFilm::load($row["idFilm"], "id")[0];
+
+        //COSTRUISCO L'OGGETTO SALAVIRTUALE
+        $sala = FSala::loadVirtuale($row["numerosala"], "nSala");
+        $posti = FPosto::load($id, "idProiezione");
+        foreach($posti as $posto) {
+            if ($posto->isOccupato()) {
+                $sala->occupaPosto($posto);
+            }
+        }
+
+        //COSTRUSICO L'OGGETTO DATAORA
+        try {
+            $dataora = new DateTime($data . "T" . $ora);
+        } catch (Exception $e) {
+            $dataora = time();
+        }
+
+        //AGGIUNGO LA PROIEZIONE ALLA LISTA DI RITORNO
+        $proiezione = new EProiezione($film, $sala, $dataora);
+        $proiezione->setId($id);
+
+        return $proiezione;
     }
 }

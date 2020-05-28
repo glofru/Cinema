@@ -15,7 +15,7 @@ class EProgrammazioneFilm implements JsonSerializable
      */
     private array $proiezioni;
 
-    private EFilm $film;
+    private $film;
 
 
     public function __construct(){
@@ -43,13 +43,6 @@ class EProgrammazioneFilm implements JsonSerializable
     }
 
 //------------- ALTRI METODI ----------------
-    /**
-     * Aggiunge una proiezione all'insieme
-     * @param EProiezione $proiezione proiezione da aggiungere all'insieme
-     */
-    public function addProiezione(EProiezione $proiezione){
-        array_push($this->proiezioni, $proiezione);
-    }
     /**
      * Rimuove una proiezione dall'insieme
      * @param EProiezione $proiezione proiezione da rimuovere dall'insieme

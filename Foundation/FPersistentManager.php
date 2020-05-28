@@ -82,8 +82,8 @@ class FPersistentManager
         $class::update($value, $row, $value2, $row2, $newValue, $newRow);
     }
 
-    public function occupaPosto($idProiezione, $posto, $emailUtente, $costo) {
-        return FProiezione::occupaPosto($idProiezione, $posto, $emailUtente, $costo);
+    public function occupaPosto(EProiezione $proiezione, EPosto $posto, EUtente $utente, int $costo) {
+        return FProiezione::occupaPosto($proiezione, $posto, $utente, $costo);
     }
 
     public function liberaPosto($idProiezione, $posto, $emailUtente)  {
