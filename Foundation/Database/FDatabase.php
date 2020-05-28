@@ -91,7 +91,8 @@ class FDatabase
     /**
      * @param $class
      * @param $value
-     * @param $row
+     * @param string $row
+     * @param null $media
      * @return array
      */
     public function loadFromDB($class, $value, string $row, $media = null) {
@@ -231,11 +232,10 @@ class FDatabase
                 $oraFine = DateTime::createFromFormat("H:i:s",$oraFilmPresente);
                 $oraFine->add($durata);
                 if((strtotime($oraInizioNuovoFilm) - strtotime($oraFilmPresente) >= 0) && (strtotime($oraInizioNuovoFilm) - strtotime($oraInizioNuovoFilm)) >= 0) {
-                    $salaFisica = FSalaFisica::load(strval($nsala),"nSala");
-                    $salaVirtuale = ESalaVirtuale::fromSalaFisica($salaFisica);
+                    $salaVirtuale = FSala::loadVirtuale(strval($nsala), "nSala");
                     $data = DateTime::createFromFormat("Y-m-d",$proiezioni[$i]["data"]);
                     $proiezione = new EProiezione($film[0], $salaVirtuale, $data);
-                    array_push($output,$proiezione);
+                    array_push($output, $proiezione);
                 }
             }
             return $output;
@@ -367,32 +367,31 @@ class FDatabase
         return null;
     }
 
-    public function occupaPosto($idProiezione,$posto,$emailUtente,$costo) {
+    public function occupaPosto($proiezione, $posto, $utente, $costo) {
         try {
             $this->db->beginTransaction();
-            $query = "SELECT * FROM " . "Posti" . " WHERE " . "idProiezione" . "= '" . $idProiezione. "' AND " . "posizione" . "= '" . $posto . "' LOCK IN SHARE MODE;";
+            $query = "SELECT * FROM " . "Posti" . " WHERE " . "id = '" . $proiezione->getId() . "' AND " . "posizione = '" . $posto . "' LOCK IN SHARE MODE;";
             $sender = $this->db->prepare($query);
             $sender->execute();
             $acquisto = $sender->fetch(PDO::FETCH_ASSOC);
             $islibero = $acquisto["libero"];
             if(boolval($islibero) === true) {
-                $query = "UPDATE Posti SET libero = '0' WHERE idProiezione = '" . $idProiezione . "' AND posizione = '" . $posto . "';";
+                $query = "UPDATE Posti SET libero = '0' WHERE idProiezione = '" . $proiezione->getId() . "' AND posizione = '" . $posto . "';";
                 $sender = $this->db->prepare($query);
                 $sender->execute();
                 $this->db->commit();
-                $utente = FUtente::load($emailUtente,"email");
-                $posto = EPosto::fromString($posto,"false");
-                $proiezione = FProiezione::load($idProiezione,"id");
-                $proiezione = $proiezione[0];
-                $biglietto = new EBiglietto($proiezione,$posto,$utente,$costo);
+
+                $posto = EPosto::fromString($posto, false);
+                $biglietto = new EBiglietto($proiezione, $posto, $utente, $costo);
                 FBiglietto::save($biglietto);
                 return $biglietto;
             }
         } catch(PDOException $exception) {
             $this->db->rollBack();
             echo("Errore nel Database: " . $exception->getMessage());
-            return null;
         }
+
+        return null;
     }
 
     public function liberaPosto($idProiezione, $posto, $emailUtente) {

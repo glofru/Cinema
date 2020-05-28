@@ -69,7 +69,7 @@ class CUtente
         }
     }
     
-    static function mostraprofilo() {
+    static function mostraProfilo() {
         $view = new VUtente();
         $pm = FPersistentManager::getInstance();
         if($_SERVER['REQUEST_METHOD'] == "GET") {

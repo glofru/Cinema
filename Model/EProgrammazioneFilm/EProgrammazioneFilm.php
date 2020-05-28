@@ -7,7 +7,7 @@
  * @author Lofrumento - Di Santo - Susanna
  * @package Model
  */
-class EProgrammazionefilm implements JsonSerializable
+class EProgrammazioneFilm implements JsonSerializable
 {
     /**
      * Insieme delle proiezioni del film
@@ -23,10 +23,9 @@ class EProgrammazionefilm implements JsonSerializable
     }
 
 //-------------- SETTER ----------------------
-    public function add(EProiezione $proiezione){
-        $temp = $proiezione;
-        array_push($this->proiezioni, $temp);
-        if($this->film === NULL){
+    public function addProiezione(EProiezione $proiezione){
+        array_push($this->proiezioni, $proiezione);
+        if($this->film === null) {
             $this->film = $proiezione->getFilm();
         }
     }
@@ -45,13 +44,6 @@ class EProgrammazionefilm implements JsonSerializable
 
 //------------- ALTRI METODI ----------------
     /**
-     * Aggiunge una proiezione all'insieme
-     * @param EProiezione $proiezione proiezione da aggiungere all'insieme
-     */
-    public function aggiungiProiezione(EProiezione $proiezione){
-        array_push($this->getProiezioni(), $proiezione);
-    }
-    /**
      * Rimuove una proiezione dall'insieme
      * @param EProiezione $proiezione proiezione da rimuovere dall'insieme
      * @return bool valore che indica il successo dell'operazione
@@ -67,7 +59,7 @@ class EProgrammazionefilm implements JsonSerializable
         }
     }
 
-    public function getdateProiezioni(): string {
+    public function getDateProiezioni(): string {
         $dates = [];
         foreach($this->proiezioni as $pro) {
             array_push($dates, $pro->getDataproieizone());
@@ -107,7 +99,8 @@ class EProgrammazionefilm implements JsonSerializable
     {
         return
             [
-                'proiezioni' => $this->getProiezioni()
+                'proiezioni' => $this->getProiezioni(),
+                'film' => $this->getFilm()->jsonSerialize()
             ];
     }
 
