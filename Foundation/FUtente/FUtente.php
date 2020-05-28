@@ -95,6 +95,17 @@ class FUtente implements Foundation
         return self::parseResult($result)[0];
     }
 
+    public static function login(string $value, string $pass, bool $isMail) {
+        $db = FDatabase::getInstance();
+        if($isMail) {
+            $result = $db->loadFromDBDebole(self::getClassName(), $value, "email", $pass, "password");
+        }
+        else {
+            $result = $db->loadFromDBDebole(self::getClassName(), $value, "username", $pass, "password");
+        }
+        return self::parseResult($result)[0];
+    }
+
     public static function update($value, $row, $newvalue, $newrow): bool {
         $db = FDatabase::getInstance();
         if($db->updateTheDB(self::getClassName(), $value, $row, $newvalue, $newrow))

@@ -90,11 +90,7 @@ class FPersistentManager
         return FProiezione::liberaPosto($idProiezione, $posto, $emailUtente);
     }
 
-    public function login(string $username,string $emailUtente,string $password){
-        if(isset($username)) {
-            return FUtente::login($username,$password);
-        } else {
-            return FUtente::loginEmail($emailUtente,$password);
-        }
+    public function login(string $value, string $password, bool $isMail){
+        return FUtente::login($value,$password,$isMail);
     }
 }

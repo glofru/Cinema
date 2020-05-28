@@ -3,65 +3,77 @@
 
 class CUtente
 {
-    static function login (){
+    public static function formLogin(){
         if($_SERVER['REQUEST_METHOD']=="GET"){
-            if(static::isloggato()) {
-                $pm = new FPersistentManager();
-                $view = new VUtente();
-                $view->loginOk();
-            }
-            else{
-                $view=new VUtente();
-                $view->showFormLogin();
-            }
-        }elseif ($_SERVER['REQUEST_METHOD']=="POST")
-            static::verificautente();
+			if(isset($_COOKIE["PHPSESSID"])) {
+                $user = unserialize($_SESSION["user"]);
+                //showuser($user);
+			}
+			else{
+				$view=new VUtente();
+				$view->formLogin();
+			}
+        }
+        elseif ($_SERVER['REQUEST_METHOD']=="POST")
+			self::checkLogin();
     }
+    
     static function logout(){
-        session_start();
-        session_unset();
-        session_destroy();
-        header('Location: /Cinema/Utente/login');
+        if(isset($_COOKIE["PHPSESSID"])) {
+            session_start();
+            session_unset();
+            session_destroy();
+        }
+        header("Location: /");
     }
 
     public function error() {
-        $view = new VError();
-        $view->error('1');
+        VError::error('1');
     }
 
-    static function verificautente() {
+    static function checkLogin() {
         $view = new VUtente();
         $pm = FPersistentManager::getInstance();
-        $utente = $pm->login($_POST['username'],$_POST['emailutente'] , $_POST['password']);
-        if ($utente != null && $utente->getState() != false) {
+        $value = $_POST['log'];
+        if($value === EInputChecker::username($value)) {
+            $isMail = false;
+        }
+        else if ($value === EInputChecker::email($value)) {
+            $isMail = false;
+        }
+        else {
+            $isMail = false;
+            $value = "";
+        }
+        $utente = $pm->login($value, $_POST['password'],$isMail);
+        if (sizeof($utente) != 0) {
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
                 $salvare = serialize($utente);
                 $_SESSION['utente'] = $salvare;
-                if ($_POST['email'] != 'emailadmin') {
-                    header('Location: /Cinema/Home');//indirizzamento tramite cookie?
+                if ($utente->getIsAdmin() === true) {
+                    header('Location: /Cinema/Home');
                 }
                 else {
                     header('Location: /Cinema/Admin/homepage');
                 }
             }
+            else {
+                $view->loginError();
+            }
         }
         else {
-            $view->loginError();
+            header('/Cinema/Utente/formLogin');
         }
     }
 
-    static function isloggato() {
-        $identificato = false;
-        if (isset($_COOKIE['PHPSESSID'])) {
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-            }
+    public static function logout() {
+        if(isset($_COOKIE["PHPSESSID"])) {
+            session_start();
+            session_unset();
+            session_destroy();
         }
-        if (isset($_SESSION['utente'])) {
-            $identificato = true;
-        }
-        return $identificato;
+        header("Location: /");
     }
 
 
