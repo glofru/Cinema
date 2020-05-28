@@ -30,43 +30,56 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="Dmitry Volkov">
-    <title>FlixGo – Online Movies, TV Shows & Cinema HTML Template</title>
+    <title>Registrati</title>
 
 </head>
 
 <body class="body">
 
-<div class="sign section--bg" data-bg="img/section/section.jpg">
+<div class="sign section--bg" data-bg="../../Smarty/img/section/section.jpg">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="sign__content">
                     <!-- registration form -->
-                    <form action="#" class="sign__form">
-                        <a href="index.html" class="sign__logo">
-                            <img src="img/logo.svg" alt="">
+                    <form id="form" action="/Utente/signup" method="POST" class="sign__form">
+                        <a href="/" class="sign__logo">
+                            <img src="../../Smarty/img/logo.svg" alt="">
                         </a>
 
+                        <!-- Nome -->
                         <div class="sign__group">
-                            <input type="text" class="sign__input" placeholder="Name">
+                            <input id="nome" type="text" name="nome" class="sign__input" placeholder="Nome">
                         </div>
 
+                        <!-- Cognome -->
                         <div class="sign__group">
-                            <input type="text" class="sign__input" placeholder="Email">
+                            <input id="cognome" type="text" name="cognome" class="sign__input" placeholder="Cognome">
                         </div>
 
+                        <!-- Username -->
                         <div class="sign__group">
-                            <input type="password" class="sign__input" placeholder="Password">
+                            <input id="username" type="text" name="username" class="sign__input" placeholder="Username">
                         </div>
 
-                        <div class="sign__group sign__group--checkbox">
-                            <input id="remember" name="remember" type="checkbox" checked="checked">
-                            <label for="remember">I agree to the <a href="#">Privacy Policy</a></label>
+                        <!-- Email -->
+                        <div class="sign__group">
+                            <input id="email" type="email" name="email" class="sign__input" placeholder="Email">
                         </div>
 
-                        <button class="sign__btn" type="button">Sign up</button>
+                        <!-- Password -->
+                        <div class="sign__group">
+                            <input id="pw1" type="password" name="password" class="sign__input" placeholder="Password">
+                        </div>
 
-                        <span class="sign__text">Already have an account? <a href="signin.html">Sign in!</a></span>
+                        <!-- Reinserisci password -->
+                        <div class="sign__group">
+                            <input id="pw2" type="password" class="sign__input" placeholder="Reinserisci la password">
+                        </div>
+
+                        <button class="sign__btn" type="button" id="registrati">Registrati</button>
+
+                        <span class="sign__text">Hai già un account? <a href="/Utente/login">Login!</a></span>
                     </form>
                     <!-- registration form -->
                 </div>
@@ -76,18 +89,76 @@
 </div>
 
 <!-- JS -->
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/jquery.mousewheel.min.js"></script>
-<script src="js/jquery.mCustomScrollbar.min.js"></script>
-<script src="js/wNumb.js"></script>
-<script src="js/nouislider.min.js"></script>
-<script src="js/plyr.min.js"></script>
-<script src="js/jquery.morelines.min.js"></script>
-<script src="js/photoswipe.min.js"></script>
-<script src="js/photoswipe-ui-default.min.js"></script>
-<script src="js/main.js"></script>
+<script src="../../Smarty/js/jquery-3.3.1.min.js"></script>
+<script src="../../Smarty/js/bootstrap.bundle.min.js"></script>
+<script src="../../Smarty/js/owl.carousel.min.js"></script>
+<script src="../../Smarty/js/jquery.mousewheel.min.js"></script>
+<script src="../../Smarty/js/jquery.mCustomScrollbar.min.js"></script>
+<script src="../../Smarty/js/wNumb.js"></script>
+<script src="../../Smarty/js/nouislider.min.js"></script>
+<script src="../../Smarty/js/plyr.min.js"></script>
+<script src="../../Smarty/js/jquery.morelines.min.js"></script>
+<script src="../../Smarty/js/photoswipe.min.js"></script>
+<script src="../../Smarty/js/photoswipe-ui-default.min.js"></script>
+<script src="../../Smarty/js/main.js"></script>
+
+<script>
+    function nameIsValid(name) {
+        let exp = /^[a-zA-Z\-]+$/;
+
+        return name.match(exp) != null;
+    }
+
+    function usernameIsValid(username) {
+        let exp = /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/;
+
+        return username.match(exp) != null;
+    }
+
+    function emailIsValid(email) {
+        let exp = /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/;
+
+        return email.match(exp) != null;
+    }
+
+    function passwordIsValid(password) {
+        return true;
+        // return password.length > 6;
+    }
+
+    function checkPwd(pw1, pw2) {
+        return pw1 === pw2;
+    }
+
+    $("#registrati").click(function (e) {
+        if (nameIsValid($("#nome").val())) {
+            if (nameIsValid($("#cognome").val())) {
+                if (usernameIsValid($("#username").val())) {
+                    if (emailIsValid($("#email").val())) {
+                        if (passwordIsValid($("pw1").val())) {
+                            if (checkPwd($("#pw1").val(), $("#pw2").val())) {
+                                $("#form").submit();
+                            } else {
+                                alert("Le password non combaciano!");
+                            }
+                        } else {
+                            alert("La password deve avere almeno 6 caratteri")
+                        }
+                    } else {
+                        alert("Email non valida")
+                    }
+                } else {
+                    alert("Username non valido!");
+                }
+            } else {
+                alert("Cognome non valido");
+            }
+        } else {
+            alert("Nome non valido");
+        }
+    });
+</script>
+
 </body>
 
 </html>

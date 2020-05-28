@@ -87,8 +87,8 @@ class FUtente implements Foundation
     {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
-        if ($result == null || sizeof($result) == 0)
-        {
+
+        if ($result == null || sizeof($result) == 0) {
             return null;
         }
 
@@ -97,12 +97,13 @@ class FUtente implements Foundation
 
     public static function login(string $value, string $pass, bool $isMail) {
         $db = FDatabase::getInstance();
+
         if($isMail) {
             $result = $db->loadFromDBDebole(self::getClassName(), $value, "email", $pass, "password");
-        }
-        else {
+        } else {
             $result = $db->loadFromDBDebole(self::getClassName(), $value, "username", $pass, "password");
         }
+
         return self::parseResult($result)[0];
     }
 
@@ -113,6 +114,10 @@ class FUtente implements Foundation
             return true;
         }
         return false;
+    }
+
+    public static function exists(string $email): bool {
+
     }
 
     public static function delete($value, $row): bool {
@@ -205,8 +210,7 @@ class FUtente implements Foundation
 //        return self::parseResult($result);
 //    }
 
-    private static function parseResult(array $result): array
-    {
+    private static function parseResult(array $result): array {
         $return = [];
 
         foreach ($result as $row) {

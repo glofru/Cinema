@@ -41,22 +41,24 @@
 				<div class="col-12">
 					<div class="sign__content">
 						<!-- authorization form -->
-						<form action="/Utente/tryLogin" method="POST" class="sign__form">
+						<form action="/Utente/login" method="POST" class="sign__form">
 							<a href="/" class="sign__logo">
 								<img src="../../Smarty/img/logo.svg" alt="">
 							</a>
 
 							<div class="sign__group">
-								<input name = "username" type="text" class="sign__input" placeholder="Username/Email">
+								<input name="username" type="text" class="sign__input" placeholder="Username/Email">
 							</div>
 
 							<div class="sign__group">
-								<input name = "password" type="password" class="sign__input" placeholder="Password">
+								<input name="password" type="password" class="sign__input" placeholder="Password">
 							</div>
 							
 							<button class="sign__btn" type="submit">Accedi</button>
 
 							<span class="sign__text"><a href="#">Password dimenticata?</a></span>
+
+							<span class="sign__text">Non hai un account? <a href="/Utente/signup">Registrati!</a></span>
 						</form>
 						<!-- end authorization form -->
 					</div>

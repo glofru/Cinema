@@ -9,12 +9,17 @@ class VUtente
         $smarty->assign("utente", $utente);
         $smarty->display("user.tpl");
     }
-    public static function loginError($username) {
+
+    public static function loginForm($username = null) {
         $smarty = StartSmarty::configuration();
-        $smarty->assign('username', $username);
-        $smarty->assign('error',"errore");
+
+        if ($username != null) {
+            $smarty->assign('username', $username);
+        }
+
         $smarty->display('login.tpl');
     }
+
     public static function loginOk() {
         header("Location: /");
 //        $smarty = StartSmarty::configuration();
@@ -22,19 +27,30 @@ class VUtente
 //        $smarty->assign('userlogged',"loggato");
 //        $smarty->display('home.tpl');
     }
-    public static function visualizzaLogin(){
+
+    public static function signup($nome = null, $cognome = null, $username = null, $email = null, $emailExists = false, $usernameExists = false) {
         $smarty = StartSmarty::configuration();
-        if (isset($_POST['conveyor']))
-            $smarty->assign('email',$_POST['conveyor']);
-        $smarty->display('login.tpl');
+
+        if ($nome != null) {
+            $smarty->assign("nome", $nome);
+        }
+        if ($cognome != null) {
+            $smarty->assign("cognome", $cognome);
+        }
+        if ($username != null) {
+            $smarty->assign("username", $username);
+        }
+        if ($email != null) {
+            $smarty->assign("email", $email);
+        }
+        $smarty->assign("emailExists", $emailExists);
+        $smarty->assign("usernameExists", $usernameExists);
+
+        $smarty->display("signup.tpl");
     }
+
     public static function profiloUtente() {
         $smarty = StartSmarty::configuration();
 
-    }
-
-    public static function loginForm() {
-        $smarty = StartSmarty::configuration();
-        $smarty->display('login.tpl');
     }
 }

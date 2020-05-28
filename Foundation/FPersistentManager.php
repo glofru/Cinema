@@ -47,7 +47,7 @@ class FPersistentManager
         return $result;
     }
 
-    public function load($value, $row ,$class) {
+    public function load($value, $row, $class) {
         $class = self::getClass($class);
         return $class::load($value,$row);
     }
@@ -95,7 +95,21 @@ class FPersistentManager
         return FProiezione::liberaPosto($idProiezione, $posto, $emailUtente);
     }
 
-    public function login(string $value, string $password, bool $isMail){
+    public function login(string $value, string $password, bool $isMail) {
         return FUtente::login($value, $password, $isMail);
+    }
+
+    public function signup(EUtente $utente) {
+        FUtente::save($utente);
+    }
+
+    public function existsUser(string $value, bool $isMail): bool {
+        if ($isMail) {
+            $user = FUtente::load($value, "email");
+        } else {
+            $user = FUtente::load($value, "username");
+        }
+
+        return $user !== null;
     }
 }

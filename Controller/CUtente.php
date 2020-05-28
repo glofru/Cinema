@@ -6,16 +6,12 @@ class CUtente
     public static function login() {
         if (self::isLogged()) {
             header("Location: /");
-        } else {
+        } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
             VUtente::loginForm();
-        }
-    }
-
-    public static function tryLogin() {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            self::checkLogin($_POST["username"], $_POST["password"]);
-        } else {
-            self::login();
+        } elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $username = $_POST["username"];
+            $password = $_POST["password"];
+            self::checkLogin($username, $password);
         }
     }
     
@@ -39,29 +35,17 @@ class CUtente
         } else if ($user === $gestore->email($user)) {
             $isMail = true;
         } else {
-            VUtente::loginError($user);
+            print("WE"); die();
+            VUtente::loginForm($user);
             return;
         }
 
         $utente = $pm->login($user, $password, $isMail);
-        if (sizeof($utente) != 0) {
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-                session_regenerate_id(true);
-                session_set_cookie_params(3600, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini
-                $salvare = serialize($utente);
-                $_SESSION['utente'] = $salvare;
-                /*if ($utente->isAdmin() === true) {
-                    header('Location: /Cinema/Home');
-                }
-                else {*/
-                    VUtente::loginOk();
-                //}
-            } else {
-                VUtente::loginError($utente);
-            }
+
+        if ($utente instanceof EUtente) {
+            self::saveUtente($utente);
         } else {
-            VUtente::loginError($utente);
+            VUtente::loginForm($utente);
         }
     }
     
@@ -88,7 +72,56 @@ class CUtente
 //        }
 //    }
 
-    public static function registrazione() {
+    private static function saveUtente(EUtente $utente) {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        session_regenerate_id(true);
+        session_set_cookie_params(3600, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini
+        $salvare = serialize($utente);
+        $_SESSION['utente'] = $salvare;
+        /*if ($utente->isAdmin() === true) {
+            header('Location: /Cinema/Home');
+        }
+        else {*/
+            VUtente::loginOk();
+        //}
+    }
+
+    private static function checkSignupData(): bool {
+        //TODO
+        return true;
+    }
+
+    public static function signup() {
+        if (self::isLogged()) {
+            header("Location: /");
+        } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
+            VUtente::signup();
+        } elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $nome = $_POST["nome"];
+            $cognome = $_POST["cognome"];
+            $username = $_POST["username"];
+            $email = $_POST["email"];
+            $password = $_POST["password"];
+
+            if (self::checkSignupData()) {
+                $pm = FPersistentManager::getInstance();
+
+                if ($pm->existsUser($username, false)) {
+                    VUtente::signup($nome, $cognome, $username, $email, false, true);
+                } elseif ($pm->existsUser($email, true)) {
+                    VUtente::signup($nome, $cognome, $username, $email, true, false);
+                } else {
+                    $utente = new ERegistrato($nome, $cognome, $username, $email, $password, false);
+                    $pm->signup($utente);
+                    self::saveUtente($utente);
+                }
+            } else {
+                VUtente::signup($nome, $cognome, $username, $email);
+            }
+        }
 //        if($_SERVER['REQUEST_METHOD']=="GET") {
 //            $view = new VUtente();
 //            $pm = FPersistentManager::getInstance();
