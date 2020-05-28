@@ -23,7 +23,7 @@ class CUtente
             session_start();
             session_unset();
             session_destroy();
-            setcookie("PHPSESSID","", time() - 3600,"/");
+            setcookie("PHPSESSID", "", time() - 3600,"/");
         }
         header("Location: /");
     }
@@ -52,7 +52,7 @@ class CUtente
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
                 session_regenerate_id(true);
-                session_set_cookie_params(3600,"/",null,false,true);
+                session_set_cookie_params(3600, "/", null, false, true);
                 $salvare = serialize($utente);
                 $_SESSION['utente'] = $salvare;
                 /*if ($utente->isAdmin() === true) {
