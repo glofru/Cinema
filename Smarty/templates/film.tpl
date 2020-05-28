@@ -277,9 +277,9 @@
                                 {for $j=0 to $pro->getSala()->getNPostiFila()-1 step 1}
                                     {$posti = $pro->getSala()->getPosti()}
                                     {if ($posti[$i+$j]->getOccupato() == false)}
-                                        <th><img onclick="changer('{$posti[$i+$j]}')" id = "{$posti[$i+$j]}" src="../../Smarty/img/cinema/sedia_libera.png"/></th>
+                                        <th><img onclick="book('{$posti[$i+$j]}')" id="{$posti[$i+$j]}" src="../../Smarty/img/cinema/sedia_libera.png"/></th>
                                     {else}
-                                        <th><img onclick="changer('{$posti[$i+$j]}')" id = "{$posti[$i+$j]}" src="../../Smarty/img/cinema/sedia_occupata.png"/></th>
+                                        <th><img  id="{$posti[$i+$j]}" src="../../Smarty/img/cinema/sedia_occupata.png"/></th>
                                     {/if}
                                 {/for}
                             </tr>
@@ -564,27 +564,21 @@
     function getVal() {
         document.getElementById("punteggio").value = document.getElementById("form__slider-value").outerHTML;
     }
-    $('.cinema-seats .seat').on('click', function() {
-        $(this).src="../../Smarty/img/cinema/sedia_in_occupazione.png";
-    });
-</script>
 
-<script>
-    function changer (value) {
+    let bookedSeat = [];
+    let libera = "../../Smarty/img/cinema/sedia_libera.png";
+    let occupazione = "../../Smarty/img/cinema/sedia_in_occupazione.png";
 
-        //alert(document.getElementById(value).src);        
-        if(document.getElementById(value).src == '../../Smarty/img/cinema/sedia_libera.png') {
-            alert("OCC");
-            document.getElementById(value).src='../../Smarty/img/cinema/sedia_in_occupazione.png';
+    function book (value) {
+        if (bookedSeat.includes(value)) {
+            bookedSeat.splice(bookedSeat.indexOf(value), 1);
+            $("#" + value).attr("src", libera);
+        } else {
+            bookedSeat.push(value);
+            $("#" + value).attr("src", occupazione);
         }
-        else if(document.getElementById(value).src === '../../Smarty/img/cinema/sedia_in_occupazione.png')
-        {
-            alert("FREE");
-            document.getElementById(value).src='../../Smarty/img/cinema/sedia_libera.png';
-        }
-        else {
-            alert("LOCK");
-        }
+
+        console.log(bookedSeat);
     }
 </script>
 

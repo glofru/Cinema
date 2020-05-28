@@ -1,7 +1,7 @@
 <?php
 
 
-class FSalaFisica implements Foundation
+class FSala implements Foundation
 {
     private static string $className = "FSalaFisica";
     private static string $tableName = "SalaFisica";
@@ -50,6 +50,20 @@ class FSalaFisica implements Foundation
         $nPostiFila = $result[0]["nPostiFila"];
         $disponibile = $result[0]["disponibile"];
         return new ESalaFisica($nSala, $nFile, $nPostiFila, $disponibile);
+    }
+
+    public static function loadVirtuale (string $nSala, string $row) {
+        $db = FDatabase::getInstance();
+        $result = $db->loadFromDB(self::getClassName(), intval($nSala), $row);
+        if($result === null){
+            return null;
+        }
+
+        $nSala = $result[0]["nSala"];
+        $nFile = $result[0]["nFile"];
+        $nPostiFila = $result[0]["nPostiFila"];
+        $disponibile = $result[0]["disponibile"];
+        return new ESalaVirtuale($nSala, $nFile, $nPostiFila, $disponibile);
     }
 
     public static function update($value,$row,$newvalue,$newrow): bool {

@@ -38,7 +38,7 @@ class EPosto implements JsonSerializable
     {
         $this->setFila($fila);
         $this->setNumeroPosto($numeroPosto);
-        $this->setOccupato($occupato);
+        $this->setIsOccupato($occupato);
     }
 
     public static function fromString(string $posto, bool $libero) {
@@ -61,7 +61,7 @@ class EPosto implements JsonSerializable
     /**
      * @param bool $occupato disponibilità del numeroposto
      */
-    public function setOccupato(bool $occupato){
+    public function setIsOccupato(bool $occupato){
         $this->occupato = $occupato;
     }
 
@@ -81,12 +81,12 @@ class EPosto implements JsonSerializable
     /**
      * @return bool disponibilità del numeroposto
      */
-    public function getOccupato(): bool{
+    public function isOccupato(): bool{
         return $this->occupato;
     }
 
-    public function getPostoDB(): string {
-        return $this->getFila() . " " . strval($this->getNumeroPosto());
+    public function isEqual(EPosto $posto): bool {
+        return $this->getFila() == $posto->getFila() && $this->getNumeroPosto() == $posto->getNumeroPosto();
     }
 
 //------------- ALTRI METODI ----------------
@@ -100,7 +100,7 @@ class EPosto implements JsonSerializable
             [
                 'fila'   => $this->getFila(),
                 'numeroposto' => $this->getNumeroPosto(),
-                'occupato'   => $this->getOccupato(),
+                'occupato'   => $this->isOccupato(),
             ];
     }
     /**
@@ -108,6 +108,6 @@ class EPosto implements JsonSerializable
      */
     public function __toString()
     {
-        return $this->getFila() . " " . strval($this->getNumeroPosto());
+        return $this->getFila() . strval($this->getNumeroPosto());
     }
 }

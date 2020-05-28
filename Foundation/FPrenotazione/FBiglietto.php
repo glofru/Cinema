@@ -12,7 +12,7 @@ class FBiglietto implements FoundationDebole
     public static function associate(PDOStatement $sender, $biglietto, $obj2 = null) {
         if ($biglietto instanceof EBiglietto) {
             $sender->bindValue(':idProiezione', $biglietto->getProiezione()->getId(), PDO::PARAM_INT);
-            $sender->bindValue(':posto', $biglietto->getPosto()->getPostoDB(), PDO::PARAM_STR);
+            $sender->bindValue(':posto', $biglietto->getPosto()->__toString(), PDO::PARAM_STR);
             $sender->bindValue(':idUtente',$biglietto->getUtente()->getId(),PDO::PARAM_INT);
             $sender->bindValue(':costo',$biglietto->getCosto(),PDO::PARAM_STR);
         } else {

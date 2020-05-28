@@ -17,7 +17,7 @@ class CSalamanager implements JsonSerializable
 
     public function __construct(ESalaVirtuale $sala)
     {
-        $this->sala = $sala;
+        $this->setSala($sala);
     }
 
 //-------------- SETTER ----------------------
@@ -44,31 +44,19 @@ class CSalamanager implements JsonSerializable
      * @param EPosto $posto posto che si vuole controllare
      * @return int indice del posto nell'array dei posti in sala
      */
-    public function isValido(EPosto $posto): int
+    public function esiste(EPosto $posto): int
     {
-        $result = array_search($posto,$this->sala->getPosti());
-        if ($result === "") {
-            return -1;
-        } else {
-            return $result;
-        }
+        return $this->sala->esiste($posto);
     }
+
     /**
      * Controlla se un posto è libero in sala
      * @param EPosto $posto posto che si vuole controllare
      * @return string risultato del controllo
      */
-    public function isPostolibero(EPosto $posto): string
+    public function isPostolibero(EPosto $posto)
     {
-        $result = $this->isValido($posto);
-        if ($result === -1) {
-            return "Posto non presente in sala";
-        }
-        if ($this->sala->getPosti()[$result]->getOccupato()) {
-            return "false";
-        } else {
-            return "true";
-        }
+        return $this->sala->isPostolibero($posto);
     }
     /**
      * Controlla se un posto è occupato o meno in sala
@@ -77,12 +65,7 @@ class CSalamanager implements JsonSerializable
      */
     public function occupaPosto(EPosto $posto): bool
     {
-        if ($this->isPostolibero($posto) == "true") {
-            $result = array_search($posto, $this->sala->getPosti());
-            $this->sala->getPosti()[$result]->setOccupato(false);
-        } else {
-            return false;
-        }
+        return $this->sala->occupaPosto($posto);
     }
     /**
      * Controlla se un posto è occupato in sala
@@ -91,32 +74,21 @@ class CSalamanager implements JsonSerializable
      */
     public function liberaPosto(EPosto $posto): bool
     {
-        if ($this->isPostolibero($posto) === "false") {
-            $result = array_search($posto, $this->sala->getPosti());
-            $this->sala->getPosti()[$result]->setOccupato(true);
-        } else {
-            return false;
-        }
+        return $this->sala->liberaPosto($posto);
     }
     /**
      * Conta il numero dei posti liberi in sala
      * @return int numero dei posti liberi in sala
      */
-    public function postiLiberi(): int{
-        $count = 0;
-        foreach ($this->sala->getPosti() as $elem){
-            if($elem->getOccupato() === false){
-                $count += 1;
-            }
-        }
-        return $count;
+    public function getPostiLiberi(): int{
+        return $this->sala->getNumeroPostiLiberi();
     }
     /**
      * Conta il numero dei posti occupati in sala
      * @return int numero dei posti occupati in sala
      */
-    public function postiOccupati(): int{
-        return $this->sala->getNumeroPosti() - $this->postiLiberi();
+    public function getPostiOccupati(): int{
+        return $this->sala->getPo
     }
 
     public function jsonSerialize ()
