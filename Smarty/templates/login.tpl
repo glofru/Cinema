@@ -21,11 +21,11 @@
 	<link rel="stylesheet" href="../../Smarty/css/main.css">
 
 	<!-- Favicons -->
-	<link rel="icon" type="image/png" href="icon/favicon-32x32.png" sizes="32x32">
-	<link rel="apple-touch-icon" href="icon/favicon-32x32.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="icon/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="icon/apple-touch-icon-114x114.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="icon/apple-touch-icon-144x144.png">
+	<link rel="icon" type="image/png" href="../../Smarty/icon/favicon-32x32.png" sizes="32x32">
+	<link rel="apple-touch-icon" href="../../Smarty/icon/favicon-32x32.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="../../Smarty/icon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="../../Smarty/icon/apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="../../Smarty/icon/apple-touch-icon-144x144.png">
 
 	<meta name="description" content="">
 	<meta name="keywords" content="">
@@ -35,28 +35,23 @@
 </head>
 <body class="body">
 
-	<div class="sign section--bg" data-bg="img/section/section.jpg">
+	<div class="sign section--bg" data-bg="../../Smarty/img/section/section.jpg">
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
 					<div class="sign__content">
 						<!-- authorization form -->
-						<form action="#" class="sign__form">
+						<form action="Utente/formLogin" method="POST" class="sign__form">
 							<a href="index.html" class="sign__logo">
-								<img src="img/logo.svg" alt="">
+								<img src="../../Smarty/img/logo.svg" alt="">
 							</a>
 
 							<div class="sign__group">
-								<input type="text" class="sign__input" placeholder="Email">
+								<input name = "log" type="text" class="sign__input" placeholder="Username/Email">
 							</div>
 
 							<div class="sign__group">
-								<input type="password" class="sign__input" placeholder="Password">
-							</div>
-
-							<div class="sign__group sign__group--checkbox">
-								<input id="remember" name="remember" type="checkbox" checked="checked">
-								<label for="remember">Remember Me</label>
+								<input name = "password" type="password" class="sign__input" placeholder="Password">
 							</div>
 							
 							<button class="sign__btn" type="button">Accedi</button>

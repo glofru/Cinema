@@ -3,17 +3,19 @@
 
 class CUtente
 {
-    public static function formLogin(){
+    public static function loginForm(){
         if($_SERVER['REQUEST_METHOD']=="GET"){
-			if(isset($_COOKIE["PHPSESSID"])) {
+            session_start();
+			if(isset($_COOKIE["PHPSESSID"]) && isset($_SESSION["user"])) {
                 $user = unserialize($_SESSION["user"]);
                 //showuser($user);
 			}
 			else{
-				VUtente::formLogin();
+				VUtente::loginForm();
 			}
         }
         elseif ($_SERVER['REQUEST_METHOD']=="POST")
+            echo "POST";
 			self::checkLogin();
     }
     
@@ -34,10 +36,11 @@ class CUtente
         $view = new VUtente();
         $pm = FPersistentManager::getInstance();
         $value = $_POST['log'];
-        if($value === EInputChecker::username($value)) {
+        $gestore = EInputChecker::getInstance();
+        if($value === $gestore->username($value)) {
             $isMail = false;
         }
-        else if ($value === EInputChecker::email($value)) {
+        else if ($value === $gestore->email($value)) {
             $isMail = false;
         }
         else {

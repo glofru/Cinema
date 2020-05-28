@@ -35,7 +35,7 @@ class VUtente
         $smarty->display('registrazionecliente.tpl');
     }
 
-    public static function formLogin() {
+    public static function loginForm() {
 
     }
 }

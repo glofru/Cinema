@@ -109,12 +109,15 @@
 								</button>
 
 								{if (!isset($user))}
-								<span><i class="icon ion-ios-log-in"></i> Luciano Vangone</span>
+								<a href="Utente/loginForm" methods="GET" class="header__sign-in">
+									<i class="icon ion-ios-log-in"></i>
+									<span>Login</span>
+								</a>
+								</form>
 								{else}
 								&nbsp;&nbsp;&nbsp;&nbsp;
 								<li class="header__nav-item">
 									<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{$utente->getUsername()}</a>
-
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
 										<li><a href="">Il mio profilo</a></li>
 										<li><a href="">Le mie prenotazioni</a></li>
