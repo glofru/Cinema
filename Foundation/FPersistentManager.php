@@ -96,6 +96,6 @@ class FPersistentManager
     }
 
     public function login(string $value, string $password, bool $isMail){
-        return FUtente::login($value,$password,$isMail);
+        return FUtente::login($value, $password, $isMail);
     }
 }

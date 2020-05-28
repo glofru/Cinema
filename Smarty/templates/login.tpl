@@ -41,13 +41,13 @@
 				<div class="col-12">
 					<div class="sign__content">
 						<!-- authorization form -->
-						<form action="loginForm" method="POST" class="sign__form">
-							<a href="index.html" class="sign__logo">
+						<form action="/Utente/tryLogin" method="POST" class="sign__form">
+							<a href="/" class="sign__logo">
 								<img src="../../Smarty/img/logo.svg" alt="">
 							</a>
 
 							<div class="sign__group">
-								<input name = "log" type="text" class="sign__input" placeholder="Username/Email">
+								<input name = "username" type="text" class="sign__input" placeholder="Username/Email">
 							</div>
 
 							<div class="sign__group">

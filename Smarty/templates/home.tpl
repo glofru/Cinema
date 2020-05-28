@@ -90,7 +90,7 @@
 									 {if (!isset($user))}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
 										<li><a href="about.html">Su di noi</a></li>
-										<li><a href="/Utente/loginForm">Login</a></li>
+										<li><a href="/Utente/login">Login</a></li>
 										<li><a href="signup.html">Registrati</a></li>
 									{else}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
@@ -109,7 +109,7 @@
 								</button>
 
 								{if (!isset($utente))}
-								<a href="Utente/loginForm" methods="GET" class="header__sign-in">
+								<a href="Utente/login" methods="GET" class="header__sign-in">
 									<i class="icon ion-ios-log-in"></i>
 									<span>Login</span>
 								</a>

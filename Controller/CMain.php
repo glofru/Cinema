@@ -12,32 +12,23 @@ class CMain
 
         if ($method == "GET")
         {
-            if ($path == "/" || $path == "/index.php")
-            {
+            if ($path == "/" || $path == "/index.php") {
                 CHome::showHome();
-            }
-            else
-            {
+            } else {
                 $res = explode("/", $path);
                 array_shift($res);
                 $controller = "C" . $res[0];
                 $controllers = scandir("Controller");
-                if (in_array($controller . ".php", $controllers))
-                {
-                    if (array_key_exists(1, $res))
-                    {
+                if (in_array($controller . ".php", $controllers)) {
+                    if (array_key_exists(1, $res)) {
                         $function = $res[1];
 
                         $controller::$function();
-                    }
-                    else
-                    {
+                    } else {
                         print "boh";
 //                        $controller::loadView();
                     }
-                }
-                else
-                {
+                } else {
                     header("Location: /404.html");
                 }
             }
