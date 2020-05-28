@@ -3,7 +3,7 @@
 
 class VHome
 {
-    public static function showHome($filmProssimi,$immaginiProssimi, $filmConsigliati, $immaginiConsigliati, $filmProgrammazione, $immaginiProgrammazione, $punteggioProgrammazione, $dateProgrammazione, $filmSettimanaScorsa,$immaginiSettimanaScorsa, $punteggioSettimanaScorsa, $dateSettimanaScorsa, $filmSettimanaProssima,$immaginiSettimanaProssima, $punteggioSettimanaProssima, $dateSettimanaProssima, $username)
+    public static function showHome($filmProssimi, $immaginiProssimi, $filmConsigliati, $immaginiConsigliati, $filmProgrammazione, $immaginiProgrammazione, $punteggioProgrammazione, $dateProgrammazione, $filmSettimanaScorsa,$immaginiSettimanaScorsa, $punteggioSettimanaScorsa, $dateSettimanaScorsa, $filmSettimanaProssima,$immaginiSettimanaProssima, $punteggioSettimanaProssima, $dateSettimanaProssima, EUtente $utente)
     {
         $smarty = StartSmarty::configuration();
         $smarty->assign("filmProssimi", $filmProssimi);
@@ -22,7 +22,7 @@ class VHome
         $smarty->assign("immaginiSettimanaScorsa", $immaginiSettimanaScorsa);
         $smarty->assign("punteggioSettimanaScorsa", $punteggioSettimanaScorsa);
         $smarty->assign("dateSettimanaScorsa", $dateSettimanaScorsa);
-        $smarty->assign("user", $username);
+        $smarty->assign("utente", $utente);
         $smarty->display("home.tpl");
     }
 }

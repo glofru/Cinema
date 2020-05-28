@@ -107,15 +107,22 @@
 								<button class="header__search-btn" type="button">
 									<i class="icon ion-ios-search"></i>
 								</button>
-								
-								<a href="signin.html" class="header__sign-in">
-									<i class="icon ion-ios-log-in"></i>
-									{if ($user === "")}
-									<span>login</span>
-									{else}
-									<span>Bentornato</span>
-									{/if}
-								</a>
+
+								{if ($utente == null)}
+								<span><i class="icon ion-ios-log-in"></i> Luciano Vangone</span>
+								{else}
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								<li class="header__nav-item">
+									<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{$utente->getUsername()}</a>
+
+									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+										<li><a href="">Il mio profilo</a></li>
+										<li><a href="">Le mie prenotazioni</a></li>
+										<li><a href="https://www.youporn.com/watch/15481840/il-sole-sul-balcone-amatoriale-italianovery-myller/#1">I miei video porno</a></li>
+										<li><a href="">Logout <i class="icon ion-ios-log-out"></i></a></li>
+									</ul>
+								</li>
+								{/if}
 							</div>
 							<!-- end header auth -->
 

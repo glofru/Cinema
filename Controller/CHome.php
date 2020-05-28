@@ -10,7 +10,11 @@ class CHome
         $proiezioni = self::getProiezioni($gestore->getSettimana(), $gestore);
         $prossima = self::getProiezioni($gestore->getSettimanaProssima(), $gestore);
         $scorsa = self::getProiezioni($gestore->getSettimanaScorsa(), $gestore);
-        VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2] , $proiezioni[3], $scorsa[0], $scorsa[1], $scorsa[2], $scorsa[3], $prossima[0], $prossima[1], $prossima[2], $prossima[3], "alessio");
+
+        //JUST FOR TEST
+        $utente = FUtente::load(1, "id");
+
+        VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2] , $proiezioni[3], $scorsa[0], $scorsa[1], $scorsa[2], $scorsa[3], $prossima[0], $prossima[1], $prossima[2], $prossima[3], $utente);
     }
 
     private static function getProssimi() {
