@@ -59,11 +59,11 @@
 								<label for="remember">Remember Me</label>
 							</div>
 							
-							<button class="sign__btn" type="button">Sign in</button>
+							<button class="sign__btn" type="button">Accedi</button>
 
-							<span class="sign__text"> <a href="signup.html">Sign up!</a></span>
+							<span class="sign__text"> <a href="signup.html">Accedi</a></span>
 
-							<span class="sign__text"><a href="#">Forgot password?</a></span>
+							<span class="sign__text"><a href="#">Password dimenticata?</a></span>
 						</form>
 						<!-- end authorization form -->
 					</div>

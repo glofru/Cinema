@@ -20,4 +20,18 @@ class VUtente
         $smarty->assign('userlogged',"loggato");
         $smarty->display('home.tpl');
     }
+    public function visualizzalogin(){
+        $smarty = StartSmarty::configuration();
+        if (isset($_POST['conveyor']))
+            $smarty->assign('email',$_POST['conveyor']);
+        $smarty->display('login.tpl');
+    }
+    public function profiloutente() {
+        $smarty = StartSmarty::configuration();
+
+    }
+    public function registra_cliente() {
+        $smarty = StartSmarty::configuration();
+        $smarty->display('registrazionecliente.tpl');
+    }
 }

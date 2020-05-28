@@ -75,6 +75,42 @@ class CUtente
         }
         header("Location: /");
     }
+    static function mostraprofilo() {
+        $view = new VUtente();
+        $pm = FPersistentManager::getInstance();
+        if($_SERVER['REQUEST_METHOD'] == "GET") {
+            if (CUtente::isloggato()) {
+                $utente = unserialize($_SESSION['utente']);
+                if (get_class($utente) == "ERegistrato") {
+                    $img = $pm->load("emailutente", $utente->getEmail(), "FUtente");
+                    $annunci = $pm->load("emailWriter", $utente->getEmail(), "FAnnuncio");
+                    $view->profileCli($utente, $annunci, $img);
+                } else {
+                    $img = $pm->load("emailutente", $utente->getEmail(), "FMediaUtente");
+                    $annunci = $pm->load("emailWriter", $utente->getEmail(), "FAnnuncio");
+                    list ($imgMezzo,$imgrecensioni) = static::set_profilo_tra($utente);
+                    $rec = static::info_cliente_rec($utente);
+                    $view->profileTrasp($utente, $annunci, $img, $imgMezzo, $imgrecensioni,$rec);
+                }
+            } else
+                header('Location: /Cinema/Utente/login');
+        }
+    }
+
+    static function registrazioneUtente(){
+        if($_SERVER['REQUEST_METHOD']=="GET") {
+            $view = new VUtente();
+            $pm = FPersistentManager::getInstance();
+            if (static::checkLogin()) {
+                $pm->load();
+            }
+            else {
+                $view->registra_cliente();
+            }
+        }else if($_SERVER['REQUEST_METHOD']=="POST") {
+            static::regist_cliente_verifica();
+        }
+    }
 
 
 
