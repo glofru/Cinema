@@ -90,7 +90,7 @@
 									 {if (!isset($user))}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
 										<li><a href="about.html">Su di noi</a></li>
-										<li><a href="signin.html">Login</a></li>
+										<li><a href="/Utente/loginForm">Login</a></li>
 										<li><a href="signup.html">Registrati</a></li>
 									{else}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
