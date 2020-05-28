@@ -55,7 +55,7 @@ class EUtente implements JsonSerializable
         $this->setUsername($username);
         $this->setEmail($email);
         $this->setPassword($password);
-        $this->isBanned($isBanned);
+        $this->setIsBanned($isBanned);
     }
 
     /**
@@ -150,7 +150,7 @@ class EUtente implements JsonSerializable
         $this->isBanned = $isBanned;
     }
 
-    public function getIsBanned(): bool {
+    public function isBanned(): bool {
         return $this->isBanned;
     }
 

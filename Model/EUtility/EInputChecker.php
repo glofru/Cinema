@@ -37,7 +37,7 @@ class EInputChecker{
     public function date(string $date): string {
         $temp = DateTime::createfromFormat('Y-m-d', $date);
         if($date === false) {
-            return ""
+            return "";
         }
         return $date;
     }
@@ -67,7 +67,7 @@ class EInputChecker{
         if(strlen($titolo) > 30) {
             $titolo = substr($titolo,0,200);
         }
-        return $commento;
+        return $titolo;
     }
 }
 ?>

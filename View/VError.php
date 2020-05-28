@@ -7,7 +7,6 @@ class VError
     {
         $smarty = StartSmarty::configuration();
         $smarty->assign("error_number", $num);
-        $error_description = "";
         switch ($num)
         {
             case 0:

@@ -166,7 +166,7 @@ class EHelper
         return floatval($punteggio[0] . "." . $punteggio[1][0]);
     }
 
-    public function programmazione(EProgrammazioneFilm $proiezionifilm, EFilm $film): array {
+    public function programmazione($proiezionifilm, EFilm $film): array {
         $result = [];
         $today = new DateTime('now');
         if(sizeof($proiezionifilm) === 0) {
