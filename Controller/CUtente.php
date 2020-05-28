@@ -52,7 +52,7 @@ class CUtente
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
                 session_regenerate_id(true);
-                session_set_cookie_params(3600, "/", null, false, true);
+                session_set_cookie_params(3600, "/", null, false, true); //http only cookie 
                 $salvare = serialize($utente);
                 $_SESSION['utente'] = $salvare;
                 /*if ($utente->isAdmin() === true) {

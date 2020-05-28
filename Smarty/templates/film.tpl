@@ -271,15 +271,14 @@
             </div>
                 <div class="row--center">
                     <form id="book" class="form" action="/Acquisto/getBiglietti" method="POST">
-                        <input type="hidden" name="proiezione" value="{$pro->getId()}" />
                         <table style="margin-left:auto;margin-right:auto;" id="t01">
                             {foreach $pro->getSala()->getPosti() as $fila}
                                 <tr>
                                     {foreach $fila as $posto}
                                         {if $posto->isOccupato}
-                                            <th><img id="{$posto->getId()}" onclick="book(this)" src="../../Smarty/img/cinema/sedia_occupata.png" alt="Posto"/></th>
+                                            <th><img name="{$pro->getId()}" id="{$posto->getId()}" onclick="book(this)" src="../../Smarty/img/cinema/sedia_occupata.png" alt="Posto"/></th>
                                         {else}
-                                            <th><img id="{$posto->getId()}" onclick="book(this)" src="../../Smarty/img/cinema/sedia_libera.png" alt="Posto"/></th>
+                                            <th><img name="{$pro->getId()}" id="{$posto->getId()}" onclick="book(this)" src="../../Smarty/img/cinema/sedia_libera.png" alt="Posto"/></th>
                                         {/if}
                                     {/foreach}
                                 </tr>
@@ -566,12 +565,14 @@
     }
 
     let bookedSeat = [];
+    let proiezione;
     let libera = "../../Smarty/img/cinema/sedia_libera.png";
     let occupazione = "../../Smarty/img/cinema/sedia_in_occupazione.png";
 
     function acquista() {
         if (bookedSeat.length > 0) {
             $("#book").append(
+                "<input type='hidden' name='proiezione' value='" + proiezione + "' />",
                 "<input type='hidden' name='posti' value='" + bookedSeat.join(';') + "' />"
             );
             document.getElementById('book').submit()
@@ -583,6 +584,7 @@
 
     function book (value) {
         let id = value.getAttribute("id");
+        proiezione = value.getAttribute("name");
 
         if (bookedSeat.includes(id)) {
             bookedSeat.splice(bookedSeat.indexOf(id), 1);
