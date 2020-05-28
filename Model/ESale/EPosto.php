@@ -89,6 +89,10 @@ class EPosto implements JsonSerializable
         return $this->getFila() == $posto->getFila() && $this->getNumeroPosto() == $posto->getNumeroPosto();
     }
 
+    public function getId(): string {
+        return $this->getFila() . "_" . $this->getNumeroPosto();
+    }
+
 //------------- ALTRI METODI ----------------
 
     /**
@@ -106,8 +110,9 @@ class EPosto implements JsonSerializable
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->getFila() . strval($this->getNumeroPosto());
+        return $this->getFila() . " " . strval($this->getNumeroPosto());
     }
+
 }

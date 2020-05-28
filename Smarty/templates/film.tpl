@@ -270,27 +270,26 @@
                 <h2 class="section__title section__title--center">Sala: {$pro->getSala()->getNumeroSala()}</h2>
             </div>
                 <div class="row--center">
-                    <form class="form">
+                    <form id="book" class="form" action="/" method="POST">
                         <table style="margin-left:auto;margin-right:auto;" id="t01">
-                            {for $i=0 to $pro->getSala()->getNFile()-1 step 1}
-                                <tr>   
-                                {for $j=0 to $pro->getSala()->getNPostiFila()-1 step 1}
-                                    {$posti = $pro->getSala()->getPosti()}
-                                    {if ($posti[$i+$j]->getOccupato() == false)}
-                                        <th><img onclick="book('{$posti[$i+$j]}')" id="{$posti[$i+$j]}" src="../../Smarty/img/cinema/sedia_libera.png"/></th>
-                                    {else}
-                                        <th><img  id="{$posti[$i+$j]}" src="../../Smarty/img/cinema/sedia_occupata.png"/></th>
-                                    {/if}
-                                {/for}
-                            </tr>
-                            {/for}
+                            {foreach $pro->getSala()->getPosti() as $fila}
+                                <tr>
+                                    {foreach $fila as $posto}
+                                        {if $posto->isOccupato}
+                                            <th><img id="{$posto->getId()}" onclick="book(this)" src="../../Smarty/img/cinema/sedia_occupata.png" alt="Posto"/></th>
+                                        {else}
+                                            <th><img id="{$posto->getId()}" onclick="book(this)" src="../../Smarty/img/cinema/sedia_libera.png" alt="Posto"/></th>
+                                        {/if}
+                                    {/foreach}
+                                </tr>
+                            {/foreach}
                         </table>
                     </form>
                 </div>
             </div>
         {/foreach}
         <div class="col-12--center">
-            <a href="#" class="section__btn" id="acquista">Acquista</a>
+            <a onclick="acquista()" style="color: white; cursor:pointer;" class="section__btn" id="acquista">Acquista</a>
         </div>
     </div>
 </section>
@@ -569,16 +568,27 @@
     let libera = "../../Smarty/img/cinema/sedia_libera.png";
     let occupazione = "../../Smarty/img/cinema/sedia_in_occupazione.png";
 
-    function book (value) {
-        if (bookedSeat.includes(value)) {
-            bookedSeat.splice(bookedSeat.indexOf(value), 1);
-            $("#" + value).attr("src", libera);
+    function acquista() {
+        if (bookedSeat.length > 0) {
+            $("#book").append(
+                "<input type='hidden' name='posti' value='" + bookedSeat.join(';') + "' />"
+            );
+            document.getElementById('book').submit()
         } else {
-            bookedSeat.push(value);
-            $("#" + value).attr("src", occupazione);
+            alert("Selezionare almeno un posto prima di acquistare");
         }
+    }
 
-        console.log(bookedSeat);
+    function book (value) {
+        let id = value.getAttribute("id");
+
+        if (bookedSeat.includes(id)) {
+            bookedSeat.splice(bookedSeat.indexOf(id), 1);
+            value.setAttribute("src", libera);
+        } else {
+            bookedSeat.push(id);
+            value.setAttribute("src", occupazione);
+        }
     }
 </script>
 
