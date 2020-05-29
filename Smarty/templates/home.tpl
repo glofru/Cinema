@@ -52,7 +52,7 @@
 						<div class="header__content">
 							<!-- header logo -->
 							<a href="/" class="header__logo">
-								<img src="Smarty/img/logo.svg" alt="">
+								<img src="../../Smarty/img/logo.svg" alt="">
 							</a>
 							<!-- end header logo -->
 
@@ -90,8 +90,7 @@
 									 {if (!isset($user))}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
 										<li><a href="about.html">Su di noi</a></li>
-										<li><a href="/Utente/login">Login</a></li>
-										<li><a href="signup.html">Registrati</a></li>
+										<li><a href="/Utente/signup">Registrati</a></li>
 									{else}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
 										<li><a href="about.html">Su di noi</a></li>
@@ -113,10 +112,11 @@
 									<i class="icon ion-ios-log-in"></i>
 									<span>Login</span>
 								</a>
-								</form>
 								{else}
 								<li class="header__nav-item">
-									<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{$utente->getUsername()}</a>
+									<a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<span>@{$utente->getUsername()}</span>
+									</a>
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
 										<li><a href="">Il mio profilo</a></li>
 										<li><a href="">I miei acquisti</a></li>

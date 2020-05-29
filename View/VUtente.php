@@ -12,7 +12,7 @@ class VUtente
 
     public static function loginForm($username = null) {
         $smarty = StartSmarty::configuration();
-        
+
         if ($username != null) {
             $smarty->assign('username', $username);
         }
