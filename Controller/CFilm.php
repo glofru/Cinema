@@ -22,24 +22,45 @@ class CFilm
         if(sizeof($filmC) > 6){
             $filmC = array_slice($filmC,0,6);
         }
-
         $copertina = $pm->load($filmID,"idFilm","EMediaLocandina");
-
         $locandine = [];
         foreach($filmC as $loc) {
             array_push($locandine,$pm->load($loc->getId(),"idFilm","EMediaLocandina"));
         }
         $rvw = self::getReview($pm, $filmID, $gestore);
         $pro = self::getProiezioni($pm, $gestore, $filmID);
-        VFilm::show($film, $autoplay, $copertina, $filmC, $locandine,$rvw[0],$rvw[1], $pro, $rvw[2]);
+        $utente = self::utente();
+        VFilm::show($film, $autoplay, $copertina, $filmC, $locandine,$rvw[0],$rvw[1], $pro, $rvw[2], $utente);
+    }
+
+    private static function utente () {
+        if(isset($_COOKIE["PHPSESSID"])) {
+            session_start();
+            if(isset($_SESSION["utente"])) {
+                return unserialize($_SESSION["utente"]);
+            }
+            else
+            {
+                CUtente::logout();
+            }
+        }
+        else
+        {
+            return NULL;
+        }
     }
 
     private static function getReview(FPersistentManager $pm, $filmID, EHelper $gestore) {
         $reviews = $pm->load($filmID,"idFilm","EGiudizio");
-        if(isset($_COOKIE["PHPSESSID"]))
-        {
+        if(isset($_COOKIE["PHPSESSID"])) {
             session_start();
-            $canWrite = $gestore->checkWrite($_SESSION["utente"], $reviews);
+            if(isset($_SESSION["utente"])){
+                $utente = unserialize($_SESSION["utente"]);
+                $canWrite = $gestore->checkWrite($utente, $reviews);
+            }
+            else {
+                CUtente::logout();
+            }
         }
         else
         {
@@ -56,7 +77,6 @@ class CFilm
         $result = [];
         array_push($result, $reviews, $img, $canWrite);
         return $result;
-
     }
 
     private static function getProiezioni(FPersistentManager $pm, EHelper $gestore, $filmID): array {

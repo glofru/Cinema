@@ -11,9 +11,6 @@ class CHome
         $prossima = self::getProiezioni($gestore->getSettimanaProssima(), $gestore);
         $scorsa = self::getProiezioni($gestore->getSettimanaScorsa(), $gestore);
 
-        //JUST FOR TEST
-        //$utente = FUtente::load(1, "id");
-        //DA USARE POI
         if(isset($_COOKIE["PHPSESSID"])) {
             session_start();
             $utente = unserialize($_SESSION["utente"]);

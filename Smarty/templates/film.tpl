@@ -98,10 +98,24 @@
                                 <i class="icon ion-ios-search"></i>
                             </button>
 
-                            <a href="signin.html" class="header__sign-in">
-                                <i class="icon ion-ios-log-in"></i>
-                                <span>sign in</span>
-                            </a>
+                            {if (!isset($utente))}
+                                <a href="../../Utente/login" methods="GET" class="header__sign-in">
+                                    <i class="icon ion-ios-log-in"></i>
+                                    <span>Login</span>
+                                </a>
+                            {else}
+                                <li class="header__nav-item">
+                                    <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span>@{$utente->getUsername()}</span>
+                                    </a>
+                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+                                        <li><a href="">Il mio profilo</a></li>
+                                        <li><a href="">I miei acquisti</a></li>
+                                        <li><a href="https://www.youporn.com/watch/15481840/il-sole-sul-balcone-amatoriale-italianovery-myller/#1">I miei video porno</a></li>
+                                        <li><a href="/Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+                                    </ul>
+                                </li>
+                            {/if}
                         </div>
                         <!-- end header auth -->
 

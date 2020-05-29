@@ -139,17 +139,16 @@ class EHelper
         return ($p/$n);
     }
 
-    public function checkWrite(/*ERegistrato */ $utente,$array): bool {
-        /*if(isset($utente)){
+    public function checkWrite(ERegistrato $utente, $array): bool {
+        if(isset($utente)) {
             foreach($array as $a){
-                if($a->getUtente()->getId() == $utente->getId()){
+                if($a->getUtente()->getId() === $utente->getId()){
                     return false;
                 }
             }
             return true;
         }
-
-        return false;*/ return true;
+        return false;
     }
 
     public function retriveVote(string $punteggio): float {
@@ -159,10 +158,17 @@ class EHelper
         for($i=0;$i<strlen($str);$i++){
             if(preg_match('/^[0-9]+$/', $str[$i])) {
                 $punteggio[0] = $str[$i];
+                $value = $i;
                 break;
             }
         }
-        return floatval($punteggio[0] . "." . $punteggio[1][0]);
+        if($str[$value+1] == "0") {
+            $temp = $punteggio[0] . $str[$value+1];
+        }
+        else {
+            $temp = $punteggio[0];
+        }
+        return floatval($temp . "." . $punteggio[1][0]);
     }
 
     public function retriveAnno(string $anno): float {

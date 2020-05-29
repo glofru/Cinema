@@ -3,7 +3,7 @@
 
 class VFilm
 {
-    public static function show(EFilm $film, bool $autoplay, EMedia $copertina, array $filmconsigliati, array $imgconsigliati, array $reviews, array $propic, array $pro, bool $canView)
+    public static function show(EFilm $film, bool $autoplay, EMedia $copertina, array $filmconsigliati, array $imgconsigliati, array $reviews, array $propic, array $pro, bool $canView, $utente)
     {
         $smarty = StartSmarty::configuration();
         $smarty->assign("film", $film);
@@ -18,6 +18,7 @@ class VFilm
         $smarty->assign("attori", $film->getAttori());
         $smarty->assign("canView", $canView);
         $smarty->assign("proiezioni", $pro);
+        $smarty->assign("utente", $utente);
         $smarty->display("film.tpl");
     }
 }
