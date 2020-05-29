@@ -125,7 +125,7 @@ class FDatabase
 
     public function loadFromDBDebole($class, $value, string $row, $value2, $row2) {
         try {
-            $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . "= '" . $value. "' AND " . $row2 . "= '" . $value2 . "';";
+            $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . " = '" . $value. "' AND " . $row2 . " = '" . $value2 . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
             $returnedRows = $sender->rowCount();

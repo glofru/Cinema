@@ -113,6 +113,7 @@ class CUtente
                 } elseif ($pm->existsUser($email, true)) {
                     VUtente::signup($nome, $cognome, $username, $email, true, false);
                 } else {
+                    $password = self::hash($password);
                     $utente = new ERegistrato($nome, $cognome, $username, $email, $password, false);
                     $pm->signup($utente);
                     self::saveSession($utente);
@@ -133,6 +134,10 @@ class CUtente
 //        }else if($_SERVER['REQUEST_METHOD']=="POST") {
 //
 //        }
+    }
+
+    private static function hash($password) {
+        return password_hash($password, PASSWORD_BCRYPT);
     }
 
     public static function isLogged() {
