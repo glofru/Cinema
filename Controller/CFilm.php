@@ -52,11 +52,12 @@ class CFilm
 
     private static function getReview(FPersistentManager $pm, $filmID, EHelper $gestore) {
         $reviews = $pm->load($filmID,"idFilm","EGiudizio");
+        $film = $pm->load($filmID,"id","EFilm")[0];
         if(isset($_COOKIE["PHPSESSID"])) {
             session_start();
             if(isset($_SESSION["utente"])){
                 $utente = unserialize($_SESSION["utente"]);
-                $canWrite = $gestore->checkWrite($utente, $reviews);
+                $canWrite = $gestore->checkWrite($utente, $reviews, $film);
             }
             else {
                 CUtente::logout();
