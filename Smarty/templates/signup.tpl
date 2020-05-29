@@ -49,23 +49,35 @@
 
                         <!-- Nome -->
                         <div class="sign__group">
-                            <input id="nome" type="text" name="nome" class="sign__input" placeholder="Nome">
+                            <input id="nome" type="text" name="nome" value="{$nome}" class="sign__input" placeholder="Nome">
                         </div>
 
                         <!-- Cognome -->
                         <div class="sign__group">
-                            <input id="cognome" type="text" name="cognome" class="sign__input" placeholder="Cognome">
+                            <input id="cognome" type="text" name="cognome" value="{$cognome}" class="sign__input" placeholder="Cognome">
                         </div>
 
                         <!-- Username -->
                         <div class="sign__group">
-                            <input id="username" type="text" name="username" class="sign__input" placeholder="Username">
+                            <input id="username" type="text" name="username" value="{$username}" class="sign__input" placeholder="Username">
                         </div>
+
+                        {if $usernameExists}
+                        <div class="sign__group">
+                            <span class="sign__text" style="color: red">Username già utilizzato</span>
+                        </div>
+                        {/if}
 
                         <!-- Email -->
                         <div class="sign__group">
-                            <input id="email" type="email" name="email" class="sign__input" placeholder="Email">
+                            <input id="email" type="email" name="email" value="{$email}" class="sign__input" placeholder="Email">
                         </div>
+
+                        {if $emailExists}
+                            <div class="sign__group">
+                                <span class="sign__text" style="color: red">Email già registrata</span>
+                            </div>
+                        {/if}
 
                         <!-- Password -->
                         <div class="sign__group">

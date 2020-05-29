@@ -35,7 +35,6 @@ class CUtente
         } else if ($user === $gestore->email($user)) {
             $isMail = true;
         } else {
-            print("WE"); die();
             VUtente::loginForm($user);
             return;
         }
@@ -43,9 +42,9 @@ class CUtente
         $utente = $pm->login($user, $password, $isMail);
 
         if ($utente instanceof EUtente) {
-            self::saveUtente($utente);
+            self::saveSession($utente);
         } else {
-            VUtente::loginForm($utente);
+            VUtente::loginForm($user);
         }
     }
     
@@ -72,7 +71,7 @@ class CUtente
 //        }
 //    }
 
-    private static function saveUtente(EUtente $utente) {
+    private static function saveSession(EUtente $utente) {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
@@ -116,7 +115,7 @@ class CUtente
                 } else {
                     $utente = new ERegistrato($nome, $cognome, $username, $email, $password, false);
                     $pm->signup($utente);
-                    self::saveUtente($utente);
+                    self::saveSession($utente);
                 }
             } else {
                 VUtente::signup($nome, $cognome, $username, $email);

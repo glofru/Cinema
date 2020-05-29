@@ -47,8 +47,14 @@
 							</a>
 
 							<div class="sign__group">
-								<input name="username" type="text" class="sign__input" placeholder="Username/Email">
+								<input name="username" type="text" value="{$username}" class="sign__input" placeholder="Username/Email">
 							</div>
+
+							{if $error}
+								<div class="sign__group">
+									<span class="sign__text" style="color: red">Username o password errate</span>
+								</div>
+							{/if}
 
 							<div class="sign__group">
 								<input name="password" type="password" class="sign__input" placeholder="Password">
