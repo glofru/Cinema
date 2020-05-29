@@ -12,7 +12,11 @@ class CRicerca
             $data = self::getFilmData($film, $gestore);
             $cookie = $gestore->preferences($_COOKIE['preferences']);
             $consigliati = CHome::getConsigliati($cookie);
-            VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1]);
+            $utente = $gestore->getUtente();
+            if($utente == false){
+                header("Location: /Utente/logout");
+            }
+            VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, $gestore->isAdmin($utente));
         }
     }
 

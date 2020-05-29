@@ -11,17 +11,11 @@ class CHome
         $prossima = self::getProiezioni($gestore->getSettimanaProssima(), $gestore);
         $scorsa = self::getProiezioni($gestore->getSettimanaScorsa(), $gestore);
 
-        if(isset($_COOKIE["PHPSESSID"])) {
-            session_start();
-            $utente = unserialize($_SESSION["utente"]);
-            if ($utente === false) {
-                header("Location: /Utente/logout");
-            }
+        $utente = $gestore->getUtente();
+        if($utente == false){
+            header("Location: /Utente/logout");
         }
-        else {
-            $utente = NULL;
-        }
-        VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2] , $proiezioni[3], $scorsa[0], $scorsa[1], $scorsa[2], $scorsa[3], $prossima[0], $prossima[1], $prossima[2], $prossima[3], $utente);
+        VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2] , $proiezioni[3], $scorsa[0], $scorsa[1], $scorsa[2], $scorsa[3], $prossima[0], $prossima[1], $prossima[2], $prossima[3], $utente, $gestore->isAdmin($utente));
     }
 
     private static function getProssimi() {

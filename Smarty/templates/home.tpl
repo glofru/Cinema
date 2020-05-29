@@ -87,15 +87,16 @@
 								<!-- dropdown -->
 								<li class="dropdown header__nav-item">
 									<a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
-									 {if (!isset($user))}
+									 {if (!isset($utente))}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
 										<li><a href="about.html">Su di noi</a></li>
 										<li><a href="/Utente/signup">Registrati</a></li>
+									</ul>
 									{else}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
 										<li><a href="about.html">Su di noi</a></li>
-									{/if}
 									</ul>
+									{/if}
 								</li>
 								<!-- end dropdown -->
 							</ul>
@@ -112,7 +113,7 @@
 									<i class="icon ion-ios-log-in"></i>
 									<span>Login</span>
 								</a>
-								{else}
+								{elseif (isset($utente) && !$admin)}
 								<li class="header__nav-item">
 									<a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										<span>@{$utente->getUsername()}</span>
@@ -124,6 +125,19 @@
 										<li><a href="/Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
 									</ul>
 								</li>
+								{elseif (isset($utente) && $admin)}
+									<li class="header__nav-item">
+										<a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span>@{$utente->getUsername()}</span>
+										</a>
+										<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+											<li><a href="">Il mio profilo</a></li>
+											<li><a href="">Gestione film</a></li>
+											<li><a href="">Gestione Proiezioni</a></li>
+											<li><a href="">Gestione Utenti</a></li>
+											<li><a href="/Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+										</ul>
+									</li>
 								{/if}
 							</div>
 							<!-- end header auth -->

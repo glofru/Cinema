@@ -215,4 +215,26 @@ class EHelper
         }
         return $result;
     }
+
+    public function getUtente() {
+        if(isset($_COOKIE["PHPSESSID"])) {
+            session_start();
+            if(isset($_SESSION["utente"])) {
+                return unserialize($_SESSION["utente"]);
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return NULL;
+        }
+    }
+
+    public function isAdmin($utente) {
+        if($utente instanceof EAdmin){
+            return true;
+        }
+        return false;
+    }
 }

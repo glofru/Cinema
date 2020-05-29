@@ -52,7 +52,7 @@
 							<ul class="header__nav">
 								<!-- dropdown -->
 								<li class="header__nav-item">
-									<a class="dropdown-toggle header__nav-link" href="/" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
+									<a class="dropdown-toggle header__nav-link" href="/index.php" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
 								</li>
 								<!-- end dropdown -->
 
@@ -80,13 +80,16 @@
 								<!-- dropdown -->
 								<li class="dropdown header__nav-item">
 									<a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
-
-									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-										<li><a href="about.html">About</a></li>
-										<li><a href="signin.html">Sign In</a></li>
-										<li><a href="signup.html">Sign Up</a></li>
-										<li><a href="404.html">404 Page</a></li>
-									</ul>
+									{if (!isset($utente))}
+										<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
+											<li><a href="about.html">Su di noi</a></li>
+											<li><a href="/Utente/signup">Registrati</a></li>
+										</ul>
+									{else}
+										<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
+											<li><a href="about.html">Su di noi</a></li>
+										</ul>
+									{/if}
 								</li>
 								<!-- end dropdown -->
 							</ul>
@@ -98,10 +101,37 @@
 									<i class="icon ion-ios-search"></i>
 								</button>
 
-								<a href="signin.html" class="header__sign-in">
-									<i class="icon ion-ios-log-in"></i>
-									<span>sign in</span>
-								</a>
+								{if (!isset($utente))}
+									<a href="Utente/login" methods="GET" class="header__sign-in">
+										<i class="icon ion-ios-log-in"></i>
+										<span>Login</span>
+									</a>
+								{elseif (isset($utente) && !$admin)}
+									<li class="header__nav-item">
+										<a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span>@{$utente->getUsername()}</span>
+										</a>
+										<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+											<li><a href="">Il mio profilo</a></li>
+											<li><a href="">I miei acquisti</a></li>
+											<li><a href="https://www.youporn.com/watch/15481840/il-sole-sul-balcone-amatoriale-italianovery-myller/#1">I miei video porno</a></li>
+											<li><a href="/Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+										</ul>
+									</li>
+								{elseif (isset($utente) && $admin)}
+									<li class="header__nav-item">
+										<a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span>@{$utente->getUsername()}</span>
+										</a>
+										<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+											<li><a href="">Il mio profilo</a></li>
+											<li><a href="">Gestione film</a></li>
+											<li><a href="">Gestione Proiezioni</a></li>
+											<li><a href="">Gestione Utenti</a></li>
+											<li><a href="/Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+										</ul>
+									</li>
+								{/if}
 							</div>
 							<!-- end header auth -->
 
@@ -149,7 +179,7 @@
 						<!-- breadcrumb -->
 						<ul class="breadcrumb">
 							<li class="breadcrumb__item"><a href="/">Home</a></li>
-							<li class="breadcrumb__item breadcrumb__item--active">lista risultati</li>
+							<li class="breadcrumb__item breadcrumb__item--active">Lista risultati</li>
 						</ul>
 						<!-- end breadcrumb -->
 					</div>
