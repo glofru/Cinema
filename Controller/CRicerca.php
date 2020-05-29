@@ -53,10 +53,11 @@ class CRicerca
         $pm = FPersistentManager::getInstance();
         $punteggi = [];
         $immaginiCercati = [];
+        $giudizi = [];
         $result = [];
         foreach($film as $f) {
             array_push($immaginiCercati, $pm->load($f->getId(), "idFilm", "EMedia"));
-            $giudizi = $pm->load($f->getId(), "idFilm", "EGiudizio");
+            array_push($giudizi, $pm->load($f->getId(), "idFilm", "EGiudizio"));
         }
         foreach($giudizi as $g) {
             if(sizeof($g) > 0) {
