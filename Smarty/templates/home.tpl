@@ -448,11 +448,6 @@
 				<!-- end card -->
 					{/foreach}
 				{/if}
-				<!-- section btn -->
-				<div class="col-12">
-					<a href="#" class="section__btn">Altro</a>
-				</div>
-				<!-- end section btn -->
 			</div>
 		</div>
 	</section>

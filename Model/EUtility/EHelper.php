@@ -127,10 +127,9 @@ class EHelper
         setcookie('preferences', $cookie, time() + (86400 * 30), "/");
     }
 
-    public function getMedia(array $g) {
+    public function getMedia($g) {
         $p = 0;
         $n = sizeof($g);
-        echo $n . "<br>";
         if($n === 0){
             return 0;
         }

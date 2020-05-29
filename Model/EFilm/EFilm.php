@@ -119,8 +119,8 @@ class EFilm implements JsonSerializable
     }
 
     public function getDescrizioneHTML(): string {
-        if (strlen($this->getDescrizione()) > 284) {
-            $temp = substr($this->getDescrizione(),0,281);
+        if (strlen($this->getDescrizione()) > 249) {
+            $temp = substr($this->getDescrizione(),0,249);
             $temp .= "...";
             return $temp;
         }
