@@ -58,6 +58,17 @@ CREATE TABLE Posti(
     ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE Utenti(
+    `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
+    `username` varchar(15) NOT NULL UNIQUE,
+    `email` varchar(40) NOT NULL UNIQUE,
+    `nome` TEXT NOT NULL,
+    `cognome` TEXT NOT NULL,
+    `password` TEXT NOT NULL,
+    `isAdmin` BOOLEAN NOT NULL,
+    `isBanned` BOOLEAN DEFAULT FALSE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
 CREATE TABLE Biglietto (
     `idProiezione` INTEGER NOT NULL,
     `posto` VARCHAR(4) NOT NULL,
@@ -71,17 +82,6 @@ CREATE TABLE Biglietto (
         REFERENCES Proiezione(`id`)
     ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE Utenti(
-    `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-    `username` varchar(15) NOT NULL UNIQUE,
-    `email` varchar(40) NOT NULL UNIQUE,
-    `nome` TEXT NOT NULL,
-    `cognome` TEXT NOT NULL,
-    `password` TEXT NOT NULL,
-    `isAdmin` BOOLEAN NOT NULL,
-    `isBanned` BOOLEAN DEFAULT FALSE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 CREATE TABLE Giudizio(
     `idUtente` INTEGER NOT NULL,
