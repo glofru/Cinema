@@ -41,9 +41,15 @@ class EPosto implements JsonSerializable
         $this->setIsOccupato($occupato);
     }
 
-    public static function fromString(string $posto, bool $libero) {
-        $elem = explode(" ",$posto);
-        return new EPosto($elem[0], intval($elem[1]), $libero);
+    public static function fromString(string $posto, bool $libero): array {
+        $posti = [];
+        $lock = explode(";", $posto);
+        foreach ($lock as $elem) {
+            $temp = explode("_", $elem);
+            $seat = new EPosto($temp[0],$temp[1], $libero);
+            array_push($posti,$seat);
+        }
+        return $posti;
     }
 //-------------- SETTER ----------------------
     /**
@@ -112,7 +118,7 @@ class EPosto implements JsonSerializable
      */
     public function __toString(): string
     {
-        return $this->getFila() . " " . strval($this->getNumeroPosto());
+        return " Fila: " .$this->getFila() . " Posto: " . strval($this->getNumeroPosto());
     }
 
 }

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- Font -->
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet"> 
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="../../Smarty/css/bootstrap-reboot.min.css">
@@ -101,7 +101,7 @@
 							</button>
 
 							{if (!isset($utente))}
-								<a href="Utente/login" methods="GET" class="header__sign-in">
+								<a href="../Utente/login" methods="GET" class="header__sign-in">
 									<i class="icon ion-ios-log-in"></i>
 									<span>Login</span>
 								</a>
@@ -172,13 +172,14 @@
 				<div class="col-12">
 					<div class="section__wrap">
 						<!-- section title -->
-						<h2 class="section__title">Lista risultati</h2>
+						<h2 class="section__title">Riepilogo acquisto</h2>
 						<!-- end section title -->
 
-						<!-- breadcrumb -->
+						<!-- breadcrumb-->
 						<ul class="breadcrumb">
 							<li class="breadcrumb__item"><a href="/">Home</a></li>
-							<li class="breadcrumb__item breadcrumb__item--active">Lista risultati</li>
+							<li class="breadcrumb__item"><a href="/Film/show/?film={$proiezione->getFilm()->getId()}&autoplay=true">Film</a></li>
+							<li class="breadcrumb__item breadcrumb__item--active">Acquisto Biglietto</li>
 						</ul>
 						<!-- end breadcrumb -->
 					</div>
@@ -187,188 +188,82 @@
 		</div>
 	</section>
 	<!-- end page title -->
-
-	<!-- filter -->
-	<form action="/Ricerca/cercaFilmAttributi" method="POST">
-	<div class="filter">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<div class="filter__content">
-						<div class="filter__items">
-							<!-- filter item -->
-							<div class="filter__item" id="filter__genre">
-								<span class="filter__item-label">GENERE:</span>
-
-								<div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-genre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<input type="button" id="g" name="g" value="Azione">
-									<span></span>
-								</div>
-
-								<ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter-genre">
-									{foreach $genere as $g}
-										<li>{$g}</li>
-									{/foreach}
-								</ul>
-							</div>
-							<!-- end filter item -->
-
-							<!-- filter item -->
-							<div class="filter__item" id="filter__rate">
-								<span class="filter__item-label">Voto Critica:</span>
-
-								<div class="filter__item-btn dropdown-toggle" role="button" id="filter-rate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<div class="filter__range">
-										<div id="filter__imbd-start"></div>
-										<input type="hidden" name="voto_inizio" id="voto_inizio">
-										<div id="filter__imbd-end"></div>
-										<input type="hidden" name="voto_fine" id="voto_fine">
-										<input type="hidden" name="Genere" id="Genere">
-									</div>
-									<span></span>
-								</div>
-
-								<div class="filter__item-menu filter__item-menu--range dropdown-menu" aria-labelledby="filter-rate">
-									<div id="filter__imbd"></div>
-								</div>
-							</div>
-							<!-- end filter item -->
-
-							<!-- filter item -->
-							<div class="filter__item" id="filter__year">
-								<span class="filter__item-label">Anno di Rilascio:</span>
-
-								<div class="filter__item-btn dropdown-toggle" role="button" id="filter-year" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<div class="filter__range">
-										<div id="filter__years-start"></div>
-										<input type="hidden" name="anno_inizio" id="anno_inizio">
-										<div id="filter__years-end"></div>
-										<input type="hidden" name="anno_fine" id="anno_fine">
-									</div>
-									<span></span>
-								</div>
-
-								<div class="filter__item-menu filter__item-menu--range dropdown-menu" aria-labelledby="filter-year">
-									<div id="filter__years"></div>
-								</div>
-							</div>
-							<!-- end filter item -->
+<!-- filter -->
+<div class="filter">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="filter__content">
+					<div class="filter__items">
+						<!-- filter item -->
+						<div class="card__description">
+							<p>Cliccare su acquista per procedere. Oppure puoi annullare l'acquisto.</p>
 						</div>
-
-						<!-- filter btn -->
-						<button class="filter__btn" onclick="sender()" type="submit">Applica filtri</button>
-						<!-- end filter btn -->
+						<!-- end filter item -->
 					</div>
+
+					<!-- filter btn -->
+					<form>
+					<button class="filter__btn" type="button">Acquista</button>
+					</form>
+					<form action="/">
+					<button class="filter__btn" type="submit">Annulla</button>
+					</form>
+					<!-- end filter btn -->
 				</div>
 			</div>
 		</div>
-		</div>
-	</form>
-	<!-- end filter -->
-
+	</div>
+</div>
+<!-- end filter -->
 	<!-- catalog -->
+<form></form>
 	<div class="catalog">
 		<div class="container">
 			<div class="row">
-				{if (sizeof($filmCercati) > 0)}
-				{foreach $filmCercati as $key => $film}
+				{if (isset($posti))}
+				{foreach $posti as $posto}
 				<!-- card -->
 				<div class="col-6 col-sm-12 col-lg-6">
 					<div class="card card--list">
 						<div class="row">
 							<div class="col-12 col-sm-4">
 								<div class="card__cover">
-									<img src="{$immaginiCercati[$key]->getImmagineHTML()}" alt="">
-									<a href="/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
-										<i class="icon ion-ios-play"></i>
-									</a>
+									<img src="{$locandina->getImmagineHTML()}" alt="">
 								</div>
 							</div>
 
 							<div class="col-12 col-sm-8">
 								<div class="card__content">
-									<h3 class="card__title"><a href="/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
+									<h3 class="card__title"><a href="#">{$proiezione->getFilm()->getNome()}</a></h3>
+									<span class="card__category">
+										<a style="font-size:20px;">{$posto}</a>
+									</span>
 
 									<div class="card__wrap">
-										{if ($film->getVotoCritica() != 0)}
-											<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
-										{else}
-											<div class="card__description"> <p>Data di uscita: {$film->getDataRilascioString()}</p></div>
-										{/if}
-
-										{if ($punteggio[$key] != 0)}
-											<span class="card__category">
-													<a href="/Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggio[$key]}</a>
-												</span>
-										{/if}
-
-										{if ($film->getetaConsigliata() != "")}
+										{if ($proiezione->getFilm()->getetaConsigliata() != "")}
 											<ul class="card__list">
-												<li>{$film->getetaConsigliata()}</li>
+												<li>{$proiezione->getFilm()->getetaConsigliata()}</li>
 											</ul>
 										{/if}
 									</div>
 
 									<div class="card__description">
-										<p>{$film->getDescrizioneHTML()}</p>
+										<p>Giorno: {$proiezione->getData()} <br> Spettacolo delle: {$proiezione->getOra()}</p>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				{/foreach}
 				<!-- end card -->
-				{else}
-					<div class="col-12">
-						<h2 class="section__title section__title--center">Nessun risultato ottenuto... :(</h2>
-					</div>
+				{/foreach}
 				{/if}
 			</div>
+
 		</div>
 	</div>
 	<!-- end catalog -->
-
-	<!-- expected premiere -->
-	<section class="section section--bg" data-bg="img/section/section.jpg">
-		<div class="container">
-			<div class="row">
-				<!-- section title -->
-				<div class="col-12">
-					<h2 class="section__title">Consigliati per te</h2>
-				</div>
-				<!-- end section title -->
-				{if $filmConsigliati}
-					{foreach $filmConsigliati as $key => $film}
-						<!-- card -->
-						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-							<div class="card">
-								<div class="card__cover">
-									<img src="{$immaginiConsigliati[$key]->getImmagineHTML()}" alt="">
-									<a href="/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
-										<i class="icon ion-ios-play"></i>
-									</a>
-								</div>
-								<div class="card__content">
-									<h3 class="card__title"><a href="/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
-									<span class="card__category">
-								<a href="#">{$film->getGenere()}</a>
-							</span>
-									{if ($film->getVotoCritica() != 0)}
-										<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
-									{else}
-										<div class="card__description"> <p>Data di uscita: <br> {$film->getDataRilascioString()}</p></div>
-									{/if}
-								</div>
-							</div>
-						</div>
-						<!-- end card -->
-					{/foreach}
-				{/if}
-			</div>
-		</div>
-	</section>
-	<!-- end expected premiere -->
 
 	<!-- footer -->
 	<footer class="footer">
@@ -378,8 +273,8 @@
 				<div class="col-12 col-md-3">
 					<h6 class="footer__title">Download Our App</h6>
 					<ul class="footer__app">
-						<li><a href="#"><img src="img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
-						<li><a href="#"><img src="img/google-play-badge.png" alt=""></a></li>
+						<li><a href="#"><img src="../../Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
+						<li><a href="#"><img src="../../Smarty/img/google-play-badge.png" alt=""></a></li>
 					</ul>
 				</div>
 				<!-- end footer list -->
@@ -440,15 +335,6 @@
 	<!-- end footer -->
 
 	<!-- JS -->
-	<script>
-		function sender() {
-			document.getElementById("voto_inizio").value = document.getElementById("filter__imbd-start").outerHTML;
-			document.getElementById("voto_fine").value = document.getElementById("filter__imbd-end").outerHTML;
-			document.getElementById("anno_inizio").value = document.getElementById("filter__years-start").outerHTML;
-			document.getElementById("anno_fine").value = document.getElementById("filter__years-end").outerHTML;
-			document.getElementById("Genere").value = document.getElementById("g").value;
-		}
-	</script>
 	<script src="../../Smarty/js/jquery-3.3.1.min.js"></script>
 	<script src="../../Smarty/js/bootstrap.bundle.min.js"></script>
 	<script src="../../Smarty/js/owl.carousel.min.js"></script>
@@ -461,7 +347,6 @@
 	<script src="../../Smarty/js/photoswipe.min.js"></script>
 	<script src="../../Smarty/js/photoswipe-ui-default.min.js"></script>
 	<script src="../../Smarty/js/main.js"></script>
-
 </body>
 
 </html>

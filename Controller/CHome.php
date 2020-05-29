@@ -12,10 +12,11 @@ class CHome
         $scorsa = self::getProiezioni($gestore->getSettimanaScorsa(), $gestore);
 
         $utente = $gestore->getUtente();
-        if($utente == false){
-            header("Location: /Utente/logout");
+        if($utente === false){
+            header("Location: Utente/logout");
         }
-        VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2] , $proiezioni[3], $scorsa[0], $scorsa[1], $scorsa[2], $scorsa[3], $prossima[0], $prossima[1], $prossima[2], $prossima[3], $utente, $gestore->isAdmin($utente));
+        else
+            VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2] , $proiezioni[3], $scorsa[0], $scorsa[1], $scorsa[2], $scorsa[3], $prossima[0], $prossima[1], $prossima[2], $prossima[3], $utente, $gestore->isAdmin($utente));
     }
 
     private static function getProssimi() {

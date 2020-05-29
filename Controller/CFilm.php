@@ -29,25 +29,12 @@ class CFilm
         }
         $rvw = self::getReview($pm, $filmID, $gestore);
         $pro = self::getProiezioni($pm, $gestore, $filmID);
-        $utente = self::utente();
-        VFilm::show($film, $autoplay, $copertina, $filmC, $locandine,$rvw[0],$rvw[1], $pro, $rvw[2], $utente, $gestore->isAdmin($utente));
-    }
-
-    private static function utente () {
-        if(isset($_COOKIE["PHPSESSID"])) {
-            session_start();
-            if(isset($_SESSION["utente"])) {
-                return unserialize($_SESSION["utente"]);
-            }
-            else
-            {
-                CUtente::logout();
-            }
+        $utente = $gestore->getUtente();
+        if($utente === false) {
+            header("Location Utente/login");
         }
         else
-        {
-            return NULL;
-        }
+            VFilm::show($film, $autoplay, $copertina, $filmC, $locandine,$rvw[0],$rvw[1], $pro, $rvw[2], $utente, $gestore->isAdmin($utente));
     }
 
     private static function getReview(FPersistentManager $pm, $filmID, EHelper $gestore) {
