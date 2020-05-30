@@ -237,7 +237,7 @@
 									</div>
 
 									<div class="card__description">
-										<p>Giorno: {$item->getProiezione()->getData()} <br> Spettacolo delle: {$item->getProiezione()->getOra()} <br> Sala: {$item->getProiezione()->getSala()->getNumeroSala()}</p>
+										<p>Giorno {$item->getProiezione()->getData()} <br> Spettacolo delle {$item->getProiezione()->getOra()} <br> Sala {$item->getProiezione()->getSala()->getNumeroSala()}</p>
 									</div>
 								</div>
 							</div>

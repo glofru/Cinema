@@ -124,14 +124,14 @@ class CUtente
     }
 
     public static function isLogged() {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-        return isset($_SESSION["utente"]);
+        return isset($_COOKIE["PHPSESSID"]);
     }
 
     public static function getUtente() {
         if(self::isLogged()) {
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
             return unserialize($_SESSION["utente"]);
         }
 

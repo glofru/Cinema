@@ -109,7 +109,6 @@ class FProiezione implements Foundation
         $posti = FPosto::load($id, "idProiezione");
 
         foreach($posti as $posto) {
-            echo $posto->getPosto . " " . "<br>";
             if ($posto->isOccupato() == true) {
                echo $posto->getPosto . " " . strval($sala->occupaPosto($posto)) . "<br>";
             }

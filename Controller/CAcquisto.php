@@ -5,27 +5,29 @@ class CAcquisto
 {
     public static function getBiglietti() {
         if($_SERVER['REQUEST_METHOD']=="POST") {
-            $gestore = EHelper::getInstance();
-            $utente = CUtente::getUtente();
             $id = $_POST["proiezione"];
             $str = $_POST["posti"];
-            if (!isset($utente)  || !isset($id) || !isset($str)) {
+
+            if (!CUtente::isLogged() || !isset($id) || !isset($str)) {
                 header("Location: /");
             } else {
-                $posti = EPosto::fromString($str, true);
                 $pm = FPersistentManager::getInstance();
+
+                $posti = EPosto::fromString($str, true);
                 $proiezione = $pm->load($id, "id", "EProiezione")->getElencoProgrammazioni()[0]->getProiezioni()[0];
                 $locandina = $pm->load($proiezione->getFilm()->getId(), "idFilm", "EMedia");
+                $utente = CUtente::getUtente();
+
                 $biglietti = [];
                 foreach ($posti as $key => $posto) {
                     array_push($biglietti, new EBiglietto($proiezione, $posto, $utente, 5.0));
                 }
+
                 if(sizeof($biglietti) > 0) {
                    $serialized = serialize($biglietti);
                    $_SESSION["biglietti"] = $serialized;
-                   VAcquisto::showAcquisto($biglietti, $isAdmin, $locandina, $utente);
-                }
-                else {
+                   VAcquisto::showAcquisto($biglietti, $locandina, $utente);
+                } else {
                     header("Location: /");
                 }
             }
@@ -63,8 +65,7 @@ class CAcquisto
                 $result = $pm->occupaPosti($biglietti);
                 echo $result;
             }
-        }
-        else {
+        } else {
             header("Location: /");
         }
     }
