@@ -85,6 +85,9 @@ class EBiglietto implements JsonSerializable
         return $this->costo;
     }
 
+    public function getSimplifiedString() {
+        return strval($this->proiezione->getId()) . "|" . $this->getPosto()->getId() . "|" . $this->getUtente()->getId() . "|" . strval($this->getCosto());
+    }
 //------------- ALTRI METODI ----------------
     public function jsonSerialize ()
     {

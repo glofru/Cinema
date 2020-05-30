@@ -191,7 +191,6 @@
 
 					<!-- filter btn -->
 					<form action="../Acquisto/confermaAcquisto/" method="POST">
-						<input type="hidden" name="biglietti" value="{$serialized}">
 						<button class="filter__btn" type="submit">Acquista</button>
 					</form>
 					<form action="../Film/show/" method="get">
@@ -238,7 +237,7 @@
 									</div>
 
 									<div class="card__description">
-										<p>Giorno: {$item->getProiezione()->getData()} <br> Spettacolo delle: {$item->getProiezione()->getOra()}</p>
+										<p>Giorno: {$item->getProiezione()->getData()} <br> Spettacolo delle: {$item->getProiezione()->getOra()} <br> Sala: {$item->getProiezione()->getSala()->getNumeroSala()}</p>
 									</div>
 								</div>
 							</div>

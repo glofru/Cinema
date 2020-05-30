@@ -179,6 +179,15 @@ class EUtente implements JsonSerializable
         return $this->isBanned;
     }
 
+    public static function isAdmin(EUtente $utente): bool {
+        if ($utente instanceof EAdmin) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     /**
      * @return mixed|void
      */

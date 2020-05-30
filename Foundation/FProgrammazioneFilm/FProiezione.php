@@ -75,9 +75,9 @@ class FProiezione implements Foundation
         return false;
     }
 
-    public static function occupaPosto($proiezione, $posto, $utente, $costo) {
+    public static function occupaPosti(array $biglietti): bool {
         $db = FDatabase::getInstance();
-        return $db->occupaPosto($proiezione, $posto, $utente, $costo);
+        return $db->occupaPosti($biglietti);
     }
 
     public static function liberaPosto($idProiezione, $posto, $emailUtente) {
@@ -107,9 +107,11 @@ class FProiezione implements Foundation
         //COSTRUISCO L'OGGETTO SALAVIRTUALE
         $sala = FSala::loadVirtuale($row["numerosala"], "nSala");
         $posti = FPosto::load($id, "idProiezione");
+        print_r($posti);
         foreach($posti as $posto) {
-            if ($posto->isOccupato()) {
-                $sala->occupaPosto($posto);
+            echo $posto->getPosto . " " . "<br>";
+            if ($posto->isOccupato() == true) {
+               echo $posto->getPosto . " " . strval($sala->occupaPosto($posto)) . "<br>";
             }
         }
 

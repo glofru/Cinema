@@ -127,8 +127,18 @@ class CUtente
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-
         return isset($_SESSION["utente"]);
+    }
+
+    public static function getUtente() {
+        if(isset($_COOKIE["PHPSESSID"])) {
+            session_start();
+            return unserialize($_SESSION["utente"]);
+        }
+        else {
+            return NULL;
+        }
+
     }
 
 }

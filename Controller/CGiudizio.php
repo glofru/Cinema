@@ -4,10 +4,7 @@ class CGiudizio{
         $pm = FPersistentManager::getInstance();
         $g = EHelper::getInstance();
         $id = $_POST["filmId"];
-        $utente = $g->getUtente();
-        if($utente == false){
-            header("Location: Utente/logout");
-        }
+        $utente = CUtente::getUtente();
         if(!isset($utente)) {
             header("Location: /Film/show/?film=". $id . "&autoplay=true");
         }

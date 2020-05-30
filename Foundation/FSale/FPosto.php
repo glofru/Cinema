@@ -47,7 +47,11 @@ class FPosto implements FoundationDebole
         }
         $return = [];
         foreach ($result as $elem) {
-            array_push($return,EPosto::fromString($elem["posizione"], $elem["libero"]));
+            $occupato = false;
+            if($elem["libero"] === '0') {
+                $occupato = true;
+            }
+            array_push($return,EPosto::fromDB($elem["posizione"], $occupato));
         }
         return $return;
     }

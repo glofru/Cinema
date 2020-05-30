@@ -62,7 +62,6 @@ class EHelper
     public function getSettimanaScorsa(): array {
         $result = [];
         $inizio = new DateTime('now');
-        $giorno = $inizio->format('D');
         $i = 0;
         $found = false;
         while(!$found) {
@@ -216,24 +215,21 @@ class EHelper
         return $result;
     }
 
-    public function getUtente() {
-        if(isset($_COOKIE["PHPSESSID"])) {
-            session_start();
-            if(isset($_SESSION["utente"])) {
-                return unserialize($_SESSION["utente"]);
-            }
-
-            return false;
-        }
-
-        return NULL;
-    }
-
-    public function isAdmin(EUtente $utente): bool {
-        return $utente instanceof EAdmin;
-    }
-
     public function hash(string $password) {
         return password_hash($password, PASSWORD_BCRYPT);
     }
+
+    /*public function fromSimplifiedString(string $str): array {
+        $return = [];
+        $str = explode(";", $str);
+        foreach ($str as $s) {
+            $s = explode("|", $s);
+            $results = [];
+            foreach ($s as $item) {
+                array_push($results, $item);
+            }
+            array_push($return,$results);
+        }
+        return $return;
+    }*/
 }

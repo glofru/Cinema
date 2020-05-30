@@ -41,15 +41,19 @@ class EPosto implements JsonSerializable
         $this->setIsOccupato($occupato);
     }
 
-    public static function fromString(string $posto, bool $libero): array {
+    public static function fromString(string $posto, bool $occupato): array {
         $posti = [];
         $lock = explode(";", $posto);
         foreach ($lock as $elem) {
-            $temp = explode("_", $elem);
-            $seat = new EPosto($temp[0],$temp[1], $libero);
-            array_push($posti,$seat);
+            array_push($posti,self::fromDB($elem, $occupato));
         }
         return $posti;
+    }
+
+    public static function fromDB(string $posto, bool $occupato){
+        $elem = explode("_", $posto);
+        return new EPosto($elem[0],$elem[1], $occupato);
+
     }
 //-------------- SETTER ----------------------
     /**

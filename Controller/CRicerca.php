@@ -8,16 +8,15 @@ class CRicerca
             $str = $_POST["filmCercato"];
             $gestore = EHelper::getInstance();
             $pm = FPersistentManager::getInstance();
-            $film = $pm->loadLike($str,"nome", "EFilm");
+            $film = $pm->loadLike($str, "nome", "EFilm");
             $data = self::getFilmData($film, $gestore);
             $cookie = $gestore->preferences($_COOKIE['preferences']);
             $consigliati = CHome::getConsigliati($cookie);
-            $utente = $gestore->getUtente();
-            if($utente === false){
-                header("Location: Utente/logout");
-            }
-            else
-                VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, $gestore->isAdmin($utente));
+            $utente = CUtente::getUtente();
+            VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, EUtente::isAdmin($utente));
+        }
+        else {
+            header("Location: /");
         }
     }
 
@@ -50,13 +49,8 @@ class CRicerca
         $data = self::getFilmData($film, $gestore);
         $cookie = $gestore->preferences($_COOKIE['preferences']);
         $consigliati = CHome::getConsigliati($cookie);
-        $utente = $gestore->getUtente();
-        if($utente === false){
-            header("Location: Utente/logout");
-        }
-        else {
-            VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, $gestore->isAdmin($utente));
-        }
+        $utente = CUtente::getUtente();
+            VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, EUtente::isAdmin($utente));
 
     }
 

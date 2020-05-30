@@ -29,23 +29,19 @@ class CFilm
         }
         $rvw = self::getReview($pm, $filmID, $gestore);
         $pro = self::getProiezioni($pm, $gestore, $filmID);
-        $utente = $gestore->getUtente();
+        $utente = CUtente::getUtente();
         if($utente === false) {
             header("Location: ../Utente/logout");
-            echo "OUT";
         }
-        else
-            VFilm::show($film, $autoplay, $copertina, $filmC, $locandine,$rvw[0],$rvw[1], $pro, $rvw[2], $utente, $gestore->isAdmin($utente));
+       // else
+            //VFilm::show($film, $autoplay, $copertina, $filmC, $locandine,$rvw[0],$rvw[1], $pro, $rvw[2], $utente, EUtente::isAdmin($utente));
     }
 
     private static function getReview(FPersistentManager $pm, $filmID, EHelper $gestore) {
         $reviews = $pm->load($filmID,"idFilm","EGiudizio");
         $film = $pm->load($filmID,"id","EFilm")[0];
-        $utente = $gestore->getUtente();
-        if($utente === false) {
-            header("Location: ../Utente/logout");
-        }
-        else if(isset($utente)){
+        $utente = CUtente::getUtente();
+        if(isset($utente)){
             $canWrite = $gestore->checkWrite($utente, $reviews, $film);
         }
         else

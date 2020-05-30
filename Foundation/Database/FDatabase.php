@@ -367,31 +367,31 @@ class FDatabase
         return null;
     }
 
-    public function occupaPosto($proiezione, $posto, $utente, $costo) {
+    public function occupaPosti(array $biglietti): int {
         try {
-            $this->db->beginTransaction();
-            $query = "SELECT * FROM " . "Posti" . " WHERE " . "id = '" . $proiezione->getId() . "' AND " . "posizione = '" . $posto . "' LOCK IN SHARE MODE;";
-            $sender = $this->db->prepare($query);
-            $sender->execute();
-            $acquisto = $sender->fetch(PDO::FETCH_ASSOC);
-            $islibero = $acquisto["libero"];
-            if(boolval($islibero) === true) {
-                $query = "UPDATE Posti SET libero = '0' WHERE idProiezione = '" . $proiezione->getId() . "' AND posizione = '" . $posto . "';";
-                $sender = $this->db->prepare($query);
-                $sender->execute();
+                $this->db->beginTransaction();
+                foreach ($biglietti as $item) {
+                    $query = "SELECT * FROM " . "Posti" . " WHERE " . "id = '" . $item->getProiezione()->getId() . "' AND " . "posizione = '" . $item->getPosto()->getId() . "' LOCK IN SHARE MODE;";
+                    $sender = $this->db->prepare($query);
+                    $sender->execute();
+                    $posto = $sender->fetch(PDO::FETCH_ASSOC);
+                    if($posto["libero"] !== '0') {
+                        $this->db->commit();
+                        return false;
+                    }
+                }
+                foreach ($biglietti as $item) {
+                    $query = "UPDATE Posti SET libero = '0' WHERE idProiezione = '" . $item->getProiezione()->getId() . "' AND posizione = '" . $item->getPosto()->getId() . "';";
+                    $sender = $this->db->prepare($query);
+                    $sender->execute();
+                }
                 $this->db->commit();
+                return true;
 
-                $posto = EPosto::fromString($posto, false);
-                $biglietto = new EBiglietto($proiezione, $posto, $utente, $costo);
-                FBiglietto::save($biglietto);
-                return $biglietto;
-            }
         } catch(PDOException $exception) {
             $this->db->rollBack();
             echo("Errore nel Database: " . $exception->getMessage());
         }
-
-        return null;
     }
 
     public function liberaPosto($idProiezione, $posto, $emailUtente) {
