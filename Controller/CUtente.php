@@ -75,10 +75,9 @@ class CUtente
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-
         session_regenerate_id(true);
-        session_set_cookie_params(3600, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini
-        $salvare = serialize($utente);
+        session_set_cookie_params(3600, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inseirto il 4° parametro
+        $salvare = serialize($utente); // a TRUE per fare si che il cookie viaggi solo su HTTPS. E' FALSE perchè non abbiamo un certificato SSL ma in un contesto reale va messo a TRUE!!!
         $_SESSION['utente'] = $salvare;
         /*if ($utente->isAdmin() === true) {
             header('Location: /Cinema/Home');
@@ -136,6 +135,19 @@ class CUtente
         }
 
         return NULL;
+    }
+
+    public static function bigliettiAcquistati() {
+        $utente = self::getUtente();
+        if(!isset($utente) || $utente->isAdmin()) {
+            header("Location: /");
+        }
+        $biglietti = FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EBiglietto");
+        $immagini = [];
+        foreach ($biglietti as $item) {
+            array_push($immagini,FPersistentManager::getInstance()->load($item->GetProiezione()->getFilm()->getId(), "idFilm", "EMedia"));
+        }
+        VUtente::showBiglietti($biglietti, $immagini, $utente);
     }
 
 }

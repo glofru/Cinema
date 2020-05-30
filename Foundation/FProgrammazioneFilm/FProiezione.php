@@ -75,7 +75,7 @@ class FProiezione implements Foundation
         return false;
     }
 
-    public static function occupaPosti(array $biglietti): bool {
+    public static function occupaPosti(array $biglietti): string {
         $db = FDatabase::getInstance();
         return $db->occupaPosti($biglietti);
     }

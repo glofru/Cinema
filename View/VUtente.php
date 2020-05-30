@@ -59,7 +59,11 @@ class VUtente
 
     }
 
-    public function showBiglietti(array $biglietti, EUtente $utente) {
-
+    public static function showBiglietti(array $biglietti, array $immagini, EUtente $utente) {
+        $smarty = StartSmarty::configuration();
+        $smarty->assign("biglietti",$biglietti);
+        $smarty->assign("utente", $utente);
+        $smarty->assign("locandine", $immagini);
+        $smarty->display("bigliettiAcquistati.tpl");
     }
 }

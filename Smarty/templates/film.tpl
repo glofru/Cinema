@@ -84,7 +84,7 @@
                                 {if (!isset($utente))}
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
                                         <li><a href="about.html">Su di noi</a></li>
-                                        <li><a href="/Utente/signup">Registrati</a></li>
+                                        <li><a href="../../Utente/signup">Registrati</a></li>
                                     </ul>
                                 {else}
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
@@ -114,7 +114,7 @@
                                     </a>
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
                                         <li><a href="">Il mio profilo</a></li>
-                                        <li><a href="">I miei acquisti</a></li>
+                                        <li><a href="../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
                                         <li><a href="https://www.youporn.com/watch/15481840/il-sole-sul-balcone-amatoriale-italianovery-myller/#1">I miei video porno</a></li>
                                         <li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
                                     </ul>

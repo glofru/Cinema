@@ -12,7 +12,7 @@ class FBiglietto implements FoundationDebole
     public static function associate(PDOStatement $sender, $biglietto, $obj2 = null) {
         if ($biglietto instanceof EBiglietto) {
             $sender->bindValue(':idProiezione', $biglietto->getProiezione()->getId(), PDO::PARAM_INT);
-            $sender->bindValue(':posto', $biglietto->getPosto()->__toString(), PDO::PARAM_STR);
+            $sender->bindValue(':posto', $biglietto->getPosto()->getId(), PDO::PARAM_STR);
             $sender->bindValue(':idUtente',$biglietto->getUtente()->getId(),PDO::PARAM_INT);
             $sender->bindValue(':costo',$biglietto->getCosto(),PDO::PARAM_STR);
         } else {
@@ -76,20 +76,22 @@ class FBiglietto implements FoundationDebole
 
     private static function parseResult(array $result): array
     {
+        $return = [];
+        if(sizeof($result) === 0) {
+            return $return;
+        }
         foreach ($result as $row) {
             //PROIEZIONE
-            $id = $row["id"];
+            $id = $row["idProiezione"];
             $proiezione = FProiezione::load($id, "id");
-
             //POSTO
             $posto = $row["posto"];
-            $posto = FPosto::loadDoppio($proiezione->getId(), $posto);
+            $posto = FPosto::loadDoppio($proiezione->getElencoProgrammazioni()[0]->getProiezioni()[0]->getId(), $posto);
 
             //UTENTE
             $utente = FUtente::load(intval($row["idUtente"]), "id");
             $costo = floatval($row["costo"]);
-
-            array_push($return, new EBiglietto($proiezione, $posto, $utente, $costo));
+            array_push($return, new EBiglietto($proiezione->getElencoProgrammazioni()[0]->getProiezioni()[0], $posto, $utente, $costo));
         }
         return $return;
     }

@@ -347,27 +347,27 @@ class FDatabase
         try {
             $this->db->beginTransaction();
             foreach ($biglietti as $item) {
-                $query = "SELECT * FROM " . "Posti" . " WHERE " . "id = '" . $item->getProiezione()->getId() . "' AND " . "posizione = '" . $item->getPosto()->getId() . "' LOCK IN SHARE MODE;";
+                $query = "SELECT * FROM " . "Posti" . " WHERE " . "idProiezione = '" . $item->getProiezione()->getId() . "' AND " . "posizione = '" . $item->getPosto()->getId() . "' FOR UPDATE;";
                 $sender = $this->db->prepare($query);
                 $sender->execute();
-
                 $posto = $sender->fetch(PDO::FETCH_ASSOC);
-                if(boolval($posto["occupato"])) {
-                    $this->db->rollBack();
-                    return false;
+                if(!isset($posto["occupato"])) {
+                    return 2;
                 }
-
-                $query = "UPDATE Posti SET libero = '0' WHERE idProiezione = '" . $item->getProiezione()->getId() . "' AND posizione = '" . $item->getPosto()->getId() . "';";
+                if(($posto["occupato"]) === '1') {
+                    $this->db->rollBack();
+                    return 0;
+                }
+                $query = "UPDATE Posti SET occupato = '1' WHERE idProiezione = '" . $item->getProiezione()->getId() . "' AND posizione = '" . $item->getPosto()->getId() . "';";
                 $sender = $this->db->prepare($query);
                 $sender->execute();
             }
-
             $this->db->commit();
         } catch(PDOException $exception) {
             $this->error();
         }
 
-        return true;
+        return 1;
     }
 
     public function liberaPosto($idProiezione, $posto, $emailUtente) {

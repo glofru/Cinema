@@ -17,24 +17,24 @@ class CAcquisto
                 $proiezione = $pm->load($id, "id", "EProiezione")->getElencoProgrammazioni()[0]->getProiezioni()[0];
                 $locandina = $pm->load($proiezione->getFilm()->getId(), "idFilm", "EMedia");
                 $utente = CUtente::getUtente();
-
                 $biglietti = [];
+                $totale = 0;
                 foreach ($posti as $key => $posto) {
-                    array_push($biglietti, new EBiglietto($proiezione, $posto, $utente, 5.0));
+                    $costo = EBiglietto::getPrezzofromProiezione($proiezione);
+                    array_push($biglietti, new EBiglietto($proiezione, $posto, $utente, $costo));
+                    $totale += $costo;
                 }
-
                 if(sizeof($biglietti) > 0) {
                    $serialized = serialize($biglietti);
                    $_SESSION["biglietti"] = $serialized;
-                   VAcquisto::showAcquisto($biglietti, $locandina, $utente);
+                   VAcquisto::showAcquisto($biglietti, $locandina, $utente, $totale);
                 } else {
                     header("Location: /");
                 }
             }
 
         }
-        else
-        {
+        else {
             header("Location: /");
         }
     }
@@ -43,16 +43,14 @@ class CAcquisto
     {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $gestore = EHelper::getInstance();
-
-            if(!isset($_SESSION["biglietti"])) {
+            $utente = CUtente::getUtente();
+            if(!isset($utente)) {
                 header("Location: /");
             }
-
-            if(CUtente::isLogged()) {
-                header("Location: ../../Utente/logout");
-            } else if (!isset($utente)) {
+            else if(!isset($_SESSION["biglietti"])) {
                 header("Location: /");
-            } else {
+            }
+            else {
                 $biglietti = unserialize($_SESSION["biglietti"]);
                 foreach($biglietti as $item) {
                     if($item->getUtente()->getId() !== $utente->getId()) {
@@ -61,9 +59,22 @@ class CAcquisto
                 }
                 $pm = FPersistentManager::getInstance();
                 $result = $pm->occupaPosti($biglietti);
-                echo $result;
+                echo "RES: " . $result . "<br>";
+                if($result == '1') {
+                    foreach ($biglietti as $item) {
+                        $pm->save($item);
+                    }
+                    header("Location: ../../Utente/bigliettiAcquistati");
+                }
+                else if ($result == '0') {
+                    echo "ERRORE 0";
+                }
+                else {
+                    echo "ERRORE 1";
+                }
             }
-        } else {
+        }
+        else {
             header("Location: /");
         }
     }

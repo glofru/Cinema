@@ -82,7 +82,7 @@
 								{if (!isset($utente))}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
 										<li><a href="about.html">Su di noi</a></li>
-										<li><a href="../Utente/signup">Registrati</a></li>
+										<li><a href="/Utente/signup">Registrati</a></li>
 									</ul>
 								{else}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
@@ -99,25 +99,17 @@
 							<button class="header__search-btn" type="button">
 								<i class="icon ion-ios-search"></i>
 							</button>
-
-							{if (!isset($utente))}
-								<a href="../Utente/login" methods="GET" class="header__sign-in">
-									<i class="icon ion-ios-log-in"></i>
-									<span>Login</span>
-								</a>
-							{elseif (isset($utente) && !$admin)}
 								<li class="header__nav-item">
 									<a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										<span>@{$utente->getUsername()}</span>
 									</a>
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
 										<li><a href="">Il mio profilo</a></li>
-										<li><a href="../Utente/bigliettiAcquistati">I miei acquisti</a></li>
+										<li><a href="/Utente/bigliettiAcquistati">I miei acquisti</a></li>
 										<li><a href="https://www.youporn.com/watch/15481840/il-sole-sul-balcone-amatoriale-italianovery-myller/#1">I miei video porno</a></li>
-										<li><a href="../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+										<li><a href="/Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
 									</ul>
 								</li>
-							{/if}
 						</div>
 						<!-- end header auth -->
 
@@ -159,14 +151,13 @@
 				<div class="col-12">
 					<div class="section__wrap">
 						<!-- section title -->
-						<h2 class="section__title">Riepilogo acquisto</h2>
+						<h2 class="section__title">Biglietti acquistati</h2>
 						<!-- end section title -->
 
 						<!-- breadcrumb-->
 						<ul class="breadcrumb">
 							<li class="breadcrumb__item"><a href="/">Home</a></li>
-							<li class="breadcrumb__item"><a href="/Film/show/?film={$biglietti[0]->getProiezione()->getFilm()->getId()}&autoplay=true">Film</a></li>
-							<li class="breadcrumb__item breadcrumb__item--active">Acquisto Biglietto</li>
+							<li class="breadcrumb"><a href="">I miei acquisti</a></li>
 						</ul>
 						<!-- end breadcrumb -->
 					</div>
@@ -184,20 +175,10 @@
 					<div class="filter__items">
 						<!-- filter item -->
 						<div class="card__description">
-							<p>Cliccare su acquista per procedere. Oppure puoi annullare l'acquisto.</p>
+							<p>Qui puoi osservare tutti i biglietti che hai acquistato presso il nostro cinema :)</p>
 						</div>
 						<!-- end filter item -->
 					</div>
-
-					<!-- filter btn -->
-					<form action="../Acquisto/confermaAcquisto/" method="POST">
-						<button class="filter__btn" type="submit">Acquista</button>
-					</form>
-					<form action="../Film/show/" method="get">
-						<input type="hidden" name="film" value="{$biglietti[0]->getProiezione()->getFilm()->getId()}">
-						<button class="filter__btn" type="submit">Annulla</button>
-					</form>
-					<!-- end filter btn -->
 				</div>
 			</div>
 		</div>
@@ -209,15 +190,15 @@
 	<div class="catalog">
 		<div class="container">
 			<div class="row">
-				{if (isset($biglietti))}
-				{foreach $biglietti as $item}
+				{if (sizeof($biglietti) > 0)}
+				{foreach $biglietti as $key => $item}
 				<!-- card -->
 				<div class="col-6 col-sm-12 col-lg-6">
 					<div class="card card--list">
 						<div class="row">
 							<div class="col-12 col-sm-4">
 								<div class="card__cover">
-									<img src="{$locandina->getImmagineHTML()}" alt="">
+									<img src="{$locandine[$key]->getImmagineHTML()}" alt="">
 								</div>
 							</div>
 
@@ -246,11 +227,13 @@
 				</div>
 				<!-- end card -->
 				{/foreach}
+				{else}
+					<div class="col-12">
+						<h2 class="section__title section__title--center">Non hai ancora effettuato alcun acquisto... :(</h2>
+					</div>
 				{/if}
 			</div>
-		</div>
-		<div class="col-12">
-			<h2 class="section__title section__title--center">Totale: {$totale}€</h2>
+
 		</div>
 	</div>
 	<!-- end catalog -->

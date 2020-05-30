@@ -101,7 +101,7 @@
 							</button>
 
 							{if (!isset($utente))}
-								<a href="Utente/login" methods="GET" class="header__sign-in">
+								<a href="../../Utente/login" methods="GET" class="header__sign-in">
 									<i class="icon ion-ios-log-in"></i>
 									<span>Login</span>
 								</a>
@@ -112,9 +112,9 @@
 									</a>
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
 										<li><a href="">Il mio profilo</a></li>
-										<li><a href="">I miei acquisti</a></li>
+										<li><a href="../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
 										<li><a href="https://www.youporn.com/watch/15481840/il-sole-sul-balcone-amatoriale-italianovery-myller/#1">I miei video porno</a></li>
-										<li><a href="/Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+										<li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
 									</ul>
 								</li>
 							{elseif (isset($utente) && $admin)}
@@ -127,7 +127,7 @@
 										<li><a href="">Gestione film</a></li>
 										<li><a href="">Gestione Proiezioni</a></li>
 										<li><a href="">Gestione Utenti</a></li>
-										<li><a href="/Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+										<li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
 									</ul>
 								</li>
 							{/if}
