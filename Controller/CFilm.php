@@ -32,10 +32,10 @@ class CFilm
         $utente = $gestore->getUtente();
         if($utente === false) {
             header("Location: ../Utente/logout");
-            echo "OUT";
+        } else {
+            $isAdmin = $utente != null && $gestore->isAdmin($utente);
+            VFilm::show($film, $autoplay, $copertina, $filmC, $locandine, $rvw[0], $rvw[1], $pro, $rvw[2], $utente, $isAdmin);
         }
-        else
-            VFilm::show($film, $autoplay, $copertina, $filmC, $locandine,$rvw[0],$rvw[1], $pro, $rvw[2], $utente, $gestore->isAdmin($utente));
     }
 
     private static function getReview(FPersistentManager $pm, $filmID, EHelper $gestore) {
