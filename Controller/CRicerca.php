@@ -28,10 +28,10 @@ class CRicerca
         $votoFine = $_POST["voto_fine"];
         $genere = $_POST["Genere"];
         $gestore = EHelper::getInstance();
-        $votoInizio = $gestore->retriveVote($votoInizio);
-        $votoFine = $gestore->retriveVote($votoFine);
-        $annoInizio = $gestore->retriveAnno($annoInizio);
-        $annoFine = $gestore->retriveAnno($annoFine);
+        $votoInizio = $gestore->retrieveVote($votoInizio);
+        $votoFine = $gestore->retrieveVote($votoFine);
+        $annoInizio = $gestore->retrieveAnno($annoInizio);
+        $annoFine = $gestore->retrieveAnno($annoFine);
         $pm = FPersistentManager::getInstance();
         $film = $pm->load($genere,"genere","EFilm");
         try{

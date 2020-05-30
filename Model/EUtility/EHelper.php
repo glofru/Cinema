@@ -156,7 +156,7 @@ class EHelper
         return false;
     }
 
-    public function retriveVote(string $punteggio): float {
+    public function retrieveVote(string $punteggio): float {
         $punteggio = explode('.', $punteggio);
         $found = false;
         $str = $punteggio[0];
@@ -176,7 +176,7 @@ class EHelper
         return floatval($temp . "." . $punteggio[1][0]);
     }
 
-    public function retriveAnno(string $anno): float {
+    public function retrieveAnno(string $anno): float {
         $str = "";
         for($i=0;$i<strlen($anno);$i++){
             if(preg_match('/^[0-9]+$/', $anno[$i])) {
@@ -222,19 +222,14 @@ class EHelper
             if(isset($_SESSION["utente"])) {
                 return unserialize($_SESSION["utente"]);
             }
-            else {
-                return false;
-            }
+
+            return false;
         }
-        else {
-            return NULL;
-        }
+
+        return NULL;
     }
 
     public function isAdmin($utente) {
-        if($utente instanceof EAdmin){
-            return true;
-        }
-        return false;
+        return $utente instanceof EAdmin;
     }
 }

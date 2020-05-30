@@ -13,7 +13,7 @@ class CGiudizio{
         }
         $commento = $_POST["commento"];
         $titolo = $_POST["titolo"];
-        $punteggio = $g->retriveVote($_POST["punteggio"]);
+        $punteggio = $g->retrieveVote($_POST["punteggio"]);
         $film = $pm->load($id,"id","EFilm")[0];
         $data = new DateTime('now');
         $giudizio = new EGiudizio($commento, $punteggio, $film, $utente, $titolo, $data);
