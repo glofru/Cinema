@@ -131,14 +131,11 @@ class CUtente
     }
 
     public static function getUtente() {
-        if(isset($_COOKIE["PHPSESSID"])) {
-            session_start();
+        if(self::isLogged()) {
             return unserialize($_SESSION["utente"]);
         }
-        else {
-            return NULL;
-        }
 
+        return NULL;
     }
 
 }

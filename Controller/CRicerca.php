@@ -26,32 +26,34 @@ class CRicerca
         $votoInizio = $_POST["voto_inizio"];
         $votoFine = $_POST["voto_fine"];
         $genere = $_POST["Genere"];
+
         $gestore = EHelper::getInstance();
         $votoInizio = $gestore->retrieveVote($votoInizio);
         $votoFine = $gestore->retrieveVote($votoFine);
         $annoInizio = $gestore->retrieveAnno($annoInizio);
         $annoFine = $gestore->retrieveAnno($annoFine);
+
         $pm = FPersistentManager::getInstance();
         $film = $pm->load($genere,"genere","EFilm");
         try{
             $annoFine = DateTime::createFromFormat('Y-m-d',$annoFine."-12-31");
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $annoFine = new DateTime('now');
         }
+
         try{
             $annoInizio= DateTime::createFromFormat('Y-m-d',$annoInizio."-01-01");
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $annoInizio = new DateTime('now');
         }
+
         $film = $gestore->filter($film, floatval($votoInizio), floatval($votoFine), $annoInizio, $annoFine);
         $data = self::getFilmData($film, $gestore);
         $cookie = $gestore->preferences($_COOKIE['preferences']);
         $consigliati = CHome::getConsigliati($cookie);
         $utente = CUtente::getUtente();
-            VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, EUtente::isAdmin($utente));
 
+        VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, $utente->isAdmin());
     }
 
     private static function getFilmData(array $film, EHelper $gestore): array {
@@ -60,10 +62,12 @@ class CRicerca
         $immaginiCercati = [];
         $giudizi = [];
         $result = [];
+
         foreach($film as $f) {
             array_push($immaginiCercati, $pm->load($f->getId(), "idFilm", "EMedia"));
             array_push($giudizi, $pm->load($f->getId(), "idFilm", "EGiudizio"));
         }
+
         foreach($giudizi as $g) {
             if(sizeof($g) > 0) {
                 $p = $gestore->getMedia($g);
@@ -73,9 +77,11 @@ class CRicerca
             }
             array_push($punteggi, $p);
         }
+
         if(sizeof($giudizi) == 0) {
             array_push($punteggi, 0);
         }
+
         array_push($result, $immaginiCercati, $punteggi);
         return $result;
     }

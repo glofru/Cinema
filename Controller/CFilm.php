@@ -11,30 +11,34 @@ class CFilm
         $cookie = $gestore->preferences($_COOKIE['preferences']);
         $gestore->setPreferences($film->getGenere(),$cookie);
         unset($cookie);
-        $filmC = $pm->load($film->getGenere(),"Genere","EFilm");
 
+        $filmC = $pm->load($film->getGenere(),"Genere","EFilm");
         foreach($filmC as $key => $f) {
             if ($f->getId() == $filmID) {
                 unset($filmC[$key]);
             }
         }
+
         $filmC = array_values($filmC);
         if(sizeof($filmC) > 6){
             $filmC = array_slice($filmC,0,6);
         }
         $copertina = $pm->load($filmID,"idFilm","EMediaLocandina");
+
         $locandine = [];
         foreach($filmC as $loc) {
             array_push($locandine,$pm->load($loc->getId(),"idFilm","EMediaLocandina"));
         }
+
         $rvw = self::getReview($pm, $filmID, $gestore);
         $pro = self::getProiezioni($pm, $gestore, $filmID);
         $utente = CUtente::getUtente();
+
         if($utente === false) {
             header("Location: ../Utente/logout");
+        } else {
+            VFilm::show($film, $autoplay, $copertina, $filmC, $locandine, $rvw[0], $rvw[1], $pro, $rvw[2], $utente, $utente->isAdmin());
         }
-       // else
-            //VFilm::show($film, $autoplay, $copertina, $filmC, $locandine,$rvw[0],$rvw[1], $pro, $rvw[2], $utente, EUtente::isAdmin($utente));
     }
 
     private static function getReview(FPersistentManager $pm, $filmID, EHelper $gestore) {

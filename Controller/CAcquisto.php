@@ -7,13 +7,11 @@ class CAcquisto
         if($_SERVER['REQUEST_METHOD']=="POST") {
             $gestore = EHelper::getInstance();
             $utente = CUtente::getUtente();
-            $isAdmin = EUtente::isAdmin($utente);
             $id = $_POST["proiezione"];
             $str = $_POST["posti"];
-            if (!isset($utente) || $isAdmin === true || !isset($id) || !isset($str)) {
+            if (!isset($utente)  || !isset($id) || !isset($str)) {
                 header("Location: /");
-            }
-            else {
+            } else {
                 $posti = EPosto::fromString($str, true);
                 $pm = FPersistentManager::getInstance();
                 $proiezione = $pm->load($id, "id", "EProiezione")->getElencoProgrammazioni()[0]->getProiezioni()[0];
