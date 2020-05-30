@@ -3,13 +3,12 @@
 
 class VAcquisto
 {
-    public static function showAcquisto(array $posti,EUtente $utente, bool $isAdmin,EProiezione $proiezione, EMediaLocandina $locandina) {
+    public static function showAcquisto(array $biglietti, bool $isAdmin, EMediaLocandina $locandina, string $serialized) {
         $smarty = StartSmarty::configuration();
-        $smarty->assign("utente", $utente);
+        $smarty->assign("biglietti", $biglietti);
         $smarty->assign("isAdmin", $isAdmin);
-        $smarty->assign("proiezione", $proiezione);
-        $smarty->assign("posti", $posti);
         $smarty->assign("locandina", $locandina);
+        $smarty->assign("serialized", $serialized);
         $smarty->display("acquista.tpl");
     }
 }

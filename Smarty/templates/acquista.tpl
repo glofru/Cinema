@@ -117,19 +117,6 @@
 										<li><a href="/Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
 									</ul>
 								</li>
-							{elseif (isset($utente) && $admin)}
-								<li class="header__nav-item">
-									<a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<span>@{$utente->getUsername()}</span>
-									</a>
-									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-										<li><a href="">Il mio profilo</a></li>
-										<li><a href="">Gestione film</a></li>
-										<li><a href="">Gestione Proiezioni</a></li>
-										<li><a href="">Gestione Utenti</a></li>
-										<li><a href="/Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
-									</ul>
-								</li>
 							{/if}
 						</div>
 						<!-- end header auth -->
@@ -178,7 +165,7 @@
 						<!-- breadcrumb-->
 						<ul class="breadcrumb">
 							<li class="breadcrumb__item"><a href="/">Home</a></li>
-							<li class="breadcrumb__item"><a href="/Film/show/?film={$proiezione->getFilm()->getId()}&autoplay=true">Film</a></li>
+							<li class="breadcrumb__item"><a href="/Film/show/?film={$biglietti[0]->getProiezione()->getFilm()->getId()}&autoplay=true">Film</a></li>
 							<li class="breadcrumb__item breadcrumb__item--active">Acquisto Biglietto</li>
 						</ul>
 						<!-- end breadcrumb -->
@@ -203,11 +190,13 @@
 					</div>
 
 					<!-- filter btn -->
-					<form>
-					<button class="filter__btn" type="button">Acquista</button>
+					<form action="../Acquisto/confermaAcquisto/" method="POST">
+						<input type="hidden" name="biglietti" value="{$serialized}">
+						<button class="filter__btn" type="submit">Acquista</button>
 					</form>
-					<form action="/">
-					<button class="filter__btn" type="submit">Annulla</button>
+					<form action="../Film/show/" method="get">
+						<input type="hidden" name="film" value="{$biglietti[0]->getProiezione()->getFilm()->getId()}">
+						<button class="filter__btn" type="submit">Annulla</button>
 					</form>
 					<!-- end filter btn -->
 				</div>
@@ -221,8 +210,8 @@
 	<div class="catalog">
 		<div class="container">
 			<div class="row">
-				{if (isset($posti))}
-				{foreach $posti as $posto}
+				{if (isset($biglietti))}
+				{foreach $biglietti as $item}
 				<!-- card -->
 				<div class="col-6 col-sm-12 col-lg-6">
 					<div class="card card--list">
@@ -235,21 +224,21 @@
 
 							<div class="col-12 col-sm-8">
 								<div class="card__content">
-									<h3 class="card__title"><a href="#">{$proiezione->getFilm()->getNome()}</a></h3>
+									<h3 class="card__title"><a href="#">{$item->getProiezione()->getFilm()->getNome()}</a></h3>
 									<span class="card__category">
-										<a style="font-size:20px;">{$posto}</a>
+										<a style="font-size:20px;">{$item->getPosto()}</a>
 									</span>
 
 									<div class="card__wrap">
-										{if ($proiezione->getFilm()->getetaConsigliata() != "")}
+										{if ($item->getProiezione()->getFilm()->getetaConsigliata() != "")}
 											<ul class="card__list">
-												<li>{$proiezione->getFilm()->getetaConsigliata()}</li>
+												<li>{$item->getProiezione()->getFilm()->getetaConsigliata()}</li>
 											</ul>
 										{/if}
 									</div>
 
 									<div class="card__description">
-										<p>Giorno: {$proiezione->getData()} <br> Spettacolo delle: {$proiezione->getOra()}</p>
+										<p>Giorno: {$item->getProiezione()->getData()} <br> Spettacolo delle: {$item->getProiezione()->getOra()}</p>
 									</div>
 								</div>
 							</div>

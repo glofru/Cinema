@@ -54,4 +54,8 @@ class VUtente
         $smarty = StartSmarty::configuration();
 
     }
+
+    public function showBiglietti(array $biglietti, EUtente $utente) {
+
+    }
 }

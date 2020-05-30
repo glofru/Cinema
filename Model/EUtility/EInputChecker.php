@@ -55,6 +55,7 @@ class EInputChecker{
         if(strlen($commento) === 0) {
             return "Nessun Commento";
         }
+        $commento = filter_var($commento, FILTER_SANITIZE_STRING);
         if(strlen($commento) > 200) {
             $commento = substr($commento,0,200);
         }
@@ -65,8 +66,9 @@ class EInputChecker{
         if(strlen($titolo) === 0) {
             return "Nessun Titolo";
         }
+        $titolo = filter_var($titolo, FILTER_SANITIZE_STRING);
         if(strlen($titolo) > 30) {
-            $titolo = substr($titolo,0,200);
+            $titolo = substr($titolo,0,30);
         }
         return $titolo;
     }

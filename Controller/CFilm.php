@@ -31,7 +31,8 @@ class CFilm
         $pro = self::getProiezioni($pm, $gestore, $filmID);
         $utente = $gestore->getUtente();
         if($utente === false) {
-            header("Location Utente/login");
+            header("Location: ../Utente/logout");
+            echo "OUT";
         }
         else
             VFilm::show($film, $autoplay, $copertina, $filmC, $locandine,$rvw[0],$rvw[1], $pro, $rvw[2], $utente, $gestore->isAdmin($utente));
@@ -41,8 +42,8 @@ class CFilm
         $reviews = $pm->load($filmID,"idFilm","EGiudizio");
         $film = $pm->load($filmID,"id","EFilm")[0];
         $utente = $gestore->getUtente();
-        if($utente == false) {
-            header("Location: Utente/logout");
+        if($utente === false) {
+            header("Location: ../Utente/logout");
         }
         else if(isset($utente)){
             $canWrite = $gestore->checkWrite($utente, $reviews, $film);

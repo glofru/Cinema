@@ -11,8 +11,9 @@ class CGiudizio{
         if(!isset($utente)) {
             header("Location: /Film/show/?film=". $id . "&autoplay=true");
         }
-        $commento = $_POST["commento"];
-        $titolo = $_POST["titolo"];
+        $checker = EInputChecker::getInstance();
+        $commento = $checker->comment($_POST["commento"]);
+        $titolo = $checker->title($_POST["titolo"]);
         $punteggio = $g->retrieveVote($_POST["punteggio"]);
         $film = $pm->load($id,"id","EFilm")[0];
         $data = new DateTime('now');
