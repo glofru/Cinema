@@ -14,9 +14,10 @@ class CHome
         $utente = $gestore->getUtente();
         if($utente === false){
             header("Location: Utente/logout");
+        } else {
+            $isAdmin = $utente != null && $gestore->isAdmin($utente);
+            VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2], $proiezioni[3], $scorsa[0], $scorsa[1], $scorsa[2], $scorsa[3], $prossima[0], $prossima[1], $prossima[2], $prossima[3], $utente, $isAdmin);
         }
-        else
-            VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2] , $proiezioni[3], $scorsa[0], $scorsa[1], $scorsa[2], $scorsa[3], $prossima[0], $prossima[1], $prossima[2], $prossima[3], $utente, $gestore->isAdmin($utente));
     }
 
     private static function getProssimi() {

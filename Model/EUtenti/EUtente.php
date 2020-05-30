@@ -68,10 +68,15 @@ class EUtente implements JsonSerializable
 
     /**
      * @param string $nome
+     * @throws Exception
      */
     public function setNome($nome)
     {
-        $this->nome = $nome;
+        if (EInputChecker::getInstance()->isNome($nome)) {
+            $this->nome = $nome;
+        } else {
+            throw new Exception("Nome non valido");
+        }
     }
 
     /**
@@ -84,10 +89,15 @@ class EUtente implements JsonSerializable
 
     /**
      * @param string $cognome
+     * @throws Exception
      */
     public function setCognome($cognome)
     {
-        $this->cognome = $cognome;
+        if (EInputChecker::getInstance()->isNome($cognome)) {
+            $this->cognome = $cognome;
+        } else {
+            throw new Exception("Cognome non valido");
+        }
     }
 
     /**
@@ -100,10 +110,15 @@ class EUtente implements JsonSerializable
 
     /**
      * @param string $username
+     * @throws Exception
      */
     public function setUsername($username)
     {
-        $this->username = $username;
+        if (EInputChecker::getInstance()->isUsername($username)) {
+            $this->username = $username;
+        } else {
+            throw new Exception("Username non valido");
+        }
     }
 
     /**
@@ -116,10 +131,15 @@ class EUtente implements JsonSerializable
 
     /**
      * @param string $password
+     * @throws Exception
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        if (EInputChecker::getInstance()->isPassword($password)) {
+            $this->password = $password;
+        } else {
+            throw new Exception("Password non valida");
+        }
     }
 
     /**
@@ -132,10 +152,15 @@ class EUtente implements JsonSerializable
 
     /**
      * @param string $email
+     * @throws Exception
      */
     public function setEmail($email)
     {
-        $this->email = $email;
+        if (EInputChecker::getInstance()->isEmail($email)) {
+            $this->email = $email;
+        } else {
+            throw new Exception("Email non valida");
+        }
     }
 
     public function setId(int $id) {

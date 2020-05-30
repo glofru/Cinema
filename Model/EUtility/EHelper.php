@@ -229,7 +229,11 @@ class EHelper
         return NULL;
     }
 
-    public function isAdmin($utente) {
+    public function isAdmin(EUtente $utente): bool {
         return $utente instanceof EAdmin;
+    }
+
+    public function hash(string $password) {
+        return password_hash($password, PASSWORD_BCRYPT);
     }
 }

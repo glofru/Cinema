@@ -117,11 +117,8 @@ class FUtente implements Foundation
 
     public static function update($value, $row, $newvalue, $newrow): bool {
         $db = FDatabase::getInstance();
-        if($db->updateTheDB(self::getClassName(), $value, $row, $newvalue, $newrow))
-        {
-            return true;
-        }
-        return false;
+
+        return $db->updateTheDB(self::getClassName(), $value, $row, $newvalue, $newrow);
     }
 
     public static function delete($value, $row): bool {
@@ -157,8 +154,7 @@ class FUtente implements Foundation
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB($class, $utente, "username");
 
-        if ($result == null || sizeof($result) == 0)
-        {
+        if ($result == null || sizeof($result) == 0) {
             return null;
         }
 
@@ -170,8 +166,7 @@ class FUtente implements Foundation
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB($class, $utente, "idUtente");
 
-        if ($result == null || sizeof($result) == 0)
-        {
+        if ($result == null || sizeof($result) == 0) {
             return null;
         }
 
@@ -227,26 +222,34 @@ class FUtente implements Foundation
             $isAdmin = $row["isAdmin"];
             $isBanned = $row["isBanned"];
 
-            if ($isAdmin)
-            {
-                $admin = new EAdmin($nome, $cognome, $username, $email, $password, $isBanned);
-                $admin->setId($id);
-                array_push($return, $admin);
+            if ($isAdmin) {
+                $utente = new EAdmin($nome, $cognome, $username, $email, $password, $isBanned);
+            } elseif ($username != null && $username != "") {
+                $utente =  new ERegistrato($nome, $cognome, $username, $email, $password, $isBanned);
+            } else {
+                $utente = new ENonRegistrato($nome, $cognome, $username, $email, $password, $isBanned);
             }
-            elseif ($username != null && $username != "")
-            {
-                $reg =  new ERegistrato($nome, $cognome, $username, $email, $password, $isBanned);
-                $reg->setId($id);
-                array_push($return, $reg);
-            }
-            else
-            {
-                $nreg = new ENonRegistrato($nome, $cognome, $username, $email, $password, $isBanned);
-                $nreg->setId($id);
-                array_push($return, $nreg);
-            }
+
+            $utente->setId($id);
+            array_push($return, $utente);
         }
 
         return $return;
+    }
+
+    public static function exists(EUtente $utente, bool $checkMail = null): bool {
+        $db = FDatabase::getInstance();
+
+        $resultMail = $db->loadFromDB(self::getClassName(), $utente->getEmail(), "email");
+        $existsMail = $resultMail != null && sizeof($resultMail) > 1;
+
+        if ($checkMail) return $existsMail;
+
+        $resultUser = $db->loadFromDB(self::getClassName(), $utente->getUsername(), "username");
+        $existsUser = $resultUser != null && sizeof($resultUser) > 1;
+
+        if (!$checkMail) return $existsUser;
+
+        return $existsMail && $existsUser;
     }
 }

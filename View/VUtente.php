@@ -29,7 +29,7 @@ class VUtente
 //        $smarty->display('home.tpl');
     }
 
-    public static function signup($nome = null, $cognome = null, $username = null, $email = null, $emailExists = false, $usernameExists = false) {
+    public static function signup(string $nome = null, string $cognome = null, string $username = null, string $email = null, string $error = null, bool $emailExists = null) {
         $smarty = StartSmarty::configuration();
 
         if ($nome != null) {
@@ -44,8 +44,12 @@ class VUtente
         if ($email != null) {
             $smarty->assign("email", $email);
         }
-        $smarty->assign("emailExists", $emailExists);
-        $smarty->assign("usernameExists", $usernameExists);
+        if ($error != null) {
+            $smarty->assign("error", $error);
+        }
+        if ($emailExists != null) {
+            $smarty->assign("emailExists", $emailExists);
+        }
 
         $smarty->display("signup.tpl");
     }
