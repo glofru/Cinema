@@ -140,9 +140,8 @@ class EHelper
 
     public function checkWrite(EUtente $utente, $array, Efilm $film): bool {
         $data = $film->getDataRilascio();
-        $today = new DateTime('now');
-
-        if(isset($utente) && $data > $today) {
+        $today = new DateTime('now + 1 Week');
+        if(isset($utente) && $data < $today) {
             foreach($array as $a){
                 if($a->getUtente()->getId() === $utente->getId()){
                     return false;
