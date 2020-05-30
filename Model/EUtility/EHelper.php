@@ -138,13 +138,11 @@ class EHelper
         return ($p/$n);
     }
 
-    public function checkWrite(ERegistrato $utente, $array, Efilm $film): bool {
+    public function checkWrite(EUtente $utente, $array, Efilm $film): bool {
         $data = $film->getDataRilascio();
-        $today = new DateTime('now + 1 week');
-        if($data > $today) {
-            return false;
-        }
-        if(isset($utente)) {
+        $today = new DateTime('now');
+
+        if(isset($utente) && $data > $today) {
             foreach($array as $a){
                 if($a->getUtente()->getId() === $utente->getId()){
                     return false;

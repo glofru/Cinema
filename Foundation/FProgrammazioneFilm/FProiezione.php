@@ -107,7 +107,7 @@ class FProiezione implements Foundation
         //COSTRUISCO L'OGGETTO SALAVIRTUALE
         $sala = FSala::loadVirtuale($row["numerosala"], "nSala");
         $posti = FPosto::load($id, "idProiezione");
-        print_r($posti);
+
         foreach($posti as $posto) {
             echo $posto->getPosto . " " . "<br>";
             if ($posto->isOccupato() == true) {

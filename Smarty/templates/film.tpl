@@ -382,7 +382,7 @@
                                             <div class="reviews__autor">
                                                 <img class="reviews__avatar" src="{$propic[$key]->getImmagine()}" alt="">
                                                 <span class="reviews__name">{$rev->getTitle()}</span>
-                                                <span class="reviews__time">da {$rev->getUtente()->getUsername()} il {$rev->getDataPubblicazioneString()}</span>
+                                                <span class="reviews__time">da @{$rev->getUtente()->getUsername()} il {$rev->getDataPubblicazioneString()}</span>
 
                                                 <span class="reviews__rating"><i class="icon ion-ios-star"></i>{$rev->getPunteggio()}</span>
                                             </div>
@@ -391,7 +391,7 @@
                                             {/foreach}
                                         {/if}
                                     </ul>
-                                    {if ($canView === true)}
+                                    {if $canView}
                                     <form action="/Giudizio/add" class="form" method="POST">
                                         <input name="titolo" type="text" class="form__input" placeholder="Titolo (max 30 caratteri)" maxlength="30">
                                         <textarea name="commento" class="form__textarea" placeholder="Recensione (max 200 caratteri)" maxlength="200"></textarea>
