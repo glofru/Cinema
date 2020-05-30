@@ -4,27 +4,29 @@
 class CAdmin
 {
 
+    private static function checkAdmin() {
+        if(!CUtente::isLogged() || !CUtente::getUtente()->isAdmin()) {
+            VError::error(3);
+        }
+    }
+
     public static function addFilm()
     {
+        self::checkAdmin();
+
         $method = $_SERVER["REQUEST_METHOD"];
-        $utente = CUtente::getUtente();
-        if(!$utente->isAdmin()) {
-            header("Location: /");
-        }
-        if ($method == "GET")
-        {
+
+        if ($method == "GET") {
             $attori = FPersistentManager::getInstance()->load("1", "isAttore", "EPersona");
             $registi = FPersistentManager::getInstance()->load("1", "isRegista", "EPersona");
             VAdmin::addFilm($attori, $registi);
-        }
-        elseif ($method == "POST")
-        {
+        } elseif ($method == "POST") {
 //            Costruzione oggetto Film
             $titolo = $_POST["titolo"];
             $descrizione = $_POST["descrizione"];
             $genere = EGenere::fromString($_POST["genere"]);
 
-            $time = explode(":", self::hoursandmins($_POST["durata"]));
+            $time = explode(":", EHelper::getInstance()->hoursandmins($_POST["durata"]));
             $durata = null;
             try {
                 $durata = new DateInterval("PT" . $time[0] . "H" . $time[1] . "M");
@@ -42,13 +44,11 @@ class CAdmin
 
             $film = new EFilm($titolo, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere, $paese, $etaConsigliata);
 
-            foreach (FFilm::recreateArray($_POST["attori"]) as $attore)
-            {
+            foreach (FFilm::recreateArray($_POST["attori"]) as $attore) {
                 $film->addAttore($attore);
             }
 
-            foreach (FFilm::recreateArray($_POST["registi"]) as $regista)
-            {
+            foreach (FFilm::recreateArray($_POST["registi"]) as $regista) {
                 $film->addRegista($regista);
             }
 
@@ -67,23 +67,12 @@ class CAdmin
         }
     }
 
-//    StackOverflow
-    private static function hoursandmins($time, $format = '%02d:%02d')
-    {
-        if ($time < 1) {
-            return;
-        }
-        $hours = floor($time / 60);
-        $minutes = ($time % 60);
-        return sprintf($format, $hours, $minutes);
-    }
-
     public function gestioneUtenti() {
-        $utente = CUtente::getUtente();
+        self::checkAdmin();
+
         $pm = FPersistentManager::getInstance();
-        if(!$utente->isAdmin()) {
-            header("Location: /");
-        }
+        $utente = CUtente::getUtente();
+
         if($_SERVER["REQUEST_METHOD"] === "GET") {
             $bannati = $pm->load("1","isBanned","EUtente");
             VAdmin::gestioneUtenti($bannati, $utente);
@@ -120,7 +109,7 @@ class CAdmin
             }
             $bannati = $pm->load("1","isBanned","EUtente");
             VAdmin::gestioneUtenti($bannati, $utente, $status);
-            }
         }
+    }
 
 }

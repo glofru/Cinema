@@ -33,14 +33,12 @@ class CAcquisto
                 }
             }
 
-        }
-        else {
+        } else {
             header("Location: /");
         }
     }
 
-    public static function confermaAcquisto()
-    {
+    public static function confermaAcquisto() {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $gestore = EHelper::getInstance();
             $utente = CUtente::getUtente();

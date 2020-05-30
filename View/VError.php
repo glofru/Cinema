@@ -18,6 +18,9 @@ class VError
             case 2:
                 $error_description = "Errore nella scrittura sul database.";
                 break;
+            case 3:
+                $error_description = "Pagina destinata agli amministratori.";
+                break;
             default:
                 $error_description = "Errore generico.";
         }

@@ -214,6 +214,15 @@ class EHelper
         return password_hash($password, PASSWORD_BCRYPT);
     }
 
+    public function hoursandmins($time, $format = '%02d:%02d') {
+        if ($time < 1) {
+            return;
+        }
+        $hours = floor($time / 60);
+        $minutes = ($time % 60);
+        return sprintf($format, $hours, $minutes);
+    }
+
     /*public function fromSimplifiedString(string $str): array {
         $return = [];
         $str = explode(";", $str);
