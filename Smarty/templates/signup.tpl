@@ -62,7 +62,7 @@
                             <input id="username" type="text" name="username" value="{$username}" class="sign__input" placeholder="Username">
                         </div>
 
-                        {if $usernameExists}
+                        {if isset($emailExists) && !$emailExists}
                         <div class="sign__group">
                             <span class="sign__text" style="color: red">Username già utilizzato</span>
                         </div>
@@ -73,7 +73,7 @@
                             <input id="email" type="email" name="email" value="{$email}" class="sign__input" placeholder="Email">
                         </div>
 
-                        {if $emailExists}
+                        {if isset($emailExists) && $emailExists}
                             <div class="sign__group">
                                 <span class="sign__text" style="color: red">Email già registrata</span>
                             </div>
@@ -115,6 +115,10 @@
 <script src="../../Smarty/js/main.js"></script>
 
 <script>
+    {if isset($error)}
+    alert("{$error}");
+    {/if}
+
     function nameIsValid(name) {
         let exp = /^[a-zA-Z\-]+$/;
 
@@ -134,8 +138,7 @@
     }
 
     function passwordIsValid(password) {
-        return true;
-        // return password.length > 6;
+        return password.length > 5;
     }
 
     function checkPwd(pw1, pw2) {
@@ -147,7 +150,7 @@
             if (nameIsValid($("#cognome").val())) {
                 if (usernameIsValid($("#username").val())) {
                     if (emailIsValid($("#email").val())) {
-                        if (passwordIsValid($("pw1").val())) {
+                        if (passwordIsValid($("#pw1").val())) {
                             if (checkPwd($("#pw1").val(), $("#pw2").val())) {
                                 $("#form").submit();
                             } else {

@@ -102,14 +102,4 @@ class FPersistentManager
     public function signup(EUtente $utente) {
         FUtente::save($utente);
     }
-
-    public function existsUser(string $value, bool $isMail): bool {
-        if ($isMail) {
-            $user = FUtente::load($value, "email");
-        } else {
-            $user = FUtente::load($value, "username");
-        }
-
-        return $user !== null;
-    }
 }

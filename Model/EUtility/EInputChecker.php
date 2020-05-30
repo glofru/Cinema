@@ -11,28 +11,29 @@ class EInputChecker{
         return self::$instance;
     }
 
-    public function username(string $username): string {
+    public function isNome(string $nome): bool {
+        return true;
+    }
+
+    public function isUsername(string $username): bool {
        /* $res = preg_replace("/[^a-zA-Z]/", "", $username);
         if(strlen($username) < 8 || $res !== $username ) {
             return "";
         }*/
-        return $username;
+        return true;
     }
 
-    public function password(string $password): string {
-        if(strlen($password) < 8) {
-            return "";
-        }
+    public function isPassword(string $password): bool {
+//        if(strlen($password) < 8) {
+//            return "";
+//        }
         //$password = 'S4L7' . $password;
         //return hash('SHA512', $password);
-        return $password;
+        return true;
     }
 
-    public function email(string $email): string {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return "";
-        }
-        return $email;
+    public function isEmail(string $email): bool {
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 
     public function date(string $date): string {

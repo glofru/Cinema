@@ -30,9 +30,9 @@ class CUtente
         $pm = FPersistentManager::getInstance();
         $gestore = EInputChecker::getInstance();
 
-        if($user === $gestore->username($user)) {
+        if($gestore->isUsername($user)) {
             $isMail = false;
-        } else if ($user === $gestore->email($user)) {
+        } else if ($gestore->isEmail($user)) {
             $isMail = true;
         } else {
             VUtente::loginForm($user);
@@ -88,11 +88,6 @@ class CUtente
         //}
     }
 
-    private static function checkSignupData(): bool {
-        //TODO
-        return true;
-    }
-
     public static function signup() {
         if (self::isLogged()) {
             header("Location: /");
@@ -105,39 +100,27 @@ class CUtente
             $email = $_POST["email"];
             $password = $_POST["password"];
 
-            if (self::checkSignupData()) {
-                $pm = FPersistentManager::getInstance();
+            try {
+                $utente = new ERegistrato($nome, $cognome, $username, $email, $password, false);
+            } catch (Exception $e) {
+                VUtente::signup($nome, $cognome, $username, $email, $e->getMessage());
+                return;
+            }
 
-                if ($pm->existsUser($username, false)) {
-                    VUtente::signup($nome, $cognome, $username, $email, false, true);
-                } elseif ($pm->existsUser($email, true)) {
-                    VUtente::signup($nome, $cognome, $username, $email, true, false);
-                } else {
-                    $password = self::hash($password);
-                    $utente = new ERegistrato($nome, $cognome, $username, $email, $password, false);
-                    $pm->signup($utente);
-                    self::saveSession($utente);
-                }
+            //La password ha superato il controllo di validità, quindi ne faccio l'hash
+            $utente->setPassword(EHelper::getInstance()->hash($password));
+
+            $pm = FPersistentManager::getInstance();
+
+            if (FUtente::exists($utente, true)) {
+                VUtente::signup($nome, $cognome, $username, $email, null, true);
+            } elseif (FUtente::exists($utente, false)) {
+                VUtente::signup($nome, $cognome, $username, $email, null, false);
             } else {
-                VUtente::signup($nome, $cognome, $username, $email);
+                $pm->signup($utente);
+                self::saveSession($utente);
             }
         }
-//        if($_SERVER['REQUEST_METHOD']=="GET") {
-//            $view = new VUtente();
-//            $pm = FPersistentManager::getInstance();
-//            if (static::checkLogin()) {
-//                $pm->load();
-//            }
-//            else {
-//                $view->registra_cliente();
-//            }
-//        }else if($_SERVER['REQUEST_METHOD']=="POST") {
-//
-//        }
-    }
-
-    private static function hash($password) {
-        return password_hash($password, PASSWORD_BCRYPT);
     }
 
     public static function isLogged() {
