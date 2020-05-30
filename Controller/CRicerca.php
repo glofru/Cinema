@@ -13,7 +13,8 @@ class CRicerca
             $cookie = $gestore->preferences($_COOKIE['preferences']);
             $consigliati = CHome::getConsigliati($cookie);
             $utente = CUtente::getUtente();
-            VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, EUtente::isAdmin($utente));
+            $isAdmin = $utente !== null && $utente->isAdmin();
+            VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, $isAdmin);
         }
         else {
             header("Location: /");
