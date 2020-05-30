@@ -43,18 +43,16 @@ class CAcquisto
     {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $gestore = EHelper::getInstance();
-            $utente = CUtente::getUtente();
-            if(!isset($_SESSION["biglietti"])){
-                //header("Location: /");
-                echo "NO_SESS";
-            }
-            if($utente === false) {
-                header("Location: ../../Utente/logout");
-            }
-            else if (!isset($utente)) {
+
+            if(!isset($_SESSION["biglietti"])) {
                 header("Location: /");
             }
-            else {
+
+            if(CUtente::isLogged()) {
+                header("Location: ../../Utente/logout");
+            } else if (!isset($utente)) {
+                header("Location: /");
+            } else {
                 $biglietti = unserialize($_SESSION["biglietti"]);
                 foreach($biglietti as $item) {
                     if($item->getUtente()->getId() !== $utente->getId()) {

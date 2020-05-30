@@ -262,7 +262,7 @@
     <!-- end details content -->
 </section>
 <!-- end details -->
-{if (sizeof($proiezioni) > 0)}
+{if (sizeof($programmazioneFilm->getProiezioni()) > 0)}
 <!-- sala prenotazione -->
 <section class="content">
     <div class="content__head">
@@ -273,7 +273,7 @@
                     <h2 class="content__title">Prenota il tuo posto</h2>
                     <!-- content tabs nav -->
                     <ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist">
-                        {foreach $proiezioni as $key => $pro}
+                        {foreach $programmazioneFilm->getProiezioni() as $key => $pro}
                         <li class="nav-item">
                             {if $key == 0}
                             <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true"> {$pro->getDataRed()}</a>
@@ -290,7 +290,7 @@
 
     <div class="container">
         <div class="tab-content" id="myTabContent">
-        {foreach $proiezioni as $key => $pro}
+        {foreach $programmazioneFilm->getProiezioni() as $key => $pro}
             {if ($key == 0)}
             <div class="tab-pane fade show active" id="tab-{$key+1}" role="tabpanel" aria-labelledby="{$key+1}-tab">
             {else}

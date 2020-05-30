@@ -30,13 +30,14 @@ class CFilm
             array_push($locandine,$pm->load($loc->getId(),"idFilm","EMediaLocandina"));
         }
 
-        $rvw = self::getReview($pm, $filmID, $gestore);
+        $reviews = self::getReview($pm, $filmID, $gestore);
 
-        $pro = self::getProiezioni($pm, $gestore, $filmID);
+        $programmazioneFilm = self::getProgrammazione($pm, $gestore, $filmID);
+
         $utente = CUtente::getUtente();
         $isAdmin = $utente !== null && $utente->isAdmin();
 
-        VFilm::show($film, $autoplay, $copertina, $filmC, $locandine, $rvw[0], $rvw[1], $pro, $rvw[2], $utente, $isAdmin);
+        VFilm::show($film, $autoplay, $copertina, $filmC, $locandine, $reviews[0], $reviews[1], $programmazioneFilm, $reviews[2], $utente, $isAdmin);
     }
 
     private static function getReview(FPersistentManager $pm, $filmID, EHelper $gestore) {
@@ -64,10 +65,10 @@ class CFilm
         return $result;
     }
 
-    private static function getProiezioni(FPersistentManager $pm, EHelper $gestore, $filmID): array {
+    private static function getProgrammazione(FPersistentManager $pm, EHelper $gestore, string $filmID): EProgrammazioneFilm {
         $elenco = $pm->load($filmID, "idFilm", "EProiezione");
-        $film = $pm->load($filmID, "id","EFilm")[0];
-        $proiezionifilm = $elenco->getElencoprogrammazioni()[0];
-        return $gestore->programmazione($proiezionifilm, $film);
+        $programmazioneFilm = $elenco->getElencoProgrammazioni()[0];
+
+        return $gestore->programmazione($programmazioneFilm);
     }
 }

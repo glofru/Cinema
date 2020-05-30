@@ -109,10 +109,11 @@ class FProiezione implements Foundation
         $posti = FPosto::load($id, "idProiezione");
 
         foreach($posti as $posto) {
-            if ($posto->isOccupato() == true) {
-               echo $posto->getPosto . " " . strval($sala->occupaPosto($posto)) . "<br>";
+            if ($posto->isOccupato()) {
+                $sala->occupaPosto($posto);
             }
         }
+
 
         //COSTRUSICO L'OGGETTO DATAORA
         try {
