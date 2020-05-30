@@ -30,9 +30,11 @@ class ESalaVirtuale extends ESalaFisica implements JsonSerializable
         $this->posti = array();
         $value = 65; //65 = A
         for ($i = 0; $i < $nFile; $i++) {
-            array_push($this->posti, array());
+            $fila = chr($value+$i);
+            $this->posti[$fila] = array();
             for ($j = 0; $j < $nPostiFila; $j++) {
-                array_push($this->posti[$i], new EPosto(chr($value + $i), $j + 1));
+                $numeroPosto = $j + 1;
+                $this->posti[$fila][$numeroPosto] = new EPosto($fila, $numeroPosto);
             }
         }
     }
@@ -62,14 +64,14 @@ class ESalaVirtuale extends ESalaFisica implements JsonSerializable
     /**
      * Controlla se un posto è presente realmente nella sala gestita
      * @param EPosto $posto posto che si vuole controllare
-     * @return int indice del posto nell'array dei posti in sala
+     * @return bool indice del posto nell'array dei posti in sala
      */
-    public function esiste(EPosto $posto): bool {
+    public function exists(EPosto $posto): bool {
         return array_key_exists($posto->getFila(), $this->posti) && array_key_exists($posto->getNumeroPosto(), $this->posti[$posto->getFila()]);
     }
 
     public function getIfExists(EPosto $posto) {
-        if ($this->esiste($posto)) {
+        if ($this->exists($posto)) {
             return $this->posti[$posto->getFila()][$posto->getNumeroPosto()];
         }
 
@@ -80,24 +82,27 @@ class ESalaVirtuale extends ESalaFisica implements JsonSerializable
      * Controlla se un posto è libero in sala
      * @param EPosto $posto posto che si vuole controllare
      * @return bool risultato del controllo
+     * @throws Exception
      */
-    public function isPostolibero(EPosto $posto)
-    {
+    public function isPostoOccupato(EPosto $posto): bool {
         $p = $this->getIfExists($posto);
+
         if ($p !== null) {
-            return $p->getOccupato();
+            return $p->isOccupato();
+        } else {
+            throw new Exception("Posto inesistente");
         }
 
-        return null;
     }
+
     /**
      * Controlla se un posto è occupato o meno in sala
      * @param EPosto $posto posto che si vuole controllare
-     * @return string risultato del controllo
+     * @return bool risultato del controllo
      */
     public function occupaPosto(EPosto $posto): bool
     {
-        if ($this->isPostolibero($posto)) {
+        if (!$this->isPostoOccupato($posto)) {
             $this->posti[$posto->getFila()][$posto->getNumeroPosto()]->setIsOccupato(true);
             return true;
         }
@@ -111,8 +116,8 @@ class ESalaVirtuale extends ESalaFisica implements JsonSerializable
      */
     public function liberaPosto(EPosto $posto): bool
     {
-        if (!$this->isPostolibero($posto)) {
-            $this->posti[$posto->getFila()][$posto->getNumeroPosto()]->setIsOccupato(true);
+        if ($this->isPostoOccupato($posto)) {
+            $this->posti[$posto->getFila()][$posto->getNumeroPosto()]->setIsOccupato(false);
             return true;
         }
 

@@ -114,7 +114,6 @@ class FProiezione implements Foundation
             }
         }
 
-
         //COSTRUSICO L'OGGETTO DATAORA
         try {
             $dataora = new DateTime($data . "T" . $ora);

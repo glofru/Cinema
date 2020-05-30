@@ -18,7 +18,6 @@ class VFilm
         $smarty->assign("attori", $film->getAttori());
         $smarty->assign("canView", $canView);
         $smarty->assign("programmazioneFilm", $programmazioneFilm);
-
         $smarty->assign("utente", $utente);
         $smarty->assign("isAdmin", $isAdmin);
         $smarty->display("film.tpl");

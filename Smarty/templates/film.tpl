@@ -305,8 +305,8 @@
                             {foreach $pro->getSala()->getPosti() as $fila}
                                 <tr>
                                     {foreach $fila as $posto}
-                                        {if $posto->isOccupato}
-                                            <th><img name="{$pro->getId()}" id="{$posto->getId()}" onclick="book(this)" src="../../Smarty/img/cinema/sedia_occupata.png" alt="Posto"/></th>
+                                        {if $posto->isOccupato()}
+                                            <th><img name="{$pro->getId()}" id="{$posto->getId()}" src="../../Smarty/img/cinema/sedia_occupata.png" alt="Posto"/></th>
                                         {else}
                                             <th><img name="{$pro->getId()}" id="{$posto->getId()}" onclick="book(this)" src="../../Smarty/img/cinema/sedia_libera.png" alt="Posto"/></th>
                                         {/if}
