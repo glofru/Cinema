@@ -30,10 +30,10 @@ class CUtente
         $pm = FPersistentManager::getInstance();
         $gestore = EInputChecker::getInstance();
 
-        if($gestore->isUsername($user)) {
-            $isMail = false;
-        } else if ($gestore->isEmail($user)) {
+        if($gestore->isEmail($user)) {
             $isMail = true;
+        } else if ($gestore->isUsername($user)) {
+            $isMail = false;
         } else {
             VUtente::loginForm($user);
             return;
