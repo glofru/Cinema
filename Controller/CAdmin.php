@@ -7,7 +7,10 @@ class CAdmin
     public static function addFilm()
     {
         $method = $_SERVER["REQUEST_METHOD"];
-
+        $utente = CUtente::getUtente();
+        if(!$utente->isAdmin()) {
+            header("Location: /");
+        }
         if ($method == "GET")
         {
             $attori = FPersistentManager::getInstance()->load("1", "isAttore", "EPersona");
@@ -74,5 +77,50 @@ class CAdmin
         $minutes = ($time % 60);
         return sprintf($format, $hours, $minutes);
     }
+
+    public function gestioneUtenti() {
+        $utente = CUtente::getUtente();
+        $pm = FPersistentManager::getInstance();
+        if(!$utente->isAdmin()) {
+            header("Location: /");
+        }
+        if($_SERVER["REQUEST_METHOD"] === "GET") {
+            $bannati = $pm->load("1","isBanned","EUtente");
+            VAdmin::gestioneUtenti($bannati, $utente);
+        }
+        else {
+            if(isset($_POST["utente"])) {
+                $toBan = $pm->load($_POST["utente"],"id","EUtente")[0];
+                if(!isset($toBan)) {
+                    $status = 0;
+                }
+                else {
+                    if (!$toBan->isAdmin() && !$toBan->isBanned()) {
+                        $pm->update($_POST["utente"], "id", 1, "isBanned", "EUtente");
+                        $status = 1;
+                    } else {
+                        $status = 2;
+                    }
+                }
+            }
+            else if(isset($_POST["unban"])) {
+                $toUnban = $pm->load($_POST["utente"],"id","EUtente")[0];
+                if(!isset($toUnban)){
+                    $status = 3;
+                }
+                else {
+                    if ($toUnban->isBanned()) {
+                        $pm->update($toUnban, "id", 0, "isBanned", "EUtente");
+                        $status = 1;
+                    }
+                    else {
+                        $status = 4;
+                    }
+                }
+            }
+            $bannati = $pm->load("1","isBanned","EUtente");
+            VAdmin::gestioneUtenti($bannati, $utente, $status);
+            }
+        }
 
 }
