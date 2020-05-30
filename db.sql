@@ -51,7 +51,7 @@ CREATE TABLE Proiezione(
 CREATE TABLE Posti(
     `idProiezione` INTEGER NOT NULL,
     `posizione` varchar(4) NOT NULL,
-    `libero` BOOLEAN NOT NULL,
+    `occupato` BOOLEAN NOT NULL,
     PRIMARY KEY (`idProiezione`,`posizione`),
     FOREIGN KEY (`idProiezione`)
         REFERENCES Proiezione(`id`)
