@@ -138,7 +138,7 @@
     }
 
     function passwordIsValid(password) {
-        // return password.length > 6;
+        return password.length > 5;
     }
 
     function checkPwd(pw1, pw2) {
@@ -150,7 +150,7 @@
             if (nameIsValid($("#cognome").val())) {
                 if (usernameIsValid($("#username").val())) {
                     if (emailIsValid($("#email").val())) {
-                        if (passwordIsValid($("pw1").val())) {
+                        if (passwordIsValid($("#pw1").val())) {
                             if (checkPwd($("#pw1").val(), $("#pw2").val())) {
                                 $("#form").submit();
                             } else {

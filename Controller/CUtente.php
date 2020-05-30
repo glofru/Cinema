@@ -107,6 +107,9 @@ class CUtente
                 return;
             }
 
+            //La password ha superato il controllo di validità, quindi ne faccio l'hash
+            $utente->setPassword(EHelper::getInstance()->hash($password));
+
             $pm = FPersistentManager::getInstance();
 
             if (FUtente::exists($utente, true)) {
