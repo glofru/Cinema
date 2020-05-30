@@ -49,12 +49,12 @@ class FPersistentManager
 
     public function load($value, $row, $class) {
         $class = self::getClass($class);
-        return $class::load($value,$row);
+        return $class::load($value, $row);
     }
 
     public function loadLike($value, $row, $class) {
         $class = self::getClass($class);
-        return $class::loadLike($value,$row);
+        return $class::loadLike($value, $row);
     }
 
     public function loadDebole($value, $row, $value2, $row2, $class) {

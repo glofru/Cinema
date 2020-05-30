@@ -34,8 +34,7 @@ class EPosto implements JsonSerializable
      * @param int $numeroPosto
      * @param bool $occupato
      */
-    public function __construct(string $fila, int $numeroPosto, bool $occupato = false)
-    {
+    public function __construct(string $fila, int $numeroPosto, bool $occupato = false) {
         $this->setFila($fila);
         $this->setNumeroPosto($numeroPosto);
         $this->setIsOccupato($occupato);
@@ -45,14 +44,14 @@ class EPosto implements JsonSerializable
         $posti = [];
         $lock = explode(";", $posto);
         foreach ($lock as $elem) {
-            array_push($posti,self::fromDB($elem, $occupato));
+            array_push($posti, self::fromDB($elem, $occupato));
         }
         return $posti;
     }
 
-    public static function fromDB(string $posto, bool $occupato){
+    public static function fromDB(string $posto, bool $occupato): EPosto {
         $elem = explode("_", $posto);
-        return new EPosto($elem[0],$elem[1], $occupato);
+        return new EPosto($elem[0], $elem[1], $occupato);
 
     }
 //-------------- SETTER ----------------------

@@ -183,22 +183,20 @@ class EHelper
         return $str;
     }
 
-    public function programmazione($proiezionifilm, EFilm $film): array {
-        $result = [];
+    public function programmazione(EProgrammazioneFilm $proiezionifilm): EProgrammazioneFilm {
+        $result = new EProgrammazioneFilm();
         $today = new DateTime('now');
-        if(sizeof($proiezionifilm) === 0) {
-            return $result;
-        }
+
         foreach($proiezionifilm->getProiezioni() as $pro) {
             if($pro->getDataproieizone() > $today) {
-                array_push($result, $pro);
-            }
-            else if($pro->getDataproieizone() == $today){
+                $result->addProiezione($pro);
+            } else if($pro->getDataproieizone() == $today){
                 if(strtotime($today->format('H:i')) - strtotime($pro->getDataProiezione()->format('H:i')) > 0) {
-                    array_push($result, $pro);
+                    $result->addProiezione($pro);
                 }
             }
         }
+
         return $result;
     }
 
