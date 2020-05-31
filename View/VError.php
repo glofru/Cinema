@@ -6,9 +6,12 @@ class VError
     public static function error(int $num, string $descrizione = "")
     {
         $smarty = StartSmarty::configuration();
-        $smarty->assign("error_number", $num);
-        switch ($num)
-        {
+
+        if ($num != 0) {
+            $smarty->assign("error_number", $num);
+        }
+
+        switch ($num) {
             case 0:
                 $error_description = $descrizione;
                 break;
@@ -27,6 +30,7 @@ class VError
             default:
                 $error_description = "Errore generico.";
         }
+
         $smarty->assign("error_description", $error_description);
         $smarty->display("error.tpl");
     }

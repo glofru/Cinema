@@ -4,7 +4,7 @@
 class CAdmin
 {
 
-    private static function checkAdmin() {
+    public static function checkAdmin() {
         if(!CUtente::isLogged() || !CUtente::getUtente()->isAdmin()) {
             VError::error(3);
         }
