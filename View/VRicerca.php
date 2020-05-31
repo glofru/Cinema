@@ -12,7 +12,7 @@ class VRicerca
         $smarty->assign("immaginiConsigliati", $immaginiConsigliati);
         $smarty->assign("genere", EGenere::getAll());
         $smarty->assign("utente", $utente);
-        $smarty->assign("isAdmin", $isAdmin);
+        $smarty->assign("admin", $isAdmin);
         $smarty->display("risultatiRicerca.tpl");
     }
 }

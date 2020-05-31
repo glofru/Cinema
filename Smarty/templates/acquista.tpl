@@ -69,7 +69,7 @@
 							<!-- end dropdown -->
 
 							<li class="header__nav-item">
-								<a href="pricing.html" class="header__nav-link">Costi</a>
+								<a href="../../Informazioni/getCosti/" class="header__nav-link">Prezzi</a>
 							</li>
 
 							<li class="header__nav-item">
@@ -111,7 +111,7 @@
 										<span>@{$utente->getUsername()}</span>
 									</a>
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-										<li><a href="">Il mio profilo</a></li>
+										<li><a href="/Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
 										<li><a href="../Utente/bigliettiAcquistati">I miei acquisti</a></li>
 										<li><a href="https://www.youporn.com/watch/15481840/il-sole-sul-balcone-amatoriale-italianovery-myller/#1">I miei video porno</a></li>
 										<li><a href="../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>

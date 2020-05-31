@@ -23,7 +23,7 @@ class VHome
         $smarty->assign("punteggioSettimanaScorsa", $punteggioSettimanaScorsa);
         $smarty->assign("dateSettimanaScorsa", $dateSettimanaScorsa);
         $smarty->assign("utente", $utente);
-        $smarty->assign("isAdmin", $isAdmin);
+        $smarty->assign("admin", $isAdmin);
         $smarty->display("home.tpl");
     }
 }

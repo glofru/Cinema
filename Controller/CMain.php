@@ -9,6 +9,15 @@ class CMain
 
     public static function run(string $url)
     {
+        $utente = CUtente::getUtente();
+        if(isset($utente)) {
+            $check = FPersistentManager::getInstance()->load($utente->getId(),"id","EUtente");
+            if($check->isBanned()){
+                VError::error(4);
+                CUtente::logout();
+                die;
+            }
+        }
         $parsed_url = parse_url($url);
         $path = $parsed_url["path"];
 

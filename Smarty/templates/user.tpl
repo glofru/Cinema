@@ -34,6 +34,7 @@
 
 </head>
 <body class="body">
+
 <!-- header -->
 <header class="header">
     <div class="header__wrap">
@@ -51,46 +52,45 @@
                         <ul class="header__nav">
                             <!-- dropdown -->
                             <li class="header__nav-item">
-                                <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
+                                <a class="dropdown-toggle header__nav-link" href="../../index.php" role="button" >Home</a>
 
-                                <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuHome">
-                                    <li><a href="../../index.php">Home slideshow bg</a></li>
-                                    <li><a href="index2.html">Home static bg</a></li>
-                                </ul>
+
                             </li>
                             <!-- end dropdown -->
 
                             <!-- dropdown -->
                             <li class="header__nav-item">
-                                <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalog</a>
+                                <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalogo</a>
 
                                 <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                    <li><a href="catalog1.html">Catalog Grid</a></li>
-                                    <li><a href="catalog2.html">Catalog List</a></li>
-                                    <li><a href="details1.html">Details Movie</a></li>
-                                    <li><a href="details2.html">Details TV Series</a></li>
+                                    <li><a href="catalog1.html">Prossime Uscite</a></li>
+                                    <li><a href="catalog2.html">Programmazione</a></li>
+                                    <li><a href="details1.html">Film più apprezzati</a></li>
                                 </ul>
                             </li>
                             <!-- end dropdown -->
 
                             <li class="header__nav-item">
-                                <a href="pricing.html" class="header__nav-link">Pricing Plan</a>
+                                <a href="../../Informazioni/getCosti/" class="header__nav-link">Prezzi</a>
                             </li>
 
                             <li class="header__nav-item">
-                                <a href="faq.html" class="header__nav-link">Help</a>
+                                <a href="faq.html" class="header__nav-link">Aiuto</a>
                             </li>
 
                             <!-- dropdown -->
                             <li class="dropdown header__nav-item">
                                 <a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
-
-                                <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-                                    <li><a href="about.html">About</a></li>
-                                    <li><a href="signin.html">Sign In</a></li>
-                                    <li><a href="signup.html">Sign Up</a></li>
-                                    <li><a href="404.html">404 Page</a></li>
-                                </ul>
+                                {if (!isset($utente))}
+                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
+                                        <li><a href="about.html">Su di noi</a></li>
+                                        <li><a href="../../Utente/signup">Registrati</a></li>
+                                    </ul>
+                                {else}
+                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
+                                        <li><a href="about.html">Su di noi</a></li>
+                                    </ul>
+                                {/if}
                             </li>
                             <!-- end dropdown -->
                         </ul>
@@ -102,10 +102,37 @@
                                 <i class="icon ion-ios-search"></i>
                             </button>
 
-                            <a href="signin.html" class="header__sign-in">
-                                <i class="icon ion-ios-log-in"></i>
-                                <span>sign in</span>
-                            </a>
+                            {if (!isset($utente))}
+                                <a href="../../Utente/login" methods="GET" class="header__sign-in">
+                                    <i class="icon ion-ios-log-in"></i>
+                                    <span>Login</span>
+                                </a>
+                            {elseif (isset($utente) && !$admin)}
+                                <li class="header__nav-item">
+                                    <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span>@{$utente->getUsername()}</span>
+                                    </a>
+                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+                                        <li><a href="/Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
+                                        <li><a href="../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
+                                        <li><a href="https://www.youporn.com/watch/15481840/il-sole-sul-balcone-amatoriale-italianovery-myller/#1">I miei video porno</a></li>
+                                        <li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+                                    </ul>
+                                </li>
+                            {elseif (isset($utente) && $admin)}
+                                <li class="header__nav-item">
+                                    <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span>@{$utente->getUsername()}</span>
+                                    </a>
+                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+                                        <li><a href="/Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
+                                        <li><a href="">Gestione film</a></li>
+                                        <li><a href="">Gestione Proiezioni</a></li>
+                                        <li><a href="../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
+                                        <li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+                                    </ul>
+                                </li>
+                            {/if}
                         </div>
                         <!-- end header auth -->
 
@@ -123,14 +150,14 @@
     </div>
 
     <!-- header search -->
-    <form action="#" class="header__search">
+    <form action="/Ricerca/cercaFilm" method= "POST" class="header__search">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="header__search-content">
-                        <input type="text" placeholder="Search for a movie, TV Series that you are looking for">
+                        <input type="text" name="filmCercato" placeholder="Cerca un film">
 
-                        <button type="button">search</button>
+                        <button type="submit">Cerca</button>
                     </div>
                 </div>
             </div>
@@ -140,10 +167,11 @@
 </header>
 <!-- end header -->
 
-    <!-- details -->
+
+<!-- details -->
     <section class="section details">
         <!-- details background -->
-        <div class="details__bg" data-bg="img/home/home__bg.jpg"></div>
+        <div class="details__bg" data-bg="../../Smarty/img/home/home__bg.jpg"></div>
         <!-- end details background -->
 
         <!-- details content -->
@@ -151,7 +179,7 @@
             <div class="row">
                 <!-- title -->
                 <div class="col-12">
-                    <h1 class="details__title">{$utente->getUsername()}</h1>
+                    <h1 class="details__title">{$utente->getUsername()}{if ($admin)} [ADMIN]{/if}</h1>
                 </div>
                 <!-- end title -->
 
@@ -162,7 +190,7 @@
                             <!-- card cover -->
                             <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
                                 <div class="card__cover">
-                                    <img src="../../Smarty/img/user.png" alt="">
+                                    <img src="{$propic->getImmagine()}" alt="">
                                 </div>
                             </div>
                             <!-- end card cover -->
@@ -173,19 +201,22 @@
 
 
                                     <ul class="card__meta">
-                                        <li><span>Nome:</span> <a href="#">{$utente->getNome()}</a>
+                                        <li><span>Nome:</span>{$utente->getNome()}
                                         <li><span>Cognome:</span>{$utente->getCognome()}</li>
+                                        {if ($canModify)}
                                         <li><span>Email:</span> <a href="#">{$utente->getEmail()}</a> </li>
+                                        {/if}
                                     </ul>
-
-                                    <div class="card__description card__description--details">
-                                        descrizione utente cosa piace cosa non piace ecc...
-                                    </div>
                                 </div>
                             </div>
                             <!-- end card content -->
                         </div>
                     </div>
+                </div>
+                <div class="col-12">
+                    {if ($canModify)}
+                        <a href="#" class="section__btn align-content-center">Modifica</a>
+                    {/if}
                 </div>
             </div>
         </div>

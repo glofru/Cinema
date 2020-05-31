@@ -52,6 +52,10 @@ class FPersistentManager
         return $class::load($value, $row);
     }
 
+    public function loadbannati() {
+        return FUtente::loadBannati();
+    }
+
     public function loadLike($value, $row, $class) {
         $class = self::getClass($class);
         return $class::loadLike($value, $row);

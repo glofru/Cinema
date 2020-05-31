@@ -71,7 +71,7 @@
                             <!-- end dropdown -->
 
                             <li class="header__nav-item">
-                                <a href="pricing.html" class="header__nav-link">Prezzi</a>
+                                <a href="../../Informazioni/getCosti/" class="header__nav-link">Prezzi</a>
                             </li>
 
                             <li class="header__nav-item">
@@ -113,7 +113,7 @@
                                         <span>@{$utente->getUsername()}</span>
                                     </a>
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                        <li><a href="">Il mio profilo</a></li>
+                                        <li><a href="../../Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
                                         <li><a href="../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
                                         <li><a href="https://www.youporn.com/watch/15481840/il-sole-sul-balcone-amatoriale-italianovery-myller/#1">I miei video porno</a></li>
                                         <li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
@@ -125,10 +125,10 @@
                                         <span>@{$utente->getUsername()}</span>
                                     </a>
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                        <li><a href="">Il mio profilo</a></li>
+                                        <li><a href="../../Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
                                         <li><a href="">Gestione film</a></li>
                                         <li><a href="">Gestione Proiezioni</a></li>
-                                        <li><a href="">Gestione Utenti</a></li>
+                                        <li><a href="../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
                                         <li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
                                     </ul>
                                 </li>
@@ -308,7 +308,7 @@
                                         {if $posto->isOccupato()}
                                             <th><img name="{$pro->getId()}" id="{$posto->getId()}" src="../../Smarty/img/cinema/sedia_occupata.png" alt="Posto"/></th>
                                         {else}
-                                            <th><img name="{$pro->getId()}" id="{$posto->getId()}" onclick="book(this)" src="../../Smarty/img/cinema/sedia_libera.png" alt="Posto"/></th>
+                                            <th><img name="{$pro->getId()}" id="{$posto->getId()}" {if (!$admin)} onclick="book(this)" {/if}src="../../Smarty/img/cinema/sedia_libera.png" alt="Posto"/></th>
                                         {/if}
                                     {/foreach}
                                 </tr>
@@ -318,9 +318,11 @@
                 </div>
             </div>
         {/foreach}
+    {if (!$admin)}
         <div class="col-12--center">
             <a onclick="acquista()" style="color: white; cursor:pointer;" class="section__btn" id="acquista">Acquista</a>
         </div>
+    {/if}
     </div>
 </section>
 {/if}
@@ -382,7 +384,7 @@
                                             <div class="reviews__autor">
                                                 <img class="reviews__avatar" src="{$propic[$key]->getImmagine()}" alt="">
                                                 <span class="reviews__name">{$rev->getTitle()}</span>
-                                                <span class="reviews__time">da @{$rev->getUtente()->getUsername()} il {$rev->getDataPubblicazioneString()}</span>
+                                                <span class="reviews__time">da <a href="../../Utente/showUtente/?idShow={$rev->getUtente()->getId()}">@{$rev->getUtente()->getUsername()}</a> il {$rev->getDataPubblicazioneString()}</span>
 
                                                 <span class="reviews__rating"><i class="icon ion-ios-star"></i>{$rev->getPunteggio()}</span>
                                             </div>
@@ -391,7 +393,7 @@
                                             {/foreach}
                                         {/if}
                                     </ul>
-                                    {if $canView}
+                                    {if $canView && !$admin}
                                     <form action="/Giudizio/add" class="form" method="POST">
                                         <input name="titolo" type="text" class="form__input" placeholder="Titolo (max 30 caratteri)" maxlength="30">
                                         <textarea name="commento" class="form__textarea" placeholder="Recensione (max 200 caratteri)" maxlength="200"></textarea>

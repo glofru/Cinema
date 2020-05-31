@@ -22,7 +22,7 @@ class VError
                 $error_description = "Pagina destinata agli amministratori.";
                 break;
             case 4:
-                $error_description = "Utente bannato";
+                $error_description = "Errore il tuo account è stato sospseso.";
                 break;
             default:
                 $error_description = "Errore generico.";

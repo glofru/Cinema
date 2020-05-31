@@ -88,11 +88,19 @@ class FUtente implements Foundation
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
 
-        if ($result == null || sizeof($result) == 0) {
+        if ($result == null) {
             return null;
         }
-
         return self::parseResult($result)[0];
+    }
+
+    public static function loadBannati() {
+        $db = FDatabase::getInstance();
+        $result = $db->loadFromDB(self::getClassName(), '1', 'isBanned');
+        if ($result == null) {
+            return [];
+        }
+        return self::parseResult($result);
     }
 
     public static function login(string $value, string $pass, bool $isMail) {
@@ -129,85 +137,6 @@ class FUtente implements Foundation
         }
         return false;
     }
-
-    /*public static function ricercaPerNomeeCognome ($class, string $nome, string $cognome)//non credo che vada messa e neanche che funzioni
-    {
-        $db = FDatabase::getInstance();
-        $result = $db->loadFromDBDebole($class::getClassName(), $nome,"nome", $cognome,"cognome" );
-
-        if ($result == null || sizeof($result) == 0)
-        {
-            return null;
-        }
-
-        $return = array();
-        foreach ($result as $row)
-        {
-            array_push($return, self::fromRow($row));
-        }
-
-        return $return;
-    }*/
-
-    public static function ricercaPerUsername($class, EUtente $utente)
-    {
-        $db = FDatabase::getInstance();
-        $result = $db->loadFromDB($class, $utente, "username");
-
-        if ($result == null || sizeof($result) == 0) {
-            return null;
-        }
-
-        return self::parseResult($result);
-    }
-
-    public static function ricercaPerId($class, EUtente $utente)
-    {
-        $db = FDatabase::getInstance();
-        $result = $db->loadFromDB($class, $utente, "idUtente");
-
-        if ($result == null || sizeof($result) == 0) {
-            return null;
-        }
-
-        return self::parseResult($result);
-    }
-
-//    public static function ricercaPerCampo($campo, $id)
-//    {
-//        $registrato = null;
-//        $db=FDatabase::getInstance();
-//        $result=$db->loadDB(static::getClass(), $campo, $id);
-//        $row = $db->interestedRows(static::getClass(), $campo, $id);
-//        if(($result!=null) && ($row == 1)) {
-//            $registrato=new ERegistrato($result['nome'],$result['cognome'],$result['username'], $result['email'], $result['password'],$result['state']);
-//
-//        }
-//        else {
-//            if(($result!=null) && ($row > 1)){
-//                $registrato = array();
-//                for($i=0; $i<count($result); $i++){
-//                    $registrato[]=new ERegistrato($result[$i]['nome'],$result[$i]['cognome'],$result[$i]['username'], $result[$i]['email'], $result[$i]['password'],$result[$i]['state']);
-//
-//                }
-//            }
-//        }
-//        return $registrato;
-//    }
-//
-//    public static function ricercaPerStringa($string){
-//        $registrato = null;
-//        $ricerca = null;
-//        $pieces = explode(" ", $string);
-//        $lastElement = end($pieces);
-//        if ($pieces[0] == $lastElement) {
-//            $ricerca = 'nome';
-//        }
-//        $db=FDatabase::getInstance();
-//        $result = $db->utentiByString($pieces, $ricerca);
-//
-//        return self::parseResult($result);
-//    }
 
     private static function parseResult(array $result): array {
         $return = [];
