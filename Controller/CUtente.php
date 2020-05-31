@@ -71,8 +71,12 @@ class CUtente
                     $canModify = false;
                     $toShow = $pm->load($_GET["idShow"],"id","EUtente");
                 }
+                $propic = $pm->load($toShow->getId(),"idUtente","EMediaUtente");
+                if($propic->getImmagine() == ""){
+                    $propic->setImmagine('../../Smarty/img/user.png');
+                }
                 if(isset($toShow)){
-                    VUtente::showUtente($toShow, $canModify, $toShow->isAdmin());
+                    VUtente::showUtente($toShow, $canModify, $toShow->isAdmin(), $propic);
                 }
                 else {
                     VError::error(0,"PROFILO UTENTE NON TROVATO!");

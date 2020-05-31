@@ -179,7 +179,7 @@
             <div class="row">
                 <!-- title -->
                 <div class="col-12">
-                    <h1 class="details__title">{$utente->getUsername()}</h1>
+                    <h1 class="details__title">{$utente->getUsername()}{if ($admin)} [ADMIN]{/if}</h1>
                 </div>
                 <!-- end title -->
 
@@ -190,7 +190,7 @@
                             <!-- card cover -->
                             <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
                                 <div class="card__cover">
-                                    <img src="../../Smarty/img/user.png" alt="">
+                                    <img src="{$propic->getImmagine()}" alt="">
                                 </div>
                             </div>
                             <!-- end card cover -->
@@ -201,19 +201,22 @@
 
 
                                     <ul class="card__meta">
-                                        <li><span>Nome:</span> <a href="#">{$utente->getNome()}</a>
+                                        <li><span>Nome:</span>{$utente->getNome()}
                                         <li><span>Cognome:</span>{$utente->getCognome()}</li>
+                                        {if ($canModify)}
                                         <li><span>Email:</span> <a href="#">{$utente->getEmail()}</a> </li>
+                                        {/if}
                                     </ul>
-
-                                    <div class="card__description card__description--details">
-                                        {if ($canModify)}Può modificare!{else}Non può modificare!{/if}
-                                    </div>
                                 </div>
                             </div>
                             <!-- end card content -->
                         </div>
                     </div>
+                </div>
+                <div class="col-12">
+                    {if ($canModify)}
+                        <a href="#" class="section__btn align-content-center">Modifica</a>
+                    {/if}
                 </div>
             </div>
         </div>
