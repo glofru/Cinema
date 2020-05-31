@@ -61,9 +61,9 @@
 								<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cinema</a>
 
 								<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-									<li><a href="catalog1.html">Prossime Uscite</a></li>
-									<li><a href="catalog2.html">Programmazione</a></li>
-									<li><a href="details1.html">Film più apprezzati</a></li>
+									<li><a href="../../Catalogo/prossimeUscite/">Prossime uscite</a></li>
+									<li><a href="../../Catalogo/programmazioniPassate/">Programmazioni</a></li>
+									<li><a href="../../Catalogo/piuApprezzati/">Film più apprezzati</a></li>
 								</ul>
 							</li>
 							<!-- end dropdown -->
@@ -255,74 +255,74 @@
 	</div>
 	<!-- end catalog -->
 
-	<!-- footer -->
-	<footer class="footer">
-		<div class="container">
-			<div class="row">
-				<!-- footer list -->
-				<div class="col-12 col-md-3">
-					<h6 class="footer__title">Download Our App</h6>
-					<ul class="footer__app">
-						<li><a href="#"><img src="../../Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
-						<li><a href="#"><img src="../../Smarty/img/google-play-badge.png" alt=""></a></li>
-					</ul>
-				</div>
-				<!-- end footer list -->
-
-				<!-- footer list -->
-				<div class="col-6 col-sm-4 col-md-3">
-					<h6 class="footer__title">Resources</h6>
-					<ul class="footer__list">
-						<li><a href="#">About Us</a></li>
-						<li><a href="#">Pricing Plan</a></li>
-						<li><a href="#">Help</a></li>
-					</ul>
-				</div>
-				<!-- end footer list -->
-
-				<!-- footer list -->
-				<div class="col-6 col-sm-4 col-md-3">
-					<h6 class="footer__title">Legal</h6>
-					<ul class="footer__list">
-						<li><a href="#">Terms of Use</a></li>
-						<li><a href="#">Privacy Policy</a></li>
-						<li><a href="#">Security</a></li>
-					</ul>
-				</div>
-				<!-- end footer list -->
-
-				<!-- footer list -->
-				<div class="col-12 col-sm-4 col-md-3">
-					<h6 class="footer__title">Contact</h6>
-					<ul class="footer__list">
-						<li><a href="tel:+18002345678">+1 (800) 234-5678</a></li>
-						<li><a href="mailto:support@moviego.com">support@flixgo.com</a></li>
-					</ul>
-					<ul class="footer__social">
-						<li class="facebook"><a href="#"><i class="icon ion-logo-facebook"></i></a></li>
-						<li class="instagram"><a href="#"><i class="icon ion-logo-instagram"></i></a></li>
-						<li class="twitter"><a href="#"><i class="icon ion-logo-twitter"></i></a></li>
-						<li class="vk"><a href="#"><i class="icon ion-logo-vk"></i></a></li>
-					</ul>
-				</div>
-				<!-- end footer list -->
-
-				<!-- footer copyright -->
-				<div class="col-12">
-					<div class="footer__copyright">
-						<small><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></small>
-
-						<ul>
-							<li><a href="#">Terms of Use</a></li>
-							<li><a href="#">Privacy Policy</a></li>
-						</ul>
-					</div>
-				</div>
-				<!-- end footer copyright -->
+<!-- footer -->
+<footer class="footer">
+	<div class="container">
+		<div class="row">
+			<!-- footer list -->
+			<div class="col-12 col-md-3">
+				<h6 class="footer__title">Scarica la nsotra App</h6>
+				<ul class="footer__app">
+					<li><a href="https://play.google.com/store?hl=it"><img src="../../Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
+					<li><a href="https://www.apple.com/it/ios/app-store/"><img src="../../Smarty/img/google-play-badge.png" alt=""></a></li>
+				</ul>
 			</div>
+			<!-- end footer list -->
+
+			<!-- footer list -->
+			<div class="col-6 col-sm-4 col-md-3">
+				<h6 class="footer__title">Informazioni</h6>
+				<ul class="footer__list">
+					<li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
+					<li><a href="../../Informazioni/getCosti/">Costi</a></li>
+					<li><a href="#">Aiuto</a></li>
+				</ul>
+			</div>
+			<!-- end footer list -->
+
+			<!-- footer list -->
+			<div class="col-6 col-sm-4 col-md-3">
+				<h6 class="footer__title">Termini legali</h6>
+				<ul class="footer__list">
+					<li><a href="#">Termini d'uso</a></li>
+					<li><a href="#">Privacy Policy</a></li>
+					<li><a href="#">Sicurezza</a></li>
+				</ul>
+			</div>
+			<!-- end footer list -->
+
+			<!-- footer list -->
+			<div class="col-12 col-sm-4 col-md-3">
+				<h6 class="footer__title">Contatti</h6>
+				<ul class="footer__list">
+					<li><a href="tel:+393357852000">+39 3357852000</a></li>
+					<li><a href="mailto:support@magicboulevardcinema.com">support@magicboulevardcinema.com</a></li>
+				</ul>
+				<ul class="footer__social">
+					<li class="facebook"><a href="https://facebook.com" target="_blank"><i class="icon ion-logo-facebook"></i></a></li>
+					<li class="instagram"><a href="https://instagram.com" target="_blank"><i class="icon ion-logo-instagram"></i></a></li>
+					<li class="twitter"><a href="https://twitter.com" target="_blank"><i class="icon ion-logo-twitter"></i></a></li>
+					<li class="vk"><a href="https://vk.com" target="_blank"><i class="icon ion-logo-vk"></i></a></li>
+				</ul>
+			</div>
+			<!-- end footer list -->
+
+			<!-- footer copyright -->
+			<div class="col-12">
+				<div class="footer__copyright">
+					<small><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></small>
+
+					<ul>
+						<li><a href="#">Termini d'uso</a></li>
+						<li><a href="#">Privacy Policy</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- end footer copyright -->
 		</div>
-	</footer>
-	<!-- end footer -->
+	</div>
+</footer>
+<!-- end footer -->
 
 	<!-- JS -->
 	<script src="../../Smarty/js/jquery-3.3.1.min.js"></script>

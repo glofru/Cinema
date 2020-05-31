@@ -224,8 +224,4 @@ class EHelper
         $minutes = ($time % 60);
         return sprintf($format, $hours, $minutes);
     }
-
-    public static function sortByVote(EFilm $filmA, EFilm $filmB) {
-        return $filmA->score < $filmB->score;
-    }
 }

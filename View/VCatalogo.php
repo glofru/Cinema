@@ -35,7 +35,12 @@ class VCatalogo
         $smarty = StartSmarty::configuration();
         $smarty->assign("utente", $utente);
         $smarty->assign("admin", $isAdmin);
-        $smarty->assign("whois", "Più apprezzati dagli utenti");
+        $smarty->assign("filmApprezzati", $result[0]);
+        $smarty->assign("immaginiApprezzati", $result[1]);
+        $smarty->assign("punteggio", $result[2]);
+        $smarty->assign("filmConsigliati", $consigliati[0]);
+        $smarty->assign("immaginiConsigliati", $consigliati[1]);
+        $smarty->assign("whois", "Top 10 film più apprezzati dagli utenti");
         $smarty->display("catalogo.tpl");
     }
 }
