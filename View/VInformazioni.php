@@ -11,4 +11,11 @@ class VInformazioni
         $smarty->assign("extra", $GLOBALS["extra"]);
         $smarty->display("costi.tpl");
     }
+
+    public static function getAbout($utente, bool $isAdmin) {
+        $smarty = StartSmarty::configuration();
+        $smarty->assign("utente", $utente);
+        $smarty->assign("admin", $isAdmin);
+        $smarty->display("about.tpl");
+    }
 }

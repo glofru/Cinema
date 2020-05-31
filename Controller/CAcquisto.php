@@ -45,7 +45,7 @@ class CAcquisto
             if(!isset($utente)) {
                 header("Location: /");
             }
-            else if(!isset($_SESSION["biglietti"])) {
+            else if(!isset($_SESSION["biglietti"]) || $utente->isAdmin()) {
                 header("Location: /");
             }
             else {
@@ -67,7 +67,7 @@ class CAcquisto
                         }
                         header("Location: ../../Utente/bigliettiAcquistati");
                     } else if ($result == '0') {
-                        VError::error(0, "Errore almeno uno dei posti che voleva acquistare è stato già occupato la invitiamo a riprovare!");
+                        VError::error(0, "Errore almeno uno dei posti che voleva acquistare è stato già occupato. La invitiamo a riprovare!");
                     } else {
                         VError::error(5);
                     }

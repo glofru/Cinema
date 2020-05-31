@@ -89,12 +89,12 @@
 									<a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
 									 {if (!isset($utente))}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-										<li><a href="about.html">Su di noi</a></li>
+										<li><a href="/Informazioni/getAbout/">Su di noi</a></li>
 										<li><a href="/Utente/signup">Registrati</a></li>
 									</ul>
 									{else}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-										<li><a href="about.html">Su di noi</a></li>
+										<li><a href="/Informazioni/getAbout/">Su di noi</a></li>
 									</ul>
 									{/if}
 								</li>
@@ -479,7 +479,7 @@
 
 				<!-- section text -->
 				<div class="col-12">
-					<p class="section__text section__text--last-with-margin">It is a long <b>established</b> fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using.</p>
+					<p class="section__text section__text--last-with-margin">Ringraziamo i nostri sponsor per il loro supporto alla nostra attività.</p>
 				</div>
 				<!-- end section text -->
 
@@ -541,10 +541,10 @@
 			<div class="row">
 				<!-- footer list -->
 				<div class="col-12 col-md-3">
-					<h6 class="footer__title">Download Our App</h6>
+					<h6 class="footer__title">Scarica la nsotra App</h6>
 					<ul class="footer__app">
-						<li><a href="#"><img src="Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
-						<li><a href="#"><img src="Smarty/img/google-play-badge.png" alt=""></a></li>
+						<li><a href="https://play.google.com/store?hl=it"><img src="Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
+						<li><a href="https://www.apple.com/it/ios/app-store/"><img src="Smarty/img/google-play-badge.png" alt=""></a></li>
 					</ul>
 				</div>
 				<!-- end footer list -->
@@ -554,7 +554,7 @@
 					<h6 class="footer__title">Informazioni</h6>
 					<ul class="footer__list">
 						<li><a href="#">Su di noi</a></li>
-						<li><a href="#">Costi</a></li>
+						<li><a href="/Informazioni/getCosti/">Costi</a></li>
 						<li><a href="#">Aiuto</a></li>
 					</ul>
 				</div>
@@ -566,7 +566,7 @@
 					<ul class="footer__list">
 						<li><a href="#">Termini d'uso</a></li>
 						<li><a href="#">Privacy Policy</a></li>
-						<li><a href="#">Securezza</a></li>
+						<li><a href="#">Sicurezza</a></li>
 					</ul>
 				</div>
 				<!-- end footer list -->
@@ -575,14 +575,14 @@
 				<div class="col-12 col-sm-4 col-md-3">
 					<h6 class="footer__title">Contatti</h6>
 					<ul class="footer__list">
-						<li><a href="tel:+18002345678">+1 (800) 234-5678</a></li>
-						<li><a href="mailto:support@moviego.com">support@flixgo.com</a></li>
+						<li><a href="tel:+393357852000">+39 3357852000</a></li>
+						<li><a href="mailto:support@magicboulevardcinema.com">support@magicboulevardcinema.com</a></li>
 					</ul>
 					<ul class="footer__social">
-						<li class="facebook"><a href="#"><i class="icon ion-logo-facebook"></i></a></li>
-						<li class="instagram"><a href="#"><i class="icon ion-logo-instagram"></i></a></li>
-						<li class="twitter"><a href="#"><i class="icon ion-logo-twitter"></i></a></li>
-						<li class="vk"><a href="#"><i class="icon ion-logo-vk"></i></a></li>
+						<li class="facebook"><a href="https://facebook.com" target="_blank"><i class="icon ion-logo-facebook"></i></a></li>
+						<li class="instagram"><a href="https://instagram.com" target="_blank"><i class="icon ion-logo-instagram"></i></a></li>
+						<li class="twitter"><a href="https://twitter.com" target="_blank"><i class="icon ion-logo-twitter"></i></a></li>
+						<li class="vk"><a href="https://vk.com" target="_blank"><i class="icon ion-logo-vk"></i></a></li>
 					</ul>
 				</div>
 				<!-- end footer list -->
