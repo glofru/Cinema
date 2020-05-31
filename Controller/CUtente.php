@@ -47,29 +47,34 @@ class CUtente
             VUtente::loginForm($user);
         }
     }
-    
-//    public static function mostraProfilo() {
-//        $view = new VUtente();
-//        $pm = FPersistentManager::getInstance();
-//        if($_SERVER['REQUEST_METHOD'] == "GET") {
-//            if (CUtente::isloggato()) {
-//                $utente = unserialize($_SESSION['utente']);
-//                if (get_class($utente) == "ERegistrato") {
-//                    $img = $pm->load("emailutente", $utente->getEmail(), "FUtente");
-//                    $annunci = $pm->load("emailWriter", $utente->getEmail(), "FAnnuncio");
-//                    $view->profileCli($utente, $annunci, $img);
-//                } else {
-//                    $img = $pm->load("emailutente", $utente->getEmail(), "FMediaUtente");
-//                    $annunci = $pm->load("emailWriter", $utente->getEmail(), "FAnnuncio");
-//                    list ($imgMezzo,$imgrecensioni) = static::set_profilo_tra($utente);
-//                    $rec = static::info_cliente_rec($utente);
-//                    $view->profileTrasp($utente, $annunci, $img, $imgMezzo, $imgrecensioni,$rec);
-//                }
-//            } else {
-//                header('Location: /Cinema/Utente/login');
-//            }
-//        }
-//    }
+
+    static function mostraprofilo(EUtente $utente) {
+        $view = new VUtente();
+        $pm = FPersistentManager::getInstance();
+        if($_SERVER['REQUEST_METHOD'] == "GET") {
+            if (CUtente::isLogged())
+            {
+                if ($pm->load($utente->getId(), "isBanned", "FMedia")== false)
+                {
+                    $img = $pm->load($utente->getId(), "immagine", "FMedia");
+                    $nome = $pm->load($utente->getId(), "nome", "FUtente");
+                    $cognome = $pm->load($utente->getId(), "cognome", "FUtente");
+                    $username = $pm->load($utente->getId(), "username", "FUtente");
+                    $email = $pm->load($utente->getId(), "email", "FUtente");
+                    $isBanned = $pm->load($utente->getId(), "isBanned", "FMedia");
+                    $view->profiloUtente($nome, $cognome, $username, $email, $img, $isBanned);
+
+                } else {
+                    VError::error(3);
+                }
+
+
+            } else
+                header('Location: /FillSpaceWEB/Utente/login');
+        }
+    }
+
+
 
     private static function saveSession(EUtente $utente) {
         if (session_status() == PHP_SESSION_NONE) {
