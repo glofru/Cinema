@@ -81,12 +81,12 @@
 								<a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
 								{if (!isset($utente))}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-										<li><a href="about.html">Su di noi</a></li>
+										<li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
 										<li><a href="/Utente/signup">Registrati</a></li>
 									</ul>
 								{else}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-										<li><a href="about.html">Su di noi</a></li>
+										<li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
 									</ul>
 								{/if}
 							</li>

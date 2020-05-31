@@ -553,7 +553,7 @@
 				<div class="col-6 col-sm-4 col-md-3">
 					<h6 class="footer__title">Informazioni</h6>
 					<ul class="footer__list">
-						<li><a href="#">Su di noi</a></li>
+						<li><a href="/Informazioni/getAbout/">Su di noi</a></li>
 						<li><a href="/Informazioni/getCosti/">Costi</a></li>
 						<li><a href="#">Aiuto</a></li>
 					</ul>

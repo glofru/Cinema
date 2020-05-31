@@ -202,9 +202,9 @@
 
 				<!-- section text -->
 				<div class="col-12">
-					<p class="section__text">Questo sito e cinema è stato creato da Alessio Di Santo, Gianluca Lofrumento e Giorgio Susanna. L'obbiettivo che ci siamo prefissati è quello di creare un </p>
+					<p class="section__text">Questo sito (e cinema) è stato creato da Alessio Di Santo, Gianluca Lofrumento e Giorgio Susanna. L'obbiettivo che ci siamo prefissati è quello di creare un portale per facilitare l'incontro fra il nostro cinema e l'utente. Velocità, semplicità e varietà sono le parole chiave dle nostro prodotto. Speriamo che vi piaccia.</p>
 
-					<p class="section__text section__text--last-with-margin">'Content here, content here', making it look like <a href="#">readable</a> English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+					<p class="section__text section__text--last-with-margin">Di seguito ti verranno spiegati i passi da compiere per acquisatre uno o più biglietti per le nostre proiezioni a seconda del tuo status di utente (Registrato o Non Registrato). <br> <b>Da utente non registrato non avrai la possibilità di commentare i film e quindi di usufruire di tutte le features del nostro sito...</b></p>
 				</div>
 				<!-- end section text -->
 			</div>
@@ -218,7 +218,7 @@
 			<div class="row">
 				<!-- section title -->
 				<div class="col-12">
-					<h2 class="section__title section__title--no-margin">How it works?</h2>
+					<h2 class="section__title section__title--no-margin">Vuoi acquistare un biglietto registrandoti sul nostro sito?</h2>
 				</div>
 				<!-- end section title -->
 
@@ -226,8 +226,8 @@
 				<div class="col-12 col-md-6 col-lg-4">
 					<div class="how">
 						<span class="how__number">01</span>
-						<h3 class="how__title">Create an account</h3>
-						<p class="how__text">It has never been an issue to find an old movie or TV show on the internet. However, this is not the case with the new releases.</p>
+						<h3 class="how__title">Crea un account</h3>
+						<p class="how__text">Per creare un account ti basterà andare nella nostra home page e cliccare sul menù a tendina con i puntini di sospsensione (...) e premere su registrati. Inserisci i dati richiesti e pufff ora sei un nostro utente :)</p>
 					</div>
 				</div>
 				<!-- ebd how box -->
@@ -236,8 +236,8 @@
 				<div class="col-12 col-md-6 col-lg-4">
 					<div class="how">
 						<span class="how__number">02</span>
-						<h3 class="how__title">Choose your Plan</h3>
-						<p class="how__text">It has never been an issue to find an old movie or TV show on the internet. However, this is not the case with the new releases.</p>
+						<h3 class="how__title">Scegli la proiezione alla quale assistere</h3>
+						<p class="how__text">Nella parte centrale della nostra home sono presentati i film in proiezione questa settimana. Clicca sulla locandina del film che ti interessa. Una volta all'interno della pagina del film scegli il giorno e l'ora della proiezione, clicca sui posti che vorresti e premi Acquista.</p>
 					</div>
 				</div>
 				<!-- ebd how box -->
@@ -246,8 +246,8 @@
 				<div class="col-12 col-md-6 col-lg-4">
 					<div class="how">
 						<span class="how__number">03</span>
-						<h3 class="how__title">Enjoy MovieGo</h3>
-						<p class="how__text">It has never been an issue to find an old movie or TV show on the internet. However, this is not the case with the new releases.</p>
+						<h3 class="how__title">Conferma l'Acquisto</h3>
+						<p class="how__text">A questo punto sarai indirizzato alla pagina di riepilogo del tuo acquisto. Per completare l'acquisto dovrai premere su Acquista. Adesso i biglietti sranno presenti nella tua sezione personale e ti verrà inviata una mail di conferma dell'ordine effettuato. </p>
 					</div>
 				</div>
 				<!-- ebd how box -->
@@ -264,7 +264,7 @@
 		<div class="row">
 			<!-- section title -->
 			<div class="col-12">
-				<h2 class="section__title section__title--no-margin">How it works?</h2>
+				<h2 class="section__title section__title--no-margin">Vuoi acquistare un biglietto senza registrarti sul nostro sito?</h2>
 			</div>
 			<!-- end section title -->
 
@@ -272,8 +272,8 @@
 			<div class="col-12 col-md-6 col-lg-4">
 				<div class="how">
 					<span class="how__number">01</span>
-					<h3 class="how__title">Create an account</h3>
-					<p class="how__text">It has never been an issue to find an old movie or TV show on the internet. However, this is not the case with the new releases.</p>
+					<h3 class="how__title">Scegli la proiezione alla quale assistere</h3>
+					<p class="how__text">Recati nella nostra home page e scegli il film che vorresti andare a vedere. Adesso dovrai scegliere il giorno e l'ora della proiezione per poi cliccare sui posti che vorresti prendere.</p>
 				</div>
 			</div>
 			<!-- ebd how box -->
@@ -282,26 +282,22 @@
 			<div class="col-12 col-md-6 col-lg-4">
 				<div class="how">
 					<span class="how__number">02</span>
-					<h3 class="how__title">Choose your Plan</h3>
-					<p class="how__text">It has never been an issue to find an old movie or TV show on the internet. However, this is not the case with the new releases.</p>
+					<h3 class="how__title">Conferma dell'acquisto</h3>
+					<p class="how__text">Arrivato a questo punto avrai davanti a te una pagina di riepilogo dell'ordine che stai effettuando. Per proseguire dovrai premere su Acquista. Ti verrà chiesto, quindi, di inserire la tua mail per poterti inviare i biglietti. Nella tua mail troverai i tuoi biglietti insieme ad un <a href="">codice di accesso</a> </p>
 				</div>
 			</div>
 			<!-- ebd how box -->
-
-			<!-- how box -->
 			<div class="col-12 col-md-6 col-lg-4">
 				<div class="how">
 					<span class="how__number">03</span>
-					<h3 class="how__title">Enjoy MovieGo</h3>
-					<p class="how__text">It has never been an issue to find an old movie or TV show on the internet. However, this is not the case with the new releases.</p>
+					<h3 class="how__title">Codice di accesso?</h3>
+					<p class="how__text">Il codice di accesso che ti sarà recapitato ti permetterà di consultare sul nostro sito i tuoi acquisti. Per accedere, alla sezione dei tuoi acquisti, dovrai andare nella nostra home e dal menù a tendina (...) premere su <a href="">accesso OTP</a>. Da qui potrai consultare tutti i tuoi acquisti. Il codice sarà valido anche per i tuoi prossimi acquisti così avrai sempre a disposizione un recap dei tuoi acquisti.</p>
 				</div>
 			</div>
-			<!-- ebd how box -->
 		</div>
 	</div>
 </section>
 <!-- end how it works -->
-
 	<!-- partners -->
 	<section class="section">
 		<div class="container">
