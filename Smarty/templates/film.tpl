@@ -128,7 +128,7 @@
                                         <li><a href="">Il mio profilo</a></li>
                                         <li><a href="">Gestione film</a></li>
                                         <li><a href="">Gestione Proiezioni</a></li>
-                                        <li><a href="">Gestione Utenti</a></li>
+                                        <li><a href="../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
                                         <li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
                                     </ul>
                                 </li>
@@ -308,7 +308,7 @@
                                         {if $posto->isOccupato()}
                                             <th><img name="{$pro->getId()}" id="{$posto->getId()}" src="../../Smarty/img/cinema/sedia_occupata.png" alt="Posto"/></th>
                                         {else}
-                                            <th><img name="{$pro->getId()}" id="{$posto->getId()}" onclick="book(this)" src="../../Smarty/img/cinema/sedia_libera.png" alt="Posto"/></th>
+                                            <th><img name="{$pro->getId()}" id="{$posto->getId()}" {if (!$admin)} onclick="book(this)" {/if}src="../../Smarty/img/cinema/sedia_libera.png" alt="Posto"/></th>
                                         {/if}
                                     {/foreach}
                                 </tr>
@@ -318,9 +318,11 @@
                 </div>
             </div>
         {/foreach}
+    {if (!$admin)}
         <div class="col-12--center">
             <a onclick="acquista()" style="color: white; cursor:pointer;" class="section__btn" id="acquista">Acquista</a>
         </div>
+    {/if}
     </div>
 </section>
 {/if}

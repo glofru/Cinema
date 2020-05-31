@@ -66,8 +66,4 @@ class VUtente
         $smarty->assign("locandine", $immagini);
         $smarty->display("bigliettiAcquistati.tpl");
     }
-
-    public static function gestioneUtenti(array $bannati, EAdmin $utente, int $Found = -1) {
-
-    }
 }

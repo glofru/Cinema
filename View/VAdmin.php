@@ -11,4 +11,12 @@ class VAdmin
         $smarty->assign("generi", EGenere::getAll());
         $smarty->display("addFilm.tpl");
     }
+
+    public static function gestioneUtenti(array $bannati, EAdmin $utente, $status = null) {
+        $smarty = StartSmarty::configuration();
+        $smarty->assign("bannati", $bannati);
+        $smarty->assign("utente", $utente);
+        $smarty->assign("status", $status);
+        $smarty->display("gestioneUtenti.tpl");
+    }
 }

@@ -309,7 +309,7 @@ class FDatabase
      * @param $newValue
      * @return bool
      */
-    public function updateTheDB($class, $value, string $row, string $newRow, $newValue): bool {
+    public function updateTheDB($class, $value, string $row, $newValue, string $newRow): bool {
         try {
             $this->db->beginTransaction();
             $query = "UPDATE " . $class::getTableName() . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";

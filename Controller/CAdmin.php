@@ -67,47 +67,50 @@ class CAdmin
         }
     }
 
-    public function gestioneUtenti() {
+    public static function gestioneUtenti() {
         self::checkAdmin();
 
         $pm = FPersistentManager::getInstance();
         $utente = CUtente::getUtente();
 
         if($_SERVER["REQUEST_METHOD"] === "GET") {
-            $bannati = $pm->load("1","isBanned","EUtente");
+            $bannati = $pm->loadbannati();
             VAdmin::gestioneUtenti($bannati, $utente);
         }
         else {
             if(isset($_POST["utente"])) {
-                $toBan = $pm->load($_POST["utente"],"id","EUtente")[0];
+                $toBan = $pm->load($_POST["utente"],"username","EUtente");
                 if(!isset($toBan)) {
-                    $status = 0;
+                    $status = "ERRORE: UTENTE NON PRESENTE NEL DATABASE!";
                 }
                 else {
                     if (!$toBan->isAdmin() && !$toBan->isBanned()) {
-                        $pm->update($_POST["utente"], "id", 1, "isBanned", "EUtente");
-                        $status = 1;
+                        $pm->update($_POST["utente"], "username", 1, "isBanned", "EUtente");
+                        $status = "OPERAZIONE RIUSCITA!";
                     } else {
-                        $status = 2;
+                        $status = "ERRORE: L'UTENTE SELEZIONATO E' GIA' BANNATO OPPURE UN AMMINISTRATORE!";
                     }
                 }
             }
             else if(isset($_POST["unban"])) {
-                $toUnban = $pm->load($_POST["utente"],"id","EUtente")[0];
+                $toUnban = $pm->load($_POST["unban"],"id","EUtente");
                 if(!isset($toUnban)){
-                    $status = 3;
+                    $status = "ERRORE: UTENTE NON PRESENTE NEL DATABASE!";
                 }
                 else {
                     if ($toUnban->isBanned()) {
-                        $pm->update($toUnban, "id", 0, "isBanned", "EUtente");
-                        $status = 1;
+                        $pm->update($_POST["unban"], "id", 0, "isBanned", "EUtente");
+                        $status = "OPERAZIONE RIUSCITA!";
                     }
                     else {
-                        $status = 4;
+                        $status = "ERRORE: UTENTE NON BANNATO!";
                     }
                 }
             }
-            $bannati = $pm->load("1","isBanned","EUtente");
+            else {
+                $status = "ERRORE: IMPOSSIBILE ESEGUIRE L'OPERAZIONE";
+            }
+            $bannati = $pm->loadbannati();
             VAdmin::gestioneUtenti($bannati, $utente, $status);
         }
     }

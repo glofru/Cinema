@@ -68,7 +68,9 @@ class CFilm
     private static function getProgrammazione(FPersistentManager $pm, EHelper $gestore, string $filmID): EProgrammazioneFilm {
         $elenco = $pm->load($filmID, "idFilm", "EProiezione");
         $programmazioneFilm = $elenco->getElencoProgrammazioni()[0];
-
+        if (!isset($programmazioneFilm)){
+            $programmazioneFilm = new EProgrammazioneFilm();
+        }
         return $gestore->programmazione($programmazioneFilm);
     }
 }
