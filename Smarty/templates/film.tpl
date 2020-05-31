@@ -393,7 +393,7 @@
                                             {/foreach}
                                         {/if}
                                     </ul>
-                                    {if $canView}
+                                    {if $canView && !$admin}
                                     <form action="/Giudizio/add" class="form" method="POST">
                                         <input name="titolo" type="text" class="form__input" placeholder="Titolo (max 30 caratteri)" maxlength="30">
                                         <textarea name="commento" class="form__textarea" placeholder="Recensione (max 200 caratteri)" maxlength="200"></textarea>
