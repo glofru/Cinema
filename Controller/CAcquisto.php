@@ -49,7 +49,7 @@ class CAcquisto
 
             foreach ($biglietti as $item) {
                 if ($item->getUtente()->getId() !== CUtente::getUtente()->getId()) {
-                    VError::error(5);
+                    VError::error(100);
                     return;
                 }
             }

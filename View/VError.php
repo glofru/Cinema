@@ -25,8 +25,15 @@ class VError
                 $error_description = "Pagina destinata agli amministratori.";
                 break;
             case 4:
-                $error_description = "Errore il tuo account è stato sospseso.";
+                $error_description = "Il tuo account è stato sospseso.";
                 break;
+            case 5:
+                $error_description = "Utente non presente nel database.";
+                break;
+            case 6:
+                $error_description = "Non si può accedere a questa pagina senza login.";
+                break;
+            case 100:
             default:
                 $error_description = "Errore generico.";
         }

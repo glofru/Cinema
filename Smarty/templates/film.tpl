@@ -385,10 +385,13 @@
                                                     <span class="reviews__name" style="display: inline-block; position: relative; float: right; bottom: -7px">
                                                     <a style="line-height: normal" class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
                                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-                                                        <li><a href="../../Informazioni/getAbout/">Cancella</a></li>
+                                                        <li><a onclick="erase({$rev->getFilm()->getId()}, {$rev->getUtente()->getId()})" href="#null">Cancella</a></li>
                                                         {if $utente->isAdmin()}
-                                                            <li><a href="../../Informazioni/getAbout/">Banna utente</a></li>
+                                                            <li><a onclick="erase({$rev->getFilm()->getId()}, {$rev->getUtente()->getId()}, true)" href="#null">Cancella e banna</a></li>
                                                         {/if}
+
+                                                        <!-- Vedi Javascript -->
+                                                        <form id="form" action="" method="POST"></form>
                                                     </ul>
                                                     </span>
                                                 {/if}
@@ -409,7 +412,7 @@
                                             <div class="form__slider-rating" id="slider__rating"></div>
                                             <div class="form__slider-value" id="form__slider-value"></div>
                                         </div>
-                                        <input type="hidden" id="film" name="filmId" value="{$film->getId()}">
+                                        <input type="hidden" id="film" name="film" value="{$film->getId()}">
                                         <input type="hidden" name="punteggio" id="punteggio">
                                         <button type="submit" class="form__btn" onclick="getVal()">Invia</button>
                                     </form>
@@ -633,6 +636,21 @@
             bookedSeat.push(id);
             value.setAttribute("src", occupazione);
         }
+    }
+
+    function erase(idFilm, idUtente, ban = false) {
+        let form = $("#form");
+
+        if (ban) {
+            form.attr("action", "/Admin/deleteAndBan");
+        } else {
+            form.attr("action", "/Giudizio/delete");
+        }
+
+        form.append("<input type='hidden' name='film' value='" + idFilm + "' />");
+        form.append("<input type='hidden' name='utente' value='" + idUtente + "' />");
+
+        form.submit();
     }
 </script>
 
