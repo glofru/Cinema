@@ -69,9 +69,9 @@
 									<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalogo</a>
 									
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-										<li><a href="catalog1.html">Prossime Uscite</a></li>
-										<li><a href="catalog2.html">Programmazione</a></li>
-										<li><a href="details1.html">Film più apprezzati</a></li>
+										<li><a href="/Catalogo/prossimeUscite/">Prossime uscite</a></li>
+										<li><a href="/Catalogo/programmazioniPassate/">Programmazioni</a></li>
+										<li><a href="/Catalogo/piuApprezzati/">Film più apprezzati</a></li>
 									</ul>
 								</li>
 								<!-- end dropdown -->

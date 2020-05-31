@@ -5,21 +5,24 @@ class CHome
     public static function showHome() {
         $gestore = EHelper::getInstance();
         $cookie = $gestore->preferences($_COOKIE['preferences']);
-        $prossimi = self::getProssimi();
+        $prossimi = self::getProssimi(5);
         $consigliati = self::getConsigliati($cookie);
-        $proiezioni = self::getProiezioni($gestore->getSettimana(), $gestore);
-        $prossima = self::getProiezioni($gestore->getSettimanaProssima(), $gestore);
-        $scorsa = self::getProiezioni($gestore->getSettimanaScorsa(), $gestore);
+        $proiezioni = self::getProiezioni($gestore->getSettimana());
+        $prossima = self::getProiezioni($gestore->getSettimanaProssima());
+        $scorsa = self::getProiezioni($gestore->getSettimanaScorsa(1));
 
         $utente = CUtente::getUtente();
         $isAdmin = $utente != null && $utente->isAdmin();
         VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2], $proiezioni[3], $scorsa[0], $scorsa[1], $scorsa[2], $scorsa[3], $prossima[0], $prossima[1], $prossima[2], $prossima[3], $utente, $isAdmin);
     }
 
-    private static function getProssimi() {
+    public static function getProssimi(int $size) {
         $pm = FPersistentManager::getInstance();
         $date = EHelper::getInstance()->getDateProssime();
         $filmProssimi = $pm->loadBetween($date[0], $date[1],"EFilm");
+        if(sizeof($filmProssimi) > $size) {
+            array_splice($filmProssimi, 0, $size);
+        }
         $immaginiProssimi = [];
         foreach($filmProssimi as $film) {
             array_push($immaginiProssimi, $pm->load($film->getId(), "idFilm", "EMedia"));
@@ -63,7 +66,7 @@ class CHome
         return $result;
     }
 
-    public static function getProiezioni(array $date, EHelper $gestore) {
+    public static function getProiezioni(array $date) {
         $pm = FPersistentManager::getInstance();
         $elencoprogrammazioni = $pm->loadBetween($date[0], $date[1], "EProiezione");
         $filmProiezioni = [];
@@ -81,7 +84,7 @@ class CHome
         
         foreach($giudizifilm as $g) {
             if(sizeof($g) > 0) {
-                $p = $gestore->getMedia($g);
+                $p = EHelper::getInstance()->getMedia($g);
             }
             else {
                 $p = 0;

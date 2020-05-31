@@ -59,15 +59,17 @@ class EHelper
         return $result;
     }
 
-    public function getSettimanaScorsa(): array {
+    public function getSettimanaScorsa(int $n): array {
         $result = [];
         $inizio = new DateTime('now');
         $i = 0;
         $found = false;
+        $k = ($n * 6);
+        if($n > 2) {$k += $n - 2;}
         while(!$found) {
             $inizio->modify('-1 Day');
             $giorno = $inizio->format('D');
-            if($giorno == 'Mon' && $i > 6) {$found = true;}
+            if($giorno == 'Mon' && $i > $k) {$found = true;}
             $i++;
         }
         $inizio = $inizio->format('Y-m-d');
@@ -223,17 +225,7 @@ class EHelper
         return sprintf($format, $hours, $minutes);
     }
 
-    /*public function fromSimplifiedString(string $str): array {
-        $return = [];
-        $str = explode(";", $str);
-        foreach ($str as $s) {
-            $s = explode("|", $s);
-            $results = [];
-            foreach ($s as $item) {
-                array_push($results, $item);
-            }
-            array_push($return,$results);
-        }
-        return $return;
-    }*/
+    public static function sortByVote(EFilm $filmA, EFilm $filmB) {
+        return $filmA->score < $filmB->score;
+    }
 }

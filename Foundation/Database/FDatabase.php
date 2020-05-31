@@ -183,7 +183,6 @@ class FDatabase
             $sender = $this->db->prepare($query);
             $sender->execute();
             $returnedRows = $sender->rowCount();
-
             $return = [];
             if($returnedRows == 0){
                 return [];
