@@ -81,16 +81,12 @@
                             <!-- dropdown -->
                             <li class="dropdown header__nav-item">
                                 <a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
-                                {if (!isset($utente))}
-                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-                                        <li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
-                                        <li><a href="../../Utente/signup">Registrati</a></li>
-                                    </ul>
-                                {else}
-                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-                                        <li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
-                                    </ul>
-                                {/if}
+                                <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
+                                    <li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
+                                    {if (!isset($utente))}
+                                     <li><a href="../../Utente/signup">Registrati</a></li>
+                                    {/if}
+                                </ul>
                             </li>
                             <!-- end dropdown -->
                         </ul>
@@ -383,9 +379,21 @@
                                         <li class="reviews__item">
                                             <div class="reviews__autor">
                                                 <img class="reviews__avatar" src="{$propic[$key]->getImmagine()}" alt="">
-                                                <span class="reviews__name">{$rev->getTitle()}</span>
-                                                <span class="reviews__time">da <a href="../../Utente/showUtente/?idShow={$rev->getUtente()->getId()}">@{$rev->getUtente()->getUsername()}</a> il {$rev->getDataPubblicazioneString()}</span>
+                                                <span class="reviews__name" style="display: inline-block">{$rev->getTitle()}</span>
 
+                                                {if isset($utente) && ($rev->getUtente()->getId() == $utente->getId() || $utente->isAdmin())}
+                                                    <span class="reviews__name" style="display: inline-block; position: relative; float: right; bottom: -7px">
+                                                    <a style="line-height: normal" class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
+                                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
+                                                        <li><a href="../../Informazioni/getAbout/">Cancella</a></li>
+                                                        {if $utente->isAdmin()}
+                                                            <li><a href="../../Informazioni/getAbout/">Banna utente</a></li>
+                                                        {/if}
+                                                    </ul>
+                                                    </span>
+                                                {/if}
+
+                                                <span class="reviews__time">da <a href="../../Utente/showUtente/?idShow={$rev->getUtente()->getId()}">@{$rev->getUtente()->getUsername()}</a> il {$rev->getDataPubblicazioneString()}</span>
                                                 <span class="reviews__rating"><i class="icon ion-ios-star"></i>{$rev->getPunteggio()}</span>
                                             </div>
                                             <p class="reviews__text">{$rev->getCommento()}</p>

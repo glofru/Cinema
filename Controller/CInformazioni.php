@@ -14,14 +14,9 @@ class CInformazioni
     }
 
     private static function controls(): array {
-        $utente = CUtente::getUtente();
-        if(isset($utente)){
-            $isAdmin = $utente->isAdmin();
-        } else {
-            $isAdmin = false;
-        }
+        $isAdmin = CUtente::isLogged() && CUtente::getUtente()->isAdmin();
         $result = [];
-        array_push($result, $utente, $isAdmin);
+        array_push($result, CUtente::getUtente(), $isAdmin);
         return $result;
     }
 }
