@@ -3,10 +3,12 @@
 
 class VUtente
 {
-    public static function showUtente(EUtente $utente)
+    public static function showUtente(EUtente $utente, bool $canModify, bool $isAdmin)
     {
         $smarty = StartSmarty::configuration();
         $smarty->assign("utente", $utente);
+        $smarty->assign("canModify", $canModify);
+        $smarty->assign("admin", $isAdmin);
         $smarty->display("user.tpl");
     }
 
@@ -52,18 +54,6 @@ class VUtente
         }
 
         $smarty->display("signup.tpl");
-    }
-
-    public static function profiloUtente($nome, $cognome , $username, $email, $img, $isbanned ) {
-        $smarty = StartSmarty::configuration();
-        $smarty->assign("nome", $nome);
-        $smarty->assign("cognome", $cognome);
-        $smarty->assign("username", $username);
-        $smarty->assign("email", $email);
-        $smarty->assign("img", $img);
-        $smarty->assign("bannato", $isbanned);
-        $smarty->display("user.tpl");
-
     }
 
     public static function showBiglietti(array $biglietti, array $immagini, EUtente $utente) {

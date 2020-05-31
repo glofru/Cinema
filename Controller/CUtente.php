@@ -53,29 +53,32 @@ class CUtente
             }
     }
 
-    public static function mostraprofilo() {
-        $pm = FPersistentManager::getInstance();
-        if($_SERVER['REQUEST_METHOD'] == "GET") {
-            if (CUtente::isLogged())
-            {
-                $utente = CUtente::getUtente();
-                if ($pm->load($utente->getId(), "isBanned", "FMedia")== false)
-                {
-                    $img = $pm->load($utente->getId(), "immagine", "FMedia");
-                    $nome = $pm->load($utente->getId(), "nome", "FUtente");
-                    $cognome = $pm->load($utente->getId(), "cognome", "FUtente");
-                    $username = $pm->load($utente->getId(), "username", "FUtente");
-                    $email = $pm->load($utente->getId(), "email", "FUtente");
-                    $isBanned = $pm->load($utente->getId(), "isBanned", "FMedia");
-                    VUtente::profiloUtente($nome, $cognome, $username, $email, $img, $isBanned);
+    public static function showUtente() {
 
+        if($_SERVER['REQUEST_METHOD'] == "GET") {
+            $pm = FPersistentManager::getInstance();
+            $utente = self::getUtente();
+            if(!isset($_GET["idShow"])){
+               // header("Location: /");
+                echo "NOTSET";
+            }
+            else
+            {
+                if(isset($utente) && $utente->getId() === intval($_GET["idShow"])) {
+                    $canModify = true;
+                    $toShow = $utente;
                 } else {
-                    VError::error(3);
+                    $canModify = false;
+                    $toShow = $pm->load($_GET["idShow"],"id","EUtente");
+                }
+                if(isset($toShow)){
+                    VUtente::showUtente($toShow, $canModify, $toShow->isAdmin());
+                }
+                else {
+                    VError::error(0,"PROFILO UTENTE NON TROVATO!");
                 }
 
-
-            } else
-                header('Location: /Utente/login');
+            }
         }
     }
 
