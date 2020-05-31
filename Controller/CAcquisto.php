@@ -50,25 +50,29 @@ class CAcquisto
             }
             else {
                 $biglietti = unserialize($_SESSION["biglietti"]);
-                foreach($biglietti as $item) {
-                    if($item->getUtente()->getId() !== $utente->getId()) {
-                        //TODO
+                $error = false;
+                foreach ($biglietti as $item) {
+                    if ($item->getUtente()->getId() !== $utente->getId()) {
+                        $error = true;
+                        break;
                     }
                 }
-                $pm = FPersistentManager::getInstance();
-                $result = $pm->occupaPosti($biglietti);
-                echo "RES: " . $result . "<br>";
-                if($result == '1') {
-                    foreach ($biglietti as $item) {
-                        $pm->save($item);
+                if (!$error) {
+                    $pm = FPersistentManager::getInstance();
+                    $result = $pm->occupaPosti($biglietti);
+
+                    if ($result == '1') {
+                        foreach ($biglietti as $item) {
+                            $pm->save($item);
+                        }
+                        header("Location: ../../Utente/bigliettiAcquistati");
+                    } else if ($result == '0') {
+                        VError::error(0, "Errore almeno uno dei posti che voleva acquistare è stato già occupato la invitiamo a riprovare!");
+                    } else {
+                        VError::error(5);
                     }
-                    header("Location: ../../Utente/bigliettiAcquistati");
-                }
-                else if ($result == '0') {
-                    echo "ERRORE 0";
-                }
-                else {
-                    echo "ERRORE 1";
+                } else {
+                    VError::error(5);
                 }
             }
         }
