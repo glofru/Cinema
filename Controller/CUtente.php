@@ -65,7 +65,7 @@ class CUtente
                     $view->profiloUtente($nome, $cognome, $username, $email, $img, $isBanned);
 
                 } else {
-                    VError::error(3);
+                    VError::error(4);
                 }
 
 
