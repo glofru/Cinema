@@ -69,7 +69,7 @@
 							<!-- end dropdown -->
 
 							<li class="header__nav-item">
-								<a href="pricing.html" class="header__nav-link">Costi</a>
+								<a href="../../Informazioni/getCosti/" class="header__nav-link">Prezzi</a>
 							</li>
 
 							<li class="header__nav-item">

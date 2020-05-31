@@ -43,7 +43,7 @@
 				<div class="col-12">
 					<div class="header__content">
 						<!-- header logo -->
-						<a href="/" class="header__logo">
+						<a href="../../index.php" class="header__logo">
 							<img src="../../Smarty/img/logo.svg" alt="">
 						</a>
 						<!-- end header logo -->
@@ -52,7 +52,9 @@
 						<ul class="header__nav">
 							<!-- dropdown -->
 							<li class="header__nav-item">
-								<a class="dropdown-toggle header__nav-link" href="/" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
+								<a class="dropdown-toggle header__nav-link" href="../../index.php" role="button" >Home</a>
+
+
 							</li>
 							<!-- end dropdown -->
 
@@ -69,7 +71,7 @@
 							<!-- end dropdown -->
 
 							<li class="header__nav-item">
-								<a href="../../Informazioni/getCosti/" class="header__nav-link">Prezzi</a>
+								<a href="pricing.html" class="header__nav-link">Prezzi</a>
 							</li>
 
 							<li class="header__nav-item">
@@ -82,7 +84,7 @@
 								{if (!isset($utente))}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
 										<li><a href="about.html">Su di noi</a></li>
-										<li><a href="/Utente/signup">Registrati</a></li>
+										<li><a href="../../Utente/signup">Registrati</a></li>
 									</ul>
 								{else}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
@@ -172,13 +174,13 @@
 				<div class="col-12">
 					<div class="section__wrap">
 						<!-- section title -->
-						<h2 class="section__title">Lista risultati</h2>
+						<h2 class="section__title">Prezzi</h2>
 						<!-- end section title -->
 
 						<!-- breadcrumb -->
 						<ul class="breadcrumb">
 							<li class="breadcrumb__item"><a href="/">Home</a></li>
-							<li class="breadcrumb__item breadcrumb__item--active">Lista risultati</li>
+							<li class="breadcrumb__item breadcrumb__item--active">Costi</li>
 						</ul>
 						<!-- end breadcrumb -->
 					</div>
@@ -188,187 +190,194 @@
 	</section>
 	<!-- end page title -->
 
-	<!-- filter -->
-	<form action="/Ricerca/cercaFilmAttributi" method="POST">
-	<div class="filter">
+	<!-- pricing -->
+	<div class="section">
 		<div class="container">
 			<div class="row">
+				<!-- plan features -->
 				<div class="col-12">
-					<div class="filter__content">
-						<div class="filter__items">
-							<!-- filter item -->
-							<div class="filter__item" id="filter__genre">
-								<span class="filter__item-label">GENERE:</span>
+					<ul class="row plan-features">
+						<li class="col-12 col-md-12 col-lg-20">Ai seguenti prezzi va applicato un sovrapprezzo di {$extra}€ se si acquista un biglietto per una proiezione che si terrà almeno 7 giorni dopo il giorno di acquisto!*</li>
+					</ul>
+				</div>
+				<!-- end plan features -->
 
-								<div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-genre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<input type="button" id="g" name="g" value="Azione">
-									<span></span>
-								</div>
+				<!-- price -->
+				<div class="col-12 col-md-6 col-lg-4">
+				</div>
+				<!-- end price -->
 
-								<ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter-genre">
-									{foreach $genere as $g}
-										<li>{$g}</li>
-									{/foreach}
-								</ul>
-							</div>
-							<!-- end filter item -->
-
-							<!-- filter item -->
-							<div class="filter__item" id="filter__rate">
-								<span class="filter__item-label">Voto Critica:</span>
-
-								<div class="filter__item-btn dropdown-toggle" role="button" id="filter-rate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<div class="filter__range">
-										<div id="filter__imbd-start"></div>
-										<input type="hidden" name="voto_inizio" id="voto_inizio">
-										<div id="filter__imbd-end"></div>
-										<input type="hidden" name="voto_fine" id="voto_fine">
-										<input type="hidden" name="Genere" id="Genere">
-									</div>
-									<span></span>
-								</div>
-
-								<div class="filter__item-menu filter__item-menu--range dropdown-menu" aria-labelledby="filter-rate">
-									<div id="filter__imbd"></div>
-								</div>
-							</div>
-							<!-- end filter item -->
-
-							<!-- filter item -->
-							<div class="filter__item" id="filter__year">
-								<span class="filter__item-label">Anno di Rilascio:</span>
-
-								<div class="filter__item-btn dropdown-toggle" role="button" id="filter-year" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<div class="filter__range">
-										<div id="filter__years-start"></div>
-										<input type="hidden" name="anno_inizio" id="anno_inizio">
-										<div id="filter__years-end"></div>
-										<input type="hidden" name="anno_fine" id="anno_fine">
-									</div>
-									<span></span>
-								</div>
-
-								<div class="filter__item-menu filter__item-menu--range dropdown-menu" aria-labelledby="filter-year">
-									<div id="filter__years"></div>
-								</div>
-							</div>
-							<!-- end filter item -->
-						</div>
-
-						<!-- filter btn -->
-						<button class="filter__btn" onclick="sender()" type="submit">Applica filtri</button>
-						<!-- end filter btn -->
+				<!-- price -->
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="price price--premium">
+						<div class="price__item price__item--first"><span>Costo biglietti</span></div>
+						<div class="price__item"><span>Lunedi: {$price["Mon"]}€</span></div>
+						<div class="price__item"><span>Martedì: {$price["Tue"]}€</span></div>
+						<div class="price__item"><span>Mercoledì: {$price["Wed"]}€</span></div>
+						<div class="price__item"><span>Giovedì: {$price["Thu"]}€</span></div>
+						<div class="price__item"><span>Venerdì: {$price["Fri"]}€</span></div>
+						<div class="price__item"><span>Sabato: {$price["Sat"]}€</span></div>
+						<div class="price__item"><span>Domenica: {$price["Sun"]}€</span></div>
 					</div>
 				</div>
-			</div>
-		</div>
-		</div>
-	</form>
-	<!-- end filter -->
+				<!-- end price -->
 
-	<!-- catalog -->
-	<div class="catalog">
-		<div class="container">
-			<div class="row">
-				{if (sizeof($filmCercati) > 0)}
-				{foreach $filmCercati as $key => $film}
-				<!-- card -->
-				<div class="col-6 col-sm-12 col-lg-6">
-					<div class="card card--list">
-						<div class="row">
-							<div class="col-12 col-sm-4">
-								<div class="card__cover">
-									<img src="{$immaginiCercati[$key]->getImmagineHTML()}" alt="">
-									<a href="/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
-										<i class="icon ion-ios-play"></i>
-									</a>
-								</div>
-							</div>
-
-							<div class="col-12 col-sm-8">
-								<div class="card__content">
-									<h3 class="card__title"><a href="/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
-
-									<div class="card__wrap">
-										{if ($film->getVotoCritica() != 0)}
-											<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
-										{else}
-											<div class="card__description"> <p>Data di uscita: {$film->getDataRilascioString()}</p></div>
-										{/if}
-
-										{if ($punteggio[$key] != 0)}
-											<span class="card__category">
-													<a href="/Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggio[$key]}</a>
-												</span>
-										{/if}
-
-										{if ($film->getetaConsigliata() != "")}
-											<ul class="card__list">
-												<li>{$film->getetaConsigliata()}</li>
-											</ul>
-										{/if}
-									</div>
-
-									<div class="card__description">
-										<p>{$film->getDescrizioneHTML()}</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+				<!-- price -->
+				<div class="col-12 col-md-6 col-lg-4">
 				</div>
-				{/foreach}
-				<!-- end card -->
-				{else}
-					<div class="col-12">
-						<h2 class="section__title section__title--center">Nessun risultato ottenuto... :(</h2>
-					</div>
-				{/if}
+				<!-- end price -->
+				<div class="col-12">
+					<ul class="row plan-features">
+						<li class="col-24 col-md-6 col-lg-40">*I biglietti una volta acquistati non saranno rimbosati!</li>
+					</ul>
+				</div>
+				<!-- end plan features -->
 			</div>
 		</div>
 	</div>
-	<!-- end catalog -->
+	<!-- end pricing -->
 
-	<!-- expected premiere -->
-	<section class="section section--bg" data-bg="img/section/section.jpg">
+	<!-- features -->
+	<section class="section section--dark">
 		<div class="container">
 			<div class="row">
 				<!-- section title -->
 				<div class="col-12">
-					<h2 class="section__title">Consigliati per te</h2>
+					<h2 class="section__title section__title--no-margin">Cosa offriamo</h2>
 				</div>
 				<!-- end section title -->
-				{if $filmConsigliati}
-					{foreach $filmConsigliati as $key => $film}
-						<!-- card -->
-						<div class="col-6 col-sm-4 col-lg-3 col-xl-2">
-							<div class="card">
-								<div class="card__cover">
-									<img src="{$immaginiConsigliati[$key]->getImmagineHTML()}" alt="">
-									<a href="/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
-										<i class="icon ion-ios-play"></i>
-									</a>
-								</div>
-								<div class="card__content">
-									<h3 class="card__title"><a href="/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
-									<span class="card__category">
-								<a href="#">{$film->getGenere()}</a>
-							</span>
-									{if ($film->getVotoCritica() != 0)}
-										<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
-									{else}
-										<div class="card__description"> <p>Data di uscita: <br> {$film->getDataRilascioString()}</p></div>
-									{/if}
-								</div>
-							</div>
-						</div>
-						<!-- end card -->
-					{/foreach}
-				{/if}
+
+				<!-- feature -->
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="feature">
+						<i class="icon ion-ios-tv feature__icon"></i>
+						<h3 class="feature__title">IMAX</h3>
+						<p class="feature__text">Le nostre sale sono dotate di schermi <a href="https://it.wikipedia.org/wiki/IMAX" target="_blank">IMAX</a>, di ultima generazione, per garantirti la migliore immersività possibile.</p>
+					</div>
+				</div>
+				<!-- end feature -->
+
+				<!-- feature -->
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="feature">
+						<i class="icon ion-ios-film feature__icon"></i>
+						<h3 class="feature__title">Film</h3>
+						<p class="feature__text">Grazie al nostro portale potrai essere informato sugli spettacoli che sono in programmazione e consultare le nostre programmazioni passate... magari per recuperare qualche gran bel film :)</p>
+					</div>
+				</div>
+				<!-- end feature -->
+
+				<!-- feature -->
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="feature">
+						<i class="icon ion-ios-trophy feature__icon"></i>
+						<h3 class="feature__title">Premi</h3>
+						<p class="feature__text">Nel 2020 siamo stati eletti il miglior sito di cinema fittizio mai inventato. Il premio ci è stato assegnato da parte di una commissione specializzata di inesperti del settore.</p>
+					</div>
+				</div>
+				<!-- end feature -->
+
+				<!-- feature -->
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="feature">
+						<i class="icon ion-ios-notifications feature__icon"></i>
+						<h3 class="feature__title">Newsletter</h3>
+						<p class="feature__text">Per rimanere sempre aggiornato sui nuovi film in programmazione e le prossime uscite puoi iscriverti alla nostra newsletter! Ti aspettiamo ;)</p>
+					</div>
+				</div>
+				<!-- end feature -->
+
+				<!-- feature -->
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="feature">
+						<i class="icon ion-ios-rocket feature__icon"></i>
+						<h3 class="feature__title">Massima efficienza</h3>
+						<p class="feature__text">Una volta acquistato il tuo biglietto potrai, in tempo lampo, osservare sulla tua mail la ricevuta dell'acquisto. utile per acquisti last-minute.</p>
+					</div>
+				</div>
+				<!-- end feature -->
+
+				<!-- feature -->
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="feature">
+						<i class="icon ion-ios-globe feature__icon"></i>
+						<h3 class="feature__title">Dove Siamo...</h3>
+						<p class="feature__text">Il nostro cinema si trova nella città metropolitana di <a href="https://it.wikipedia.org/wiki/Morterone" target="_blank">Morterone(LC)</a></p>
+					</div>
+				</div>
+				<!-- end feature -->
 			</div>
 		</div>
 	</section>
-	<!-- end expected premiere -->
+	<!-- end features -->
+
+	<!-- partners -->
+	<section class="section">
+		<div class="container">
+			<div class="row">
+				<!-- section title -->
+				<div class="col-12">
+					<h2 class="section__title section__title--no-margin">Our Partners</h2>
+				</div>
+				<!-- end section title -->
+
+				<!-- section text -->
+				<div class="col-12">
+					<p class="section__text section__text--last-with-margin">It is a long <b>established</b> fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using.</p>
+				</div>
+				<!-- end section text -->
+
+				<!-- partner -->
+				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+					<a href="#" class="partner">
+						<img src="../../Smarty/img/partners/themeforest-light-background.png" alt="" class="partner__img">
+					</a>
+				</div>
+				<!-- end partner -->
+
+				<!-- partner -->
+				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+					<a href="#" class="partner">
+						<img src="../../Smarty/img/partners/audiojungle-light-background.png" alt="" class="partner__img">
+					</a>
+				</div>
+				<!-- end partner -->
+
+				<!-- partner -->
+				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+					<a href="#" class="partner">
+						<img src="../../Smarty/img/partners/codecanyon-light-background.png" alt="" class="partner__img">
+					</a>
+				</div>
+				<!-- end partner -->
+
+				<!-- partner -->
+				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+					<a href="#" class="partner">
+						<img src="../../Smarty/img/partners/photodune-light-background.png" alt="" class="partner__img">
+					</a>
+				</div>
+				<!-- end partner -->
+
+				<!-- partner -->
+				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+					<a href="#" class="partner">
+						<img src="../../Smarty/img/partners/activeden-light-background.png" alt="" class="partner__img">
+					</a>
+				</div>
+				<!-- end partner -->
+
+				<!-- partner -->
+				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+					<a href="#" class="partner">
+						<img src="../../Smarty/img/partners/3docean-light-background.png" alt="" class="partner__img">
+					</a>
+				</div>
+				<!-- end partner -->
+			</div>
+		</div>
+	</section>
+	<!-- end partners -->
 
 	<!-- footer -->
 	<footer class="footer">
@@ -378,8 +387,8 @@
 				<div class="col-12 col-md-3">
 					<h6 class="footer__title">Download Our App</h6>
 					<ul class="footer__app">
-						<li><a href="#"><img src="img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
-						<li><a href="#"><img src="img/google-play-badge.png" alt=""></a></li>
+						<li><a href="#"><img src="../../Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
+						<li><a href="#"><img src="../../Smarty/img/google-play-badge.png" alt=""></a></li>
 					</ul>
 				</div>
 				<!-- end footer list -->
@@ -440,15 +449,6 @@
 	<!-- end footer -->
 
 	<!-- JS -->
-	<script>
-		function sender() {
-			document.getElementById("voto_inizio").value = document.getElementById("filter__imbd-start").outerHTML;
-			document.getElementById("voto_fine").value = document.getElementById("filter__imbd-end").outerHTML;
-			document.getElementById("anno_inizio").value = document.getElementById("filter__years-start").outerHTML;
-			document.getElementById("anno_fine").value = document.getElementById("filter__years-end").outerHTML;
-			document.getElementById("Genere").value = document.getElementById("g").value;
-		}
-	</script>
 	<script src="../../Smarty/js/jquery-3.3.1.min.js"></script>
 	<script src="../../Smarty/js/bootstrap.bundle.min.js"></script>
 	<script src="../../Smarty/js/owl.carousel.min.js"></script>
@@ -461,7 +461,6 @@
 	<script src="../../Smarty/js/photoswipe.min.js"></script>
 	<script src="../../Smarty/js/photoswipe-ui-default.min.js"></script>
 	<script src="../../Smarty/js/main.js"></script>
-
 </body>
 
 </html>

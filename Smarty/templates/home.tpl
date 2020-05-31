@@ -66,7 +66,7 @@
 
 								<!-- dropdown -->
 								<li class="header__nav-item">
-									<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cinema</a>
+									<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalogo</a>
 									
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
 										<li><a href="catalog1.html">Prossime Uscite</a></li>
@@ -77,7 +77,7 @@
 								<!-- end dropdown -->
 
 								<li class="header__nav-item">
-									<a href="pricing.html" class="header__nav-link">Costi</a>
+									<a href="/Informazioni/getCosti/" class="header__nav-link">Prezzi</a>
 								</li>
 
 								<li class="header__nav-item">
