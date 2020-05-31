@@ -26,11 +26,12 @@ class CUtente
         header("Location: /");
     }
 
-    private static function checkLogin($user, $password) {
+    private static function checkLogin($user, $password)
+    {
         $pm = FPersistentManager::getInstance();
         $gestore = EInputChecker::getInstance();
 
-        if($gestore->isEmail($user)) {
+        if ($gestore->isEmail($user)) {
             $isMail = true;
         } else if ($gestore->isUsername($user)) {
             $isMail = false;
@@ -40,20 +41,24 @@ class CUtente
         }
 
         $utente = $pm->login($user, $password, $isMail);
-
         if ($utente instanceof EUtente) {
-            self::saveSession($utente);
-        } else {
-            VUtente::loginForm($user);
+            if ($utente->isBanned()) {
+                VError::error(4);
+            } else {
+                self::saveSession($utente);
+            }
         }
+        else {
+                VUtente::loginForm($user);
+            }
     }
 
-    static function mostraprofilo(EUtente $utente) {
-        $view = new VUtente();
+    public static function mostraprofilo() {
         $pm = FPersistentManager::getInstance();
         if($_SERVER['REQUEST_METHOD'] == "GET") {
             if (CUtente::isLogged())
             {
+                $utente = CUtente::getUtente();
                 if ($pm->load($utente->getId(), "isBanned", "FMedia")== false)
                 {
                     $img = $pm->load($utente->getId(), "immagine", "FMedia");
@@ -62,7 +67,7 @@ class CUtente
                     $username = $pm->load($utente->getId(), "username", "FUtente");
                     $email = $pm->load($utente->getId(), "email", "FUtente");
                     $isBanned = $pm->load($utente->getId(), "isBanned", "FMedia");
-                    $view->profiloUtente($nome, $cognome, $username, $email, $img, $isBanned);
+                    VUtente::profiloUtente($nome, $cognome, $username, $email, $img, $isBanned);
 
                 } else {
                     VError::error(3);
@@ -70,7 +75,7 @@ class CUtente
 
 
             } else
-                header('Location: /FillSpaceWEB/Utente/login');
+                header('Location: /Utente/login');
         }
     }
 
@@ -84,12 +89,7 @@ class CUtente
         session_set_cookie_params(3600, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inseirto il 4° parametro
         $salvare = serialize($utente); // a TRUE per fare si che il cookie viaggi solo su HTTPS. E' FALSE perchè non abbiamo un certificato SSL ma in un contesto reale va messo a TRUE!!!
         $_SESSION['utente'] = $salvare;
-        /*if ($utente->isAdmin() === true) {
-            header('Location: /Cinema/Home');
-        }
-        else {*/
-            VUtente::loginOk();
-        //}
+        VUtente::loginOk();
     }
 
     public static function signup() {

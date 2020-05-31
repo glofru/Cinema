@@ -21,6 +21,9 @@ class VError
             case 3:
                 $error_description = "Pagina destinata agli amministratori.";
                 break;
+            case 4:
+                $error_description = "IL SUO ACCOUNT E' STATO SOSPESO DA UN AMMINISTRATORE.";
+                break;
             default:
                 $error_description = "Errore generico.";
         }
