@@ -204,7 +204,7 @@
 
 							<div class="col-12 col-sm-8">
 								<div class="card__content">
-									<h3 class="card__title"><a href="#">{$item->getProiezione()->getFilm()->getNome()}</a></h3>
+									<h3 class="card__title"><a href="/Film/show/?film={$item->getProiezione()->getFilm()->getId()}">{$item->getProiezione()->getFilm()->getNome()}</a></h3>
 									<span class="card__category">
 										<a style="font-size:20px;">{$item->getPosto()}</a>
 									</span>

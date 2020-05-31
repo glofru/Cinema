@@ -69,13 +69,10 @@ class FProiezione implements Foundation
 
     public static function delete($value,$row): bool {
         $db = FDatabase::getInstance();
-        if($db->deleteFromDB(self::getClassName(),$value,$row)){
-            return true;
-        }
-        return false;
+        return $db->deleteFromDB(self::getClassName(),$value,$row);
     }
 
-    public static function occupaPosti(array $biglietti): string {
+    public static function occupaPosti(array $biglietti) {
         $db = FDatabase::getInstance();
         return $db->occupaPosti($biglietti);
     }

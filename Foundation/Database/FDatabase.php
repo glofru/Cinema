@@ -342,7 +342,7 @@ class FDatabase
         return false;
     }
 
-    public function occupaPosti(array $biglietti): int {
+    public function occupaPosti(array $biglietti) {
         try {
             $this->db->beginTransaction();
             foreach ($biglietti as $item) {
@@ -350,13 +350,17 @@ class FDatabase
                 $sender = $this->db->prepare($query);
                 $sender->execute();
                 $posto = $sender->fetch(PDO::FETCH_ASSOC);
-                if(!isset($posto["occupato"])) {
-                    return 2;
-                }
-                if(($posto["occupato"]) === '1') {
+
+                if($posto == null) { //Non esiste il posto
                     $this->db->rollBack();
-                    return 0;
+                    return null;
                 }
+
+                if(boolval($posto["occupato"])) { //Il posto è occupato
+                    $this->db->rollBack();
+                    return false;
+                }
+
                 $query = "UPDATE Posti SET occupato = '1' WHERE idProiezione = '" . $item->getProiezione()->getId() . "' AND posizione = '" . $item->getPosto()->getId() . "';";
                 $sender = $this->db->prepare($query);
                 $sender->execute();
@@ -366,7 +370,7 @@ class FDatabase
             $this->error();
         }
 
-        return 1;
+        return true;
     }
 
     public function liberaPosto($idProiezione, $posto, $emailUtente) {

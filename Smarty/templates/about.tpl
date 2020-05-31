@@ -202,7 +202,7 @@
 
 				<!-- section text -->
 				<div class="col-12">
-					<p class="section__text">Questo sito (e cinema) è stato creato da Alessio Di Santo, Gianluca Lofrumento e Giorgio Susanna. L'obbiettivo che ci siamo prefissati è quello di creare un portale per facilitare l'incontro fra il nostro cinema e l'utente. Velocità, semplicità e varietà sono le parole chiave dle nostro prodotto. Speriamo che vi piaccia.</p>
+					<p class="section__text">Questo sito (e cinema) è stato creato da Alessio Di Santo, Gianluca Lofrumento e Giorgio Susanna. L'obbiettivo che ci siamo prefissati è quello di creare un portale per facilitare l'incontro fra il nostro cinema e l'utente. Velocità, semplicità e varietà sono le parole chiave del nostro prodotto. Speriamo che vi piaccia.</p>
 
 					<p class="section__text section__text--last-with-margin">Di seguito ti verranno spiegati i passi da compiere per acquisatre uno o più biglietti per le nostre proiezioni a seconda del tuo status di utente (Registrato o Non Registrato). <br> <b>Da utente non registrato non avrai la possibilità di commentare i film e quindi di usufruire di tutte le features del nostro sito...</b></p>
 				</div>

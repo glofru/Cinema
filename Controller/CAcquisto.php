@@ -40,44 +40,35 @@ class CAcquisto
 
     public static function confermaAcquisto() {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $gestore = EHelper::getInstance();
-            $utente = CUtente::getUtente();
-            if(!isset($utente)) {
+            if(!CUtente::isLogged() || CUtente::getUtente()->isAdmin() || !isset($_SESSION["biglietti"])) {
                 header("Location: /");
+                return;
             }
-            else if(!isset($_SESSION["biglietti"]) || $utente->isAdmin()) {
-                header("Location: /");
-            }
-            else {
-                $biglietti = unserialize($_SESSION["biglietti"]);
-                $error = false;
-                foreach ($biglietti as $item) {
-                    if ($item->getUtente()->getId() !== $utente->getId()) {
-                        $error = true;
-                        break;
-                    }
-                }
-                if (!$error) {
-                    $pm = FPersistentManager::getInstance();
-                    $result = $pm->occupaPosti($biglietti);
 
-                    if ($result == '1') {
-                        foreach ($biglietti as $item) {
-                            $pm->save($item);
-                        }
-                        header("Location: ../../Utente/bigliettiAcquistati");
-                    } else if ($result == '0') {
-                        VError::error(0, "Errore almeno uno dei posti che voleva acquistare è stato già occupato. La invitiamo a riprovare!");
-                    } else {
-                        VError::error(5);
-                    }
-                } else {
+            $biglietti = unserialize($_SESSION["biglietti"]);
+
+            foreach ($biglietti as $item) {
+                if ($item->getUtente()->getId() !== CUtente::getUtente()->getId()) {
                     VError::error(5);
+                    return;
                 }
             }
-        }
-        else {
-            header("Location: /");
+
+            $pm = FPersistentManager::getInstance();
+            $result = $pm->occupaPosti($biglietti);
+
+            if ($result == null) {
+                VError::error(5); //Il posto non esisteva
+            } elseif ($result) {
+                foreach ($biglietti as $item) {
+                    $pm->save($item);
+                }
+                header("Location: ../../Utente/bigliettiAcquistati");
+            } else {
+                VError::error(0, "Almeno uno dei posti che voleva acquistare è stato già occupato. La invitiamo a riprovare!");
+            }
+        } else {
+            CMain::notFound();
         }
     }
 }
