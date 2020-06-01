@@ -81,4 +81,12 @@ class VUtente
 
         $smarty->display("forgot.tpl");
     }
+
+    public static function showCommenti(array $giudizi, EUtente $utente, EMedia $propic) {
+        $smarty = StartSmarty::configuration();
+        $smarty->assign("giudizi", $giudizi);
+        $smarty->assign("utente", $utente);
+        $smarty->assign("propic", $propic);
+        $smarty->display("commentiUtente.tpl");
+    }
 }
