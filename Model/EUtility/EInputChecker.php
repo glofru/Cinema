@@ -16,11 +16,8 @@ class EInputChecker{
     }
 
     public function isUsername(string $username): bool {
-       /* $res = preg_replace("/[^a-zA-Z]/", "", $username);
-        if(strlen($username) < 8 || $res !== $username ) {
-            return "";
-        }*/
-        return true;
+        $res = preg_replace("/[^a-zA-Z]/", "", $username);
+        return $res == $username;
     }
 
     public function isPassword(string $password): bool {

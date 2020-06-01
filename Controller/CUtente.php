@@ -48,10 +48,9 @@ class CUtente
             } else {
                 self::saveSession($utente);
             }
+        } else {
+            VUtente::loginForm($user);
         }
-        else {
-                VUtente::loginForm($user);
-            }
     }
 
     public static function showUtente() {
@@ -305,6 +304,38 @@ class CUtente
             array_push($immagini,FPersistentManager::getInstance()->load($item->GetProiezione()->getFilm()->getId(), "idFilm", "EMedia"));
         }
         VUtente::showBiglietti($biglietti, $immagini, $utente);
+    }
+
+    public static function forgotPassword() {
+        if (CUtente::isLogged()) {
+            header("Location: /");
+        }
+
+        $method = $_SERVER["REQUEST_METHOD"];
+
+        if ($method == "GET") {
+            VUtente::forgotPassword();
+        } elseif ($method == "POST") {
+            $username = $_POST["username"];
+
+            $utente = null;
+
+            if (EInputChecker::getInstance()->isEmail($username)) {
+                $utente = FPersistentManager::getInstance()->load($username, "email", "EUtente");
+            } elseif (EInputChecker::getInstance()->isUsername($username)) {
+                $utente = FPersistentManager::getInstance()->load($username, "username", "EUtente");
+            } else {
+                VUtente::forgotPassword($username);
+            }
+
+            if (!$utente instanceof EUtente) {
+                VUtente::forgotPassword($username);
+            }
+
+
+
+            VUtente::forgotPassword(null, true);
+        }
     }
 
 }

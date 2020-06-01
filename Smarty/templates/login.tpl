@@ -62,7 +62,7 @@
 							
 							<button class="sign__btn" type="submit">Accedi</button>
 
-							<span class="sign__text"><a href="#">Password dimenticata?</a></span>
+							<span class="sign__text"><a href="/Utente/forgotPassword">Password dimenticata?</a></span>
 
 							<span class="sign__text">Non hai un account? <a href="/Utente/signup">Registrati!</a></span>
 						</form>

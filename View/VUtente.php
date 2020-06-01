@@ -68,4 +68,16 @@ class VUtente
         $smarty->assign("locandine", $immagini);
         $smarty->display("bigliettiAcquistati.tpl");
     }
+
+    public static function forgotPassword($username = null, bool $ok = false) {
+        $smarty = StartSmarty::configuration();
+
+        if ($username != null) {
+            $smarty->assign('username', $username);
+        }
+        $smarty->assign('error', $username != null);
+        $smarty->assign("ok", $ok);
+
+        $smarty->display("forgot.tpl");
+    }
 }
