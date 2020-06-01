@@ -39,8 +39,11 @@ class CGiudizio{
                 $idUtente = $_POST["utente"];
 
                 $pm->deleteDebole($idFilm, "idFilm", $idUtente, "idUtente", "EGiudizio");
-
-                header("Location: /Film/show/?film=" . $idFilm);
+                if(!isset($_POST["redirect"])) {
+                    header("Location: /Film/show/?film=" . $idFilm);
+                } else {
+                    header("Location: /Utente/showCommenti/");
+                }
             } else {
                 CMain::notFound();
             }

@@ -351,8 +351,21 @@ class CUtente
         }
     }
 
-    public static function getComments() {
-        //MO VEDIAMO
+    public static function showCommenti() {
+        if(self::isLogged()){
+            if(!self::getUtente()->isAdmin()){
+                $utente = self::getUtente();
+                $giudizi = FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EGiudizio");
+                usort($giudizi, array(EHelper::getInstance(), "sortByDatesGiudizi"));
+                $propic = FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EMediaUtente");
+                if($propic->getImmagine() == ""){
+                    $propic->setImmagine('../../Smarty/img/user.png');
+                }
+                VUtente::showCommenti($giudizi, $utente, $propic);
+            }
+        }
+        header("Location: /");
+
     }
 
 }
