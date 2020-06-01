@@ -18,4 +18,11 @@ class VInformazioni
         $smarty->assign("admin", $isAdmin);
         $smarty->display("about.tpl");
     }
+
+    public static function getHelp($utente, bool $isAdmin) {
+        $smarty = StartSmarty::configuration();
+        $smarty->assign("utente", $utente);
+        $smarty->assign("admin", $isAdmin);
+        $smarty->display("aiuto.tpl");
+    }
 }

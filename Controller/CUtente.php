@@ -323,7 +323,7 @@ class CUtente
 
         if ($method == "GET") {
             if (isset($_GET["token"])) {
-                $isValid = FPersistentManager::getInstance()->load($_GET["token"], "value", "TOKEN")
+                $isValid = FPersistentManager::getInstance()->load($_GET["token"], "value", "TOKEN");
             } else {
                 VUtente::forgotPassword();
             }

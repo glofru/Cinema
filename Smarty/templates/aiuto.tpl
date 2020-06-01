@@ -33,7 +33,7 @@
 	<title>Magic Boulevard Cinema - Dove i sogni diventano realtà</title>
 
 </head>
-<body class="body" {if (isset($status))}onload="result('{$status}')"{/if}>
+<body class="body">
 
 <!-- header -->
 <header class="header">
@@ -75,7 +75,7 @@
 							</li>
 
 							<li class="header__nav-item">
-								<a href="../../Informazioni/getHelp/" class="header__nav-link">Aiuto</a>
+								<a href="#" class="header__nav-link">Aiuto</a>
 							</li>
 
 							<!-- dropdown -->
@@ -101,18 +101,38 @@
 							<button class="header__search-btn" type="button">
 								<i class="icon ion-ios-search"></i>
 							</button>
+
+							{if (!isset($utente))}
+								<a href="../../Utente/login" methods="GET" class="header__sign-in">
+									<i class="icon ion-ios-log-in"></i>
+									<span>Login</span>
+								</a>
+							{elseif (isset($utente) && !$admin)}
 								<li class="header__nav-item">
 									<a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										<span>@{$utente->getUsername()}</span>
 									</a>
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-										<li><a href="/Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
-										<li><a href="">Gestione film</a></li>
-										<li><a href="">Gestione Proiezioni</a></li>
-										<li><a href="../../Admin/gestioneUtenti">Gestione Utenti</a></li>
+										<li><a href="../../Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
+										<li><a href="../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
+										<li><a href="../../Utente/showCommenti/">I miei giudizi</a></li>
 										<li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
 									</ul>
 								</li>
+							{elseif (isset($utente) && $admin)}
+								<li class="header__nav-item">
+									<a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<span>@{$utente->getUsername()}</span>
+									</a>
+									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+										<li><a href="../../Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
+										<li><a href="">Gestione film</a></li>
+										<li><a href="">Gestione Proiezioni</a></li>
+										<li><a href="../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
+										<li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+									</ul>
+								</li>
+							{/if}
 						</div>
 						<!-- end header auth -->
 
@@ -147,100 +167,116 @@
 </header>
 <!-- end header -->
 
-<!-- content -->
-<section class="content">
-	<div class="content__head">
+	<!-- page title -->
+	<section class="section section--first section--bg" data-bg="../../Smarty/img/section/section.jpg">
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-					<!-- content title -->
-					<h2 class="content__title">Discover</h2>
-					<!-- end content title -->
+					<div class="section__wrap">
+						<!-- section title -->
+						<h2 class="section__title">Aiuto</h2>
+						<!-- end section title -->
 
-					<!-- content tabs nav -->
-					<ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist">
-						<li class="nav-item">
-							<a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Utenti bannati</a>
-						</li>
-
-						<li class="nav-item">
-							<a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Ricerca utente da bannare</a>
-						</li>
-					</ul>
-					<!-- end content tabs nav -->
-
-					<!-- content mobile tabs nav -->
-					<div class="content__mobile-tabs" id="content__mobile-tabs">
-						<div class="content__mobile-tabs-btn dropdown-toggle" role="navigation" id="mobile-tabs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<input type="button" value="Comments">
-							<span></span>
-						</div>
-
-						<div class="content__mobile-tabs-menu dropdown-menu" aria-labelledby="mobile-tabs">
-							<ul class="nav nav-tabs" role="tablist">
-								<li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Utenti bannati</a></li>
-
-								<li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Ricerca utente da bannare</a></li>
-							</ul>
-						</div>
+						<!-- breadcrumb -->
+						<ul class="breadcrumb">
+							<li class="breadcrumb__item"><a href="/">Home</a></li>
+							<li class="breadcrumb__item breadcrumb__item--active">Aiuto</li>
+						</ul>
+						<!-- end breadcrumb -->
 					</div>
-					<!-- end content mobile tabs nav -->
 				</div>
 			</div>
 		</div>
-	</div>
+	</section>
+	<!-- end page title -->
 
-	<div class="container">
-		<div class="row">
-			<div class="col-12 col-lg-8 col-xl-8">
-				<!-- content tabs -->
-				<div class="tab-content" id="myTabContent">
-					<div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
-						<div class="row">
-							<!-- comments -->
-							<div class="col-12">
-								<div class="comments">
-									<ul class="comments__list">
-										{foreach $bannati as $key => $item}
-											<form action="/Admin/gestioneUtenti" method="POST">
-										<li class="comments__item">
-											<div class="comments__autor">
-												<img class="comments__avatar" src="../../Smarty/img/user.png" alt="">
-												<span class="comments__name">{$item->getUsername()}</span>
-												<span class="comments__time">{$item->getNome()} {$item->getCognome()}</span>
-											</div>
-											<div class="comments__actions">
-												<button type="submit" name="unban" value="{$item->getId()}"><i class="icon"></i>Rimuovi ban</button>
-											</div>
-										</li>
-											</form>
-										{/foreach}
-									</ul>
-								</div>
-							</div>
-							<!-- end comments -->
-						</div>
-					</div>
-
-					<div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
-						<div class="row">
-							<!-- reviews -->
-									<form action="/Admin/gestioneUtenti" method="POST" class="form">
-										<input type="text" class="form__input" name="utente" placeholder="Username dell'utente da bannare">
-										<button type="submit" class="form__btn align-content-center">Banna</button>
-									</form>
-								</div>
-							</div>
-							<!-- end reviews -->
-						</div>
-					</div>
+	<!-- about -->
+	<section class="section">
+		<div class="container">
+			<div class="row">
+				<!-- section title -->
+				<div class="col-12">
+					<h2 class="section__title align-items-center"><b>Hai bisogno di aiuto?</b></h2>
 				</div>
-				<!-- end content tabs -->
+				<!-- end section title -->
+
+				<!-- section text -->
+				<div class="col-12">
+					<p class="section__text">Se hai bisogno di aiuto, non sai cosa fare o hai riscontrato un dissservizio sul nostro portale non esitare a contattarci. Puoi mandarci una mail a a questo indirizzo <a href="mailto:support@magicboulevardcinema.com">support@magicboulevardcinema.com</a>.</p>
+				</div>
+				<!-- end section text -->
 			</div>
 		</div>
-	</div>
-</section>
-<!-- end content -->
+	</section>
+	<!-- end about -->
+
+	<!-- partners -->
+	<section class="section">
+		<div class="container">
+			<div class="row">
+				<!-- section title -->
+				<div class="col-12">
+					<h2 class="section__title section__title--no-margin">I nostri sponsor</h2>
+				</div>
+				<!-- end section title -->
+
+				<!-- section text -->
+				<div class="col-12">
+					<p class="section__text section__text--last-with-margin">Ringraziamo i nostri sponsor per il loro supporto alla nostra attività.</p>
+				</div>
+				<!-- end section text -->
+
+				<!-- partner -->
+				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+					<a href="#" class="partner">
+						<img src="../../Smarty/img/partners/themeforest-light-background.png" alt="" class="partner__img">
+					</a>
+				</div>
+				<!-- end partner -->
+
+				<!-- partner -->
+				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+					<a href="#" class="partner">
+						<img src="../../Smarty/img/partners/audiojungle-light-background.png" alt="" class="partner__img">
+					</a>
+				</div>
+				<!-- end partner -->
+
+				<!-- partner -->
+				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+					<a href="#" class="partner">
+						<img src="../../Smarty/img/partners/codecanyon-light-background.png" alt="" class="partner__img">
+					</a>
+				</div>
+				<!-- end partner -->
+
+				<!-- partner -->
+				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+					<a href="#" class="partner">
+						<img src="../../Smarty/img/partners/photodune-light-background.png" alt="" class="partner__img">
+					</a>
+				</div>
+				<!-- end partner -->
+
+				<!-- partner -->
+				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+					<a href="#" class="partner">
+						<img src="../../Smarty/img/partners/activeden-light-background.png" alt="" class="partner__img">
+					</a>
+				</div>
+				<!-- end partner -->
+
+				<!-- partner -->
+				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+					<a href="#" class="partner">
+						<img src="../../Smarty/img/partners/3docean-light-background.png" alt="" class="partner__img">
+					</a>
+				</div>
+				<!-- end partner -->
+			</div>
+		</div>
+	</section>
+	<!-- end partners -->
 
 <!-- footer -->
 <footer class="footer">
@@ -262,7 +298,7 @@
 				<ul class="footer__list">
 					<li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
 					<li><a href="../../Informazioni/getCosti/">Costi</a></li>
-					<li><a href="../../Informazioni/getHelp/">Aiuto</a></li>
+					<li><a href="#">Aiuto</a></li>
 				</ul>
 			</div>
 			<!-- end footer list -->
@@ -311,76 +347,19 @@
 </footer>
 <!-- end footer -->
 
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-	<!-- Background of PhotoSwipe.
-    It's a separate element, as animating opacity is faster than rgba(). -->
-	<div class="pswp__bg"></div>
-
-	<!-- Slides wrapper with overflow:hidden. -->
-	<div class="pswp__scroll-wrap">
-
-		<!-- Container that holds slides. PhotoSwipe keeps only 3 slides in DOM to save memory. -->
-		<!-- don't modify these 3 pswp__item elements, data is added later on. -->
-		<div class="pswp__container">
-			<div class="pswp__item"></div>
-			<div class="pswp__item"></div>
-			<div class="pswp__item"></div>
-		</div>
-
-		<!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-		<div class="pswp__ui pswp__ui--hidden">
-
-			<div class="pswp__top-bar">
-
-				<!--  Controls are self-explanatory. Order can be changed. -->
-
-				<div class="pswp__counter"></div>
-
-				<button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-				<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-				<!-- Preloader -->
-				<div class="pswp__preloader">
-					<div class="pswp__preloader__icn">
-						<div class="pswp__preloader__cut">
-							<div class="pswp__preloader__donut"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
-
-			<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
-
-			<div class="pswp__caption">
-				<div class="pswp__caption__center"></div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- JS -->
-<script>
-	function result(value){
-		alert(value);
-	}
-</script>
-<script src="../../Smarty/js/jquery-3.3.1.min.js"></script>
-<script src="../../Smarty/js/bootstrap.bundle.min.js"></script>
-<script src="../../Smarty/js/owl.carousel.min.js"></script>
-<script src="../../Smarty/js/jquery.mousewheel.min.js"></script>
-<script src="../../Smarty/js/jquery.mCustomScrollbar.min.js"></script>
-<script src="../../Smarty/js/wNumb.js"></script>
-<script src="../../Smarty/js/nouislider.min.js"></script>
-<script src="../../Smarty/js/plyr.min.js"></script>
-<script src="../../Smarty/js/jquery.morelines.min.js"></script>
-<script src="../../Smarty/js/photoswipe.min.js"></script>
-<script src="../../Smarty/js/photoswipe-ui-default.min.js"></script>
-<script src="../../Smarty/js/main.js"></script>
+	<!-- JS -->
+	<script src="../../Smarty/js/jquery-3.3.1.min.js"></script>
+	<script src="../../Smarty/js/bootstrap.bundle.min.js"></script>
+	<script src="../../Smarty/js/owl.carousel.min.js"></script>
+	<script src="../../Smarty/js/jquery.mousewheel.min.js"></script>
+	<script src="../../Smarty/js/jquery.mCustomScrollbar.min.js"></script>
+	<script src="../../Smarty/js/wNumb.js"></script>
+	<script src="../../Smarty/js/nouislider.min.js"></script>
+	<script src="../../Smarty/js/plyr.min.js"></script>
+	<script src="../../Smarty/js/jquery.morelines.min.js"></script>
+	<script src="../../Smarty/js/photoswipe.min.js"></script>
+	<script src="../../Smarty/js/photoswipe-ui-default.min.js"></script>
+	<script src="../../Smarty/js/main.js"></script>
 </body>
 
 </html>

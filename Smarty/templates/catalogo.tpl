@@ -75,7 +75,7 @@
 							</li>
 
 							<li class="header__nav-item">
-								<a href="faq.html" class="header__nav-link">Aiuto</a>
+								<a href="../../Informazioni/getHelp/" class="header__nav-link">Aiuto</a>
 							</li>
 
 							<!-- dropdown -->
@@ -420,7 +420,7 @@
 				<ul class="footer__list">
 					<li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
 					<li><a href="../../Informazioni/getCosti/">Costi</a></li>
-					<li><a href="#">Aiuto</a></li>
+					<li><a href="../../Informazioni/getHelp/">Aiuto</a></li>
 				</ul>
 			</div>
 			<!-- end footer list -->

@@ -19,4 +19,9 @@ class CInformazioni
         array_push($result, CUtente::getUtente(), $isAdmin);
         return $result;
     }
+
+    public static function getHelp() {
+        $data = self::controls();
+        VInformazioni::getHelp($data[0], $data[1]);
+    }
 }

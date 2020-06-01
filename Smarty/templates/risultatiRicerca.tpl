@@ -73,7 +73,7 @@
 							</li>
 
 							<li class="header__nav-item">
-								<a href="faq.html" class="header__nav-link">Aiuto</a>
+								<a href="../../Informazioni/getHelp/" class="header__nav-link">Aiuto</a>
 							</li>
 
 							<!-- dropdown -->
@@ -378,8 +378,8 @@
 			<div class="col-12 col-md-3">
 				<h6 class="footer__title">Scarica la nsotra App</h6>
 				<ul class="footer__app">
-					<li><a href="https://play.google.com/store?hl=it"><img src="../..Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
-					<li><a href="https://www.apple.com/it/ios/app-store/"><img src="../..Smarty/img/google-play-badge.png" alt=""></a></li>
+					<li><a href="https://play.google.com/store?hl=it"><img src="../../Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
+					<li><a href="https://www.apple.com/it/ios/app-store/"><img src="../../Smarty/img/google-play-badge.png" alt=""></a></li>
 				</ul>
 			</div>
 			<!-- end footer list -->
@@ -390,7 +390,7 @@
 				<ul class="footer__list">
 					<li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
 					<li><a href="../../Informazioni/getCosti/">Costi</a></li>
-					<li><a href="#">Aiuto</a></li>
+					<li><a href="../../Informazioni/getHelp/">Aiuto</a></li>
 				</ul>
 			</div>
 			<!-- end footer list -->

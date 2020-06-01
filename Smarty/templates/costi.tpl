@@ -71,11 +71,11 @@
 							<!-- end dropdown -->
 
 							<li class="header__nav-item">
-								<a href="pricing.html" class="header__nav-link">Prezzi</a>
+								<a href="#" class="header__nav-link">Prezzi</a>
 							</li>
 
 							<li class="header__nav-item">
-								<a href="faq.html" class="header__nav-link">Aiuto</a>
+								<a href="../../Informazioni/getHelp/" class="header__nav-link">Aiuto</a>
 							</li>
 
 							<!-- dropdown -->
@@ -317,13 +317,13 @@
 			<div class="row">
 				<!-- section title -->
 				<div class="col-12">
-					<h2 class="section__title section__title--no-margin">Our Partners</h2>
+					<h2 class="section__title section__title--no-margin">I nostri sponsor</h2>
 				</div>
 				<!-- end section title -->
 
 				<!-- section text -->
 				<div class="col-12">
-					<p class="section__text section__text--last-with-margin">It is a long <b>established</b> fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using.</p>
+					<p class="section__text section__text--last-with-margin">Ringraziamo i nostri sponsor per il loro supporto alla nostra attività.</p>
 				</div>
 				<!-- end section text -->
 
@@ -399,7 +399,7 @@
 				<ul class="footer__list">
 					<li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
 					<li><a href="#">Costi</a></li>
-					<li><a href="#">Aiuto</a></li>
+					<li><a href="../../Informazioni/getHelp/">Aiuto</a></li>
 				</ul>
 			</div>
 			<!-- end footer list -->
