@@ -278,6 +278,7 @@ class CUtente
             }
             else {
                 CUtente::logout();
+                return false;
             }
         } else {
             return false;

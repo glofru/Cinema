@@ -16,7 +16,7 @@ class EInputChecker{
     }
 
     public function isUsername(string $username): bool {
-        $res = preg_replace("/[^a-zA-Z]/", "", $username);
+        $res = preg_replace("/[^a-zA-Z0-9]/", "", $username);
         return $res == $username;
     }
 
