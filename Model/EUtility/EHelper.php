@@ -69,7 +69,7 @@ class EHelper
         while(!$found) {
             $inizio->modify('-1 Day');
             $giorno = $inizio->format('D');
-            if($giorno == 'Mon' && $i > $k) {$found = true;}
+            if($giorno == 'Mon' && $i >= $k) {$found = true;}
             $i++;
         }
         $inizio = $inizio->format('Y-m-d');
