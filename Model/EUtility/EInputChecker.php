@@ -11,28 +11,26 @@ class EInputChecker{
         return self::$instance;
     }
 
-    public function username(string $username): string {
-       /* $res = preg_replace("/[^a-zA-Z]/", "", $username);
-        if(strlen($username) < 8 || $res !== $username ) {
-            return "";
-        }*/
-        return $username;
+    public function isNome(string $nome): bool {
+        return true;
     }
 
-    public function password(string $password): string {
-        if(strlen($password) < 8) {
-            return "";
-        }
+    public function isUsername(string $username): bool {
+        $res = preg_replace("/[^a-zA-Z0-9]/", "", $username);
+        return $res == $username;
+    }
+
+    public function isPassword(string $password): bool {
+//        if(strlen($password) < 8) {
+//            return "";
+//        }
         //$password = 'S4L7' . $password;
         //return hash('SHA512', $password);
-        return $password;
+        return true;
     }
 
-    public function email(string $email): string {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return "";
-        }
-        return $email;
+    public function isEmail(string $email): bool {
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 
     public function date(string $date): string {
@@ -55,6 +53,7 @@ class EInputChecker{
         if(strlen($commento) === 0) {
             return "Nessun Commento";
         }
+        $commento = filter_var($commento, FILTER_SANITIZE_STRING);
         if(strlen($commento) > 200) {
             $commento = substr($commento,0,200);
         }
@@ -65,8 +64,9 @@ class EInputChecker{
         if(strlen($titolo) === 0) {
             return "Nessun Titolo";
         }
+        $titolo = filter_var($titolo, FILTER_SANITIZE_STRING);
         if(strlen($titolo) > 30) {
-            $titolo = substr($titolo,0,200);
+            $titolo = substr($titolo,0,30);
         }
         return $titolo;
     }

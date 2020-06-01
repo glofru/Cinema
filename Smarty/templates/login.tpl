@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 
 <head>
 	<meta charset="utf-8">
@@ -41,22 +41,30 @@
 				<div class="col-12">
 					<div class="sign__content">
 						<!-- authorization form -->
-						<form action="loginForm" method="POST" class="sign__form">
-							<a href="index.html" class="sign__logo">
+						<form action="/Utente/login" method="POST" class="sign__form">
+							<a href="/" class="sign__logo">
 								<img src="../../Smarty/img/logo.svg" alt="">
 							</a>
 
 							<div class="sign__group">
-								<input name = "log" type="text" class="sign__input" placeholder="Username/Email">
+								<input name="username" type="text" value="{$username}" class="sign__input" placeholder="Username/Email">
 							</div>
 
+							{if $error}
+								<div class="sign__group">
+									<span class="sign__text" style="color: red">Username o password errate</span>
+								</div>
+							{/if}
+
 							<div class="sign__group">
-								<input name = "password" type="password" class="sign__input" placeholder="Password">
+								<input name="password" type="password" class="sign__input" placeholder="Password">
 							</div>
 							
 							<button class="sign__btn" type="submit">Accedi</button>
 
-							<span class="sign__text"><a href="#">Password dimenticata?</a></span>
+							<span class="sign__text"><a href="/Utente/forgotPassword">Password dimenticata?</a></span>
+
+							<span class="sign__text">Non hai un account? <a href="/Utente/signup">Registrati!</a></span>
 						</form>
 						<!-- end authorization form -->
 					</div>

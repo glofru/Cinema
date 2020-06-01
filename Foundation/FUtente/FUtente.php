@@ -7,42 +7,6 @@ class FUtente implements Foundation
     private static string $tableName = "Utenti";
     private static string $valuesName = "(:id,:username,:email,:nome,:cognome,:password,:isAdmin,:isBanned)";
 
-    private bool $isAdmin;
-    private int $idUtente;
-
-    /**
-     * @return int
-     */
-    public function getIdUtente(): int
-    {
-        return $this->idUtente;
-    }
-
-    /**
-     * @param int $idUtente
-     */
-    public function setIdUtente(int $idUtente): void
-    {
-        $this->idUtente = $idUtente;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isAdmin(): bool
-    {
-        return $this->isAdmin;
-    }
-
-    /**
-     * @param bool $isAdmin
-     */
-    public function setIsAdmin(bool $isAdmin): void
-    {
-        $this->isAdmin = $isAdmin;
-    }
-
     public function __construct() {}
 
     public static function associate(PDOStatement $sender, $utente){
@@ -61,152 +25,76 @@ class FUtente implements Foundation
     }
 
 
-    public static function getClassName()
-    {
+    public static function getClassName(): string {
         return self::$className;
     }
 
-    public static function getTableName()
-    {
+    public static function getTableName(): string {
         return self::$tableName;
     }
 
-    public static function getValuesName()
-    {
+    public static function getValuesName(): string {
         return self::$valuesName;
     }
 
-    public static function save(EUtente $utente)
-    {
+    public static function save(EUtente $utente) {
         $db = FDatabase::getInstance();
         $id = $db->saveToDB(self::getClassName(), $utente);
         $utente->setId($id);
     }
 
-    public static function load(string  $value, string $row)
-    {
+    public static function load(string  $value, string $row) {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
-        if ($result == null || sizeof($result) == 0)
-        {
+
+        if ($result == null) {
             return null;
         }
-
         return self::parseResult($result)[0];
+    }
+
+    public static function loadBannati() {
+        $db = FDatabase::getInstance();
+        $result = $db->loadFromDB(self::getClassName(), '1', 'isBanned');
+        if ($result == null) {
+            return [];
+        }
+        return self::parseResult($result);
     }
 
     public static function login(string $value, string $pass, bool $isMail) {
         $db = FDatabase::getInstance();
+
         if($isMail) {
-            $result = $db->loadFromDBDebole(self::getClassName(), $value, "email", $pass, "password");
+            $result = $db->loadFromDB(self::getClassName(), $value, "email");
+        } else {
+            $result = $db->loadFromDB(self::getClassName(), $value, "username");
         }
-        else {
-            $result = $db->loadFromDBDebole(self::getClassName(), $value, "username", $pass, "password");
+
+        $utente = self::parseResult($result)[0];
+
+        if ($utente != null) {
+            if (password_verify($pass, $utente->getPassword())) {
+                return $utente;
+            }
         }
-        return self::parseResult($result)[0];
+
+        return null;
     }
 
     public static function update($value, $row, $newvalue, $newrow): bool {
         $db = FDatabase::getInstance();
-        if($db->updateTheDB(self::getClassName(), $value, $row, $newvalue, $newrow))
-        {
-            return true;
-        }
-        return false;
+
+        return $db->updateTheDB(self::getClassName(), $value, $row, $newvalue, $newrow);
     }
 
     public static function delete($value, $row): bool {
         $db = FDatabase::getInstance();
-        if($db->deleteFromDB(self::getClassName(), $value, $row))
-        {
-            return true;
-        }
-        return false;
+
+        return $db->deleteFromDB(self::getClassName(), $value, $row);
     }
 
-    /*public static function ricercaPerNomeeCognome ($class, string $nome, string $cognome)//non credo che vada messa e neanche che funzioni
-    {
-        $db = FDatabase::getInstance();
-        $result = $db->loadFromDBDebole($class::getClassName(), $nome,"nome", $cognome,"cognome" );
-
-        if ($result == null || sizeof($result) == 0)
-        {
-            return null;
-        }
-
-        $return = array();
-        foreach ($result as $row)
-        {
-            array_push($return, self::fromRow($row));
-        }
-
-        return $return;
-    }*/
-
-    public static function ricercaPerUsername($class, EUtente $utente)
-    {
-        $db = FDatabase::getInstance();
-        $result = $db->loadFromDB($class, $utente, "username");
-
-        if ($result == null || sizeof($result) == 0)
-        {
-            return null;
-        }
-
-        return self::parseResult($result);
-    }
-
-    public static function ricercaPerId($class, EUtente $utente)
-    {
-        $db = FDatabase::getInstance();
-        $result = $db->loadFromDB($class, $utente, "idUtente");
-
-        if ($result == null || sizeof($result) == 0)
-        {
-            return null;
-        }
-
-        return self::parseResult($result);
-    }
-
-//    public static function ricercaPerCampo($campo, $id)
-//    {
-//        $registrato = null;
-//        $db=FDatabase::getInstance();
-//        $result=$db->loadDB(static::getClass(), $campo, $id);
-//        $row = $db->interestedRows(static::getClass(), $campo, $id);
-//        if(($result!=null) && ($row == 1)) {
-//            $registrato=new ERegistrato($result['nome'],$result['cognome'],$result['username'], $result['email'], $result['password'],$result['state']);
-//
-//        }
-//        else {
-//            if(($result!=null) && ($row > 1)){
-//                $registrato = array();
-//                for($i=0; $i<count($result); $i++){
-//                    $registrato[]=new ERegistrato($result[$i]['nome'],$result[$i]['cognome'],$result[$i]['username'], $result[$i]['email'], $result[$i]['password'],$result[$i]['state']);
-//
-//                }
-//            }
-//        }
-//        return $registrato;
-//    }
-//
-//    public static function ricercaPerStringa($string){
-//        $registrato = null;
-//        $ricerca = null;
-//        $pieces = explode(" ", $string);
-//        $lastElement = end($pieces);
-//        if ($pieces[0] == $lastElement) {
-//            $ricerca = 'nome';
-//        }
-//        $db=FDatabase::getInstance();
-//        $result = $db->utentiByString($pieces, $ricerca);
-//
-//        return self::parseResult($result);
-//    }
-
-    private static function parseResult(array $result): array
-    {
+    private static function parseResult(array $result): array {
         $return = [];
 
         foreach ($result as $row) {
@@ -219,26 +107,34 @@ class FUtente implements Foundation
             $isAdmin = $row["isAdmin"];
             $isBanned = $row["isBanned"];
 
-            if ($isAdmin)
-            {
-                $admin = new EAdmin($nome, $cognome, $username, $email, $password, $isBanned);
-                $admin->setId($id);
-                array_push($return, $admin);
+            if ($isAdmin) {
+                $utente = new EAdmin($nome, $cognome, $username, $email, $password, $isBanned);
+            } elseif ($username != null && $username != "") {
+                $utente =  new EUtente($nome, $cognome, $username, $email, $password, $isBanned);
+            } else {
+                $utente = new ENonRegistrato($nome, $cognome, $username, $email, $password, $isBanned);
             }
-            elseif ($username != null && $username != "")
-            {
-                $reg =  new ERegistrato($nome, $cognome, $username, $email, $password, $isBanned);
-                $reg->setId($id);
-                array_push($return, $reg);
-            }
-            else
-            {
-                $nreg = new ENonRegistrato($nome, $cognome, $username, $email, $password, $isBanned);
-                $nreg->setId($id);
-                array_push($return, $nreg);
-            }
+
+            $utente->setId($id);
+            array_push($return, $utente);
         }
 
         return $return;
+    }
+
+    public static function exists(EUtente $utente, bool $checkMail = null): bool {
+        $db = FDatabase::getInstance();
+
+        $resultMail = $db->loadFromDB(self::getClassName(), $utente->getEmail(), "email");
+        $existsMail = $resultMail != null && sizeof($resultMail) > 1;
+
+        if ($checkMail) return $existsMail;
+
+        $resultUser = $db->loadFromDB(self::getClassName(), $utente->getUsername(), "username");
+        $existsUser = $resultUser != null && sizeof($resultUser) > 1;
+
+        if (!$checkMail) return $existsUser;
+
+        return $existsMail && $existsUser;
     }
 }

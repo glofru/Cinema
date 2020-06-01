@@ -69,15 +69,12 @@ class FProiezione implements Foundation
 
     public static function delete($value,$row): bool {
         $db = FDatabase::getInstance();
-        if($db->deleteFromDB(self::getClassName(),$value,$row)){
-            return true;
-        }
-        return false;
+        return $db->deleteFromDB(self::getClassName(),$value,$row);
     }
 
-    public static function occupaPosto($proiezione, $posto, $utente, $costo) {
+    public static function occupaPosti(array $biglietti) {
         $db = FDatabase::getInstance();
-        return $db->occupaPosto($proiezione, $posto, $utente, $costo);
+        return $db->occupaPosti($biglietti);
     }
 
     public static function liberaPosto($idProiezione, $posto, $emailUtente) {
@@ -107,6 +104,7 @@ class FProiezione implements Foundation
         //COSTRUISCO L'OGGETTO SALAVIRTUALE
         $sala = FSala::loadVirtuale($row["numerosala"], "nSala");
         $posti = FPosto::load($id, "idProiezione");
+
         foreach($posti as $posto) {
             if ($posto->isOccupato()) {
                 $sala->occupaPosto($posto);

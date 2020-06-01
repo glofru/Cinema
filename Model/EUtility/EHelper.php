@@ -59,16 +59,17 @@ class EHelper
         return $result;
     }
 
-    public function getSettimanaScorsa(): array {
+    public function getSettimanaScorsa(int $n): array {
         $result = [];
         $inizio = new DateTime('now');
-        $giorno = $inizio->format('D');
         $i = 0;
         $found = false;
+        $k = ($n * 6);
+        if($n > 2) {$k += $n - 2;}
         while(!$found) {
             $inizio->modify('-1 Day');
             $giorno = $inizio->format('D');
-            if($giorno == 'Mon' && $i > 6) {$found = true;}
+            if($giorno == 'Mon' && $i >= $k) {$found = true;}
             $i++;
         }
         $inizio = $inizio->format('Y-m-d');
@@ -127,10 +128,9 @@ class EHelper
         setcookie('preferences', $cookie, time() + (86400 * 30), "/");
     }
 
-    public function getMedia(array $g) {
+    public function getMedia($g) {
         $p = 0;
         $n = sizeof($g);
-        echo $n . "<br>";
         if($n === 0){
             return 0;
         }
@@ -140,33 +140,41 @@ class EHelper
         return ($p/$n);
     }
 
-    public function checkWrite(/*ERegistrato */ $utente,$array): bool {
-        /*if(isset($utente)){
+    public function checkWrite(EUtente $utente, $array, Efilm $film): bool {
+        $data = $film->getDataRilascio();
+        $today = new DateTime('now + 1 Week');
+        if(isset($utente) && $data < $today) {
             foreach($array as $a){
-                if($a->getUtente()->getId() == $utente->getId()){
+                if($a->getUtente()->getId() === $utente->getId()){
                     return false;
                 }
             }
             return true;
         }
-
-        return false;*/ return true;
+        return false;
     }
 
-    public function retriveVote(string $punteggio): float {
+    public function retrieveVote(string $punteggio): float {
         $punteggio = explode('.', $punteggio);
         $found = false;
         $str = $punteggio[0];
         for($i=0;$i<strlen($str);$i++){
             if(preg_match('/^[0-9]+$/', $str[$i])) {
                 $punteggio[0] = $str[$i];
+                $value = $i;
                 break;
             }
         }
-        return floatval($punteggio[0] . "." . $punteggio[1][0]);
+        if($str[$value+1] == "0") {
+            $temp = $punteggio[0] . $str[$value+1];
+        }
+        else {
+            $temp = $punteggio[0];
+        }
+        return floatval($temp . "." . $punteggio[1][0]);
     }
 
-    public function retriveAnno(string $anno): float {
+    public function retrieveAnno(string $anno): float {
         $str = "";
         for($i=0;$i<strlen($anno);$i++){
             if(preg_match('/^[0-9]+$/', $anno[$i])) {
@@ -177,22 +185,20 @@ class EHelper
         return $str;
     }
 
-    public function programmazione($proiezionifilm, EFilm $film): array {
-        $result = [];
+    public function programmazione(EProgrammazioneFilm $proiezionifilm): EProgrammazioneFilm {
+        $result = new EProgrammazioneFilm();
         $today = new DateTime('now');
-        if(sizeof($proiezionifilm) === 0) {
-            return $result;
-        }
+
         foreach($proiezionifilm->getProiezioni() as $pro) {
             if($pro->getDataproieizone() > $today) {
-                array_push($result, $pro);
-            }
-            else if($pro->getDataproieizone() == $today){
+                $result->addProiezione($pro);
+            } else if($pro->getDataproieizone() == $today){
                 if(strtotime($today->format('H:i')) - strtotime($pro->getDataProiezione()->format('H:i')) > 0) {
-                    array_push($result, $pro);
+                    $result->addProiezione($pro);
                 }
             }
         }
+
         return $result;
     }
 
@@ -204,5 +210,26 @@ class EHelper
             }
         }
         return $result;
+    }
+
+    public function hash(string $password) {
+        return password_hash($password, PASSWORD_BCRYPT);
+    }
+
+    public function hoursandmins($time, $format = '%02d:%02d') {
+        if ($time < 1) {
+            return;
+        }
+        $hours = floor($time / 60);
+        $minutes = ($time % 60);
+        return sprintf($format, $hours, $minutes);
+    }
+
+    public function sortByDatesGiudizi(EGiudizio $g1, EGiudizio $g2) {
+        return $g1->getDataPubblicazione() < $g2->getDataPubblicazione();
+    }
+
+    public function sortByDatesFilm(EFilm $f1, EFilm $f2) {
+        return $f1->getDataRilascio() > $f2->getDataRilascio();
     }
 }

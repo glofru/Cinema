@@ -6,3 +6,7 @@ config.inc.php
 Smarty/templates_c/
 
 templates_c/
+
+configCinema.conf.php
+
+configDB.conf.php

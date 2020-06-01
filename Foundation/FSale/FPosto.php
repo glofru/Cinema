@@ -5,15 +5,15 @@ class FPosto implements FoundationDebole
 {
     private static string $className = "FPosto";
     private static string $tableName = "Posti";
-    private static string $valuesName = "(:idProiezione,:posizione,:libero)";
+    private static string $valuesName = "(:idProiezione,:posizione,:occupato)";
 
     public function __construct() {}
 
     public static function associate(PDOStatement $sender, $proiezione, $posto) {
         if ($proiezione instanceof EProiezione && $posto instanceof EPosto) {
             $sender->bindValue(':idProiezione', $proiezione->getId(), PDO::PARAM_INT);
-            $sender->bindValue(':posizione', $posto, PDO::PARAM_STR);
-            $sender->bindValue(':libero', true, PDO::PARAM_BOOL);
+            $sender->bindValue(':posizione', $posto->getId(), PDO::PARAM_STR);
+            $sender->bindValue(':occupato', $posto->isOccupato(), PDO::PARAM_BOOL);
         } else {
             die("Problems");
         }
@@ -45,10 +45,14 @@ class FPosto implements FoundationDebole
         if($result === null){
             return null;
         }
+
         $return = [];
+
         foreach ($result as $elem) {
-            array_push($return,EPosto::fromString($elem["posizione"], $elem["libero"]));
+            $occupato = $elem["occupato"] === "1";
+            array_push($return,EPosto::fromDB($elem["posizione"], $occupato));
         }
+
         return $return;
     }
 
@@ -58,8 +62,8 @@ class FPosto implements FoundationDebole
         if($result === null){
             return $result;
         }
-        $libero = $result[0]["libero"];
-        return EPosto::fromString($posto,$libero);
+        $occupato = boolval($result[0]["occupato"]);
+        return EPosto::fromDB($posto, $occupato);
     }
 
     public static function update($value, $row, $value2, $row2, $newvalue, $newrow): bool {

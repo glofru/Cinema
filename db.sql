@@ -51,7 +51,7 @@ CREATE TABLE Proiezione(
 CREATE TABLE Posti(
     `idProiezione` INTEGER NOT NULL,
     `posizione` varchar(4) NOT NULL,
-    `libero` BOOLEAN NOT NULL,
+    `occupato` BOOLEAN NOT NULL,
     PRIMARY KEY (`idProiezione`,`posizione`),
     FOREIGN KEY (`idProiezione`)
         REFERENCES Proiezione(`id`)
@@ -122,3 +122,13 @@ CREATE TABLE MediaLocandina(
         REFERENCES Film(`id`)
     ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+CREATE TABLE Token(
+    `value` VARCHAR(15) NOT NULL,
+    `isUsed` BOOLEAN DEFAULT FALSE,
+    `idUtente` INTEGER NOT NULL,
+    PRIMARY KEY (`value`),
+    FOREIGN KEY (`idUtente`)
+        REFERENCES Utenti(`id`)
+    ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

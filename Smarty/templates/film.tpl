@@ -63,29 +63,29 @@
                                 <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalogo</a>
 
                                 <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                    <li><a href="catalog1.html">Prossime Uscite</a></li>
-                                    <li><a href="catalog2.html">Programmazione</a></li>
-                                    <li><a href="details1.html">Film più apprezzati</a></li>
+                                    <li><a href="../../Catalogo/prossimeUscite/">Prossime uscite</a></li>
+                                    <li><a href="../../Catalogo/programmazioniPassate/">Programmazioni</a></li>
+                                    <li><a href="../../Catalogo/piuApprezzati/">Film più apprezzati</a></li>
                                 </ul>
                             </li>
                             <!-- end dropdown -->
 
                             <li class="header__nav-item">
-                                <a href="pricing.html" class="header__nav-link">Prezzi</a>
+                                <a href="../../Informazioni/getCosti/" class="header__nav-link">Prezzi</a>
                             </li>
 
                             <li class="header__nav-item">
-                                <a href="faq.html" class="header__nav-link">Aiuto</a>
+                                <a href="../../Informazioni/getHelp/" class="header__nav-link">Aiuto</a>
                             </li>
 
                             <!-- dropdown -->
                             <li class="dropdown header__nav-item">
                                 <a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
-
                                 <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-                                    <li><a href="about.html">Su di noi</a></li>
-                                    <li><a href="signin.html">Login</a></li>
-                                    <li><a href="signup.html">Registrati</a></li>
+                                    <li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
+                                    {if (!isset($utente))}
+                                     <li><a href="../../Utente/signup">Registrati</a></li>
+                                    {/if}
                                 </ul>
                             </li>
                             <!-- end dropdown -->
@@ -98,10 +98,37 @@
                                 <i class="icon ion-ios-search"></i>
                             </button>
 
-                            <a href="signin.html" class="header__sign-in">
-                                <i class="icon ion-ios-log-in"></i>
-                                <span>sign in</span>
-                            </a>
+                            {if (!isset($utente))}
+                                <a href="../../Utente/login" methods="GET" class="header__sign-in">
+                                    <i class="icon ion-ios-log-in"></i>
+                                    <span>Login</span>
+                                </a>
+                            {elseif (isset($utente) && !$admin)}
+                                <li class="header__nav-item">
+                                    <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span>@{$utente->getUsername()}</span>
+                                    </a>
+                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+                                        <li><a href="../../Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
+                                        <li><a href="../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
+                                        <li><a href="../../Utente/showCommenti/">I miei giudizi</a></li>
+                                        <li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+                                    </ul>
+                                </li>
+                            {elseif (isset($utente) && $admin)}
+                                <li class="header__nav-item">
+                                    <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span>@{$utente->getUsername()}</span>
+                                    </a>
+                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+                                        <li><a href="../../Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
+                                        <li><a href="">Gestione film</a></li>
+                                        <li><a href="">Gestione Proiezioni</a></li>
+                                        <li><a href="../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
+                                        <li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+                                    </ul>
+                                </li>
+                            {/if}
                         </div>
                         <!-- end header auth -->
 
@@ -180,12 +207,11 @@
 
                                 <ul class="card__meta">
                                     <li><span>Genere:</span> <a href="#">{$film->getGenere()}</a>
-                                    <li><span>Anno di rilascio:</span> {$film->getAnno()}</li>
+                                    <li><span>Data di rilascio:</span> {$film->getDataRilascioString()}</li>
                                     <li><span>Durata:</span> {$film->getDurataMinuti()} min</li>
                                     <li><span>Paese:</span> <a href="#">{$film->getPaese()}</a> </li>
                                     <li><span>Regista:</span> {foreach $registi as $reg} <a href="{$reg->getImdbUrl()}" target="_blank">{$reg->getNome()} {$reg->getCognome()} </a> {/foreach}</li>
                                     <li><span>Attori:</span> {foreach $attori as $att} <a href="{$att->getImdbUrl()}" target="_blank">{$att->getNome()} {$att->getCognome()} </a> {/foreach}</li>
-                                        
                                 </ul>
 
                                 <div class="card__description card__description--details">
@@ -231,7 +257,7 @@
     <!-- end details content -->
 </section>
 <!-- end details -->
-{if (sizeof($proiezioni) > 0)}
+{if (sizeof($programmazioneFilm->getProiezioni()) > 0)}
 <!-- sala prenotazione -->
 <section class="content">
     <div class="content__head">
@@ -242,11 +268,10 @@
                     <h2 class="content__title">Prenota il tuo posto</h2>
                     <!-- content tabs nav -->
                     <ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist">
-                        {foreach $proiezioni as $key => $pro}
+                        {foreach $programmazioneFilm->getProiezioni() as $key => $pro}
                         <li class="nav-item">
                             {if $key == 0}
                             <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true"> {$pro->getDataRed()}</a>
-
                             {else}
                             <a class="nav-link" data-toggle="tab" href="#tab-{$key+1}" role="tab" aria-controls="tab-{$key+1}" aria-selected="true"> {$pro->getDataRed()}</a>
                             {/if}
@@ -260,7 +285,7 @@
 
     <div class="container">
         <div class="tab-content" id="myTabContent">
-        {foreach $proiezioni as $key => $pro}
+        {foreach $programmazioneFilm->getProiezioni() as $key => $pro}
             {if ($key == 0)}
             <div class="tab-pane fade show active" id="tab-{$key+1}" role="tabpanel" aria-labelledby="{$key+1}-tab">
             {else}
@@ -271,15 +296,14 @@
             </div>
                 <div class="row--center">
                     <form id="book" class="form" action="/Acquisto/getBiglietti" method="POST">
-                        <input type="hidden" name="proiezione" value="{$pro->getId()}" />
                         <table style="margin-left:auto;margin-right:auto;" id="t01">
                             {foreach $pro->getSala()->getPosti() as $fila}
                                 <tr>
                                     {foreach $fila as $posto}
-                                        {if $posto->isOccupato}
-                                            <th><img id="{$posto->getId()}" onclick="book(this)" src="../../Smarty/img/cinema/sedia_occupata.png" alt="Posto"/></th>
+                                        {if $posto->isOccupato()}
+                                            <th><img name="{$pro->getId()}" id="{$posto->getId()}" src="../../Smarty/img/cinema/sedia_occupata.png" alt="Posto"/></th>
                                         {else}
-                                            <th><img id="{$posto->getId()}" onclick="book(this)" src="../../Smarty/img/cinema/sedia_libera.png" alt="Posto"/></th>
+                                            <th><img name="{$pro->getId()}" id="{$posto->getId()}" {if (!$admin)} onclick="book(this)" {/if}src="../../Smarty/img/cinema/sedia_libera.png" alt="Posto"/></th>
                                         {/if}
                                     {/foreach}
                                 </tr>
@@ -289,9 +313,11 @@
                 </div>
             </div>
         {/foreach}
+    {if (!$admin)}
         <div class="col-12--center">
             <a onclick="acquista()" style="color: white; cursor:pointer;" class="section__btn" id="acquista">Acquista</a>
         </div>
+    {/if}
     </div>
 </section>
 {/if}
@@ -352,9 +378,24 @@
                                         <li class="reviews__item">
                                             <div class="reviews__autor">
                                                 <img class="reviews__avatar" src="{$propic[$key]->getImmagine()}" alt="">
-                                                <span class="reviews__name">{$rev->getTitle()}</span>
-                                                <span class="reviews__time">da {$rev->getUtente()->getUsername()} il {$rev->getDataPubblicazioneString()}</span>
+                                                <span class="reviews__name" style="display: inline-block">{$rev->getTitle()}</span>
 
+                                                {if isset($utente) && ($rev->getUtente()->getId() == $utente->getId() || $utente->isAdmin())}
+                                                    <span class="reviews__name" style="display: inline-block; position: relative; float: right; bottom: -7px">
+                                                    <a style="line-height: normal" class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
+                                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
+                                                        <li><a onclick="erase({$rev->getFilm()->getId()}, {$rev->getUtente()->getId()})" href="#null">Cancella</a></li>
+                                                        {if $utente->isAdmin()}
+                                                            <li><a onclick="erase({$rev->getFilm()->getId()}, {$rev->getUtente()->getId()}, true)" href="#null">Cancella e banna</a></li>
+                                                        {/if}
+
+                                                        <!-- Vedi Javascript -->
+                                                        <form id="form" action="" method="POST"></form>
+                                                    </ul>
+                                                    </span>
+                                                {/if}
+
+                                                <span class="reviews__time">da <a href="../../Utente/showUtente/?idShow={$rev->getUtente()->getId()}">@{$rev->getUtente()->getUsername()}</a> il {$rev->getDataPubblicazioneString()}</span>
                                                 <span class="reviews__rating"><i class="icon ion-ios-star"></i>{$rev->getPunteggio()}</span>
                                             </div>
                                             <p class="reviews__text">{$rev->getCommento()}</p>
@@ -362,7 +403,7 @@
                                             {/foreach}
                                         {/if}
                                     </ul>
-                                    {if ($canView === true)}
+                                    {if $canView && !$admin}
                                     <form action="/Giudizio/add" class="form" method="POST">
                                         <input name="titolo" type="text" class="form__input" placeholder="Titolo (max 30 caratteri)" maxlength="30">
                                         <textarea name="commento" class="form__textarea" placeholder="Recensione (max 200 caratteri)" maxlength="200"></textarea>
@@ -370,7 +411,7 @@
                                             <div class="form__slider-rating" id="slider__rating"></div>
                                             <div class="form__slider-value" id="form__slider-value"></div>
                                         </div>
-                                        <input type="hidden" id="film" name="filmId" value="{$film->getId()}">
+                                        <input type="hidden" id="film" name="film" value="{$film->getId()}">
                                         <input type="hidden" name="punteggio" id="punteggio">
                                         <button type="submit" class="form__btn" onclick="getVal()">Invia</button>
                                     </form>
@@ -431,48 +472,48 @@
         <div class="row">
             <!-- footer list -->
             <div class="col-12 col-md-3">
-                <h6 class="footer__title">Download Our App</h6>
+                <h6 class="footer__title">Scarica la nsotra App</h6>
                 <ul class="footer__app">
-                    <li><a href="#"><img src="../../Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
-                    <li><a href="#"><img src="../../Smarty/img/google-play-badge.png" alt=""></a></li>
+                    <li><a href="https://play.google.com/store?hl=it"><img src="../../Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
+                    <li><a href="https://www.apple.com/it/ios/app-store/"><img src="../../Smarty/img/google-play-badge.png" alt=""></a></li>
                 </ul>
             </div>
             <!-- end footer list -->
 
             <!-- footer list -->
             <div class="col-6 col-sm-4 col-md-3">
-                <h6 class="footer__title">Resources</h6>
+                <h6 class="footer__title">Informazioni</h6>
                 <ul class="footer__list">
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Pricing Plan</a></li>
-                    <li><a href="#">Help</a></li>
+                    <li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
+                    <li><a href="../../Informazioni/getCosti/">Costi</a></li>
+                    <li><a href="../../Informazioni/getHelp/">Aiuto</a></li>
                 </ul>
             </div>
             <!-- end footer list -->
 
             <!-- footer list -->
             <div class="col-6 col-sm-4 col-md-3">
-                <h6 class="footer__title">Legal</h6>
+                <h6 class="footer__title">Termini legali</h6>
                 <ul class="footer__list">
-                    <li><a href="#">Terms of Use</a></li>
+                    <li><a href="#">Termini d'uso</a></li>
                     <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Security</a></li>
+                    <li><a href="#">Sicurezza</a></li>
                 </ul>
             </div>
             <!-- end footer list -->
 
             <!-- footer list -->
             <div class="col-12 col-sm-4 col-md-3">
-                <h6 class="footer__title">Contact</h6>
+                <h6 class="footer__title">Contatti</h6>
                 <ul class="footer__list">
-                    <li><a href="tel:+18002345678">+1 (800) 234-5678</a></li>
-                    <li><a href="mailto:support@moviego.com">support@flixgo.com</a></li>
+                    <li><a href="tel:+393357852000">+39 3357852000</a></li>
+                    <li><a href="mailto:support@magicboulevardcinema.com">support@magicboulevardcinema.com</a></li>
                 </ul>
                 <ul class="footer__social">
-                    <li class="facebook"><a href="#"><i class="icon ion-logo-facebook"></i></a></li>
-                    <li class="instagram"><a href="#"><i class="icon ion-logo-instagram"></i></a></li>
-                    <li class="twitter"><a href="#"><i class="icon ion-logo-twitter"></i></a></li>
-                    <li class="vk"><a href="#"><i class="icon ion-logo-vk"></i></a></li>
+                    <li class="facebook"><a href="https://facebook.com" target="_blank"><i class="icon ion-logo-facebook"></i></a></li>
+                    <li class="instagram"><a href="https://instagram.com" target="_blank"><i class="icon ion-logo-instagram"></i></a></li>
+                    <li class="twitter"><a href="https://twitter.com" target="_blank"><i class="icon ion-logo-twitter"></i></a></li>
+                    <li class="vk"><a href="https://vk.com" target="_blank"><i class="icon ion-logo-vk"></i></a></li>
                 </ul>
             </div>
             <!-- end footer list -->
@@ -483,7 +524,7 @@
                     <small><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></small>
 
                     <ul>
-                        <li><a href="#">Terms of Use</a></li>
+                        <li><a href="#">Termini d'uso</a></li>
                         <li><a href="#">Privacy Policy</a></li>
                     </ul>
                 </div>
@@ -566,12 +607,14 @@
     }
 
     let bookedSeat = [];
+    let proiezione;
     let libera = "../../Smarty/img/cinema/sedia_libera.png";
     let occupazione = "../../Smarty/img/cinema/sedia_in_occupazione.png";
 
     function acquista() {
         if (bookedSeat.length > 0) {
             $("#book").append(
+                "<input type='hidden' name='proiezione' value='" + proiezione + "' />",
                 "<input type='hidden' name='posti' value='" + bookedSeat.join(';') + "' />"
             );
             document.getElementById('book').submit()
@@ -583,6 +626,7 @@
 
     function book (value) {
         let id = value.getAttribute("id");
+        proiezione = value.getAttribute("name");
 
         if (bookedSeat.includes(id)) {
             bookedSeat.splice(bookedSeat.indexOf(id), 1);
@@ -591,6 +635,21 @@
             bookedSeat.push(id);
             value.setAttribute("src", occupazione);
         }
+    }
+
+    function erase(idFilm, idUtente, ban = false) {
+        let form = $("#form");
+
+        if (ban) {
+            form.attr("action", "/Admin/deleteAndBan");
+        } else {
+            form.attr("action", "/Giudizio/delete");
+        }
+
+        form.append("<input type='hidden' name='film' value='" + idFilm + "' />");
+        form.append("<input type='hidden' name='utente' value='" + idUtente + "' />");
+
+        form.submit();
     }
 </script>
 

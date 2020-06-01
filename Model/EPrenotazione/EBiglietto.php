@@ -1,4 +1,5 @@
 <?php
+require_once "configCinema.conf.php";
 /**
  * Nella classe Sala sono i presenti attributi e metodi per la creazione di un biglietto
  * I suoi attributi sono i seguenti:
@@ -85,6 +86,19 @@ class EBiglietto implements JsonSerializable
         return $this->costo;
     }
 
+    public function getSimplifiedString() {
+        return strval($this->proiezione->getId()) . "|" . $this->getPosto()->getId() . "|" . $this->getUtente()->getId() . "|" . strval($this->getCosto());
+    }
+
+    public static function getPrezzofromProiezione(EProiezione $proiezione) {
+        $dataProiezione = $proiezione->getDataproieizone();
+        $costo = $GLOBALS["prezzi"][$dataProiezione->format("D")];
+        $date = EHelper::getInstance()->getSettimanaProssima();
+        if($dataProiezione > $date[0]) {
+            $costo += $GLOBALS["extra"];
+        }
+        return $costo;
+    }
 //------------- ALTRI METODI ----------------
     public function jsonSerialize ()
     {

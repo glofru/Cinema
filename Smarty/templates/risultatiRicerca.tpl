@@ -34,107 +34,136 @@
 
 </head>
 <body class="body">
-	
-	<!-- header -->
-	<header class="header">
-		<div class="header__wrap">
-			<div class="container">
-				<div class="row">
-					<div class="col-12">
-						<div class="header__content">
-							<!-- header logo -->
-							<a href="/" class="header__logo">
-								<img src="../../Smarty/img/logo.svg" alt="">
-							</a>
-							<!-- end header logo -->
 
-							<!-- header nav -->
-							<ul class="header__nav">
-								<!-- dropdown -->
-								<li class="header__nav-item">
-									<a class="dropdown-toggle header__nav-link" href="/" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
-								</li>
-								<!-- end dropdown -->
+<!-- header -->
+<header class="header">
+	<div class="header__wrap">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="header__content">
+						<!-- header logo -->
+						<a href="/" class="header__logo">
+							<img src="../../Smarty/img/logo.svg" alt="">
+						</a>
+						<!-- end header logo -->
 
-								<!-- dropdown -->
-								<li class="header__nav-item">
-									<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalog</a>
+						<!-- header nav -->
+						<ul class="header__nav">
+							<!-- dropdown -->
+							<li class="header__nav-item">
+								<a class="dropdown-toggle header__nav-link" href="/" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
+							</li>
+							<!-- end dropdown -->
 
-									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-										<li><a href="catalog1.html">Catalog Grid</a></li>
-										<li><a href="catalog2.html">Catalog List</a></li>
-										<li><a href="details1.html">Details Movie</a></li>
-										<li><a href="details2.html">Details TV Series</a></li>
-									</ul>
-								</li>
-								<!-- end dropdown -->
+							<!-- dropdown -->
+							<li class="header__nav-item">
+								<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalogo</a>
 
-								<li class="header__nav-item">
-									<a href="pricing.html" class="header__nav-link">Pricing Plan</a>
-								</li>
+								<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+									<li><a href="../../Catalogo/prossimeUscite/">Prossime uscite</a></li>
+									<li><a href="../../Catalogo/programmazioniPassate/">Programmazioni</a></li>
+									<li><a href="../../Catalogo/piuApprezzati/">Film più apprezzati</a></li>
+								</ul>
+							</li>
+							<!-- end dropdown -->
 
-								<li class="header__nav-item">
-									<a href="faq.html" class="header__nav-link">Help</a>
-								</li>
+							<li class="header__nav-item">
+								<a href="../../Informazioni/getCosti/" class="header__nav-link">Prezzi</a>
+							</li>
 
-								<!-- dropdown -->
-								<li class="dropdown header__nav-item">
-									<a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
+							<li class="header__nav-item">
+								<a href="../../Informazioni/getHelp/" class="header__nav-link">Aiuto</a>
+							</li>
 
+							<!-- dropdown -->
+							<li class="dropdown header__nav-item">
+								<a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
+								{if (!isset($utente))}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-										<li><a href="about.html">About</a></li>
-										<li><a href="signin.html">Sign In</a></li>
-										<li><a href="signup.html">Sign Up</a></li>
-										<li><a href="404.html">404 Page</a></li>
+										<li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
+										<li><a href="../../Utente/signup">Registrati</a></li>
+									</ul>
+								{else}
+									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
+										<li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
+									</ul>
+								{/if}
+							</li>
+							<!-- end dropdown -->
+						</ul>
+						<!-- end header nav -->
+
+						<!-- header auth -->
+						<div class="header__auth">
+							<button class="header__search-btn" type="button">
+								<i class="icon ion-ios-search"></i>
+							</button>
+
+							{if (!isset($utente))}
+								<a href="../../Utente/login" methods="GET" class="header__sign-in">
+									<i class="icon ion-ios-log-in"></i>
+									<span>Login</span>
+								</a>
+							{elseif (isset($utente) && !$admin)}
+								<li class="header__nav-item">
+									<a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<span>@{$utente->getUsername()}</span>
+									</a>
+									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+										<li><a href="../../Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
+										<li><a href="../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
+										<li><a href="../../Utente/showCommenti/">I miei giudizi</a></li>
+										<li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
 									</ul>
 								</li>
-								<!-- end dropdown -->
-							</ul>
-							<!-- end header nav -->
-
-							<!-- header auth -->
-							<div class="header__auth">
-								<button class="header__search-btn" type="button">
-									<i class="icon ion-ios-search"></i>
-								</button>
-
-								<a href="signin.html" class="header__sign-in">
-									<i class="icon ion-ios-log-in"></i>
-									<span>sign in</span>
-								</a>
-							</div>
-							<!-- end header auth -->
-
-							<!-- header menu btn -->
-							<button class="header__btn" type="button">
-								<span></span>
-								<span></span>
-								<span></span>
-							</button>
-							<!-- end header menu btn -->
+							{elseif (isset($utente) && $admin)}
+								<li class="header__nav-item">
+									<a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<span>@{$utente->getUsername()}</span>
+									</a>
+									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+										<li><a href="../../Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
+										<li><a href="">Gestione film</a></li>
+										<li><a href="">Gestione Proiezioni</a></li>
+										<li><a href="../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
+										<li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+									</ul>
+								</li>
+							{/if}
 						</div>
+						<!-- end header auth -->
+
+						<!-- header menu btn -->
+						<button class="header__btn" type="button">
+							<span></span>
+							<span></span>
+							<span></span>
+						</button>
+						<!-- end header menu btn -->
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<!-- header search -->
-		<form action="/Ricerca/cercaFilm" method= "POST" class="header__search">
-			<div class="container">
-				<div class="row">
-					<div class="col-12">
-						<div class="header__search-content">
-							<input type="text" name="filmCercato" placeholder="Cerca un film">
+	<!-- header search -->
+	<form action="/Ricerca/cercaFilm" method= "POST" class="header__search">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="header__search-content">
+						<input type="text" name="filmCercato" placeholder="Cerca un film">
 
-							<button type="submit">Cerca</button>
-						</div>
+						<button type="submit">Cerca</button>
 					</div>
 				</div>
 			</div>
-		</form>
-		<!-- end header search -->
-	</header>
-	<!-- end header -->
+		</div>
+	</form>
+	<!-- end header search -->
+</header>
+<!-- end header -->
 
 	<!-- page title -->
 	<section class="section section--first section--bg" data-bg="../../Smarty/img/section/section.jpg">
@@ -149,7 +178,7 @@
 						<!-- breadcrumb -->
 						<ul class="breadcrumb">
 							<li class="breadcrumb__item"><a href="/">Home</a></li>
-							<li class="breadcrumb__item breadcrumb__item--active">lista risultati</li>
+							<li class="breadcrumb__item breadcrumb__item--active">Lista risultati</li>
 						</ul>
 						<!-- end breadcrumb -->
 					</div>
@@ -336,84 +365,79 @@
 						<!-- end card -->
 					{/foreach}
 				{/if}
-				<!-- section btn -->
-				<div class="col-12">
-					<a href="#" class="section__btn">Altro</a>
-				</div>
-				<!-- end section btn -->
 			</div>
 		</div>
 	</section>
 	<!-- end expected premiere -->
 
-	<!-- footer -->
-	<footer class="footer">
-		<div class="container">
-			<div class="row">
-				<!-- footer list -->
-				<div class="col-12 col-md-3">
-					<h6 class="footer__title">Download Our App</h6>
-					<ul class="footer__app">
-						<li><a href="#"><img src="img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
-						<li><a href="#"><img src="img/google-play-badge.png" alt=""></a></li>
-					</ul>
-				</div>
-				<!-- end footer list -->
-
-				<!-- footer list -->
-				<div class="col-6 col-sm-4 col-md-3">
-					<h6 class="footer__title">Resources</h6>
-					<ul class="footer__list">
-						<li><a href="#">About Us</a></li>
-						<li><a href="#">Pricing Plan</a></li>
-						<li><a href="#">Help</a></li>
-					</ul>
-				</div>
-				<!-- end footer list -->
-
-				<!-- footer list -->
-				<div class="col-6 col-sm-4 col-md-3">
-					<h6 class="footer__title">Legal</h6>
-					<ul class="footer__list">
-						<li><a href="#">Terms of Use</a></li>
-						<li><a href="#">Privacy Policy</a></li>
-						<li><a href="#">Security</a></li>
-					</ul>
-				</div>
-				<!-- end footer list -->
-
-				<!-- footer list -->
-				<div class="col-12 col-sm-4 col-md-3">
-					<h6 class="footer__title">Contact</h6>
-					<ul class="footer__list">
-						<li><a href="tel:+18002345678">+1 (800) 234-5678</a></li>
-						<li><a href="mailto:support@moviego.com">support@flixgo.com</a></li>
-					</ul>
-					<ul class="footer__social">
-						<li class="facebook"><a href="#"><i class="icon ion-logo-facebook"></i></a></li>
-						<li class="instagram"><a href="#"><i class="icon ion-logo-instagram"></i></a></li>
-						<li class="twitter"><a href="#"><i class="icon ion-logo-twitter"></i></a></li>
-						<li class="vk"><a href="#"><i class="icon ion-logo-vk"></i></a></li>
-					</ul>
-				</div>
-				<!-- end footer list -->
-
-				<!-- footer copyright -->
-				<div class="col-12">
-					<div class="footer__copyright">
-						<small><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></small>
-
-						<ul>
-							<li><a href="#">Terms of Use</a></li>
-							<li><a href="#">Privacy Policy</a></li>
-						</ul>
-					</div>
-				</div>
-				<!-- end footer copyright -->
+<!-- footer -->
+<footer class="footer">
+	<div class="container">
+		<div class="row">
+			<!-- footer list -->
+			<div class="col-12 col-md-3">
+				<h6 class="footer__title">Scarica la nsotra App</h6>
+				<ul class="footer__app">
+					<li><a href="https://play.google.com/store?hl=it"><img src="../../Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
+					<li><a href="https://www.apple.com/it/ios/app-store/"><img src="../../Smarty/img/google-play-badge.png" alt=""></a></li>
+				</ul>
 			</div>
+			<!-- end footer list -->
+
+			<!-- footer list -->
+			<div class="col-6 col-sm-4 col-md-3">
+				<h6 class="footer__title">Informazioni</h6>
+				<ul class="footer__list">
+					<li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
+					<li><a href="../../Informazioni/getCosti/">Costi</a></li>
+					<li><a href="../../Informazioni/getHelp/">Aiuto</a></li>
+				</ul>
+			</div>
+			<!-- end footer list -->
+
+			<!-- footer list -->
+			<div class="col-6 col-sm-4 col-md-3">
+				<h6 class="footer__title">Termini legali</h6>
+				<ul class="footer__list">
+					<li><a href="#">Termini d'uso</a></li>
+					<li><a href="#">Privacy Policy</a></li>
+					<li><a href="#">Sicurezza</a></li>
+				</ul>
+			</div>
+			<!-- end footer list -->
+
+			<!-- footer list -->
+			<div class="col-12 col-sm-4 col-md-3">
+				<h6 class="footer__title">Contatti</h6>
+				<ul class="footer__list">
+					<li><a href="tel:+393357852000">+39 3357852000</a></li>
+					<li><a href="mailto:support@magicboulevardcinema.com">support@magicboulevardcinema.com</a></li>
+				</ul>
+				<ul class="footer__social">
+					<li class="facebook"><a href="https://facebook.com" target="_blank"><i class="icon ion-logo-facebook"></i></a></li>
+					<li class="instagram"><a href="https://instagram.com" target="_blank"><i class="icon ion-logo-instagram"></i></a></li>
+					<li class="twitter"><a href="https://twitter.com" target="_blank"><i class="icon ion-logo-twitter"></i></a></li>
+					<li class="vk"><a href="https://vk.com" target="_blank"><i class="icon ion-logo-vk"></i></a></li>
+				</ul>
+			</div>
+			<!-- end footer list -->
+
+			<!-- footer copyright -->
+			<div class="col-12">
+				<div class="footer__copyright">
+					<small><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></small>
+
+					<ul>
+						<li><a href="#">Termini d'uso</a></li>
+						<li><a href="#">Privacy Policy</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- end footer copyright -->
 		</div>
-	</footer>
-	<!-- end footer -->
+	</div>
+</footer>
+<!-- end footer -->
 
 	<!-- JS -->
 	<script>

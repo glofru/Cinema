@@ -31,11 +31,11 @@ class FFilm implements Foundation
     private static function splitArray(array $a): string
     {
         $s = "";
-        print_r($a);
-        foreach ($a as $value)
-        {
+
+        foreach ($a as $value) {
             $s .= $value->getId() . ";";
         }
+
         $s = substr($s, 0, -1);
         return $s;
     }

@@ -40,24 +40,52 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- authorization form -->
-                    <form action="/" class="sign__form" method="POST">
-{*                        <a href="index.html" class="sign__logo">*}
-                            <img src="Smarty/img/logo.svg" alt="">
-{*                        </a>*}
+                    <form id="form" action="/" class="sign__form" method="POST">
+                        {*                        <a href="index.html" class="sign__logo">*}
+                        <img src="Smarty/img/logo.svg" alt="">
+                        {*                        </a>*}
 
+                        <!-- Lunedì -->
                         <div class="sign__group">
-                            <input type="text" class="sign__input" placeholder="Database Name" name="dbname">
+                            <input id="Mon" type="number" min="0" class="sign__input" placeholder="Prezzo lunedì" name="Mon">
                         </div>
 
+                        <!-- Martedì -->
                         <div class="sign__group">
-                            <input type="text" class="sign__input" placeholder="Username" name="username">
+                            <input id="Tue" type="number" min="0" class="sign__input" placeholder="Prezzo martedì" name="Tue">
                         </div>
 
+                        <!-- Mercoledì -->
                         <div class="sign__group">
-                            <input type="password" class="sign__input" placeholder="Password" name="password">
+                            <input id="Wed" type="number" min="0" class="sign__input" placeholder="Prezzo mercoledì" name="Wed">
                         </div>
 
-                        <button class="sign__btn" type="submit">Install</button>
+                        <!-- Giovedì -->
+                        <div class="sign__group">
+                            <input id="Thu" type="number" min="0" class="sign__input" placeholder="Prezzo giovedì" name="Thu">
+                        </div>
+
+                        <!-- Venerdì -->
+                        <div class="sign__group">
+                            <input id="Fri" type="number" min="0" class="sign__input" placeholder="Prezzo venerdì" name="Fri">
+                        </div>
+
+                        <!-- Sabato -->
+                        <div class="sign__group">
+                            <input id="Sat" type="number" min="0" class="sign__input" placeholder="Prezzo sabato" name="Sat">
+                        </div>
+
+                        <!-- Domenica -->
+                        <div class="sign__group">
+                            <input id="Sun" type="number" min="0" class="sign__input" placeholder="Prezzo domenica" name="Sun">
+                        </div>
+
+                        <!-- Sovrapprezzo prenotazione -->
+                        <div class="sign__group">
+                            <input id="extra" type="number" min="0" class="sign__input" placeholder="Sovrapprezzo prenotazione" name="extra">
+                        </div>
+
+                        <button id="install" class="sign__btn" type="button">Installa</button>
 
                     </form>
                     <!-- end authorization form -->
@@ -80,4 +108,27 @@
 <script src="Smarty/js/photoswipe.min.js"></script>
 <script src="Smarty/js/photoswipe-ui-default.min.js"></script>
 <script src="Smarty/js/main.js"></script>
+
+<script>
+
+    {if isset($error)}
+        alert("{$error}");
+    {/if}
+
+    $("#install").click(function (e) {
+        if ($("#Mon").val() === "" ||
+            $("#Tue").val() === "" ||
+            $("#Wed").val() === "" ||
+            $("#Thu").val() === "" ||
+            $("#Fri").val() === "" ||
+            $("#Sat").val() === "" ||
+            $("#Sun").val() === "" ||
+            $("#extra").val() === "") {
+            alert("Compila tutti i campi");
+        } else {
+            $("#form").submit();
+        }
+    });
+
+</script>
 </body>

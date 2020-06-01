@@ -52,7 +52,7 @@
 						<div class="header__content">
 							<!-- header logo -->
 							<a href="/" class="header__logo">
-								<img src="Smarty/img/logo.svg" alt="">
+								<img src="../../Smarty/img/logo.svg" alt="">
 							</a>
 							<!-- end header logo -->
 
@@ -66,37 +66,37 @@
 
 								<!-- dropdown -->
 								<li class="header__nav-item">
-									<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cinema</a>
+									<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalogo</a>
 									
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-										<li><a href="catalog1.html">Prossime Uscite</a></li>
-										<li><a href="catalog2.html">Programmazione</a></li>
-										<li><a href="details1.html">Film più apprezzati</a></li>
+										<li><a href="/Catalogo/prossimeUscite/">Prossime uscite</a></li>
+										<li><a href="/Catalogo/programmazioniPassate/">Programmazioni</a></li>
+										<li><a href="/Catalogo/piuApprezzati/">Film più apprezzati</a></li>
 									</ul>
 								</li>
 								<!-- end dropdown -->
 
 								<li class="header__nav-item">
-									<a href="pricing.html" class="header__nav-link">Costi</a>
+									<a href="/Informazioni/getCosti/" class="header__nav-link">Prezzi</a>
 								</li>
 
 								<li class="header__nav-item">
-									<a href="faq.html" class="header__nav-link">Aiuto</a>
+									<a href="/Informazioni/getHelp/" class="header__nav-link">Aiuto</a>
 								</li>
 
 								<!-- dropdown -->
 								<li class="dropdown header__nav-item">
 									<a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
-									 {if (!isset($user))}
+									 {if (!isset($utente))}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-										<li><a href="about.html">Su di noi</a></li>
-										<li><a href="/Utente/loginForm">Login</a></li>
-										<li><a href="signup.html">Registrati</a></li>
+										<li><a href="/Informazioni/getAbout/">Su di noi</a></li>
+										<li><a href="/Utente/signup">Registrati</a></li>
+									</ul>
 									{else}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-										<li><a href="about.html">Su di noi</a></li>
-									{/if}
+										<li><a href="/Informazioni/getAbout/">Su di noi</a></li>
 									</ul>
+									{/if}
 								</li>
 								<!-- end dropdown -->
 							</ul>
@@ -109,21 +109,35 @@
 								</button>
 
 								{if (!isset($utente))}
-								<a href="Utente/loginForm" methods="GET" class="header__sign-in">
+								<a href="Utente/login" methods="GET" class="header__sign-in">
 									<i class="icon ion-ios-log-in"></i>
 									<span>Login</span>
 								</a>
-								</form>
-								{else}
+								{elseif (isset($utente) && !$admin)}
 								<li class="header__nav-item">
-									<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{$utente->getUsername()}</a>
+									<a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<span>@{$utente->getUsername()}</span>
+									</a>
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-										<li><a href="">Il mio profilo</a></li>
-										<li><a href="">I miei acquisti</a></li>
-										<li><a href="https://www.youporn.com/watch/15481840/il-sole-sul-balcone-amatoriale-italianovery-myller/#1">I miei video porno</a></li>
+										<li><a href="/Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
+										<li><a href="/Utente/bigliettiAcquistati">I miei acquisti</a></li>
+										<li><a href="/Utente/showCommenti/">I miei giudizi</a></li>
 										<li><a href="/Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
 									</ul>
 								</li>
+								{elseif (isset($utente) && $admin)}
+									<li class="header__nav-item">
+										<a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span>@{$utente->getUsername()}</span>
+										</a>
+										<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+											<li><a href="/Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
+											<li><a href="">Gestione film</a></li>
+											<li><a href="">Gestione Proiezioni</a></li>
+											<li><a href="/Admin/gestioneUtenti/?">Gestione Utenti</a></li>
+											<li><a href="/Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+										</ul>
+									</li>
 								{/if}
 							</div>
 							<!-- end header auth -->
@@ -285,9 +299,9 @@
 
 											<div class="card__wrap">
 												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()} &nbsp;</span>
-												{if ($punteggioProgrammazione[$key] != '0')}
+												{if ($punteggioSettimanaScorsa[$key] != '0')}
 													<span class="card__category">
-													<a href="/Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggioProgrammazione[$key]}</a>
+													<a href="/Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggioSettimanaScorsa[$key]}</a>
 												</span>
 												{/if}
 												{if ($film->getetaConsigliata() != "")}
@@ -381,9 +395,9 @@
 
 											<div class="card__wrap">
 												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()} &nbsp;</span>
-												{if ($punteggioProgrammazione[$key] != '0')}
+												{if ($punteggioSettimanaProssima[$key] != '0')}
 													<span class="card__category">
-													<a href="/Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggioProgrammazione[$key]}</a>
+													<a href="/Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggioSettimanaProssima[$key]}</a>
 												</span>
 												{/if}
 												{if ($film->getetaConsigliata() != "")}
@@ -448,11 +462,6 @@
 				<!-- end card -->
 					{/foreach}
 				{/if}
-				<!-- section btn -->
-				<div class="col-12">
-					<a href="#" class="section__btn">Altro</a>
-				</div>
-				<!-- end section btn -->
 			</div>
 		</div>
 	</section>
@@ -470,7 +479,7 @@
 
 				<!-- section text -->
 				<div class="col-12">
-					<p class="section__text section__text--last-with-margin">It is a long <b>established</b> fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using.</p>
+					<p class="section__text section__text--last-with-margin">Ringraziamo i nostri sponsor per il loro supporto alla nostra attività.</p>
 				</div>
 				<!-- end section text -->
 
@@ -532,10 +541,10 @@
 			<div class="row">
 				<!-- footer list -->
 				<div class="col-12 col-md-3">
-					<h6 class="footer__title">Download Our App</h6>
+					<h6 class="footer__title">Scarica la nsotra App</h6>
 					<ul class="footer__app">
-						<li><a href="#"><img src="Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
-						<li><a href="#"><img src="Smarty/img/google-play-badge.png" alt=""></a></li>
+						<li><a href="https://play.google.com/store?hl=it"><img src="Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
+						<li><a href="https://www.apple.com/it/ios/app-store/"><img src="Smarty/img/google-play-badge.png" alt=""></a></li>
 					</ul>
 				</div>
 				<!-- end footer list -->
@@ -544,9 +553,9 @@
 				<div class="col-6 col-sm-4 col-md-3">
 					<h6 class="footer__title">Informazioni</h6>
 					<ul class="footer__list">
-						<li><a href="#">Su di noi</a></li>
-						<li><a href="#">Costi</a></li>
-						<li><a href="#">Aiuto</a></li>
+						<li><a href="/Informazioni/getAbout/">Su di noi</a></li>
+						<li><a href="/Informazioni/getCosti/">Costi</a></li>
+						<li><a href="/Informazioni/getHelp/">Aiuto</a></li>
 					</ul>
 				</div>
 				<!-- end footer list -->
@@ -557,7 +566,7 @@
 					<ul class="footer__list">
 						<li><a href="#">Termini d'uso</a></li>
 						<li><a href="#">Privacy Policy</a></li>
-						<li><a href="#">Securezza</a></li>
+						<li><a href="#">Sicurezza</a></li>
 					</ul>
 				</div>
 				<!-- end footer list -->
@@ -566,14 +575,14 @@
 				<div class="col-12 col-sm-4 col-md-3">
 					<h6 class="footer__title">Contatti</h6>
 					<ul class="footer__list">
-						<li><a href="tel:+18002345678">+1 (800) 234-5678</a></li>
-						<li><a href="mailto:support@moviego.com">support@flixgo.com</a></li>
+						<li><a href="tel:+393357852000">+39 3357852000</a></li>
+						<li><a href="mailto:support@magicboulevardcinema.com">support@magicboulevardcinema.com</a></li>
 					</ul>
 					<ul class="footer__social">
-						<li class="facebook"><a href="#"><i class="icon ion-logo-facebook"></i></a></li>
-						<li class="instagram"><a href="#"><i class="icon ion-logo-instagram"></i></a></li>
-						<li class="twitter"><a href="#"><i class="icon ion-logo-twitter"></i></a></li>
-						<li class="vk"><a href="#"><i class="icon ion-logo-vk"></i></a></li>
+						<li class="facebook"><a href="https://facebook.com" target="_blank"><i class="icon ion-logo-facebook"></i></a></li>
+						<li class="instagram"><a href="https://instagram.com" target="_blank"><i class="icon ion-logo-instagram"></i></a></li>
+						<li class="twitter"><a href="https://twitter.com" target="_blank"><i class="icon ion-logo-twitter"></i></a></li>
+						<li class="vk"><a href="https://vk.com" target="_blank"><i class="icon ion-logo-vk"></i></a></li>
 					</ul>
 				</div>
 				<!-- end footer list -->

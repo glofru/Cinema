@@ -47,14 +47,18 @@ class FPersistentManager
         return $result;
     }
 
-    public function load($value, $row ,$class) {
+    public function load($value, $row, $class) {
         $class = self::getClass($class);
-        return $class::load($value,$row);
+        return $class::load($value, $row);
+    }
+
+    public function loadbannati() {
+        return FUtente::loadBannati();
     }
 
     public function loadLike($value, $row, $class) {
         $class = self::getClass($class);
-        return $class::loadLike($value,$row);
+        return $class::loadLike($value, $row);
     }
 
     public function loadDebole($value, $row, $value2, $row2, $class) {
@@ -87,15 +91,19 @@ class FPersistentManager
         $class::update($value, $row, $value2, $row2, $newValue, $newRow);
     }
 
-    public function occupaPosto(EProiezione $proiezione, EPosto $posto, EUtente $utente, int $costo) {
-        return FProiezione::occupaPosto($proiezione, $posto, $utente, $costo);
+    public function occupaPosti(array $biglietti) {
+        return FProiezione::occupaPosti($biglietti);
     }
 
     public function liberaPosto($idProiezione, $posto, $emailUtente)  {
         return FProiezione::liberaPosto($idProiezione, $posto, $emailUtente);
     }
 
-    public function login(string $value, string $password, bool $isMail){
-        return FUtente::login($value,$password,$isMail);
+    public function login(string $value, string $password, bool $isMail) {
+        return FUtente::login($value, $password, $isMail);
+    }
+
+    public function signup(EUtente $utente) {
+        FUtente::save($utente);
     }
 }

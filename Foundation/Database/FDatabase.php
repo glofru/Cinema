@@ -1,6 +1,6 @@
 <?php
 
-require_once "config.inc.php";
+require_once "configDB.conf.php";
 
 /**
  * Class FDatabase
@@ -30,17 +30,14 @@ class FDatabase
         }
         catch (PDOException $exception) {
             VError::error(1);
-            die();
         }
     }
 
     /**
      * @return FDatabase
      */
-    public static function getInstance(): FDatabase
-    {
-        if (self::$instance == null)
-        {
+    public static function getInstance(): FDatabase{
+        if (self::$instance == null) {
             self::$instance = new FDatabase();
         }
 
@@ -52,26 +49,26 @@ class FDatabase
      * @param $values
      * @return
      */
-    public function saveToDB($class, $values)
-    {
+    public function saveToDB($class, $values){
         try {
             $this->db->beginTransaction();
             $query = "INSERT INTO " . $class::getTableName() . " VALUES " . $class::getValuesName();
             $sender = $this->db->prepare($query);
             $class::associate($sender, $values);
             $sender->execute();
+
             $id = $this->db->lastInsertId();
             $this->db->commit();
+
             return $id;
         } catch (PDOException $exception) {
-            $this->db->rollBack();
-            echo ("Errore nel Database: " . $exception->getMessage());
-            return null;
+            $this->error();
         }
+
+        return null;
     }
 
-    public function saveToDBDebole($class, EProiezione $proiezione, EPosto $posto)
-    {
+    public function saveToDBDebole($class, EProiezione $proiezione, EPosto $posto){
         try {
             $this->db->beginTransaction();
             $query = "INSERT INTO " . $class::getTableName() . " VALUES " . $class::getValuesName();
@@ -82,10 +79,10 @@ class FDatabase
             $this->db->commit();
             return $id;
         } catch (PDOException $exception) {
-            $this->db->rollBack();
-            echo ("Errore nel Database: " . $exception->getMessage());
-            return null;
+            $this->error();
         }
+
+        return null;
     }
 
     /**
@@ -118,14 +115,15 @@ class FDatabase
                 return $return;
             }
             catch (PDOException $exception) {
-                echo "Errore nel Database: " . $exception->getMessage();
-                return null;
+                $this->error(false);
             }
+
+            return null;
         }
 
     public function loadFromDBDebole($class, $value, string $row, $value2, $row2) {
         try {
-            $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . "= '" . $value. "' AND " . $row2 . "= '" . $value2 . "';";
+            $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . " = '" . $value. "' AND " . $row2 . " = '" . $value2 . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
             $returnedRows = $sender->rowCount();
@@ -145,9 +143,10 @@ class FDatabase
             return $return;
         }
         catch (PDOException $exception) {
-            echo "Errore nel Database: " . $exception->getMessage();
-            return null;
+            $this->error(false);
         }
+
+        return null;
     }
 
     public function loadBetween($class, string $datainizio, string $datafine, string $row) {
@@ -172,9 +171,10 @@ class FDatabase
             return $return;
         }
         catch(Exception $exception) {
-            echo "Errore nel Database: " . $exception->getMessage();
-            return null;
+            $this->error(false);
         }
+
+        return null;
     }
 
     public function loadLike($class, string $value, string $row) {
@@ -186,22 +186,20 @@ class FDatabase
             $return = [];
             if($returnedRows == 0){
                 return [];
-            }
-            elseif ($returnedRows == 1) {
-                array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
-            }
-            else {
+            } elseif ($returnedRows == 1) {
+                array_push($return, $sender->fetch(PDO::FETCH_ASSOC));
+            } else {
                 $sender->setFetchMode(PDO::FETCH_ASSOC);
                 while($elem = $sender->fetch()) {
-                $return[] = $elem;
+                    $return[] = $elem;
+                }
             }
+            return $return;
+        } catch(Exception $exception) {
+            $this->error(false);
         }
-        return $return;
-    }
-        catch(Exception $exception) {
-            echo "Errore nel Database: " . $exception->getMessage();
-            return null;
-}
+
+        return null;
     }
 
     public function checkDisponibilita(int $nsala, string $data, string $oraInizioNuovoFilm) {
@@ -241,10 +239,10 @@ class FDatabase
             return $output;
         }
         catch(Exception $exception) {
-            echo "Errore nel Database: " . $exception->getMessage();
-            array_push($return,null);
-            return null;
+            $this->error(false);
         }
+
+        return null;
     }
 
     /**
@@ -275,14 +273,14 @@ class FDatabase
             $sender = $this->db->prepare($query);
             $sender->execute();
             $this->db->commit();
+
+            return true;
         }
         catch(PDOException $exception) {
-            $this->db->rollBack();
-            echo ("Errore nel Database: " . $exception->getMessage());
-            return false;
+            $this->error();
         }
 
-        return true;
+        return false;
     }
 
     public function deleteFromDBDebole($class, $value, $row, $value2, $row2): bool {
@@ -292,14 +290,14 @@ class FDatabase
             $sender = $this->db->prepare($query);
             $sender->execute();
             $this->db->commit();
+
+            return true;
         }
         catch(PDOException $exception) {
-            $this->db->rollBack();
-            echo ("Errore nel Database: " . $exception->getMessage());
-            return false;
+            $this->error();
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -310,21 +308,21 @@ class FDatabase
      * @param $newValue
      * @return bool
      */
-    public function updateTheDB($class, $value, string $row, string $newRow, $newValue): bool {
+    public function updateTheDB($class, $value, string $row, $newValue, string $newRow): bool {
         try {
             $this->db->beginTransaction();
             $query = "UPDATE " . $class::getTableName() . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
             $this->db->commit();
+
+            return true;
         }
         catch(PDOException $exception) {
-            $this->db->rollBack();
-            echo ("Errore nel Database: " . $exception->getMessage());
-            return false;
+            $this->error();
         }
 
-        return true;
+        return false;
     }
 
     public function updateTheDBDebole($class, $value, $row, $value2, $row2, string $newRow, $newValue): bool {
@@ -334,64 +332,45 @@ class FDatabase
             $sender = $this->db->prepare($query);
             $sender->execute();
             $this->db->commit();
+
+            return true;
         }
         catch(PDOException $exception) {
-            $this->db->rollBack();
-            echo ("Errore nel Database: " . $exception->getMessage());
-            return false;
+            $this->error();
+        }
+
+        return false;
+    }
+
+    public function occupaPosti(array $biglietti) {
+        try {
+            $this->db->beginTransaction();
+            foreach ($biglietti as $item) {
+                $query = "SELECT * FROM " . "Posti" . " WHERE " . "idProiezione = '" . $item->getProiezione()->getId() . "' AND " . "posizione = '" . $item->getPosto()->getId() . "' FOR UPDATE;";
+                $sender = $this->db->prepare($query);
+                $sender->execute();
+                $posto = $sender->fetch(PDO::FETCH_ASSOC);
+
+                if($posto == null) { //Non esiste il posto
+                    $this->db->rollBack();
+                    return null;
+                }
+
+                if(boolval($posto["occupato"])) { //Il posto è occupato
+                    $this->db->rollBack();
+                    return false;
+                }
+
+                $query = "UPDATE Posti SET occupato = '1' WHERE idProiezione = '" . $item->getProiezione()->getId() . "' AND posizione = '" . $item->getPosto()->getId() . "';";
+                $sender = $this->db->prepare($query);
+                $sender->execute();
+            }
+            $this->db->commit();
+        } catch(PDOException $exception) {
+            $this->error();
         }
 
         return true;
-    }
-
-    /**
-     * @param $value
-     * @param $password
-     * @return object
-     */
-    public function loginDB(string $value, string $password) {
-        if (strpos($value, '@') !== false) {
-            $row = "email";
-        }
-        else
-        {
-            $row = "username";
-        }
-        $class = "FUtenteLoggato";
-        $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . "='" . $value . "' AND password ='" . $password . "';";
-        $sender = $this->db->prepare($query);
-        $sender->execute();
-        if($sender->rowCount() != 0) {
-            return $sender->fetch(PDO::FETCH_ASSOC);
-        }
-        return null;
-    }
-
-    public function occupaPosto($proiezione, $posto, $utente, $costo) {
-        try {
-            $this->db->beginTransaction();
-            $query = "SELECT * FROM " . "Posti" . " WHERE " . "id = '" . $proiezione->getId() . "' AND " . "posizione = '" . $posto . "' LOCK IN SHARE MODE;";
-            $sender = $this->db->prepare($query);
-            $sender->execute();
-            $acquisto = $sender->fetch(PDO::FETCH_ASSOC);
-            $islibero = $acquisto["libero"];
-            if(boolval($islibero) === true) {
-                $query = "UPDATE Posti SET libero = '0' WHERE idProiezione = '" . $proiezione->getId() . "' AND posizione = '" . $posto . "';";
-                $sender = $this->db->prepare($query);
-                $sender->execute();
-                $this->db->commit();
-
-                $posto = EPosto::fromString($posto, false);
-                $biglietto = new EBiglietto($proiezione, $posto, $utente, $costo);
-                FBiglietto::save($biglietto);
-                return $biglietto;
-            }
-        } catch(PDOException $exception) {
-            $this->db->rollBack();
-            echo("Errore nel Database: " . $exception->getMessage());
-        }
-
-        return null;
     }
 
     public function liberaPosto($idProiezione, $posto, $emailUtente) {
@@ -400,23 +379,25 @@ class FDatabase
             $query = "SELECT * FROM " . "Posti" . " WHERE " . "idProiezione" . "= '" . $idProiezione. "' AND " . "posizione" . "= '" . $posto . "' LOCK IN SHARE MODE;";
             $sender = $this->db->prepare($query);
             $sender->execute();
+
             $acquisto = $sender->fetch(PDO::FETCH_ASSOC);
             $islibero = $acquisto["libero"];
             $biglietto = FBiglietto::loadDoppio($idProiezione, "idProiezione", $posto, "posto");
-            if(boolval($islibero) === false && ($biglietto->getUtente()->getEmail() === $emailUtente)) {
+
+            if(!boolval($islibero) && ($biglietto->getUtente()->getEmail() === $emailUtente)) {
                 $query = "UPDATE Posti SET libero = '1' WHERE idProiezione = '" . $idProiezione . "' AND posizione = '" . $posto . "';";
                 $sender = $this->db->prepare($query);
                 $sender->execute();
                 $this->db->commit();
+
                 FBiglietto::delete($idProiezione,"idProiezione",$posto,"posto");
                 return true;
             }
-            return false;
         } catch(PDOException $exception) {
-            $this->db->rollBack();
-            echo ("Errore nel Database: " . $exception->getMessage());
-            return null;
+            $this->error();
         }
+
+        return false;
     }
 
     public function storeMedia($class, EMedia $media)
@@ -427,15 +408,23 @@ class FDatabase
             $sender = $this->db->prepare($query);
             $class::associate($sender, $media);
             $sender->execute();
+
             $id=$this->db->lastInsertId();
             $this->db->commit();
+
             return $id;
+        } catch(PDOException $exception) {
+            $this->error();
         }
-        catch(PDOException $exception) {
+
+        return null;
+    }
+
+    private function error($rollBack = true) {
+        if ($rollBack) {
             $this->db->rollBack();
-            echo ("Errore nel Database: " . $exception->getMessage());
-            return null;
         }
+        VError::error(1);
     }
 
 }
