@@ -351,16 +351,20 @@ class CUtente
                 VUtente::forgotPassword($username);
             }
 
-            //Reset password
-            FPersistentManager::getInstance()->update($utente->getId(), "id", "", "password", "EUtente");
-
             //Crea token
             $uid = uniqid();
             $token = new EToken($uid, false, $utente);
-            FPersistentManager::getInstance()->save($token);
 
-            //Invio mail
-            CMail::sendForgotMail($utente, $token);
+            if (CMail::sendForgotMail($utente, $token)) { //Invio mail
+                //Reset password
+                FPersistentManager::getInstance()->update($utente->getId(), "id", "", "password", "EUtente");
+
+                //Salvataggio token
+                FPersistentManager::getInstance()->save($token);
+            } else {
+                VError::error(0, "C'è stato un errore. Riprova più tardi.");
+                die;
+            }
 
             VUtente::forgotPassword(null, true);
         }

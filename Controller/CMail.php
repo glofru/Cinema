@@ -1,5 +1,9 @@
 <?php
-require_once "Mail.php";
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require "PHPMailer/src/PHPMailer.php";
+require "PHPMailer/src/SMTP.php";
 
 class CMail
 {
@@ -7,8 +11,8 @@ class CMail
     private static string $password = "Supp0rtM@gic";
 
     private static string $domain = "localhost";
-    private static string $host = "ssl://smtp.gmail.com";
-    private static string $port = "465";
+    private static string $host = "smtp.gmail.com";
+    private static string $port = "587";
 
     public static function sendForgotMail(EUtente $utente, EToken $token): bool {
         $link = "http://" . self::$domain . "/Utente/forgotPassword/?token=" . $token->getValue();
@@ -19,31 +23,35 @@ class CMail
             "Se non hai fatto richiesta tu di cambiare la password, ignora la mail.<br><br>" .
             "ATTENZIONE: mail generata automaticamente, un eventuale risposta non verra' letta.";
 
-        return self::sendMail($utente->getEmail(), $subject, $body);
+        $name = $utente->getNome() . " " . $utente->getCognome();
+
+        return self::sendMail($utente->getEmail(), $subject, $body, $name);
     }
 
-    private static function sendMail(string $to, string $subject, string $body): bool {
-        $headers = array (
-            'From' => self::$user,
-            'To' => $to,
-            'Subject' => $subject,
-            'MIME-Version' => 1,
-            'Content-type' => 'text/html;charset=iso-8859-1'
-        );
+    private static function sendMail(string $to, string $subject, string $body, string $name = ""): bool {
+        $mail = new PHPMailer(true);
 
-        $smtp = Mail::factory(
-            'smtp',
-            array (
-                'host' => self::$host,
-                'port' => self::$port,
-                'auth' => true,
-                'username' => self::$user,
-                'password' => self::$password
-            )
-        );
+        $mail->isSMTP();
+        $mail->Host = self::$host;
+        $mail->isHTML(true);
 
-        $mail = $smtp->send($to, $headers, $body);
+        $mail->SMTPAuth   = true;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Host       = self::$host;
+        $mail->Port       = self::$port;
+        $mail->Username   = self::$user;
+        $mail->Password   = self::$password;
 
-        return !PEAR::isError($mail);
+        $mail->setFrom(self::$user, 'Support Magic Boulevard Cinema');
+        $mail->addAddress($to, $name);
+        $mail->Subject    = $subject;
+        $mail->Body       = $body;
+        $mail->AltBody    = $body; //Non HTML clients
+
+        try {
+            return $mail->send();
+        } catch (Exception $e) {
+            return false;
+        }
     }
 }

@@ -36,10 +36,16 @@ function autoloader_root($class){
     include_once($class . '.php');
 }
 
+function autoloader_php_mailer($class){
+    if ($class == "PHPMailer") print "WE";
+    include_once('PHPMailer/src/' . $class . '.php');
+}
+
 spl_autoload_register('autoloader_root');
 spl_autoload_register('autoloader_view');
 spl_autoload_register('autoloader_control');
 spl_autoload_register('autoloader_model');
 spl_autoload_register('autoloader_foundation');
+spl_autoload_register('autoloader_php_mailer');
 
 ?>
