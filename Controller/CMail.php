@@ -6,17 +6,18 @@ class CMail
     private static string $user = "help.magicboulevard@gmail.com";
     private static string $password = "Supp0rtM@gic";
 
+    private static string $domain = "localhost";
     private static string $host = "ssl://smtp.gmail.com";
     private static string $port = "465";
 
-    public static function sendForgotMail(EUtente $utente): bool {
-        $link = "";
+    public static function sendForgotMail(EUtente $utente, string $token): bool {
+        $link = "http://" . self::$domain . "/Utente/forgotPassword/?token=" . $token;
 
         $subject = "Reset della password — Magic Boulevard Cinema";
-        $body = "Ciao " . $utente->getNome() . ", " . PHP_EOL . PHP_EOL .
-            "Puoi resettare la tua password cliccando " . "<a href='" . $link . "'>qui</a>" . PHP_EOL .
-            "Se non hai fatto richiesta tu di cambiare la password, ignora la mail." . PHP_EOL . PHP_EOL .
-            "ATTENZIONE: mail generata automaticamente, un eventuale risposta non verrà letta.";
+        $body = "Ciao " . $utente->getNome() . ",<br><br>" .
+            "Puoi resettare la tua password cliccando " . "<a href='" . $link . "'>qui</a>.<br>" .
+            "Se non hai fatto richiesta tu di cambiare la password, ignora la mail.<br><br>" .
+            "ATTENZIONE: mail generata automaticamente, un eventuale risposta non verra' letta.";
 
         return self::sendMail($utente->getEmail(), $subject, $body);
     }
@@ -25,7 +26,9 @@ class CMail
         $headers = array (
             'From' => self::$user,
             'To' => $to,
-            'Subject' => $subject
+            'Subject' => $subject,
+            'MIME-Version' => 1,
+            'Content-type' => 'text/html;charset=iso-8859-1'
         );
 
         $smtp = Mail::factory(

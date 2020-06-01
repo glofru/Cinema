@@ -39,7 +39,6 @@ class FPersistentManager
 
     public function save($istanza) {
         $class = self::getClass(get_class($istanza));
-        $class::save($istanza);
     }
 
     public function saveProiezione(EProiezione $proiezione) {
