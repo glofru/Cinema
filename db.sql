@@ -126,4 +126,5 @@ CREATE TABLE MediaLocandina(
 CREATE TABLE Token(
     `value` TEXT PRIMARY KEY NOT NULL,
     `isUsed` BOOLEAN DEFAULT FALSE,
-);
+    PRIMARY KEY (`value`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
