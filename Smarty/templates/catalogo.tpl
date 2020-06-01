@@ -205,7 +205,7 @@
 							<div class="col-12 col-sm-4">
 								<div class="card__cover">
 									<img src="{$immaginiProssimi[$key]->getImmagineHTML()}" alt="">
-									<a href="" class="card__play">
+									<a href="/Film/show/?film={$item->getId()}&autoplay=true" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
 								</div>
@@ -261,7 +261,7 @@
 								<div class="col-12 col-sm-4">
 									<div class="card__cover">
 										<img src="{$immaginiPassati[$i][$key]->getImmagineHTML()}" alt="">
-										<a href="" class="card__play">
+										<a href="/Film/show/?film={$item->getId()}&autoplay=true" class="card__play">
 											<i class="icon ion-ios-play"></i>
 										</a>
 									</div>
@@ -319,7 +319,7 @@
 									<div class="col-12 col-sm-4">
 										<div class="card__cover">
 											<img src="{$immaginiApprezzati[$key]->getImmagineHTML()}" alt="">
-											<a href="" class="card__play">
+											<a href="/Film/show/?film={$item->getId()}&autoplay=true" class="card__play">
 												<i class="icon ion-ios-play"></i>
 											</a>
 										</div>

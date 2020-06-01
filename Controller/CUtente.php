@@ -76,7 +76,11 @@ class CUtente
                     $propic->setImmagine('../../Smarty/img/user.png');
                 }
                 if(isset($toShow)){
-                    VUtente::showUtente($toShow, $canModify, $toShow->isAdmin(), $propic);
+                    $giudizi = $pm->load($_GET["idShow"], "idUtente", "EGiudizio");
+                    if(sizeof($giudizi) > 10){
+                        array_splice($giudizi, 0, 10);
+                    }
+                    VUtente::showUtente($toShow, $canModify, $toShow->isAdmin(), $propic, $giudizi);
                 }
                 else {
                     VError::error(0,"PROFILO UTENTE NON TROVATO!");
@@ -337,6 +341,10 @@ class CUtente
 
             VUtente::forgotPassword(null, true);
         }
+    }
+
+    public static function getComments() {
+        //MO VEDIAMO
     }
 
 }

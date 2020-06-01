@@ -299,9 +299,9 @@
 
 											<div class="card__wrap">
 												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()} &nbsp;</span>
-												{if ($punteggioProgrammazione[$key] != '0')}
+												{if ($punteggioSettimanaScorsa[$key] != '0')}
 													<span class="card__category">
-													<a href="/Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggioProgrammazione[$key]}</a>
+													<a href="/Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggioSettimanaScorsa[$key]}</a>
 												</span>
 												{/if}
 												{if ($film->getetaConsigliata() != "")}
@@ -395,9 +395,9 @@
 
 											<div class="card__wrap">
 												<span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()} &nbsp;</span>
-												{if ($punteggioProgrammazione[$key] != '0')}
+												{if ($punteggioSettimanaProssima[$key] != '0')}
 													<span class="card__category">
-													<a href="/Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggioProgrammazione[$key]}</a>
+													<a href="/Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggioSettimanaProssima[$key]}</a>
 												</span>
 												{/if}
 												{if ($film->getetaConsigliata() != "")}

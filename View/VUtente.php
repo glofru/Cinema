@@ -3,13 +3,14 @@
 
 class VUtente
 {
-    public static function showUtente(EUtente $utente, bool $canModify, bool $isAdmin, EMedia $propic)
+    public static function showUtente(EUtente $utente, bool $canModify, bool $isAdmin, EMedia $propic, array $giudizi)
     {
         $smarty = StartSmarty::configuration();
         $smarty->assign("utente", $utente);
         $smarty->assign("canModify", $canModify);
         $smarty->assign("admin", $isAdmin);
         $smarty->assign("propic", $propic);
+        $smarty->assign("giudizi", $giudizi);
         $smarty->display("user.tpl");
     }
 
