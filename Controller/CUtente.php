@@ -322,7 +322,11 @@ class CUtente
         $method = $_SERVER["REQUEST_METHOD"];
 
         if ($method == "GET") {
-            VUtente::forgotPassword();
+            if (isset($_GET["token"])) {
+                $isValid = FPersistentManager::getInstance()->load($_GET["token"], "value", "TOKEN")
+            } else {
+                VUtente::forgotPassword();
+            }
         } elseif ($method == "POST") {
             $username = $_POST["username"];
 
@@ -340,7 +344,8 @@ class CUtente
                 VUtente::forgotPassword($username);
             }
 
-
+            $token = uniqid();
+            CMail::sendForgotMail($utente, $token);
 
             VUtente::forgotPassword(null, true);
         }

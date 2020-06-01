@@ -7,42 +7,6 @@ class FUtente implements Foundation
     private static string $tableName = "Utenti";
     private static string $valuesName = "(:id,:username,:email,:nome,:cognome,:password,:isAdmin,:isBanned)";
 
-    private bool $isAdmin;
-    private int $idUtente;
-
-    /**
-     * @return int
-     */
-    public function getIdUtente(): int
-    {
-        return $this->idUtente;
-    }
-
-    /**
-     * @param int $idUtente
-     */
-    public function setIdUtente(int $idUtente): void
-    {
-        $this->idUtente = $idUtente;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function isAdmin(): bool
-    {
-        return $this->isAdmin;
-    }
-
-    /**
-     * @param bool $isAdmin
-     */
-    public function setIsAdmin(bool $isAdmin): void
-    {
-        $this->isAdmin = $isAdmin;
-    }
-
     public function __construct() {}
 
     public static function associate(PDOStatement $sender, $utente){
@@ -126,11 +90,8 @@ class FUtente implements Foundation
 
     public static function delete($value, $row): bool {
         $db = FDatabase::getInstance();
-        if($db->deleteFromDB(self::getClassName(), $value, $row))
-        {
-            return true;
-        }
-        return false;
+
+        return $db->deleteFromDB(self::getClassName(), $value, $row);
     }
 
     private static function parseResult(array $result): array {

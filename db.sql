@@ -122,3 +122,9 @@ CREATE TABLE MediaLocandina(
         REFERENCES Film(`id`)
     ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+CREATE TABLE Token(
+    `value` TEXT NOT NULL,
+    `isUsed` BOOLEAN DEFAULT FALSE,
+    PRIMARY KEY (`value`)
+);

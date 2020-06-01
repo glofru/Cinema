@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE & ~E_DEPRECATED);
 require_once 'Utility/autoload.inc.php';
 require_once 'StartSmarty.php';
 
