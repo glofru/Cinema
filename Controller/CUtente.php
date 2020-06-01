@@ -86,6 +86,144 @@ class CUtente
         }
     }
 
+    public static function insertpassword()
+    {
+        if($_SERVER["REQUEST_METHOD"] == "POST")
+        {
+            $username = $_GET["username"];
+            $password = $_POST["password"];
+            self::checkLogin($username, $password);
+            return true;
+        } else
+            {
+                return false;
+            }
+
+    }
+
+    public static function verificaUtente()
+    {
+        if($_SERVER['REQUEST_METHOD'] == "GET" && self::isLogged())
+        {
+            $utente = self::getUtente();
+            if (!isset($_GET["idShow"]))
+            {
+                // header("Location: /");
+                echo "NOTSET";
+            } else
+                {
+                    if (isset($utente) && $utente->getId() === intval($_GET["idShow"]))
+                    {
+                        return true;
+                    }
+                }
+
+        }
+    }
+
+    private static function modificaUsername()
+    {
+        if(self::verificaUtente() == true);
+        {
+            $pm = FPersistentManager::getInstance();
+            $username = $_POST["username"];
+            if(self::insertpassword() == true)
+            {
+                $pm->update($_GET["username"], "username", $username, "username", "EUtente" );
+            } else
+            {
+                VError::error(7);
+            }
+        }
+    }
+
+    private static function modificaNome()
+    {
+        if(self::verificaUtente() == true);
+        {
+            $pm = FPersistentManager::getInstance();
+            $nome = $_POST["nome"];
+            if(self::insertpassword() == true)
+            {
+                $pm->update($_GET["nome"], "nome", $nome, "nome", "EUtente" );
+            } else
+            {
+                VError::error(7);
+            }
+        }
+    }
+
+    private static function modificaCognome()
+    {
+        if(self::verificaUtente() == true);
+        {
+            $pm = FPersistentManager::getInstance();
+            $cognome = $_POST["cognome"];
+            if(self::insertpassword() == true)
+            {
+                $pm->update($_GET["cognome"], "cognome", $cognome, "cognome", "EUtente" );
+            } else
+            {
+                VError::error(7);
+            }
+        }
+    }
+
+    private static function modificaEmail()
+    {
+        if(self::verificaUtente() == true);
+        {
+            $pm = FPersistentManager::getInstance();
+            $email = $_POST["email"];
+            if(self::insertpassword() == true)
+            {
+                $pm->update($_GET["email"], "email", $email, "email", "EUtente" );
+            } else
+            {
+                VError::error(7);
+            }
+        }
+    }
+
+    private static function modificaPassword()
+    {
+        if(self::verificaUtente() == true);
+        {
+            $pm = FPersistentManager::getInstance();
+            $password = $_POST["password"];
+            if(self::insertpassword() == true)
+            {
+                $pm->update($_GET["password"], "password", $password, "password", "EUtente" );
+            } else
+            {
+                VError::error(7);
+            }
+        }
+    }
+
+
+    private static function modificaPropic($propic)
+    {
+        if(self::verificaUtente() == true);
+        {
+            $pm = FPersistentManager::getInstance();
+            if(self::insertpassword() == true)
+            {
+                $pm->update($_GET["immagine"], "immagine", $propic, "immagine", "EMedia" );
+            } else
+            {
+                VError::error(7);
+            }
+        }
+    }
+
+    private static function modificaUtente(EUtente $utente)
+    {
+
+
+    }
+
+
 
 
     private static function saveSession(EUtente $utente) {

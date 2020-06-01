@@ -33,6 +33,8 @@ class VError
             case 6:
                 $error_description = "Non si può accedere a questa pagina senza login.";
                 break;
+            case 7:
+                $error_description = "Password non valida.";
             case 100:
             default:
                 $error_description = "Errore generico.";
