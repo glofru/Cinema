@@ -77,6 +77,7 @@ class CUtente
                 }
                 if(isset($toShow)){
                     $giudizi = $pm->load($_GET["idShow"], "idUtente", "EGiudizio");
+                    usort($giudizi, array(EHelper::getInstance(), "sortByDatesGiudizi"));
                     if(sizeof($giudizi) > 10){
                         array_splice($giudizi, 0, 10);
                     }
@@ -89,6 +90,8 @@ class CUtente
             }
         }
     }
+
+
 
     public static function insertpassword()
     {

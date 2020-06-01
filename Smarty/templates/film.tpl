@@ -207,12 +207,11 @@
 
                                 <ul class="card__meta">
                                     <li><span>Genere:</span> <a href="#">{$film->getGenere()}</a>
-                                    <li><span>Anno di rilascio:</span> {$film->getAnno()}</li>
+                                    <li><span>Data di rilascio:</span> {$film->getDataRilascioString()}</li>
                                     <li><span>Durata:</span> {$film->getDurataMinuti()} min</li>
                                     <li><span>Paese:</span> <a href="#">{$film->getPaese()}</a> </li>
                                     <li><span>Regista:</span> {foreach $registi as $reg} <a href="{$reg->getImdbUrl()}" target="_blank">{$reg->getNome()} {$reg->getCognome()} </a> {/foreach}</li>
                                     <li><span>Attori:</span> {foreach $attori as $att} <a href="{$att->getImdbUrl()}" target="_blank">{$att->getNome()} {$att->getCognome()} </a> {/foreach}</li>
-                                        
                                 </ul>
 
                                 <div class="card__description card__description--details">

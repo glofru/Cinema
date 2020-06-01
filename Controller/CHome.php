@@ -23,6 +23,7 @@ class CHome
         if(sizeof($filmProssimi) > $size) {
             array_splice($filmProssimi, 0, $size);
         }
+        usort($filmProssimi, array(EHelper::getInstance(), "sortByDatesFilm"));
         $immaginiProssimi = [];
         foreach($filmProssimi as $film) {
             array_push($immaginiProssimi, $pm->load($film->getId(), "idFilm", "EMedia"));
