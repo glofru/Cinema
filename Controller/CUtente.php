@@ -121,17 +121,13 @@ class CUtente
         }
     }
 
-    private static function modificaUsername()
-    {
-        if(self::verificaUtente() == true);
-        {
+    private static function modificaUsername() {
+        if(self::verificaUtente()) {
             $pm = FPersistentManager::getInstance();
             $username = $_POST["username"];
-            if(self::insertpassword() == true)
-            {
+            if(self::insertpassword()) {
                 $pm->update($_GET["username"], "username", $username, "username", "EUtente" );
-            } else
-            {
+            } else {
                 VError::error(7);
             }
         }

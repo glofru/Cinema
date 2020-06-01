@@ -7,8 +7,7 @@ class CMain
         header("Location: /404.html");
     }
 
-    public static function run(string $url)
-    {
+    public static function run(string $url) {
         if (CUtente::isLogged()) {
             //Check ban dal database
             $check = FPersistentManager::getInstance()->load(CUtente::getUtente()->getId(),"id","EUtente");
@@ -31,8 +30,11 @@ class CMain
             $controller = "C" . $res[0];
             $controllers = scandir("Controller");
 
-            if (in_array($controller . ".php", $controllers) && $res[1] != null) {
+            $function = $res[1];
+
+            if (in_array($controller . ".php", $controllers) && method_exists($controller, $function)) {
                 $function = $res[1];
+
                 $controller::$function();
             } else {
                 self::notFound();

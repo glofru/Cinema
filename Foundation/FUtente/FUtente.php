@@ -61,30 +61,25 @@ class FUtente implements Foundation
     }
 
 
-    public static function getClassName()
-    {
+    public static function getClassName(): string {
         return self::$className;
     }
 
-    public static function getTableName()
-    {
+    public static function getTableName(): string {
         return self::$tableName;
     }
 
-    public static function getValuesName()
-    {
+    public static function getValuesName(): string {
         return self::$valuesName;
     }
 
-    public static function save(EUtente $utente)
-    {
+    public static function save(EUtente $utente) {
         $db = FDatabase::getInstance();
         $id = $db->saveToDB(self::getClassName(), $utente);
         $utente->setId($id);
     }
 
-    public static function load(string  $value, string $row)
-    {
+    public static function load(string  $value, string $row) {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
 
