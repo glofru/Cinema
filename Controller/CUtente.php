@@ -270,14 +270,24 @@ class CUtente
     }
 
     public static function isLogged() {
-        return isset($_COOKIE["PHPSESSID"]);
+        if (isset($_COOKIE["PHPSESSID"])) {
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
+            if(isset($_SESSION["utente"])) {
+                return true;
+            }
+            else {
+                CUtente::logout();
+            }
+        } else {
+            return false;
+        }
     }
 
     public static function getUtente() {
         if(self::isLogged()) {
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-            }
+
             return unserialize($_SESSION["utente"]);
         }
 
