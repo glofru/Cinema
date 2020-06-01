@@ -101,8 +101,7 @@ class CAdmin
             if (!$toBan->isAdmin() && !$toBan->isBanned()) {
                 $toBan->setIsBanned(true);
                 $pm->save($toBan);
-                //TODO: AAAAAHHHH
-//                $pm->update($utente, "username", 1, "isBanned", "EUtente");
+                $pm->update($utente, "username", 1, "isBanned", "EUtente");
                 $status = "OPERAZIONE RIUSCITA!";
             } else {
                 $status = "ERRORE: L'UTENTE SELEZIONATO È GIÀ BANNATO OPPURE UN AMMINISTRATORE!";
