@@ -253,7 +253,7 @@ class CUtente
             $password = $_POST["password"];
 
             try {
-                $utente = new ERegistrato($nome, $cognome, $username, $email, $password, false);
+                $utente = new EUtente($nome, $cognome, $username, $email, $password, false);
             } catch (Exception $e) {
                 VUtente::signup($nome, $cognome, $username, $email, $e->getMessage());
                 return;
@@ -323,7 +323,14 @@ class CUtente
 
         if ($method == "GET") {
             if (isset($_GET["token"])) {
-                $isValid = FPersistentManager::getInstance()->load($_GET["token"], "value", "TOKEN");
+                $token = FPersistentManager::getInstance()->load($_GET["token"], "value", "EToken");
+
+                if (!isset($token) || $token->isUsed()) {
+                    VError::error(0, "Richiedi di inviarti un nuovo link, questo potrebbe essere scaduto.");
+                    die;
+                }
+
+                VUtente::newPassword($token->getValue());
             } else {
                 VUtente::forgotPassword();
             }
@@ -344,10 +351,51 @@ class CUtente
                 VUtente::forgotPassword($username);
             }
 
-            $token = uniqid();
+            //Reset password
+            FPersistentManager::getInstance()->update($utente->getId(), "id", "", "password", "EUtente");
+
+            //Crea token
+            $uid = uniqid();
+            $token = new EToken($uid, false, $utente);
+            FPersistentManager::getInstance()->save($token);
+
+            //Invio mail
             CMail::sendForgotMail($utente, $token);
 
             VUtente::forgotPassword(null, true);
+        }
+    }
+
+    public static function newPassword() {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $valueToken = $_POST["token"];
+            $token = FPersistentManager::getInstance()->load($_POST["token"], "value", "EToken");
+
+            if (!isset($token) || $token->isUsed()) {
+                VError::error(0, "Richiedi di inviarti un nuovo link, questo potrebbe essere scaduto.");
+                die;
+            }
+
+            $password = $_POST["password"];
+
+            //Aggiorna password
+            $utente = FUtente::load($token->getUtente()->getId(), "id");
+            try {
+                $utente->setPassword($password);//Controllo password ok
+            } catch (Exception $e) {
+                //Password non valida
+                VUtente::newPassword($valueToken, true);
+                die;
+            }
+            $hashedPassword = EHelper::getInstance()->hash($password);
+            FUtente::update($utente->getId(), "id", $hashedPassword, "password");
+
+            //Consuma token
+            FPersistentManager::getInstance()->update($token->getValue(), "value", true, "isUsed", "EToken");
+
+            VUtente::loginForm();
+        } else {
+            CMain::notFound();
         }
     }
 
@@ -365,7 +413,6 @@ class CUtente
             }
         }
         header("Location: /");
-
     }
 
 }

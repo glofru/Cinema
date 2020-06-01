@@ -1,21 +1,37 @@
 <?php
 
 
+/**
+ * Class EToken
+ */
 class EToken
 {
+    /**
+     * @var string
+     */
     private string $value;
+    /**
+     * @var bool
+     */
     private bool $isUsed;
+    /**
+     * @var EUtente
+     */
+    private EUtente $utente;
 
     /**
      * EToken constructor.
      * @param string $value
      * @param bool $isUsed
+     * @param EUtente $utente
      */
-    public function __construct(string $value, bool $isUsed)
+    public function __construct(string $value, bool $isUsed, EUtente $utente)
     {
-        $this->value = $value;
-        $this->isUsed = $isUsed;
+        $this->setValue($value);
+        $this->setIsUsed($isUsed);
+        $this->setUtente($utente);
     }
+
 
     /**
      * @return string
@@ -47,5 +63,29 @@ class EToken
     public function setIsUsed(bool $isUsed): void
     {
         $this->isUsed = $isUsed;
+    }
+
+    /**
+     * @return EUtente
+     */
+    public function getUtente(): EUtente
+    {
+        return $this->utente;
+    }
+
+    /**
+     * @param EUtente $utente
+     */
+    public function setUtente(EUtente $utente): void
+    {
+        $this->utente = $utente;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return "Value: " . $this->getValue() . ", isUsed: " . $this->isUsed()?"true":"false";
     }
 }

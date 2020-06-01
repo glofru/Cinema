@@ -89,4 +89,11 @@ class VUtente
         $smarty->assign("propic", $propic);
         $smarty->display("commentiUtente.tpl");
     }
+
+    public static function newPassword(string $token, bool $error = false) {
+        $smarty = StartSmarty::configuration();
+        $smarty->assign("token", $token);
+        $smarty->assign("error", $error);
+        $smarty->display("newPassword.tpl");
+    }
 }

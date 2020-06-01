@@ -124,7 +124,11 @@ CREATE TABLE MediaLocandina(
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 CREATE TABLE Token(
-    `value` TEXT PRIMARY KEY NOT NULL,
+    `value` VARCHAR(15) NOT NULL,
     `isUsed` BOOLEAN DEFAULT FALSE,
-    PRIMARY KEY (`value`)
+    `idUtente` INTEGER NOT NULL,
+    PRIMARY KEY (`value`),
+    FOREIGN KEY (`idUtente`)
+        REFERENCES Utenti(`id`)
+    ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

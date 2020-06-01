@@ -28,6 +28,7 @@ function autoloader_foundation($class){
     include_once('Foundation/FProgrammazioneFilm/' . $class  . '.php');
     include_once('Foundation/FSale/' . $class  . '.php');
     include_once('Foundation/FUtente/' . $class  . '.php');
+    include_once('Foundation/FToken/' . $class  . '.php');
     include_once('Foundation/' . $class . '.php');
 }
 

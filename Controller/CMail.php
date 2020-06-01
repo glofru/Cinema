@@ -10,8 +10,8 @@ class CMail
     private static string $host = "ssl://smtp.gmail.com";
     private static string $port = "465";
 
-    public static function sendForgotMail(EUtente $utente, string $token): bool {
-        $link = "http://" . self::$domain . "/Utente/forgotPassword/?token=" . $token;
+    public static function sendForgotMail(EUtente $utente, EToken $token): bool {
+        $link = "http://" . self::$domain . "/Utente/forgotPassword/?token=" . $token->getValue();
 
         $subject = "Reset della password — Magic Boulevard Cinema";
         $body = "Ciao " . $utente->getNome() . ",<br><br>" .

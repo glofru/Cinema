@@ -89,7 +89,7 @@
                             <input id="pw2" type="password" class="sign__input" placeholder="Reinserisci la password">
                         </div>
 
-                        <button class="sign__btn" type="button" id="registrati">Registrati</button>
+                        <button class="sign__btn" onclick="validate()">Registrati</button>
 
                         <span class="sign__text">Hai già un account? <a href="/Utente/login">Login!</a></span>
                     </form>
@@ -145,14 +145,14 @@
         return pw1 === pw2;
     }
 
-    $("#registrati").click(function (e) {
+    function validate() {
         if (nameIsValid($("#nome").val())) {
             if (nameIsValid($("#cognome").val())) {
                 if (usernameIsValid($("#username").val())) {
                     if (emailIsValid($("#email").val())) {
                         if (passwordIsValid($("#pw1").val())) {
                             if (checkPwd($("#pw1").val(), $("#pw2").val())) {
-                                $("#form").submit();
+                                return true;
                             } else {
                                 alert("Le password non combaciano!");
                             }
@@ -171,7 +171,9 @@
         } else {
             alert("Nome non valido");
         }
-    });
+
+        return false;
+    }
 </script>
 
 </body>
