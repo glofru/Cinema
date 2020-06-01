@@ -93,13 +93,13 @@ class CAdmin
     private static function ban($utente) {
         $pm = FPersistentManager::getInstance();
 
-        $toBan = $pm->load($utente,"id","EUtente");
+        $toBan = $pm->load($utente,"username","EUtente");
 
         if(!isset($toBan)) {
             $status = "ERRORE: UTENTE NON PRESENTE NEL DATABASE!";
         } else {
             if (!$toBan->isAdmin() && !$toBan->isBanned()) {
-                $pm->update($utente, "id", true, "isBanned", "EUtente");
+                $pm->update($utente, "username", true, "isBanned", "EUtente");
                 $status = "OPERAZIONE RIUSCITA!";
             } else {
                 $status = "ERRORE: L'UTENTE SELEZIONATO È GIÀ BANNATO OPPURE UN AMMINISTRATORE!";

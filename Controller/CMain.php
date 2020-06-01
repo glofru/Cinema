@@ -12,9 +12,8 @@ class CMain
             //Check ban dal database
             $check = FPersistentManager::getInstance()->load(CUtente::getUtente()->getId(),"id","EUtente");
             if($check->isBanned()){
+                CUtente::logout(false);
                 VError::error(4);
-                CUtente::logout();
-                die;
             }
         }
 

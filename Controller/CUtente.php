@@ -15,15 +15,16 @@ class CUtente
         }
     }
     
-    static function logout() {
+    static function logout($redirect = true) {
         if(isset($_COOKIE["PHPSESSID"])) {
             session_start();
             session_unset();
             session_destroy();
             setcookie("PHPSESSID", "", time() - 3600,"/");
         }
-
-        header("Location: /");
+        if($redirect) {
+            header("Location: /");
+        }
     }
 
     private static function checkLogin($user, $password)
