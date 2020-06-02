@@ -13,10 +13,7 @@ class VUtente
         $smarty->assign("giudizi", $giudizi);
         $smarty->display("user.tpl");
     }
-
-    public static function modificaUtente(EUtente $utente, bool $isAdmin, EMedia $propic) {
-
-    }
+    
 
     public static function loginForm($username = null) {
         $smarty = StartSmarty::configuration();

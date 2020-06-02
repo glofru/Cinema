@@ -24,6 +24,21 @@ class EInputChecker{
         return $res == $username;
     }
 
+
+
+    public function validatePassword( string $pw1, string $pw2) {
+        if ($pw1 === $pw2) {
+            if (strlen($pw1) >5) {
+                return true;
+            } else {
+                return "La password deve contenere almeno 6 caratteri";
+            }
+        } else {
+            return "Le password devono combaciare";
+        }
+        return false;
+    }
+
     public function isPassword(string $password): bool {
 //        if(strlen($password) < 8) {
 //            return "";
