@@ -60,7 +60,7 @@ CREATE TABLE Posti(
 
 CREATE TABLE Utenti(
     `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-    `username` varchar(15) NOT NULL UNIQUE,
+    `username` varchar(15) NOT NULL,
     `email` varchar(40) NOT NULL UNIQUE,
     `nome` TEXT NOT NULL,
     `cognome` TEXT NOT NULL,
