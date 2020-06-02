@@ -74,6 +74,7 @@ CREATE TABLE Biglietto (
     `posto` VARCHAR(4) NOT NULL,
     `idUtente` INTEGER NOT NULL,
     `costo` TEXT NOT NULL,
+    `id` TEXT NOT NULL UNIQUE,
     PRIMARY KEY (`idProiezione`,`posto`),
     FOREIGN KEY (`idUtente`)
         REFERENCES Utenti(`id`)

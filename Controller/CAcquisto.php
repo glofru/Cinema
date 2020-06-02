@@ -21,7 +21,7 @@ class CAcquisto
                 $totale = 0;
                 foreach ($posti as $key => $posto) {
                     $costo = EBiglietto::getPrezzofromProiezione($proiezione);
-                    array_push($biglietti, new EBiglietto($proiezione, $posto, $utente, $costo));
+                    array_push($biglietti, new EBiglietto($proiezione, $posto, $utente, $costo, uniqid()));
                     $totale += $costo;
                 }
                 if(sizeof($biglietti) > 0) {
@@ -56,13 +56,14 @@ class CAcquisto
 
             $pm = FPersistentManager::getInstance();
             $result = $pm->occupaPosti($biglietti);
-
-            if ($result == null) {
+            if ($result === null) {
                 VError::error(5); //Il posto non esisteva
+                die;
             } elseif ($result) {
                 foreach ($biglietti as $item) {
                     $pm->save($item);
                 }
+                CMail::sendTickets(CUtente::getUtente(), $biglietti);
                 header("Location: ../../Utente/bigliettiAcquistati");
             } else {
                 VError::error(0, "Almeno uno dei posti che voleva acquistare è stato già occupato. La invitiamo a riprovare!");

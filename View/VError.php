@@ -35,6 +35,7 @@ class VError
                 break;
             case 7:
                 $error_description = "Password non valida.";
+                break;
             case 100:
             default:
                 $error_description = "Errore generico.";
