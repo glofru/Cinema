@@ -60,12 +60,12 @@ CREATE TABLE Posti(
 
 CREATE TABLE Utenti(
     `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-    `username` varchar(15) NOT NULL,
+    `username` varchar(15),
     `email` varchar(40) NOT NULL UNIQUE,
-    `nome` TEXT NOT NULL,
-    `cognome` TEXT NOT NULL,
-    `password` TEXT NOT NULL,
-    `isAdmin` BOOLEAN NOT NULL,
+    `nome` TEXT,
+    `cognome` TEXT,
+    `password` TEXT,
+    `isAdmin` BOOLEAN DEFAULT FALSE,
     `isBanned` BOOLEAN DEFAULT FALSE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
