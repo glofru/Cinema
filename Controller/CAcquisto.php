@@ -17,11 +17,20 @@ class CAcquisto
 
                 $utente = FUtente::load($mail, "email");
 
-                if ($utente != null && $utente->isRegistrato()) {
+                if (isset($utente) && $utente->isRegistrato()) {
                     VUtente::loginForm($mail, false);
                 } else {
+                    if (!isset($utente)) {
+                        try {
+                            $utente = new ENonRegistrato($mail, uniqid());
+                        } catch (Exception $e) {
+                            VError::error(8);
+                        }
+                    }
+
                     session_start();
                     $_SESSION["nonRegistrato"] = serialize($utente);
+
                     self::loadBiglietti($id, $str);
                 }
             } else { //Errore, l'utente non è loggato e non ha inviato la mail, non dovrebbe accadere

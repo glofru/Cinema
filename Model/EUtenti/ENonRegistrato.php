@@ -8,16 +8,13 @@ class ENonRegistrato extends EUtente
 {
     /**
      * ENonRegistrato constructor.
-     * @param string $id
-     * @param string $nome
-     * @param string $cognome
-     * @param string $username
      * @param string $email
      * @param string $password
+     * @throws Exception
      */
-    public function __construct(string $nome, string $cognome, string $username, string $email, string $password, bool $isBanned)
+    public function __construct(string $email, string $password)
     {
-        parent::__construct($nome, $cognome, $username, $email, $password, $isBanned);
+        parent::__construct(null, null, null, $email, $password, null);
     }
 
     public function compra() {

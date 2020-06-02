@@ -46,16 +46,22 @@ class EUtente implements JsonSerializable
      * @param string $username
      * @param string $email
      * @param string $password
+     * @param bool $isBanned
      * @throws Exception
      */
     public function __construct(string $nome, string $cognome, string $username, string $email, string $password, bool $isBanned)
     {
-        $this->setNome($nome);
-        $this->setCognome($cognome);
-        $this->setUsername($username);
-        $this->setEmail($email);
-        $this->setPassword($password);
-        $this->setIsBanned($isBanned);
+        if ($this->isRegistrato() || $this->isAdmin()) {
+            $this->setNome($nome);
+            $this->setCognome($cognome);
+            $this->setUsername($username);
+            $this->setEmail($email);
+            $this->setPassword($password);
+            $this->setIsBanned($isBanned);
+        } else {
+            $this->setEmail($email);
+            $this->setPassword($password);
+        }
     }
 
     /**
