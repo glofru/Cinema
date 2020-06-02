@@ -41,7 +41,7 @@ class CMail
         return self::sendMail($utente->getEmail(), $subject, $body, $name);
     }
 
-    public static function sendTickets(EUtente $utente, array $biglietti) {
+    public static function sendTickets(ERegistrato $utente, array $biglietti) {
         $subject = "I tuoi bilgietti - Magic Boulevard Cinema";
         $tickets = "";
         foreach ($biglietti as $item) {
@@ -50,6 +50,18 @@ class CMail
         }
         $body = "Ciao " . $utente->getNome() . " questi sono i biglietti che hai appena acquistato: <br><br>" . $tickets . "Ti auguriamo una buona visione :)";
         $name = $utente->getNome() . " " . $utente->getCognome();
+        return self::sendMail($utente->getEmail(), $subject, $body, $name);
+    }
+
+    public static function sendTicketsNonRegistrato(ENonRegistrato $utente, array $biglietti) {
+        $subject = "I tuoi bilgietti - Magic Boulevard Cinema";
+        $tickets = "";
+        foreach ($biglietti as $item) {
+            $tickets .= "Biglietto #" . $item->getId() . "<br>" . "Film: " . $item->getProiezione()->getFilm()->getNome() . "<br>" . "Sala: " . $item->getProiezione()->getSala()->getNumeroSala() . "<br>" . "Giono e Ora: " . $item->getProiezione()->getData() . " alle " . $item->getProiezione()->getOra() . "<br>". $item->getPosto() . "<br>" . "Prezzo: " . $item->getCosto() . " Euro<br>" .
+                "<img src=\"https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=". $item->getId() . "&choe=UTF-8\" title=\"Codice QR damostrare all'ingresso\" />" . "<br><br>";
+        }
+        $body = "Ciao " . $utente->getEmail() . "il tuo codice di accesso è: " . $utente->getPassword() . " e questi sono i biglietti che hai appena acquistato: <br><br>" . $tickets . "Ti auguriamo una buona visione :)";
+        $name = $utente->getEmail();
         return self::sendMail($utente->getEmail(), $subject, $body, $name);
     }
 
