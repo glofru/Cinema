@@ -183,6 +183,10 @@ class EUtente implements JsonSerializable
         return $this instanceof EAdmin;
     }
 
+    public function isRegistrato(): bool {
+        return $this instanceof ERegistrato;
+    }
+
     /**
      * @return mixed|void
      */

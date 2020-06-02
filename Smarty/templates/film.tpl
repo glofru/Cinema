@@ -30,6 +30,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="Dmitry Volkov">
+
     <title>Magic Boulevard Cinema - Dove i sogni diventano realtà</title>
 
 </head>
@@ -313,11 +314,17 @@
                 </div>
             </div>
         {/foreach}
-    {if (!$admin)}
-        <div class="col-12--center">
-            <a onclick="acquista()" style="color: white; cursor:pointer;" class="section__btn" id="acquista">Acquista</a>
-        </div>
-    {/if}
+        {if (!$admin)}
+            <div class="col-12--center">
+                <a onclick="acquista({$utente != null})" style="color: white; cursor:pointer;" class="section__btn" id="acquista">Acquista</a>
+            </div>
+        {/if}
+        {if (!isset($utente))}
+            <div class="col-12--center">
+                <h3 class="section__btn" style="width: 500px; cursor: default; background-image: none; box-shadow: none; display: block">Inserisci la mail dove inviare i biglietti oppure effettua prima il <a style="color: #ff55a5; position: relative" href="/Utente/login">login</a></h3>
+                <input id="email" type="email" name="email" class="form__input section__btn" style="width: 350px; background-image: linear-gradient(90deg, #af55a5 0%, #ff55a5 100%)" placeholder="Email"/>
+            </div>
+        {/if}
     </div>
 </section>
 {/if}
@@ -611,14 +618,28 @@
     let libera = "../../Smarty/img/cinema/sedia_libera.png";
     let occupazione = "../../Smarty/img/cinema/sedia_in_occupazione.png";
 
-    function acquista() {
-        if (bookedSeat.length > 0) {
-            $("#book").append(
-                "<input type='hidden' name='proiezione' value='" + proiezione + "' />",
-                "<input type='hidden' name='posti' value='" + bookedSeat.join(';') + "' />"
-            );
-            document.getElementById('book').submit();
+    function isEmail(email) {
+        let exp = /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/;
 
+        return email.match(exp) != null;
+    }
+
+    function acquista(userExists) {
+        if (bookedSeat.length > 0) {
+            let email = $("#email").val();
+            if (userExists === 1 || email.length > 0) {
+                if (userExists === 1 || isEmail(email)) {
+                    $("#book").append(
+                        "<input type='hidden' name='proiezione' value='" + proiezione + "' />",
+                        "<input type='hidden' name='posti' value='" + bookedSeat.join(';') + "' />"
+                    );
+                    document.getElementById('book').submit();
+                } else {
+                    alert("Mail non valida");
+                }
+            } else {
+                alert("Inserisci una mail o fai il login");
+            }
         } else {
             alert("Selezionare almeno un posto prima di acquistare");
         }
