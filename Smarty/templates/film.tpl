@@ -633,6 +633,12 @@
                         "<input type='hidden' name='proiezione' value='" + proiezione + "' />",
                         "<input type='hidden' name='posti' value='" + bookedSeat.join(';') + "' />"
                     );
+
+                    if (userExists !== 1) {
+                        $("#book").append(
+                            "<input type='hidden' name='mail' value='" + email + "' />"
+                        );
+                    }
                     document.getElementById('book').submit();
                 } else {
                     alert("Mail non valida");

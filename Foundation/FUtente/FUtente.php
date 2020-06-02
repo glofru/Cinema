@@ -110,7 +110,7 @@ class FUtente implements Foundation
             if ($isAdmin) {
                 $utente = new EAdmin($nome, $cognome, $username, $email, $password, $isBanned);
             } elseif ($username != null && $username != "") {
-                $utente =  new EUtente($nome, $cognome, $username, $email, $password, $isBanned);
+                $utente =  new ERegistrato($nome, $cognome, $username, $email, $password, $isBanned);
             } else {
                 $utente = new ENonRegistrato($nome, $cognome, $username, $email, $password, $isBanned);
             }

@@ -4,7 +4,7 @@
 class CAcquisto
 {
     public static function getBiglietti() {
-        if($_SERVER['REQUEST_METHOD']=="POST") {
+        if ($_SERVER['REQUEST_METHOD']=="POST") {
             $id = $_POST["proiezione"];
             $str = $_POST["posti"];
 
@@ -33,8 +33,18 @@ class CAcquisto
                 } else {
                     VError::error(8);
                 }
-            } else { //Utente non registrato
+            } elseif (isset($_POST["mail"]) && EInputChecker::getInstance()->isEmail($_POST["mail"])) { //Utente non registrato
+                $mail = $_POST["mail"];
 
+                $utente = FUtente::load($mail, "email");
+
+                if ($utente != null && $utente->isRegistrato()) {
+                    VUtente::loginForm($mail, false);
+                } else {
+                    die;
+                }
+            } else { //Errore, l'utente non è loggato e non ha inviato la mail, non dovrebbe accadere
+                VError::error(8);
             }
 
         } else {

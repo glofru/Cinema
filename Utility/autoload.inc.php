@@ -37,7 +37,6 @@ function autoloader_root($class){
 }
 
 function autoloader_php_mailer($class){
-    if ($class == "PHPMailer") print "WE";
     include_once('PHPMailer/src/' . $class . '.php');
 }
 
