@@ -18,7 +18,7 @@ class CAcquisto
                 $utente = FUtente::load($mail, "email");
 
                 if (isset($utente) && $utente->isRegistrato()) {
-                    VUtente::loginForm($mail, false);
+                    VUtente::loginForm($mail, false, $utente);
                 } else {
                     if (!isset($utente)) {
                         try {
@@ -31,7 +31,7 @@ class CAcquisto
                     session_start();
                     $_SESSION["nonRegistrato"] = serialize($utente);
 
-                    self::loadBiglietti($id, $str);
+                    self::loadBiglietti($id, $str, null);
                 }
             } else { //Errore, l'utente non è loggato e non ha inviato la mail, non dovrebbe accadere
                 VError::error(8);
@@ -42,13 +42,12 @@ class CAcquisto
         }
     }
 
-    private static function loadBiglietti(int $id, string $str) {
+    private static function loadBiglietti(int $id, string $str, $utente) {
         $pm = FPersistentManager::getInstance();
 
         $posti = EPosto::fromString($str, true);
         $proiezione = $pm->load($id, "id", "EProiezione")->getElencoProgrammazioni()[0]->getProiezioni()[0];
         $locandina = $pm->load($proiezione->getFilm()->getId(), "idFilm", "EMedia");
-        $utente = CUtente::getUtente();
         $biglietti = [];
         $totale = 0;
 
