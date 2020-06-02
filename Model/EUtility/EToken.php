@@ -13,7 +13,7 @@ class EToken
     /**
      * @var bool
      */
-    private bool $isUsed;
+    private DateTime $creationDate;
     /**
      * @var EUtente
      */
@@ -22,13 +22,13 @@ class EToken
     /**
      * EToken constructor.
      * @param string $value
-     * @param bool $isUsed
+     * @param DateTime $creationDate
      * @param EUtente $utente
      */
-    public function __construct(string $value, bool $isUsed, EUtente $utente)
+    public function __construct(string $value, DateTime $creationDate, EUtente $utente)
     {
         $this->setValue($value);
-        $this->setIsUsed($isUsed);
+        $this->setCreationDate($creationDate);
         $this->setUtente($utente);
     }
 
@@ -50,19 +50,27 @@ class EToken
     }
 
     /**
-     * @return bool
+     * @return DateTime
      */
-    public function isUsed(): bool
+    public function getCreationDate(): DateTime
     {
-        return $this->isUsed;
+        return $this->creationDate;
+    }
+
+    public function getCreationdateDB(): string {
+        return $this->getCreationDate()->format('Y-m-d');
+    }
+
+    public function getCreationHour(): string {
+        return $this->getCreationDate()->format('H:i:s');
     }
 
     /**
-     * @param bool $isUsed
+     * @param DateTime $creationDate
      */
-    public function setIsUsed(bool $isUsed): void
+    public function setCreationDate(DateTime $creationDate): void
     {
-        $this->isUsed = $isUsed;
+        $this->creationDate = $creationDate;
     }
 
     /**
@@ -86,6 +94,11 @@ class EToken
      */
     public function __toString(): string
     {
-        return "Value: " . $this->getValue() . ", isUsed: " . $this->isUsed()?"true":"false";
+        return "Value: " . $this->getValue() . ", isUsed: " . $this->amIValid()?"true":"false";
+    }
+
+    public function amIValid(): bool {
+        $maybeExpired = new DateTime('now -1 Hour');
+        return $this->getCreationDate() >= $maybeExpired;
     }
 }

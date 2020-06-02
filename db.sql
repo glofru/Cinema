@@ -125,7 +125,8 @@ CREATE TABLE MediaLocandina(
 
 CREATE TABLE Token(
     `value` VARCHAR(15) NOT NULL,
-    `isUsed` BOOLEAN DEFAULT FALSE,
+    `creationDate` DATE NOT NULL,
+    `creationHour` TEXT NOT NULL,
     `idUtente` INTEGER NOT NULL,
     PRIMARY KEY (`value`),
     FOREIGN KEY (`idUtente`)

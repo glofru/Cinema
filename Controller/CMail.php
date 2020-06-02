@@ -17,9 +17,9 @@ class CMail
     public static function sendForgotMail(EUtente $utente, EToken $token): bool {
         $link = "http://" . self::$domain . "/Utente/forgotPassword/?token=" . $token->getValue();
 
-        $subject = "Reset della password — Magic Boulevard Cinema";
+        $subject = "Reset della password - Magic Boulevard Cinema";
         $body = "Ciao " . $utente->getNome() . ",<br><br>" .
-            "Puoi resettare la tua password cliccando " . "<a href='" . $link . "'>qui</a>.<br>" .
+            "Puoi resettare la tua password cliccando " . "<a href='" . $link . "'>qui</a>. Hai a disposizione un'ora per completare l'operazione. Altrimenti dovrai ripetere la richesta sul nostro portale!!!<br>" .
             "Se non hai fatto richiesta tu di cambiare la password, ignora la mail.<br><br>" .
             "ATTENZIONE: mail generata automaticamente, un eventuale risposta non verra' letta.";
 
