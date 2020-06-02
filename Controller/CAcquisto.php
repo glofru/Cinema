@@ -4,41 +4,57 @@
 class CAcquisto
 {
     public static function getBiglietti() {
-        if($_SERVER['REQUEST_METHOD']=="POST") {
+        if ($_SERVER['REQUEST_METHOD']=="POST") {
             $id = $_POST["proiezione"];
             $str = $_POST["posti"];
 
             if (!isset($id) || !isset($str)) {
                 VError::error(8);
             } elseif (CUtente::isLogged()) { //Utente registrato
-                $pm = FPersistentManager::getInstance();
+                self::loadBiglietti($id, $str);
+            } elseif (isset($_POST["mail"]) && EInputChecker::getInstance()->isEmail($_POST["mail"])) { //Utente non registrato
+                $mail = $_POST["mail"];
 
-                $posti = EPosto::fromString($str, true);
-                $proiezione = $pm->load($id, "id", "EProiezione")->getElencoProgrammazioni()[0]->getProiezioni()[0];
-                $locandina = $pm->load($proiezione->getFilm()->getId(), "idFilm", "EMedia");
-                $utente = CUtente::getUtente();
-                $biglietti = [];
-                $totale = 0;
+                $utente = FUtente::load($mail, "email");
 
-                foreach ($posti as $key => $posto) {
-                    $costo = EBiglietto::getPrezzofromProiezione($proiezione);
-                    array_push($biglietti, new EBiglietto($proiezione, $posto, $utente, $costo, uniqid()));
-                    $totale += $costo;
-                }
-
-                if(sizeof($biglietti) > 0) {
-                   $serialized = serialize($biglietti);
-                   $_SESSION["biglietti"] = $serialized;
-                   VAcquisto::showAcquisto($biglietti, $locandina, $utente, $totale);
+                if ($utente != null && $utente->isRegistrato()) {
+                    VUtente::loginForm($mail, false);
                 } else {
-                    VError::error(8);
+                    session_start();
+                    $_SESSION["nonRegistrato"] = serialize($utente);
+                    self::loadBiglietti($id, $str);
                 }
-            } else { //Utente non registrato
-
+            } else { //Errore, l'utente non è loggato e non ha inviato la mail, non dovrebbe accadere
+                VError::error(8);
             }
 
         } else {
             CMain::notFound();
+        }
+    }
+
+    private static function loadBiglietti(int $id, string $str) {
+        $pm = FPersistentManager::getInstance();
+
+        $posti = EPosto::fromString($str, true);
+        $proiezione = $pm->load($id, "id", "EProiezione")->getElencoProgrammazioni()[0]->getProiezioni()[0];
+        $locandina = $pm->load($proiezione->getFilm()->getId(), "idFilm", "EMedia");
+        $utente = CUtente::getUtente();
+        $biglietti = [];
+        $totale = 0;
+
+        foreach ($posti as $key => $posto) {
+            $costo = EBiglietto::getPrezzofromProiezione($proiezione);
+            array_push($biglietti, new EBiglietto($proiezione, $posto, $utente, $costo, uniqid()));
+            $totale += $costo;
+        }
+
+        if(sizeof($biglietti) > 0) {
+            $serialized = serialize($biglietti);
+            $_SESSION["biglietti"] = $serialized;
+            VAcquisto::showAcquisto($biglietti, $locandina, $utente, $totale);
+        } else {
+            VError::error(8);
         }
     }
 

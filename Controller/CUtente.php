@@ -63,7 +63,7 @@ class CUtente
         } else if ($gestore->isUsername($user)) {
             $isMail = false;
         } else {
-            VUtente::loginForm($user);
+            VUtente::loginForm($user, true);
             return;
         }
 
@@ -75,7 +75,7 @@ class CUtente
                 self::saveSession($utente);
             }
         } else {
-            VUtente::loginForm($user);
+            VUtente::loginForm($user, true);
         }
     }
 
