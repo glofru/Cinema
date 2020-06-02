@@ -53,8 +53,6 @@
 							<!-- dropdown -->
 							<li class="header__nav-item">
 								<a class="dropdown-toggle header__nav-link" href="../../index.php" role="button" >Home</a>
-
-
 							</li>
 							<!-- end dropdown -->
 
