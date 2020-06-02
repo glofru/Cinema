@@ -11,7 +11,7 @@ class CAcquisto
             if (!isset($id) || !isset($str)) {
                 VError::error(8);
             } elseif (CUtente::isLogged()) { //Utente registrato
-                self::loadBiglietti($id, $str, $utente);
+                self::loadBiglietti($id, $str, CUtente::getUtente());
             } elseif (isset($_POST["mail"]) && EInputChecker::getInstance()->isEmail($_POST["mail"])) { //Utente non registrato
                 $mail = $_POST["mail"];
 
