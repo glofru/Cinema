@@ -8,9 +8,9 @@ class CAcquisto
             $id = $_POST["proiezione"];
             $str = $_POST["posti"];
 
-            if (!CUtente::isLogged() || !isset($id) || !isset($str)) {
-                header("Location: /");
-            } else {
+            if (!isset($id) || !isset($str)) {
+                VError::error(8);
+            } elseif (CUtente::isLogged()) { //Utente registrato
                 $pm = FPersistentManager::getInstance();
 
                 $posti = EPosto::fromString($str, true);
@@ -19,22 +19,26 @@ class CAcquisto
                 $utente = CUtente::getUtente();
                 $biglietti = [];
                 $totale = 0;
+
                 foreach ($posti as $key => $posto) {
                     $costo = EBiglietto::getPrezzofromProiezione($proiezione);
                     array_push($biglietti, new EBiglietto($proiezione, $posto, $utente, $costo, uniqid()));
                     $totale += $costo;
                 }
+
                 if(sizeof($biglietti) > 0) {
                    $serialized = serialize($biglietti);
                    $_SESSION["biglietti"] = $serialized;
                    VAcquisto::showAcquisto($biglietti, $locandina, $utente, $totale);
                 } else {
-                    header("Location: /");
+                    VError::error(8);
                 }
+            } else { //Utente non registrato
+
             }
 
         } else {
-            header("Location: /");
+            CMain::notFound();
         }
     }
 

@@ -617,7 +617,7 @@
                 "<input type='hidden' name='proiezione' value='" + proiezione + "' />",
                 "<input type='hidden' name='posti' value='" + bookedSeat.join(';') + "' />"
             );
-            document.getElementById('book').submit()
+            document.getElementById('book').submit();
 
         } else {
             alert("Selezionare almeno un posto prima di acquistare");
