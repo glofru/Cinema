@@ -226,8 +226,8 @@
 						<div class="row">
 							<!-- reviews -->
 									<form action="/Admin/gestioneUtenti" method="POST" class="form">
-										<input type="text" class="form__input" name="utente" placeholder="Username dell'utente da bannare">
-										<button type="submit" class="form__btn align-content-center">Banna</button>
+										<input type="text" id="toBan" class="form__input" name="utente" placeholder="Username dell'utente da bannare">
+										<button type="submit" onclick="return control()" class="form__btn align-content-center">Banna</button>
 									</form>
 								</div>
 							</div>
@@ -367,6 +367,15 @@
 <script>
 	function result(value){
 		alert(value);
+	}
+	
+	function control() {
+		if($("#toBan").val().length < 6){
+			alert("L'utente ha uno username di almeno 7 caratteri");
+			return false;
+		} else {
+			return true;
+		}
 	}
 </script>
 <script src="../../Smarty/js/jquery-3.3.1.min.js"></script>

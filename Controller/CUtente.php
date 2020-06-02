@@ -270,6 +270,7 @@ class CUtente
             header("Location: /");
         }
         $biglietti = FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EBiglietto");
+        usort($biglietti, array(EHelper::getInstance(), "sortByDatesBiglietti"));
         $immagini = [];
         foreach ($biglietti as $item) {
             array_push($immagini,FPersistentManager::getInstance()->load($item->GetProiezione()->getFilm()->getId(), "idFilm", "EMedia"));

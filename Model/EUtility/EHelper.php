@@ -232,4 +232,8 @@ class EHelper
     public function sortByDatesFilm(EFilm $f1, EFilm $f2) {
         return $f1->getDataRilascio() > $f2->getDataRilascio();
     }
+
+    public function sortByDatesBiglietti(EBiglietto $b1, EBiglietto $b2) {
+        return $b1->getProiezione()->getDataproieizone() < $b2->getProiezione()->getDataproieizone();
+    }
 }
