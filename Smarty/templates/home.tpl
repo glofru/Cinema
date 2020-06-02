@@ -91,6 +91,7 @@
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
 										<li><a href="/Informazioni/getAbout/">Su di noi</a></li>
 										<li><a href="/Utente/signup">Registrati</a></li>
+										<li><a href="/Utente/controlloBigliettiNonRegistrato/?">I miei biglietti</a></li>
 									</ul>
 									{else}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">

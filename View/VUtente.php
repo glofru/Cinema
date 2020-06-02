@@ -93,4 +93,13 @@ class VUtente
         $smarty->assign("error", $error);
         $smarty->display("newPassword.tpl");
     }
+
+    public static function showCheckNonRegsitrato(bool $isGet, string $email = "", array $biglietti = null, $immagini = null) {
+        $smarty = StartSmarty::configuration();
+        $smarty->assign("isGet", $isGet);
+        $smarty->assign("email", $email);
+        $smarty->assign("biglietti", $biglietti);
+        $smarty->assign("immagini", $immagini);
+        $smarty->display("bigliettiNonRegistrato.tpl");
+    }
 }

@@ -14,6 +14,32 @@ class CUtente
             self::checkLogin($username, $password);
         }
     }
+
+    public static function loginNonRegistrato() {
+        if(self::isLogged()){
+            header("Location: /");
+        } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && EInputChecker::getInstance()->isEmail($_POST["password"])) {
+            $email = $_POST["email"];
+            $password = $_POST["password"];
+            $utente = FPersistentManager::getInstance()->login($email, $password, true);
+            if(!isset($utente)) {
+                VUtente::showCheckNonRegsitrato(true, $email);
+            }
+            else if($utente->isRegistrato()) {
+                VError::error(0, "Pagina destinata ad utenti Non Registrati");
+            } else {
+                $biglietti = FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EBiglietto");
+                usort($biglietti, array(EHelper::getInstance(), "sortByDatesBiglietti"));
+                $immagini = [];
+                foreach ($biglietti as $item) {
+                    array_push($immagini,FPersistentManager::getInstance()->load($item->GetProiezione()->getFilm()->getId(), "idFilm", "EMedia"));
+                }
+                VUtente::showCheckNonRegsitrato(false, $email, $biglietti, $immagini);
+            }
+        } else {
+            CMain::notFound();
+        }
+    }
     
     static function logout($redirect = true) {
         if(isset($_COOKIE["PHPSESSID"])) {
@@ -315,6 +341,10 @@ class CUtente
 
             if (!$utente instanceof EUtente) {
                 VUtente::forgotPassword($username);
+            } else if (!$utente->isRegistrato()){
+                $uid = uniqid();
+                CMail::sendForgotMailNonRegistrato($utente, $uid);
+                FPersistentManager::getInstance()->update($utente->getId(), "id", EHelper::getInstance()->hash($uid), "password", "EUtente");
             }
 
             //Crea token
@@ -387,6 +417,20 @@ class CUtente
             }
         }
         header("Location: /");
+    }
+
+    public static function controlloBigliettiNonRegistrato () {
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            if(!CUtente::isLogged()){
+                VUtente::showCheckNonRegsitrato(true);
+            } else {
+                VError::error(0, "Area riservata agli utenti <b>Non registrati</b> presso il nostro portale");
+                die;
+            }
+        } else {
+            CMain::notFound();
+        }
+
     }
 
 }
