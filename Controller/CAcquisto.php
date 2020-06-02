@@ -11,14 +11,14 @@ class CAcquisto
             if (!isset($id) || !isset($str)) {
                 VError::error(8);
             } elseif (CUtente::isLogged()) { //Utente registrato
-                self::loadBiglietti($id, $str);
+                self::loadBiglietti($id, $str, $utente);
             } elseif (isset($_POST["mail"]) && EInputChecker::getInstance()->isEmail($_POST["mail"])) { //Utente non registrato
                 $mail = $_POST["mail"];
 
                 $utente = FUtente::load($mail, "email");
 
                 if (isset($utente) && $utente->isRegistrato()) {
-                    VUtente::loginForm($mail, false, $utente);
+                    VUtente::loginForm($mail, false);
                 } else {
                     if (!isset($utente)) {
                         try {
