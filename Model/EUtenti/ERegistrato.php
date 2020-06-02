@@ -15,12 +15,12 @@ class ERegistrato extends EUtente
 
     /**
      * ERegistrato constructor.
-     * @param string $id
      * @param string $nome
      * @param string $cognome
      * @param string $username
      * @param string $email
      * @param string $password
+     * @throws Exception
      */
     public function __construct(string $nome, string $cognome, string $username, string $email, string $password, bool $isBanned)
     {

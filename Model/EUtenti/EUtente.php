@@ -60,7 +60,6 @@ class EUtente implements JsonSerializable
             $this->setIsBanned($isBanned);
         } else {
             $this->setEmail($email);
-            $this->setPassword($password);
         }
     }
 

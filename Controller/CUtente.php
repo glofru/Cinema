@@ -18,22 +18,26 @@ class CUtente
     public static function loginNonRegistrato() {
         if(self::isLogged()){
             header("Location: /");
-        } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && EInputChecker::getInstance()->isEmail($_POST["password"])) {
+        } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && EInputChecker::getInstance()->isEmail($_POST["email"])) {
             $email = $_POST["email"];
             $password = $_POST["password"];
+
             $utente = FPersistentManager::getInstance()->login($email, $password, true);
+
             if(!isset($utente)) {
                 VUtente::showCheckNonRegsitrato(true, $email);
-            }
-            else if($utente->isRegistrato()) {
-                VError::error(0, "Pagina destinata ad utenti Non Registrati");
+            } else if($utente->isRegistrato()) {
+                VError::error(0, "Pagina destinata ad utenti non Registrati");
             } else {
                 $biglietti = FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EBiglietto");
+
                 usort($biglietti, array(EHelper::getInstance(), "sortByDatesBiglietti"));
                 $immagini = [];
+
                 foreach ($biglietti as $item) {
                     array_push($immagini,FPersistentManager::getInstance()->load($item->GetProiezione()->getFilm()->getId(), "idFilm", "EMedia"));
                 }
+
                 VUtente::showCheckNonRegsitrato(false, $email, $biglietti, $immagini);
             }
         } else {
@@ -80,7 +84,6 @@ class CUtente
     }
 
     public static function showUtente() {
-
         if($_SERVER['REQUEST_METHOD'] == "GET") {
             $pm = FPersistentManager::getInstance();
             $utente = self::getUtente();
@@ -117,8 +120,6 @@ class CUtente
         }
     }
 
-
-
     public static function insertPassword(): bool {
         if($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = $_GET["username"];
@@ -146,8 +147,7 @@ class CUtente
 
 
 
-    private static function modificaUtente()
-    {
+    private static function modificaUtente() {
         if(self::verificaUtente() == true);{
             $method = $_SERVER["REQUEST_METHOD"];
             if ($method == "GET") {
@@ -263,18 +263,21 @@ class CUtente
         }
     }
 
-    public static function isLogged() {
+    public static function isLogged(bool $logout = true) {
         if (isset($_COOKIE["PHPSESSID"])) {
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
             }
+
             if(isset($_SESSION["utente"])) {
                 return true;
             }
-            else {
-                CUtente::logout();
-                return false;
+
+            if ($logout) {
+                self::logout();
             }
+
+            return false;
         } else {
             return false;
         }
@@ -424,7 +427,7 @@ class CUtente
             if(!CUtente::isLogged()){
                 VUtente::showCheckNonRegsitrato(true);
             } else {
-                VError::error(0, "Area riservata agli utenti <b>Non registrati</b> presso il nostro portale");
+                VError::error(0, "Area riservata agli utenti <b>non registrati</b> presso il nostro portale");
                 die;
             }
         } else {

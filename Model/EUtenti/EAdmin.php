@@ -14,6 +14,7 @@ class EAdmin extends EUtente
      * @param string $username
      * @param string $email
      * @param string $password
+     * @throws Exception
      */
     public function __construct(string $nome, string $cognome, string $username, string $email, string $password, bool $isBanned)
     {

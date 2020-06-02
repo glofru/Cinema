@@ -68,8 +68,8 @@ class CAcquisto
 
     public static function confermaAcquisto() {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            if(!CUtente::isLogged() || CUtente::getUtente()->isAdmin() || !isset($_SESSION["biglietti"])) {
-                header("Location: /");
+            if (!isset($_SESSION["biglietti"]) || (!CUtente::isLogged(false) && !isset($_SESSION["nonRegistrato"])) || CUtente::getUtente()->isAdmin()) {
+                VError::error(100);
                 return;
             }
 
@@ -84,6 +84,9 @@ class CAcquisto
 
             $pm = FPersistentManager::getInstance();
             $result = $pm->occupaPosti($biglietti);
+
+            $utente = CUtente::isLogged() ? CUtente::getUtente() : unserialize($_SESSION["nonRegistrato"]);
+
             if ($result === null) {
                 VError::error(5); //Il posto non esisteva
                 die;
@@ -91,8 +94,24 @@ class CAcquisto
                 foreach ($biglietti as $item) {
                     $pm->save($item);
                 }
-                CMail::sendTickets(CUtente::getUtente(), $biglietti);
-                header("Location: ../../Utente/bigliettiAcquistati");
+
+                if (!$utente->isRegistrato()) {
+                    $utenteDB = FUtente::load($utente->getEmail(), "email");
+                    if ($utenteDB === null) {
+                        $utente->setPassword(uniqid());
+                        CMail::sendTicketsNonRegistrato($utente, $biglietti, true);
+                        $utente->setPassword(EHelper::getInstance()->hash($utente->getPassword()));
+                        FUtente::save($utente);
+                    } else {
+                        CMail::sendTicketsNonRegistrato($utente, $biglietti);
+                    }
+
+                    CUtente::logout(false);
+                    header("Location: Utente/controlloBigliettiNonRegistrato");
+                } else {
+                    CMail::sendTickets($utente, $biglietti);
+                    header("Location: ../../Utente/bigliettiAcquistati");
+                }
             } else {
                 VError::error(0, "Almeno uno dei posti che voleva acquistare è stato già occupato. La invitiamo a riprovare!");
             }
