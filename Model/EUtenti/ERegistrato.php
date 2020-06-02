@@ -4,7 +4,7 @@
  * registrato
  * Class ERegistrato
  */
-class EUtente extends EUtente
+class ERegistrato extends EUtente
 {
     /**
      * @var array
