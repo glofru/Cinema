@@ -47,7 +47,7 @@ class FUtente implements Foundation
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
 
-        if ($result == null) {
+        if ($result === null) {
             return null;
         }
         return self::parseResult($result)[0];
