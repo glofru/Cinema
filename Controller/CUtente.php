@@ -93,137 +93,100 @@ class CUtente
 
 
 
-    public static function insertpassword()
+    public static function insertPassword()
     {
-        if($_SERVER["REQUEST_METHOD"] == "POST")
-        {
+        if($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = $_GET["username"];
             $password = $_POST["password"];
             self::checkLogin($username, $password);
             return true;
-        } else
-            {
-                return false;
-            }
-
+        }else
+            return false;
     }
 
     public static function verificaUtente()
     {
-        if($_SERVER['REQUEST_METHOD'] == "GET" && self::isLogged())
-        {
+        if($_SERVER['REQUEST_METHOD'] == "GET" && self::isLogged()) {
             $utente = self::getUtente();
-            if (!isset($_GET["idShow"]))
-            {
+            if (!isset($_GET["idShow"])) {
                 // header("Location: /");
                 echo "NOTSET";
-            } else
-                {
-                    if (isset($utente) && $utente->getId() === intval($_GET["idShow"]))
-                    {
-                        return true;
-                    }
-                }
-
-        }
-    }
-
-    private static function modificaUsername() {
-        if(self::verificaUtente()) {
-            $pm = FPersistentManager::getInstance();
-            $username = $_POST["username"];
-            if(self::insertpassword()) {
-                $pm->update($_GET["username"], "username", $username, "username", "EUtente" );
             } else {
-                VError::error(7);
-            }
-        }
-    }
-
-    private static function modificaNome()
-    {
-        if(self::verificaUtente() == true);
-        {
-            $pm = FPersistentManager::getInstance();
-            $nome = $_POST["nome"];
-            if(self::insertpassword() == true)
-            {
-                $pm->update($_GET["nome"], "nome", $nome, "nome", "EUtente" );
-            } else
-            {
-                VError::error(7);
-            }
-        }
-    }
-
-    private static function modificaCognome()
-    {
-        if(self::verificaUtente() == true);
-        {
-            $pm = FPersistentManager::getInstance();
-            $cognome = $_POST["cognome"];
-            if(self::insertpassword() == true)
-            {
-                $pm->update($_GET["cognome"], "cognome", $cognome, "cognome", "EUtente" );
-            } else
-            {
-                VError::error(7);
-            }
-        }
-    }
-
-    private static function modificaEmail()
-    {
-        if(self::verificaUtente() == true);
-        {
-            $pm = FPersistentManager::getInstance();
-            $email = $_POST["email"];
-            if(self::insertpassword() == true)
-            {
-                $pm->update($_GET["email"], "email", $email, "email", "EUtente" );
-            } else
-            {
-                VError::error(7);
-            }
-        }
-    }
-
-    private static function modificaPassword()
-    {
-        if(self::verificaUtente() == true);
-        {
-            $pm = FPersistentManager::getInstance();
-            $password = $_POST["password"];
-            if(self::insertpassword() == true)
-            {
-                $pm->update($_GET["password"], "password", $password, "password", "EUtente" );
-            } else
-            {
-                VError::error(7);
+                    if (isset($utente) && $utente->getId() === intval($_GET["idShow"]))
+                        return true;
+                    else
+                        return false;
             }
         }
     }
 
 
-    private static function modificaPropic($propic)
+
+    private static function modificaUtente()
     {
-        if(self::verificaUtente() == true);
-        {
-            $pm = FPersistentManager::getInstance();
-            if(self::insertpassword() == true)
-            {
-                $pm->update($_GET["immagine"], "immagine", $propic, "immagine", "EMedia" );
-            } else
-            {
-                VError::error(7);
+        if(self::verificaUtente() == true);{
+            $method = $_SERVER["REQUEST_METHOD"];
+            if ($method == "GET") {
+               return self::showUtente();
+            } elseif ($method == "POST") {
+                $pm = FPersistentManager::getInstance();
+                if(self::insertPassword() == true){
+                    //NOME
+                    if($_POST["nome"] != $_GET["nome"] || $_POST["nome"] != null){
+                        $input = $_POST["nome"];
+                        if(EInputChecker::getInstance()->isNome($input) == true ){
+                            $pm->update($_GET["nome"], "nome", $input, "nome", "EUtente" );
+                            $status = "OPERAZIONE RIUSCITA";
+                        }else{
+                            $status = "ERRORE: NOME NON VALIDO";
+                        }
+                    //COGNOME
+                    }elseif ($_POST["cognome"] != $_GET["cognome"] || $_POST["cognome"] != null){
+                        $input = $_POST["cognome"];
+                        if(EInputChecker::getInstance()->isCognome($input) == true ){
+                            $pm->update($_GET["cognome"], "cognome", $input, "cognome", "EUtente" );
+                            $status = "OPERAZIONE RIUSCITA";
+                        }else{
+                            $status = "ERRORE: COGNOME NON VALIDO";
+                        }
+                    }elseif ($_POST["username"] != $_GET["username"] || $_POST["username"] != null){
+                        $input = $_POST["username"];
+                        if(EInputChecker::getInstance()->isUsername($input) == true ){
+                            $pm->update($_GET["username"], "username", $input, "username", "EUtente" );
+                            $status = "OPERAZIONE RIUSCITA";
+                        }else{
+                            $status = "ERRORE: USERNAME NON VALIDA";
+                        }
+                    }elseif ($_POST["email"] != $_GET["email"] || $_POST["email"] != null) {
+                        $input = $_POST["email"];
+                        if (EInputChecker::getInstance()->isUsername($input) == true) {
+                            $pm->update($_GET["email"], "email", $input, "email", "EUtente");
+                            $status = "OPERAZIONE RIUSCITA";
+                        } else {
+                            $status = "ERRORE: EMAIL NON VALIDA";
+                        }
+                    }elseif ($_POST["propic"] != $_GET["propic"] || $_POST["propic"] != null) {
+                        $input = $_POST["propic"];
+                        if (EInputChecker::getInstance()->isImage($input) == true) {
+                            $pm->update($_GET["propic"], "immagine", $input, "immagine", "EMediaUtente");
+                            $status = "OPERAZIONE RIUSCITA";
+                        } else {
+                            $status = "ERRORE: IMMAGINE NON VALIDA";
+                        }
+                    }elseif ($_POST["password"] != $_GET["password"] || $_POST["password"] != null) {
+                        $input = $_POST["password"];
+                        if (EInputChecker::getInstance()->validatePassword($_GET["password"],$input) == true) {
+                            $pm->update($_GET["password"], "password", $input, "password", "EUtente");
+                            $status = "OPERAZIONE RIUSCITA";
+                        } else {
+                            $status = "ERRORE: IMMAGINE NON VALIDA";
+                        }
+                    }
+                } return $status;
+
             }
+            header("Location/");
         }
-    }
-
-    private static function modificaUtente(EUtente $utente)
-    {
-
-
     }
 
 
