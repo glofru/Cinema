@@ -324,8 +324,11 @@ class CUtente
         if ($method == "GET") {
             if (isset($_GET["token"])) {
                 $token = FPersistentManager::getInstance()->load($_GET["token"], "value", "EToken");
-
-                if (!isset($token) || $token->isUsed()) {
+                if(!$token->amIValid()) {
+                    FPersistentManager::getInstance()->delete($token->getValue(), "value", "EToken");
+                    unset($token);
+                }
+                if (!isset($token)) {
                     VError::error(0, "Richiedi di inviarti un nuovo link, questo potrebbe essere scaduto.");
                     die;
                 }
@@ -353,7 +356,7 @@ class CUtente
 
             //Crea token
             $uid = uniqid();
-            $token = new EToken($uid, false, $utente);
+            $token = new EToken($uid, new DateTime('now'), $utente);
 
             if (CMail::sendForgotMail($utente, $token)) { //Invio mail
                 //Reset password
@@ -375,7 +378,11 @@ class CUtente
             $valueToken = $_POST["token"];
             $token = FPersistentManager::getInstance()->load($_POST["token"], "value", "EToken");
 
-            if (!isset($token) || $token->isUsed()) {
+            if(!$token->amIValid()) {
+                FPersistentManager::getInstance()->delete($token->getValue(), "value", "EToken");
+                unset($token);
+            }
+            if (!isset($token)) {
                 VError::error(0, "Richiedi di inviarti un nuovo link, questo potrebbe essere scaduto.");
                 die;
             }
@@ -395,7 +402,7 @@ class CUtente
             FUtente::update($utente->getId(), "id", $hashedPassword, "password");
 
             //Consuma token
-            FPersistentManager::getInstance()->update($token->getValue(), "value", true, "isUsed", "EToken");
+            FPersistentManager::getInstance()->delete($token->getValue(), "value", "EToken");
 
             VUtente::loginForm();
         } else {

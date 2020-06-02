@@ -5,12 +5,13 @@ class FToken implements Foundation
 {
     private static string $className = "FToken";
     private static string $tableName = "Token";
-    private static string $valuesName = "(:value,:isUsed,:idUtente)";
+    private static string $valuesName = "(:value,:creationDate,:creationHour,:idUtente)";
 
     public static function associate(PDOStatement $sender, $token){
         if ($token instanceof EToken) {
             $sender->bindValue(':value', $token->getValue(), PDO::PARAM_STR);
-            $sender->bindValue(':isUsed', $token->isUsed(), PDO::PARAM_BOOL);
+            $sender->bindValue(':creationDate', $token->getCreationdateDB(), PDO::PARAM_STR);
+            $sender->bindValue(':creationHour', $token->getCreationHour(), PDO::PARAM_STR);
             $sender->bindValue(':idUtente', $token->getUtente()->getId(), PDO::PARAM_STR);
         } else {
             die("Not a token!!");
@@ -39,11 +40,11 @@ class FToken implements Foundation
 
         $row = $result[0];
         $value = $row["value"];
-        $isUsed = boolval($row["isUsed"]);
+        $creationDate = new DateTime($row["creationDate"] . "T" . $row["creationHour"]);
 
         $utente = FUtente::load($row["idUtente"], "id");
 
-        return new EToken($value, $isUsed, $utente);
+        return new EToken($value, $creationDate, $utente);
     }
 
     public static function update($value, $row, $newvalue, $newrow): bool {
