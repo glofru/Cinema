@@ -93,8 +93,7 @@ class CUtente
 
 
 
-    public static function insertPassword()
-    {
+    public static function insertPassword(): bool {
         if($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = $_GET["username"];
             $password = $_POST["password"];
@@ -104,8 +103,7 @@ class CUtente
             return false;
     }
 
-    public static function verificaUtente()
-    {
+    public static function verificaUtente(): bool {
         if($_SERVER['REQUEST_METHOD'] == "GET" && self::isLogged()) {
             $utente = self::getUtente();
             if (!isset($_GET["idShow"])) {
@@ -131,6 +129,7 @@ class CUtente
             } elseif ($method == "POST") {
                 $pm = FPersistentManager::getInstance();
                 if(self::insertPassword() == true){
+                    $oldpassword = $_GET["password"];
                     //NOME
                     if($_POST["nome"] != $_GET["nome"] || $_POST["nome"] != null){
                         $input = $_POST["nome"];
@@ -143,7 +142,7 @@ class CUtente
                     //COGNOME
                     }elseif ($_POST["cognome"] != $_GET["cognome"] || $_POST["cognome"] != null){
                         $input = $_POST["cognome"];
-                        if(EInputChecker::getInstance()->isCognome($input) == true ){
+                        if(EInputChecker::getInstance()->isNome($input) == true ){
                             $pm->update($_GET["cognome"], "cognome", $input, "cognome", "EUtente" );
                             $status = "OPERAZIONE RIUSCITA";
                         }else{
@@ -175,11 +174,11 @@ class CUtente
                         }
                     }elseif ($_POST["password"] != $_GET["password"] || $_POST["password"] != null) {
                         $input = $_POST["password"];
-                        if (EInputChecker::getInstance()->validatePassword($_GET["password"],$input) == true) {
+                        if (EInputChecker::getInstance()->validatePassword($_POST["password"],$input) == true && $input !== $oldpassword) {
                             $pm->update($_GET["password"], "password", $input, "password", "EUtente");
                             $status = "OPERAZIONE RIUSCITA";
                         } else {
-                            $status = "ERRORE: IMMAGINE NON VALIDA";
+                            $status = "ERRORE: PASSWORD NON VALIDA";
                         }
                     }
                 } return $status;

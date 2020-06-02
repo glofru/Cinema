@@ -15,18 +15,18 @@ class EInputChecker{
         return true;
     }
 
-    public function isCognome(string $cognome): bool {
-        return true;
-    }
-
     public function isUsername(string $username): bool {
         $res = preg_replace("/[^a-zA-Z0-9]/", "", $username);
         return $res == $username;
     }
 
+    public function isImage($immagine ): bool {
+        return true;
+    }
 
 
-    public function validatePassword( string $pw1, string $pw2) {
+
+   public function validatePassword( string $pw1, string $pw2) {
         if ($pw1 === $pw2) {
             if (strlen($pw1) >5) {
                 return true;
