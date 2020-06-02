@@ -33,7 +33,7 @@ class CMail
         $tickets = "";
         foreach ($biglietti as $item) {
             $tickets .= "Biglietto #" . $item->getId() . "<br>" . "Film: " . $item->getProiezione()->getFilm()->getNome() . "<br>" . "Sala: " . $item->getProiezione()->getSala()->getNumeroSala() . "<br>" . "Giono e Ora: " . $item->getProiezione()->getData() . " alle " . $item->getProiezione()->getOra() . "<br>". $item->getPosto() . "<br>" . "Prezzo: " . $item->getCosto() . "<br>" .
-            "<img src=\"https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=http%3A%2F%2Flocalhost%2F&choe=UTF-8\" title=\"Codice QR damostrare all'ingresso\" />" . "<br><br>";
+            "<img src=\"https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=". $item->getId() . "&choe=UTF-8\" title=\"Codice QR damostrare all'ingresso\" />" . "<br><br>";
         }
         $body = "Ciao " . $utente->getNome() . " questi sono i biglietti che hai appena acquistato: <br>" . $tickets . "Ti auguriamo una buona visione :)";
         $name = $utente->getNome() . " " . $utente->getCognome();
