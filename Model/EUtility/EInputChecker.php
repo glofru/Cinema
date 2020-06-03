@@ -17,14 +17,12 @@ class EInputChecker{
 
     public function isUsername(string $username): bool {
         $res = preg_replace("/[^a-zA-Z0-9]/", "", $username);
-        return $res == $username;
+        return $res == $username && strlen($username) > 2;
     }
 
     public function isImage($immagine ): bool {
         return true;
     }
-
-
 
    public function validatePassword( string $pw1, string $pw2) {
         if ($pw1 === $pw2) {
