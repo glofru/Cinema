@@ -57,9 +57,9 @@
                         {/if}
 
                         {if $ok}
-                            <script>alert("Controlla la mail")</script>
+                            <script>alert("Abbiamo inviato un link alla mail")</script>
                             <div class="sign__group">
-                                <span class="sign__text" style="color: red"><b>Controlla la mail</b></span>
+                                <span class="sign__text" style="color: red"><b>Abbiamo inviato un link alla mail</b></span>
                             </div>
                         {/if}
 

@@ -45,7 +45,7 @@ class CUtente
         }
     }
     
-    static function logout($redirect = true) {
+    public static function logout($redirect = true) {
         if(isset($_COOKIE["PHPSESSID"])) {
             session_start();
             session_unset();
@@ -72,6 +72,7 @@ class CUtente
         }
 
         $utente = $pm->login($user, $password, $isMail);
+
         if ($utente instanceof EUtente) {
             if ($utente->isBanned()) {
                 VError::error(4);
@@ -83,78 +84,55 @@ class CUtente
         }
     }
 
-    public static function showUtente() {
+    public static function show() {
         if($_SERVER['REQUEST_METHOD'] == "GET") {
-            $pm = FPersistentManager::getInstance();
-            $utente = self::getUtente();
-            if(!isset($_GET["idShow"])){
-               // header("Location: /");
-                echo "NOTSET";
-            }
-            else
-            {
-                if(isset($utente) && $utente->getId() === intval($_GET["idShow"])) {
+            if(!isset($_GET["id"])){
+                CMain::notFound();
+            } else {
+                $pm = FPersistentManager::getInstance();
+
+                if(CUtente::isLogged() && CUtente::getUtente()->getId() === intval($_GET["id"])) {
                     $canModify = true;
-                    $toShow = $utente;
+                    $toShow = CUtente::getUtente();
                 } else {
                     $canModify = false;
                     $toShow = $pm->load($_GET["idShow"],"id","EUtente");
                 }
+
                 $propic = $pm->load($toShow->getId(),"idUtente","EMediaUtente");
                 if($propic->getImmagine() == ""){
                     $propic->setImmagine('../../Smarty/img/user.png');
                 }
+
                 if(isset($toShow)){
-                    $giudizi = $pm->load($_GET["idShow"], "idUtente", "EGiudizio");
+                    $giudizi = $pm->load($_GET["id"], "idUtente", "EGiudizio");
                     usort($giudizi, array(EHelper::getInstance(), "sortByDatesGiudizi"));
+
                     if(sizeof($giudizi) > 10){
                         array_splice($giudizi, 0, 10);
                     }
-                    VUtente::showUtente($toShow, $canModify, $toShow->isAdmin(), $propic, $giudizi);
-                }
-                else {
-                    VError::error(0,"PROFILO UTENTE NON TROVATO!");
+
+                    VUtente::show($toShow, $canModify, $toShow->isAdmin(), $propic, $giudizi);
+                } else {
+                    VError::error(0,"Utente non trovato.");
                 }
 
             }
         }
     }
 
-    public static function insertPassword(): bool {
-        if($_SERVER["REQUEST_METHOD"] == "POST") {
-            $username = $_GET["username"];
-            $password = $_POST["password"];
-            self::checkLogin($username, $password);
-            return true;
-        }else
-            return false;
-    }
+    private static function modifica() {
+        $id = $_GET["id"];
 
-    public static function verificaUtente(): bool {
-        if($_SERVER['REQUEST_METHOD'] == "GET" && self::isLogged()) {
-            $utente = self::getUtente();
-            if (!isset($_GET["idShow"])) {
-                // header("Location: /");
-                echo "NOTSET";
-            } else {
-                    if (isset($utente) && $utente->getId() === intval($_GET["idShow"]))
-                        return true;
-                    else
-                        return false;
-            }
-        }
-    }
-
-
-
-    private static function modificaUtente() {
-        if(self::verificaUtente() == true);{
+        if(self::isLogged() && CUtente::getUtente()->getId() === $id) {
             $method = $_SERVER["REQUEST_METHOD"];
+
             if ($method == "GET") {
-               return self::showUtente();
+                header("Location: Utente/show/?id=" . self::getUtente()->getId());
             } elseif ($method == "POST") {
                 $pm = FPersistentManager::getInstance();
-                if(self::insertPassword() == true){
+
+                if(password_verify($_POST["password"], self::getUtente()-getPassword())){
                     //NOME
                     if($_POST["nome"] != $_GET["nome"] || $_POST["nome"] != null){
                         $input = $_POST["nome"];
@@ -210,6 +188,8 @@ class CUtente
 
             }
             header("Location/");
+        } else {
+            VError::error(9);
         }
     }
 
@@ -343,12 +323,10 @@ class CUtente
 
             if (!$utente instanceof EUtente) {
                 VUtente::forgotPassword($username);
-            } else if (!$utente->isRegistrato()) {
-                $uid = uniqid();
-                $utente->setPassword($uid);
+            } else if (!$utente->isRegistrato()){ //Utente non registrato, crea un nuovo uid come password
+                $utente->setPassword(uniqid());
                 CMail::sendForgotMailNonRegistrato($utente);
-                FPersistentManager::getInstance()->update($utente->getId(), "id", EHelper::getInstance()->hash($uid), "password", "EUtente");
-                unset($utente);
+                FPersistentManager::getInstance()->update($utente->getId(), "id", EHelper::getInstance()->hash($utente->getPassword()), "password", "EUtente");
             } else {
                 //Crea token
                 $uid = uniqid();
@@ -365,7 +343,6 @@ class CUtente
                     die;
                 }
             }
-                unset($uid);
                 VUtente::forgotPassword(null, true);
         }
     }

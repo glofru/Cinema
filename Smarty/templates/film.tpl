@@ -110,7 +110,7 @@
                                         <span>@{$utente->getUsername()}</span>
                                     </a>
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                        <li><a href="../../Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
+                                        <li><a href="../../Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
                                         <li><a href="../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
                                         <li><a href="../../Utente/showCommenti/">I miei giudizi</a></li>
                                         <li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
@@ -122,7 +122,7 @@
                                         <span>@{$utente->getUsername()}</span>
                                     </a>
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                        <li><a href="../../Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
+                                        <li><a href="../../Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
                                         <li><a href="">Gestione film</a></li>
                                         <li><a href="">Gestione Proiezioni</a></li>
                                         <li><a href="../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
@@ -402,7 +402,7 @@
                                                     </span>
                                                 {/if}
 
-                                                <span class="reviews__time">da <a href="../../Utente/showUtente/?idShow={$rev->getUtente()->getId()}">@{$rev->getUtente()->getUsername()}</a> il {$rev->getDataPubblicazioneString()}</span>
+                                                <span class="reviews__time">da <a href="../../Utente/show/?id={$rev->getUtente()->getId()}">@{$rev->getUtente()->getUsername()}</a> il {$rev->getDataPubblicazioneString()}</span>
                                                 <span class="reviews__rating"><i class="icon ion-ios-star"></i>{$rev->getPunteggio()}</span>
                                             </div>
                                             <p class="reviews__text">{$rev->getCommento()}</p>
