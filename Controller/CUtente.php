@@ -127,23 +127,24 @@ class CUtente
         if(self::isLogged() && CUtente::getUtente()->getId() === $id) {
             $method = $_SERVER["REQUEST_METHOD"];
 
+            $utente = self::getUtente();
+
             if ($method == "GET") {
-                header("Location: Utente/show/?id=" . self::getUtente()->getId());
+                header("Location: Utente/show/?id=" . $utente->getId());
             } elseif ($method == "POST") {
                 $pm = FPersistentManager::getInstance();
 
-                if(password_verify($_POST["password"], self::getUtente()-getPassword())){
+                if(password_verify($_POST["password"], self::getUtente()->getPassword())){
                     //NOME
-                    if($_POST["nome"] != $_GET["nome"] || $_POST["nome"] != null){
-                        $input = $_POST["nome"];
-                        if(EInputChecker::getInstance()->isNome($input) == true ){
-                            $pm->update($_GET["nome"], "nome", $input, "nome", "EUtente" );
-                            $status = "OPERAZIONE RIUSCITA";
-                        }else{
+                    if(isset($_POST["nome"])) {
+                        $nome = $_POST["nome"];
+                        if(EInputChecker::getInstance()->isNome($nome)) {
+                            $pm->update($utente->getId(), "id", $nome, "nome", "EUtente");
+                        } else {
                             $status = "ERRORE: NOME NON VALIDO";
                         }
                     //COGNOME
-                    }elseif ($_POST["cognome"] != $_GET["cognome"] || $_POST["cognome"] != null){
+                    } elseif ($_POST["cognome"] != $_GET["cognome"] || $_POST["cognome"] != null){
                         $input = $_POST["cognome"];
                         if(EInputChecker::getInstance()->isNome($input) == true ){
                             $pm->update($_GET["cognome"], "cognome", $input, "cognome", "EUtente" );
