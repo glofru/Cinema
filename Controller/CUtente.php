@@ -155,6 +155,16 @@ class CUtente
                             $utente->setEmail($_POST["email"]);
                             FUtente::update($utente->getId(), "id", $utente->getEmail(), "email");
                         }
+
+                        if (isset($_POST["password"])) {
+                            $utente->setPassword($_POST["password"]);
+                            FUtente::update($utente->getId(), "id", $utente->getPassword(), "password");
+                        }
+
+                        if (isset($_POST["propic"])) {
+                            $propic = EMedia::class->setImmagine($_POST["propic"]);
+                            FMedia::update($utente->getId(), "id", $propic, "immagine");
+                        }
                     } catch (Exception $e) {
                         //TODO: modifica con errore
                     }
