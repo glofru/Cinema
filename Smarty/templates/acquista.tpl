@@ -190,13 +190,10 @@
 					</div>
 
 					<!-- filter btn -->
-					<form action="../Acquisto/confermaAcquisto/" method="POST">
+					<form action="../Acquisto/confermaAcquisto" method="POST">
 						<button class="filter__btn" type="submit">Acquista</button>
 					</form>
-					<form action="../Film/show/" method="get">
-						<input type="hidden" name="film" value="{$biglietti[0]->getProiezione()->getFilm()->getId()}">
-						<button class="filter__btn" type="submit">Annulla</button>
-					</form>
+					<button class="filter__btn" type="button" onclick="window.">Annulla</button>
 					<!-- end filter btn -->
 				</div>
 			</div>

@@ -13,7 +13,7 @@ class ENonRegistrato extends EUtente
      */
     public function __construct(string $email)
     {
-        parent::__construct(null, null, null, $email, null, null);
+        $this->setEmail($email);
     }
 
     public function compra() {

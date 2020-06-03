@@ -22,7 +22,7 @@ class CAcquisto
                 } else {
                     if (!isset($utente)) {
                         try {
-                            $utente = new ENonRegistrato($mail, uniqid());
+                            $utente = new ENonRegistrato($mail);
                         } catch (Exception $e) {
                             VError::error(8);
                         }
@@ -31,12 +31,11 @@ class CAcquisto
                     session_start();
                     $_SESSION["nonRegistrato"] = serialize($utente);
 
-                    self::loadBiglietti($id, $str, null);
+                    self::loadBiglietti($id, $str, $utente);
                 }
             } else { //Errore, l'utente non è loggato e non ha inviato la mail, non dovrebbe accadere
                 VError::error(8);
             }
-
         } else {
             CMain::notFound();
         }
@@ -60,7 +59,8 @@ class CAcquisto
         if(sizeof($biglietti) > 0) {
             $serialized = serialize($biglietti);
             $_SESSION["biglietti"] = $serialized;
-            VAcquisto::showAcquisto($biglietti, $locandina, $utente, $totale);
+            $userPassed = $utente->isRegistrato() ? $utente : null;
+            VAcquisto::showAcquisto($biglietti, $locandina, $userPassed, $totale);
         } else {
             VError::error(8);
         }
@@ -95,8 +95,13 @@ class CAcquisto
                     $pm->save($item);
                 }
 
+                if ($utente->isRegistrato()) {
+                    print "WE";
+                } else print "AO";die;
+
                 if (!$utente->isRegistrato()) {
                     $utenteDB = FUtente::load($utente->getEmail(), "email");
+
                     if ($utenteDB === null) {
                         $utente->setPassword(uniqid());
                         CMail::sendTicketsNonRegistrato($utente, $biglietti, true);
