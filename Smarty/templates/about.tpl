@@ -83,6 +83,7 @@
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
 										<li><a href="#">Su di noi</a></li>
 										<li><a href="../../Utente/signup">Registrati</a></li>
+										<li><a href="/Utente/controlloBigliettiNonRegistrato/?">I miei biglietti</a></li>
 									</ul>
 								{else}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
@@ -289,7 +290,7 @@
 				<div class="how">
 					<span class="how__number">03</span>
 					<h3 class="how__title">Codice di accesso?</h3>
-					<p class="how__text">Il codice di accesso che ti sarà recapitato ti permetterà di consultare sul nostro sito i tuoi acquisti. Per accedere, alla sezione dei tuoi acquisti, dovrai andare nella nostra home e dal menù a tendina (...) premere su <a href="">accesso OTP</a>. Da qui potrai consultare tutti i tuoi acquisti. Il codice sarà valido anche per i tuoi prossimi acquisti così avrai sempre a disposizione un recap dei tuoi acquisti.</p>
+					<p class="how__text">Il codice di accesso che ti sarà recapitato ti permetterà di consultare sul nostro sito i tuoi acquisti. Per accedere, alla sezione dei tuoi acquisti, dovrai andare nella parte superiore della pagina e dal menù a tendina (...) premere su <a href="../../Utente/controlloBigliettiNonRegistrato/?">I miei biglietti</a>. Da qui potrai consultare tutti i tuoi acquisti. Il codice sarà valido anche per i tuoi prossimi acquisti così avrai sempre a disposizione un recap dei tuoi acquisti.</p>
 				</div>
 			</div>
 		</div>
@@ -370,7 +371,7 @@
 		<div class="row">
 			<!-- footer list -->
 			<div class="col-12 col-md-3">
-				<h6 class="footer__title">Scarica la nsotra App</h6>
+				<h6 class="footer__title">Scarica la nostra App</h6>
 				<ul class="footer__app">
 					<li><a href="https://play.google.com/store?hl=it"><img src="../../Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
 					<li><a href="https://www.apple.com/it/ios/app-store/"><img src="../../Smarty/img/google-play-badge.png" alt=""></a></li>
