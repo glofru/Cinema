@@ -9,7 +9,7 @@ class EMedia implements JsonSerializable
     /**
      * @var string
      */
-    private string $id;
+    private int $id = 0;
     /**
      * @var string
      */
@@ -54,9 +54,9 @@ class EMedia implements JsonSerializable
     }
 
     /**
-     * @param string $id
+     * @param int $id
      */
-    public function setId(string $id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
