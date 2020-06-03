@@ -32,7 +32,7 @@ class CMail
     }
 
     public static function sendTickets(ERegistrato $utente, array $biglietti) {
-        $subject = "I tuoi bilgietti — Magic Boulevard Cinema";
+        $subject = "I tuoi bilgietti - Magic Boulevard Cinema";
 
         $tickets = "";
         foreach ($biglietti as $item) {
@@ -47,7 +47,7 @@ class CMail
     }
 
     public static function sendTicketsNonRegistrato(ENonRegistrato $utente, array $biglietti, $uid = null) {
-        $subject = "I tuoi bilgietti — Magic Boulevard Cinema";
+        $subject = "I tuoi bilgietti - Magic Boulevard Cinema";
 
         $tickets = "";
         foreach ($biglietti as $item) {

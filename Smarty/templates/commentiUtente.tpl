@@ -102,7 +102,7 @@
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
                                         <li><a href="/Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
                                         <li><a href="../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
-                                        <li><a href="https://www.youporn.com/watch/15481840/il-sole-sul-balcone-amatoriale-italianovery-myller/#1">I miei video porno</a></li>
+                                        <li><a href="../../Utente/showCommenti/">I miei giudizi</a></li>
                                         <li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
                                     </ul>
                                 </li>
@@ -165,7 +165,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h2 class="section__title section__title--center">Ecco i commenti che hai espresso :)</h2>
+                    <h2 class="section__title section__title--center">Ecco i giudizi che hai espresso :)</h2>
                 </div>
                 {if sizeof($giudizi) === 0}
                 <div class="col-12">
