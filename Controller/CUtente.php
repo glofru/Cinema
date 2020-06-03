@@ -45,7 +45,7 @@ class CUtente
         }
     }
     
-    static function logout($redirect = true) {
+    public static function logout($redirect = true) {
         if(isset($_COOKIE["PHPSESSID"])) {
             session_start();
             session_unset();
@@ -83,16 +83,14 @@ class CUtente
         }
     }
 
-    public static function showUtente() {
+    public static function show() {
         if($_SERVER['REQUEST_METHOD'] == "GET") {
             $pm = FPersistentManager::getInstance();
             $utente = self::getUtente();
             if(!isset($_GET["idShow"])){
                // header("Location: /");
                 echo "NOTSET";
-            }
-            else
-            {
+            } else {
                 if(isset($utente) && $utente->getId() === intval($_GET["idShow"])) {
                     $canModify = true;
                     $toShow = $utente;
@@ -110,7 +108,7 @@ class CUtente
                     if(sizeof($giudizi) > 10){
                         array_splice($giudizi, 0, 10);
                     }
-                    VUtente::showUtente($toShow, $canModify, $toShow->isAdmin(), $propic, $giudizi);
+                    VUtente::show($toShow, $canModify, $toShow->isAdmin(), $propic, $giudizi);
                 }
                 else {
                     VError::error(0,"PROFILO UTENTE NON TROVATO!");
@@ -151,7 +149,7 @@ class CUtente
         if(self::verificaUtente() == true);{
             $method = $_SERVER["REQUEST_METHOD"];
             if ($method == "GET") {
-               return self::showUtente();
+               return self::show();
             } elseif ($method == "POST") {
                 $pm = FPersistentManager::getInstance();
                 if(self::insertPassword() == true){
@@ -343,12 +341,10 @@ class CUtente
 
             if (!$utente instanceof EUtente) {
                 VUtente::forgotPassword($username);
-            } else if (!$utente->isRegistrato()) {
-                $uid = uniqid();
-                $utente->setPassword($uid);
+            } else if (!$utente->isRegistrato()){ //Utente non registrato, crea un nuovo uid come password
+                $utente->setPassword(uniqid());
                 CMail::sendForgotMailNonRegistrato($utente);
-                FPersistentManager::getInstance()->update($utente->getId(), "id", EHelper::getInstance()->hash($uid), "password", "EUtente");
-                unset($utente);
+                FPersistentManager::getInstance()->update($utente->getId(), "id", EHelper::getInstance()->hash($utente->getPassword()), "password", "EUtente");
             } else {
                 //Crea token
                 $uid = uniqid();
@@ -365,7 +361,6 @@ class CUtente
                     die;
                 }
             }
-                unset($uid);
                 VUtente::forgotPassword(null, true);
         }
     }
