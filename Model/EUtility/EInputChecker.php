@@ -21,6 +21,7 @@ class EInputChecker{
     }
 
     public function isImage($immagine ): bool {
+
         return true;
     }
 
