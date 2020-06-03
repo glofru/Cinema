@@ -85,33 +85,35 @@ class CUtente
 
     public static function show() {
         if($_SERVER['REQUEST_METHOD'] == "GET") {
-            $pm = FPersistentManager::getInstance();
-            $utente = self::getUtente();
-            if(!isset($_GET["idShow"])){
-               // header("Location: /");
-                echo "NOTSET";
+            if(!isset($_GET["id"])){
+                CMain::notFound();
             } else {
-                if(isset($utente) && $utente->getId() === intval($_GET["idShow"])) {
+                $pm = FPersistentManager::getInstance();
+
+                if(CUtente::isLogged() && CUtente::getUtente()->getId() === intval($_GET["id"])) {
                     $canModify = true;
-                    $toShow = $utente;
+                    $toShow = CUtente::getUtente();
                 } else {
                     $canModify = false;
                     $toShow = $pm->load($_GET["idShow"],"id","EUtente");
                 }
+
                 $propic = $pm->load($toShow->getId(),"idUtente","EMediaUtente");
                 if($propic->getImmagine() == ""){
                     $propic->setImmagine('../../Smarty/img/user.png');
                 }
+
                 if(isset($toShow)){
                     $giudizi = $pm->load($_GET["idShow"], "idUtente", "EGiudizio");
                     usort($giudizi, array(EHelper::getInstance(), "sortByDatesGiudizi"));
+
                     if(sizeof($giudizi) > 10){
                         array_splice($giudizi, 0, 10);
                     }
+                    
                     VUtente::show($toShow, $canModify, $toShow->isAdmin(), $propic, $giudizi);
-                }
-                else {
-                    VError::error(0,"PROFILO UTENTE NON TROVATO!");
+                } else {
+                    VError::error(0,"Utente non trovato.");
                 }
 
             }
