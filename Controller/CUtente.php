@@ -422,7 +422,7 @@ class CUtente
         header("Location: /");
     }
 
-    public static function controlloBigliettiNonRegistrato () {
+    public static function controlloBigliettiNonRegistrato() {
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             if(!CUtente::isLogged()){
                 VUtente::showCheckNonRegsitrato(true);

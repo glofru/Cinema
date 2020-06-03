@@ -69,25 +69,30 @@ class CAcquisto
 
     public static function confermaAcquisto() {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            echo "HERE";
-            if (!isset($_SESSION["biglietti"]) || (!CUtente::isLogged(false) && !isset($_SESSION["nonRegistrato"])) || CUtente::getUtente()->isAdmin()) {
-                //VError::error(100);
-                //return;
-                echo "IN"; die;
+            $isNonRegistrato = false;
+            if(!CUtente::isLogged(false) && isset($_SESSION["nonRegistrato"])) {
+                $isNonRegistrato = true;
             }
-            echo "OUT"; die;
-            //$biglietti = unserialize($_SESSION["biglietti"]);
-
-           /* foreach ($biglietti as $item) {
-                if ($item->getUtente()->getId() !== CUtente::getUtente()->getId()) {
-                    VError::error(100);
-                    return;
+            else if (!isset($_SESSION["biglietti"])  || CUtente::getUtente()->isAdmin()) {
+                VError::error(100);
+                return;
+            }
+            $biglietti = unserialize($_SESSION["biglietti"]);
+            if(!$isNonRegistrato) {
+                foreach ($biglietti as $item) {
+                    if ($item->getUtente()->getId() !== CUtente::getUtente()->getId()) {
+                        VError::error(100);
+                        return;
+                    }
                 }
             }
 
             $pm = FPersistentManager::getInstance();
-
-            $utente = CUtente::isLogged() ? CUtente::getUtente() : unserialize($_SESSION["nonRegistrato"]);
+            if($isNonRegistrato) {
+                $utente = unserialize($_SESSION["nonRegistrato"]);
+            } else {
+               $utente = CUtente::getUtente();
+            }
 
             if(!$utente->isRegistrato()) {
                 $utenteDB = FUtente::load($utente->getEmail(), "email");
@@ -117,14 +122,14 @@ class CAcquisto
                 if (!$utente->isRegistrato()) {
                     CMail::sendTicketsNonRegistrato($utente, $biglietti, $uid);
                     CUtente::logout(false);
-                    header("Location: Utente/controlloBigliettiNonRegistrato");
+                    header("Location: ../../Utente/controlloBigliettiNonRegistrato");
                 } else {
                     CMail::sendTickets($utente, $biglietti);
                     header("Location: ../../Utente/bigliettiAcquistati");
                 }
             } else {
                 VError::error(0, "Almeno uno dei posti che voleva acquistare è stato già occupato. La invitiamo a riprovare!");
-            }*/
+            }
         } else {
             CMain::notFound();
         }
