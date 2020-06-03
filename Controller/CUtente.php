@@ -155,7 +155,6 @@ class CUtente
             } elseif ($method == "POST") {
                 $pm = FPersistentManager::getInstance();
                 if(self::insertPassword() == true){
-                    $oldpassword = $_GET["password"];
                     //NOME
                     if($_POST["nome"] != $_GET["nome"] || $_POST["nome"] != null){
                         $input = $_POST["nome"];
@@ -200,7 +199,7 @@ class CUtente
                         }
                     }elseif ($_POST["password"] != $_GET["password"] || $_POST["password"] != null) {
                         $input = $_POST["password"];
-                        if (EInputChecker::getInstance()->validatePassword($_POST["password"],$input) == true && $input !== $oldpassword) {
+                        if (EInputChecker::getInstance()->validatePassword($_POST["password"],$input) == true ) {
                             $pm->update($_GET["password"], "password", $input, "password", "EUtente");
                             $status = "OPERAZIONE RIUSCITA";
                         } else {

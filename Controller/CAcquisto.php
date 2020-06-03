@@ -30,7 +30,7 @@ class CAcquisto
 
                     session_start();
                     session_regenerate_id(true);
-                    session_set_cookie_params(300, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inseirto il 4° parametro
+                    session_set_cookie_params(300, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inserito il 4° parametro
                     $_SESSION["nonRegistrato"] = serialize($utente);
                     self::loadBiglietti($id, $str, $utente);
                 }
