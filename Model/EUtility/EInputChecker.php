@@ -20,10 +20,32 @@ class EInputChecker{
         return $res == $username && strlen($username) > 2;
     }
 
-    public function isImage($immagine ): bool {
+    public static function isImage($file)
+    {
+        $estensione = strtolower(strrchr($file, '.'));
 
-        return true;
+        switch($estensione)
+        {
+            case '.jpg':
+            case '.jpeg':
+                $img = @imagecreatefromjpeg($file);
+                break;
+            case '.gif':
+                $img = @imagecreatefromgif($file);
+                break;
+            case '.png':
+                $img = @imagecreatefrompng($file);
+                break;
+            default:
+                $img = false;
+                break;
+        }
+        return $img;
     }
+
+
+
+
 
     public function isPassword(string $password): bool {
         return strlen($password) > 6;
