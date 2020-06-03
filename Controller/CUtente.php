@@ -79,6 +79,8 @@ class CUtente
             } else {
                 self::saveSession($utente);
             }
+        } elseif($utente[0] === null) {
+            VError::error(0, "È in corso un reset della password");
         } else {
             VUtente::loginForm($user, true);
         }

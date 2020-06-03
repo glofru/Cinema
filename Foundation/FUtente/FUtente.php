@@ -107,12 +107,18 @@ class FUtente implements Foundation
             $isAdmin = $row["isAdmin"];
             $isBanned = $row["isBanned"];
 
-            if ($isAdmin) {
-                $utente = new EAdmin($nome, $cognome, $username, $email, $password, $isBanned);
-            } elseif ($username != null && $username != "") {
-                $utente =  new ERegistrato($nome, $cognome, $username, $email, $password, $isBanned);
-            } else {
-                $utente = new ENonRegistrato($email, $password);
+            try {
+                if ($isAdmin) {
+                    $utente = new EAdmin($nome, $cognome, $username, $email, $password, $isBanned);
+                } elseif ($username != null && $username != "") {
+                    $utente = new ERegistrato($nome, $cognome, $username, $email, $password, $isBanned);
+                } else {
+                    $utente = new ENonRegistrato($email, $password);
+                }
+            } catch (Exception $e) {
+                if ($e->getMessage() === "Password non valida") {
+                    return [null];
+                }
             }
 
             $utente->setId($id);
