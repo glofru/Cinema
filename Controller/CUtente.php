@@ -344,10 +344,12 @@ class CUtente
 
             if (!$utente instanceof EUtente) {
                 VUtente::forgotPassword($username);
-            } else if (!$utente->isRegistrato()){
+            } else if (!$utente->isRegistrato()) {
                 $uid = uniqid();
-                CMail::sendForgotMailNonRegistrato($utente, $uid);
+                $utente->setPassword($uid);
+                CMail::sendForgotMailNonRegistrato($utente);
                 FPersistentManager::getInstance()->update($utente->getId(), "id", EHelper::getInstance()->hash($uid), "password", "EUtente");
+                unset($utente);
             } else {
                 //Crea token
                 $uid = uniqid();
@@ -364,6 +366,7 @@ class CUtente
                     die;
                 }
             }
+                unset($uid);
                 VUtente::forgotPassword(null, true);
         }
     }

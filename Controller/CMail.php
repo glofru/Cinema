@@ -14,12 +14,12 @@ class CMail
     private static string $host = "smtp.gmail.com";
     private static string $port = "587";
 
-    public static function sendForgotMailNonRegistrato(EUtente $utente, string $uid): bool {
+    public static function sendForgotMailNonRegistrato(EUtente $utente): bool {
         $link = "http://" . self::$domain . "/Utente/controlloBigliettiNonRegistrato/?";
 
         $subject = "Reset del tuo codice - Magic Boulevard Cinema";
         $body = "Ciao " . $utente->getEmail() . ",<br><br>" .
-            "Come da te richiesto  ecco il tuo novo codice per accedere ai tuoi biglietti acquistati." . "<b>" . $uid . "</b> <br>" .  "Adesso puoi controllare i tuoi biglietti acquistati " . "<a href='" . $link . "'>qui</a> ".
+            "Come da te richiesto  ecco il tuo novo codice per accedere ai tuoi biglietti acquistati." . "<b>" . $utente->getPassword() . "</b> <br>" .  "Adesso puoi controllare i tuoi biglietti acquistati " . "<a href='" . $link . "'>qui</a> ".
             "ATTENZIONE: mail generata automaticamente, un eventuale risposta non verra' letta.";
 
         $name = $utente->getEmail();
