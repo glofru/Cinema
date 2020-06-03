@@ -42,7 +42,7 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- registration form -->
-                    <form id="form" action="/Utente/signup" method="POST" class="sign__form">
+                    <form id="form" action="/Utente/signup" onsubmit="return validate()" method="POST" class="sign__form">
                         <a href="/" class="sign__logo">
                             <img src="../../Smarty/img/logo.svg" alt="">
                         </a>
@@ -89,7 +89,7 @@
                             <input id="pw2" type="password" class="sign__input" placeholder="Reinserisci la password">
                         </div>
 
-                        <button class="sign__btn" onclick="validate()">Registrati</button>
+                        <button class="sign__btn">Registrati</button>
 
                         <span class="sign__text">Hai già un account? <a href="/Utente/login">Login!</a></span>
                     </form>
