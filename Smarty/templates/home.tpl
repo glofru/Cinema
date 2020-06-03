@@ -305,9 +305,9 @@
 													<a href="/Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggioSettimanaScorsa[$key]}</a>
 												</span>
 												{/if}
-												{if ($film->getetaConsigliata() != "")}
+												{if ($film->getEtaConsigliata() != "")}
 													<ul class="card__list">
-														<li>{$film->getetaConsigliata()}</li>
+														<li>{$film->getEtaConsigliata()}</li>
 													</ul>
 												{/if}
 											</div>
@@ -353,9 +353,9 @@
 													<a href="/Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggioProgrammazione[$key]}</a>
 												</span>
 												{/if}
-												{if ($film->getetaConsigliata() != "")}
+												{if ($film->getEtaConsigliata() != "")}
 												<ul class="card__list">
-													<li>{$film->getetaConsigliata()}</li>
+													<li>{$film->getEtaConsigliata()}</li>
 												</ul>
 												{/if}
 											</div>

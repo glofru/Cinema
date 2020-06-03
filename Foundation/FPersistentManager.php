@@ -71,6 +71,10 @@ class FPersistentManager
         return $class::loadBetween($inizio, $fine);
     }
 
+    public function loadAll() {
+        return FNewsLetter::load();
+    }
+
     public function delete($value, $row, $class) {
         $class = self::getClass($class);
         $class::delete($value, $row);

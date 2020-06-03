@@ -230,6 +230,34 @@ class FDatabase
         return null;
     }
 
+    public function loadAllNL() {
+        try {
+            $query = "SELECT * FROM " . FNewsLetter::getTableName() . ";";
+            $sender = $this->db->prepare($query);
+            $sender->execute();
+            $returnedRows = $sender->rowCount();
+            $return = [];
+            if($returnedRows == 0){
+                return [];
+            }
+            elseif ($returnedRows == 1) {
+                array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
+            }
+            else {
+                $sender->setFetchMode(PDO::FETCH_ASSOC);
+                while($elem = $sender->fetch()) {
+                    $return[] = $elem;
+                }
+            }
+            return $return;
+        }
+        catch (PDOException $exception) {
+            $this->error(false);
+        }
+
+        return null;
+    }
+
     public function checkDisponibilita(int $nsala, string $data, string $oraInizioNuovoFilm) {
         try {
             $query = "SELECT * FROM Proiezione WHERE numerosala = '" . strval($nsala) . "' AND data = '" . $data . "';";

@@ -134,3 +134,11 @@ CREATE TABLE Token(
         REFERENCES Utenti(`id`)
     ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE NewsLetter(
+    `idUtente` INTEGER NOT NULL,
+    PRIMARY KEY (`idUtente`),
+    FOREIGN KEY (`idUtente`)
+        REFERENCES Utenti(`id`)
+    ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

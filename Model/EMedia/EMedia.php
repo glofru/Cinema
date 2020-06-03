@@ -136,7 +136,7 @@ class EMedia implements JsonSerializable
 
     public function getImmagineHTML(): string{
         $mime = explode("/",$this->getMimeType());
-        return "data:image/". $mime . ";base64," . $this->getImmagine();
+        return "data:image/". $mime[1] . ";base64," . $this->getImmagine();
     }
 
     /**
