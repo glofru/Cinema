@@ -11,9 +11,9 @@ class ENonRegistrato extends EUtente
      * @param string $email
      * @throws Exception
      */
-    public function __construct(string $email)
+    public function __construct(string $email, string $password)
     {
-        $this->setEmail($email);
+        parent::__construct("", "", "", $email, $password, 0);
     }
 
     public function compra() {

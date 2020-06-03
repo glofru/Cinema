@@ -22,15 +22,16 @@ class CAcquisto
                 } else {
                     if (!isset($utente)) {
                         try {
-                            $utente = new ENonRegistrato($mail);
+                            $utente = new ENonRegistrato($mail, "");
                         } catch (Exception $e) {
                             VError::error(8);
                         }
                     }
 
                     session_start();
+                    session_regenerate_id(true);
+                    session_set_cookie_params(300, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inseirto il 4° parametro
                     $_SESSION["nonRegistrato"] = serialize($utente);
-
                     self::loadBiglietti($id, $str, $utente);
                 }
             } else { //Errore, l'utente non è loggato e non ha inviato la mail, non dovrebbe accadere
@@ -68,14 +69,16 @@ class CAcquisto
 
     public static function confermaAcquisto() {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            echo "HERE";
             if (!isset($_SESSION["biglietti"]) || (!CUtente::isLogged(false) && !isset($_SESSION["nonRegistrato"])) || CUtente::getUtente()->isAdmin()) {
-                VError::error(100);
-                return;
+                //VError::error(100);
+                //return;
+                echo "IN"; die;
             }
+            echo "OUT"; die;
+            //$biglietti = unserialize($_SESSION["biglietti"]);
 
-            $biglietti = unserialize($_SESSION["biglietti"]);
-
-            foreach ($biglietti as $item) {
+           /* foreach ($biglietti as $item) {
                 if ($item->getUtente()->getId() !== CUtente::getUtente()->getId()) {
                     VError::error(100);
                     return;
@@ -83,34 +86,36 @@ class CAcquisto
             }
 
             $pm = FPersistentManager::getInstance();
-            $result = $pm->occupaPosti($biglietti);
 
             $utente = CUtente::isLogged() ? CUtente::getUtente() : unserialize($_SESSION["nonRegistrato"]);
+
+            if(!$utente->isRegistrato()) {
+                $utenteDB = FUtente::load($utente->getEmail(), "email");
+                if(!isset($utenteDB)) {
+                    $uid = uniqid();
+                    $utente->setPassword(EHelper::getInstance()->hash($uid));
+                    FPersistentManager::getInstance()->save($utente);
+                } else {
+                    $utente = $utenteDB;
+                    $uid = null;
+                }
+            }
+
+            $result = $pm->occupaPosti($biglietti);
 
             if ($result === null) {
                 VError::error(5); //Il posto non esisteva
                 die;
             } elseif ($result) {
                 foreach ($biglietti as $item) {
+                    if(!$utente->isRegistrato()) {
+                        $item->setUtente($utente);
+                    }
                     $pm->save($item);
                 }
 
-                if ($utente->isRegistrato()) {
-                    print "WE";
-                } else print "AO";die;
-
                 if (!$utente->isRegistrato()) {
-                    $utenteDB = FUtente::load($utente->getEmail(), "email");
-
-                    if ($utenteDB === null) {
-                        $utente->setPassword(uniqid());
-                        CMail::sendTicketsNonRegistrato($utente, $biglietti, true);
-                        $utente->setPassword(EHelper::getInstance()->hash($utente->getPassword()));
-                        FUtente::save($utente);
-                    } else {
-                        CMail::sendTicketsNonRegistrato($utente, $biglietti);
-                    }
-
+                    CMail::sendTicketsNonRegistrato($utente, $biglietti, $uid);
                     CUtente::logout(false);
                     header("Location: Utente/controlloBigliettiNonRegistrato");
                 } else {
@@ -119,7 +124,7 @@ class CAcquisto
                 }
             } else {
                 VError::error(0, "Almeno uno dei posti che voleva acquistare è stato già occupato. La invitiamo a riprovare!");
-            }
+            }*/
         } else {
             CMain::notFound();
         }

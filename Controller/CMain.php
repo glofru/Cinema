@@ -8,17 +8,22 @@ class CMain
     }
 
     public static function run(string $url) {
-        if (CUtente::isLogged()) {
-            //Check ban dal database
-            $check = FPersistentManager::getInstance()->load(CUtente::getUtente()->getId(),"id","EUtente");
-            if($check->isBanned()){
-                CUtente::logout(false);
-                VError::error(4);
-            }
-        }
-
         $parsed_url = parse_url($url);
         $path = $parsed_url["path"];
+        $pass = false;
+        if(!CUtente::isLogged(false) && isset($_SESSION["nonRegistrato"]) && $path == "/Acquisto/confermaAcquisto") {
+            $pass = true;
+        }
+        if (!$pass) {
+            if(CUtente::isLogged()) {
+                //Check ban dal database
+                $check = FPersistentManager::getInstance()->load(CUtente::getUtente()->getId(), "id", "EUtente");
+                if ($check->isBanned()) {
+                    CUtente::logout(false);
+                    VError::error(4);
+                }
+            }
+        }
 
         if ($path == "/" || $path == "/index.php") {
             CHome::showHome();

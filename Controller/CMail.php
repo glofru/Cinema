@@ -53,15 +53,15 @@ class CMail
         return self::sendMail($utente->getEmail(), $subject, $body, $name);
     }
 
-    public static function sendTicketsNonRegistrato(ENonRegistrato $utente, array $biglietti, bool $firstTime = false) {
+    public static function sendTicketsNonRegistrato(ENonRegistrato $utente, array $biglietti, $uid = null) {
         $subject = "I tuoi bilgietti - Magic Boulevard Cinema";
         $tickets = "";
         foreach ($biglietti as $item) {
             $tickets .= "Biglietto #" . $item->getId() . "<br>" . "Film: " . $item->getProiezione()->getFilm()->getNome() . "<br>" . "Sala: " . $item->getProiezione()->getSala()->getNumeroSala() . "<br>" . "Giono e Ora: " . $item->getProiezione()->getData() . " alle " . $item->getProiezione()->getOra() . "<br>". $item->getPosto() . "<br>" . "Prezzo: " . $item->getCosto() . " Euro<br>" .
                 "<img src=\"https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=". $item->getId() . "&choe=UTF-8\" title=\"Codice QR damostrare all'ingresso\" />" . "<br><br>";
         }
-        if($firstTime) {
-            $otp = " il tuo codice di accesso è: " . $utente->getPassword() . " e";
+        if(isset($uid)) {
+            $otp = " il tuo codice di accesso è: " . $uid . " e";
         } else {
             $otp = "";
         }
