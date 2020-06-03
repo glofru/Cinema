@@ -121,6 +121,7 @@ class CAcquisto
 
                 if (!$utente->isRegistrato()) {
                     CMail::sendTicketsNonRegistrato($utente, $biglietti, $uid);
+                    unset($uid);
                     CUtente::logout(false);
                     header("Location: ../../Utente/controlloBigliettiNonRegistrato");
                 } else {

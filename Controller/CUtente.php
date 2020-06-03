@@ -348,24 +348,23 @@ class CUtente
                 $uid = uniqid();
                 CMail::sendForgotMailNonRegistrato($utente, $uid);
                 FPersistentManager::getInstance()->update($utente->getId(), "id", EHelper::getInstance()->hash($uid), "password", "EUtente");
-            }
-
-            //Crea token
-            $uid = uniqid();
-            $token = new EToken($uid, new DateTime('now'), $utente);
-
-            if (CMail::sendForgotMail($utente, $token)) { //Invio mail
-                //Reset password
-                FPersistentManager::getInstance()->update($utente->getId(), "id", "", "password", "EUtente");
-
-                //Salvataggio token
-                FPersistentManager::getInstance()->save($token);
             } else {
-                VError::error(0, "C'è stato un errore. Riprova più tardi.");
-                die;
-            }
+                //Crea token
+                $uid = uniqid();
+                $token = new EToken($uid, new DateTime('now'), $utente);
 
-            VUtente::forgotPassword(null, true);
+                if (CMail::sendForgotMail($utente, $token)) { //Invio mail
+                    //Reset password
+                    FPersistentManager::getInstance()->update($utente->getId(), "id", "", "password", "EUtente");
+
+                    //Salvataggio token
+                    FPersistentManager::getInstance()->save($token);
+                } else {
+                    VError::error(0, "C'è stato un errore. Riprova più tardi.");
+                    die;
+                }
+            }
+                VUtente::forgotPassword(null, true);
         }
     }
 
