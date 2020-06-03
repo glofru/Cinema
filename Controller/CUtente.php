@@ -156,6 +156,8 @@ class CUtente
                     } catch (Exception $e) {
                         //TODO: modifica con errore
                     }
+                } else {
+                    //TODO: modifica con errore di password errata
                 }
             }
         } else {
