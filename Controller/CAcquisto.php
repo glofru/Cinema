@@ -106,19 +106,21 @@ class CAcquisto
                 }
             }
 
+            foreach ($biglietti as $item) {
+                if (!$utente->isRegistrato()) {
+                    $item->setUtente($utente);
+                }
+            }
+
             $result = $pm->occupaPosti($biglietti);
 
             if ($result === null) {
                 VError::error(5); //Il posto non esisteva
                 die;
-            } elseif ($result) {
-                foreach ($biglietti as $item) {
-                    if(!$utente->isRegistrato()) {
-                        $item->setUtente($utente);
-                    }
-                    $pm->save($item);
-                }
-
+            } else if (!$result) {
+                VError::error(0, "Almeno uno dei posti che voleva acquistare è stato già occupato. La invitiamo a riprovare!");
+                die;
+            } else {
                 if (!$utente->isRegistrato()) {
                     CMail::sendTicketsNonRegistrato($utente, $biglietti, $uid);
                     unset($uid);
@@ -128,8 +130,6 @@ class CAcquisto
                     CMail::sendTickets($utente, $biglietti);
                     header("Location: ../../Utente/bigliettiAcquistati");
                 }
-            } else {
-                VError::error(0, "Almeno uno dei posti che voleva acquistare è stato già occupato. La invitiamo a riprovare!");
             }
         } else {
             CMain::notFound();

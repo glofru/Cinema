@@ -364,12 +364,15 @@ class FDatabase
                 $query = "UPDATE Posti SET occupato = '1' WHERE idProiezione = '" . $item->getProiezione()->getId() . "' AND posizione = '" . $item->getPosto()->getId() . "';";
                 $sender = $this->db->prepare($query);
                 $sender->execute();
+                $query = "INSERT INTO " . FBiglietto::getTableName() . " VALUES " . FBiglietto::getValuesName();
+                $sender = $this->db->prepare($query);
+                FBiglietto::associate($sender, $item);
+                $sender->execute();
             }
             $this->db->commit();
         } catch(PDOException $exception) {
             $this->error();
         }
-
         return true;
     }
 
