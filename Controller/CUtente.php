@@ -121,7 +121,7 @@ class CUtente
         }
     }
 
-    private static function modifica() {
+    public static function modifica() {
         $id = $_GET["id"];
 
         if(self::isLogged() && CUtente::getUtente()->getId() === $id) {
@@ -132,70 +132,36 @@ class CUtente
             if ($method == "GET") {
                 header("Location: Utente/show/?id=" . $utente->getId());
             } elseif ($method == "POST") {
-                $pm = FPersistentManager::getInstance();
+                if(password_verify($_POST["password"], self::getUtente()->getPassword())) {
+                    try {
+                        if (isset($_POST["nome"])) {
+                            $utente->setNome($_POST["nome"]);
+                            FUtente::update($utente->getId(), "id", $utente->getNome(), "nome");
+                        }
 
-                if(password_verify($_POST["password"], self::getUtente()->getPassword())){
-                    //NOME
-                    if(isset($_POST["nome"])) {
-                        $nome = $_POST["nome"];
-                        if(EInputChecker::getInstance()->isNome($nome)) {
-                            $pm->update($utente->getId(), "id", $nome, "nome", "EUtente");
-                        } else {
-                            $status = "ERRORE: NOME NON VALIDO";
+                        if (isset($_POST["cognome"])) {
+                            $utente->setCognome($_POST["cognome"]);
+                            FUtente::update($utente->getId(), "id", $utente->getCognome(), "cognome");
                         }
-                    //COGNOME
-                    } elseif ($_POST["cognome"] != $_GET["cognome"] || $_POST["cognome"] != null){
-                        $input = $_POST["cognome"];
-                        if(EInputChecker::getInstance()->isNome($input) == true ){
-                            $pm->update($_GET["cognome"], "cognome", $input, "cognome", "EUtente" );
-                            $status = "OPERAZIONE RIUSCITA";
-                        }else{
-                            $status = "ERRORE: COGNOME NON VALIDO";
+
+                        if (isset($_POST["username"])) {
+                            $utente->setUsername($_POST["username"]);
+                            FUtente::update($utente->getId(), "id", $utente->getUsername(), "username");
                         }
-                    }elseif ($_POST["username"] != $_GET["username"] || $_POST["username"] != null){
-                        $input = $_POST["username"];
-                        if(EInputChecker::getInstance()->isUsername($input) == true ){
-                            $pm->update($_GET["username"], "username", $input, "username", "EUtente" );
-                            $status = "OPERAZIONE RIUSCITA";
-                        }else{
-                            $status = "ERRORE: USERNAME NON VALIDA";
+
+                        if (isset($_POST["email"])) {
+                            $utente->setEmail($_POST["email"]);
+                            FUtente::update($utente->getId(), "id", $utente->getEmail(), "email");
                         }
-                    }elseif ($_POST["email"] != $_GET["email"] || $_POST["email"] != null) {
-                        $input = $_POST["email"];
-                        if (EInputChecker::getInstance()->isUsername($input) == true) {
-                            $pm->update($_GET["email"], "email", $input, "email", "EUtente");
-                            $status = "OPERAZIONE RIUSCITA";
-                        } else {
-                            $status = "ERRORE: EMAIL NON VALIDA";
-                        }
-                    }elseif ($_POST["propic"] != $_GET["propic"] || $_POST["propic"] != null) {
-                        $input = $_POST["propic"];
-                        if (EInputChecker::getInstance()->isImage($input) == true) {
-                            $pm->update($_GET["propic"], "immagine", $input, "immagine", "EMediaUtente");
-                            $status = "OPERAZIONE RIUSCITA";
-                        } else {
-                            $status = "ERRORE: IMMAGINE NON VALIDA";
-                        }
-                    }elseif ($_POST["password"] != $_GET["password"] || $_POST["password"] != null) {
-                        $input = $_POST["password"];
-                        if (EInputChecker::getInstance()->validatePassword($_POST["password"],$input) == true ) {
-                            $pm->update($_GET["password"], "password", $input, "password", "EUtente");
-                            $status = "OPERAZIONE RIUSCITA";
-                        } else {
-                            $status = "ERRORE: PASSWORD NON VALIDA";
-                        }
+                    } catch (Exception $e) {
+                        //TODO: modifica con errore
                     }
-                } return $status;
-
+                }
             }
-            header("Location/");
         } else {
             VError::error(9);
         }
     }
-
-
-
 
     private static function saveSession(EUtente $utente) {
         if (session_status() == PHP_SESSION_NONE) {
@@ -243,7 +209,7 @@ class CUtente
         }
     }
 
-    public static function isLogged(bool $logout = true) {
+    public static function isLogged(bool $logout = true): bool {
         if (isset($_COOKIE["PHPSESSID"])) {
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
@@ -258,14 +224,13 @@ class CUtente
             }
 
             return false;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public static function getUtente() {
         if(self::isLogged()) {
-
             return unserialize($_SESSION["utente"]);
         }
 
