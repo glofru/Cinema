@@ -163,7 +163,7 @@ class CUtente
 
                         if (isset($_POST["propic"])) {
                             $propic = EMedia::class->setImmagine($_POST["propic"]);
-                            FMedia::update($utente->getId(), "id", $propic, "password");
+                            FMedia::update($utente->getId(), "id", $propic, "immagine");
                         }
                     } catch (Exception $e) {
                         //TODO: modifica con errore
