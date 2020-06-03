@@ -104,13 +104,13 @@ class CUtente
                 }
 
                 if(isset($toShow)){
-                    $giudizi = $pm->load($_GET["idShow"], "idUtente", "EGiudizio");
+                    $giudizi = $pm->load($_GET["id"], "idUtente", "EGiudizio");
                     usort($giudizi, array(EHelper::getInstance(), "sortByDatesGiudizi"));
 
                     if(sizeof($giudizi) > 10){
                         array_splice($giudizi, 0, 10);
                     }
-                    
+
                     VUtente::show($toShow, $canModify, $toShow->isAdmin(), $propic, $giudizi);
                 } else {
                     VError::error(0,"Utente non trovato.");
