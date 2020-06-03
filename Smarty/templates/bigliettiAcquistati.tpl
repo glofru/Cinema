@@ -82,7 +82,7 @@
 								{if (!isset($utente))}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
 										<li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
-										<li><a href="/Utente/signup">Registrati</a></li>
+										<li><a href="../../Utente/signup">Registrati</a></li>
 									</ul>
 								{else}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
@@ -104,10 +104,10 @@
 										<span>@{$utente->getUsername()}</span>
 									</a>
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-										<li><a href="/Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
-										<li><a href="/Utente/bigliettiAcquistati">I miei acquisti</a></li>
+										<li><a href="../../Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
+										<li><a href="../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
 										<li><a href="../../Utente/showCommenti/">I miei giudizi</a></li>
-										<li><a href="/Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+										<li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
 									</ul>
 								</li>
 						</div>

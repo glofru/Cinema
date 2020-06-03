@@ -95,7 +95,7 @@
 							<button class="header__search-btn" type="button">
 								<i class="icon ion-ios-search"></i>
 							</button>
-							<a href="Utente/login" methods="GET" class="header__sign-in">
+							<a href="../../Utente/login" methods="GET" class="header__sign-in">
 								<i class="icon ion-ios-log-in"></i>
 								<span>Login</span>
 							</a>
@@ -116,7 +116,7 @@
 	</div>
 
 	<!-- header search -->
-	<form action="/Ricerca/cercaFilm" method= "POST" class="header__search">
+	<form action="../../Ricerca/cercaFilm" method= "POST" class="header__search">
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
@@ -145,7 +145,7 @@
 					<!-- end content title -->
 
 					<!-- authorization form -->
-					<form action="/Utente/loginNonRegistrato" method="POST" class="sign__form">
+					<form action="../../Utente/loginNonRegistrato" method="POST" class="sign__form">
 						<a href="/" class="sign__logo">
 							<img src="../../Smarty/img/logo.svg" alt="">
 						</a>
@@ -160,7 +160,7 @@
 
 						<button class="sign__btn" type="submit">Accedi</button>
 
-						<span class="sign__text"><a href="/Utente/forgotPassword">Password dimenticata?</a></span>
+						<span class="sign__text"><a href="../../Utente/forgotPassword">Password dimenticata?</a></span>
 					</form>
 					<!-- end authorization form -->
 				</div>
@@ -228,7 +228,7 @@
 
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
-											<h3 class="card__title"><a href="/Film/show/?film={$item->getProiezione()->getFilm()->getId()}">{$item->getProiezione()->getFilm()->getNome()}</a></h3>
+											<h3 class="card__title"><a href="../../Film/show/?film={$item->getProiezione()->getFilm()->getId()}">{$item->getProiezione()->getFilm()->getNome()}</a></h3>
 											<span class="card__category">
 										<a style="font-size:20px;">{$item->getPosto()}</a>
 									</span>
