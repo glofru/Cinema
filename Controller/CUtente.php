@@ -72,6 +72,7 @@ class CUtente
         }
 
         $utente = $pm->login($user, $password, $isMail);
+
         if ($utente instanceof EUtente) {
             if ($utente->isBanned()) {
                 VError::error(4);
@@ -120,41 +121,18 @@ class CUtente
         }
     }
 
-    public static function insertPassword(): bool {
-        if($_SERVER["REQUEST_METHOD"] == "POST") {
-            $username = $_GET["username"];
-            $password = $_POST["password"];
-            self::checkLogin($username, $password);
-            return true;
-        }else
-            return false;
-    }
+    private static function modifica() {
+        $id = $_GET["id"];
 
-    public static function verificaUtente(): bool {
-        if($_SERVER['REQUEST_METHOD'] == "GET" && self::isLogged()) {
-            $utente = self::getUtente();
-            if (!isset($_GET["idShow"])) {
-                // header("Location: /");
-                echo "NOTSET";
-            } else {
-                    if (isset($utente) && $utente->getId() === intval($_GET["idShow"]))
-                        return true;
-                    else
-                        return false;
-            }
-        }
-    }
-
-
-
-    private static function modificaUtente() {
-        if(self::verificaUtente() == true);{
+        if(self::isLogged() && CUtente::getUtente()->getId() === $id) {
             $method = $_SERVER["REQUEST_METHOD"];
+
             if ($method == "GET") {
-               return self::show();
+                header("Location: Utente/show/?id=" . self::getUtente()->getId());
             } elseif ($method == "POST") {
                 $pm = FPersistentManager::getInstance();
-                if(self::insertPassword() == true){
+
+                if(password_verify($_POST["password"], self::getUtente()-getPassword())){
                     //NOME
                     if($_POST["nome"] != $_GET["nome"] || $_POST["nome"] != null){
                         $input = $_POST["nome"];
@@ -210,6 +188,8 @@ class CUtente
 
             }
             header("Location/");
+        } else {
+            VError::error(9);
         }
     }
 
