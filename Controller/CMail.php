@@ -61,7 +61,7 @@ class CMail
                 "<img src=\"https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=". $item->getId() . "&choe=UTF-8\" title=\"Codice QR damostrare all'ingresso\" />" . "<br><br>";
         }
         if(isset($uid)) {
-            $otp = " il tuo codice di accesso è: " . $uid . " e";
+            $otp = " il tuo codice di accesso è: <b>" . $uid . "</b> e";
         } else {
             $otp = "";
         }
