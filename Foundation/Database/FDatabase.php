@@ -68,6 +68,34 @@ class FDatabase
         return null;
     }
 
+    public function saveToDBProiezioneEPosti(EProiezione $proiezione)
+    {
+        $posti = $proiezione->getSala()->getPosti();
+        if (!isset($posti)) {
+            return null;
+        }
+        try {
+            $this->db->beginTransaction();
+            $query = "INSERT INTO" . FProiezione::getTableName() . "VALUES " . FProiezione::getValuesName();
+            $sender = $this->db->prepare($query);
+            FProiezione::associate($sender, $proiezione);
+            $sender->execute();
+            $id = $this->db->lastInsertId();
+            foreach ($posti as $file) {
+                foreach ($file as $item) {
+                    $query = "INSERT INTO" . FPosto::getTableName() . "VALUES " . FPosto::getValuesName();
+                    $sender = $this->db->prepare($query);
+                    FPosto::associate($sender, $proiezione, $item);
+                    $sender->execute();
+                }
+            }
+            $this->db->commit();
+            return $id;
+        } catch (Exception $exception) {
+            $this->error();
+        }
+    }
+
     public function saveToDBDebole($class, EProiezione $proiezione, EPosto $posto){
         try {
             $this->db->beginTransaction();
@@ -376,7 +404,7 @@ class FDatabase
         return true;
     }
 
-    public function liberaPosto($idProiezione, $posto, $emailUtente) {
+    /*public function liberaPosto($idProiezione, $posto, $emailUtente) {
         try {
             $this->db->beginTransaction();
             $query = "SELECT * FROM " . "Posti" . " WHERE " . "idProiezione" . "= '" . $idProiezione. "' AND " . "posizione" . "= '" . $posto . "' LOCK IN SHARE MODE;";
@@ -401,7 +429,7 @@ class FDatabase
         }
 
         return false;
-    }
+    }*/
 
     public function storeMedia($class, EMedia $media)
     {

@@ -29,7 +29,8 @@
         "php": ">=5.5.0",
         "ext-ctype": "*",
         "ext-filter": "*",
-      "ext-pdo": "*"
+      "ext-pdo": "*",
+      "ext-json": "*"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.2",
