@@ -112,7 +112,7 @@ class FUtente implements Foundation
             } elseif ($username != null && $username != "") {
                 $utente =  new ERegistrato($nome, $cognome, $username, $email, $password, $isBanned);
             } else {
-                $utente = new ENonRegistrato($nome, $cognome, $username, $email, $password, $isBanned);
+                $utente = new ENonRegistrato($email, $password);
             }
 
             $utente->setId($id);
