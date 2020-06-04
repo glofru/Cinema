@@ -157,13 +157,24 @@ class CUtente
                         }
 
                         if (isset($_POST["password"])) {
-                            $utente->setPassword($_POST["password"]);
+                            try{
+                                $utente->setPassword($_POST["password"]);
+                            }catch (Exception $e) {
+                                VError::error(7);
+                                return;
+                            }
+                            $utente->setPassword(EHelper::getInstance()->hash($_POST["password"]));
                             FUtente::update($utente->getId(), "id", $utente->getPassword(), "password");
                         }
 
                         if (isset($_POST["propic"])) {
-                            $propic = EMedia::class->setImmagine($_POST["propic"]);
-                            FMedia::update($utente->getId(), "id", $propic, "immagine");
+                            if(EInputChecker::getInstance()->isImage($_FILES[2])){
+                                $propic = $_FILES;
+                                FMedia::update($utente->getId(), "id", $propic, "immagine");
+                            }else{
+                                VError::error(10);
+                            }
+
                         }
                     } catch (Exception $e) {
                         //TODO: modifica con errore

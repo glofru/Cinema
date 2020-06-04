@@ -20,27 +20,22 @@ class EInputChecker{
         return $res == $username && strlen($username) > 2;
     }
 
-    public static function isImage($file)
+    public function isImage($typefile): bool
     {
-        $estensione = strtolower(strrchr($file, '.'));
+        $estensione = strtolower(strrchr($typefile, '/'));
 
         switch($estensione)
         {
-            case '.jpg':
-            case '.jpeg':
-                $img = @imagecreatefromjpeg($file);
-                break;
-            case '.gif':
-                $img = @imagecreatefromgif($file);
-                break;
-            case '.png':
-                $img = @imagecreatefrompng($file);
+            case '/jpg':
+            case '/jpeg':
+            case '/gif':
+            case '/png':
+                return true;
                 break;
             default:
-                $img = false;
+                return false;
                 break;
         }
-        return $img;
     }
 
 
