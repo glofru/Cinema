@@ -84,10 +84,6 @@ class CUtente
                 foreach ($biglietti as $b) {
                     $utente->addBiglietto($b);
                 }
-                $token = $pm->load($utente->getId(), "idUtente", "EToken");
-                if(isset($token)) {
-                    $pm->delete($utente->getId(), "idUtente", "EToken");
-                }
                 self::saveSession($utente);
             }
         } else {

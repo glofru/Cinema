@@ -21,6 +21,9 @@ class CMain
                 if ($check->isBanned()) {
                     CUtente::logout(false);
                     VError::error(4);
+                } else if (CUtente::getUtente()->getPassword() !== $check->getPassword()){
+                    CUtente::logout(false);
+                    VError::error(0, "La password è stata cambiata!");
                 }
             }
 
