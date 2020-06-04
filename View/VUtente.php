@@ -15,12 +15,12 @@ class VUtente
     }
 
 
-    public static function loginForm($username = null, bool $error = false) {
+    public static function loginForm($username = null, bool $error = false, $checked = null) {
         $smarty = StartSmarty::configuration();
 
         $smarty->assign('username', $username);
         $smarty->assign('error', $error);
-
+        $smarty->assign('checked', $checked);
         $smarty->display('login.tpl');
     }
 

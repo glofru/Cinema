@@ -7,10 +7,20 @@ class CUtente
         if (self::isLogged()) {
             header("Location: /");
         } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
-            VUtente::loginForm();
+            if(isset($_COOKIE["remember"])){
+                VUtente::loginForm($_COOKIE["remember"], false, 1);
+            } else {
+                VUtente::loginForm();
+            }
+
         } elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = $_POST["username"];
             $password = $_POST["password"];
+            if(isset($_POST["remember"])) {
+                setcookie("remember", $username, time() + time() + (168 * 3600),"/");
+            } else {
+                setcookie("remember", "", time() + time() - (168 * 3600),"/");
+            }
             self::checkLogin($username, $password);
         }
     }
