@@ -137,7 +137,7 @@ class CAdmin
             self::ban($_POST["utente"]);
             CGiudizio::delete();
         } else {
-            CMain::notFound();
+            CMain::methodNotAllowed();
         }
     }
 }

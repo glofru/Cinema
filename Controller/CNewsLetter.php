@@ -13,6 +13,8 @@ class CNewsLetter
                     CMail::newsLetter($utente, $date, $results);
                 }
             }
+        } else {
+            CMain::methodNotAllowed();
         }
     }
 
@@ -36,6 +38,8 @@ class CNewsLetter
                     }
                 }
             }
+        } else {
+            CMain::methodNotAllowed();
         }
     }
 }

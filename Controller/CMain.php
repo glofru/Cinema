@@ -5,6 +5,13 @@ class CMain
     public static function notFound() {
         header("HTTP/1.1 404 Not Found");
         header("Location: /404.html");
+        die;
+    }
+
+    public static function methodNotAllowed() {
+        header("HTTP/1.1 403 Method Not Allowed");
+        header("Location: /403.html");
+        die;
     }
 
     public static function run(string $url)

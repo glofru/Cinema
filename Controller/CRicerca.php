@@ -17,44 +17,48 @@ class CRicerca
             VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, $isAdmin);
         }
         else {
-            header("Location: /");
+            CMain::methodNotAllowed();
         }
     }
 
     public static function cercaFilmAttributi() {
-        $annoInizio = $_POST["anno_inizio"];
-        $annoFine = $_POST["anno_fine"];
-        $votoInizio = $_POST["voto_inizio"];
-        $votoFine = $_POST["voto_fine"];
-        $genere = $_POST["Genere"];
+        if($_SERVER["REQUEST_METHOD"] === "POST") {
+            $annoInizio = $_POST["anno_inizio"];
+            $annoFine = $_POST["anno_fine"];
+            $votoInizio = $_POST["voto_inizio"];
+            $votoFine = $_POST["voto_fine"];
+            $genere = $_POST["Genere"];
 
-        $gestore = EHelper::getInstance();
-        $votoInizio = $gestore->retrieveVote($votoInizio);
-        $votoFine = $gestore->retrieveVote($votoFine);
-        $annoInizio = $gestore->retrieveAnno($annoInizio);
-        $annoFine = $gestore->retrieveAnno($annoFine);
+            $gestore = EHelper::getInstance();
+            $votoInizio = $gestore->retrieveVote($votoInizio);
+            $votoFine = $gestore->retrieveVote($votoFine);
+            $annoInizio = $gestore->retrieveAnno($annoInizio);
+            $annoFine = $gestore->retrieveAnno($annoFine);
 
-        $pm = FPersistentManager::getInstance();
-        $film = $pm->load($genere,"genere","EFilm");
-        try{
-            $annoFine = DateTime::createFromFormat('Y-m-d',$annoFine."-12-31");
-        } catch (Exception $e) {
-            $annoFine = new DateTime('now');
+            $pm = FPersistentManager::getInstance();
+            $film = $pm->load($genere, "genere", "EFilm");
+            try {
+                $annoFine = DateTime::createFromFormat('Y-m-d', $annoFine . "-12-31");
+            } catch (Exception $e) {
+                $annoFine = new DateTime('now');
+            }
+
+            try {
+                $annoInizio = DateTime::createFromFormat('Y-m-d', $annoInizio . "-01-01");
+            } catch (Exception $e) {
+                $annoInizio = new DateTime('now');
+            }
+
+            $film = $gestore->filter($film, floatval($votoInizio), floatval($votoFine), $annoInizio, $annoFine);
+            $data = self::getFilmData($film, $gestore);
+            $cookie = $gestore->preferences($_COOKIE['preferences']);
+            $consigliati = CHome::getConsigliati($cookie);
+            $utente = CUtente::getUtente();
+
+            VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, $utente->isAdmin());
+        } else {
+            CMain::methodNotAllowed();
         }
-
-        try{
-            $annoInizio= DateTime::createFromFormat('Y-m-d',$annoInizio."-01-01");
-        } catch (Exception $e) {
-            $annoInizio = new DateTime('now');
-        }
-
-        $film = $gestore->filter($film, floatval($votoInizio), floatval($votoFine), $annoInizio, $annoFine);
-        $data = self::getFilmData($film, $gestore);
-        $cookie = $gestore->preferences($_COOKIE['preferences']);
-        $consigliati = CHome::getConsigliati($cookie);
-        $utente = CUtente::getUtente();
-
-        VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, $utente->isAdmin());
     }
 
     private static function getFilmData(array $film, EHelper $gestore): array {

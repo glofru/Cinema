@@ -3,17 +3,21 @@ class CHome
 {
 
     public static function showHome() {
-        $gestore = EHelper::getInstance();
-        $cookie = $gestore->preferences($_COOKIE['preferences']);
-        $prossimi = self::getProssimi(5);
-        $consigliati = self::getConsigliati($cookie);
-        $proiezioni = self::getProiezioni($gestore->getSettimana());
-        $prossima = self::getProiezioni($gestore->getSettimanaProssima());
-        $scorsa = self::getProiezioni($gestore->getSettimanaScorsa(1));
+        if($_SERVER["REQUEST_METHOD"] === "GET"){
+            $gestore = EHelper::getInstance();
+            $cookie = $gestore->preferences($_COOKIE['preferences']);
+            $prossimi = self::getProssimi(5);
+            $consigliati = self::getConsigliati($cookie);
+            $proiezioni = self::getProiezioni($gestore->getSettimana());
+            $prossima = self::getProiezioni($gestore->getSettimanaProssima());
+            $scorsa = self::getProiezioni($gestore->getSettimanaScorsa(1));
 
-        $utente = CUtente::getUtente();
-        $isAdmin = $utente != null && $utente->isAdmin();
-        VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2], $proiezioni[3], $scorsa[0], $scorsa[1], $scorsa[2], $scorsa[3], $prossima[0], $prossima[1], $prossima[2], $prossima[3], $utente, $isAdmin);
+            $utente = CUtente::getUtente();
+            $isAdmin = $utente != null && $utente->isAdmin();
+            VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2], $proiezioni[3], $scorsa[0], $scorsa[1], $scorsa[2], $scorsa[3], $prossima[0], $prossima[1], $prossima[2], $prossima[3], $utente, $isAdmin);
+        } else {
+            CMain::methodNotAllowed();
+        }
     }
 
     public static function getProssimi(int $size) {

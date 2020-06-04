@@ -18,7 +18,7 @@ class CUtente
     public static function loginNonRegistrato() {
         if(self::isLogged()){
             header("Location: /");
-        } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && EInputChecker::getInstance()->isEmail($_POST["email"])) {
+        } else if ($_SERVER["REQUEST_METHOD"] == "POST" && EInputChecker::getInstance()->isEmail($_POST["email"])) {
             $email = $_POST["email"];
             $password = $_POST["password"];
 
@@ -44,7 +44,7 @@ class CUtente
                 VUtente::showCheckNonRegsitrato(false, $email, $biglietti, $immagini);
             }
         } else {
-            CMain::notFound();
+            CMain::methodNotAllowed();
         }
     }
     
@@ -131,6 +131,8 @@ class CUtente
                 }
 
             }
+        } else {
+            CMain::methodNotAllowed();
         }
     }
 
@@ -193,7 +195,7 @@ class CUtente
             session_start();
         }
         session_regenerate_id(true);
-        session_set_cookie_params(3600, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inseirto il 4° parametro
+        session_set_cookie_params(time() + 3600, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inseirto il 4° parametro
         $salvare = serialize($utente); // a TRUE per fare si che il cookie viaggi solo su HTTPS. E' FALSE perchè non abbiamo un certificato SSL ma in un contesto reale va messo a TRUE!!!
         $_SESSION['utente'] = $salvare;
         VUtente::loginOk();

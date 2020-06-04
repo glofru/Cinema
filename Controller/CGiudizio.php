@@ -28,7 +28,7 @@ class CGiudizio{
                 header("Location: /Film/show/?film=" . $idFilm);
             }
         } else {
-            header("Location: /");
+            CMain::methodNotAllowed();
         }
     }
 
@@ -49,7 +49,7 @@ class CGiudizio{
                     header("Location: /Utente/showCommenti/");
                 }
             } else {
-                CMain::notFound();
+                CMain::methodNotAllowed();
             }
         } else {
             VError::error(6);
