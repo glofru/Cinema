@@ -6,12 +6,12 @@ class CGiudizio{
             $idFilm = $_POST["film"];
 
             if (!CUtente::isLogged()) {
-                header("Location: /Film/show/?film=" . $idFilm);
+                CMain::forbidden();
             }
 
             $utente = CUtente::getUtente();
             if ($utente->isAdmin()) {
-                VError::error(0, "Un admin non può fare giudizi su un film.");
+                VError::error(0, "Un admin non può esprimere giudizi su un film.");
             } else {
                 $commento = $_POST["commento"]??"";
                 $titolo = $_POST["titolo"]??"";
@@ -52,7 +52,7 @@ class CGiudizio{
                 CMain::methodNotAllowed();
             }
         } else {
-            VError::error(6);
+            CMain::forbidden();
         }
     }
 }

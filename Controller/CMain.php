@@ -9,7 +9,13 @@ class CMain
     }
 
     public static function methodNotAllowed() {
-        header("HTTP/1.1 403 Method Not Allowed");
+        header("HTTP/1.1 405 Method Not Allowed");
+        header("Location: /405.html");
+        die;
+    }
+
+    public static function forbidden() {
+        header("HTTP/1.1 403 Forbidden");
         header("Location: /403.html");
         die;
     }

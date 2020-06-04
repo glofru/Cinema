@@ -266,7 +266,10 @@ class CUtente
 
     public static function bigliettiAcquistati() {
         $utente = self::getUtente();
-        if(!isset($utente) || $utente->isAdmin()) {
+        if(!isset($utente)) {
+            CMain::forbidden();
+        }
+        if($utente->isAdmin()) {
             header("Location: /");
         }
         $biglietti = $utente->getListaBiglietti();
@@ -390,7 +393,7 @@ class CUtente
                 VUtente::showCommenti($giudizi, $utente, $propic);
             }
         }
-        header("Location: /");
+        CMain::forbidden();
     }
 
     public static function controlloBigliettiNonRegistrato() {
@@ -402,7 +405,7 @@ class CUtente
                 die;
             }
         } else {
-            CMain::notFound();
+            CMain::methodNotAllowed();
         }
 
     }

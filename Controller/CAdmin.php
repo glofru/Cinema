@@ -6,8 +6,7 @@ class CAdmin
 
     public static function checkAdmin() {
         if(!CUtente::isLogged() || !CUtente::getUtente()->isAdmin()) {
-            VError::error(3);
-            die;
+            CMain::forbidden();
         }
     }
 

@@ -21,7 +21,7 @@ class CNewsLetter
     public static function addedNewFilm() {
         if($_SERVER['REQUEST_METHOD'] == "POST") {
             if(!CUtente::isLogged() || !CUtente::getUtente()->isAdmin()) {
-                VError::error(9);
+                CMain::forbidden();
                 die;
             } else {
                 $film = FPersistentManager::getInstance()->load($_POST["idFilm"], "id", "EFilm");
