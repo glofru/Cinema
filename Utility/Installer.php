@@ -118,6 +118,10 @@ class Installer
                 '?>' . PHP_EOL;
             fwrite($file, $script);
             fclose($file);
+            $dir = scandir('.');
+            if(!in_array(self::$confDB, $dir)) {
+                VError::error(0, "I diritti di scrittura in questa cartella ci impediscono di creare le configurazioni. Modificane i diritti e riprova."); die;
+            }
             header("Location: /");
         } catch (PDOException $e) {
             $db->rollBack();
