@@ -24,10 +24,9 @@ class Installer
         $smarty = StartSmarty::configuration();
         $method = $_SERVER["REQUEST_METHOD"];
 
-        //TODO: check version PHP, cookie e JS
-
         if ($method == "GET") {
             if (!self::checkInstallDB()) {
+                setcookie('cookie_enabled', 'Hello, there!', time()+3600);
                 $smarty->display("installationDB.tpl");
             } elseif (!self::checkInstallCinema()) {
                 $smarty->display("installationCinema.tpl");
@@ -36,11 +35,28 @@ class Installer
             }
         } elseif ($method == "POST") {
             if (!self::checkInstallDB()) {
+                $value = "";
                 $dbname = $_POST['dbname'];
                 $username = $_POST['username'];
                 $pwd = $_POST['password'];
                 $population = boolval($_POST["population"]);
-                self::installDB($dbname, $username, $pwd, $population);
+                if(version_compare(PHP_VERSION,'7.4.0', "<")){
+                    $value .= "Versione di PHP inferiore alla 7.4.0, AGGIORNARLA per poter proseguire! <br>";
+                }
+                if(!isset($_COOKIE['cookie_enabled'])) {
+                    $value .= "Cookie non abilitati! Per permetterci di funzionare abilitarli per favore! <br>";
+                }
+                if(!isset($_COOKIE['js_enabled'])) {
+                    $value .= "Esecuzione di codice JS non abilitata! Per permetterci di funzionare abilitalo per favore!";
+                }
+                if(strlen($value) > 0) {
+                    VError::error(0, $value);
+                    die;
+                } else {
+                    setcookie('cookie_enabled', '', time()-3600);
+                    setcookie('js_enabled', '', time()-3600);
+                    self::installDB($dbname, $username, $pwd, $population);
+                }
             } else if (!self::checkInstallCinema()) {
                 $Mon = floatval($_POST["Mon"]);
                 $Tue = floatval($_POST["Tue"]);
