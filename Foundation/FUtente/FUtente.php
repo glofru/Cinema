@@ -112,6 +112,7 @@ class FUtente implements Foundation
                     $utente = new EAdmin($nome, $cognome, $username, $email, $password, $isBanned);
                 } elseif ($username != null && $username != "") {
                     $utente = new ERegistrato($nome, $cognome, $username, $email, $password, $isBanned);
+
                 } else {
                     $utente = new ENonRegistrato($email, $password);
                 }
@@ -120,7 +121,6 @@ class FUtente implements Foundation
                     return [null];
                 }
             }
-
             $utente->setId($id);
             array_push($return, $utente);
         }

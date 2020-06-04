@@ -23,13 +23,16 @@ class CUtente
             $password = $_POST["password"];
 
             $utente = FPersistentManager::getInstance()->login($email, $password, true);
-
             if(!isset($utente)) {
                 VUtente::showCheckNonRegsitrato(true, $email);
             } else if($utente->isRegistrato()) {
                 VError::error(0, "Pagina destinata ad utenti non Registrati");
             } else {
-                $biglietti = FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EBiglietto");
+                foreach (FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EBiglietto") as $b) {
+                    $utente->addBiglietto($b);
+                }
+
+                $biglietti = $utente->getListaBiglietti();
 
                 usort($biglietti, array(EHelper::getInstance(), "sortByDatesBiglietti"));
                 $immagini = [];
@@ -77,6 +80,10 @@ class CUtente
             if ($utente->isBanned()) {
                 VError::error(4);
             } else {
+                $biglietti = $pm->load($utente->getId(), "idUtente", "EBiglietto");
+                foreach ($biglietti as $b) {
+                    $utente->addBiglietto($b);
+                }
                 self::saveSession($utente);
             }
         } elseif($utente[0] === null) {
@@ -98,7 +105,7 @@ class CUtente
                     $toShow = CUtente::getUtente();
                 } else {
                     $canModify = false;
-                    $toShow = $pm->load($_GET["idShow"],"id","EUtente");
+                    $toShow = $pm->load($_GET["id"],"id","EUtente");
                 }
 
                 $propic = $pm->load($toShow->getId(),"idUtente","EMediaUtente");
@@ -162,8 +169,8 @@ class CUtente
                         }
 
                         if (isset($_POST["propic"])) {
-                            $propic = EMedia::class->setImmagine($_POST["propic"]);
-                            FMedia::update($utente->getId(), "id", $propic, "immagine");
+                            //$propic = EMedia::class->setImmagine($_POST["propic"]);
+                            //FMedia::update($utente->getId(), "id", $propic, "immagine");
                         }
                     } catch (Exception $e) {
                         //TODO: modifica con errore
@@ -256,7 +263,7 @@ class CUtente
         if(!isset($utente) || $utente->isAdmin()) {
             header("Location: /");
         }
-        $biglietti = FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EBiglietto");
+        $biglietti = $utente->getListaBiglietti();
         usort($biglietti, array(EHelper::getInstance(), "sortByDatesBiglietti"));
         $immagini = [];
         foreach ($biglietti as $item) {

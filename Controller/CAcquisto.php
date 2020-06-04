@@ -127,6 +127,10 @@ class CAcquisto
                     CUtente::logout(false);
                     header("Location: ../../Utente/controlloBigliettiNonRegistrato");
                 } else {
+                    foreach ($biglietti as $b) {
+                        $utente->addBiglietto($b);
+                    }
+                    $_SESSION["utente"] = serialize($utente);
                     CMail::sendTickets($utente, $biglietti);
                     header("Location: ../../Utente/bigliettiAcquistati");
                 }

@@ -9,9 +9,9 @@ class ERegistrato extends EUtente
     /**
      * @var array
      */
-    private array $listagiudizi;
+    private array $listaGiudizi;
 
-    private array $listabiglietti;
+    private array $listaBiglietti;
 
     /**
      * ERegistrato constructor.
@@ -26,16 +26,17 @@ class ERegistrato extends EUtente
     {
         parent::__construct($nome, $cognome, $username, $email, $password, $isBanned);
 
-        $this->listagiudizi = array();
+        $this->listaGiudizi = array();
+        $this->listaBiglietti = array();
     }
 
 
     /**
      * @return array
      */
-    public function getListagiudizi(): array
+    public function getListaGiudizi(): array
     {
-        return $this->listagiudizi;
+        return $this->listaGiudizi;
     }
 
     /**
@@ -43,12 +44,12 @@ class ERegistrato extends EUtente
      */
     public function addGiudizio(EGiudizio $giudizio): void
     {
-        array_push($this->listagiudizi, $giudizio);
+        array_push($this->listaGiudizi, $giudizio);
     }
 
-    public function getListabiglietti(): array
+    public function getListaBiglietti(): array
     {
-        return $this->listabiglietti;
+        return $this->listaBiglietti;
     }
 
     /**
@@ -56,7 +57,7 @@ class ERegistrato extends EUtente
      */
     public function addBiglietto(EBiglietto $biglietto): void
     {
-        array_push($this->listabiglietti, $biglietto);
+        array_push($this->listaBiglietti, $biglietto);
     }
 
     //TODO: override jsonsSerialization per aggiungere lista giudizi
