@@ -5,12 +5,13 @@ class FNewsLetter
 {
     private static string $className = "FNewsLetter";
     private static string $tableName = "NewsLetter";
-    private static string $valuesName = "(:idUtente)";
+    private static string $valuesName = "(:idUtente,:preferenze)";
 
     public function __construct() {}
 
-    public static function associate(PDOStatement $sender, EUtente $utente) {
+    public static function associate(PDOStatement $sender, ERegistrato $utente, string $preferenze) {
         $sender->bindValue(':idUtente', $utente->getId(), PDO::PARAM_INT);
+        $sender->bindValue(':preferenze', $preferenze, PDO::PARAM_INT);
     }
 
     public static function getClassName() {
@@ -25,16 +26,16 @@ class FNewsLetter
         return self::$valuesName;
     }
 
-    public static function save(EUtente $utente) {
+    public static function save(EUtente $utente, $preferenze) {
         $db = FDatabase::getInstance();
-        $db->saveToDB(self::getClassName(), $utente);
+        $db->saveToDBNS($utente, $preferenze);
     }
 
     public static function load() {
         $db = FDatabase::getInstance();
         $result = $db->loadAllNL();
         if($result === null){
-            return null;
+            return new ENewsLetter();
         }
 
         return self::parseResult($result);
@@ -56,13 +57,14 @@ class FNewsLetter
         return false;
     }
 
-    private static function parseResult($result): array {
+    private static function parseResult($result): ENewsLetter {
         $return = [];
         foreach ($result as $utente) {
-            $utente = FUtente::load($utente["idUtente"], "id");
-            array_push($return, $utente);
+            $whois = FUtente::load($utente["idUtente"], "id");
+            $ns = new ENewsLetter();
+            $ns->addUtenteEPreferenzaFromRaw($whois, $utente["preferenze"]);
         }
-        return $return;
+        return $ns;
     }
 
 }

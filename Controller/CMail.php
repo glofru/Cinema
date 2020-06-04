@@ -73,18 +73,6 @@ class CMail
         return EMailSender::send($email);
     }
 
-    public static function sendNewsLetter() {
-        if($_SERVER['REQUEST_METHOD']=="GET" && $_GET["token"] === "S3ndM34M41l") {
-            $utenti = FPersistentManager::getInstance()->loadAll();
-            if(isset($utenti) && sizeof($utenti) > 0) {
-                $date = EHelper::getInstance()->getSettimanaProssima();
-                $results = CHome::getProiezioni($date);
-                foreach ($utenti as $utente){
-                    self::newsLetter($utente, $date, $results);
-                }
-            }
-        }
-    }
 
     public static function newsLetter(EUtente $utente,array $date, array $results) {
         $subject = "Proiezioni dal " . DateTime::createFromFormat('Y-m-d',$date[0])->format('d-m') . " al " . DateTime::createFromFormat('Y-m-d',$date[1])->format('d-m') . " - Magic Boulevard Cinema";
@@ -96,7 +84,7 @@ class CMail
                 $eta = "Eta' consigliata: " . $film->getEtaConsigliata() . "<br>";
             }
             $img = $immagini[$key]->getImmagineHTML();
-            $body .="Film :" . $film->getNome() . "<br>" . "Data di rilascio" . $film->getDataRilascioString() . "<br>". $eta . "Durata: " . $film->getDurataMinuti() . "minuti" . "<br><br>" . "<b>Proiezioni</b>: " . "<br>" . $results[3][$key] . "<br>" . "<img src=\"$img\" alt=\"Locandina\" width=\"200\" height=\"300\"/>" . "<br><br><br>";
+            $body .="Film :" . $film->getNome() . "<br>" . "Data di rilascio" . $film->getDataRilascioString() . "<br>". $eta . "Durata: " . $film->getDurataMinuti() . "minuti" . "<br><br>" . "<b>Proiezioni</b>: " . "<br>" . $results[3][$key] . "<br>" . /*"<img src=\"$img\" alt=\"Locandina\" width=\"200\" height=\"300\"/>" .*/ "<br><br><br>";
             $name = $utente->getNome() . " " . $utente->getCognome();
         }
         self::sendMail($utente->getEmail(), $subject, $body, $name);
