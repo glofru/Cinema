@@ -106,6 +106,12 @@ class CUtente
                 } else {
                     $canModify = false;
                     $toShow = $pm->load($_GET["id"],"id","EUtente");
+                    if(isset($toShow) && !$toShow->isAdmin()) {
+                        $giudizi = $pm->load($_GET["id"], "idUtente", "EGiudizio");
+                        foreach ($giudizi as $g) {
+                            $toShow->addGiudizio($g);
+                        }
+                     }
                 }
 
                 $propic = $pm->load($toShow->getId(),"idUtente","EMediaUtente");
@@ -114,7 +120,7 @@ class CUtente
                 }
 
                 if(isset($toShow)){
-                    $giudizi = $pm->load($_GET["id"], "idUtente", "EGiudizio");
+                    $giudizi = $toShow->getListaGiudizi();
                     usort($giudizi, array(EHelper::getInstance(), "sortByDatesGiudizi"));
 
                     if(sizeof($giudizi) > 10){
@@ -375,7 +381,7 @@ class CUtente
         if(self::isLogged()){
             if(!self::getUtente()->isAdmin()){
                 $utente = self::getUtente();
-                $giudizi = FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EGiudizio");
+                $giudizi = $utente->getListaGiudizi();
                 usort($giudizi, array(EHelper::getInstance(), "sortByDatesGiudizi"));
                 $propic = FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EMediaUtente");
                 if($propic->getImmagine() == ""){

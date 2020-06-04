@@ -23,6 +23,8 @@ class CGiudizio{
                 $giudizio = new EGiudizio($commento, $punteggio, $film, $utente, $titolo, $data);
 
                 $pm->save($giudizio);
+                $utente->addGiudizio($giudizio);
+                $_SESSION["utente"] = serialize($utente);
                 header("Location: /Film/show/?film=" . $idFilm);
             }
         } else {
@@ -36,8 +38,11 @@ class CGiudizio{
                 $pm = FPersistentManager::getInstance();
                 $idFilm = $_POST["film"];
                 $idUtente = $_POST["utente"];
-
+                $giudizio = $pm->loadDebole($idFilm, "idFilm", $idUtente, "idUtente", "EGiudizio");
                 $pm->deleteDebole($idFilm, "idFilm", $idUtente, "idUtente", "EGiudizio");
+                $utente = CUtente::getUtente();
+                $utente->removeGiudizio($giudizio);
+                $_SESSION["utente"] = serialize($utente);
                 if(!isset($_POST["redirect"])) {
                     header("Location: /Film/show/?film=" . $idFilm);
                 } else {

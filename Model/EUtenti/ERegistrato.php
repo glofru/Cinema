@@ -47,6 +47,20 @@ class ERegistrato extends EUtente
         array_push($this->listaGiudizi, $giudizio);
     }
 
+    public function removeGiudizio(EGiudizio $giudizio) {
+        $value = false;
+        foreach ($this->listaGiudizi as $key => $item) {
+            if($item->getfilm()->getId() === $item->getFilm()->getId()) {
+                $value = $key;
+                break;
+            }
+        }
+        if($value !== false) {
+            unset($this->listaGiudizi[$value]);
+            $this->listaGiudizi = array_values($this->listaGiudizi);
+        }
+    }
+
     public function getListaBiglietti(): array
     {
         return $this->listaBiglietti;
