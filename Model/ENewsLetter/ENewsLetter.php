@@ -60,13 +60,16 @@ class ENewsLetter
     }
 
     public function addUtenteEPreferenzaFromRaw(ERegistrato $utente, string $prefs) {
-        $res = explode(";", $prefs);
-        $arr = [];
-        foreach ($res as $str) {
-            array_push($arr, EGenere::fromString($str));
+        if($prefs === "") {
+            array_push($arr, null);
+        } else {
+            $res = explode(";", $prefs);
+            $arr = [];
+            foreach ($res as $str) {
+                array_push($arr, EGenere::fromString($str));
+            }
         }
         $this->addUtentePreferenze($utente, $arr);
-
     }
 
 

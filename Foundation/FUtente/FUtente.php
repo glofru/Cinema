@@ -106,7 +106,6 @@ class FUtente implements Foundation
             $password = $row["password"];
             $isAdmin = $row["isAdmin"];
             $isBanned = $row["isBanned"];
-
             try {
                 if ($isAdmin) {
                     $utente = new EAdmin($nome, $cognome, $username, $email, $password, $isBanned);

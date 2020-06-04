@@ -89,4 +89,25 @@ class CMail
         }
         self::sendMail($utente->getEmail(), $subject, $body, $name);
     }
+
+    public static function addedNewFilm(EUtente $utente, EFilm $film) {
+        $subject = "Abbiamo aggiunto un nuovo film  - Magic Boulevard Cinema";
+        $eta = "";
+        $attori = "Nel film ci saranno: ";
+        $registi = "Il film è diretto da: ";
+        if ($film->getEtaConsigliata() != "") {
+            $eta = "Eta' consigliata: " . $film->getEtaConsigliata() . "<br>";
+        }
+        foreach ($film->getAttori() as $att) {
+            $attori .= "<a href='$att->getImdbUrl()'>" . $att->getFullName() . "</a>" . " ";
+        }
+        foreach ($film->getRegisti() as $att) {
+            $registi .= "<a href='$att->getImdbUrl()'>" . $att->getFullName() . "</a>" . " ";
+        }
+        $body = "Ciao" . $utente->getNome() . " " . $utente->getCognome() . ", volevamo avvisarti che nel nostro cinema è stato appena inserito un nuovo film del genere <b>" . $film->getGenere(). "</b>" . " ecco a te i dettagli: " .
+            "<br><br>" . "Titolo: " . $film->getNome() . "<br>" . "Data di rilascio: " . $film->getDataRilascioString() . "<br>" . $eta . "Durata: " . $film->getDurataMinuti() . "minuti" . "<br>" . $attori . "<br>" . $registi . "<br>" . "Puoi vedere il trailer del film <a href='$film->getTrailerUrl()'>qui</a>." .
+            "Speriamo di vederti presto nel nsotro cinema :). <br>";
+        $name = $utente->getNome() . " " . $utente->getCognome();
+        self::sendMail($utente->getEmail(), $subject, $body, $name);
+    }
 }

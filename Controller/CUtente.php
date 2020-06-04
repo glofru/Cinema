@@ -84,10 +84,12 @@ class CUtente
                 foreach ($biglietti as $b) {
                     $utente->addBiglietto($b);
                 }
+                $token = $pm->load($utente->getId(), "idUtente", "EToken");
+                if(isset($token)) {
+                    $pm->delete($utente->getId(), "idUtente", "EToken");
+                }
                 self::saveSession($utente);
             }
-        } elseif($utente[0] === null) {
-            VError::error(0, "È in corso un reset della password");
         } else {
             VUtente::loginForm($user, true);
         }
@@ -327,7 +329,7 @@ class CUtente
 
                 if (CMail::sendForgotMail($utente, $token)) { //Invio mail
                     //Reset password
-                    FPersistentManager::getInstance()->update($utente->getId(), "id", "", "password", "EUtente");
+                    //FPersistentManager::getInstance()->update($utente->getId(), "id", "", "password", "EUtente");
 
                     //Salvataggio token
                     FPersistentManager::getInstance()->save($token);

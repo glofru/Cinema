@@ -137,6 +137,7 @@ CREATE TABLE Token(
 
 CREATE TABLE NewsLetter(
     `idUtente` INTEGER NOT NULL,
+    `preferenze` TEXT,
     PRIMARY KEY (`idUtente`),
     FOREIGN KEY (`idUtente`)
         REFERENCES Utenti(`id`)
