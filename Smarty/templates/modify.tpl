@@ -174,10 +174,17 @@
     <div class="container">
         <div class="row">
             <!-- content -->
-            <form class="form" style="width: 1000px" method="POST" action="#">
+            <form class="form" method="POST" action="/Utente/modifica" onsubmit="return validate()" style="width: 1000px">
                 <div class="col-10">
                     <div class="card card--details card--series">
                         <div class="row">
+
+                            <input type="hidden" name="utente" value="{$utente->getId()}">
+
+                            {if isset($error)}
+                                <script>alert({$error})</script>
+                            {/if}
+
                             <!-- card cover -->
                             <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
                                 <div class="card__cover">
@@ -196,10 +203,10 @@
                                     </div>
 
                                     <ul class="card__meta">
-                                        <li><input class="form__input" type="text" name="username" value="{$utente->getUsername()}" placeholder="Username"></li>
-                                        <li><input class="form__input" type="text" name="nome" value="{$utente->getNome()}" placeholder="Nome"></li>
-                                        <li><input class="form__input" type="text" name="cognome" value="{$utente->getCognome()}" placeholder="Cognome"></li>
-                                        <li><input class="form__input" type="text" name="email" value="{$utente->getEmail()}" placeholder="Email"></li>
+                                        <li><input class="form__input" type="text" id="username" name="username" value="{$utente->getUsername()}" placeholder="Username"></li>
+                                        <li><input class="form__input" type="text" id="nome" name="nome" value="{$utente->getNome()}" placeholder="Nome"></li>
+                                        <li><input class="form__input" type="text" id="cognome" name="cognome" value="{$utente->getCognome()}" placeholder="Cognome"></li>
+                                        <li><input class="form__input" type="text" id="email" name="email" value="{$utente->getEmail()}" placeholder="Email"></li>
                                     </ul>
                                 </div>
 
@@ -210,9 +217,9 @@
                                     </div>
 
                                     <ul class="card__meta">
-                                        <li><input class="form__input" type="password" name="nome" placeholder="Vecchia password"></li>
-                                        <li><input class="form__input" type="password" name="cognome" placeholder="Nuova password"></li>
-                                        <li><input class="form__input" type="password" name="email" placeholder="Nuova password"></li>
+                                        <li><input class="form__input" type="password" id="oldPwd" name="vecchiaPassword" placeholder="Vecchia password"></li>
+                                        <li><input class="form__input" type="password" id="pw1" name="nuovaPassword" placeholder="Nuova password"></li>
+                                        <li><input class="form__input" type="password" id="pw2" placeholder="Reinserisci nuova password"></li>
                                     </ul>
                                 </div>
                             </div>
@@ -310,5 +317,70 @@
 <script src="../../Smarty/js/photoswipe-ui-default.min.js"></script>
 <script src="../../Smarty/js/main.js"></script>
 
+<script>
+    function nameIsValid(name) {
+        let exp = /^[a-zA-Z\-]+$/;
+
+        return name.match(exp) != null;
+    }
+
+    function usernameIsValid(username) {
+        let exp = /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/;
+
+        return username.match(exp) != null;
+    }
+
+    function emailIsValid(email) {
+        let exp = /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/;
+
+        return email.match(exp) != null;
+    }
+
+    function passwordIsValid(password) {
+        return password.length > 5;
+    }
+
+    function checkPwd(pw1, pw2) {
+        return pw1 === pw2;
+    }
+
+    function validate() {
+        if (nameIsValid($("#nome").val())) {
+            if (nameIsValid($("#cognome").val())) {
+                if (usernameIsValid($("#username").val())) {
+                    if (emailIsValid($("#email").val())) {
+                        if ($("#oldPwd").val().length > 0) {
+                            if (passwordIsValid($("#oldPwd").val())) {
+                                if (passwordIsValid($("#pw1").val())) {
+                                    if (checkPwd($("#pw1").val(), $("#pw2").val())) {
+                                        return true;
+                                    } else {
+                                        alert("Le nuove password non combaciano!");
+                                    }
+                                } else {
+                                    alert("La nuova password deve avere almeno 6 caratteri")
+                                }
+                            } else {
+                                alert("Vecchia password non valida, dev'essere almeno di 6 caratteri")
+                            }
+                        } else {
+                            return true;
+                        }
+                    } else {
+                        alert("Email non valida")
+                    }
+                } else {
+                    alert("Username non valido!");
+                }
+            } else {
+                alert("Cognome non valido");
+            }
+        } else {
+            alert("Nome non valido");
+        }
+
+        return false;
+    }
+</script>
 
 </body>
