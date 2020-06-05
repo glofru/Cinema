@@ -150,4 +150,87 @@ class CAdmin
             CMain::methodNotAllowed();
         }
     }
+
+    public static function modificafilm(){
+        self::checkAdmin();
+        $pm = FPersistentManager::getInstance();
+        $filmID = $_GET["film"];
+        $film = $pm->load($filmID, "id", "EFilm")[0];
+
+        $method = $_SERVER["REQUEST_METHOD"];
+
+        if($method == "POST"){
+            try {
+
+                if(isset($_POST["nome"])){
+                    $film->setNome($_POST["nome"]);
+                    $pm->update($filmID,"id",$film->getNome(),"nome","EFilm");
+                }
+
+                if(isset($_POST["descrizione"])){
+                    $film->setDescrizione($_POST["descrizione"]);
+                    $pm->update($filmID,"id",$film->getDescrizione(),"descrizione","EFilm");
+                }
+
+                if(isset($_POST["durata"])){
+                    $film->setDurata($_POST["durata"]);
+                    $pm->update($filmID,"id",$film->getDurataDB(),"nome","EFilm");
+                }
+
+                if(isset($_POST["trailerURL"])){
+                    $film->setTrailerURL($_POST["trailerURL"]);
+                    $pm->update($filmID,"id",$film->getTrailerURL(),"trailerURL","EFilm");
+                }
+
+                if(isset($_POST["votoCritica"])){
+                    $film->setvotoCritica($_POST["votoCritica"]);
+                    $pm->update($filmID,"id",$film->getvotoCritica(),"votoCritica","EFilm");
+                }
+
+                if(isset($_POST["dataRilascio"])){
+                    $film->setDataRilascio($_POST["dataRilascio"]);
+                    $pm->update($filmID,"id",$film->getDataRilascio(),"dataRilascio","EFilm");
+                }
+
+                if(isset($_POST["genere"])){
+                    $film->getGenere($_POST["genere"]);
+                    $pm->update($filmID,"id",$film->getGenere(),"genere","EFilm");
+                }
+
+                if(isset($_POST["paese"])){
+                    $film->setPaese($_POST["paese"]);
+                    $pm->update($filmID,"id",$film->getPaese(),"paese","EFilm");
+                }
+
+                if(isset($_POST["etaConsigliata"])){
+                    $film->setetaConsigliata($_POST["etaConsigliata"]);
+                    $pm->update($filmID,"id",$film->getetaConsigliata(),"etaConsigliata","EFilm");
+                }
+
+                if(isset($_POST["registi"])){
+                    $registi = FFilm::recreateArray($_POST["registi"]);
+                    $pm->update($filmID,"id",$registi,"registi","EFilm");
+                }
+
+                if(isset($_POST["attori"])){
+                    $attori = FFilm::recreateArray($_POST["attori"]);
+                    $pm->update($filmID,"id",$attori,"attori","EFilm");
+                }
+
+                if(isset($_POST["locandina"])){
+                    if (EInputChecker::getInstance()->isImage($_FILES[2])) {
+                        $copertina = $_FILES;
+                        FMedia::update($filmID, "id", $copertina, "immagine");
+                    } else {
+                        VError::error(10);
+                    }
+                }
+            }catch (Exception $e){
+                print $e->getMessage();
+            }
+        } elseif ($method == "GET"){
+            $copertina = $pm->load($filmID,"id","EMediaLocandina");
+            VFilm::showFilm($film, $copertina);
+        }
+    }
 }

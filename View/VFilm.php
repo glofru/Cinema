@@ -11,15 +11,20 @@ class VFilm
         $smarty->assign("autoplay", $autoplay);
         $smarty->assign("locandina", $copertina);
         $smarty->assign("immagini", $imgconsigliati);
-        $smarty->assign("registi", $film->getRegisti());
-        $smarty->assign("attori", $film->getAttori());
         $smarty->assign("recensioni", $reviews);
         $smarty->assign("propic", $propic);
-        $smarty->assign("attori", $film->getAttori());
         $smarty->assign("canView", $canView);
         $smarty->assign("programmazioneFilm", $programmazioneFilm);
         $smarty->assign("utente", $utente);
         $smarty->assign("admin", $isAdmin);
         $smarty->display("film.tpl");
+    }
+
+    public static function showFilm(EFilm $film,EMedia $copertina)
+    {
+        $smarty = StartSmarty::configuration();
+        $smarty->assign("film", $film);
+        $smarty->assign("locandina", $copertina);
+
     }
 }
