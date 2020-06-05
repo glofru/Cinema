@@ -97,6 +97,7 @@ class CUtente
                     }
                 }
                 self::saveSession($utente);
+                header("Location: /");
             }
         } else {
             VUtente::loginForm($user, true);
@@ -138,7 +139,7 @@ class CUtente
                         }
                     }
 
-                    VUtente::show($toShow, $canModify, $toShow->isAdmin(), $propic, $giudizi);
+                    VUtente::show($toShow, $canModify, $propic, $giudizi);
                 } else {
                     VError::error(0,"Utente non trovato.");
                 }
@@ -180,7 +181,7 @@ class CUtente
                         $pm->update($utente->getId(), "id", $utente->getEmail(), "email", "EUtente");
                     }
 
-                    if (isset($_POST["vecchiaPassword"])) {
+                    if (isset($_POST["vecchiaPassword"]) && $_POST["vecchiaPassword"] != "") {
                         if (password_verify($_POST["vecchiaPassword"], $utente->getPassword())) {
                             $utente->setPassword($_POST["nuovaPassword"]); //Check password
                             $utente->setPassword(EHelper::getInstance()->hash($utente->getPassword())); //HashPassword
@@ -200,7 +201,11 @@ class CUtente
                         }
 
                     }
+
+                    self::saveSession($utente);
+                    header("Location: /Utente/show/?id=" . $utente->getId());
                 } catch (Exception $e) {
+                    print $e->getMessage();
 //                    VUtente::modifica($utente);
                 }
             } else {
@@ -233,7 +238,6 @@ class CUtente
         session_set_cookie_params(time() + 3600, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inseirto il 4° parametro
         $salvare = serialize($utente); // a TRUE per fare si che il cookie viaggi solo su HTTPS. E' FALSE perchè non abbiamo un certificato SSL ma in un contesto reale va messo a TRUE!!!
         $_SESSION['utente'] = $salvare;
-        VUtente::loginOk();
     }
 
     public static function signup() {
@@ -267,6 +271,7 @@ class CUtente
             } else {
                 $pm->signup($utente);
                 self::saveSession($utente);
+                header("Location: /");
             }
         }
     }

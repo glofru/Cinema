@@ -67,6 +67,16 @@ class CAdmin
         }
     }
 
+    public static function addProiezione() {
+        self::checkAdmin();
+
+        $method = $_SERVER["REQUEST_METHOD"];
+
+        if ($method == "GET") {
+            VAdmin::addProiezione();
+        }
+    }
+
     public static function gestioneUtenti() {
         self::checkAdmin();
 

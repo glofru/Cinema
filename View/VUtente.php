@@ -3,12 +3,12 @@
 
 class VUtente
 {
-    public static function show(EUtente $utente, bool $canModify, bool $isAdmin, EMedia $propic, $giudizi) {
+    public static function show(EUtente $utente, bool $canModify, EMedia $propic, $giudizi) {
         $smarty = StartSmarty::configuration();
 
         $smarty->assign("utente", $utente);
         $smarty->assign("canModify", $canModify);
-        $smarty->assign("admin", $isAdmin);
+        $smarty->assign("admin", $utente->isAdmin());
         $smarty->assign("propic", $propic);
         $smarty->assign("giudizi", $giudizi);
 
@@ -24,14 +24,6 @@ class VUtente
         $smarty->assign('checked', $checked);
 
         $smarty->display('login.tpl');
-    }
-
-    public static function loginOk() {
-        header("Location: /");
-//        $smarty = StartSmarty::configuration();
-//        $smarty->assign('immagine', "/Cinema/Smarty/immagini/bb3b.png");
-//        $smarty->assign('userlogged',"loggato");
-//        $smarty->display('home.tpl');
     }
 
     public static function signup(string $nome = null, string $cognome = null, string $username = null, string $email = null, string $error = null, bool $emailExists = null) {
