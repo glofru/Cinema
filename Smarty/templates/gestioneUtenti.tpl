@@ -224,9 +224,9 @@
 					</div>
 
 					<div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
-						<div class="row">
+						<div class="row" style="align-content: center">
 							<!-- reviews -->
-									<form action="/Admin/gestioneUtenti" method="POST" class="form">
+									<form action="/Admin/gestioneUtenti" method="POST" class="form" style="align-content: center">
 										<input type="text" id="toBan" class="form__input" name="utente" placeholder="Username dell'utente da bannare">
 										<button type="submit" onclick="return control()" class="form__btn align-content-center">Banna</button>
 									</form>
