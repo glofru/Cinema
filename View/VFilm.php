@@ -11,6 +11,8 @@ class VFilm
         $smarty->assign("autoplay", $autoplay);
         $smarty->assign("locandina", $copertina);
         $smarty->assign("immagini", $imgconsigliati);
+        $smarty->assign("registi", $film->getRegisti());
+        $smarty->assign("attori", $film->getAttori());
         $smarty->assign("recensioni", $reviews);
         $smarty->assign("propic", $propic);
         $smarty->assign("canView", $canView);
