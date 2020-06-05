@@ -174,10 +174,12 @@
     <div class="container">
         <div class="row">
             <!-- content -->
-            <form class="form" onsubmit="return validate()" style="width: 1000px" method="GET" action="#">
+            <form class="form" method="POST" action="/Utente/modifica" onsubmit="return validate()" style="width: 1000px">
                 <div class="col-10">
                     <div class="card card--details card--series">
                         <div class="row">
+
+                            <input type="hidden" name="utente" value="{$utente->getId()}">
 
                             {if isset($error)}
                                 <script>alert({$error})</script>

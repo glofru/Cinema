@@ -39,11 +39,9 @@ class VError
             case 8:
                 $error_description = "C'è stato un problema, riprova.";
                 break;
-            case 9:
-                $error_description = "Non puoi accedere a questa pagina.";
-                break;
             case 10:
                 $error_description = "Estensione immagine non accettata";
+                break;
             case 100:
             default:
                 $error_description = "Errore generico.";
