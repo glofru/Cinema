@@ -58,10 +58,9 @@ class FNewsLetter
     }
 
     private static function parseResult($result): ENewsLetter {
-        $return = [];
+        $ns = new ENewsLetter();
         foreach ($result as $utente) {
             $whois = FUtente::load($utente["idUtente"], "id");
-            $ns = new ENewsLetter();
             $ns->addUtenteEPreferenzaFromRaw($whois, $utente["preferenze"]);
         }
         return $ns;

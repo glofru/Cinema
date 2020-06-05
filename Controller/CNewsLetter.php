@@ -19,27 +19,24 @@ class CNewsLetter
     }
 
     public static function addedNewFilm() {
-        if($_SERVER['REQUEST_METHOD'] == "POST") {
-            if(!CUtente::isLogged() || !CUtente::getUtente()->isAdmin()) {
-                CMain::forbidden();
-                die;
-            } else {
-                $film = FPersistentManager::getInstance()->load($_POST["idFilm"], "id", "EFilm");
-                if(isset($film)) {
-                    $ns = FPersistentManager::getInstance()->loadAll();
-                    $pref = EGenere::fromString($_POST["genere"]);
-                    foreach ($ns->getListaUtenticonPreferenze()[1] as $key => $genere) {
-                        foreach ($genere as $g) {
-                            if($g === $pref) {
-                                CMail::addedNewFilm($ns->getListaUtenticonPreferenze()[0][$key], $film);
-                                break;
-                            }
+        if (!CUtente::isLogged() || !CUtente::getUtente()->isAdmin()) {
+            CMain::forbidden();
+        } else {
+            $film = FPersistentManager::getInstance()->load($_SESSION["idFilm"], "id", "EFilm")[0];
+            unset($_SESSION["idFilm"]);
+            if (isset($film)) {
+                $ns = FPersistentManager::getInstance()->loadAll();
+                $pref = $film->getGenere();
+                print_r($ns->getListaUtenticonPreferenze());
+                foreach ($ns->getListaUtenticonPreferenze()[1] as $key => $genere) {
+                    foreach ($genere as $g) {
+                        if ($g === $pref) {
+                            CMail::addedNewFilm($ns->getListaUtenticonPreferenze()[0][$key], $film);
+                            break;
                         }
                     }
                 }
             }
-        } else {
-            CMain::methodNotAllowed();
         }
     }
 }
