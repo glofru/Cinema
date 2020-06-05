@@ -257,6 +257,13 @@
         </div>
     </div>
     <!-- end details content -->
+    {if (isset($utente)) && $admin}
+    <form action="" method="POST">
+        <div class="col-12--center">
+            <a style="color: white; cursor:pointer;" class="section__btn" id="acquista" type="submit">Modifica Film</a>
+        </div>
+    </form>
+    {/if}
 </section>
 <!-- end details -->
 {if (sizeof($programmazioneFilm->getProiezioni()) > 0)}

@@ -90,9 +90,11 @@ class CUtente
             if ($utente->isBanned()) {
                 VError::error(4);
             } else {
-                $biglietti = $pm->load($utente->getId(), "idUtente", "EBiglietto");
-                foreach ($biglietti as $b) {
-                    $utente->addBiglietto($b);
+                if(!$utente->isAdmin()) {
+                    $biglietti = $pm->load($utente->getId(), "idUtente", "EBiglietto");
+                    foreach ($biglietti as $b) {
+                        $utente->addBiglietto($b);
+                    }
                 }
                 self::saveSession($utente);
             }
