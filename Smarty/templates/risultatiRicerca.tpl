@@ -238,7 +238,6 @@
 							<!-- filter item -->
 							<div class="filter__item" id="filter__year">
 								<span class="filter__item-label">Anno di Rilascio:</span>
-
 								<div class="filter__item-btn dropdown-toggle" role="button" id="filter-year" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<div class="filter__range">
 										<div id="filter__years-start"></div>
@@ -441,15 +440,7 @@
 <!-- end footer -->
 
 	<!-- JS -->
-	<script>
-		function sender() {
-			document.getElementById("voto_inizio").value = document.getElementById("filter__imbd-start").outerHTML;
-			document.getElementById("voto_fine").value = document.getElementById("filter__imbd-end").outerHTML;
-			document.getElementById("anno_inizio").value = document.getElementById("filter__years-start").outerHTML;
-			document.getElementById("anno_fine").value = document.getElementById("filter__years-end").outerHTML;
-			document.getElementById("Genere").value = document.getElementById("g").value;
-		}
-	</script>
+
 	<script src="../../Smarty/js/jquery-3.3.1.min.js"></script>
 	<script src="../../Smarty/js/bootstrap.bundle.min.js"></script>
 	<script src="../../Smarty/js/owl.carousel.min.js"></script>
@@ -462,6 +453,16 @@
 	<script src="../../Smarty/js/photoswipe.min.js"></script>
 	<script src="../../Smarty/js/photoswipe-ui-default.min.js"></script>
 	<script src="../../Smarty/js/main.js"></script>
+
+<script>
+	function sender() {
+		document.getElementById("voto_inizio").value = document.getElementById("filter__imbd-start").outerHTML;
+		document.getElementById("voto_fine").value = document.getElementById("filter__imbd-end").outerHTML;
+		document.getElementById("anno_inizio").value = document.getElementById("filter__years-start").outerHTML;
+		document.getElementById("anno_fine").value = document.getElementById("filter__years-end").outerHTML;
+		document.getElementById("Genere").value = document.getElementById("g").value;
+	}
+</script>
 
 </body>
 
