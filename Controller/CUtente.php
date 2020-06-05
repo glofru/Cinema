@@ -124,7 +124,7 @@ class CUtente
 
                 $propic = $pm->load($toShow->getId(),"idUtente","EMediaUtente");
                 if($propic->getImmagine() == ""){
-                    $propic->setImmagine('../../Smarty/img/user.png');
+                    $propic->setImmagine('../../Smarty/img/user.png'); //Default image
                 }
 
                 if(isset($toShow)){
@@ -235,7 +235,7 @@ class CUtente
             $password = $_POST["password"];
 
             try {
-                $utente = new EUtente($nome, $cognome, $username, $email, $password, false);
+                $utente = new ERegistrato($nome, $cognome, $username, $email, $password, false);
             } catch (Exception $e) {
                 VUtente::signup($nome, $cognome, $username, $email, $e->getMessage());
                 return;
