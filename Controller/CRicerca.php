@@ -7,9 +7,15 @@ class CRicerca
         if($_SERVER['REQUEST_METHOD']=="POST") {
             $str = $_POST["filmCercato"];
             $gestore = EHelper::getInstance();
-            $pm = FPersistentManager::getInstance();
-            $film = $pm->loadLike($str, "nome", "EFilm");
-            $data = self::getFilmData($film, $gestore);
+            if($str !== "") {
+                $pm = FPersistentManager::getInstance();
+                $film = $pm->loadLike($str, "nome", "EFilm");
+                $data = self::getFilmData($film, $gestore);
+            } else {
+                $film = [];
+                $data = [];
+                array_push($data, [], []);
+            }
             $cookie = $gestore->preferences($_COOKIE['preferences']);
             $consigliati = CHome::getConsigliati($cookie);
             $utente = CUtente::getUtente();
