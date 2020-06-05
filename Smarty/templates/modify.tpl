@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 
 <head>
     <meta charset="utf-8">
@@ -30,7 +30,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="Dmitry Volkov">
-    <title>Modifica profilo</title>
+    <title>Magic Boulevard Cinema - Dove i sogni diventano realtà</title>
 
 </head>
 <body class="body">
@@ -39,29 +39,127 @@
 <header class="header">
     <div class="header__wrap">
         <div class="container">
-            <form class="row">
-                <form class="col-12">
-                    <!-- authorization form -->
-                    <form action="/Admin/addFilm" method="POST" class="sign__form" enctype="multipart/form-data">
-                        <div class="header__content">
-                            <!-- header logo -->
-                            <a href="../../index.php" class="header__logo">
-                                <img src="../../Smarty/img/logo.svg" alt="">
-                            </a>
-                            <!-- end header logo -->
-                            <!-- header apply modify-->
-                            <div class="header__auth">
-                                {if ($canModify)}
-                                    <a href="#" class="section__btn align-content-center">Applica Modifiche</a>
+            <div class="row">
+                <div class="col-12">
+                    <div class="header__content">
+                        <!-- header logo -->
+                        <a href="../../index.php" class="header__logo">
+                            <img src="../../Smarty/img/logo.svg" alt="">
+                        </a>
+                        <!-- end header logo -->
+
+                        <!-- header nav -->
+                        <ul class="header__nav">
+                            <!-- dropdown -->
+                            <li class="header__nav-item">
+                                <a class="dropdown-toggle header__nav-link" href="../../index.php" role="button" >Home</a>
+
+
+                            </li>
+                            <!-- end dropdown -->
+
+                            <!-- dropdown -->
+                            <li class="header__nav-item">
+                                <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalogo</a>
+
+                                <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+                                    <li><a href="../../Catalogo/prossimeUscite/">Prossime uscite</a></li>
+                                    <li><a href="../../Catalogo/programmazioniPassate/">Programmazioni</a></li>
+                                    <li><a href="../../Catalogo/piuApprezzati/">Film più apprezzati</a></li>
+                                </ul>
+                            </li>
+                            <!-- end dropdown -->
+
+                            <li class="header__nav-item">
+                                <a href="../../Informazioni/getCosti/" class="header__nav-link">Prezzi</a>
+                            </li>
+
+                            <li class="header__nav-item">
+                                <a href="../../Informazioni/getHelp/" class="header__nav-link">Aiuto</a>
+                            </li>
+
+                            <!-- dropdown -->
+                            <li class="dropdown header__nav-item">
+                                <a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
+                                {if (!isset($utente))}
+                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
+                                        <li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
+                                        <li><a href="../../Utente/signup">Registrati</a></li>
+                                        <li><a href="../../Utente/controlloBigliettiNonRegistrato/?">I miei biglietti</a></li>
+                                    </ul>
+                                {else}
+                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
+                                        <li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
+                                    </ul>
                                 {/if}
-                            </div>
-                            <!-- end header apply modify-->
+                            </li>
+                            <!-- end dropdown -->
+                        </ul>
+                        <!-- end header nav -->
+
+                        <!-- header auth -->
+                        <div class="header__auth">
+                            <button class="header__search-btn" type="button">
+                                <i class="icon ion-ios-search"></i>
+                            </button>
+
+                            {if (isset($utente) && !$admin)}
+                            <li class="header__nav-item">
+                                <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span>@{$utente->getUsername()}</span>
+                                </a>
+                                <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+                                    <li><a href="/Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
+                                    <li><a href="../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
+                                    <li><a href="../../Utente/showCommenti/">I miei giudizi</a></li>
+                                    <li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+                                </ul>
+                            </li>
+                            {elseif (isset($utente) && $admin)}
+                            <li class="header__nav-item">
+                                <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span>@{$utente->getUsername()}</span>
+                                </a>
+                                <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+                                    <li><a href="/Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
+                                    <li><a href="">Gestione film</a></li>
+                                    <li><a href="">Gestione Proiezioni</a></li>
+                                    <li><a href="../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
+                                    <li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+                                </ul>
+                            </li>
+                            {/if}
                         </div>
-                    </form>
-                </form>
-            </form>
+                        <!-- end header auth -->
+
+                        <!-- header menu btn -->
+                        <button class="header__btn" type="button">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                        <!-- end header menu btn -->
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- header search -->
+    <form action="/Ricerca/cercaFilm" method= "POST" class="header__search">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="header__search-content">
+                        <input type="text" name="filmCercato" placeholder="Cerca un film">
+
+                        <button type="submit">Cerca</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- end header search -->
 </header>
 <!-- end header -->
 
@@ -77,75 +175,50 @@
         <div class="row">
             <!-- title -->
             <div class="col-12">
-                <h1 class="details__title">Modifica Profilo</h1>
+                <h1 class="details__title">@{$utente->getUsername()}{if ($admin)} [ADMIN]{/if}</h1>
             </div>
             <!-- end title -->
+
             <!-- content -->
-            <!-- username -->
-            <div class="sign__group">
-                <h1 class="details__title">@{$utente->getUsername()}{if ($admin)} [ADMIN]{/if}</h1>
-                <input type="text" class="sign__input" placeholder="Username" name="Username">
-            </div>
-            <!-- end username -->
-            <!-- card cover -->
             <div class="col-10">
-                <div class="propic">
+                <div class="card card--details card--series">
                     <div class="row">
+                        <!-- card cover -->
                         <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
                             <div class="card__cover">
                                 <img src="{$propic->getImmagine()}" alt="">
-                                <button id="insert_image" class="sign__btn" type="button" style="width: 200px" onclick="document.getElementById('choose_image').click()">Carica immagine di profilo</button>
-                                <input id="choose_image" type="file" name="propic" style="display: none" accept=".jpg, .jpeg, .gif, .png">
-                                <br>
-                                <b><p id="image_name" class="faq__text" style="text-align: center; max-width: 300px">Nessuna immagine caricata</p></b>
                             </div>
                         </div>
+                        <!-- end card cover -->
+
+                        <!-- card content -->
+                        <div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-9">
+                            <div class="card__content">
+
+
+                                <ul class="card__meta">
+                                    <li><span>Nome:</span>{$utente->getNome()}
+                                    <li><span>Cognome:</span>{$utente->getCognome()}</li>
+                                    {if ($canModify)}
+                                        <li><span>Email:</span> <a href="#">{$utente->getEmail()}</a> </li>
+                                    {/if}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- end card content -->
                     </div>
                 </div>
             </div>
-            <!-- end card cover -->
-            <!-- nome -->
-            <div class="sign__group">
-                <h1 class="details__title">@{$utente->getNome()}{if ($admin)} [ADMIN]{/if}</h1>
-                <input type="text" class="sign__input" placeholder="Nome" name="Nome">
+            <div class="col-12">
+                <a href="/Utente/modifica/?id={$utente->getId()}" class="section__btn align-content-center">Applica modifiche</a>
             </div>
-            <!-- end nome -->
-            <!-- cognome -->
-            <div class="sign__group">
-                <h1 class="details__title">@{$utente->getCognome()}{if ($admin)} [ADMIN]{/if}</h1>
-                <input type="text" class="sign__input" placeholder="Cognome" name="Cognome">
+            <div class="col-12">
+                <h2 class="section__title"></h2>
             </div>
-            <!-- end cognome -->
-            <!-- email -->
-            <div class="sign__group">
-                <h1 class="details__title">@{$utente->getEmail()}{if ($admin)} [ADMIN]{/if}</h1>
-                <input type="text" class="sign__input" placeholder="Email" name="Email">
-            </div>
-            <!-- end email -->
-            <!-- password -->
-            <input type="hidden" name="token" value="{$token}" />
-
-            {if $error}
-                <div class="sign__group">
-                    <span class="sign__text" style="color: red">Password non valida</span>
-                </div>
-            {/if}
-
-            <!-- Pw1 -->
-            <div class="sign__group">
-                <input id="pw1" name="password" type="password" class="sign__input" placeholder="Nuova password">
-            </div>
-
-            <!-- Pw2 -->
-            <div class="sign__group">
-                <input id="pw2" type="password" class="sign__input" placeholder="Reinserisci password">
-            </div>
-
-            <!-- end password -->
-            <!-- end content -->
         </div>
     </div>
 </section>
+
 <!-- footer -->
 <footer class="footer">
     <div class="container">
@@ -228,28 +301,5 @@
 <script src="../../Smarty/js/photoswipe-ui-default.min.js"></script>
 <script src="../../Smarty/js/main.js"></script>
 
-<script>
-    function passwordIsValid(password) {
-        return password.length > 5;
-    }
-
-    function validate() {
-        if ($("#pw1").val() === $("#pw2").val()) {
-            if (passwordIsValid($("#pw1").val())) {
-                return true;
-            } else {
-                alert("La password deve contenere almeno 6 caratteri");
-            }
-        } else {
-            alert("Le password devono combaciare");
-        }
-
-        return false;
-    }
-</script>
 
 </body>
-
-
-
-

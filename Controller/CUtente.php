@@ -148,67 +148,87 @@ class CUtente
     }
 
     public static function modifica() {
-        $id = $_GET["id"];
+        $method = $_SERVER["REQUEST_METHOD"];
 
-        if(self::isLogged() && CUtente::getUtente()->getId() === $id) {
-            $method = $_SERVER["REQUEST_METHOD"];
+        if ($method === "POST") {
+            $id = $_POST["utente"];
 
-            $utente = self::getUtente();
+            if (self::isLogged() && CUtente::getUtente()->getId() == $id) {
+                $method = $_SERVER["REQUEST_METHOD"];
 
-            if ($method == "GET") {
-                header("Location: Utente/show/?id=" . $utente->getId());
-            } elseif ($method == "POST") {
-                if(password_verify($_POST["password"], self::getUtente()->getPassword())) {
-                    try {
-                        if (isset($_POST["nome"])) {
-                            $utente->setNome($_POST["nome"]);
-                            FUtente::update($utente->getId(), "id", $utente->getNome(), "nome");
-                        }
+                $utente = self::getUtente();
 
-                        if (isset($_POST["cognome"])) {
-                            $utente->setCognome($_POST["cognome"]);
-                            FUtente::update($utente->getId(), "id", $utente->getCognome(), "cognome");
-                        }
-
-                        if (isset($_POST["username"])) {
-                            $utente->setUsername($_POST["username"]);
-                            FUtente::update($utente->getId(), "id", $utente->getUsername(), "username");
-                        }
-
-                        if (isset($_POST["email"])) {
-                            $utente->setEmail($_POST["email"]);
-                            FUtente::update($utente->getId(), "id", $utente->getEmail(), "email");
-                        }
-
-                        if (isset($_POST["password"])) {
-                            try{
-                                $utente->setPassword($_POST["password"]);
-                            }catch (Exception $e) {
-                                VError::error(7);
-                                return;
-                            }
-                            $utente->setPassword(EHelper::getInstance()->hash($_POST["password"]));
-                            FUtente::update($utente->getId(), "id", $utente->getPassword(), "password");
-                        }
-
-                        if (isset($_POST["propic"])) {
-                            if(EInputChecker::getInstance()->isImage($_FILES[2])){
-                                $propic = $_FILES;
-                                FMedia::update($utente->getId(), "id", $propic, "immagine");
-                            }else{
-                                VError::error(10);
+                if ($method == "GET") {
+                    header("Location: Utente/show/?id=" . $utente->getId());
+                } elseif ($method == "POST") {
+                    if (password_verify($_POST["password"], self::getUtente()->getPassword())) {
+                        try {
+                            if (isset($_POST["nome"])) {
+                                $utente->setNome($_POST["nome"]);
+                                FUtente::update($utente->getId(), "id", $utente->getNome(), "nome");
                             }
 
+                            if (isset($_POST["cognome"])) {
+                                $utente->setCognome($_POST["cognome"]);
+                                FUtente::update($utente->getId(), "id", $utente->getCognome(), "cognome");
+                            }
+
+                            if (isset($_POST["username"])) {
+                                $utente->setUsername($_POST["username"]);
+                                FUtente::update($utente->getId(), "id", $utente->getUsername(), "username");
+                            }
+
+                            if (isset($_POST["email"])) {
+                                $utente->setEmail($_POST["email"]);
+                                FUtente::update($utente->getId(), "id", $utente->getEmail(), "email");
+                            }
+
+                            if (isset($_POST["password"])) {
+                                try {
+                                    $utente->setPassword($_POST["password"]);
+                                } catch (Exception $e) {
+                                    VError::error(7);
+                                    return;
+                                }
+                                $utente->setPassword(EHelper::getInstance()->hash($_POST["password"]));
+                                FUtente::update($utente->getId(), "id", $utente->getPassword(), "password");
+                            }
+
+                            if (isset($_POST["propic"])) {
+                                if (EInputChecker::getInstance()->isImage($_FILES[2])) {
+                                    $propic = $_FILES;
+                                    FMedia::update($utente->getId(), "id", $propic, "immagine");
+                                } else {
+                                    VError::error(10);
+                                }
+
+                            }
+                        } catch (Exception $e) {
+                            //TODO: modifica con errore
                         }
-                    } catch (Exception $e) {
-                        //TODO: modifica con errore
+                    } else {
+                        //TODO: modifica con errore di password errata
                     }
-                } else {
-                    //TODO: modifica con errore di password errata
                 }
+            } else {
+                VError::error(9);
             }
-        } else {
-            VError::error(9);
+        } elseif ($method === "GET") {
+            $id = $_GET["id"];
+
+            if (self::isLogged() && CUtente::getUtente()->getId() == $id) {
+                $pm = FPersistentManager::getInstance();
+                $utente = CUtente::getUtente();
+
+                $propic = $pm->load($utente->getId(),"idUtente","EMediaUtente");
+                if($propic->getImmagine() == ""){
+                    $propic->setImmagine('../../Smarty/img/user.png'); //Default image
+                }
+
+                VUtente::modifica($utente, $propic);
+            } else {
+                VError::error(9);
+            }
         }
     }
 

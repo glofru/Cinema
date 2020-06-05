@@ -216,7 +216,7 @@
                 </div>
                 <div class="col-12">
                     {if ($canModify)}
-                        <a href="#" class="section__btn align-content-center">Modifica</a>
+                        <a href="/Utente/modifica/?id={$utente->getId()}" class="section__btn align-content-center">Modifica</a>
                     {/if}
                 </div>
                 <div class="col-12">
