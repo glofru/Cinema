@@ -60,7 +60,7 @@ class EGiudizio implements JsonSerializable
      */
     public function setCommento(string $commento): void
     {
-        $this->commento = $commento;
+        $this->commento = EInputChecker::getInstance()->comment($commento);
     }
 
     /**
@@ -88,7 +88,7 @@ class EGiudizio implements JsonSerializable
     }
 
     public function setTitle(string $title) {
-        $this->title = $title;
+        $this->title = EInputChecker::getInstance()->title($title);
     }
 
     public function getTitle(): string {

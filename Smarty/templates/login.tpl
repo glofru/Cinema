@@ -59,6 +59,11 @@
 							<div class="sign__group">
 								<input name="password" type="password" class="sign__input" placeholder="Password">
 							</div>
+
+							<div class="sign__group sign__group--checkbox">
+								<input id="remember" name="remember" type="checkbox" {if isset($checked)} checked="checked" {else} {/if}>
+								<label for="remember">Remember Me</label>
+							</div>
 							
 							<button class="sign__btn" type="submit">Accedi</button>
 

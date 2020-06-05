@@ -16,6 +16,8 @@ function autoloader_model($class){
     include_once('Model/ESale/' . $class  . '.php');
     include_once('Model/EUtenti/' . $class  . '.php');
     include_once('Model/EUtility/' . $class  . '.php');
+    include_once('Model/ENewsLetter/' . $class  . '.php');
+    include_once('Model/EMail/' . $class  . '.php');
 }
 
 function autoloader_foundation($class){
@@ -29,6 +31,7 @@ function autoloader_foundation($class){
     include_once('Foundation/FSale/' . $class  . '.php');
     include_once('Foundation/FUtente/' . $class  . '.php');
     include_once('Foundation/FToken/' . $class  . '.php');
+    include_once('Foundation/FNewsLetter/' . $class  . '.php');
     include_once('Foundation/' . $class . '.php');
 }
 
@@ -37,7 +40,6 @@ function autoloader_root($class){
 }
 
 function autoloader_php_mailer($class){
-    if ($class == "PHPMailer") print "WE";
     include_once('PHPMailer/src/' . $class . '.php');
 }
 

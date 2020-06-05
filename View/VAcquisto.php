@@ -3,7 +3,7 @@
 
 class VAcquisto
 {
-    public static function showAcquisto(array $biglietti, EMediaLocandina $locandina, EUtente $utente, float $totale) {
+    public static function showAcquisto(array $biglietti, EMediaLocandina $locandina, $utente, float $totale) {
         $smarty = StartSmarty::configuration();
         $smarty->assign("biglietti", $biglietti);
         $smarty->assign("locandina", $locandina);

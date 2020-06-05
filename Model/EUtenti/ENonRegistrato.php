@@ -6,22 +6,30 @@
  */
 class ENonRegistrato extends EUtente
 {
+    private array $listaBiglietti;
     /**
      * ENonRegistrato constructor.
-     * @param string $id
-     * @param string $nome
-     * @param string $cognome
-     * @param string $username
      * @param string $email
      * @param string $password
+     * @throws Exception
      */
-    public function __construct(string $nome, string $cognome, string $username, string $email, string $password, bool $isBanned)
+    public function __construct(string $email, string $password)
     {
-        parent::__construct($nome, $cognome, $username, $email, $password, $isBanned);
+        parent::__construct("", "", "", $email, $password, false);
+        $this->listaBiglietti = array();
     }
 
-    public function compra() {
-        echo "Compra non registrato";
+    public function getListaBiglietti(): array
+    {
+        return $this->listaBiglietti;
+    }
+
+    /**
+     * @param array $listagiudizi
+     */
+    public function addBiglietto(EBiglietto $biglietto): void
+    {
+        array_push($this->listaBiglietti, $biglietto);
     }
 
 }

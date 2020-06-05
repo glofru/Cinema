@@ -41,21 +41,31 @@ class EUtente implements JsonSerializable
 
     /**
      * EUtente constructor.
-     * @param string $id
      * @param string $nome
      * @param string $cognome
      * @param string $username
      * @param string $email
      * @param string $password
+     * @param bool $isBanned
+     * @throws Exception
      */
     public function __construct(string $nome, string $cognome, string $username, string $email, string $password, bool $isBanned)
     {
-        $this->setNome($nome);
-        $this->setCognome($cognome);
-        $this->setUsername($username);
-        $this->setEmail($email);
-        $this->setPassword($password);
-        $this->setIsBanned($isBanned);
+        if (!$this instanceof ENonRegistrato) {
+            $this->setNome($nome);
+            $this->setCognome($cognome);
+            $this->setUsername($username);
+            $this->setEmail($email);
+            $this->setPassword($password);
+            $this->setIsBanned($isBanned);
+        } else {
+            $this->nome = "";
+            $this->cognome = "";
+            $this->username = "";
+            $this->setEmail($email);
+            $this->password = $password;
+            $this->isBanned = false;
+        }
     }
 
     /**
@@ -181,6 +191,10 @@ class EUtente implements JsonSerializable
 
     public function isAdmin(): bool {
         return $this instanceof EAdmin;
+    }
+
+    public function isRegistrato(): bool {
+        return $this instanceof ERegistrato;
     }
 
     /**

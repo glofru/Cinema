@@ -30,6 +30,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="Dmitry Volkov">
+
     <title>Magic Boulevard Cinema - Dove i sogni diventano realtà</title>
 
 </head>
@@ -85,6 +86,7 @@
                                     <li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
                                     {if (!isset($utente))}
                                      <li><a href="../../Utente/signup">Registrati</a></li>
+                                     <li><a href="../../Utente/controlloBigliettiNonRegistrato/?">I miei biglietti</a></li>
                                     {/if}
                                 </ul>
                             </li>
@@ -109,7 +111,7 @@
                                         <span>@{$utente->getUsername()}</span>
                                     </a>
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                        <li><a href="../../Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
+                                        <li><a href="../../Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
                                         <li><a href="../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
                                         <li><a href="../../Utente/showCommenti/">I miei giudizi</a></li>
                                         <li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
@@ -121,7 +123,7 @@
                                         <span>@{$utente->getUsername()}</span>
                                     </a>
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                        <li><a href="../../Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
+                                        <li><a href="../../Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
                                         <li><a href="">Gestione film</a></li>
                                         <li><a href="">Gestione Proiezioni</a></li>
                                         <li><a href="../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
@@ -313,11 +315,17 @@
                 </div>
             </div>
         {/foreach}
-    {if (!$admin)}
-        <div class="col-12--center">
-            <a onclick="acquista()" style="color: white; cursor:pointer;" class="section__btn" id="acquista">Acquista</a>
-        </div>
-    {/if}
+        {if (!$admin)}
+            <div class="col-12--center">
+                <a onclick="acquista({$utente != null})" style="color: white; cursor:pointer;" class="section__btn" id="acquista">Acquista</a>
+            </div>
+        {/if}
+        {if (!isset($utente))}
+            <div class="col-12--center">
+                <h3 class="section__btn" style="width: 500px; cursor: default; background-image: none; box-shadow: none; display: block">Inserisci la mail dove inviare i biglietti oppure effettua prima il <a style="color: #ff55a5; position: relative" href="/Utente/login">login</a></h3>
+                <input id="email" type="email" name="email" class="form__input section__btn" style="width: 350px; background-image: linear-gradient(90deg, #af55a5 0%, #ff55a5 100%)" placeholder="Email"/>
+            </div>
+        {/if}
     </div>
 </section>
 {/if}
@@ -395,7 +403,7 @@
                                                     </span>
                                                 {/if}
 
-                                                <span class="reviews__time">da <a href="../../Utente/showUtente/?idShow={$rev->getUtente()->getId()}">@{$rev->getUtente()->getUsername()}</a> il {$rev->getDataPubblicazioneString()}</span>
+                                                <span class="reviews__time">da <a href="../../Utente/show/?id={$rev->getUtente()->getId()}">@{$rev->getUtente()->getUsername()}</a> il {$rev->getDataPubblicazioneString()}</span>
                                                 <span class="reviews__rating"><i class="icon ion-ios-star"></i>{$rev->getPunteggio()}</span>
                                             </div>
                                             <p class="reviews__text">{$rev->getCommento()}</p>
@@ -472,7 +480,7 @@
         <div class="row">
             <!-- footer list -->
             <div class="col-12 col-md-3">
-                <h6 class="footer__title">Scarica la nsotra App</h6>
+                <h6 class="footer__title">Scarica la nostra App</h6>
                 <ul class="footer__app">
                     <li><a href="https://play.google.com/store?hl=it"><img src="../../Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
                     <li><a href="https://www.apple.com/it/ios/app-store/"><img src="../../Smarty/img/google-play-badge.png" alt=""></a></li>
@@ -611,14 +619,34 @@
     let libera = "../../Smarty/img/cinema/sedia_libera.png";
     let occupazione = "../../Smarty/img/cinema/sedia_in_occupazione.png";
 
-    function acquista() {
-        if (bookedSeat.length > 0) {
-            $("#book").append(
-                "<input type='hidden' name='proiezione' value='" + proiezione + "' />",
-                "<input type='hidden' name='posti' value='" + bookedSeat.join(';') + "' />"
-            );
-            document.getElementById('book').submit()
+    function isEmail(email) {
+        let exp = /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/;
 
+        return email.match(exp) != null;
+    }
+
+    function acquista(userExists) {
+        if (bookedSeat.length > 0) {
+            let email = $("#email").val();
+            if (userExists === 1 || email.length > 0) {
+                if (userExists === 1 || isEmail(email)) {
+                    $("#book").append(
+                        "<input type='hidden' name='proiezione' value='" + proiezione + "' />",
+                        "<input type='hidden' name='posti' value='" + bookedSeat.join(';') + "' />"
+                    );
+
+                    if (userExists !== 1) {
+                        $("#book").append(
+                            "<input type='hidden' name='mail' value='" + email + "' />"
+                        );
+                    }
+                    document.getElementById('book').submit();
+                } else {
+                    alert("Mail non valida");
+                }
+            } else {
+                alert("Inserisci una mail o fai il login");
+            }
         } else {
             alert("Selezionare almeno un posto prima di acquistare");
         }

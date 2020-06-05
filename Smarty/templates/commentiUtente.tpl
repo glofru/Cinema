@@ -81,16 +81,9 @@
                             <!-- dropdown -->
                             <li class="dropdown header__nav-item">
                                 <a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
-                                {if (!isset($utente))}
-                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-                                        <li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
-                                        <li><a href="../../Utente/signup">Registrati</a></li>
-                                    </ul>
-                                {else}
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
                                         <li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
                                     </ul>
-                                {/if}
                             </li>
                             <!-- end dropdown -->
                         </ul>
@@ -101,21 +94,15 @@
                             <button class="header__search-btn" type="button">
                                 <i class="icon ion-ios-search"></i>
                             </button>
-
-                            {if (!isset($utente))}
-                                <a href="../../Utente/login" methods="GET" class="header__sign-in">
-                                    <i class="icon ion-ios-log-in"></i>
-                                    <span>Login</span>
-                                </a>
-                            {elseif (isset($utente) && !$admin)}
+                            {if (isset($utente) && !$admin)}
                                 <li class="header__nav-item">
                                     <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <span>@{$utente->getUsername()}</span>
                                     </a>
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                        <li><a href="/Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
+                                        <li><a href="/Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
                                         <li><a href="../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
-                                        <li><a href="https://www.youporn.com/watch/15481840/il-sole-sul-balcone-amatoriale-italianovery-myller/#1">I miei video porno</a></li>
+                                        <li><a href="../../Utente/showCommenti/">I miei giudizi</a></li>
                                         <li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
                                     </ul>
                                 </li>
@@ -125,7 +112,7 @@
                                         <span>@{$utente->getUsername()}</span>
                                     </a>
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                        <li><a href="/Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
+                                        <li><a href="/Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
                                         <li><a href="">Gestione film</a></li>
                                         <li><a href="">Gestione Proiezioni</a></li>
                                         <li><a href="../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
@@ -178,7 +165,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h2 class="section__title section__title--center">Ecco i commenti che hai espresso :)</h2>
+                    <h2 class="section__title section__title--center">Ecco i giudizi che hai espresso :)</h2>
                 </div>
                 {if sizeof($giudizi) === 0}
                 <div class="col-12">
@@ -224,7 +211,7 @@
         <div class="row">
             <!-- footer list -->
             <div class="col-12 col-md-3">
-                <h6 class="footer__title">Scarica la nsotra App</h6>
+                <h6 class="footer__title">Scarica la nostra App</h6>
                 <ul class="footer__app">
                     <li><a href="https://play.google.com/store?hl=it"><img src="../../Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
                     <li><a href="https://www.apple.com/it/ios/app-store/"><img src="../../Smarty/img/google-play-badge.png" alt=""></a></li>

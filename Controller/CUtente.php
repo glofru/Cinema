@@ -7,15 +7,58 @@ class CUtente
         if (self::isLogged()) {
             header("Location: /");
         } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
-            VUtente::loginForm();
+            if(isset($_COOKIE["remember"])){
+                VUtente::loginForm($_COOKIE["remember"], false, 1);
+            } else {
+                VUtente::loginForm();
+            }
+
         } elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = $_POST["username"];
             $password = $_POST["password"];
+            if(isset($_POST["remember"])) {
+                setcookie("remember", $username, time() + time() + (168 * 3600),"/");
+            } else {
+                setcookie("remember", "", time() + time() - (168 * 3600),"/");
+            }
             self::checkLogin($username, $password);
         }
     }
+
+    public static function loginNonRegistrato() {
+        if(self::isLogged()){
+            header("Location: /");
+        } else if ($_SERVER["REQUEST_METHOD"] == "POST" && EInputChecker::getInstance()->isEmail($_POST["email"])) {
+            $email = $_POST["email"];
+            $password = $_POST["password"];
+
+            $utente = FPersistentManager::getInstance()->login($email, $password, true);
+            if(!isset($utente)) {
+                VUtente::showCheckNonRegsitrato(true, $email);
+            } else if($utente->isRegistrato()) {
+                VError::error(0, "Pagina destinata ad utenti non Registrati");
+            } else {
+                foreach (FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EBiglietto") as $b) {
+                    $utente->addBiglietto($b);
+                }
+
+                $biglietti = $utente->getListaBiglietti();
+
+                usort($biglietti, array(EHelper::getInstance(), "sortByDatesBiglietti"));
+                $immagini = [];
+
+                foreach ($biglietti as $item) {
+                    array_push($immagini,FPersistentManager::getInstance()->load($item->GetProiezione()->getFilm()->getId(), "idFilm", "EMedia"));
+                }
+
+                VUtente::showCheckNonRegsitrato(false, $email, $biglietti, $immagini);
+            }
+        } else {
+            CMain::methodNotAllowed();
+        }
+    }
     
-    static function logout($redirect = true) {
+    public static function logout($redirect = true) {
         if(isset($_COOKIE["PHPSESSID"])) {
             session_start();
             session_unset();
@@ -37,204 +80,143 @@ class CUtente
         } else if ($gestore->isUsername($user)) {
             $isMail = false;
         } else {
-            VUtente::loginForm($user);
+            VUtente::loginForm($user, true);
             return;
         }
 
         $utente = $pm->login($user, $password, $isMail);
+
         if ($utente instanceof EUtente) {
             if ($utente->isBanned()) {
                 VError::error(4);
             } else {
+                $biglietti = $pm->load($utente->getId(), "idUtente", "EBiglietto");
+                foreach ($biglietti as $b) {
+                    $utente->addBiglietto($b);
+                }
                 self::saveSession($utente);
             }
         } else {
-            VUtente::loginForm($user);
+            VUtente::loginForm($user, true);
         }
     }
 
-    public static function showUtente() {
-
+    public static function show() {
         if($_SERVER['REQUEST_METHOD'] == "GET") {
-            $pm = FPersistentManager::getInstance();
-            $utente = self::getUtente();
-            if(!isset($_GET["idShow"])){
-               // header("Location: /");
-                echo "NOTSET";
-            }
-            else
-            {
-                if(isset($utente) && $utente->getId() === intval($_GET["idShow"])) {
+            if(!isset($_GET["id"])){
+                CMain::notFound();
+            } else {
+                $pm = FPersistentManager::getInstance();
+
+                if(CUtente::isLogged() && CUtente::getUtente()->getId() === intval($_GET["id"])) {
                     $canModify = true;
-                    $toShow = $utente;
+                    $toShow = CUtente::getUtente();
                 } else {
                     $canModify = false;
-                    $toShow = $pm->load($_GET["idShow"],"id","EUtente");
+                    $toShow = $pm->load($_GET["id"],"id","EUtente");
+                    if(isset($toShow) && !$toShow->isAdmin()) {
+                        $giudizi = $pm->load($_GET["id"], "idUtente", "EGiudizio");
+                        foreach ($giudizi as $g) {
+                            $toShow->addGiudizio($g);
+                        }
+                     }
                 }
+
                 $propic = $pm->load($toShow->getId(),"idUtente","EMediaUtente");
                 if($propic->getImmagine() == ""){
                     $propic->setImmagine('../../Smarty/img/user.png');
                 }
+
                 if(isset($toShow)){
-                    $giudizi = $pm->load($_GET["idShow"], "idUtente", "EGiudizio");
+                    $giudizi = $toShow->getListaGiudizi();
                     usort($giudizi, array(EHelper::getInstance(), "sortByDatesGiudizi"));
+
                     if(sizeof($giudizi) > 10){
                         array_splice($giudizi, 0, 10);
                     }
-                    VUtente::showUtente($toShow, $canModify, $toShow->isAdmin(), $propic, $giudizi);
-                }
-                else {
-                    VError::error(0,"PROFILO UTENTE NON TROVATO!");
+
+                    VUtente::show($toShow, $canModify, $toShow->isAdmin(), $propic, $giudizi);
+                } else {
+                    VError::error(0,"Utente non trovato.");
                 }
 
             }
+        } else {
+            CMain::methodNotAllowed();
         }
     }
 
+    public static function modifica() {
+        $id = $_GET["id"];
 
+        if(self::isLogged() && CUtente::getUtente()->getId() === $id) {
+            $method = $_SERVER["REQUEST_METHOD"];
 
-    public static function insertpassword()
-    {
-        if($_SERVER["REQUEST_METHOD"] == "POST")
-        {
-            $username = $_GET["username"];
-            $password = $_POST["password"];
-            self::checkLogin($username, $password);
-            return true;
-        } else
-            {
-                return false;
-            }
-
-    }
-
-    public static function verificaUtente()
-    {
-        if($_SERVER['REQUEST_METHOD'] == "GET" && self::isLogged())
-        {
             $utente = self::getUtente();
-            if (!isset($_GET["idShow"]))
-            {
-                // header("Location: /");
-                echo "NOTSET";
-            } else
-                {
-                    if (isset($utente) && $utente->getId() === intval($_GET["idShow"]))
-                    {
-                        return true;
+
+            if ($method == "GET") {
+                header("Location: Utente/show/?id=" . $utente->getId());
+            } elseif ($method == "POST") {
+                if(password_verify($_POST["password"], self::getUtente()->getPassword())) {
+                    try {
+                        if (isset($_POST["nome"])) {
+                            $utente->setNome($_POST["nome"]);
+                            FUtente::update($utente->getId(), "id", $utente->getNome(), "nome");
+                        }
+
+                        if (isset($_POST["cognome"])) {
+                            $utente->setCognome($_POST["cognome"]);
+                            FUtente::update($utente->getId(), "id", $utente->getCognome(), "cognome");
+                        }
+
+                        if (isset($_POST["username"])) {
+                            $utente->setUsername($_POST["username"]);
+                            FUtente::update($utente->getId(), "id", $utente->getUsername(), "username");
+                        }
+
+                        if (isset($_POST["email"])) {
+                            $utente->setEmail($_POST["email"]);
+                            FUtente::update($utente->getId(), "id", $utente->getEmail(), "email");
+                        }
+
+                        if (isset($_POST["password"])) {
+                            try{
+                                $utente->setPassword($_POST["password"]);
+                            }catch (Exception $e) {
+                                VError::error(7);
+                                return;
+                            }
+                            $utente->setPassword(EHelper::getInstance()->hash($_POST["password"]));
+                            FUtente::update($utente->getId(), "id", $utente->getPassword(), "password");
+                        }
+
+                        if (isset($_POST["propic"])) {
+                            if(EInputChecker::getInstance()->isImage($_FILES[2])){
+                                $propic = $_FILES;
+                                FMedia::update($utente->getId(), "id", $propic, "immagine");
+                            }else{
+                                VError::error(10);
+                            }
+
+                        }
+                    } catch (Exception $e) {
+                        //TODO: modifica con errore
                     }
+                } else {
+                    //TODO: modifica con errore di password errata
                 }
-
-        }
-    }
-
-    private static function modificaUsername() {
-        if(self::verificaUtente()) {
-            $pm = FPersistentManager::getInstance();
-            $username = $_POST["username"];
-            if(self::insertpassword()) {
-                $pm->update($_GET["username"], "username", $username, "username", "EUtente" );
-            } else {
-                VError::error(7);
             }
+        } else {
+            VError::error(9);
         }
     }
-
-    private static function modificaNome()
-    {
-        if(self::verificaUtente() == true);
-        {
-            $pm = FPersistentManager::getInstance();
-            $nome = $_POST["nome"];
-            if(self::insertpassword() == true)
-            {
-                $pm->update($_GET["nome"], "nome", $nome, "nome", "EUtente" );
-            } else
-            {
-                VError::error(7);
-            }
-        }
-    }
-
-    private static function modificaCognome()
-    {
-        if(self::verificaUtente() == true);
-        {
-            $pm = FPersistentManager::getInstance();
-            $cognome = $_POST["cognome"];
-            if(self::insertpassword() == true)
-            {
-                $pm->update($_GET["cognome"], "cognome", $cognome, "cognome", "EUtente" );
-            } else
-            {
-                VError::error(7);
-            }
-        }
-    }
-
-    private static function modificaEmail()
-    {
-        if(self::verificaUtente() == true);
-        {
-            $pm = FPersistentManager::getInstance();
-            $email = $_POST["email"];
-            if(self::insertpassword() == true)
-            {
-                $pm->update($_GET["email"], "email", $email, "email", "EUtente" );
-            } else
-            {
-                VError::error(7);
-            }
-        }
-    }
-
-    private static function modificaPassword()
-    {
-        if(self::verificaUtente() == true);
-        {
-            $pm = FPersistentManager::getInstance();
-            $password = $_POST["password"];
-            if(self::insertpassword() == true)
-            {
-                $pm->update($_GET["password"], "password", $password, "password", "EUtente" );
-            } else
-            {
-                VError::error(7);
-            }
-        }
-    }
-
-
-    private static function modificaPropic($propic)
-    {
-        if(self::verificaUtente() == true);
-        {
-            $pm = FPersistentManager::getInstance();
-            if(self::insertpassword() == true)
-            {
-                $pm->update($_GET["immagine"], "immagine", $propic, "immagine", "EMedia" );
-            } else
-            {
-                VError::error(7);
-            }
-        }
-    }
-
-    private static function modificaUtente(EUtente $utente)
-    {
-
-
-    }
-
-
-
 
     private static function saveSession(EUtente $utente) {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
         session_regenerate_id(true);
-        session_set_cookie_params(3600, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inseirto il 4° parametro
+        session_set_cookie_params(time() + 3600, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inseirto il 4° parametro
         $salvare = serialize($utente); // a TRUE per fare si che il cookie viaggi solo su HTTPS. E' FALSE perchè non abbiamo un certificato SSL ma in un contesto reale va messo a TRUE!!!
         $_SESSION['utente'] = $salvare;
         VUtente::loginOk();
@@ -275,26 +257,28 @@ class CUtente
         }
     }
 
-    public static function isLogged() {
+    public static function isLogged(bool $logout = true): bool {
         if (isset($_COOKIE["PHPSESSID"])) {
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
             }
+
             if(isset($_SESSION["utente"])) {
                 return true;
             }
-            else {
-                CUtente::logout();
-                return false;
+
+            if ($logout) {
+                self::logout();
             }
-        } else {
+
             return false;
         }
+
+        return false;
     }
 
     public static function getUtente() {
         if(self::isLogged()) {
-
             return unserialize($_SESSION["utente"]);
         }
 
@@ -303,10 +287,14 @@ class CUtente
 
     public static function bigliettiAcquistati() {
         $utente = self::getUtente();
-        if(!isset($utente) || $utente->isAdmin()) {
+        if(!isset($utente)) {
+            CMain::forbidden();
+        }
+        if($utente->isAdmin()) {
             header("Location: /");
         }
-        $biglietti = FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EBiglietto");
+        $biglietti = $utente->getListaBiglietti();
+        usort($biglietti, array(EHelper::getInstance(), "sortByDatesBiglietti"));
         $immagini = [];
         foreach ($biglietti as $item) {
             array_push($immagini,FPersistentManager::getInstance()->load($item->GetProiezione()->getFilm()->getId(), "idFilm", "EMedia"));
@@ -324,8 +312,11 @@ class CUtente
         if ($method == "GET") {
             if (isset($_GET["token"])) {
                 $token = FPersistentManager::getInstance()->load($_GET["token"], "value", "EToken");
-
-                if (!isset($token) || $token->isUsed()) {
+                if(!$token->amIValid()) {
+                    FPersistentManager::getInstance()->delete($token->getValue(), "value", "EToken");
+                    unset($token);
+                }
+                if (!isset($token)) {
                     VError::error(0, "Richiedi di inviarti un nuovo link, questo potrebbe essere scaduto.");
                     die;
                 }
@@ -349,24 +340,27 @@ class CUtente
 
             if (!$utente instanceof EUtente) {
                 VUtente::forgotPassword($username);
-            }
-
-            //Crea token
-            $uid = uniqid();
-            $token = new EToken($uid, false, $utente);
-
-            if (CMail::sendForgotMail($utente, $token)) { //Invio mail
-                //Reset password
-                FPersistentManager::getInstance()->update($utente->getId(), "id", "", "password", "EUtente");
-
-                //Salvataggio token
-                FPersistentManager::getInstance()->save($token);
+            } else if (!$utente->isRegistrato()){ //Utente non registrato, crea un nuovo uid come password
+                $utente->setPassword(uniqid());
+                CMail::sendForgotMailNonRegistrato($utente);
+                FPersistentManager::getInstance()->update($utente->getId(), "id", EHelper::getInstance()->hash($utente->getPassword()), "password", "EUtente");
             } else {
-                VError::error(0, "C'è stato un errore. Riprova più tardi.");
-                die;
-            }
+                //Crea token
+                $uid = uniqid();
+                $token = new EToken($uid, new DateTime('now'), $utente);
 
-            VUtente::forgotPassword(null, true);
+                if (CMail::sendForgotMail($utente, $token)) { //Invio mail
+                    //Reset password
+                    //FPersistentManager::getInstance()->update($utente->getId(), "id", "", "password", "EUtente");
+
+                    //Salvataggio token
+                    FPersistentManager::getInstance()->save($token);
+                } else {
+                    VError::error(0, "C'è stato un errore. Riprova più tardi.");
+                    die;
+                }
+            }
+                VUtente::forgotPassword(null, true);
         }
     }
 
@@ -375,7 +369,11 @@ class CUtente
             $valueToken = $_POST["token"];
             $token = FPersistentManager::getInstance()->load($_POST["token"], "value", "EToken");
 
-            if (!isset($token) || $token->isUsed()) {
+            if(!$token->amIValid()) {
+                FPersistentManager::getInstance()->delete($token->getValue(), "value", "EToken");
+                unset($token);
+            }
+            if (!isset($token)) {
                 VError::error(0, "Richiedi di inviarti un nuovo link, questo potrebbe essere scaduto.");
                 die;
             }
@@ -395,7 +393,7 @@ class CUtente
             FUtente::update($utente->getId(), "id", $hashedPassword, "password");
 
             //Consuma token
-            FPersistentManager::getInstance()->update($token->getValue(), "value", true, "isUsed", "EToken");
+            FPersistentManager::getInstance()->delete($token->getValue(), "value", "EToken");
 
             VUtente::loginForm();
         } else {
@@ -407,7 +405,7 @@ class CUtente
         if(self::isLogged()){
             if(!self::getUtente()->isAdmin()){
                 $utente = self::getUtente();
-                $giudizi = FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EGiudizio");
+                $giudizi = $utente->getListaGiudizi();
                 usort($giudizi, array(EHelper::getInstance(), "sortByDatesGiudizi"));
                 $propic = FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EMediaUtente");
                 if($propic->getImmagine() == ""){
@@ -416,7 +414,21 @@ class CUtente
                 VUtente::showCommenti($giudizi, $utente, $propic);
             }
         }
-        header("Location: /");
+        CMain::forbidden();
+    }
+
+    public static function controlloBigliettiNonRegistrato() {
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            if(!CUtente::isLogged()){
+                VUtente::showCheckNonRegsitrato(true);
+            } else {
+                VError::error(0, "Area riservata agli utenti <b>non registrati</b> presso il nostro portale");
+                die;
+            }
+        } else {
+            CMain::methodNotAllowed();
+        }
+
     }
 
 }

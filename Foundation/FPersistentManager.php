@@ -42,6 +42,10 @@ class FPersistentManager
         $class::save($istanza);
     }
 
+    public function saveNS($utente, $preferenze) {
+        FNewsLetter::save($utente, $preferenze);
+    }
+
     public function saveProiezione(EProiezione $proiezione) {
         $result = FProiezione::save($proiezione);
         return $result;
@@ -69,6 +73,10 @@ class FPersistentManager
     public function loadBetween($inizio, $fine, $class) {
         $class = self::getClass($class);
         return $class::loadBetween($inizio, $fine);
+    }
+
+    public function loadAll() {
+        return FNewsLetter::load();
     }
 
     public function delete($value, $row, $class) {

@@ -17,16 +17,33 @@ class EInputChecker{
 
     public function isUsername(string $username): bool {
         $res = preg_replace("/[^a-zA-Z0-9]/", "", $username);
-        return $res == $username;
+        return $res == $username && strlen($username) > 2;
     }
 
+    public function isImage($typefile): bool
+    {
+        $estensione = strtolower(strrchr($typefile, '/'));
+
+        switch($estensione)
+        {
+            case '/jpg':
+            case '/jpeg':
+            case '/gif':
+            case '/png':
+                return true;
+                break;
+            default:
+                return false;
+                break;
+        }
+    }
+
+
+
+
+
     public function isPassword(string $password): bool {
-//        if(strlen($password) < 8) {
-//            return "";
-//        }
-        //$password = 'S4L7' . $password;
-        //return hash('SHA512', $password);
-        return true;
+        return strlen($password) > 6;
     }
 
     public function isEmail(string $email): bool {
@@ -50,24 +67,28 @@ class EInputChecker{
     }
 
     public function comment(string $commento): string {
-        if(strlen($commento) === 0) {
-            return "Nessun Commento";
+        if (strlen($commento) === 0) {
+            return "Nessun commento.";
         }
+
         $commento = filter_var($commento, FILTER_SANITIZE_STRING);
         if(strlen($commento) > 200) {
             $commento = substr($commento,0,200);
         }
+
         return $commento;
     }
 
     public function title(string $titolo): string {
-        if(strlen($titolo) === 0) {
-            return "Nessun Titolo";
+        if (strlen($titolo) === 0) {
+            return "Nessun titolo.";
         }
+
         $titolo = filter_var($titolo, FILTER_SANITIZE_STRING);
         if(strlen($titolo) > 30) {
             $titolo = substr($titolo,0,30);
         }
+
         return $titolo;
     }
 }

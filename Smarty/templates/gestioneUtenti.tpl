@@ -85,6 +85,7 @@
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
 										<li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
 										<li><a href="../../Utente/signup">Registrati</a></li>
+										<li><a href="../../Utente/controlloBigliettiNonRegistrato/?">I miei biglietti</a></li>
 									</ul>
 								{else}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
@@ -106,7 +107,7 @@
 										<span>@{$utente->getUsername()}</span>
 									</a>
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-										<li><a href="/Utente/showUtente/?idShow={$utente->getId()}">Il mio profilo</a></li>
+										<li><a href="/Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
 										<li><a href="">Gestione film</a></li>
 										<li><a href="">Gestione Proiezioni</a></li>
 										<li><a href="../../Admin/gestioneUtenti">Gestione Utenti</a></li>
@@ -226,8 +227,8 @@
 						<div class="row">
 							<!-- reviews -->
 									<form action="/Admin/gestioneUtenti" method="POST" class="form">
-										<input type="text" class="form__input" name="utente" placeholder="Username dell'utente da bannare">
-										<button type="submit" class="form__btn align-content-center">Banna</button>
+										<input type="text" id="toBan" class="form__input" name="utente" placeholder="Username dell'utente da bannare">
+										<button type="submit" onclick="return control()" class="form__btn align-content-center">Banna</button>
 									</form>
 								</div>
 							</div>
@@ -248,7 +249,7 @@
 		<div class="row">
 			<!-- footer list -->
 			<div class="col-12 col-md-3">
-				<h6 class="footer__title">Scarica la nsotra App</h6>
+				<h6 class="footer__title">Scarica la nostra App</h6>
 				<ul class="footer__app">
 					<li><a href="https://play.google.com/store?hl=it"><img src="../../Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
 					<li><a href="https://www.apple.com/it/ios/app-store/"><img src="../../Smarty/img/google-play-badge.png" alt=""></a></li>
@@ -367,6 +368,15 @@
 <script>
 	function result(value){
 		alert(value);
+	}
+	
+	function control() {
+		if($("#toBan").val().length < 6){
+			alert("L'utente ha uno username di almeno 7 caratteri");
+			return false;
+		} else {
+			return true;
+		}
 	}
 </script>
 <script src="../../Smarty/js/jquery-3.3.1.min.js"></script>

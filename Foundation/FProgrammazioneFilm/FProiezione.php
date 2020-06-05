@@ -37,10 +37,9 @@ class FProiezione implements Foundation
     public static function save(EProiezione $proiezione) {
         $db = FDatabase::getInstance();
         $test = $db->checkDisponibilita($proiezione->getSala()->getNumeroSala(), $proiezione->getDataSQL(), $proiezione->getOra());
-        if(sizeof($test) < 1){
-            $id = $db->saveToDB(self::getClassName(), $proiezione);
+        if(sizeof($test) < 1) {
+            $id = $db->saveToDBProiezioneEPosti($proiezione);
             $proiezione->setId($id);
-            FPosto::store($proiezione);
             return true;
         }
 
@@ -77,10 +76,10 @@ class FProiezione implements Foundation
         return $db->occupaPosti($biglietti);
     }
 
-    public static function liberaPosto($idProiezione, $posto, $emailUtente) {
+   /* public static function liberaPosto($idProiezione, $posto, $emailUtente) {
         $db = FDatabase::getInstance();
         return $db->liberaPosto($idProiezione, $posto, $emailUtente);
-    }
+    }*/
 
     private static function parseResult(array $result)
     {

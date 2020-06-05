@@ -9,7 +9,7 @@ class EMedia implements JsonSerializable
     /**
      * @var string
      */
-    private string $id;
+    private int $id = 0;
     /**
      * @var string
      */
@@ -54,9 +54,9 @@ class EMedia implements JsonSerializable
     }
 
     /**
-     * @param string $id
+     * @param int $id
      */
-    public function setId(string $id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -136,7 +136,7 @@ class EMedia implements JsonSerializable
 
     public function getImmagineHTML(): string{
         $mime = explode("/",$this->getMimeType());
-        return "data:image/". $mime . ";base64," . $this->getImmagine();
+        return "data:image/". $mime[1] . ";base64," . $this->getImmagine();
     }
 
     /**
@@ -144,6 +144,13 @@ class EMedia implements JsonSerializable
      */
     public function setImmagine($immagine): void
     {
+        /*if(EInputChecker::getInstance()->isImage($immagine)){
+            $this->immagine = $immagine;
+        } else {
+            throw new Exception("Immagine non valida");
+
+        }*/
+
         $this->immagine = $immagine;
     }
 

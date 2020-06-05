@@ -4,13 +4,21 @@ require_once "configCinema.conf.php";
 class CInformazioni
 {
     public static function getCosti() {
-        $data = self::controls();
-        VInformazioni::getCosti($data[0], $data[1]);
+        if($_SERVER["REQUEST_METHOD"] === "GET") {
+            $data = self::controls();
+            VInformazioni::getCosti($data[0], $data[1]);
+        } else {
+            CMain::methodNotAllowed();
+        }
     }
 
     public static function getAbout() {
-        $data = self::controls();
-        VInformazioni::getAbout($data[0], $data[1]);
+        if($_SERVER["REQUEST_METHOD"] === "GET") {
+            $data = self::controls();
+            VInformazioni::getAbout($data[0], $data[1]);
+        } else {
+            CMain::methodNotAllowed();
+        }
     }
 
     private static function controls(): array {
@@ -18,10 +26,15 @@ class CInformazioni
         $result = [];
         array_push($result, CUtente::getUtente(), $isAdmin);
         return $result;
+
     }
 
     public static function getHelp() {
-        $data = self::controls();
-        VInformazioni::getHelp($data[0], $data[1]);
+        if($_SERVER["REQUEST_METHOD"] === "GET") {
+            $data = self::controls();
+            VInformazioni::getHelp($data[0], $data[1]);
+        } else {
+            CMain::methodNotAllowed();
+        }
     }
 }

@@ -4,38 +4,39 @@
  * registrato
  * Class ERegistrato
  */
-class EUtente extends EUtente
+class ERegistrato extends EUtente
 {
     /**
      * @var array
      */
-    private array $listagiudizi;
+    private array $listaGiudizi;
 
-    private array $listabiglietti;
+    private array $listaBiglietti;
 
     /**
      * ERegistrato constructor.
-     * @param string $id
      * @param string $nome
      * @param string $cognome
      * @param string $username
      * @param string $email
      * @param string $password
+     * @throws Exception
      */
     public function __construct(string $nome, string $cognome, string $username, string $email, string $password, bool $isBanned)
     {
         parent::__construct($nome, $cognome, $username, $email, $password, $isBanned);
 
-        $this->listagiudizi = array();
+        $this->listaGiudizi = array();
+        $this->listaBiglietti = array();
     }
 
 
     /**
      * @return array
      */
-    public function getListagiudizi(): array
+    public function getListaGiudizi(): array
     {
-        return $this->listagiudizi;
+        return $this->listaGiudizi;
     }
 
     /**
@@ -43,12 +44,26 @@ class EUtente extends EUtente
      */
     public function addGiudizio(EGiudizio $giudizio): void
     {
-        array_push($this->listagiudizi, $giudizio);
+        array_push($this->listaGiudizi, $giudizio);
     }
 
-    public function getListabiglietti(): array
+    public function removeGiudizio(EGiudizio $giudizio) {
+        $value = false;
+        foreach ($this->listaGiudizi as $key => $item) {
+            if($item->getfilm()->getId() === $item->getFilm()->getId()) {
+                $value = $key;
+                break;
+            }
+        }
+        if($value !== false) {
+            unset($this->listaGiudizi[$value]);
+            $this->listaGiudizi = array_values($this->listaGiudizi);
+        }
+    }
+
+    public function getListaBiglietti(): array
     {
-        return $this->listabiglietti;
+        return $this->listaBiglietti;
     }
 
     /**
@@ -56,7 +71,7 @@ class EUtente extends EUtente
      */
     public function addBiglietto(EBiglietto $biglietto): void
     {
-        array_push($this->listabiglietti, $biglietto);
+        array_push($this->listaBiglietti, $biglietto);
     }
 
     //TODO: override jsonsSerialization per aggiungere lista giudizi

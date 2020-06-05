@@ -32,7 +32,7 @@
     <title>Installazione</title>
 
 </head>
-<body class="body">
+<body onload="setcookie()" class="body">
 
 <div class="sign section--bg" data-bg="Smarty/img/section/section.jpg">
     <div class="container">
@@ -130,5 +130,10 @@
         }
     });
 
+</script>
+<script>
+    function setcookie(){
+        document.cookie= "js_enabled=true"
+    }
 </script>
 </body>

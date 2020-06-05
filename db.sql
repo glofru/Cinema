@@ -60,12 +60,12 @@ CREATE TABLE Posti(
 
 CREATE TABLE Utenti(
     `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-    `username` varchar(15) NOT NULL UNIQUE,
+    `username` varchar(15),
     `email` varchar(40) NOT NULL UNIQUE,
-    `nome` TEXT NOT NULL,
-    `cognome` TEXT NOT NULL,
-    `password` TEXT NOT NULL,
-    `isAdmin` BOOLEAN NOT NULL,
+    `nome` TEXT,
+    `cognome` TEXT,
+    `password` TEXT,
+    `isAdmin` BOOLEAN DEFAULT FALSE,
     `isBanned` BOOLEAN DEFAULT FALSE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
@@ -74,6 +74,7 @@ CREATE TABLE Biglietto (
     `posto` VARCHAR(4) NOT NULL,
     `idUtente` INTEGER NOT NULL,
     `costo` TEXT NOT NULL,
+    `id` TEXT NOT NULL UNIQUE,
     PRIMARY KEY (`idProiezione`,`posto`),
     FOREIGN KEY (`idUtente`)
         REFERENCES Utenti(`id`)
@@ -125,9 +126,19 @@ CREATE TABLE MediaLocandina(
 
 CREATE TABLE Token(
     `value` VARCHAR(15) NOT NULL,
-    `isUsed` BOOLEAN DEFAULT FALSE,
+    `creationDate` DATE NOT NULL,
+    `creationHour` TEXT NOT NULL,
     `idUtente` INTEGER NOT NULL,
     PRIMARY KEY (`value`),
+    FOREIGN KEY (`idUtente`)
+        REFERENCES Utenti(`id`)
+    ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE NewsLetter(
+    `idUtente` INTEGER NOT NULL,
+    `preferenze` TEXT,
+    PRIMARY KEY (`idUtente`),
     FOREIGN KEY (`idUtente`)
         REFERENCES Utenti(`id`)
     ON UPDATE CASCADE

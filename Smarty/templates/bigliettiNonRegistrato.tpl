@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- Font -->
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet">
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="../../Smarty/css/bootstrap-reboot.min.css">
@@ -33,7 +33,7 @@
 	<title>Magic Boulevard Cinema - Dove i sogni diventano realtà</title>
 
 </head>
-<body class="body">
+<body class="body" {if (isset($status))}onload="result('{$status}')"{/if}>
 
 <!-- header -->
 <header class="header">
@@ -43,7 +43,7 @@
 				<div class="col-12">
 					<div class="header__content">
 						<!-- header logo -->
-						<a href="/" class="header__logo">
+						<a href="../../index.php" class="header__logo">
 							<img src="../../Smarty/img/logo.svg" alt="">
 						</a>
 						<!-- end header logo -->
@@ -52,13 +52,15 @@
 						<ul class="header__nav">
 							<!-- dropdown -->
 							<li class="header__nav-item">
-								<a class="dropdown-toggle header__nav-link" href="/" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
+								<a class="dropdown-toggle header__nav-link" href="../../index.php" role="button" >Home</a>
+
+
 							</li>
 							<!-- end dropdown -->
 
 							<!-- dropdown -->
 							<li class="header__nav-item">
-								<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Cinema</a>
+								<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalogo</a>
 
 								<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
 									<li><a href="../../Catalogo/prossimeUscite/">Prossime uscite</a></li>
@@ -79,17 +81,11 @@
 							<!-- dropdown -->
 							<li class="dropdown header__nav-item">
 								<a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
-								{if (!isset($utente))}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
 										<li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
-										<li><a href="../Utente/signup">Registrati</a></li>
+										<li><a href="../../Utente/signup">Registrati</a></li>
 										<li><a href="../../Utente/controlloBigliettiNonRegistrato/?">I miei biglietti</a></li>
 									</ul>
-								{else}
-									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-										<li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
-									</ul>
-								{/if}
 							</li>
 							<!-- end dropdown -->
 						</ul>
@@ -100,25 +96,10 @@
 							<button class="header__search-btn" type="button">
 								<i class="icon ion-ios-search"></i>
 							</button>
-
-							{if (!isset($utente))}
-								<a href="../Utente/login" methods="GET" class="header__sign-in">
-									<i class="icon ion-ios-log-in"></i>
-									<span>Login</span>
-								</a>
-							{elseif (isset($utente) && !$admin)}
-								<li class="header__nav-item">
-									<a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<span>@{$utente->getUsername()}</span>
-									</a>
-									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-										<li><a href="../Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
-										<li><a href="../Utente/bigliettiAcquistati">I miei acquisti</a></li>
-										<li><a href="../../Utente/showCommenti/">I miei giudizi</a></li>
-										<li><a href="../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
-									</ul>
-								</li>
-							{/if}
+							<a href="../../Utente/login" methods="GET" class="header__sign-in">
+								<i class="icon ion-ios-log-in"></i>
+								<span>Login</span>
+							</a>
 						</div>
 						<!-- end header auth -->
 
@@ -136,7 +117,7 @@
 	</div>
 
 	<!-- header search -->
-	<form action="/Ricerca/cercaFilm" method= "POST" class="header__search">
+	<form action="../../Ricerca/cercaFilm" method= "POST" class="header__search">
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
@@ -152,7 +133,43 @@
 	<!-- end header search -->
 </header>
 <!-- end header -->
+{if ($isGet === true)}
+<!-- content -->
+<section class="content">
+	<form><h2></h2></form>
+	<div class="content__head">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<!-- content title -->
+					<h2 class="content__title">Discover</h2>
+					<!-- end content title -->
 
+					<!-- authorization form -->
+					<form action="../../Utente/loginNonRegistrato" method="POST" class="sign__form">
+						<a href="/" class="sign__logo">
+							<img src="../../Smarty/img/logo.svg" alt="">
+						</a>
+
+						<div class="sign__group">
+							<input name="email" type="text" value="{$email}" class="sign__input" placeholder="Email">
+						</div>
+
+						<div class="sign__group">
+							<input name="password" type="password" class="sign__input" placeholder="Codice">
+						</div>
+
+						<button class="sign__btn" type="submit">Accedi</button>
+
+						<span class="sign__text"><a href="../../Utente/forgotPassword">Password dimenticata?</a></span>
+					</form>
+					<!-- end authorization form -->
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+	{else}
 	<!-- page title -->
 	<section class="section section--first section--bg" data-bg="../../Smarty/img/section/section.jpg">
 		<div class="container">
@@ -160,14 +177,13 @@
 				<div class="col-12">
 					<div class="section__wrap">
 						<!-- section title -->
-						<h2 class="section__title">Riepilogo acquisto</h2>
+						<h2 class="section__title">I miei biglietti</h2>
 						<!-- end section title -->
 
 						<!-- breadcrumb-->
 						<ul class="breadcrumb">
 							<li class="breadcrumb__item"><a href="/">Home</a></li>
-							<li class="breadcrumb__item"><a href="/Film/show/?film={$biglietti[0]->getProiezione()->getFilm()->getId()}&autoplay=true">Film</a></li>
-							<li class="breadcrumb__item breadcrumb__item--active">Acquisto Biglietto</li>
+							<li class="breadcrumb"><a href="">I miei biglietti</a></li>
 						</ul>
 						<!-- end breadcrumb -->
 					</div>
@@ -176,83 +192,70 @@
 		</div>
 	</section>
 	<!-- end page title -->
-<!-- filter -->
-<div class="filter">
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
-				<div class="filter__content">
-					<div class="filter__items">
-						<!-- filter item -->
-						<div class="card__description">
-							<p>Cliccare su acquista per procedere. Oppure puoi annullare l'acquisto.</p>
+	<!-- filter -->
+	<div class="filter">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="filter__content">
+						<div class="filter__items">
+							<!-- filter item -->
+							<div class="card__description">
+								<p>Qui puoi osservare tutti i biglietti che hai acquistato presso il nostro cinema {$email} :)</p>
+							</div>
+							<!-- end filter item -->
 						</div>
-						<!-- end filter item -->
 					</div>
-
-					<!-- filter btn -->
-					<form action="../Acquisto/confermaAcquisto" method="POST">
-						<button class="filter__btn" type="submit">Acquista</button>
-					</form>
-					<button class="filter__btn" type="button" onclick="window.">Annulla</button>
-					<!-- end filter btn -->
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<!-- end filter -->
+	<!-- end filter -->
 	<!-- catalog -->
-<form></form>
+	<form></form>
 	<div class="catalog">
 		<div class="container">
 			<div class="row">
-				{if (isset($biglietti))}
-				{foreach $biglietti as $item}
-				<!-- card -->
-				<div class="col-6 col-sm-12 col-lg-6">
-					<div class="card card--list">
-						<div class="row">
-							<div class="col-12 col-sm-4">
-								<div class="card__cover">
-									<img src="{$locandina->getImmagineHTML()}" alt="">
-								</div>
-							</div>
-
-							<div class="col-12 col-sm-8">
-								<div class="card__content">
-									<h3 class="card__title"><a href="#">{$item->getProiezione()->getFilm()->getNome()}</a></h3>
-									<span class="card__category">
-										<a style="font-size:20px;">{$item->getPosto()}</a>
-									</span>
-
-									<div class="card__wrap">
-										{if ($item->getProiezione()->getFilm()->getetaConsigliata() != "")}
-											<ul class="card__list">
-												<li>{$item->getProiezione()->getFilm()->getetaConsigliata()}</li>
-											</ul>
-										{/if}
+					{foreach $biglietti as $key => $item}
+						<!-- card -->
+						<div class="col-6 col-sm-12 col-lg-6">
+							<div class="card card--list">
+								<div class="row">
+									<div class="col-12 col-sm-4">
+										<div class="card__cover">
+											<img src="{$immagini[$key]->getImmagineHTML()}" alt="">
+										</div>
 									</div>
 
-									<div class="card__description">
-										<p>Biglietto #{$item->getId()} <br> Giorno {$item->getProiezione()->getData()} <br> Spettacolo delle {$item->getProiezione()->getOra()} <br> Sala {$item->getProiezione()->getSala()->getNumeroSala()} <br> Prezzo: {$item->getCosto()}€</p>
+									<div class="col-12 col-sm-8">
+										<div class="card__content">
+											<h3 class="card__title"><a href="../../Film/show/?film={$item->getProiezione()->getFilm()->getId()}">{$item->getProiezione()->getFilm()->getNome()}</a></h3>
+											<span class="card__category">
+										<a style="font-size:20px;">{$item->getPosto()}</a>
+									</span>
+											<div class="card__wrap">
+												{if ($item->getProiezione()->getFilm()->getetaConsigliata() != "")}
+													<ul class="card__list">
+														<li>{$item->getProiezione()->getFilm()->getetaConsigliata()}</li>
+													</ul>
+												{/if}
+											</div>
+
+											<div class="card__description">
+												<p>Giorno {$item->getProiezione()->getData()} <br> Spettacolo delle {$item->getProiezione()->getOra()} <br> Sala {$item->getProiezione()->getSala()->getNumeroSala()} <br> Prezzo: {$item->getCosto()}€</p>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-				<!-- end card -->
-				{/foreach}
-				{/if}
+						<!-- end card -->
+					{/foreach}
 			</div>
-		</div>
-		<div class="col-12">
-			<h2 class="section__title section__title--center">Totale: {$totale}€</h2>
 		</div>
 	</div>
 	<!-- end catalog -->
-
+{/if}
 <!-- footer -->
 <footer class="footer">
 	<div class="container">
@@ -322,19 +325,85 @@
 </footer>
 <!-- end footer -->
 
-	<!-- JS -->
-	<script src="../../Smarty/js/jquery-3.3.1.min.js"></script>
-	<script src="../../Smarty/js/bootstrap.bundle.min.js"></script>
-	<script src="../../Smarty/js/owl.carousel.min.js"></script>
-	<script src="../../Smarty/js/jquery.mousewheel.min.js"></script>
-	<script src="../../Smarty/js/jquery.mCustomScrollbar.min.js"></script>
-	<script src="../../Smarty/js/wNumb.js"></script>
-	<script src="../../Smarty/js/nouislider.min.js"></script>
-	<script src="../../Smarty/js/plyr.min.js"></script>
-	<script src="../../Smarty/js/jquery.morelines.min.js"></script>
-	<script src="../../Smarty/js/photoswipe.min.js"></script>
-	<script src="../../Smarty/js/photoswipe-ui-default.min.js"></script>
-	<script src="../../Smarty/js/main.js"></script>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+	<!-- Background of PhotoSwipe.
+    It's a separate element, as animating opacity is faster than rgba(). -->
+	<div class="pswp__bg"></div>
+
+	<!-- Slides wrapper with overflow:hidden. -->
+	<div class="pswp__scroll-wrap">
+
+		<!-- Container that holds slides. PhotoSwipe keeps only 3 slides in DOM to save memory. -->
+		<!-- don't modify these 3 pswp__item elements, data is added later on. -->
+		<div class="pswp__container">
+			<div class="pswp__item"></div>
+			<div class="pswp__item"></div>
+			<div class="pswp__item"></div>
+		</div>
+
+		<!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+		<div class="pswp__ui pswp__ui--hidden">
+
+			<div class="pswp__top-bar">
+
+				<!--  Controls are self-explanatory. Order can be changed. -->
+
+				<div class="pswp__counter"></div>
+
+				<button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+				<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+				<!-- Preloader -->
+				<div class="pswp__preloader">
+					<div class="pswp__preloader__icn">
+						<div class="pswp__preloader__cut">
+							<div class="pswp__preloader__donut"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+
+			<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+
+			<div class="pswp__caption">
+				<div class="pswp__caption__center"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- JS -->
+<script>
+	function result(value){
+		alert(value);
+	}
+	
+	function control() {
+		if($("#toBan").val().length < 6){
+			alert("L'utente ha uno username di almeno 7 caratteri");
+			return false;
+		} else {
+			return true;
+		}
+	}
+</script>
+<script src="../../Smarty/js/jquery-3.3.1.min.js"></script>
+<script src="../../Smarty/js/bootstrap.bundle.min.js"></script>
+<script src="../../Smarty/js/owl.carousel.min.js"></script>
+<script src="../../Smarty/js/jquery.mousewheel.min.js"></script>
+<script src="../../Smarty/js/jquery.mCustomScrollbar.min.js"></script>
+<script src="../../Smarty/js/wNumb.js"></script>
+<script src="../../Smarty/js/nouislider.min.js"></script>
+<script src="../../Smarty/js/plyr.min.js"></script>
+<script src="../../Smarty/js/jquery.morelines.min.js"></script>
+<script src="../../Smarty/js/photoswipe.min.js"></script>
+<script src="../../Smarty/js/photoswipe-ui-default.min.js"></script>
+<script src="../../Smarty/js/main.js"></script>
 </body>
 
 </html>

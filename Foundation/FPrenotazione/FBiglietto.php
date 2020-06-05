@@ -5,7 +5,7 @@ class FBiglietto implements FoundationDebole
 {
     private static string $className = "FBiglietto";
     private static string $tableName = "Biglietto";
-    private static string $valuesName = "(:idProiezione,:posto,:idUtente,:costo)";
+    private static string $valuesName = "(:idProiezione,:posto,:idUtente,:costo,:id)";
 
     public function __construct() {}
 
@@ -15,6 +15,7 @@ class FBiglietto implements FoundationDebole
             $sender->bindValue(':posto', $biglietto->getPosto()->getId(), PDO::PARAM_STR);
             $sender->bindValue(':idUtente',$biglietto->getUtente()->getId(),PDO::PARAM_INT);
             $sender->bindValue(':costo',$biglietto->getCosto(),PDO::PARAM_STR);
+            $sender->bindValue(':id',$biglietto->getId(),PDO::PARAM_STR);
         } else {
             die("Not a ticket!!");
         }
@@ -91,7 +92,10 @@ class FBiglietto implements FoundationDebole
             //UTENTE
             $utente = FUtente::load(intval($row["idUtente"]), "id");
             $costo = floatval($row["costo"]);
-            array_push($return, new EBiglietto($proiezione->getElencoProgrammazioni()[0]->getProiezioni()[0], $posto, $utente, $costo));
+
+            //ID
+            $id = $row["id"];
+            array_push($return, new EBiglietto($proiezione->getElencoProgrammazioni()[0]->getProiezioni()[0], $posto, $utente, $costo, $id));
         }
         return $return;
     }

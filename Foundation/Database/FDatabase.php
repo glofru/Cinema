@@ -68,6 +68,49 @@ class FDatabase
         return null;
     }
 
+    public function saveToDBNS($utente, $preferenze) {
+        try {
+            $this->db->beginTransaction();
+            $query = "INSERT INTO " . FNewsLetter::getTableName() . " VALUES " . FNewsLetter::getValuesName();
+            $sender = $this->db->prepare($query);
+            FNewsLetter::associate($sender, $utente, $preferenze);
+            $sender->execute();
+            $this->db->commit();
+        } catch (PDOException $exception) {
+            $this->error();
+        }
+
+        return null;
+    }
+
+    public function saveToDBProiezioneEPosti(EProiezione $proiezione)
+    {
+        $posti = $proiezione->getSala()->getPosti();
+        if (!isset($posti)) {
+            return null;
+        }
+        try {
+            $this->db->beginTransaction();
+            $query = "INSERT INTO" . FProiezione::getTableName() . "VALUES " . FProiezione::getValuesName();
+            $sender = $this->db->prepare($query);
+            FProiezione::associate($sender, $proiezione);
+            $sender->execute();
+            $id = $this->db->lastInsertId();
+            foreach ($posti as $file) {
+                foreach ($file as $item) {
+                    $query = "INSERT INTO" . FPosto::getTableName() . "VALUES " . FPosto::getValuesName();
+                    $sender = $this->db->prepare($query);
+                    FPosto::associate($sender, $proiezione, $item);
+                    $sender->execute();
+                }
+            }
+            $this->db->commit();
+            return $id;
+        } catch (Exception $exception) {
+            $this->error();
+        }
+    }
+
     public function saveToDBDebole($class, EProiezione $proiezione, EPosto $posto){
         try {
             $this->db->beginTransaction();
@@ -196,6 +239,34 @@ class FDatabase
             }
             return $return;
         } catch(Exception $exception) {
+            $this->error(false);
+        }
+
+        return null;
+    }
+
+    public function loadAllNL() {
+        try {
+            $query = "SELECT * FROM " . FNewsLetter::getTableName() . ";";
+            $sender = $this->db->prepare($query);
+            $sender->execute();
+            $returnedRows = $sender->rowCount();
+            $return = [];
+            if($returnedRows == 0){
+                return [];
+            }
+            elseif ($returnedRows == 1) {
+                array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
+            }
+            else {
+                $sender->setFetchMode(PDO::FETCH_ASSOC);
+                while($elem = $sender->fetch()) {
+                    $return[] = $elem;
+                }
+            }
+            return $return;
+        }
+        catch (PDOException $exception) {
             $this->error(false);
         }
 
@@ -364,16 +435,19 @@ class FDatabase
                 $query = "UPDATE Posti SET occupato = '1' WHERE idProiezione = '" . $item->getProiezione()->getId() . "' AND posizione = '" . $item->getPosto()->getId() . "';";
                 $sender = $this->db->prepare($query);
                 $sender->execute();
+                $query = "INSERT INTO " . FBiglietto::getTableName() . " VALUES " . FBiglietto::getValuesName();
+                $sender = $this->db->prepare($query);
+                FBiglietto::associate($sender, $item);
+                $sender->execute();
             }
             $this->db->commit();
         } catch(PDOException $exception) {
             $this->error();
         }
-
         return true;
     }
 
-    public function liberaPosto($idProiezione, $posto, $emailUtente) {
+    /*public function liberaPosto($idProiezione, $posto, $emailUtente) {
         try {
             $this->db->beginTransaction();
             $query = "SELECT * FROM " . "Posti" . " WHERE " . "idProiezione" . "= '" . $idProiezione. "' AND " . "posizione" . "= '" . $posto . "' LOCK IN SHARE MODE;";
@@ -398,7 +472,7 @@ class FDatabase
         }
 
         return false;
-    }
+    }*/
 
     public function storeMedia($class, EMedia $media)
     {

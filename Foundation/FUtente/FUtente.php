@@ -47,7 +47,7 @@ class FUtente implements Foundation
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
 
-        if ($result == null) {
+        if ($result === null) {
             return null;
         }
         return self::parseResult($result)[0];
@@ -106,15 +106,20 @@ class FUtente implements Foundation
             $password = $row["password"];
             $isAdmin = $row["isAdmin"];
             $isBanned = $row["isBanned"];
+            try {
+                if ($isAdmin) {
+                    $utente = new EAdmin($nome, $cognome, $username, $email, $password, $isBanned);
+                } elseif ($username != null && $username != "") {
+                    $utente = new ERegistrato($nome, $cognome, $username, $email, $password, $isBanned);
 
-            if ($isAdmin) {
-                $utente = new EAdmin($nome, $cognome, $username, $email, $password, $isBanned);
-            } elseif ($username != null && $username != "") {
-                $utente =  new EUtente($nome, $cognome, $username, $email, $password, $isBanned);
-            } else {
-                $utente = new ENonRegistrato($nome, $cognome, $username, $email, $password, $isBanned);
+                } else {
+                    $utente = new ENonRegistrato($email, $password);
+                }
+            } catch (Exception $e) {
+                if ($e->getMessage() === "Password non valida") {
+                    return [null];
+                }
             }
-
             $utente->setId($id);
             array_push($return, $utente);
         }
@@ -126,12 +131,12 @@ class FUtente implements Foundation
         $db = FDatabase::getInstance();
 
         $resultMail = $db->loadFromDB(self::getClassName(), $utente->getEmail(), "email");
-        $existsMail = $resultMail != null && sizeof($resultMail) > 1;
+        $existsMail = $resultMail != null && sizeof($resultMail) > 0;
 
         if ($checkMail) return $existsMail;
 
         $resultUser = $db->loadFromDB(self::getClassName(), $utente->getUsername(), "username");
-        $existsUser = $resultUser != null && sizeof($resultUser) > 1;
+        $existsUser = $resultUser != null && sizeof($resultUser) > 0;
 
         if (!$checkMail) return $existsUser;
 
