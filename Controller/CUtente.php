@@ -128,11 +128,12 @@ class CUtente
                 }
 
                 if(isset($toShow)){
-                    $giudizi = $toShow->getListaGiudizi();
-                    usort($giudizi, array(EHelper::getInstance(), "sortByDatesGiudizi"));
-
-                    if(sizeof($giudizi) > 10){
-                        array_splice($giudizi, 0, 10);
+                    if ($toShow->isRegistrato()) {
+                        $giudizi = $toShow->getListaGiudizi();
+                        usort($giudizi, array(EHelper::getInstance(), "sortByDatesGiudizi"));
+                        if (sizeof($giudizi) > 10) {
+                            array_splice($giudizi, 0, 10);
+                        }
                     }
 
                     VUtente::show($toShow, $canModify, $toShow->isAdmin(), $propic, $giudizi);
@@ -270,8 +271,6 @@ class CUtente
             if ($logout) {
                 self::logout();
             }
-
-            return false;
         }
 
         return false;
@@ -413,8 +412,9 @@ class CUtente
                 }
                 VUtente::showCommenti($giudizi, $utente, $propic);
             }
+        } else {
+            CMain::forbidden();
         }
-        CMain::forbidden();
     }
 
     public static function controlloBigliettiNonRegistrato() {
@@ -428,7 +428,6 @@ class CUtente
         } else {
             CMain::methodNotAllowed();
         }
-
     }
 
 }

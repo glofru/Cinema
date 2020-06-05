@@ -3,7 +3,7 @@
 
 class VUtente
 {
-    public static function show(EUtente $utente, bool $canModify, bool $isAdmin, EMedia $propic, array $giudizi)
+    public static function show(EUtente $utente, bool $canModify, bool $isAdmin, EMedia $propic, $giudizi)
     {
         $smarty = StartSmarty::configuration();
         $smarty->assign("utente", $utente);

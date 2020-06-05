@@ -222,35 +222,37 @@
                 <div class="col-12">
                     <h2 class="section__title"></h2>
                 </div>
-                <div class="col-12">
-                    <h2 class="section__title section__title--center">Alcuni dei giudizi espressi dall'utente</h2>
-                </div>
-                {if sizeof($giudizi) === 0}
-                <div class="col-12">
-                    <h2 class="section__title section__title--center">{if (!$admin)}L'utente non ha ancora espresso giudizi...{else}Un amministratore non può esprimere giudizi!{/if}</h2>
-                </div>
-                {else}
-                <div class="col-12 col-lg-8 col-xl-8">
+                {if !$admin}
                     <div class="col-12">
-                        <div class="reviews">
-                            <ul class="reviews__list">
-                                {if ($giudizi)}
-                                    {foreach $giudizi as $key => $rev}
-                                        <li class="reviews__item">
-                                            <div class="reviews__autor">
-                                                <img class="reviews__avatar" src="{$propic->getImmagine()}" alt="">
-                                                <span class="reviews__name" style="display: inline-block">{$rev->getTitle()}</span>
-                                                <span class="reviews__time">da @{$rev->getUtente()->getUsername()} il {$rev->getDataPubblicazioneString()} nel film <a href="/Film/show/?film={$rev->getFilm()->getId()}&autoplay=true" target="_blank">{$rev->getFilm()->getNome()}</a></span>
-                                                <span class="reviews__rating"><i class="icon ion-ios-star"></i>{$rev->getPunteggio()}</span>
-                                            </div>
-                                            <p class="reviews__text">{$rev->getCommento()}</p>
-                                        </li>
-                                    {/foreach}
-                                {/if}
-                            </ul>
+                        <h2 class="section__title section__title--center">Alcuni dei giudizi espressi dall'utente</h2>
+                    </div>
+                    {if sizeof($giudizi) === 0}
+                    <div class="col-12">
+                        <h2 class="section__title section__title--center">{if (!$admin)}L'utente non ha ancora espresso giudizi...{else}Un amministratore non può esprimere giudizi!{/if}</h2>
+                    </div>
+                    {else}
+                    <div class="col-12 col-lg-8 col-xl-8">
+                        <div class="col-12">
+                            <div class="reviews">
+                                <ul class="reviews__list">
+                                    {if ($giudizi)}
+                                        {foreach $giudizi as $key => $rev}
+                                            <li class="reviews__item">
+                                                <div class="reviews__autor">
+                                                    <img class="reviews__avatar" src="{$propic->getImmagine()}" alt="">
+                                                    <span class="reviews__name" style="display: inline-block">{$rev->getTitle()}</span>
+                                                    <span class="reviews__time">da @{$rev->getUtente()->getUsername()} il {$rev->getDataPubblicazioneString()} nel film <a href="/Film/show/?film={$rev->getFilm()->getId()}&autoplay=true" target="_blank">{$rev->getFilm()->getNome()}</a></span>
+                                                    <span class="reviews__rating"><i class="icon ion-ios-star"></i>{$rev->getPunteggio()}</span>
+                                                </div>
+                                                <p class="reviews__text">{$rev->getCommento()}</p>
+                                            </li>
+                                        {/foreach}
+                                    {/if}
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    {/if}
                 {/if}
             </div>
         </div>
