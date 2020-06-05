@@ -2,6 +2,12 @@
 
 class CMain
 {
+    public static function forbidden() {
+        header("HTTP/1.1 403 Forbidden");
+        header("Location: /403.html");
+        die;
+    }
+
     public static function notFound() {
         header("HTTP/1.1 404 Not Found");
         header("Location: /404.html");
@@ -11,12 +17,6 @@ class CMain
     public static function methodNotAllowed() {
         header("HTTP/1.1 405 Method Not Allowed");
         header("Location: /405.html");
-        die;
-    }
-
-    public static function forbidden() {
-        header("HTTP/1.1 403 Forbidden");
-        header("Location: /403.html");
         die;
     }
 
