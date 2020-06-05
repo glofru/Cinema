@@ -144,6 +144,13 @@ class EMedia implements JsonSerializable
      */
     public function setImmagine($immagine): void
     {
+        /*if(EInputChecker::getInstance()->isImage($immagine)){
+            $this->immagine = $immagine;
+        } else {
+            throw new Exception("Immagine non valida");
+
+        }*/
+
         $this->immagine = $immagine;
     }
 

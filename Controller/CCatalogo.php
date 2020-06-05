@@ -82,11 +82,4 @@ class CCatalogo
         array_push($result, $filmApprezzati, $immaginiApprezzati, $punteggi);
         VCatalogo::piuApprezzati($result, $utente, $isAdmin, $consigliati);
     }
-
-    function descending($a, $b) {
-        if ($a == $b) {
-            return 0;
-        }
-        return ($a > $b) ? -1 : 1;
-    }
 }

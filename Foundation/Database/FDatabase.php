@@ -68,6 +68,21 @@ class FDatabase
         return null;
     }
 
+    public function saveToDBNS($utente, $preferenze) {
+        try {
+            $this->db->beginTransaction();
+            $query = "INSERT INTO " . FNewsLetter::getTableName() . " VALUES " . FNewsLetter::getValuesName();
+            $sender = $this->db->prepare($query);
+            FNewsLetter::associate($sender, $utente, $preferenze);
+            $sender->execute();
+            $this->db->commit();
+        } catch (PDOException $exception) {
+            $this->error();
+        }
+
+        return null;
+    }
+
     public function saveToDBProiezioneEPosti(EProiezione $proiezione)
     {
         $posti = $proiezione->getSala()->getPosti();

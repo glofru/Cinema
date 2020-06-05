@@ -6,8 +6,7 @@ class CAdmin
 
     public static function checkAdmin() {
         if(!CUtente::isLogged() || !CUtente::getUtente()->isAdmin()) {
-            VError::error(3);
-            die;
+            CMain::forbidden();
         }
     }
 
@@ -137,7 +136,7 @@ class CAdmin
             self::ban($_POST["utente"]);
             CGiudizio::delete();
         } else {
-            CMain::notFound();
+            CMain::methodNotAllowed();
         }
     }
 }

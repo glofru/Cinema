@@ -7,10 +7,20 @@ class CUtente
         if (self::isLogged()) {
             header("Location: /");
         } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
-            VUtente::loginForm();
+            if(isset($_COOKIE["remember"])){
+                VUtente::loginForm($_COOKIE["remember"], false, 1);
+            } else {
+                VUtente::loginForm();
+            }
+
         } elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = $_POST["username"];
             $password = $_POST["password"];
+            if(isset($_POST["remember"])) {
+                setcookie("remember", $username, time() + time() + (168 * 3600),"/");
+            } else {
+                setcookie("remember", "", time() + time() - (168 * 3600),"/");
+            }
             self::checkLogin($username, $password);
         }
     }
@@ -18,18 +28,21 @@ class CUtente
     public static function loginNonRegistrato() {
         if(self::isLogged()){
             header("Location: /");
-        } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && EInputChecker::getInstance()->isEmail($_POST["email"])) {
+        } else if ($_SERVER["REQUEST_METHOD"] == "POST" && EInputChecker::getInstance()->isEmail($_POST["email"])) {
             $email = $_POST["email"];
             $password = $_POST["password"];
 
             $utente = FPersistentManager::getInstance()->login($email, $password, true);
-
             if(!isset($utente)) {
                 VUtente::showCheckNonRegsitrato(true, $email);
             } else if($utente->isRegistrato()) {
                 VError::error(0, "Pagina destinata ad utenti non Registrati");
             } else {
-                $biglietti = FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EBiglietto");
+                foreach (FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EBiglietto") as $b) {
+                    $utente->addBiglietto($b);
+                }
+
+                $biglietti = $utente->getListaBiglietti();
 
                 usort($biglietti, array(EHelper::getInstance(), "sortByDatesBiglietti"));
                 $immagini = [];
@@ -41,7 +54,7 @@ class CUtente
                 VUtente::showCheckNonRegsitrato(false, $email, $biglietti, $immagini);
             }
         } else {
-            CMain::notFound();
+            CMain::methodNotAllowed();
         }
     }
     
@@ -77,10 +90,12 @@ class CUtente
             if ($utente->isBanned()) {
                 VError::error(4);
             } else {
+                $biglietti = $pm->load($utente->getId(), "idUtente", "EBiglietto");
+                foreach ($biglietti as $b) {
+                    $utente->addBiglietto($b);
+                }
                 self::saveSession($utente);
             }
-        } elseif($utente[0] === null) {
-            VError::error(0, "È in corso un reset della password");
         } else {
             VUtente::loginForm($user, true);
         }
@@ -98,7 +113,13 @@ class CUtente
                     $toShow = CUtente::getUtente();
                 } else {
                     $canModify = false;
-                    $toShow = $pm->load($_GET["idShow"],"id","EUtente");
+                    $toShow = $pm->load($_GET["id"],"id","EUtente");
+                    if(isset($toShow) && !$toShow->isAdmin()) {
+                        $giudizi = $pm->load($_GET["id"], "idUtente", "EGiudizio");
+                        foreach ($giudizi as $g) {
+                            $toShow->addGiudizio($g);
+                        }
+                     }
                 }
 
                 $propic = $pm->load($toShow->getId(),"idUtente","EMediaUtente");
@@ -107,7 +128,7 @@ class CUtente
                 }
 
                 if(isset($toShow)){
-                    $giudizi = $pm->load($_GET["id"], "idUtente", "EGiudizio");
+                    $giudizi = $toShow->getListaGiudizi();
                     usort($giudizi, array(EHelper::getInstance(), "sortByDatesGiudizi"));
 
                     if(sizeof($giudizi) > 10){
@@ -120,6 +141,8 @@ class CUtente
                 }
 
             }
+        } else {
+            CMain::methodNotAllowed();
         }
     }
 
@@ -193,7 +216,7 @@ class CUtente
             session_start();
         }
         session_regenerate_id(true);
-        session_set_cookie_params(3600, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inseirto il 4° parametro
+        session_set_cookie_params(time() + 3600, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inseirto il 4° parametro
         $salvare = serialize($utente); // a TRUE per fare si che il cookie viaggi solo su HTTPS. E' FALSE perchè non abbiamo un certificato SSL ma in un contesto reale va messo a TRUE!!!
         $_SESSION['utente'] = $salvare;
         VUtente::loginOk();
@@ -264,10 +287,13 @@ class CUtente
 
     public static function bigliettiAcquistati() {
         $utente = self::getUtente();
-        if(!isset($utente) || $utente->isAdmin()) {
+        if(!isset($utente)) {
+            CMain::forbidden();
+        }
+        if($utente->isAdmin()) {
             header("Location: /");
         }
-        $biglietti = FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EBiglietto");
+        $biglietti = $utente->getListaBiglietti();
         usort($biglietti, array(EHelper::getInstance(), "sortByDatesBiglietti"));
         $immagini = [];
         foreach ($biglietti as $item) {
@@ -325,7 +351,7 @@ class CUtente
 
                 if (CMail::sendForgotMail($utente, $token)) { //Invio mail
                     //Reset password
-                    FPersistentManager::getInstance()->update($utente->getId(), "id", "", "password", "EUtente");
+                    //FPersistentManager::getInstance()->update($utente->getId(), "id", "", "password", "EUtente");
 
                     //Salvataggio token
                     FPersistentManager::getInstance()->save($token);
@@ -379,7 +405,7 @@ class CUtente
         if(self::isLogged()){
             if(!self::getUtente()->isAdmin()){
                 $utente = self::getUtente();
-                $giudizi = FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EGiudizio");
+                $giudizi = $utente->getListaGiudizi();
                 usort($giudizi, array(EHelper::getInstance(), "sortByDatesGiudizi"));
                 $propic = FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EMediaUtente");
                 if($propic->getImmagine() == ""){
@@ -388,7 +414,7 @@ class CUtente
                 VUtente::showCommenti($giudizi, $utente, $propic);
             }
         }
-        header("Location: /");
+        CMain::forbidden();
     }
 
     public static function controlloBigliettiNonRegistrato() {
@@ -400,7 +426,7 @@ class CUtente
                 die;
             }
         } else {
-            CMain::notFound();
+            CMain::methodNotAllowed();
         }
 
     }

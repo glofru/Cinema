@@ -42,6 +42,10 @@ class FPersistentManager
         $class::save($istanza);
     }
 
+    public function saveNS($utente, $preferenze) {
+        FNewsLetter::save($utente, $preferenze);
+    }
+
     public function saveProiezione(EProiezione $proiezione) {
         $result = FProiezione::save($proiezione);
         return $result;
