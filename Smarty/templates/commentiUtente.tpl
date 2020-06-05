@@ -94,7 +94,6 @@
                             <button class="header__search-btn" type="button">
                                 <i class="icon ion-ios-search"></i>
                             </button>
-                            {if (isset($utente) && !$admin)}
                                 <li class="header__nav-item">
                                     <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <span>@{$utente->getUsername()}</span>
@@ -106,20 +105,6 @@
                                         <li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
                                     </ul>
                                 </li>
-                            {elseif (isset($utente) && $admin)}
-                                <li class="header__nav-item">
-                                    <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span>@{$utente->getUsername()}</span>
-                                    </a>
-                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                        <li><a href="/Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
-                                        <li><a href="">Gestione film</a></li>
-                                        <li><a href="">Gestione Proiezioni</a></li>
-                                        <li><a href="../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
-                                        <li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
-                                    </ul>
-                                </li>
-                            {/if}
                         </div>
                         <!-- end header auth -->
 

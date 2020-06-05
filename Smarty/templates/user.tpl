@@ -127,7 +127,7 @@
                                     </a>
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
                                         <li><a href="/Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
-                                        <li><a href="">Gestione film</a></li>
+                                        <li><a href="../../Admin/addFilm/?">Gestione film</a></li>
                                         <li><a href="">Gestione Proiezioni</a></li>
                                         <li><a href="../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
                                         <li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
