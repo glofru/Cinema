@@ -61,7 +61,8 @@ class CAdmin
             $data = base64_encode($data);
             $copertina = new EMediaLocandina($name, $mimeType, $time, $data, $film);
             FPersistentManager::getInstance()->save($copertina);
-
+            $_SESSION["idFilm"] = $film->getId();
+            CNewsLetter::addedNewFilm();
             header("Location: /Film/show/?film=" . $film->getId());
         }
     }
