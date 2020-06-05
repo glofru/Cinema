@@ -173,48 +173,57 @@
     <!-- details content -->
     <div class="container">
         <div class="row">
-            <!-- title -->
-            <div class="col-12">
-                <h1 class="details__title">@{$utente->getUsername()}{if ($admin)} [ADMIN]{/if}</h1>
-            </div>
-            <!-- end title -->
-
             <!-- content -->
-            <div class="col-10">
-                <div class="card card--details card--series">
-                    <div class="row">
-                        <!-- card cover -->
-                        <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
-                            <div class="card__cover">
-                                <img src="{$propic->getImmagine()}" alt="">
+            <form class="form" style="width: 1000px" method="POST" action="#">
+                <div class="col-10">
+                    <div class="card card--details card--series">
+                        <div class="row">
+                            <!-- card cover -->
+                            <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
+                                <div class="card__cover">
+                                    <img src="{$propic->getImmagine()}" alt="">
+                                    <a href="#" class="section__btn align-content-center">Upload</a>
+                                </div>
                             </div>
-                        </div>
-                        <!-- end card cover -->
+                            <!-- end card cover -->
 
-                        <!-- card content -->
-                        <div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-9">
-                            <div class="card__content">
+                            <!-- card content -->
+                            <div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-9">
+                                <div class="card__content">
 
+                                    <div class="col-8">
+                                        <h1 class="details__title">Dati utente</h1>
+                                    </div>
 
-                                <ul class="card__meta">
-                                    <li><span>Nome:</span>{$utente->getNome()}
-                                    <li><span>Cognome:</span>{$utente->getCognome()}</li>
-                                    {if ($canModify)}
-                                        <li><span>Email:</span> <a href="#">{$utente->getEmail()}</a> </li>
-                                    {/if}
-                                </ul>
+                                    <ul class="card__meta">
+                                        <li><input class="form__input" type="text" name="username" value="{$utente->getUsername()}" placeholder="Username"></li>
+                                        <li><input class="form__input" type="text" name="nome" value="{$utente->getNome()}" placeholder="Nome"></li>
+                                        <li><input class="form__input" type="text" name="cognome" value="{$utente->getCognome()}" placeholder="Cognome"></li>
+                                        <li><input class="form__input" type="text" name="email" value="{$utente->getEmail()}" placeholder="Email"></li>
+                                    </ul>
+                                </div>
+
+                                <div class="card__content">
+
+                                    <div class="col-8">
+                                        <h1 class="details__title">Cambio password</h1>
+                                    </div>
+
+                                    <ul class="card__meta">
+                                        <li><input class="form__input" type="password" name="nome" placeholder="Vecchia password"></li>
+                                        <li><input class="form__input" type="password" name="cognome" placeholder="Nuova password"></li>
+                                        <li><input class="form__input" type="password" name="email" placeholder="Nuova password"></li>
+                                    </ul>
+                                </div>
                             </div>
+                            <!-- end card content -->
                         </div>
-                        <!-- end card content -->
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
-                <a href="/Utente/modifica/?id={$utente->getId()}" class="section__btn align-content-center">Applica modifiche</a>
-            </div>
-            <div class="col-12">
-                <h2 class="section__title"></h2>
-            </div>
+                <div class="col-12">
+                    <button class="section__btn align-content-center">Applica modifiche</button>
+                </div>
+            </form>
         </div>
     </div>
 </section>

@@ -202,10 +202,10 @@
 
 
                                     <ul class="card__meta">
-                                        <li><span>Nome:</span>{$utente->getNome()}
+                                        <li><span>Nome:</span>{$utente->getNome()}</li>
                                         <li><span>Cognome:</span>{$utente->getCognome()}</li>
                                         {if ($canModify)}
-                                        <li><span>Email:</span> <a href="#">{$utente->getEmail()}</a> </li>
+                                            <li><span>Email:</span> <a style="cursor: default">{$utente->getEmail()}</a> </li>
                                         {/if}
                                     </ul>
                                 </div>
