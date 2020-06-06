@@ -374,6 +374,7 @@
 <script>
 	function result(value){
 		alert(value);
+		document.location.href = "#tab-2";
 	}
 	
 	function control() {
