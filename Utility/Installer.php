@@ -8,7 +8,7 @@ class Installer
 
     public static function checkInstall(): bool
     {
-        return self::checkInstallDB() && self::checkInstallCinema();
+        return self::checkInstallDB() && self::checkInstallCinema() && self::checkAdmin();
     }
 
     private static function checkInstallDB(): bool {
@@ -17,6 +17,11 @@ class Installer
 
     private static function checkInstallCinema(): bool {
         return file_exists(self::$confCinema);
+    }
+
+    private static function checkAdmin(): bool {
+        $admin = FPersistentManager::getInstance()->load(1, 'isAdmin', "EUtente");
+        return isset($admin) && sizeof($admin) > 0;
     }
 
     public static function start()
@@ -30,6 +35,8 @@ class Installer
                 $smarty->display("installationDB.tpl");
             } elseif (!self::checkInstallCinema()) {
                 $smarty->display("installationCinema.tpl");
+            } elseif (!self::checkAdmin()) {
+                $smarty->display("firstAdmin.tpl");
             } else {
                 CHome::showHome();
             }
@@ -57,7 +64,7 @@ class Installer
                     setcookie('js_enabled', '', time()-3600);
                     self::installDB($dbname, $username, $pwd, $population);
                 }
-            } else if (!self::checkInstallCinema()) {
+            } elseif (!self::checkInstallCinema()) {
                 $Mon = floatval($_POST["Mon"]);
                 $Tue = floatval($_POST["Tue"]);
                 $Wed = floatval($_POST["Wed"]);
@@ -67,6 +74,22 @@ class Installer
                 $Sun = floatval($_POST["Sun"]);
                 $extra = floatval($_POST["extra"]);
                 self::installCinema($Mon, $Tue, $Wed, $Thu, $Fri, $Sat, $Sun, $extra);
+
+            } elseif (!self::checkAdmin()){
+                $nome = $_POST["nome"];
+                $cognome = $_POST["cognome"];
+                $username = $_POST["username"];
+                $email = $_POST["email"];
+                $password = $_POST["password"];
+                $utente = new EAdmin($nome, $cognome, $username, $email, $password, false);
+
+                $utente->setPassword(EHelper::getInstance()->hash($password));
+
+                $pm = FPersistentManager::getInstance();
+
+                $pm->signup($utente);
+                unset($utente);
+                header("Location: /");
             } else {
                 CHome::showHome();
             }
