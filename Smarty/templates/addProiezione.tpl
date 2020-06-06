@@ -44,31 +44,6 @@
         input[type=number] {
             -moz-appearance: textfield;
         }
-
-        .custom_upload::-webkit-file-upload-button {
-            visibility: hidden;
-        }
-        .custom_upload::before {
-            content: 'Carica copertina';
-            display: inline-block;
-            background: linear-gradient(top, #f9f9f9, #e3e3e3);
-            border: 1px solid #999;
-            border-radius: 3px;
-            padding: 5px 8px;
-            outline: none;
-            white-space: nowrap;
-            -webkit-user-select: none;
-            cursor: pointer;
-            text-shadow: 1px 1px #fff;
-            font-weight: 700;
-            font-size: 10pt;
-        }
-        .custom_upload:hover::before {
-            border-color: black;
-        }
-        .custom_upload:active::before {
-            background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
-        }
     </style>
 </head>
 <body class="body">
@@ -78,114 +53,50 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- authorization form -->
-                    <form action="{$path}../../Admin/addProiezione" method="POST" class="sign__form" enctype="multipart/form-data">
+                    <form action="{$path}../../Admin/addProiezione" onsubmit="return validate()" method="POST" class="sign__form" enctype="multipart/form-data">
 
                         <!-- Titolo -->
                         <div class="sign__group">
                             <input type="text" class="sign__input" placeholder="Titolo del film" name="titolo">
                         </div>
 
-                        <!-- Descrizione -->
+                        <!-- Film -->
                         <div class="sign__group">
-                            <input type="text" class="sign__input" placeholder="Descrizione" name="descrizione">
-                        </div>
+                            <input id="filmChosen" list="films" class="sign__input" placeholder="Film">
 
-                        <!-- Genere -->
-                        <div class="filter__item" id="filter__genre" style="margin: auto; padding-bottom: 20px">
-                            <span class="filter__item-label">Genere:</span>
-
-                            <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-genre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <input type="text" name="genere" value="{$generi[0]}" readonly>
-                                <span></span>
-                            </div>
-
-                            <ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter-genre">
-                                {foreach $generi as $genere}
-                                    <li>{$genere}</li>
-                                {/foreach}
-                            </ul>
-                        </div>
-
-                        <!-- Durata -->
-                        <div class="sign__group">
-                            <input type="number" max="500" class="sign__input" placeholder="Durata (minuti)" name="durata">
-                        </div>
-
-                        <!-- TrailerURL -->
-                        <div class="sign__group">
-                            <input type="url" class="sign__input" placeholder="Trailer" name="trailerURL">
-                        </div>
-
-                        <!-- Voto critica -->
-                        <div class="sign__group" style="position:relative;">
-                            <input style="padding-right: 30px;" type="number" step="0.1" class="sign__input" placeholder="Voto della critica" name="votoCritica">
-                            <span class="card__rate" style="position: absolute; right: 10px; bottom: 13px;"><i class="icon ion-ios-star"></i></span>
-                        </div>
-
-                        <!-- DataRilascio -->
-                        <div class="sign__group">
-                            <input type="date" class="sign__input" placeholder="GG/MM/AAAA" name="dataRilascio">
-                        </div>
-
-                        <!-- Paese -->
-                        <div class="sign__group">
-                            <input type="text" maxlength="3" class="sign__input" placeholder="Paese" name="paese">
-                        </div>
-
-                        <!-- Età consigliata -->
-                        <div class="filter__item" id="filter__age" style="margin: auto; padding-bottom: 20px">
-                            <span class="filter__item-label">Età consigliata:</span>
-
-                            <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-age" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <input type="text" name="etaConsigliata" value="NO" readonly>
-                                <span></span>
-                            </div>
-
-                            <ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter-genre">
-                                <li>NO</li>
-                                <li>14+</li>
-                                <li>16+</li>
-                                <li>18+</li>
-                            </ul>
-                        </div>
-
-                        <!-- Attori -->
-                        <div class="sign__group" style="position: relative; margin-bottom: 0;">
-                            <input id="actorChosen" list="actors" class="sign__input" placeholder="Attori">
-                            <button id="addActor" type="button" class="sign__btn" style="position: absolute; right: 10px; bottom: 15px; width: 20px; height: 20px">+</button>
-
-                            <datalist id="actors">
-                                {foreach $attori as $attore}
-                                    <option id="{$attore->getId()}" value="{$attore->getFullName()}">Ei</option>
+                            <datalist id="films">
+                                {foreach $films as $film}
+                                    <option id="{$film->getId()}" value="{$film->getNome()}"></option>
                                 {/foreach}
                             </datalist>
 
-                            <input id="attori" type="hidden" name="attori" value="">
-                        </div>
-                        <div>
-                            <ul id="displayActors" style="width:250px" class="dropdown-menu scrollbar-dropdown" aria-labelledby="filter-genre">
-                            </ul>
+                            <input id="film" type="hidden" name="film" value="">
                         </div>
 
-                        <!-- Registi -->
-                        <div class="sign__group" style="position: relative; margin-top: 15px; margin-bottom: 0px;">
-                            <input id="directorChosen" list="directors" class="sign__input" placeholder="Registi">
-                            <button id="addDirector" type="button" class="sign__btn" style="position: absolute; right: 10px; bottom: 15px; width: 20px; height: 20px">+</button>
+                        <!-- Film -->
+                        <div class="sign__group">
+                            <input id="roomChosen" list="rooms" type="number" class="sign__input" placeholder="Sala">
 
-                            <datalist id="directors">
-                                {foreach $registi as $regista}
-                                <option id="{$regista->getId()}" value="{$regista->getFullName()}">
-                                    {/foreach}
+                            <datalist id="rooms">
+                                {foreach $sale as $sala}
+                                    <option id="{$sala->getNumeroSala()}" value="{$sala->getNumeroSala()}"></option>
+                                {/foreach}
                             </datalist>
 
-                            <input id="registi" type="hidden" name="registi" value="">
-                        </div>
-                        <div>
-                            <ul id="displayDirectors" style="width:250px" class="dropdown-menu scrollbar-dropdown" aria-labelledby="filter-genre">
-                            </ul>
+                            <input id="room" type="hidden" name="room" value="">
                         </div>
 
-                        <button id="submit" class="sign__btn" type="submit">Aggiungi Film</button>
+                        <!-- DataInizio -->
+                        <div class="sign__group">
+                            <input id="dataInizio" type="date" class="sign__input" placeholder="Data inizio: GG/MM/AAAA" name="dataInizio">
+                        </div>
+
+                        <!-- DataInizio -->
+                        <div class="sign__group">
+                            <input id="dataFine" type="date" class="sign__input" placeholder="Data fine: GG/MM/AAAA" name="dataFine">
+                        </div>
+
+                        <button id="submit" class="sign__btn" type="submit">Aggiungi proiezione</button>
                     </form>
                     <!-- end authorization form -->
                 </div>
@@ -210,65 +121,20 @@
 <script>
     let actors = [];
     let directors = [];
-
-    $(document).ready(function(){
-        // Aggiorna nome copertina
-        $('#choose_image').change(function(e) {
-            document.getElementById("image_name").innerText = e.target.files[0].name;
-        });
-
-        // Aggiungi attore
-        $('#addActor').click(function(e) {
-            let actorChosen = $("#actorChosen").val();
-            if (actorChosen !== "") {
-                let idActorChosen = $("#actors").find("option[value='" + actorChosen + "']").attr("id");
-
-                actors.push(idActorChosen);
-
-                $("#actorChosen").val("");
-
-                let button = $("<button type='button' name='" + idActorChosen + "' class='sign__btn' style='width: 20px; height: 20px; display: inline'>X</button>");
-                let list = $("#displayActors");
-                let li = $("<li id='" + idActorChosen + "' style=\"color: white; text-align: right\"></li>").append(actorChosen, " ", button);
-                li.click(function(e) {
-                    actors.splice(actors.indexOf($(this).attr("id")), 1);
-                    $(this).remove();
-                });
-                list.append(li);
-            }
-        });
-
-        $('#removeActor').click(function(e) {
-            console.log('we');
-        });
-
-        $('#addDirector').click(function(e) {
-            let directorChosen = $("#directorChosen").val();
-            if (directorChosen !== "") {
-                let idDirectorChosen = $("#directors").find("option[value='" + directorChosen + "']").attr("id");
-
-                directors.push(idDirectorChosen);
-
-                $("#directorChosen").val("");
-
-                let button = $("<button type='button' name='" + idDirectorChosen + "' class='sign__btn' style='width: 20px; height: 20px; display: inline'>X</button>");
-                let list = $("#displayDirectors");
-                let li = $("<li id='" + idDirectorChosen + "' style=\"color: white; text-align: right\"></li>").append(directorChosen, " ", button);
-                li.click(function(e) {
-                    directors.splice(directors.indexOf($(this).attr("id")), 1);
-                    $(this).remove();
-                });
-                list.append(li);
-            }
-        });
-
-        $('#submit').click(function(e) {
-            $('#attori').attr("value", actors.join(";"));
-            $('#registi').attr("value", directors.join(";"));
-        });
-    });
 </script>
+<script>
+    function validate() {
+        if ($("#filmChosen").val() === "" ||
+            $("#roomChosen").val() === "" ||
+            $("#dataInizio").val() === "" ||
+            $("#dataFine").val() === "") {
+            alert("Compila tutti i campi");
+            return false;
+        }
 
+        return true;
+    }
+</script>
 
 </body>
 </html>

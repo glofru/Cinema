@@ -91,12 +91,12 @@
 
                         <!-- Titolo -->
                         <div class="sign__group">
-                            <input type="text" class="sign__input" placeholder="Titolo del film" name="titolo">
+                            <input id="titolo" type="text" class="sign__input" placeholder="Titolo del film" name="titolo">
                         </div>
 
                         <!-- Descrizione -->
                         <div class="sign__group">
-                            <input type="text" class="sign__input" placeholder="Descrizione" name="descrizione">
+                            <input id="descrizione" type="text" class="sign__input" placeholder="Descrizione" name="descrizione">
                         </div>
 
                         <!-- Genere -->
@@ -117,7 +117,7 @@
 
                         <!-- Durata -->
                         <div class="sign__group">
-                            <input type="number" max="500" class="sign__input" placeholder="Durata (minuti)" name="durata">
+                            <input id="durata" type="number" max="500" class="sign__input" placeholder="Durata (minuti)" name="durata">
                         </div>
 
                         <!-- TrailerURL -->
@@ -133,7 +133,7 @@
 
                         <!-- DataRilascio -->
                         <div class="sign__group">
-                            <input type="date" class="sign__input" placeholder="GG/MM/AAAA" name="dataRilascio">
+                            <input id="dataRilascio" type="date" class="sign__input" placeholder="GG/MM/AAAA" name="dataRilascio">
                         </div>
 
                         <!-- Paese -->
@@ -194,7 +194,7 @@
                             </ul>
                         </div>
 
-                        <button id="submit" class="sign__btn" type="submit">Aggiungi Film</button>
+                        <button id="submit" class="sign__btn">Aggiungi Film</button>
                     </form>
                     <!-- end authorization form -->
                 </div>
@@ -270,12 +270,22 @@
                 list.append(li);
             }
         });
-
-        $('#submit').click(function(e) {
-            $('#attori').attr("value", actors.join(";"));
-            $('#registi').attr("value", directors.join(";"));
-        });
     });
+
+    function validate() {
+        if ($("#titolo").val() === "" ||
+            $("#descrizione").val() === "" ||
+            $("#durata").val() === "" ||
+            $("#dataRilascio").val() === "") {
+            alert("Inserisci almeno titolo, descrizione, durata e data di rilascio");
+            return false;
+        }
+
+        $('#attori').attr("value", actors.join(";"));
+        $('#registi').attr("value", directors.join(";"));
+
+        return true;
+    }
 </script>
 
 

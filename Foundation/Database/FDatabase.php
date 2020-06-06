@@ -301,7 +301,7 @@ class FDatabase
                 $oraFine = DateTime::createFromFormat("H:i:s",$oraFilmPresente);
                 $oraFine->add($durata);
                 if((strtotime($oraInizioNuovoFilm) - strtotime($oraFilmPresente) >= 0) && (strtotime($oraInizioNuovoFilm) - strtotime($oraInizioNuovoFilm)) >= 0) {
-                    $salaVirtuale = FSala::loadVirtuale(strval($nsala), "nSala");
+                    $salaVirtuale = FSala::loadVirtuale(strval($nsala), "nSala")[0];
                     $data = DateTime::createFromFormat("Y-m-d",$proiezioni[$i]["data"]);
                     $proiezione = new EProiezione($film[0], $salaVirtuale, $data);
                     array_push($output, $proiezione);

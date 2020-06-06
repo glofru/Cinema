@@ -72,8 +72,13 @@ class CAdmin
 
         $method = $_SERVER["REQUEST_METHOD"];
 
+        $pm = FPersistentManager::getInstance();
+
         if ($method == "GET") {
-            VAdmin::addProiezione();
+            $films = $pm->loadAll("EFilm");
+            $sale = $pm->load(true, "disponibile", "ESala");
+
+            VAdmin::addProiezione($films, $sale);
         }
     }
 

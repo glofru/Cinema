@@ -160,7 +160,7 @@
 					<!-- end content title -->
 
 					<!-- content tabs nav -->
-					<ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist">
+					<ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist" style="margin-top: 50px">
 						<li class="nav-item">
 							<a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Utenti bannati</a>
 						</li>
@@ -174,7 +174,7 @@
 					<!-- content mobile tabs nav -->
 					<div class="content__mobile-tabs" id="content__mobile-tabs">
 						<div class="content__mobile-tabs-btn dropdown-toggle" role="navigation" id="mobile-tabs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<input type="button" value="Comments">
+							<input type="button" value="Utenti bannati">
 							<span></span>
 						</div>
 
@@ -194,7 +194,7 @@
 
 	<div class="container">
 		<div class="row">
-			<div class="col-12 col-lg-8 col-xl-8">
+			<div class="col-12 col-lg-8 col-xl-8" style="margin: auto">
 				<!-- content tabs -->
 				<div class="tab-content" id="myTabContent">
 					<div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
@@ -232,9 +232,9 @@
 					<div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
 						<div class="row" style="align-content: center">
 							<!-- reviews -->
-									<form action="{$path}../../Admin/gestioneUtenti" method="POST" class="form" style="align-content: center">
+									<form action="{$path}../../Admin/gestioneUtenti" method="POST" style="margin: auto" class="form" style="align-content: center">
 										<input type="text" id="toBan" class="form__input" name="utente" placeholder="Username dell'utente da bannare">
-										<button type="submit" onclick="return control()" class="form__btn align-content-center">Banna</button>
+										<button type="submit" onclick="return control()" style="margin: auto" class="form__btn align-content-center">Banna</button>
 									</form>
 								</div>
 							</div>
@@ -374,6 +374,7 @@
 <script>
 	function result(value){
 		alert(value);
+		document.location.href = "#tab-2";
 	}
 	
 	function control() {

@@ -14,10 +14,12 @@ class VAdmin
         $smarty->display("addFilm.tpl");
     }
 
-    public static function addProiezione() {
+    public static function addProiezione(array $films, array $sale) {
         $smarty = StartSmarty::configuration();
 
         $smarty->assign("path", $GLOBALS["path"]);
+        $smarty->assign("films", $films);
+        $smarty->assign("sale", $sale);
 
         $smarty->display("addProiezione.tpl");
     }
