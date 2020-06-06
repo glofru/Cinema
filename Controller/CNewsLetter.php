@@ -5,7 +5,7 @@ class CNewsLetter
 {
     public static function sendNewsLetter() {
         if($_SERVER['REQUEST_METHOD']=="GET" && $_GET["token"] === "S3ndM34M41l") {
-            $ns = FPersistentManager::getInstance()->loadAll();
+            $ns = FPersistentManager::getInstance()->loadAll("ENewsLetter");
             if(sizeof($ns->getListaUtenticonPreferenze()[0]) > 0) {
                 $date = EHelper::getInstance()->getSettimanaProssima();
                 $results = CHome::getProiezioni($date);
@@ -25,7 +25,7 @@ class CNewsLetter
             $film = FPersistentManager::getInstance()->load($_SESSION["idFilm"], "id", "EFilm")[0];
             unset($_SESSION["idFilm"]);
             if (isset($film)) {
-                $ns = FPersistentManager::getInstance()->loadAll();
+                $ns = FPersistentManager::getInstance()->loadAll("ENewsLetter");
                 $pref = $film->getGenere();
                 print_r($ns->getListaUtenticonPreferenze());
                 foreach ($ns->getListaUtenticonPreferenze()[1] as $key => $genere) {

@@ -37,7 +37,9 @@ class CAdmin
             $votoCritica = floatval($_POST["votoCritica"]);
 
             $rilascio = str_replace("/", "-", $_POST["dataRilascio"] == "" ? "01/01/1970" : $_POST["dataRilascio"]);
-            $dataRilascio = DateTime::createFromFormat("d-m-Y", $rilascio);
+            echo $rilascio;
+            $dataRilascio = DateTime::createFromFormat("Y-m-d", $rilascio);
+
             $paese = $_POST["paese"];
             $etaConsigliata = $_POST["etaConsigliata"];
 
