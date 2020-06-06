@@ -130,6 +130,7 @@
 										<li><a href="../../Admin/addFilm/?">Gestione film</a></li>
 										<li><a href="">Gestione Proiezioni</a></li>
 										<li><a href="../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
+										<li><a href="../../Admin/modificaPrezzi/?">Gestione Prezzi</a></li>
 										<li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
 									</ul>
 								</li>

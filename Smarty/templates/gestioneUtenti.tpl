@@ -111,6 +111,7 @@
 										<li><a href="../../Admin/addFilm/?">Gestione film</a></li>
 										<li><a href="">Gestione Proiezioni</a></li>
 										<li><a href="../../Admin/gestioneUtenti">Gestione Utenti</a></li>
+										<li><a href="../../Admin/modificaPrezzi/?">Gestione Prezzi</a></li>
 										<li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
 									</ul>
 								</li>
@@ -216,6 +217,11 @@
 										</li>
 											</form>
 										{/foreach}
+										{if (sizeof($bannati)) == 0}
+											<div class="col-12">
+												<h2 class="section__title section__title--center">Nessun utente attualmente bannato :)</h2>
+											</div>
+										{/if}
 									</ul>
 								</div>
 							</div>

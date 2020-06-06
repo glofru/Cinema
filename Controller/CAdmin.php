@@ -151,6 +151,30 @@ class CAdmin
         }
     }
 
+    public static function modificaPrezzi() {
+        self::checkAdmin();
+        if($_SERVER["REQUEST_METHOD"] === "GET") {
+            VAdmin::modificaPrezzo();
+        } else {
+            $file = fopen('configCinema.conf.php', 'w+');
+            $script = '<?php ' . PHP_EOL .
+                '$GLOBALS[\'extra\']= ' . floatval($_POST["extra"]) . ';' . PHP_EOL .
+                '$GLOBALS[\'prezzi\']= [' . PHP_EOL .
+                '   "Mon" => ' . floatval($_POST["Mon"]) . ',' . PHP_EOL .
+                '   "Tue" => ' . floatval($_POST["Tue"]) . ',' . PHP_EOL .
+                '   "Wed" => ' . floatval($_POST["Wed"]) . ',' . PHP_EOL .
+                '   "Thu" => ' . floatval($_POST["Thu"]) . ',' . PHP_EOL .
+                '   "Fri" => ' . floatval($_POST["Fri"]) . ',' . PHP_EOL .
+                '   "Sat" => ' . floatval($_POST["Sat"]) . ',' . PHP_EOL .
+                '   "Sun" => ' . floatval($_POST["Sun"])  . PHP_EOL .
+                '];' . PHP_EOL .
+                '?>' . PHP_EOL;
+            fwrite($file, $script);
+            fclose($file);
+            header("Location: /");
+        }
+    }
+
     public static function modificafilm(){
         self::checkAdmin();
         $pm = FPersistentManager::getInstance();

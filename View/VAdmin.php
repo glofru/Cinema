@@ -1,6 +1,5 @@
 <?php
 
-
 class VAdmin
 {
     public static function addFilm(array $attori, array $registi)
@@ -27,5 +26,13 @@ class VAdmin
         $smarty->assign("status", $status);
 
         $smarty->display("gestioneUtenti.tpl");
+    }
+
+    public static function modificaPrezzo() {
+        $smarty = StartSmarty::configuration();
+
+        $smarty->assign("price", $GLOBALS["prezzi"]);
+        $smarty->assign("extra", $GLOBALS["extra"]);
+        $smarty->display("modificaPrezzi.tpl");
     }
 }

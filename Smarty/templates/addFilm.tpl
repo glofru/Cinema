@@ -196,6 +196,9 @@
                     </form>
                     <!-- end authorization form -->
                 </div>
+                <form action="/index.php">
+                    <button class="sign__btn" type="submit">Annulla</button>
+                </form>
             </div>
         </div>
     </div>
