@@ -79,7 +79,12 @@ class Installer
                 $username = $_POST["username"];
                 $email = $_POST["email"];
                 $password = $_POST["password"];
-                $utente = new EAdmin($nome, $cognome, $username, $email, $password, false);
+                try {
+                    $utente = new EAdmin($nome, $cognome, $username, $email, $password, false);
+                } catch (Exception $e) {
+                    header("Location: /");
+                    die;
+                }
 
                 $utente->setPassword(EHelper::getInstance()->hash($password));
 
@@ -95,7 +100,6 @@ class Installer
     }
 
     private static function installCinema(float $Mon, float $Tue, float $Wed, float $Thu, float $Fri, float $Sat, float $Sun, float $extra) {
-        $file = fopen(self::$confCinema, 'c+');
         $script = '<?php ' . PHP_EOL .
             '$GLOBALS[\'extra\']= ' . $extra . ';' . PHP_EOL .
             '$GLOBALS[\'prezzi\']= [' . PHP_EOL .
@@ -108,6 +112,7 @@ class Installer
             '   "Sun" => ' . $Sun  . PHP_EOL .
             '];' . PHP_EOL .
             '?>' . PHP_EOL;
+        $file = fopen(self::$confCinema, 'c+');
         fwrite($file, $script);
         fclose($file);
         header("Location: /");
