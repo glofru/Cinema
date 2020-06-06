@@ -62,7 +62,7 @@
 
 							<div class="sign__group sign__group--checkbox">
 								<input id="remember" name="remember" type="checkbox" {if isset($checked)} checked="checked" {else} {/if}>
-								<label for="remember">Remember Me</label>
+								<label for="remember">Ricordami</label>
 							</div>
 							
 							<button class="sign__btn" type="submit">Accedi</button>

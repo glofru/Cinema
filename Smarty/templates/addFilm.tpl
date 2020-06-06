@@ -79,7 +79,9 @@
                 <div class="sign__content">
                     <!-- authorization form -->
                     <form action="/Admin/addFilm" method="POST" class="sign__form" enctype="multipart/form-data">
-
+                        <a href="/" class="sign__logo">
+                            <img src="../../Smarty/img/logo.svg" alt="">
+                        </a>
                         <div class="sign__group">
                             <button id="insert_image" class="sign__btn" type="button" style="width: 200px" onclick="document.getElementById('choose_image').click()">Carica copertina</button>
                             <input id="choose_image" type="file" name="copertina" style="display: none" accept=".jpg, .jpeg, .gif, .png">
@@ -196,9 +198,6 @@
                     </form>
                     <!-- end authorization form -->
                 </div>
-                <form action="/index.php">
-                    <button class="sign__btn" type="submit">Annulla</button>
-                </form>
             </div>
         </div>
     </div>

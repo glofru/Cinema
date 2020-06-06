@@ -4,7 +4,7 @@
 class FSala implements Foundation
 {
     private static string $className = "FSala";
-    private static string $tableName = "SalaFisica";
+    private static string $tableName = "salaFisica";
     private static string $valuesName = "(:nSala,:nFile,:nPostiFila,:disponibile)";
 
     public function __construct() {}
@@ -36,6 +36,15 @@ class FSala implements Foundation
     public static function save(ESalaFisica $salaFisica) {
         $db = FDatabase::getInstance();
         $db->saveToDB(self::getClassName(),$salaFisica);
+    }
+
+    public static function nLoadAll(): int {
+        $db = FDatabase::getInstance();
+        $result = $db->loadAllNL(self::getClassName());
+        if($result === null){
+            return 0;
+        }
+        return sizeof($result);
     }
 
     public static function load (string $nSala, string $row) {

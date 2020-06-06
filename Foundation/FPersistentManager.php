@@ -79,6 +79,10 @@ class FPersistentManager
         return FNewsLetter::load();
     }
 
+    public function loadAllSF(): int {
+        return FSala::nLoadAll();
+    }
+
     public function delete($value, $row, $class) {
         $class = self::getClass($class);
         $class::delete($value, $row);

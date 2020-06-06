@@ -245,9 +245,9 @@ class FDatabase
         return null;
     }
 
-    public function loadAllNL() {
+    public function loadAllNL($class) {
         try {
-            $query = "SELECT * FROM " . FNewsLetter::getTableName() . ";";
+            $query = "SELECT * FROM " . $class::getTableName() . ";";
             $sender = $this->db->prepare($query);
             $sender->execute();
             $returnedRows = $sender->rowCount();

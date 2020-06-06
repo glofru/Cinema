@@ -33,7 +33,7 @@ class FNewsLetter
 
     public static function load() {
         $db = FDatabase::getInstance();
-        $result = $db->loadAllNL();
+        $result = $db->loadAllNL(self::getClassName());
         if($result === null){
             return new ENewsLetter();
         }

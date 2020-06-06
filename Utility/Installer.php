@@ -8,7 +8,7 @@ class Installer
 
     public static function checkInstall(): bool
     {
-        return self::checkInstallDB() && self::checkInstallCinema() && self::checkAdmin();
+        return self::checkInstallDB() && self::checkInstallCinema() && self::checkAdmin() && self::checkPhysical();
     }
 
     private static function checkInstallDB(): bool {
@@ -24,6 +24,10 @@ class Installer
         return isset($admin) && sizeof($admin) > 0;
     }
 
+    public static function checkPhysical() {
+        return FPersistentManager::getInstance()->loadAllSF()> 0;
+    }
+
     public static function start()
     {
         $smarty = StartSmarty::configuration();
@@ -31,12 +35,14 @@ class Installer
 
         if ($method == "GET") {
             if (!self::checkInstallDB()) {
-                setcookie('cookie_enabled', 'Hello, there!', time()+3600);
+                setcookie('cookie_enabled', 'Hello, there!', time() + 3600);
                 $smarty->display("installationDB.tpl");
             } elseif (!self::checkInstallCinema()) {
                 $smarty->display("installationCinema.tpl");
             } elseif (!self::checkAdmin()) {
                 $smarty->display("firstAdmin.tpl");
+            } else if (!self::checkPhysical()){
+                $smarty->display("firstSaleFisiche.tpl");
             } else {
                 CHome::showHome();
             }
@@ -90,6 +96,8 @@ class Installer
                 $pm->signup($utente);
                 unset($utente);
                 header("Location: /");
+            } elseif (!self::checkPhysical()){
+                //TODO
             } else {
                 CHome::showHome();
             }
