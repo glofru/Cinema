@@ -6,8 +6,7 @@ class Installer
     private static string $confDB = "configDB.conf.php";
     private static string $confCinema = "configCinema.conf.php";
 
-    public static function checkInstall(): bool
-    {
+    public static function checkInstall(): bool {
         return self::checkInstallDB() && self::checkInstallCinema() && self::checkAdmin();
     }
 
@@ -24,14 +23,13 @@ class Installer
         return isset($admin) && sizeof($admin) > 0;
     }
 
-    public static function start()
-    {
+    public static function start() {
         $smarty = StartSmarty::configuration();
         $method = $_SERVER["REQUEST_METHOD"];
 
         if ($method == "GET") {
             if (!self::checkInstallDB()) {
-                setcookie('cookie_enabled', 'Hello, there!', time()+3600);
+                setcookie('cookie_enabled', 'Hello, there!', time()+3600, "/");
                 $smarty->display("installationDB.tpl");
             } elseif (!self::checkInstallCinema()) {
                 $smarty->display("installationCinema.tpl");

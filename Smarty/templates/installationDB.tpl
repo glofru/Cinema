@@ -32,7 +32,7 @@
     <title>Installazione</title>
 
 </head>
-<body class="body">
+<body class="body" onload="setcookie()">
 
 <div class="sign section--bg" data-bg="Smarty/img/section/section.jpg">
     <div class="container">
@@ -40,10 +40,11 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- authorization form -->
-                    <form action="/" class="sign__form" method="POST">
-{*                        <a href="index.html" class="sign__logo">*}
+                    <form action="/" onsubmit="return validate()" class="sign__form" method="POST">
+                        <!-- Logo -->
+                        <a href="/" class="sign__logo">
                             <img src="Smarty/img/logo.svg" alt="">
-{*                        </a>*}
+                        </a>
 
                         <!-- Nome database -->
                         <div class="sign__group">
@@ -89,4 +90,10 @@
 <script src="Smarty/js/photoswipe.min.js"></script>
 <script src="Smarty/js/photoswipe-ui-default.min.js"></script>
 <script src="Smarty/js/main.js"></script>
+
+<script>
+    function setcookie(){
+        document.cookie= "js_enabled=true"
+    }
+</script>
 </body>

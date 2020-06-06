@@ -32,7 +32,7 @@
     <title>Installazione</title>
 
 </head>
-<body onload="setcookie()" class="body">
+<body class="body">
 
 <div class="sign section--bg" data-bg="Smarty/img/section/section.jpg">
     <div class="container">
@@ -40,10 +40,11 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- authorization form -->
-                    <form id="form" action="/" class="sign__form" method="POST">
-                        {*                        <a href="index.html" class="sign__logo">*}
-                        <img src="Smarty/img/logo.svg" alt="">
-                        {*                        </a>*}
+                    <form id="form" action="/" onsubmit="return validate()" class="sign__form" method="POST">
+                        <!-- Logo -->
+                        <a href="/" class="sign__logo">
+                            <img src="Smarty/img/logo.svg" alt="">
+                        </a>
 
                         <!-- Lunedì -->
                         <div class="sign__group">
@@ -85,7 +86,7 @@
                             <input id="extra" type="number" min="0" class="sign__input" placeholder="Sovrapprezzo prenotazione" name="extra">
                         </div>
 
-                        <button id="install" class="sign__btn" type="button">Installa</button>
+                        <button id="install" class="sign__btn">Installa</button>
 
                     </form>
                     <!-- end authorization form -->
@@ -115,7 +116,7 @@
         alert("{$error}");
     {/if}
 
-    $("#install").click(function (e) {
+    function validate() {
         if ($("#Mon").val() === "" ||
             $("#Tue").val() === "" ||
             $("#Wed").val() === "" ||
@@ -125,15 +126,11 @@
             $("#Sun").val() === "" ||
             $("#extra").val() === "") {
             alert("Compila tutti i campi");
-        } else {
-            $("#form").submit();
+            return false;
         }
-    });
 
-</script>
-<script>
-    function setcookie(){
-        document.cookie= "js_enabled=true"
+        return true;
     }
+
 </script>
 </body>

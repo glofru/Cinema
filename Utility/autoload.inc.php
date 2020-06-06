@@ -1,7 +1,5 @@
 <?php
 
-require_once "configCinema.conf.php";
-
 function autoloader_view($class){
     include_once('View/' . $class . '.php');
 }
