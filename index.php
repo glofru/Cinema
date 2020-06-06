@@ -5,6 +5,9 @@ require_once 'StartSmarty.php';
 $GLOBALS["path"] = "";
 if (Installer::checkInstall()) {
     CMain::run($_SERVER["REQUEST_URI"]);
+    /*if(file_exists('Smarty/js/main.js')); {
+        echo "IN";
+    }*/
 } else {
     Installer::start();
 }
