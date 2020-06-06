@@ -78,7 +78,7 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- authorization form -->
-                    <form action="/Admin/addFilm" method="POST" class="sign__form" enctype="multipart/form-data">
+                    <form action="/Admin/addFilm" onsubmit="return validate()" method="POST" class="sign__form" enctype="multipart/form-data">
 
                         <div class="sign__group">
                             <button id="insert_image" class="sign__btn" type="button" style="width: 200px" onclick="document.getElementById('choose_image').click()">Carica copertina</button>
@@ -89,12 +89,12 @@
 
                         <!-- Titolo -->
                         <div class="sign__group">
-                            <input type="text" class="sign__input" placeholder="Titolo del film" name="titolo">
+                            <input id="titolo" type="text" class="sign__input" placeholder="Titolo del film" name="titolo">
                         </div>
 
                         <!-- Descrizione -->
                         <div class="sign__group">
-                            <input type="text" class="sign__input" placeholder="Descrizione" name="descrizione">
+                            <input id="descrizione" type="text" class="sign__input" placeholder="Descrizione" name="descrizione">
                         </div>
 
                         <!-- Genere -->
@@ -115,7 +115,7 @@
 
                         <!-- Durata -->
                         <div class="sign__group">
-                            <input type="number" max="500" class="sign__input" placeholder="Durata (minuti)" name="durata">
+                            <input id="durata" type="number" max="500" class="sign__input" placeholder="Durata (minuti)" name="durata">
                         </div>
 
                         <!-- TrailerURL -->
@@ -131,7 +131,7 @@
 
                         <!-- DataRilascio -->
                         <div class="sign__group">
-                            <input type="date" class="sign__input" placeholder="GG/MM/AAAA" name="dataRilascio">
+                            <input id="dataRilascio" type="date" class="sign__input" placeholder="GG/MM/AAAA" name="dataRilascio">
                         </div>
 
                         <!-- Paese -->
@@ -271,12 +271,22 @@
                 list.append(li);
             }
         });
-
-        $('#submit').click(function(e) {
-            $('#attori').attr("value", actors.join(";"));
-            $('#registi').attr("value", directors.join(";"));
-        });
     });
+
+    function validate() {
+        if ($("#titolo").val() === "" ||
+            $("#descrizione").val() === "" ||
+            $("#durata").val() === "" ||
+            $("#dataRilascio").val()) {
+            alert("Inserisci almeno titolo, descrizione, durata e data di rilascio");
+            return false;
+        }
+
+        $('#attori').attr("value", actors.join(";"));
+        $('#registi').attr("value", directors.join(";"));
+
+        return true;
+    }
 </script>
 
 
