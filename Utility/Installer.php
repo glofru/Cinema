@@ -8,7 +8,7 @@ class Installer
 
     public static function checkInstall(): bool
     {
-        return self::checkInstallDB() && self::checkInstallCinema() && self::checkAdmin() && self::checkPhysical();
+        return self::checkInstallDB() && self::checkInstallCinema() && self::checkAdmin() /*&& self::checkPhysical()*/;
     }
 
     private static function checkInstallDB(): bool {
@@ -25,7 +25,7 @@ class Installer
     }
 
     public static function checkPhysical() {
-        return FPersistentManager::getInstance()->loadAllSF()> 0;
+        return FPersistentManager::getInstance()->loadAllSF() > 0;
     }
 
     public static function start()
