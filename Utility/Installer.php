@@ -90,7 +90,8 @@ class Installer
                 try {
                     $utente = new EAdmin($nome, $cognome, $username, $email, $password, false);
                 } catch (Exception $e) {
-                    header("Location: /");
+                    $smarty->assign("e", $e);
+                    $smarty->display("firstAdmin.tpl");
                     die;
                 }
 
@@ -99,6 +100,7 @@ class Installer
                 $pm = FPersistentManager::getInstance();
 
                 $pm->signup($utente);
+                echo $utente->getNome();
                 unset($utente);
                 header("Location: /");
             } elseif (!self::checkPhysical()){

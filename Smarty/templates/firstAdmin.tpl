@@ -34,7 +34,7 @@
 
 </head>
 
-<body class="body">
+<body class="body" {if isset($e)}onload="alert({$e})"{/if}>
 
 <div class="sign section--bg" data-bg="{$path}../../Smarty/img/section/section.jpg">
     <div class="container">
@@ -124,7 +124,7 @@
     }
 
     function passwordIsValid(password) {
-        return password.length > 5;
+        return password.length > 6;
     }
 
     function checkPwd(pw1, pw2) {
