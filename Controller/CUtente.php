@@ -271,6 +271,7 @@ class CUtente
             } else {
                 $pm->signup($utente);
                 self::saveSession($utente);
+                CMail::newEntry($utente);
                 header("Location: /");
             }
         }
@@ -367,9 +368,6 @@ class CUtente
                 $token = new EToken($uid, new DateTime('now'), $utente);
 
                 if (CMail::sendForgotMail($utente, $token)) { //Invio mail
-                    //Reset password
-                    //FPersistentManager::getInstance()->update($utente->getId(), "id", "", "password", "EUtente");
-
                     //Salvataggio token
                     FPersistentManager::getInstance()->save($token);
                 } else {
@@ -411,7 +409,7 @@ class CUtente
 
             //Consuma token
             FPersistentManager::getInstance()->delete($token->getValue(), "value", "EToken");
-
+            CMail::modifiedPassword($utente);
             VUtente::loginForm();
         } else {
             CMain::notFound();

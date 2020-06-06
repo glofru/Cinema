@@ -110,4 +110,18 @@ class CMail
         $name = $utente->getNome() . " " . $utente->getCognome();
         self::sendMail($utente->getEmail(), $subject, $body, $name);
     }
+
+    public static function newEntry(EUtente $utente) {
+        $subject = "Benvenuto  - Magic Boulevard Cinema";
+        $body = "Ciao " . $utente->getNome() . " " . $utente->getCognome() . " grazie per esserti registrato sul nostro portale. Adesso puoi effettuare il login <a href='localhost/Utente/login'><b>qui</b></a>.<br>Speriamo che il nostri contenuti siano di tuo gradimento e di facile utilizzo :)";
+        $name = $utente->getNome() . " " . $utente->getCognome();
+        self::sendMail($utente->getEmail(), $subject, $body, $name);
+    }
+
+    public static function modifiedPassword(EUtente $utente) {
+        $subject = "Password modificata  - Magic Boulevard Cinema";
+        $body = "Ciao " . $utente->getNome() . " " . $utente->getCognome() . " ti segnaliamo che la tua password è stata modificata. Puoi effettuare il login <a href='localhost/Utente/login'><b>qui</b></a>.<br><br><b>ATTENZIONE</b>:Se non sei stato tu ad effettuare questa modifica manda una mail al nostro supporto tecnico per avere un aiuto <a href=\"mailto:support@magicboulevardcinema.com\">support@magicboulevardcinema.com</a>";
+        $name = $utente->getNome() . " " . $utente->getCognome();
+        self::sendMail($utente->getEmail(), $subject, $body, $name);
+    }
 }
