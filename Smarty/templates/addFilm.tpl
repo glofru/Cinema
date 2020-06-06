@@ -192,7 +192,7 @@
                             </ul>
                         </div>
 
-                        <button id="submit" class="sign__btn" type="submit">Aggiungi Film</button>
+                        <button id="submit" class="sign__btn">Aggiungi Film</button>
                     </form>
                     <!-- end authorization form -->
                 </div>

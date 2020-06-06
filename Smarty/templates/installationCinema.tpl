@@ -83,7 +83,7 @@
 
                         <!-- Sovrapprezzo prenotazione -->
                         <div class="sign__group">
-                            <input id="extra" type="number" min="0" class="sign__input" placeholder="Sovrapprezzo prenotazione" name="extra">
+                            <input id="extra" type="number" min="0" step="any" class="sign__input" placeholder="Sovrapprezzo prenotazione" name="extra">
                         </div>
 
                         <button id="install" class="sign__btn">Installa</button>
