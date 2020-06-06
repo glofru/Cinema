@@ -111,13 +111,13 @@ class EHelper
         foreach($arr as $key => $a) {
             if($a !== 0) {
                 $isEmpty = false;
-                $all++;
+                $all += $a;
                 $temp_values[$key] = $a;
             }
         }
         if($isEmpty === true) {return true;}
         foreach($temp_values as $key => $arr) {
-            $temp_values[$key] = round(round(($arr / $all) * 100) * (11/100));
+            $temp_values[$key] = round(round(($arr / $all) * 100) * (10/100));
         }
         return $temp_values;
     }

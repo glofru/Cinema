@@ -50,6 +50,7 @@ class CHome
         }
         else {
             $filmConsigliati = [];
+            $cookie = EHelper::getInstance()->getPreferences($cookie);
             foreach($cookie as $key => $c) {
                 if($c !== 0) {
                     $f = $pm->load($key, "Genere", "EFilm");

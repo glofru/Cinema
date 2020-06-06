@@ -446,7 +446,8 @@
                 <div class="row">
                     <!-- section title -->
                     <div class="col-12">
-                        <h2 class="section__title section__title--sidebar">Potrebbero interessarti anche...</h2>
+
+                        <h2 class="section__title section__title--sidebar">{if (sizeof($consigli) > 0)}Potrebbero interessarti anche...{/if}</h2>
                     </div>
                     <!-- end section title -->
                     {if ($consigli)}
