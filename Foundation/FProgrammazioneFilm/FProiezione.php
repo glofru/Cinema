@@ -101,7 +101,7 @@ class FProiezione implements Foundation
         $film = FFilm::load($row["idFilm"], "id")[0];
 
         //COSTRUISCO L'OGGETTO SALAVIRTUALE
-        $sala = FSala::loadVirtuale($row["numerosala"], "nSala");
+        $sala = FSala::loadVirtuale($row["numerosala"], "nSala")[0];
         $posti = FPosto::load($id, "idProiezione");
 
         foreach($posti as $posto) {
