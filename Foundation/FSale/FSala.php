@@ -40,7 +40,7 @@ class FSala implements Foundation
 
     public static function nLoadAll(): int {
         $db = FDatabase::getInstance();
-        $result = $db->loadAllNL(self::getClassName());
+        $result = $db->loadAll(self::getClassName());
         if($result === null){
             return 0;
         }
