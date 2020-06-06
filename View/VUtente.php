@@ -118,6 +118,6 @@ class VUtente
         $smarty->assign("utente", $utente);
         $smarty->assign("propic", $propic);
 
-        $smarty->display("modify.tpl");
+        $smarty->display("modificaUtente.tpl");
     }
 }

@@ -78,7 +78,7 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- authorization form -->
-                    <form action="{$path}../../Admin/addFilm" method="POST" class="sign__form" enctype="multipart/form-data">
+                    <form action="{$path}../../Admin/addFilm" onsubmit="return validate()" method="POST" class="sign__form" enctype="multipart/form-data">
                         <a href="/" class="sign__logo">
                             <img src="../../Smarty/img/logo.svg" alt="">
                         </a>

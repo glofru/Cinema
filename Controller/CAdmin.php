@@ -182,10 +182,9 @@ class CAdmin
         }
     }
 
-    public static function modificafilm(){
+    public static function modificaFilm(){
         self::checkAdmin();
         $pm = FPersistentManager::getInstance();
-
 
         $method = $_SERVER["REQUEST_METHOD"];
 
@@ -262,8 +261,10 @@ class CAdmin
             }
         } elseif ($method == "GET"){
             $filmID = $_GET["film"];
+
             $film = $pm->load($filmID, "id", "EFilm")[0];
             $copertina = $pm->load($filmID,"id","EMediaLocandina");
+
             VFilm::showFilm($film, $copertina);
         }
     }

@@ -261,7 +261,9 @@
     {if (isset($utente)) && $admin}
     <form action="" method="POST">
         <div class="col-12--center">
-            <a style="color: white; cursor:pointer;" class="section__btn" id="acquista" type="submit">Modifica Film</a>
+            <a style="margin: auto;" class="header__sign-in" href="/Admin/modificaFilm/?film={$film->getId()}" role="button">
+                <span>Modifica Film</span>
+            </a>
         </div>
     </form>
     {/if}
