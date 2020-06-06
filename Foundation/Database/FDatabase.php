@@ -245,7 +245,7 @@ class FDatabase
         return null;
     }
 
-    public function loadAllNL($class) {
+    public function loadAll($class) {
         try {
             $query = "SELECT * FROM " . $class::getTableName() . ";";
             $sender = $this->db->prepare($query);

@@ -75,13 +75,9 @@ class FPersistentManager
         return $class::loadBetween($inizio, $fine);
     }
 
-//    public function loadAll() {
-//        return FNewsLetter::load();
-//    }
-
     public function loadAll($class) {
         $class = self::getClass($class);
-        return $class::load("1", "1");
+        return $class::loadAll();
     }
 
     public function loadAllSF(): int {

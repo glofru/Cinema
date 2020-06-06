@@ -75,10 +75,18 @@ class FFilm implements Foundation
         $film->setId($id);
     }
 
-    public static function load (string $value, string $row): array
+    public static function load(string $value, string $row): array
     {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
+
+        return self::parseResult($result);
+    }
+
+    public static function loadAll(): array
+    {
+        $db = FDatabase::getInstance();
+        $result = $db->loadAll(self::getClassName());
 
         return self::parseResult($result);
     }

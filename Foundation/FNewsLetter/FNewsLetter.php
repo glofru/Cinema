@@ -31,9 +31,9 @@ class FNewsLetter
         $db->saveToDBNS($utente, $preferenze);
     }
 
-    public static function load() {
+    public static function loadAll() {
         $db = FDatabase::getInstance();
-        $result = $db->loadAllNL(self::getClassName());
+        $result = $db->loadAll(self::getClassName());
         if($result === null){
             return new ENewsLetter();
         }
