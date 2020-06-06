@@ -7,6 +7,7 @@ class VError
     {
         $smarty = StartSmarty::configuration();
 
+        $smarty->assign("path", $GLOBALS["path"]);
         if ($num != 0) {
             $smarty->assign("error_number", $num);
         }
@@ -46,8 +47,8 @@ class VError
             default:
                 $error_description = "Errore generico.";
         }
-
         $smarty->assign("error_description", $error_description);
+
         $smarty->display("error.tpl");
     }
 }
