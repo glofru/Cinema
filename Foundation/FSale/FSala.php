@@ -4,7 +4,7 @@
 class FSala implements Foundation
 {
     private static string $className = "FSala";
-    private static string $tableName = "salaFisica";
+    private static string $tableName = "SalaFisica";
     private static string $valuesName = "(:nSala,:nFile,:nPostiFila,:disponibile)";
 
     public function __construct() {}
