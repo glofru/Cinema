@@ -53,10 +53,10 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- authorization form -->
-                    <form action="/Admin/addProiezione" method="POST" class="sign__form" enctype="multipart/form-data">
+                    <form action="/Admin/addProiezione" onsubmit="return validate()" method="POST" class="sign__form" enctype="multipart/form-data">
 
                         <!-- Film -->
-                        <div class="sign__group" style="position: relative; margin-bottom: 0;">
+                        <div class="sign__group">
                             <input id="filmChosen" list="films" class="sign__input" placeholder="Film">
 
                             <datalist id="films">
@@ -68,105 +68,28 @@
                             <input id="film" type="hidden" name="film" value="">
                         </div>
 
-{*                        <!-- Descrizione -->*}
-{*                        <div class="sign__group">*}
-{*                            <input type="text" class="sign__input" placeholder="Descrizione" name="descrizione">*}
-{*                        </div>*}
+                        <!-- Film -->
+                        <div class="sign__group">
+                            <input id="roomChosen" list="rooms" type="number" class="sign__input" placeholder="Sala">
 
-{*                        <!-- Genere -->*}
-{*                        <div class="filter__item" id="filter__genre" style="margin: auto; padding-bottom: 20px">*}
-{*                            <span class="filter__item-label">Genere:</span>*}
+                            <datalist id="rooms">
+                                {foreach $sale as $sala}
+                                    <option id="{$sala->getNumeroSala()}" value="{$sala->getNumeroSala()}"></option>
+                                {/foreach}
+                            </datalist>
 
-{*                            <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-genre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">*}
-{*                                <input type="text" name="genere" value="{$generi[0]}" readonly>*}
-{*                                <span></span>*}
-{*                            </div>*}
+                            <input id="room" type="hidden" name="room" value="">
+                        </div>
 
-{*                            <ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter-genre">*}
-{*                                {foreach $generi as $genere}*}
-{*                                    <li>{$genere}</li>*}
-{*                                {/foreach}*}
-{*                            </ul>*}
-{*                        </div>*}
+                        <!-- DataInizio -->
+                        <div class="sign__group">
+                            <input id="dataInizio" type="date" class="sign__input" placeholder="Data inizio: GG/MM/AAAA" name="dataInizio">
+                        </div>
 
-{*                        <!-- Durata -->*}
-{*                        <div class="sign__group">*}
-{*                            <input type="number" max="500" class="sign__input" placeholder="Durata (minuti)" name="durata">*}
-{*                        </div>*}
-
-{*                        <!-- TrailerURL -->*}
-{*                        <div class="sign__group">*}
-{*                            <input type="url" class="sign__input" placeholder="Trailer" name="trailerURL">*}
-{*                        </div>*}
-
-{*                        <!-- Voto critica -->*}
-{*                        <div class="sign__group" style="position:relative;">*}
-{*                            <input style="padding-right: 30px;" type="number" step="0.1" class="sign__input" placeholder="Voto della critica" name="votoCritica">*}
-{*                            <span class="card__rate" style="position: absolute; right: 10px; bottom: 13px;"><i class="icon ion-ios-star"></i></span>*}
-{*                        </div>*}
-
-{*                        <!-- DataRilascio -->*}
-{*                        <div class="sign__group">*}
-{*                            <input type="date" class="sign__input" placeholder="GG/MM/AAAA" name="dataRilascio">*}
-{*                        </div>*}
-
-{*                        <!-- Paese -->*}
-{*                        <div class="sign__group">*}
-{*                            <input type="text" maxlength="3" class="sign__input" placeholder="Paese" name="paese">*}
-{*                        </div>*}
-
-{*                        <!-- Età consigliata -->*}
-{*                        <div class="filter__item" id="filter__age" style="margin: auto; padding-bottom: 20px">*}
-{*                            <span class="filter__item-label">Età consigliata:</span>*}
-
-{*                            <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-age" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">*}
-{*                                <input type="text" name="etaConsigliata" value="NO" readonly>*}
-{*                                <span></span>*}
-{*                            </div>*}
-
-{*                            <ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter-genre">*}
-{*                                <li>NO</li>*}
-{*                                <li>14+</li>*}
-{*                                <li>16+</li>*}
-{*                                <li>18+</li>*}
-{*                            </ul>*}
-{*                        </div>*}
-
-{*                        <!-- Attori -->*}
-{*                        <div class="sign__group" style="position: relative; margin-bottom: 0;">*}
-{*                            <input id="actorChosen" list="actors" class="sign__input" placeholder="Attori">*}
-{*                            <button id="addActor" type="button" class="sign__btn" style="position: absolute; right: 10px; bottom: 15px; width: 20px; height: 20px">+</button>*}
-
-{*                            <datalist id="actors">*}
-{*                                {foreach $attori as $attore}*}
-{*                                    <option id="{$attore->getId()}" value="{$attore->getFullName()}"></option>*}
-{*                                {/foreach}*}
-{*                            </datalist>*}
-
-{*                            <input id="attori" type="hidden" name="attori" value="">*}
-{*                        </div>*}
-{*                        <div>*}
-{*                            <ul id="displayActors" style="width:250px" class="dropdown-menu scrollbar-dropdown" aria-labelledby="filter-genre">*}
-{*                            </ul>*}
-{*                        </div>*}
-
-{*                        <!-- Registi -->*}
-{*                        <div class="sign__group" style="position: relative; margin-top: 15px; margin-bottom: 0px;">*}
-{*                            <input id="directorChosen" list="directors" class="sign__input" placeholder="Registi">*}
-{*                            <button id="addDirector" type="button" class="sign__btn" style="position: absolute; right: 10px; bottom: 15px; width: 20px; height: 20px">+</button>*}
-
-{*                            <datalist id="directors">*}
-{*                                {foreach $registi as $regista}*}
-{*                                <option id="{$regista->getId()}" value="{$regista->getFullName()}">*}
-{*                                    {/foreach}*}
-{*                            </datalist>*}
-
-{*                            <input id="registi" type="hidden" name="registi" value="">*}
-{*                        </div>*}
-{*                        <div>*}
-{*                            <ul id="displayDirectors" style="width:250px" class="dropdown-menu scrollbar-dropdown" aria-labelledby="filter-genre">*}
-{*                            </ul>*}
-{*                        </div>*}
+                        <!-- DataInizio -->
+                        <div class="sign__group">
+                            <input id="dataFine" type="date" class="sign__input" placeholder="Data fine: GG/MM/AAAA" name="dataFine">
+                        </div>
 
                         <button id="submit" class="sign__btn" type="submit">Aggiungi proiezione</button>
                     </form>
@@ -191,6 +114,19 @@
 <script src="../../Smarty/js/photoswipe-ui-default.min.js"></script>
 <script src="../../Smarty/js/main.js"></script>
 
+<script>
+    function validate() {
+        if ($("#filmChosen").val() === "" ||
+            $("#roomChosen").val() === "" ||
+            $("#dataInizio").val() === "" ||
+            $("#dataFine").val() === "") {
+            alert("Compila tutti i campi");
+            return false;
+        }
+
+        return true;
+    }
+</script>
 
 </body>
 </html>

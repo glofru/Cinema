@@ -277,7 +277,7 @@
         if ($("#titolo").val() === "" ||
             $("#descrizione").val() === "" ||
             $("#durata").val() === "" ||
-            $("#dataRilascio").val()) {
+            $("#dataRilascio").val() === "") {
             alert("Inserisci almeno titolo, descrizione, durata e data di rilascio");
             return false;
         }

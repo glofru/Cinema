@@ -76,8 +76,9 @@ class CAdmin
 
         if ($method == "GET") {
             $films = $pm->loadAll("EFilm");
+            $sale = $pm->load(true, "disponibile", "ESala");
 
-            VAdmin::addProiezione($films);
+            VAdmin::addProiezione($films, $sale);
         }
     }
 
