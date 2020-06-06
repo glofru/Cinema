@@ -180,7 +180,7 @@
 						<!-- breadcrumb -->
 						<ul class="breadcrumb">
 							<li class="breadcrumb__item"><a href="/">Home</a></li>
-							<li class="breadcrumb__item breadcrumb__item--active">Costi</li>
+							<li class="breadcrumb__item breadcrumb__item--active">Prezzi</li>
 						</ul>
 						<!-- end breadcrumb -->
 					</div>
