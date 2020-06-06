@@ -174,7 +174,7 @@ class CAdmin
 
                 if(isset($_POST["durata"])){
                     $film->setDurata($_POST["durata"]);
-                    $pm->update($filmID,"id",$film->getDurataDB(),"nome","EFilm");
+                    $pm->update($filmID,"id",$film->getDurataDB(),"durata","EFilm");
                 }
 
                 if(isset($_POST["trailerURL"])){
