@@ -25,7 +25,7 @@ class Installer
     }
 
     public static function checkPhysical() {
-        return FPersistentManager::getInstance()->loadAllSF() > 0;
+        return /*FPersistentManager::getInstance()->loadAllSF() > 0;*/ false;
     }
 
     public static function start()

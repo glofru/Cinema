@@ -49,6 +49,10 @@
                         <div class="col-12">
                             <h2 class="section__title section__title--center">Crea le sale del cinema</h2>
                         </div>
+                        <div>
+                        <div class="col-12">
+                            <h2 class="section__title section__title--center">Sala</h2>
+                        </div>
                         <!-- Nome -->
                         <div class="sign__group">
                             <input id="numeroSala" type="number" min="1" name="numeroSala" class="sign__input" placeholder="Numero Sala">
@@ -68,6 +72,60 @@
                             <input id="disponibile" name="disponibile" type="checkbox" checked="checked">
                             <label for="remember">Sala disponibile</label>
                         </div>
+                            <button class="sign__btn" type="button" onclick="removeRow(this)">Rimuovi</button>
+                        </div>
+                        <div>
+                            <div class="col-12">
+                                <h2 class="section__title section__title--center">Sala</h2>
+                            </div>
+                            <!-- Nome -->
+                            <div class="sign__group">
+                                <input id="numeroSala" type="number" min="1" name="numeroSala" class="sign__input" placeholder="Numero Sala">
+                            </div>
+
+                            <!-- Cognome -->
+                            <div class="sign__group">
+                                <input id="file" type="number" name="file" min="1" class="sign__input" placeholder="Numero di file">
+                            </div>
+
+                            <!-- Username -->
+                            <div class="sign__group">
+                                <input id="postiPerFila" type="number" name="postiPerFila" min="1" class="sign__input" placeholder="Numero di posti per fila">
+                            </div>
+
+                            <div class="sign__group sign__group--checkbox">
+                                <input id="disponibile" name="disponibile" type="checkbox" checked="checked">
+                                <label for="remember">Sala disponibile</label>
+                            </div>
+                            <button class="sign__btn" type="button" onclick="removeRow(this)">Rimuovi</button>
+                        </div>
+                        <div>
+                            <div class="col-12">
+                                <h2 class="section__title section__title--center">Sala</h2>
+                            </div>
+                            <!-- Nome -->
+                            <div class="sign__group">
+                                <input id="numeroSala" type="number" min="1" name="numeroSala" class="sign__input" placeholder="Numero Sala">
+                            </div>
+
+                            <!-- Cognome -->
+                            <div class="sign__group">
+                                <input id="file" type="number" name="file" min="1" class="sign__input" placeholder="Numero di file">
+                            </div>
+
+                            <!-- Username -->
+                            <div class="sign__group">
+                                <input id="postiPerFila" type="number" name="postiPerFila" min="1" class="sign__input" placeholder="Numero di posti per fila">
+                            </div>
+
+                            <div class="sign__group sign__group--checkbox">
+                                <input id="disponibile" name="disponibile" type="checkbox" checked="checked">
+                                <label for="remember">Sala disponibile</label>
+                            </div>
+                            <button class="sign__btn" type="button" onclick="removeRow(this)">Rimuovi</button>
+                        </div>
+                        
+                        <button class="sign__btn" type="button" onclick="addRow()">Aggiungi sala</button>
                         <button class="sign__btn" type="submit">Conferma</button>
                     </form>
                     <!-- registration form -->
@@ -112,6 +170,38 @@
         }
 
         return false;
+    }
+</script>
+<script>
+    function addRow () {
+        document.querySelector('#content').insertAdjacentHTML(
+            'afterbegin',
+            `<div>
+                        <div class="col-12">
+                            <h2 class="section__title section__title--center">Sala</h2>
+                        </div>
+            <div class="sign__group">
+            <input id="numeroSala" type="number" min="1" name="numeroSala" class="sign__input" placeholder="Numero Sala">
+            </div>
+            <div class="sign__group">
+            <input id="file" type="number" name="file" min="1" class="sign__input" placeholder="Numero di file">
+            </div>
+
+            <div class="sign__group">
+            <input id="postiPerFila" type="number" name="postiPerFila" min="1" class="sign__input" placeholder="Numero di posti per fila">
+            </div>
+
+            <div class="sign__group sign__group--checkbox">
+            <input id="disponibile" name="disponibile" type="checkbox" checked="checked">
+            <label for="remember">Sala disponibile</label>
+            </div>
+            <button class="sign__btn" type="button" onclick="removeRow(this)">Rimuovi</button>
+            </div>`
+        )
+    }
+
+    function removeRow (input) {
+        input.parentNode.remove()
     }
 </script>
 
