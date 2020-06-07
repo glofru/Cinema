@@ -50,30 +50,32 @@
                             <h2 class="section__title section__title--center">Crea le sale del cinema</h2>
                         </div>
                         <div>
-                        <div class="col-12">
-                            <h2 class="section__title section__title--center">Sala</h2>
-                        </div>
+                            <div class="col-12">
+                                <h2 class="section__title section__title--center">Sala</h2>
+                            </div>
 
-                        <div class="sign__group">
-                            <input id="numeroSala1" type="number" min="1" name="numeroSala1" class="sign__input" placeholder="Numero Sala">
-                        </div>
-
-
-                        <div class="sign__group">
-                            <input id="file1" type="number" name="file1" min="1" class="sign__input" placeholder="Numero di file">
-                        </div>
+                            <div class="sign__group">
+                                <input id="numeroSala1" type="number" min="1" name="numeroSala1" class="sign__input" placeholder="Numero Sala">
+                            </div>
 
 
-                        <div class="sign__group">
-                            <input id="postiPerFila1" type="number" name="postiPerFila1" min="1" class="sign__input" placeholder="Numero di posti per fila">
-                        </div>
+                            <div class="sign__group">
+                                <input id="file1" type="number" name="file1" min="1" class="sign__input" placeholder="Numero di file">
+                            </div>
 
-                        <div class="sign__group sign__group--checkbox">
-                            <input id="disponibile1" name="disponibile1" type="checkbox" checked="checked">
-                            <label for="remember">Sala disponibile</label>
-                        </div>
+
+                            <div class="sign__group">
+                                <input id="postiPerFila1" type="number" name="postiPerFila1" min="1" class="sign__input" placeholder="Numero di posti per fila">
+                            </div>
+
+                            <div class="sign__group sign__group--checkbox">
+                                <input id="disponibile1" name="disponibile1" type="checkbox" checked="checked">
+                                <label for="disponibile1">Sala disponibile</label>
+                            </div>
+
                             <button class="sign__btn" type="button" onclick="removeRow(this)">Rimuovi</button>
                         </div>
+
                         <div>
                             <div class="col-12">
                                 <h2 class="section__title section__title--center">Sala</h2>
@@ -95,10 +97,12 @@
 
                             <div class="sign__group sign__group--checkbox">
                                 <input id="disponibile2" name="disponibile2" type="checkbox" checked="checked">
-                                <label for="remember">Sala disponibile</label>
+                                <label for="disponibile2">Sala disponibile</label>
                             </div>
+
                             <button class="sign__btn" type="button" onclick="removeRow(this)">Rimuovi</button>
                         </div>
+
                         <div>
                             <div class="col-12">
                                 <h2 class="section__title section__title--center">Sala</h2>
@@ -120,11 +124,12 @@
 
                             <div class="sign__group sign__group--checkbox">
                                 <input id="disponibile3" name="disponibile3" type="checkbox" checked="checked">
-                                <label for="remember">Sala disponibile</label>
+                                <label for="disponibile3">Sala disponibile</label>
                             </div>
+
                             <button class="sign__btn" type="button" onclick="removeRow(this)">Rimuovi</button>
                         </div>
-                        <div id="content"></div>
+
                         <button class="sign__btn" onclick="addRow()" type="button">Aggiungi sala</button>
                         <button class="sign__btn" type="submit">Conferma</button>
                     </form>
@@ -181,8 +186,7 @@
                 return true;
         }
     }
-</script>
-<script>
+
     //STACKOVERFLOW <3
     let a = 3;
     function addRow () {
