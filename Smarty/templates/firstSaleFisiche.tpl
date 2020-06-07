@@ -125,7 +125,7 @@
                             <button class="sign__btn" type="button" onclick="removeRow(this)">Rimuovi</button>
                         </div>
                         <div id="content"></div>
-                        <button class="sign__btn" type="button" onclick="addRow()">Aggiungi sala</button>
+                        <button class="sign__btn" type="button">Aggiungi sala</button>
                         <button class="sign__btn" type="submit">Conferma</button>
                     </form>
                     <!-- registration form -->
@@ -173,7 +173,10 @@
     }
 </script>
 <script>
+    //STACKOVERFLOW <3
+    let a = 0;
     function addRow () {
+        a += 1;
         document.querySelector('#content').insertAdjacentHTML(
             'afterbegin',
             `<div>

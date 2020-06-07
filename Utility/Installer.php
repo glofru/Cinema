@@ -8,7 +8,7 @@ class Installer
 
     public static function checkInstall(): bool
     {
-        return self::checkInstallDB() && self::checkInstallCinema() && self::checkAdmin() && self::checkPhysical();
+        return self::checkInstallDB() && self::checkInstallCinema() && self::checkAdmin() /*&& self::checkPhysical()*/;
     }
 
     private static function checkInstallDB(): bool {
