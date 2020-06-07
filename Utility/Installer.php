@@ -8,7 +8,7 @@ class Installer
 
     public static function checkInstall(): bool
     {
-        return self::checkInstallDB() && self::checkInstallCinema();
+        return self::checkInstallDB() && self::checkInstallCinema() && self::checkAdmin() && self::checkPhysical();
     }
 
     private static function checkInstallDB(): bool {
@@ -19,6 +19,15 @@ class Installer
         return file_exists(self::$confCinema);
     }
 
+    private static function checkAdmin(): bool {
+        $admin = FPersistentManager::getInstance()->load(1, 'isAdmin', "EUtente");
+        return isset($admin) && sizeof($admin) > 0;
+    }
+
+    public static function checkPhysical() {
+        return FPersistentManager::getInstance()->loadAllSF() > 0;
+    }
+
     public static function start()
     {
         $smarty = StartSmarty::configuration();
@@ -26,10 +35,14 @@ class Installer
 
         if ($method == "GET") {
             if (!self::checkInstallDB()) {
-                setcookie('cookie_enabled', 'Hello, there!', time()+3600);
+                setcookie('cookie_enabled', 'Hello, there!', time()+3600, "/");
                 $smarty->display("installationDB.tpl");
             } elseif (!self::checkInstallCinema()) {
                 $smarty->display("installationCinema.tpl");
+            } elseif (!self::checkAdmin()) {
+                $smarty->display("firstAdmin.tpl");
+            } else if (!self::checkPhysical()){
+                $smarty->display("firstSaleFisiche.tpl");
             } else {
                 CHome::showHome();
             }
@@ -57,7 +70,7 @@ class Installer
                     setcookie('js_enabled', '', time()-3600);
                     self::installDB($dbname, $username, $pwd, $population);
                 }
-            } else if (!self::checkInstallCinema()) {
+            } elseif (!self::checkInstallCinema()) {
                 $Mon = floatval($_POST["Mon"]);
                 $Tue = floatval($_POST["Tue"]);
                 $Wed = floatval($_POST["Wed"]);
@@ -67,6 +80,57 @@ class Installer
                 $Sun = floatval($_POST["Sun"]);
                 $extra = floatval($_POST["extra"]);
                 self::installCinema($Mon, $Tue, $Wed, $Thu, $Fri, $Sat, $Sun, $extra);
+
+            } elseif (!self::checkAdmin()){
+                $nome = $_POST["nome"];
+                $cognome = $_POST["cognome"];
+                $username = $_POST["username"];
+                $email = $_POST["email"];
+                $password = $_POST["password"];
+                try {
+                    $utente = new EAdmin($nome, $cognome, $username, $email, $password, false);
+                } catch (Exception $e) {
+                    $smarty->assign("e", $e);
+                    $smarty->display("firstAdmin.tpl");
+                    die;
+                }
+
+                $utente->setPassword(EHelper::getInstance()->hash($password));
+
+                $pm = FPersistentManager::getInstance();
+
+                $pm->signup($utente);
+                echo $utente->getNome();
+                unset($utente);
+                header("Location: /");
+            } elseif (!self::checkPhysical()){
+                $nSale = [];
+                $sale = [];
+                for($i=1;$i <= sizeof($_POST)/4;$i++) {
+                    $nSala = intval($_POST["numeroSala" . strval($i)]);
+                    $nFile = intval($_POST["file" . strval($i)]);
+                    $nPosti = intval($_POST["postiPerFila" . strval($i)]);
+                    $disponibile = boolval($_POST["disponibile" . strval($i)]);
+                    if(!in_array($nSala, $nSale)){
+                        array_push($nSale, $nSala);
+                    } else {
+                        $smarty->assign("error", "Numero di sala ripetuto. Deve essere univoco");
+                        $smarty->display("firstSaleFisiche.tpl"); die;
+                    }
+
+                    try {
+                        $sala = new ESalaFisica($nSala, $nFile, $nPosti, $disponibile);
+                    } catch (Exception $e) {
+                        $smarty->assign("error", $e);
+                        $smarty->display("firstSaleFisiche.tpl"); die;
+                    }
+
+                    array_push($sale, $sala);
+                }
+                foreach ($sale as $item) {
+                    FPersistentManager::getInstance()->save($item);
+                }
+                header("Location: /");
             } else {
                 CHome::showHome();
             }
@@ -74,7 +138,6 @@ class Installer
     }
 
     private static function installCinema(float $Mon, float $Tue, float $Wed, float $Thu, float $Fri, float $Sat, float $Sun, float $extra) {
-        $file = fopen(self::$confCinema, 'c+');
         $script = '<?php ' . PHP_EOL .
             '$GLOBALS[\'extra\']= ' . $extra . ';' . PHP_EOL .
             '$GLOBALS[\'prezzi\']= [' . PHP_EOL .
@@ -87,6 +150,7 @@ class Installer
             '   "Sun" => ' . $Sun  . PHP_EOL .
             '];' . PHP_EOL .
             '?>' . PHP_EOL;
+        $file = fopen(self::$confCinema, 'c+');
         fwrite($file, $script);
         fclose($file);
         header("Location: /");

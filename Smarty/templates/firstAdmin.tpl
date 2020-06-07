@@ -30,43 +30,59 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="Dmitry Volkov">
-    <title>FlixGo – Online Movies, TV Shows & Cinema HTML Template</title>
+    <title>Registrati</title>
 
 </head>
-<body class="body">
+
+<body class="body" {if isset($e)}onload="alert({$e})"{/if}>
 
 <div class="sign section--bg" data-bg="{$path}../../Smarty/img/section/section.jpg">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="sign__content">
-                    <!-- authorization form -->
-                    <form action="{$path}../../Utente/newPassword" method="POST" class="sign__form">
+                    <!-- registration form -->
+                    <form id="form" action="/" onsubmit="return validate()" method="POST" class="sign__form">
                         <a href="/" class="sign__logo">
                             <img src="{$path}../../Smarty/img/logo.svg" alt="">
                         </a>
-
-                        <input type="hidden" name="token" value="{$token}" />
-
-                        {if $error}
-                            <div class="sign__group">
-                                <span class="sign__text" style="color: red">Password non valida</span>
-                            </div>
-                        {/if}
-
-                        <!-- Pw1 -->
+                        <div class="col-12">
+                            <h2 class="section__title section__title--center">Crea l'account dell'admin</h2>
+                        </div>
+                        <!-- Nome -->
                         <div class="sign__group">
-                            <input id="pw1" name="password" type="password" class="sign__input" placeholder="Nuova password">
+                            <input id="nome" type="text" name="nome" value="" class="sign__input" placeholder="Nome">
                         </div>
 
-                        <!-- Pw2 -->
+                        <!-- Cognome -->
                         <div class="sign__group">
-                            <input id="pw2" type="password" class="sign__input" placeholder="Reinserisci password">
+                            <input id="cognome" type="text" name="cognome" value="" class="sign__input" placeholder="Cognome">
                         </div>
 
-                        <button class="sign__btn" onclick="return validate()">Cambia</button>
+                        <!-- Username -->
+                        <div class="sign__group">
+                            <input id="username" type="text" name="username" value="" class="sign__input" placeholder="Username">
+                        </div>
+
+                        <!-- Email -->
+                        <div class="sign__group">
+                            <input id="email" type="email" name="email" value="" class="sign__input" placeholder="Email">
+                        </div>
+
+
+                        <!-- Password -->
+                        <div class="sign__group">
+                            <input id="pw1" type="password" name="password" class="sign__input" placeholder="Password">
+                        </div>
+
+                        <!-- Reinserisci password -->
+                        <div class="sign__group">
+                            <input id="pw2" type="password" class="sign__input" placeholder="Reinserisci la password">
+                        </div>
+
+                        <button class="sign__btn">Registrati</button>
                     </form>
-                    <!-- end authorization form -->
+                    <!-- registration form -->
                 </div>
             </div>
         </div>
@@ -88,19 +104,58 @@
 <script src="{$path}../../Smarty/js/main.js"></script>
 
 <script>
+
+    function nameIsValid(name) {
+        let exp = /^[a-zA-Z\-]+$/;
+
+        return name.match(exp) != null;
+    }
+
+    function usernameIsValid(username) {
+        let exp = /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/;
+
+        return username.match(exp) != null;
+    }
+
+    function emailIsValid(email) {
+        let exp = /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/;
+
+        return email.match(exp) != null;
+    }
+
     function passwordIsValid(password) {
-        return password.length > 5;
+        return password.length > 6;
+    }
+
+    function checkPwd(pw1, pw2) {
+        return pw1 === pw2;
     }
 
     function validate() {
-        if ($("#pw1").val() === $("#pw2").val()) {
-            if (passwordIsValid($("#pw1").val())) {
-                return true;
+        if (nameIsValid($("#nome").val())) {
+            if (nameIsValid($("#cognome").val())) {
+                if (usernameIsValid($("#username").val())) {
+                    if (emailIsValid($("#email").val())) {
+                        if (passwordIsValid($("#pw1").val())) {
+                            if (checkPwd($("#pw1").val(), $("#pw2").val())) {
+                                return true;
+                            } else {
+                                alert("Le password non combaciano!");
+                            }
+                        } else {
+                            alert("La password deve avere almeno 6 caratteri")
+                        }
+                    } else {
+                        alert("Email non valida")
+                    }
+                } else {
+                    alert("Username non valido!");
+                }
             } else {
-                alert("La password deve contenere almeno 6 caratteri");
+                alert("Cognome non valido");
             }
         } else {
-            alert("Le password devono combaciare");
+            alert("Nome non valido");
         }
 
         return false;

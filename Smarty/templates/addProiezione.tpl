@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -30,41 +30,73 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="Dmitry Volkov">
-    <title>FlixGo – Online Movies, TV Shows & Cinema HTML Template</title>
+    <title>Aggiungi un film</title>
 
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
 </head>
 <body class="body">
-
 <div class="sign section--bg" data-bg="{$path}../../Smarty/img/section/section.jpg">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="sign__content">
                     <!-- authorization form -->
-                    <form action="{$path}../../Utente/newPassword" method="POST" class="sign__form">
-                        <a href="/" class="sign__logo">
-                            <img src="{$path}../../Smarty/img/logo.svg" alt="">
-                        </a>
+                    <form action="{$path}../../Admin/addProiezione" onsubmit="return validate()" method="POST" class="sign__form" enctype="multipart/form-data">
 
-                        <input type="hidden" name="token" value="{$token}" />
-
-                        {if $error}
-                            <div class="sign__group">
-                                <span class="sign__text" style="color: red">Password non valida</span>
-                            </div>
-                        {/if}
-
-                        <!-- Pw1 -->
+                        <!-- Titolo -->
                         <div class="sign__group">
-                            <input id="pw1" name="password" type="password" class="sign__input" placeholder="Nuova password">
+                            <input type="text" class="sign__input" placeholder="Titolo del film" name="titolo">
                         </div>
 
-                        <!-- Pw2 -->
+                        <!-- Film -->
                         <div class="sign__group">
-                            <input id="pw2" type="password" class="sign__input" placeholder="Reinserisci password">
+                            <input id="filmChosen" list="films" class="sign__input" placeholder="Film">
+
+                            <datalist id="films">
+                                {foreach $films as $film}
+                                    <option id="{$film->getId()}" value="{$film->getNome()}"></option>
+                                {/foreach}
+                            </datalist>
+
+                            <input id="film" type="hidden" name="film" value="">
                         </div>
 
-                        <button class="sign__btn" onclick="return validate()">Cambia</button>
+                        <!-- Film -->
+                        <div class="sign__group">
+                            <input id="roomChosen" list="rooms" type="number" class="sign__input" placeholder="Sala">
+
+                            <datalist id="rooms">
+                                {foreach $sale as $sala}
+                                    <option id="{$sala->getNumeroSala()}" value="{$sala->getNumeroSala()}"></option>
+                                {/foreach}
+                            </datalist>
+
+                            <input id="room" type="hidden" name="room" value="">
+                        </div>
+
+                        <!-- DataInizio -->
+                        <div class="sign__group">
+                            <input id="dataInizio" type="date" class="sign__input" placeholder="Data inizio: GG/MM/AAAA" name="dataInizio">
+                        </div>
+
+                        <!-- DataInizio -->
+                        <div class="sign__group">
+                            <input id="dataFine" type="date" class="sign__input" placeholder="Data fine: GG/MM/AAAA" name="dataFine">
+                        </div>
+
+                        <button id="submit" class="sign__btn" type="submit">Aggiungi proiezione</button>
                     </form>
                     <!-- end authorization form -->
                 </div>
@@ -86,27 +118,23 @@
 <script src="{$path}../../Smarty/js/photoswipe.min.js"></script>
 <script src="{$path}../../Smarty/js/photoswipe-ui-default.min.js"></script>
 <script src="{$path}../../Smarty/js/main.js"></script>
-
 <script>
-    function passwordIsValid(password) {
-        return password.length > 5;
-    }
-
+    let actors = [];
+    let directors = [];
+</script>
+<script>
     function validate() {
-        if ($("#pw1").val() === $("#pw2").val()) {
-            if (passwordIsValid($("#pw1").val())) {
-                return true;
-            } else {
-                alert("La password deve contenere almeno 6 caratteri");
-            }
-        } else {
-            alert("Le password devono combaciare");
+        if ($("#filmChosen").val() === "" ||
+            $("#roomChosen").val() === "" ||
+            $("#dataInizio").val() === "" ||
+            $("#dataFine").val() === "") {
+            alert("Compila tutti i campi");
+            return false;
         }
 
-        return false;
+        return true;
     }
 </script>
 
 </body>
-
 </html>

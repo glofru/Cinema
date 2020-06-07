@@ -6,6 +6,8 @@ class VHome
     public static function showHome($filmProssimi, $immaginiProssimi, $filmConsigliati, $immaginiConsigliati, $filmProgrammazione, $immaginiProgrammazione, $punteggioProgrammazione, $dateProgrammazione, $filmSettimanaScorsa,$immaginiSettimanaScorsa, $punteggioSettimanaScorsa, $dateSettimanaScorsa, $filmSettimanaProssima,$immaginiSettimanaProssima, $punteggioSettimanaProssima, $dateSettimanaProssima, $utente, $isAdmin)
     {
         $smarty = StartSmarty::configuration();
+
+        $smarty->assign("path", $GLOBALS["path"]);
         $smarty->assign("filmProssimi", $filmProssimi);
         $smarty->assign("immaginiProssimi", $immaginiProssimi);
         $smarty->assign("filmConsigliati", $filmConsigliati);
@@ -24,6 +26,7 @@ class VHome
         $smarty->assign("dateSettimanaScorsa", $dateSettimanaScorsa);
         $smarty->assign("utente", $utente);
         $smarty->assign("admin", $isAdmin);
+
         $smarty->display("home.tpl");
     }
 }

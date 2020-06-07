@@ -31,9 +31,9 @@ class FNewsLetter
         $db->saveToDBNS($utente, $preferenze);
     }
 
-    public static function load() {
+    public static function loadAll() {
         $db = FDatabase::getInstance();
-        $result = $db->loadAllNL();
+        $result = $db->loadAll(self::getClassName());
         if($result === null){
             return new ENewsLetter();
         }
@@ -58,10 +58,9 @@ class FNewsLetter
     }
 
     private static function parseResult($result): ENewsLetter {
-        $return = [];
+        $ns = new ENewsLetter();
         foreach ($result as $utente) {
             $whois = FUtente::load($utente["idUtente"], "id");
-            $ns = new ENewsLetter();
             $ns->addUtenteEPreferenzaFromRaw($whois, $utente["preferenze"]);
         }
         return $ns;

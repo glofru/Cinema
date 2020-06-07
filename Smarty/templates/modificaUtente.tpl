@@ -103,37 +103,32 @@
                                 <i class="icon ion-ios-search"></i>
                             </button>
 
-                            {if (!isset($utente))}
-                                <a href="{$path}../../Utente/login" methods="GET" class="header__sign-in">
-                                    <i class="icon ion-ios-log-in"></i>
-                                    <span>Login</span>
+                            {if (isset($utente) && !$admin)}
+                            <li class="header__nav-item">
+                                <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span>@{$utente->getUsername()}</span>
                                 </a>
-                            {elseif (isset($utente) && !$admin)}
-                                <li class="header__nav-item">
-                                    <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span>@{$utente->getUsername()}</span>
-                                    </a>
-                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                        <li><a href="{$path}../../Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
-                                        <li><a href="{$path}../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
-                                        <li><a href="{$path}../../Utente/showCommenti/">I miei giudizi</a></li>
-                                        <li><a href="{$path}../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
-                                    </ul>
-                                </li>
+                                <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+                                    <li><a href="{$path}../../Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
+                                    <li><a href="{$path}../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
+                                    <li><a href="{$path}../../Utente/showCommenti/">I miei giudizi</a></li>
+                                    <li><a href="{$path}../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+                                </ul>
+                            </li>
                             {elseif (isset($utente) && $admin)}
-                                <li class="header__nav-item">
-                                    <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span>@{$utente->getUsername()}</span>
-                                    </a>
-                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                        <li><a href="{$path}../../Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
-                                        <li><a href="{$path}../../Admin/addFilm/?">Aggiungi film</a></li>
-                                        <li><a href="">Gestione Proiezioni</a></li>
-                                        <li><a href="{$path}../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
-                                        <li><a href="{$path}../../Admin/modificaPrezzi/?">Gestione Prezzi</a></li>
-                                        <li><a href="{$path}../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
-                                    </ul>
-                                </li>
+                            <li class="header__nav-item">
+                                <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span>@{$utente->getUsername()}</span>
+                                </a>
+                                <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+                                    <li><a href="{$path}../../Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
+                                    <li><a href="{$path}../../Admin/addFilm/?">Aggiungi film</a></li>
+                                    <li><a href="">Gestione Proiezioni</a></li>
+                                    <li><a href="{$path}../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
+                                    <li><a href="{$path}../../Admin/modificaPrezzi/?">Gestione Prezzi</a></li>
+                                    <li><a href="{$path}../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+                                </ul>
+                            </li>
                             {/if}
                         </div>
                         <!-- end header auth -->
@@ -171,28 +166,33 @@
 
 
 <!-- details -->
-    <section class="section details">
-        <!-- details background -->
-        <div class="details__bg" data-bg="{$path}../../Smarty/img/home/home__bg.jpg"></div>
-        <!-- end details background -->
+<section class="section details">
+    <!-- details background -->
+    <div class="details__bg" data-bg="{$path}../../Smarty/img/home/home__bg.jpg"></div>
+    <!-- end details background -->
 
-        <!-- details content -->
-        <div class="container">
-            <div class="row">
-                <!-- title -->
-                <div class="col-12">
-                    <h1 class="details__title">@{$utente->getUsername()}{if ($admin)} [ADMIN]{/if}</h1>
-                </div>
-                <!-- end title -->
-
-                <!-- content -->
+    <!-- details content -->
+    <div class="container">
+        <div class="row">
+            <!-- content -->
+            <form class="form" method="POST" action="{$path}../../Utente/modifica" onsubmit="return validate()" style="width: 1000px">
                 <div class="col-10">
                     <div class="card card--details card--series">
                         <div class="row">
+
+                            <input type="hidden" name="utente" value="{$utente->getId()}">
+
+                            {if isset($error)}
+                                <script>alert({$error})</script>
+                            {/if}
+
                             <!-- card cover -->
                             <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
                                 <div class="card__cover">
                                     <img src="{$propic->getImmagine()}" alt="">
+                                    <button id="insert_image" class="sign__btn" type="button" style="width: 200px" onclick="document.getElementById('choose_image').click()">Carica foto profilo</button>
+                                    <input id="choose_image" type="file" name="propic" style="display: none" accept=".jpg, .jpeg, .gif, .png">
+                                    <br>
                                 </div>
                             </div>
                             <!-- end card cover -->
@@ -201,13 +201,28 @@
                             <div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-9">
                                 <div class="card__content">
 
+                                    <div class="col-8">
+                                        <h1 class="details__title">Dati utente</h1>
+                                    </div>
 
                                     <ul class="card__meta">
-                                        <li><span>Nome:</span>{$utente->getNome()}</li>
-                                        <li><span>Cognome:</span>{$utente->getCognome()}</li>
-                                        {if ($canModify)}
-                                            <li><span>Email:</span> <a style="cursor: default">{$utente->getEmail()}</a> </li>
-                                        {/if}
+                                        <li><input class="form__input" type="text" id="username" name="username" value="{$utente->getUsername()}" placeholder="Username"></li>
+                                        <li><input class="form__input" type="text" id="nome" name="nome" value="{$utente->getNome()}" placeholder="Nome"></li>
+                                        <li><input class="form__input" type="text" id="cognome" name="cognome" value="{$utente->getCognome()}" placeholder="Cognome"></li>
+                                        <li><input class="form__input" type="text" id="email" name="email" value="{$utente->getEmail()}" placeholder="Email"></li>
+                                    </ul>
+                                </div>
+
+                                <div class="card__content">
+
+                                    <div class="col-8">
+                                        <h1 class="details__title">Cambio password</h1>
+                                    </div>
+
+                                    <ul class="card__meta">
+                                        <li><input class="form__input" type="password" id="oldPwd" name="vecchiaPassword" placeholder="Vecchia password"></li>
+                                        <li><input class="form__input" type="password" id="pw1" name="nuovaPassword" placeholder="Nuova password"></li>
+                                        <li><input class="form__input" type="password" id="pw2" placeholder="Reinserisci nuova password"></li>
                                     </ul>
                                 </div>
                             </div>
@@ -216,48 +231,12 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    {if ($canModify)}
-                        <a href="../../Utente/modifica/?id={$utente->getId()}" class="section__btn align-content-center">Modifica</a>
-                    {/if}
+                    <button class="section__btn align-content-center">Applica modifiche</button>
                 </div>
-                <div class="col-12">
-                    <h2 class="section__title"></h2>
-                </div>
-                {if !$admin}
-                    <div class="col-12">
-                        <h2 class="section__title section__title--center">Alcuni dei giudizi espressi dall'utente</h2>
-                    </div>
-                    {if sizeof($giudizi) === 0}
-                    <div class="col-12">
-                        <h2 class="section__title section__title--center">{if (!$admin)}L'utente non ha ancora espresso giudizi...{else}Un amministratore non può esprimere giudizi!{/if}</h2>
-                    </div>
-                    {else}
-                    <div class="col-12 col-lg-8 col-xl-8">
-                        <div class="col-12">
-                            <div class="reviews">
-                                <ul class="reviews__list">
-                                    {if ($giudizi)}
-                                        {foreach $giudizi as $key => $rev}
-                                            <li class="reviews__item">
-                                                <div class="reviews__autor">
-                                                    <img class="reviews__avatar" src="{$propic->getImmagine()}" alt="">
-                                                    <span class="reviews__name" style="display: inline-block">{$rev->getTitle()}</span>
-                                                    <span class="reviews__time">da @{$rev->getUtente()->getUsername()} il {$rev->getDataPubblicazioneString()} nel film <a href="{$path}../../Film/show/?film={$rev->getFilm()->getId()}&autoplay=true" target="_blank">{$rev->getFilm()->getNome()}</a></span>
-                                                    <span class="reviews__rating"><i class="icon ion-ios-star"></i>{$rev->getPunteggio()}</span>
-                                                </div>
-                                                <p class="reviews__text">{$rev->getCommento()}</p>
-                                            </li>
-                                        {/foreach}
-                                    {/if}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    {/if}
-                {/if}
-            </div>
+            </form>
         </div>
-    </section>
+    </div>
+</section>
 
 <!-- footer -->
 <footer class="footer">
@@ -327,7 +306,7 @@
     </div>
 </footer>
 <!-- end footer -->
-                            <!-- JS -->
+<!-- JS -->
 <script src="{$path}../../Smarty/js/jquery-3.3.1.min.js"></script>
 <script src="{$path}../../Smarty/js/bootstrap.bundle.min.js"></script>
 <script src="{$path}../../Smarty/js/owl.carousel.min.js"></script>
@@ -341,5 +320,70 @@
 <script src="{$path}../../Smarty/js/photoswipe-ui-default.min.js"></script>
 <script src="{$path}../../Smarty/js/main.js"></script>
 
+<script>
+    function nameIsValid(name) {
+        let exp = /^[a-zA-Z\-]+$/;
+
+        return name.match(exp) != null;
+    }
+
+    function usernameIsValid(username) {
+        let exp = /^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/;
+
+        return username.match(exp) != null;
+    }
+
+    function emailIsValid(email) {
+        let exp = /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/;
+
+        return email.match(exp) != null;
+    }
+
+    function passwordIsValid(password) {
+        return password.length > 5;
+    }
+
+    function checkPwd(pw1, pw2) {
+        return pw1 === pw2;
+    }
+
+    function validate() {
+        if (nameIsValid($("#nome").val())) {
+            if (nameIsValid($("#cognome").val())) {
+                if (usernameIsValid($("#username").val())) {
+                    if (emailIsValid($("#email").val())) {
+                        if ($("#oldPwd").val().length > 0) {
+                            if (passwordIsValid($("#oldPwd").val())) {
+                                if (passwordIsValid($("#pw1").val())) {
+                                    if (checkPwd($("#pw1").val(), $("#pw2").val())) {
+                                        return true;
+                                    } else {
+                                        alert("Le nuove password non combaciano!");
+                                    }
+                                } else {
+                                    alert("La nuova password deve avere almeno 6 caratteri")
+                                }
+                            } else {
+                                alert("Vecchia password non valida, dev'essere almeno di 6 caratteri")
+                            }
+                        } else {
+                            return true;
+                        }
+                    } else {
+                        alert("Email non valida")
+                    }
+                } else {
+                    alert("Username non valido!");
+                }
+            } else {
+                alert("Cognome non valido");
+            }
+        } else {
+            alert("Nome non valido");
+        }
+
+        return false;
+    }
+</script>
 
 </body>

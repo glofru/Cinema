@@ -38,6 +38,21 @@ class FSala implements Foundation
         $db->saveToDB(self::getClassName(),$salaFisica);
     }
 
+    public static function nLoadAll(): int {
+        $db = FDatabase::getInstance();
+        $result = $db->loadAll(self::getClassName());
+        if($result === null){
+            return 0;
+        }
+        return sizeof($result);
+    }
+
+    public static function loadAll(): array {
+        $db = FDatabase::getInstance();
+        $result = $db->loadAll(self::getClassName());
+        return self::parseResult($result);
+    }
+
     public static function load (string $nSala, string $row) {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), intval($nSala), $row);
@@ -45,11 +60,7 @@ class FSala implements Foundation
             return null;
         }
 
-        $nSala = $result[0]["nSala"];
-        $nFile = $result[0]["nFile"];
-        $nPostiFila = $result[0]["nPostiFila"];
-        $disponibile = $result[0]["disponibile"];
-        return new ESalaFisica($nSala, $nFile, $nPostiFila, $disponibile);
+        return self::parseResult($result);
     }
 
     public static function loadVirtuale (string $nSala, string $row) {
@@ -59,11 +70,7 @@ class FSala implements Foundation
             return null;
         }
 
-        $nSala = $result[0]["nSala"];
-        $nFile = $result[0]["nFile"];
-        $nPostiFila = $result[0]["nPostiFila"];
-        $disponibile = $result[0]["disponibile"];
-        return new ESalaVirtuale($nSala, $nFile, $nPostiFila, $disponibile);
+        return self::parseResult($result, false);
     }
 
     public static function update($value,$row,$newvalue,$newrow): bool {
@@ -80,5 +87,24 @@ class FSala implements Foundation
             return true;
         }
         return false;
+    }
+
+    private static function parseResult(array $result, bool $fisica = true): array {
+        $return = [];
+
+        foreach ($result as $row) {
+            $nSala = $row["nSala"];
+            $nFile = $row["nFile"];
+            $nPostiFila = $row["nPostiFila"];
+            $disponibile = boolval($row["disponibile"]);
+
+            if ($fisica) {
+                array_push($return, new ESalaFisica($nSala, $nFile, $nPostiFila, $disponibile));
+            } else {
+                array_push($return, new ESalaVirtuale($nSala, $nFile, $nPostiFila, $disponibile));
+            }
+        }
+
+        return $return;
     }
 }

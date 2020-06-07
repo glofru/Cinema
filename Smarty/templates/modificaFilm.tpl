@@ -30,7 +30,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="Dmitry Volkov">
-    <title>Aggiungi un film</title>
+    <title>Modifica Film</title>
 
     <style>
         /* Chrome, Safari, Edge, Opera */
@@ -75,28 +75,34 @@
 <div class="sign section--bg" data-bg="{$path}../../Smarty/img/section/section.jpg">
     <div class="container">
         <div class="row">
+            <input type="hidden" name="film" value="{$film->getId()}">
+
+            {if isset($error)}
+                <script>alert({$error})</script>
+            {/if}
+
             <div class="col-12">
                 <div class="sign__content">
                     <!-- authorization form -->
-                    <form action="{$path}../../Admin/addFilm" onsubmit="return validate()" method="POST" class="sign__form" enctype="multipart/form-data">
+                    <form action="{$path}../../Admin/modificaFilm/?film={$film->getId()}" method="POST" class="sign__form" enctype="multipart/form-data">
                         <a href="/" class="sign__logo">
                             <img src="../../Smarty/img/logo.svg" alt="">
                         </a>
                         <div class="sign__group">
+                            <img src="{$copertina->getImmagine()}" alt="">
                             <button id="insert_image" class="sign__btn" type="button" style="width: 200px" onclick="document.getElementById('choose_image').click()">Carica copertina</button>
                             <input id="choose_image" type="file" name="copertina" style="display: none" accept=".jpg, .jpeg, .gif, .png">
                             <br>
-                            <b><p id="image_name" class="faq__text" style="text-align: center; max-width: 300px">Nessuna immagine caricata</p></b>
                         </div>
 
                         <!-- Titolo -->
                         <div class="sign__group">
-                            <input id="titolo" type="text" class="sign__input" placeholder="Titolo del film" name="titolo">
+                            <input class="form__input" type="text" id="titolo" name="titolo" value="{$film->getNome()}" placeholder="Titolo">
                         </div>
 
                         <!-- Descrizione -->
                         <div class="sign__group">
-                            <input id="descrizione" type="text" class="sign__input" placeholder="Descrizione" name="descrizione">
+                            <input class="form__input" type="text" id="descrizione" name="descrizione" value="{$film->getDescrizione()}" placeholder="Descrizione">
                         </div>
 
                         <!-- Genere -->
@@ -104,7 +110,7 @@
                             <span class="filter__item-label">Genere:</span>
 
                             <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-genre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <input type="text" name="genere" value="{$generi[0]}" readonly>
+                                <input type="text" name="genere" value="{$film->getGenere}" readonly>
                                 <span></span>
                             </div>
 
@@ -117,28 +123,28 @@
 
                         <!-- Durata -->
                         <div class="sign__group">
-                            <input id="durata" type="number" min="0" max="500" class="sign__input" placeholder="Durata (minuti)" name="durata">
+                            <input class="sign__input" id="durata" type="number" max="500"  value="{$film->getDurataMinuti}" name="durata">
                         </div>
 
                         <!-- TrailerURL -->
                         <div class="sign__group">
-                            <input type="url" class="sign__input" placeholder="Trailer" name="trailerURL">
+                            <input type="url" class="sign__input" value="{$film->getTrailerURL}" name="trailerURL">
                         </div>
 
                         <!-- Voto critica -->
                         <div class="sign__group" style="position:relative;">
-                            <input style="padding-right: 30px;" type="number" min="0" max="10" step="0.1" class="sign__input" placeholder="Voto della critica" name="votoCritica">
+                            <input style="padding-right: 30px;" type="number" min="0" max="10" step="0.1" class="sign__input" value="{$film->getVotoCritica}" name="votoCritica">
                             <span class="card__rate" style="position: absolute; right: 10px; bottom: 13px;"><i class="icon ion-ios-star"></i></span>
                         </div>
 
                         <!-- DataRilascio -->
                         <div class="sign__group">
-                            <input id="dataRilascio" type="date" class="sign__input" placeholder="GG/MM/AAAA" name="dataRilascio">
+                            <input id="dataRilascio" type="date" class="sign__input" value="{$film->getDataRilascioString}" name="dataRilascio">
                         </div>
 
                         <!-- Paese -->
                         <div class="sign__group">
-                            <input type="text" maxlength="3" class="sign__input" placeholder="Paese" name="paese">
+                            <input type="text" maxlength="3" class="sign__input" value="{$film->getPaese}" name="paese">
                         </div>
 
                         <!-- Età consigliata -->
@@ -146,7 +152,7 @@
                             <span class="filter__item-label">Età consigliata:</span>
 
                             <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-age" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <input type="text" name="etaConsigliata" value="NO" readonly>
+                                <input type="text" name="etaConsigliata" value=value="{$film->getEtaConsigliata}" readonly>
                                 <span></span>
                             </div>
 
@@ -160,7 +166,7 @@
 
                         <!-- Attori -->
                         <div class="sign__group" style="position: relative; margin-bottom: 0;">
-                            <input id="actorChosen" list="actors" class="sign__input" placeholder="Attori">
+                            <input id="actorChosen" list="actors" class="sign__input" value="{$film->getAttori}">
                             <button id="addActor" type="button" class="sign__btn" style="position: absolute; right: 10px; bottom: 15px; width: 20px; height: 20px">+</button>
 
                             <datalist id="actors">
@@ -178,13 +184,13 @@
 
                         <!-- Registi -->
                         <div class="sign__group" style="position: relative; margin-top: 15px; margin-bottom: 0px;">
-                            <input id="directorChosen" list="directors" class="sign__input" placeholder="Registi">
+                            <input id="directorChosen" list="directors" class="sign__input" value="{$film->getRegisti}"
                             <button id="addDirector" type="button" class="sign__btn" style="position: absolute; right: 10px; bottom: 15px; width: 20px; height: 20px">+</button>
 
                             <datalist id="directors">
                                 {foreach $registi as $regista}
-                                    <option id="{$regista->getId()}" value="{$regista->getFullName()}">
-                                {/foreach}
+                                <option id="{$regista->getId()}" value="{$regista->getFullName()}">
+                                    {/foreach}
                             </datalist>
 
                             <input id="registi" type="hidden" name="registi" value="">
@@ -194,7 +200,7 @@
                             </ul>
                         </div>
 
-                        <button id="submit" class="sign__btn">Aggiungi Film</button>
+                        <button id="submit" class="sign__btn">Applica Modifiche</button>
                     </form>
                     <!-- end authorization form -->
                 </div>
@@ -216,77 +222,7 @@
 <script src="{$path}../../Smarty/js/photoswipe.min.js"></script>
 <script src="{$path}../../Smarty/js/photoswipe-ui-default.min.js"></script>
 <script src="{$path}../../Smarty/js/main.js"></script>
-<script>
-    let actors = [];
-    let directors = [];
 
-    $(document).ready(function(){
-        // Aggiorna nome copertina
-        $('#choose_image').change(function(e) {
-            document.getElementById("image_name").innerText = e.target.files[0].name;
-        });
-
-        // Aggiungi attore
-        $('#addActor').click(function(e) {
-            let actorChosen = $("#actorChosen").val();
-            if (actorChosen !== "") {
-                let idActorChosen = $("#actors").find("option[value='" + actorChosen + "']").attr("id");
-
-                actors.push(idActorChosen);
-
-                $("#actorChosen").val("");
-
-                let button = $("<button type='button' name='" + idActorChosen + "' class='sign__btn' style='width: 20px; height: 20px; display: inline'>X</button>");
-                let list = $("#displayActors");
-                let li = $("<li id='" + idActorChosen + "' style=\"color: white; text-align: right\"></li>").append(actorChosen, " ", button);
-                li.click(function(e) {
-                    actors.splice(actors.indexOf($(this).attr("id")), 1);
-                    $(this).remove();
-                });
-                list.append(li);
-            }
-        });
-
-        $('#removeActor').click(function(e) {
-            console.log('we');
-        });
-
-        $('#addDirector').click(function(e) {
-            let directorChosen = $("#directorChosen").val();
-            if (directorChosen !== "") {
-                let idDirectorChosen = $("#directors").find("option[value='" + directorChosen + "']").attr("id");
-
-                directors.push(idDirectorChosen);
-
-                $("#directorChosen").val("");
-
-                let button = $("<button type='button' name='" + idDirectorChosen + "' class='sign__btn' style='width: 20px; height: 20px; display: inline'>X</button>");
-                let list = $("#displayDirectors");
-                let li = $("<li id='" + idDirectorChosen + "' style=\"color: white; text-align: right\"></li>").append(directorChosen, " ", button);
-                li.click(function(e) {
-                    directors.splice(directors.indexOf($(this).attr("id")), 1);
-                    $(this).remove();
-                });
-                list.append(li);
-            }
-        });
-    });
-
-    function validate() {
-        if ($("#titolo").val() === "" ||
-            $("#descrizione").val() === "" ||
-            $("#durata").val() === "" ||
-            $("#dataRilascio").val() === "") {
-            alert("Inserisci almeno titolo, descrizione, durata e data di rilascio");
-            return false;
-        }
-
-        $('#attori').attr("value", actors.join(";"));
-        $('#registi').attr("value", directors.join(";"));
-
-        return true;
-    }
-</script>
 
 
 </body>

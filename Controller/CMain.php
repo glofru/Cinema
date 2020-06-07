@@ -53,8 +53,17 @@ class CMain
 
                 if (in_array($controller . ".php", $controllers) && method_exists($controller, $function)) {
                     $function = $res[1];
+                    try {
+                        $reflection = new ReflectionMethod($controller, $function);
+                        
+                        if(!$reflection->isPublic()){
+                            self::methodNotAllowed();
+                        }
 
-                    $controller::$function();
+                        $controller::$function();
+                    } catch (ReflectionException $e) {
+                        CMain::methodNotAllowed();
+                    }
                 } else {
                     self::notFound();
                 }

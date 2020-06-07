@@ -99,14 +99,31 @@ class CMail
             $eta = "Eta' consigliata: " . $film->getEtaConsigliata() . "<br>";
         }
         foreach ($film->getAttori() as $att) {
-            $attori .= "<a href='$att->getImdbUrl()'>" . $att->getFullName() . "</a>" . " ";
+            $link = $att->getImdbUrl();
+            $attori .= "<a href='$link'>" . $att->getFullName() . "</a>" . " ";
         }
         foreach ($film->getRegisti() as $att) {
-            $registi .= "<a href='$att->getImdbUrl()'>" . $att->getFullName() . "</a>" . " ";
+            $link = $att->getImdbUrl();
+            $registi .= "<a href='$link'>" . $att->getFullName() . "</a>" . " ";
         }
+        $trailer = $film->getTrailerURL();
         $body = "Ciao" . $utente->getNome() . " " . $utente->getCognome() . ", volevamo avvisarti che nel nostro cinema è stato appena inserito un nuovo film del genere <b>" . $film->getGenere(). "</b>" . " ecco a te i dettagli: " .
-            "<br><br>" . "Titolo: " . $film->getNome() . "<br>" . "Data di rilascio: " . $film->getDataRilascioString() . "<br>" . $eta . "Durata: " . $film->getDurataMinuti() . "minuti" . "<br>" . $attori . "<br>" . $registi . "<br>" . "Puoi vedere il trailer del film <a href='$film->getTrailerUrl()'>qui</a>." .
-            "Speriamo di vederti presto nel nsotro cinema :). <br>";
+            "<br><br>" . "Titolo: " . $film->getNome() . "<br>" . "Data di rilascio: " . $film->getDataRilascioString() . "<br>" . $eta . "Durata: " . $film->getDurataMinuti() . "minuti" . "<br>" . $attori . "<br>" . $registi . "<br>" . "Puoi vedere il trailer del film <a href='$trailer'>qui</a>." .
+            "Speriamo di vederti presto nel nostro cinema :). <br>";
+        $name = $utente->getNome() . " " . $utente->getCognome();
+        self::sendMail($utente->getEmail(), $subject, $body, $name);
+    }
+
+    public static function newEntry(EUtente $utente) {
+        $subject = "Benvenuto  - Magic Boulevard Cinema";
+        $body = "Ciao " . $utente->getNome() . " " . $utente->getCognome() . " grazie per esserti registrato sul nostro portale. Adesso puoi effettuare il login <a href='localhost/Utente/login'><b>qui</b></a>.<br>Speriamo che il nostri contenuti siano di tuo gradimento e di facile utilizzo :)";
+        $name = $utente->getNome() . " " . $utente->getCognome();
+        self::sendMail($utente->getEmail(), $subject, $body, $name);
+    }
+
+    public static function modifiedPassword(EUtente $utente) {
+        $subject = "Password modificata  - Magic Boulevard Cinema";
+        $body = "Ciao " . $utente->getNome() . " " . $utente->getCognome() . " ti segnaliamo che la tua password è stata modificata. Puoi effettuare il login <a href='localhost/Utente/login'><b>qui</b></a>.<br><br><b>ATTENZIONE</b>:Se non sei stato tu ad effettuare questa modifica manda una mail al nostro supporto tecnico per avere un aiuto <a href=\"mailto:support@magicboulevardcinema.com\">support@magicboulevardcinema.com</a>";
         $name = $utente->getNome() . " " . $utente->getCognome();
         self::sendMail($utente->getEmail(), $subject, $body, $name);
     }

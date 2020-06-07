@@ -1,4 +1,5 @@
 <?php
+
 function autoloader_view($class){
     include_once('View/' . $class . '.php');
 }
@@ -39,6 +40,11 @@ function autoloader_root($class){
     include_once($class . '.php');
 }
 
+function autoloader_config(){
+    include_once("configCinema.conf.php");
+    include_once("configDB.conf.php");
+}
+
 function autoloader_php_mailer($class){
     include_once('PHPMailer/src/' . $class . '.php');
 }
@@ -49,5 +55,6 @@ spl_autoload_register('autoloader_control');
 spl_autoload_register('autoloader_model');
 spl_autoload_register('autoloader_foundation');
 spl_autoload_register('autoloader_php_mailer');
+spl_autoload_register('autoloader_config');
 
 ?>

@@ -104,8 +104,8 @@ class EBiglietto implements JsonSerializable
     public static function getPrezzofromProiezione(EProiezione $proiezione) {
         $dataProiezione = $proiezione->getDataproieizone();
         $costo = $GLOBALS["prezzi"][$dataProiezione->format("D")];
-        $date = EHelper::getInstance()->getSettimanaProssima();
-        if($dataProiezione > $date[0]) {
+        $date = new DateTime('now + 7 Days');
+        if($dataProiezione > $date) {
             $costo += $GLOBALS["extra"];
         }
         return $costo;

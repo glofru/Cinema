@@ -1,5 +1,4 @@
 <?php
-require_once "configCinema.conf.php";
 
 class CInformazioni
 {

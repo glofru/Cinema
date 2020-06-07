@@ -391,12 +391,12 @@ $(document).ready(function () {
 			var firstSlider = document.getElementById('filter__years');
 			noUiSlider.create(firstSlider, {
 				range: {
-					'min': 2000,
-					'max': 2018
+					'min': 1998,
+					'max': 2022
 				},
 				step: 1,
 				connect: true,
-				start: [2005, 2015],
+				start: [2000, 2020],
 				format: wNumb({
 					decimals: 0,
 				})
@@ -426,7 +426,7 @@ $(document).ready(function () {
 				},
 				step: 0.1,
 				connect: true,
-				start: [2.5, 8.6],
+				start: [3.0, 8.0],
 				format: wNumb({
 					decimals: 1,
 				})
@@ -463,7 +463,7 @@ $(document).ready(function () {
 				},
 				connect: [true, false],
 				step: 0.1,
-				start: 8.6,
+				start: 8.0,
 				format: wNumb({
 					decimals: 1,
 				})

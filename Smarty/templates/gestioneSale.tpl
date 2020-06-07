@@ -81,11 +81,17 @@
 							<!-- dropdown -->
 							<li class="dropdown header__nav-item">
 								<a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
+								{if (!isset($utente))}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
 										<li><a href="{$path}../../Informazioni/getAbout/">Su di noi</a></li>
 										<li><a href="{$path}../../Utente/signup">Registrati</a></li>
 										<li><a href="{$path}../../Utente/controlloBigliettiNonRegistrato/?">I miei biglietti</a></li>
 									</ul>
+								{else}
+									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
+										<li><a href="{$path}../../Informazioni/getAbout/">Su di noi</a></li>
+									</ul>
+								{/if}
 							</li>
 							<!-- end dropdown -->
 						</ul>
@@ -96,10 +102,19 @@
 							<button class="header__search-btn" type="button">
 								<i class="icon ion-ios-search"></i>
 							</button>
-							<a href="{$path}../../Utente/login" methods="GET" class="header__sign-in">
-								<i class="icon ion-ios-log-in"></i>
-								<span>Login</span>
-							</a>
+								<li class="header__nav-item">
+									<a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<span>@{$utente->getUsername()}</span>
+									</a>
+									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+										<li><a href="{$path}../../Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
+										<li><a href="{$path}../../Admin/addFilm/?">Aggiungi film</a></li>
+										<li><a href="">Gestione Proiezioni</a></li>
+										<li><a href="{$path}../../Admin/gestioneUtenti">Gestione Utenti</a></li>
+										<li><a href="{$path}../../Admin/modificaPrezzi/?">Gestione Prezzi</a></li>
+										<li><a href="{$path}../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+									</ul>
+								</li>
 						</div>
 						<!-- end header auth -->
 
@@ -133,10 +148,9 @@
 	<!-- end header search -->
 </header>
 <!-- end header -->
-{if ($isGet === true)}
+
 <!-- content -->
 <section class="content">
-	<form><h2></h2></form>
 	<div class="content__head">
 		<div class="container">
 			<div class="row">
@@ -145,117 +159,99 @@
 					<h2 class="content__title">Discover</h2>
 					<!-- end content title -->
 
-					<!-- authorization form -->
-					<form action="{$path}../../Utente/loginNonRegistrato" method="POST" class="sign__form">
-						<a href="/" class="sign__logo">
-							<img src="../../Smarty/img/logo.svg" alt="">
-						</a>
+					<!-- content tabs nav -->
+					<ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist" style="margin-top: 50px">
+						<li class="nav-item">
+							<a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Gestione sale</a>
+						</li>
 
-						<div class="sign__group">
-							<input name="email" type="text" value="{$email}" class="sign__input" placeholder="Email">
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Aggiungi sala</a>
+						</li>
+					</ul>
+					<!-- end content tabs nav -->
+
+					<!-- content mobile tabs nav -->
+					<div class="content__mobile-tabs" id="content__mobile-tabs">
+						<div class="content__mobile-tabs-btn dropdown-toggle" role="navigation" id="mobile-tabs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<input type="button" value="Utenti bannati">
+							<span></span>
 						</div>
 
-						<div class="sign__group">
-							<input name="password" type="password" class="sign__input" placeholder="Codice">
+						<div class="content__mobile-tabs-menu dropdown-menu" aria-labelledby="mobile-tabs">
+							<ul class="nav nav-tabs" role="tablist">
+								<li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Gestione sale</a></li>
+
+								<li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Aggiungi sala</a></li>
+							</ul>
 						</div>
-
-						<button class="sign__btn" type="submit">Accedi</button>
-
-						<span class="sign__text"><a href="{$path}../../Utente/forgotPassword">Password dimenticata?</a></span>
-					</form>
-					<!-- end authorization form -->
+					</div>
+					<!-- end content mobile tabs nav -->
 				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-12 col-lg-8 col-xl-8" style="margin: auto">
+				<!-- content tabs -->
+				<div class="tab-content" id="myTabContent">
+					<div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
+						<div class="row">
+							<!-- comments -->
+							<div class="col-12">
+								<div class="comments">
+									<ul class="comments__list">
+											<form action="{$path}../../Admin/gestioneSale" method="POST">
+												<input type="hidden" name="id" value="1">
+												{foreach $sale as $item}
+													<div>
+												<div class="col-12">
+													<h2 class="section__title section__title--center">Sala {$item->getNumeroSala()}</h2>
+												</div>
+													<div class="sign__group sign__group--checkbox">
+														<input id="remember{$item->getNumeroSala()}" name="sala{$item->getNumeroSala()}" type="checkbox" {if ($item->isDisponibile())} checked="checked" {else} {/if}>
+														<label for="remember{$item->getNumeroSala()}">Disponibile</label>
+													</div>
+													</div>
+												{/foreach}
+										<button type="submit" style="margin: auto" class="form__btn align-content-center">Conferma</button>
+											</form>
+									</ul>
+								</div>
+							</div>
+							<!-- end comments -->
+						</div>
+					</div>
+
+					<div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
+						<div class="row" style="align-content: center">
+							<!-- reviews -->
+									<form action="{$path}../../Admin/gestioneSale" method="POST" style="margin: auto" class="form" style="align-content: center">
+										<input type="hidden" name="id" value="2">
+										<input type="number" min="0" id="" class="form__input" name="sala" placeholder="Numero di Sala">
+										<input type="number" min="0" id="" class="form__input" name="file" placeholder="Numero di file">
+										<input type="number" min="0" id="" class="form__input" name="posti" placeholder="Numero di posti per fila">
+										<div class="sign__group sign__group--checkbox">
+											<input id="remember" name="disponibile" type="checkbox" checked="checked">
+											<label for="remember">Disponibile</label>
+										</div>
+										<button type="submit" onclick="return control()" style="margin: auto" class="form__btn align-content-center">Aggiungi</button>
+									</form>
+								</div>
+							</div>
+							<!-- end reviews -->
+						</div>
+					</div>
+				</div>
+				<!-- end content tabs -->
 			</div>
 		</div>
 	</div>
 </section>
-	{else}
-	<!-- page title -->
-	<section class="section section--first section--bg" data-bg="{$path}../../Smarty/img/section/section.jpg">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<div class="section__wrap">
-						<!-- section title -->
-						<h2 class="section__title">I miei biglietti</h2>
-						<!-- end section title -->
+<!-- end content -->
 
-						<!-- breadcrumb-->
-						<ul class="breadcrumb">
-							<li class="breadcrumb__item"><a href="/">Home</a></li>
-							<li class="breadcrumb"><a href="">I miei biglietti</a></li>
-						</ul>
-						<!-- end breadcrumb -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- end page title -->
-	<!-- filter -->
-	<div class="filter">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<div class="filter__content">
-						<div class="filter__items">
-							<!-- filter item -->
-							<div class="card__description">
-								<p>Qui puoi osservare tutti i biglietti che hai acquistato presso il nostro cinema {$email} :)</p>
-							</div>
-							<!-- end filter item -->
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end filter -->
-	<!-- catalog -->
-	<form></form>
-	<div class="catalog">
-		<div class="container">
-			<div class="row">
-					{foreach $biglietti as $key => $item}
-						<!-- card -->
-						<div class="col-6 col-sm-12 col-lg-6">
-							<div class="card card--list">
-								<div class="row">
-									<div class="col-12 col-sm-4">
-										<div class="card__cover">
-											<img src="{$immagini[$key]->getImmagineHTML()}" alt="">
-										</div>
-									</div>
-
-									<div class="col-12 col-sm-8">
-										<div class="card__content">
-											<h3 class="card__title"><a href="{$path}../../Film/show/?film={$item->getProiezione()->getFilm()->getId()}">{$item->getProiezione()->getFilm()->getNome()}</a></h3>
-											<span class="card__category">
-										<a style="font-size:20px;">{$item->getPosto()}</a>
-									</span>
-											<div class="card__wrap">
-												{if ($item->getProiezione()->getFilm()->getetaConsigliata() != "")}
-													<ul class="card__list">
-														<li>{$item->getProiezione()->getFilm()->getetaConsigliata()}</li>
-													</ul>
-												{/if}
-											</div>
-
-											<div class="card__description">
-												<p>Giorno {$item->getProiezione()->getData()} <br> Spettacolo delle {$item->getProiezione()->getOra()} <br> Sala {$item->getProiezione()->getSala()->getNumeroSala()} <br> Prezzo: {$item->getCosto()}€</p>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- end card -->
-					{/foreach}
-			</div>
-		</div>
-	</div>
-	<!-- end catalog -->
-{/if}
 <!-- footer -->
 <footer class="footer">
 	<div class="container">
@@ -379,18 +375,26 @@
 
 <!-- JS -->
 <script>
-	function result(value){
-		alert(value);
+
+	function isValid(name) {
+		return (name !== "") ;
 	}
 	
 	function control() {
-		if($("#toBan").val().length < 6){
-			alert("L'utente ha uno username di almeno 7 caratteri");
+
+		/*if(!isValid($("#sala").val())){
+			alert("Devi inserire un numero di sala");
 			return false;
-		} else {
-			return true;
-		}
+		} else if (!isValid($("#file").val())) {
+			alert("Devi inserire un numero di file");
+			return false;
+		}else if (!isValid($("#posti").val())) {
+			alert("Devi inserire un numero di posti per fila");
+			return false;
+		}*/
+		return true;
 	}
+
 </script>
 <script src="{$path}../../Smarty/js/jquery-3.3.1.min.js"></script>
 <script src="{$path}../../Smarty/js/bootstrap.bundle.min.js"></script>

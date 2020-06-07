@@ -9,23 +9,23 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet">
 
 	<!-- CSS -->
-	<link rel="stylesheet" href="../../Smarty/css/bootstrap-reboot.min.css">
-	<link rel="stylesheet" href="../../Smarty/css/bootstrap-grid.min.css">
-	<link rel="stylesheet" href="../../Smarty/css/owl.carousel.min.css">
-	<link rel="stylesheet" href="../../Smarty/css/jquery.mCustomScrollbar.min.css">
-	<link rel="stylesheet" href="../../Smarty/css/nouislider.min.css">
-	<link rel="stylesheet" href="../../Smarty/css/ionicons.min.css">
-	<link rel="stylesheet" href="../../Smarty/css/plyr.css">
-	<link rel="stylesheet" href="../../Smarty/css/photoswipe.css">
-	<link rel="stylesheet" href="../../Smarty/css/default-skin.css">
-	<link rel="stylesheet" href="../../Smarty/css/main.css">
+	<link rel="stylesheet" href="{$path}../../Smarty/css/bootstrap-reboot.min.css">
+	<link rel="stylesheet" href="{$path}../../Smarty/css/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="{$path}../../Smarty/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="{$path}../../Smarty/css/jquery.mCustomScrollbar.min.css">
+	<link rel="stylesheet" href="{$path}../../Smarty/css/nouislider.min.css">
+	<link rel="stylesheet" href="{$path}../../Smarty/css/ionicons.min.css">
+	<link rel="stylesheet" href="{$path}../../Smarty/css/plyr.css">
+	<link rel="stylesheet" href="{$path}../../Smarty/css/photoswipe.css">
+	<link rel="stylesheet" href="{$path}../../Smarty/css/default-skin.css">
+	<link rel="stylesheet" href="{$path}../../Smarty/css/main.css">
 
 	<!-- Favicons -->
-	<link rel="icon" type="image/png" href="../../Smarty/icon/favicon-32x32.png" sizes="32x32">
-	<link rel="apple-touch-icon" href="../../Smarty/icon/favicon-32x32.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="../../Smarty/icon/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="../../Smarty/icon/apple-touch-icon-114x114.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="../../Smarty/icon/apple-touch-icon-144x144.png">
+	<link rel="icon" type="image/png" href="{$path}../../Smarty/icon/favicon-32x32.png" sizes="32x32">
+	<link rel="apple-touch-icon" href="{$path}../../Smarty/icon/favicon-32x32.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="{$path}../../Smarty/icon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="{$path}../../Smarty/icon/apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="{$path}../../Smarty/icon/apple-touch-icon-144x144.png">
 
 	<meta name="description" content="">
 	<meta name="keywords" content="">
@@ -43,8 +43,8 @@
 				<div class="col-12">
 					<div class="header__content">
 						<!-- header logo -->
-						<a href="../../index.php" class="header__logo">
-							<img src="../../Smarty/img/logo.svg" alt="">
+						<a href="{$path}../../index.php" class="header__logo">
+							<img src="{$path}../../Smarty/img/logo.svg" alt="">
 						</a>
 						<!-- end header logo -->
 
@@ -52,7 +52,7 @@
 						<ul class="header__nav">
 							<!-- dropdown -->
 							<li class="header__nav-item">
-								<a class="dropdown-toggle header__nav-link" href="../../index.php" role="button" >Home</a>
+								<a class="dropdown-toggle header__nav-link" href="{$path}../../index.php" role="button" >Home</a>
 
 
 							</li>
@@ -63,15 +63,15 @@
 								<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalogo</a>
 
 								<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-									<li><a href="../../Catalogo/prossimeUscite/">Prossime uscite</a></li>
-									<li><a href="../../Catalogo/programmazioniPassate/">Programmazioni</a></li>
-									<li><a href="../../Catalogo/piuApprezzati/">Film più apprezzati</a></li>
+									<li><a href="{$path}../../Catalogo/prossimeUscite/">Prossime uscite</a></li>
+									<li><a href="{$path}../../Catalogo/programmazioniPassate/">Programmazioni</a></li>
+									<li><a href="{$path}../../Catalogo/piuApprezzati/">Film più apprezzati</a></li>
 								</ul>
 							</li>
 							<!-- end dropdown -->
 
 							<li class="header__nav-item">
-								<a href="../../Informazioni/getCosti/" class="header__nav-link">Prezzi</a>
+								<a href="{$path}../../Informazioni/getCosti/" class="header__nav-link">Prezzi</a>
 							</li>
 
 							<li class="header__nav-item">
@@ -83,13 +83,13 @@
 								<a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
 								{if (!isset($utente))}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-										<li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
-										<li><a href="../../Utente/signup">Registrati</a></li>
-										<li><a href="../../Utente/controlloBigliettiNonRegistrato/?">I miei biglietti</a></li>
+										<li><a href="{$path}../../Informazioni/getAbout/">Su di noi</a></li>
+										<li><a href="{$path}../../Utente/signup">Registrati</a></li>
+										<li><a href="{$path}../../Utente/controlloBigliettiNonRegistrato/?">I miei biglietti</a></li>
 									</ul>
 								{else}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-										<li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
+										<li><a href="{$path}../../Informazioni/getAbout/">Su di noi</a></li>
 									</ul>
 								{/if}
 							</li>
@@ -104,7 +104,7 @@
 							</button>
 
 							{if (!isset($utente))}
-								<a href="../../Utente/login" methods="GET" class="header__sign-in">
+								<a href="{$path}../../Utente/login" methods="GET" class="header__sign-in">
 									<i class="icon ion-ios-log-in"></i>
 									<span>Login</span>
 								</a>
@@ -114,10 +114,10 @@
 										<span>@{$utente->getUsername()}</span>
 									</a>
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-										<li><a href="../../Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
-										<li><a href="../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
-										<li><a href="../../Utente/showCommenti/">I miei giudizi</a></li>
-										<li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+										<li><a href="{$path}../../Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
+										<li><a href="{$path}../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
+										<li><a href="{$path}../../Utente/showCommenti/">I miei giudizi</a></li>
+										<li><a href="{$path}../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
 									</ul>
 								</li>
 							{elseif (isset($utente) && $admin)}
@@ -126,11 +126,12 @@
 										<span>@{$utente->getUsername()}</span>
 									</a>
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-										<li><a href="../../Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
-										<li><a href="">Gestione film</a></li>
+										<li><a href="{$path}../../Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
+										<li><a href="{$path}../../Admin/addFilm/?">Aggiungi film</a></li>
 										<li><a href="">Gestione Proiezioni</a></li>
-										<li><a href="../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
-										<li><a href="../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+										<li><a href="{$path}../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
+										<li><a href="{$path}../../Admin/modificaPrezzi/?">Gestione Prezzi</a></li>
+										<li><a href="{$path}../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
 									</ul>
 								</li>
 							{/if}
@@ -151,7 +152,7 @@
 	</div>
 
 	<!-- header search -->
-	<form action="/Ricerca/cercaFilm" method= "POST" class="header__search">
+	<form action="{$path}../../Ricerca/cercaFilm" method= "POST" class="header__search">
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
@@ -169,7 +170,7 @@
 <!-- end header -->
 
 	<!-- page title -->
-	<section class="section section--first section--bg" data-bg="../../Smarty/img/section/section.jpg">
+	<section class="section section--first section--bg" data-bg="{$path}../../Smarty/img/section/section.jpg">
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
@@ -230,7 +231,7 @@
 				<!-- partner -->
 				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
 					<a href="#" class="partner">
-						<img src="../../Smarty/img/partners/themeforest-light-background.png" alt="" class="partner__img">
+						<img src="{$path}../../Smarty/img/partners/themeforest-light-background.png" alt="" class="partner__img">
 					</a>
 				</div>
 				<!-- end partner -->
@@ -238,7 +239,7 @@
 				<!-- partner -->
 				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
 					<a href="#" class="partner">
-						<img src="../../Smarty/img/partners/audiojungle-light-background.png" alt="" class="partner__img">
+						<img src="{$path}../../Smarty/img/partners/audiojungle-light-background.png" alt="" class="partner__img">
 					</a>
 				</div>
 				<!-- end partner -->
@@ -246,7 +247,7 @@
 				<!-- partner -->
 				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
 					<a href="#" class="partner">
-						<img src="../../Smarty/img/partners/codecanyon-light-background.png" alt="" class="partner__img">
+						<img src="{$path}../../Smarty/img/partners/codecanyon-light-background.png" alt="" class="partner__img">
 					</a>
 				</div>
 				<!-- end partner -->
@@ -254,7 +255,7 @@
 				<!-- partner -->
 				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
 					<a href="#" class="partner">
-						<img src="../../Smarty/img/partners/photodune-light-background.png" alt="" class="partner__img">
+						<img src="{$path}../../Smarty/img/partners/photodune-light-background.png" alt="" class="partner__img">
 					</a>
 				</div>
 				<!-- end partner -->
@@ -262,7 +263,7 @@
 				<!-- partner -->
 				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
 					<a href="#" class="partner">
-						<img src="../../Smarty/img/partners/activeden-light-background.png" alt="" class="partner__img">
+						<img src="{$path}../../Smarty/img/partners/activeden-light-background.png" alt="" class="partner__img">
 					</a>
 				</div>
 				<!-- end partner -->
@@ -270,7 +271,7 @@
 				<!-- partner -->
 				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
 					<a href="#" class="partner">
-						<img src="../../Smarty/img/partners/3docean-light-background.png" alt="" class="partner__img">
+						<img src="{$path}../../Smarty/img/partners/3docean-light-background.png" alt="" class="partner__img">
 					</a>
 				</div>
 				<!-- end partner -->
@@ -287,8 +288,8 @@
 			<div class="col-12 col-md-3">
 				<h6 class="footer__title">Scarica la nostra App</h6>
 				<ul class="footer__app">
-					<li><a href="https://play.google.com/store?hl=it"><img src="../../Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
-					<li><a href="https://www.apple.com/it/ios/app-store/"><img src="../../Smarty/img/google-play-badge.png" alt=""></a></li>
+					<li><a href="https://play.google.com/store?hl=it"><img src="{$path}../../Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
+					<li><a href="https://www.apple.com/it/ios/app-store/"><img src="{$path}../../Smarty/img/google-play-badge.png" alt=""></a></li>
 				</ul>
 			</div>
 			<!-- end footer list -->
@@ -297,8 +298,8 @@
 			<div class="col-6 col-sm-4 col-md-3">
 				<h6 class="footer__title">Informazioni</h6>
 				<ul class="footer__list">
-					<li><a href="../../Informazioni/getAbout/">Su di noi</a></li>
-					<li><a href="../../Informazioni/getCosti/">Costi</a></li>
+					<li><a href="{$path}../../Informazioni/getAbout/">Su di noi</a></li>
+					<li><a href="{$path}../../Informazioni/getCosti/">Costi</a></li>
 					<li><a href="#">Aiuto</a></li>
 				</ul>
 			</div>
@@ -349,18 +350,18 @@
 <!-- end footer -->
 
 	<!-- JS -->
-	<script src="../../Smarty/js/jquery-3.3.1.min.js"></script>
-	<script src="../../Smarty/js/bootstrap.bundle.min.js"></script>
-	<script src="../../Smarty/js/owl.carousel.min.js"></script>
-	<script src="../../Smarty/js/jquery.mousewheel.min.js"></script>
-	<script src="../../Smarty/js/jquery.mCustomScrollbar.min.js"></script>
-	<script src="../../Smarty/js/wNumb.js"></script>
-	<script src="../../Smarty/js/nouislider.min.js"></script>
-	<script src="../../Smarty/js/plyr.min.js"></script>
-	<script src="../../Smarty/js/jquery.morelines.min.js"></script>
-	<script src="../../Smarty/js/photoswipe.min.js"></script>
-	<script src="../../Smarty/js/photoswipe-ui-default.min.js"></script>
-	<script src="../../Smarty/js/main.js"></script>
+	<script src="{$path}../../Smarty/js/jquery-3.3.1.min.js"></script>
+	<script src="{$path}../../Smarty/js/bootstrap.bundle.min.js"></script>
+	<script src="{$path}../../Smarty/js/owl.carousel.min.js"></script>
+	<script src="{$path}../../Smarty/js/jquery.mousewheel.min.js"></script>
+	<script src="{$path}../../Smarty/js/jquery.mCustomScrollbar.min.js"></script>
+	<script src="{$path}../../Smarty/js/wNumb.js"></script>
+	<script src="{$path}../../Smarty/js/nouislider.min.js"></script>
+	<script src="{$path}../../Smarty/js/plyr.min.js"></script>
+	<script src="{$path}../../Smarty/js/jquery.morelines.min.js"></script>
+	<script src="{$path}../../Smarty/js/photoswipe.min.js"></script>
+	<script src="{$path}../../Smarty/js/photoswipe-ui-default.min.js"></script>
+	<script src="{$path}../../Smarty/js/main.js"></script>
 </body>
 
 </html>

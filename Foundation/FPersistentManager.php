@@ -32,6 +32,8 @@ class FPersistentManager
             return "FUtente";
         } elseif($class == "EMediaLocandina" || $class == "EMediaUtente") {
             return "FMedia";
+        } else if($class === "ESalaFisica") {
+            return "FSala";
         }
         $class[0] = "F";
         return $class;
@@ -75,8 +77,13 @@ class FPersistentManager
         return $class::loadBetween($inizio, $fine);
     }
 
-    public function loadAll() {
-        return FNewsLetter::load();
+    public function loadAll($class) {
+        $class = self::getClass($class);
+        return $class::loadAll();
+    }
+
+    public function loadAllSF(): int {
+        return FSala::nLoadAll();
     }
 
     public function delete($value, $row, $class) {
