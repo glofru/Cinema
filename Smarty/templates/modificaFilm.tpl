@@ -30,7 +30,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="Dmitry Volkov">
-    <title>Aggiungi un film</title>
+    <title>Modifica Film</title>
 
     <style>
         /* Chrome, Safari, Edge, Opera */
@@ -200,7 +200,7 @@
                             </ul>
                         </div>
 
-                        <button id="submit" class="sign__btn">Aggiungi Film</button>
+                        <button id="submit" class="sign__btn">Applica Modifiche</button>
                     </form>
                     <!-- end authorization form -->
                 </div>
