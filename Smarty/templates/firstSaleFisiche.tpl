@@ -49,7 +49,7 @@
                         <div class="col-12">
                             <h2 class="section__title section__title--center">Crea le sale del cinema</h2>
                         </div>
-                        <div>
+                        <div id="content">
                         <div class="col-12">
                             <h2 class="section__title section__title--center">Sala</h2>
                         </div>
@@ -124,7 +124,7 @@
                             </div>
                             <button class="sign__btn" type="button" onclick="removeRow(this)">Rimuovi</button>
                         </div>
-
+                        <div id="content"></div>
                         <button class="sign__btn" type="button" onclick="addRow()">Aggiungi sala</button>
                         <button class="sign__btn" type="submit">Conferma</button>
                     </form>
