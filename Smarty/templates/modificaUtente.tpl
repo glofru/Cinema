@@ -190,7 +190,9 @@
                             <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
                                 <div class="card__cover">
                                     <img src="{$propic->getImmagine()}" alt="">
-                                    <a href="#" class="section__btn align-content-center">Upload</a>
+                                    <button id="insert_image" class="sign__btn" type="button" style="width: 200px" onclick="document.getElementById('choose_image').click()">Carica foto profilo</button>
+                                    <input id="choose_image" type="file" name="propic" style="display: none" accept=".jpg, .jpeg, .gif, .png">
+                                    <br>
                                 </div>
                             </div>
                             <!-- end card cover -->
