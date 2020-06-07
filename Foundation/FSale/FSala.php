@@ -47,6 +47,12 @@ class FSala implements Foundation
         return sizeof($result);
     }
 
+    public static function loadAll(): array {
+        $db = FDatabase::getInstance();
+        $result = $db->loadAll(self::getClassName());
+        return self::parseResult($result);
+    }
+
     public static function load (string $nSala, string $row) {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), intval($nSala), $row);

@@ -30,7 +30,7 @@
 	<meta name="description" content="">
 	<meta name="keywords" content="">
 	<meta name="author" content="Dmitry Volkov">
-	<title>FlixGo – Online Movies, TV Shows & Cinema HTML Template</title>
+	<title>Magic Boulevard Cinema - Dove i sogni diventano realtà</title>
 
 </head>
 <body class="body">

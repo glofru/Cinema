@@ -44,4 +44,13 @@ class VAdmin
 
         $smarty->display("modificaPrezzi.tpl");
     }
+
+    public static function gestioneSale(array $sale, EUtente $utente, $e = null) {
+        $smarty = StartSmarty::configuration();
+
+        $smarty->assign("sale", $sale);
+        $smarty->assign("utente", $utente);
+        $smarty->assign("status", $e);
+        $smarty->display("gestioneSale.tpl");
+    }
 }

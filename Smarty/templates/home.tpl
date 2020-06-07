@@ -134,9 +134,10 @@
 										<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
 											<li><a href="{$path}Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
 											<li><a href="{$path}Admin/addFilm/?">Aggiungi film</a></li>
-											<li><a href="">Gestione Proiezioni</a></li>
-											<li><a href="{$path}Admin/gestioneUtenti/?">Gestione Utenti</a></li>
-											<li><a href="{$path}Admin/modificaPrezzi/?">Gestione Prezzi</a></li>
+											<li><a href="">Gestione proiezioni</a></li>
+											<li><a href="{$path}Admin/gestioneUtenti/?">Gestione utenti</a></li>
+											<li><a href="{$path}Admin/modificaPrezzi/?">Gestione prezzi</a></li>
+											<li><a href="{$path}Admin/gestioneSale/?">Gestione sale</a></li>
 											<li><a href="{$path}Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
 										</ul>
 									</li>

@@ -270,13 +270,39 @@ class CAdmin
     }
 
     public static function gestioneSale() {
+        self::checkAdmin();
+        $sale = FPersistentManager::getInstance()->loadAll("ESalaFisica");
         if ($_SERVER["REQUEST_METHOD"] === "GET") {
-            
+            VAdmin::gestioneSale($sale, CUtente::getUtente());
         } else {
-            if($_POST["id"] === 1) {
-
-            } else if($_POST["id"] === 2) {
-
+            if($_POST["id"] === '1') {
+                foreach ($sale as $item) {
+                    $disponibile = isset($_POST["sala" . strval($item->getNumeroSala())]);
+                    if($item->isDisponibile() !== $disponibile){
+                        FPersistentManager::getInstance()->update($item->getNumeroSala(), "nSala", $disponibile, "disponibile", "ESalaFisica");
+                    }
+                }
+                $sale = FPersistentManager::getInstance()->loadAll("ESalaFisica");
+                VAdmin::gestioneSale($sale, CUtente::getUtente(), "Operazione avvenuta con successo!");
+            } else if($_POST["id"] === '2') {
+                $nSala = intval($_POST["sala"]);
+                $nFile = intval($_POST["file"]);
+                $nPosti = intval($_POST["posti"]);
+                $disponibile = isset($_POST["disponiile"]);
+                try{
+                    $sala = new ESalaFisica($nSala, $nFile, $nPosti, $disponibile);
+                } catch (Exception $e) {
+                    VAdmin::gestioneSale($sale, CUtente::getUtente(),  $e);
+                }
+                foreach ($sale as $item) {
+                    if($item->getNumeroSala() === $sala->getNumeroSala()) {
+                        VAdmin::gestioneSale($sale, CUtente::getUtente(), "NUMERO DI SALA GIA' IN USO!");
+                        die;
+                    }
+                }
+                FPersistentManager::getInstance()->save($sala);
+                $sale = FPersistentManager::getInstance()->loadAll("ESalaFisica");
+                VAdmin::gestioneSale($sale, CUtente::getUtente(), "Operazione avvenuta con successo!");
             } else {
                 VError::error(0, "AZIONE NON VALIDA");
             }
