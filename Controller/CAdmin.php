@@ -268,4 +268,18 @@ class CAdmin
             VFilm::showFilm($film, $copertina);
         }
     }
+
+    public static function gestioneSale() {
+        if ($_SERVER["REQUEST_METHOD"] === "GET") {
+            
+        } else {
+            if($_POST["id"] === 1) {
+
+            } else if($_POST["id"] === 2) {
+
+            } else {
+                VError::error(0, "AZIONE NON VALIDA");
+            }
+        }
+    }
 }
