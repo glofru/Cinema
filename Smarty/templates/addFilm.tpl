@@ -117,7 +117,7 @@
 
                         <!-- Durata -->
                         <div class="sign__group">
-                            <input id="durata" type="number" max="500" class="sign__input" placeholder="Durata (minuti)" name="durata">
+                            <input id="durata" type="number" min="0" max="500" class="sign__input" placeholder="Durata (minuti)" name="durata">
                         </div>
 
                         <!-- TrailerURL -->

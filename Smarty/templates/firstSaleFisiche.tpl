@@ -124,7 +124,7 @@
                             </div>
                             <button class="sign__btn" type="button" onclick="removeRow(this)">Rimuovi</button>
                         </div>
-                        
+
                         <button class="sign__btn" type="button" onclick="addRow()">Aggiungi sala</button>
                         <button class="sign__btn" type="submit">Conferma</button>
                     </form>
