@@ -51,6 +51,9 @@ class ESalaFisica implements JsonSerializable
      */
     public function setNumeroSala(int $numeroSala): void
     {
+        if($numeroSala <= 0) {
+            throw (new Exception("Numero sala non valido"));
+        }
         $this->numeroSala = $numeroSala;
     }
 
@@ -67,6 +70,9 @@ class ESalaFisica implements JsonSerializable
      */
     public function setNFile(int $nFile): void
     {
+        if($nFile <= 0) {
+            throw (new Exception("Numero fila non valido"));
+        }
         $this->nFile = $nFile;
     }
 
@@ -83,6 +89,9 @@ class ESalaFisica implements JsonSerializable
      */
     public function setNPostiFila(int $nPostiFila): void
     {
+        if($nPostiFila <= 0) {
+            throw (new Exception("Numero posti per fila non valido"));
+        }
         $this->nPostiFila = $nPostiFila;
     }
 
@@ -114,4 +123,5 @@ class ESalaFisica implements JsonSerializable
             'disponibile' => $this->isDisponibile()
         ];
     }
+
 }

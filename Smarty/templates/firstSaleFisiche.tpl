@@ -34,7 +34,7 @@
 
 </head>
 
-<body class="body">
+<body class="body" {if isset($error)} onload="alert({$error})" {/if}>
 
 <div class="sign section--bg" data-bg="../../Smarty/img/section/section.jpg">
     <div class="container">
@@ -49,27 +49,27 @@
                         <div class="col-12">
                             <h2 class="section__title section__title--center">Crea le sale del cinema</h2>
                         </div>
-                        <div id="content">
+                        <div>
                         <div class="col-12">
                             <h2 class="section__title section__title--center">Sala</h2>
                         </div>
-                        <!-- Nome -->
+
                         <div class="sign__group">
-                            <input id="numeroSala" type="number" min="1" name="numeroSala" class="sign__input" placeholder="Numero Sala">
+                            <input id="numeroSala1" type="number" min="1" name="numeroSala1" class="sign__input" placeholder="Numero Sala">
                         </div>
 
-                        <!-- Cognome -->
+
                         <div class="sign__group">
-                            <input id="file" type="number" name="file" min="1" class="sign__input" placeholder="Numero di file">
+                            <input id="file1" type="number" name="file1" min="1" class="sign__input" placeholder="Numero di file">
                         </div>
 
-                        <!-- Username -->
+
                         <div class="sign__group">
-                            <input id="postiPerFila" type="number" name="postiPerFila" min="1" class="sign__input" placeholder="Numero di posti per fila">
+                            <input id="postiPerFila1" type="number" name="postiPerFila1" min="1" class="sign__input" placeholder="Numero di posti per fila">
                         </div>
 
                         <div class="sign__group sign__group--checkbox">
-                            <input id="disponibile" name="disponibile" type="checkbox" checked="checked">
+                            <input id="disponibile1" name="disponibile1" type="checkbox" checked="checked">
                             <label for="remember">Sala disponibile</label>
                         </div>
                             <button class="sign__btn" type="button" onclick="removeRow(this)">Rimuovi</button>
@@ -78,23 +78,23 @@
                             <div class="col-12">
                                 <h2 class="section__title section__title--center">Sala</h2>
                             </div>
-                            <!-- Nome -->
+
                             <div class="sign__group">
-                                <input id="numeroSala" type="number" min="1" name="numeroSala" class="sign__input" placeholder="Numero Sala">
+                                <input id="numeroSala2" type="number" min="1" name="numeroSala2" class="sign__input" placeholder="Numero Sala">
                             </div>
 
-                            <!-- Cognome -->
+
                             <div class="sign__group">
-                                <input id="file" type="number" name="file" min="1" class="sign__input" placeholder="Numero di file">
+                                <input id="file2" type="number" name="file2" min="1" class="sign__input" placeholder="Numero di file">
                             </div>
 
-                            <!-- Username -->
+
                             <div class="sign__group">
-                                <input id="postiPerFila" type="number" name="postiPerFila" min="1" class="sign__input" placeholder="Numero di posti per fila">
+                                <input id="postiPerFila2" type="number" name="postiPerFila2" min="1" class="sign__input" placeholder="Numero di posti per fila">
                             </div>
 
                             <div class="sign__group sign__group--checkbox">
-                                <input id="disponibile" name="disponibile" type="checkbox" checked="checked">
+                                <input id="disponibile2" name="disponibile2" type="checkbox" checked="checked">
                                 <label for="remember">Sala disponibile</label>
                             </div>
                             <button class="sign__btn" type="button" onclick="removeRow(this)">Rimuovi</button>
@@ -103,32 +103,32 @@
                             <div class="col-12">
                                 <h2 class="section__title section__title--center">Sala</h2>
                             </div>
-                            <!-- Nome -->
+
                             <div class="sign__group">
-                                <input id="numeroSala" type="number" min="1" name="numeroSala" class="sign__input" placeholder="Numero Sala">
+                                <input id="numeroSala3" type="number" min="1" name="numeroSala3" class="sign__input" placeholder="Numero Sala">
                             </div>
 
-                            <!-- Cognome -->
+
                             <div class="sign__group">
-                                <input id="file" type="number" name="file" min="1" class="sign__input" placeholder="Numero di file">
+                                <input id="file3" type="number" name="file3" min="1" class="sign__input" placeholder="Numero di file">
                             </div>
 
-                            <!-- Username -->
+
                             <div class="sign__group">
-                                <input id="postiPerFila" type="number" name="postiPerFila" min="1" class="sign__input" placeholder="Numero di posti per fila">
+                                <input id="postiPerFila3" type="number" name="postiPerFila3" min="1" class="sign__input" placeholder="Numero di posti per fila">
                             </div>
 
                             <div class="sign__group sign__group--checkbox">
-                                <input id="disponibile" name="disponibile" type="checkbox" checked="checked">
+                                <input id="disponibile3" name="disponibile3" type="checkbox" checked="checked">
                                 <label for="remember">Sala disponibile</label>
                             </div>
                             <button class="sign__btn" type="button" onclick="removeRow(this)">Rimuovi</button>
                         </div>
                         <div id="content"></div>
-                        <button class="sign__btn" type="button">Aggiungi sala</button>
+                        <button class="sign__btn" onclick="addRow()" type="button">Aggiungi sala</button>
                         <button class="sign__btn" type="submit">Conferma</button>
                     </form>
-                    <!-- registration form -->
+
                 </div>
             </div>
         </div>
@@ -156,29 +156,59 @@
     }
 
     function validate() {
-        if (isValid($("#numeroSala").val())) {
-            if (isValid($("#file").val())) {
-                if (isValid($("#postiPerFila").val())) {
-                } else {
-                    alert("Sala non valida!");
+        for (i = 1; i < a; i++) {
+            let sala = "numeroSala";
+            let fila = "file";
+            let posti = "postiPerFila";
+            posti = posti.concat(a.toString());
+            fila = fila.concat(a.toString());
+            sala = sala.concat(a.toString());
+            if (document.body.contains(document.getElementById(sala))) {
+                if (!isValid(document.getElementById(sala).value) || !isValid(document.getElementById(fila).value) || !isValid(document.getElementById(posti).value)) {
+                    alert('Completare tutti i campi per favore');
+                    return false;
                 }
-            } else {
-                alert("numero di file non valido");
             }
-        } else {
-            alert("numero di posti per file non valido");
         }
-
-        return false;
+        let sala = "numeroSala";
+        let fila = "file";
+        let posti = "postiPerFila";
+        if (document.body.contains(document.getElementById(sala))) {
+            if (!isValid(document.getElementById(sala).value) || !isValid(document.getElementById(fila).value) || !isValid(document.getElementById(posti).value)) {
+                alert('Completare tutti i campi per favore');
+                return false;
+            } else
+                return true;
+        }
     }
 </script>
 <script>
     //STACKOVERFLOW <3
-    let a = 0;
+    let a = 3;
     function addRow () {
         a += 1;
+        if(a > 4) {
+            let sala = "numeroSala";
+            let fila = "file";
+            let posti = "postiPerFila";
+            let check = "disponibile";
+            a -= 1;
+            check = check.concat(a.toString());
+            posti = posti.concat(a.toString());
+            fila = fila.concat(a.toString());
+            sala = sala.concat(a.toString());
+            document.getElementById("numeroSala").name = sala;
+            document.getElementById("numeroSala").id = sala;
+            document.getElementById("file").name = fila;
+            document.getElementById("file").id = fila;
+            document.getElementById("postiPerFila").name = posti;
+            document.getElementById("postiPerFila").id = posti;
+            document.getElementById("disponibile").name = check;
+            document.getElementById("disponibile").id = check;
+            a += 1;
+        }
         document.querySelector('#content').insertAdjacentHTML(
-            'afterbegin',
+            'beforebegin',
             `<div>
                         <div class="col-12">
                             <h2 class="section__title section__title--center">Sala</h2>

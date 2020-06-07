@@ -32,6 +32,8 @@ class FPersistentManager
             return "FUtente";
         } elseif($class == "EMediaLocandina" || $class == "EMediaUtente") {
             return "FMedia";
+        } else if($class === "ESalaFisica") {
+            return "FSala";
         }
         $class[0] = "F";
         return $class;

@@ -8,7 +8,7 @@ class Installer
 
     public static function checkInstall(): bool
     {
-        return self::checkInstallDB() && self::checkInstallCinema() && self::checkAdmin() /*&& self::checkPhysical()*/;
+        return self::checkInstallDB() && self::checkInstallCinema() && self::checkAdmin() && self::checkPhysical();
     }
 
     private static function checkInstallDB(): bool {
@@ -25,7 +25,7 @@ class Installer
     }
 
     public static function checkPhysical() {
-        return /*FPersistentManager::getInstance()->loadAllSF() > 0;*/ false;
+        return FPersistentManager::getInstance()->loadAllSF() > 0;
     }
 
     public static function start()
@@ -104,7 +104,33 @@ class Installer
                 unset($utente);
                 header("Location: /");
             } elseif (!self::checkPhysical()){
-                //TODO
+                $nSale = [];
+                $sale = [];
+                for($i=1;$i <= sizeof($_POST)/4;$i++) {
+                    $nSala = intval($_POST["numeroSala" . strval($i)]);
+                    $nFile = intval($_POST["file" . strval($i)]);
+                    $nPosti = intval($_POST["postiPerFila" . strval($i)]);
+                    $disponibile = boolval($_POST["disponibile" . strval($i)]);
+                    if(!in_array($nSala, $nSale)){
+                        array_push($nSale, $nSala);
+                    } else {
+                        $smarty->assign("error", "Numero di sala ripetuto. Deve essere univoco");
+                        $smarty->display("firstSaleFisiche.tpl"); die;
+                    }
+
+                    try {
+                        $sala = new ESalaFisica($nSala, $nFile, $nPosti, $disponibile);
+                    } catch (Exception $e) {
+                        $smarty->assign("error", $e);
+                        $smarty->display("firstSaleFisiche.tpl"); die;
+                    }
+
+                    array_push($sale, $sala);
+                }
+                foreach ($sale as $item) {
+                    FPersistentManager::getInstance()->save($item);
+                }
+                header("Location: /");
             } else {
                 CHome::showHome();
             }
