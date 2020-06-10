@@ -6,20 +6,26 @@ class CRicerca
     public static function cercaFilm() {
         if($_SERVER['REQUEST_METHOD']=="POST") {
             $str = $_POST["filmCercato"];
+
             $gestore = EHelper::getInstance();
+
             if($str !== "") {
-                $pm = FPersistentManager::getInstance();
-                $film = $pm->loadLike($str, "nome", "EFilm");
-                $data = self::getFilmData($film, $gestore);
+                $film = FPersistentManager::getInstance()->loadLike($str, "nome", "EFilm");
+                $data = self::getFilmData($film);
             } else {
                 $film = [];
                 $data = [];
+
                 array_push($data, [], []);
             }
+
             $cookie = $gestore->preferences($_COOKIE['preferences']);
+
             $consigliati = CHome::getConsigliati($cookie);
             $utente = CUtente::getUtente();
+
             $isAdmin = $utente !== null && $utente->isAdmin();
+
             VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, $isAdmin);
         }
         else {
@@ -57,7 +63,7 @@ class CRicerca
             }
 
             $film = $gestore->filter($film, floatval($votoInizio), floatval($votoFine), $annoInizio, $annoFine);
-            $data = self::getFilmData($film, $gestore);
+            $data = self::getFilmData($film);
             $cookie = $gestore->preferences($_COOKIE['preferences']);
             $consigliati = CHome::getConsigliati($cookie);
             $utente = CUtente::getUtente();
@@ -68,8 +74,9 @@ class CRicerca
         }
     }
 
-    private static function getFilmData(array $film, EHelper $gestore): array {
+    private static function getFilmData(array $film): array {
         $pm = FPersistentManager::getInstance();
+
         $punteggi = [];
         $immaginiCercati = [];
         $giudizi = [];
@@ -82,7 +89,7 @@ class CRicerca
 
         foreach($giudizi as $g) {
             if(sizeof($g) > 0) {
-                $p = $gestore->getMedia($g);
+                $p = EGiudizio::getMedia($g);
             }
             else {
                 $p = 0;

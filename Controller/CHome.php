@@ -89,7 +89,7 @@ class CHome
         
         foreach($giudizifilm as $g) {
             if(sizeof($g) > 0) {
-                $p = EHelper::getInstance()->getMedia($g);
+                $p = EGiudizio::getMedia($g);
             }
             else {
                 $p = 0;

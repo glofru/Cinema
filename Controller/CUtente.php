@@ -304,20 +304,25 @@ class CUtente
     }
 
     public static function bigliettiAcquistati() {
-        $utente = self::getUtente();
-        if(!isset($utente)) {
+        if(CUtente::isLogged()) {
+            $utente = self::getUtente();
+
+            if($utente->isAdmin()) {
+                header(0, "Pagina non disponibile agli admin.");
+            }
+
+            $biglietti = $utente->getListaBiglietti();
+            usort($biglietti, array(EBiglietto::class, "sortByDatesBiglietti"));
+
+            $immagini = [];
+            foreach ($biglietti as $item) {
+                array_push($immagini,FPersistentManager::getInstance()->load($item->GetProiezione()->getFilm()->getId(), "idFilm", "EMedia"));
+            }
+
+            VUtente::showBiglietti($biglietti, $immagini, $utente);
+        } else {
             CMain::forbidden();
         }
-        if($utente->isAdmin()) {
-            header("Location: /");
-        }
-        $biglietti = $utente->getListaBiglietti();
-        usort($biglietti, array(EBiglietto::class, "sortByDatesBiglietti"));
-        $immagini = [];
-        foreach ($biglietti as $item) {
-            array_push($immagini,FPersistentManager::getInstance()->load($item->GetProiezione()->getFilm()->getId(), "idFilm", "EMedia"));
-        }
-        VUtente::showBiglietti($biglietti, $immagini, $utente);
     }
 
     public static function forgotPassword() {

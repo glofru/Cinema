@@ -44,30 +44,40 @@ class CCatalogo
 
     public static function piuApprezzati() {
         $utente = CUtente::getUtente();
-        if(isset($utente))
+
+        if(isset($utente)) {
             $isAdmin = $utente->isAdmin();
-        else
+        } else {
             $isAdmin = false;
+        }
+
         $cookie = EHelper::getInstance()->preferences($_COOKIE['preferences']);
         $consigliati = CHome::getConsigliati($cookie);
-        $punteggi = [];
         $oggi = EData::getDateProssime();
         $film = FPersistentManager::getInstance()->loadBetween('0000-00-00', $oggi[0], "EFilm");
+
+        $punteggi = [];
+
         foreach($film as $item){
             $giudizi = FPersistentManager::getInstance()->load($item->getId(),"idFilm","EGiudizio");
+
             if(sizeof($giudizi) === 0) {
                 $p = 0;
             } else {
-                $p = EHelper::getInstance()->getMedia($giudizi);
+                $p = EGiudizio::getMedia($giudizi);
             }
-                $punteggi[$item->getId()] = $p;
+
+            $punteggi[$item->getId()] = $p;
         }
+
         $res = arsort($punteggi);
         if(sizeof($punteggi) > 10) {
             array_splice($punteggi, 0, 10);
         }
+
         $filmApprezzati = [];
         $immaginiApprezzati = [];
+
         foreach ($punteggi as $key => $p) {
             foreach ($film as $f) {
                 if($f->getId() == $key){
@@ -78,8 +88,10 @@ class CCatalogo
             }
 
         }
+
         $result = [];
         array_push($result, $filmApprezzati, $immaginiApprezzati, $punteggi);
+
         VCatalogo::piuApprezzati($result, $utente, $isAdmin, $consigliati);
     }
 }
