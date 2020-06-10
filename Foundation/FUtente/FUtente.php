@@ -39,6 +39,9 @@ class FUtente implements Foundation
 
     public static function save(EUtente $utente) {
         $db = FDatabase::getInstance();
+
+        $utente->setPassword(self::hash($utente->getPassword()));
+
         $id = $db->saveToDB(self::getClassName(), $utente);
         $utente->setId($id);
     }
@@ -94,6 +97,12 @@ class FUtente implements Foundation
         return $db->deleteFromDB(self::getClassName(), $value, $row);
     }
 
+    public static function updatePwd(EUtente $utente): bool {
+        $utente->setPassword(self::hash($utente->getPassword()));
+
+        return self::update($utente->getId(), "id", $utente->getPassword(), "password");
+    }
+
     private static function parseResult(array $result): array {
         $return = [];
 
@@ -140,5 +149,9 @@ class FUtente implements Foundation
         if (!$checkMail) return $existsUser;
 
         return $existsMail && $existsUser;
+    }
+
+    private static function hash(string $password) {
+        return password_hash($password, PASSWORD_BCRYPT);
     }
 }

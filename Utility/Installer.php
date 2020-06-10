@@ -95,12 +95,7 @@ class Installer
                     die;
                 }
 
-                $utente->setPassword(EHelper::getInstance()->hash($password));
-
-                $pm = FPersistentManager::getInstance();
-
-                $pm->signup($utente);
-                echo $utente->getNome();
+                FPersistentManager::getInstance()->signup($utente);
                 unset($utente);
                 header("Location: /");
             } elseif (!self::checkPhysical()){

@@ -69,9 +69,4 @@ class EHelper
 
         return $result;
     }
-
-    //TODO: FUtility
-    public function hash(string $password) {
-        return password_hash($password, PASSWORD_BCRYPT);
-    }
 }

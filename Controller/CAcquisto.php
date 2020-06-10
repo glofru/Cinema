@@ -97,9 +97,9 @@ class CAcquisto
             if(!$utente->isRegistrato()) {
                 $utenteDB = FUtente::load($utente->getEmail(), "email");
                 if(!isset($utenteDB)) {
-                    $uid = uniqid();
-                    $utente->setPassword(EHelper::getInstance()->hash($uid));
-                    FPersistentManager::getInstance()->save($utente);
+                    $utente->setPassword(uniqid());
+
+                    FPersistentManager::getInstance()->signup($utente);
                 } else {
                     $utente = $utenteDB;
                     $uid = null;

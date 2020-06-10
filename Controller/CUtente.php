@@ -181,9 +181,8 @@ class CUtente
                     if (isset($_POST["vecchiaPassword"]) && $_POST["vecchiaPassword"] != "") {
                         if (password_verify($_POST["vecchiaPassword"], $utente->getPassword())) {
                             $utente->setPassword($_POST["nuovaPassword"]); //Check password
-                            $utente->setPassword(EHelper::getInstance()->hash($utente->getPassword())); //HashPassword
 
-                            $pm->update($utente->getId(), "id", $utente->getPassword(), "password", "EUtente");
+                            $pm->updatePasswordUser($utente);
                         } else {
                             throw new Exception("Vecchia password errata");
                         }
@@ -267,35 +266,37 @@ class CUtente
                 return;
             }
 
-            //La password ha superato il controllo di validità, quindi ne faccio l'hash
-            $utente->setPassword(EHelper::getInstance()->hash($password));
-
             $pm = FPersistentManager::getInstance();
 
-            if (FUtente::exists($utente, true)) {
+            if (FUtente::exists($utente, true)) { //Se la mail già esiste
                 VUtente::signup($nome, $cognome, $username, $email, null, true);
-            } elseif (FUtente::exists($utente, false)) {
+            } elseif (FUtente::exists($utente, false)) { //Se l'username già esiste
                 VUtente::signup($nome, $cognome, $username, $email, null, false);
             } else {
-                echo sizeof($_FILES);
                 if(!isset($_FILES["propic"])){
                     $name = "";
                     $mimeType = "";
                     $data = "";
                 } else if(EInputChecker::getInstance()->isImage($_FILES["propic"]["type"]) && EInputChecker::getInstance()->isLight($_FILES["propic"]["size"])) {
                     $img = $_FILES["propic"];
+
                     $name = $img["name"];
                     $mimeType = $img["type"];
+
                     $data = file_get_contents($img["tmp_name"]);
                     $data = base64_encode($data);
                 } else {
                     VUtente::signup($nome, $cognome, $username, $email, "Immagine non valida! Riprovare.");
                     die;
                 }
+
                 $time = new DateTime("now");
+
                 $pm->signup($utente);
+
                 $propic = new EMediaUtente($name, $mimeType, $time, $data, $utente);
                 FPersistentManager::getInstance()->save($propic);
+
                 self::saveSession($utente);
                 CMail::newEntry($utente);
                 header("Location: /");
@@ -391,8 +392,8 @@ class CUtente
                 VUtente::forgotPassword($username);
             } else if (!$utente->isRegistrato()){ //Utente non registrato, crea un nuovo uid come password
                 $utente->setPassword(uniqid());
+                FPersistentManager::getInstance()->updatePasswordUser($utente);
                 CMail::sendForgotMailNonRegistrato($utente);
-                FPersistentManager::getInstance()->update($utente->getId(), "id", EHelper::getInstance()->hash($utente->getPassword()), "password", "EUtente");
             } else {
                 //Crea token
                 $uid = uniqid();
@@ -435,8 +436,8 @@ class CUtente
                 VUtente::newPassword($valueToken, true);
                 die;
             }
-            $hashedPassword = EHelper::getInstance()->hash($password);
-            FUtente::update($utente->getId(), "id", $hashedPassword, "password");
+
+            FPersistentManager::getInstance()->updatePasswordUser($utente);
 
             //Consuma token
             FPersistentManager::getInstance()->delete($token->getValue(), "value", "EToken");

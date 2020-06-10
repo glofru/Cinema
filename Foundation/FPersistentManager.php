@@ -122,6 +122,10 @@ class FPersistentManager
         FUtente::save($utente);
     }
 
+    public function updatePasswordUser(EUtente $utente) {
+        FUtente::updatePwd($utente);
+    }
+
     public function loadFilmByFilter($genere, float $votoInizio, float $votoFine, DateTime $annoInizio, DateTime $annoFine) {
         return FFilm::loadByFilter($genere, $votoInizio, $votoFine, $annoInizio, $annoFine);
     }
