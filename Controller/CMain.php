@@ -48,7 +48,7 @@ class CMain
                 array_shift($res);
 
                 $controller = "C" . $res[0];
-                $function = $res[1];
+
                 try {
                     $class = new ReflectionClass($controller);
                 }
@@ -65,7 +65,11 @@ class CMain
                         VError::error(0, "Accesso negato!");
                     }
 
-                    $controller::$function();
+                    try {
+                        $controller::$function();
+                    } catch (Throwable $e) {
+                        CMain::notFound();
+                    }
 
                 } catch (ReflectionException $e) {
                    self::notFound();
