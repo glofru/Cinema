@@ -622,7 +622,7 @@
 
 <script>
     function getVal() {
-        document.getElementById("punteggio").value = document.getElementById("form__slider-value").outerHTML;
+        document.getElementById("punteggio").value = document.getElementById("form__slider-value").innerText;
     }
 
     let bookedSeat = [];

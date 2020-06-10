@@ -37,32 +37,26 @@ class CRicerca
         if($_SERVER["REQUEST_METHOD"] === "POST") {
             $annoInizio = $_POST["anno_inizio"];
             $annoFine = $_POST["anno_fine"];
-            $votoInizio = $_POST["voto_inizio"];
-            $votoFine = $_POST["voto_fine"];
+            $votoInizio = floatval($_POST["voto_inizio"]);
+            $votoFine = floatval($_POST["voto_fine"]);
             $genere = $_POST["Genere"];
 
             $gestore = EHelper::getInstance();
-            $votoInizio = $gestore->retrieveVote($votoInizio);
-            $votoFine = $gestore->retrieveVote($votoFine);
-            $annoInizio = $gestore->retrieveAnno($annoInizio);
-            $annoFine = $gestore->retrieveAnno($annoFine);
 
             $pm = FPersistentManager::getInstance();
             $film = $pm->load($genere, "genere", "EFilm");
 
-            try {
-                $annoFine = DateTime::createFromFormat('Y-m-d', $annoFine . "-12-31");
-            } catch (Exception $e) {
-                $annoFine = new DateTime('now');
-            }
-
-            try {
-                $annoInizio = DateTime::createFromFormat('Y-m-d', $annoInizio . "-01-01");
-            } catch (Exception $e) {
+            $annoInizio = DateTime::createFromFormat('Y-m-d', $annoInizio . "-01-01");
+            if ($annoInizio === false) {
                 $annoInizio = new DateTime('now');
             }
 
-            $film = $gestore->filter($film, floatval($votoInizio), floatval($votoFine), $annoInizio, $annoFine);
+            $annoFine = DateTime::createFromFormat('Y-m-d', $annoFine . "-12-31");
+            if ($annoFine === false) {
+                $annoFine = new DateTime('now');
+            }
+
+            $film = $gestore->filter($film, $votoInizio, $votoFine, $annoInizio, $annoFine);
             $data = self::getFilmData($film);
             $cookie = $gestore->preferences($_COOKIE['preferences']);
             $consigliati = CHome::getConsigliati($cookie);
@@ -75,15 +69,16 @@ class CRicerca
     }
 
     private static function getFilmData(array $film): array {
+        $result = [];
+
         $pm = FPersistentManager::getInstance();
 
         $punteggi = [];
-        $immaginiCercati = [];
+        $immaginiCercate = [];
         $giudizi = [];
-        $result = [];
 
         foreach($film as $f) {
-            array_push($immaginiCercati, $pm->load($f->getId(), "idFilm", "EMedia"));
+            array_push($immaginiCercate, $pm->load($f->getId(), "idFilm", "EMedia"));
             array_push($giudizi, $pm->load($f->getId(), "idFilm", "EGiudizio"));
         }
 
@@ -101,7 +96,7 @@ class CRicerca
             array_push($punteggi, 0);
         }
 
-        array_push($result, $immaginiCercati, $punteggi);
+        array_push($result, $immaginiCercate, $punteggi);
         return $result;
     }
 }

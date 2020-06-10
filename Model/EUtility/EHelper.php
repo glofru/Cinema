@@ -52,37 +52,6 @@ class EHelper
         setcookie('preferences', $cookie, time() + (86400 * 30), "/");
     }
 
-    public function retrieveVote(string $punteggio): float {
-        $punteggio = explode('.', $punteggio);
-        $found = false;
-        $str = $punteggio[0];
-        for($i=0;$i<strlen($str);$i++){
-            if(preg_match('/^[0-9]+$/', $str[$i])) {
-                $punteggio[0] = $str[$i];
-                $value = $i;
-                break;
-            }
-        }
-        if($str[$value+1] == "0") {
-            $temp = $punteggio[0] . $str[$value+1];
-        }
-        else {
-            $temp = $punteggio[0];
-        }
-        return floatval($temp . "." . $punteggio[1][0]);
-    }
-
-    public function retrieveAnno(string $anno): float {
-        $str = "";
-        for($i=0;$i<strlen($anno);$i++){
-            if(preg_match('/^[0-9]+$/', $anno[$i])) {
-                $str = $anno[$i] . $anno[$i+1] . $anno[$i+2] . $anno[$i+3];
-                break;
-            }
-        }
-        return $str;
-    }
-
     //TODO: Foundation
     public function programmazione(EProgrammazioneFilm $proiezionifilm): EProgrammazioneFilm {
         $result = new EProgrammazioneFilm();
@@ -105,7 +74,7 @@ class EHelper
     public function filter(array $film, float $votoInizio, float $votoFine, DateTime $annoInizio, DateTime $annoFine) {
         $result = [];
         foreach ($film as $f) {
-            if($f->getDataRilascio() <= $annoFine && $f->getDataRilascio() >= $annoInizio && $f->getVotoCritica() >= $votoInizio && $f->getVotoCritica() <= $votoFine) {
+            if($f->getDataRilascio() <= $annoFine && $f->getDataRilascio() >= $annoInizio && (($f->getVotoCritica() >= $votoInizio && $f->getVotoCritica() <= $votoFine) || $f->getVotoCritica() == 0)) {
                 array_push($result, $f);
             }
         }
