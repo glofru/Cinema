@@ -423,6 +423,12 @@ class FDatabase
         return null;
     }
 
+    public function loadByFilter($class, $genere, float $votoInizio, float $votoFine, string $dataInizio, string $dataFine) {
+        $query = "SELECT * FROM {$class::getTableName()} WHERE genere = '{$genere}' AND (dataRilascio >= '{$dataInizio}' AND dataRilascio <= '{$dataFine}') AND ((votoCritica >= {$votoInizio} AND votoCritica <= {$votoFine}) OR votoCritica = 0);";
+
+        return $this->executeQuery($query);
+    }
+
     private function executeQuery($query) {
         $sender = $this->db->prepare($query);
         $sender->execute();

@@ -121,4 +121,8 @@ class FPersistentManager
     public function signup(EUtente $utente) {
         FUtente::save($utente);
     }
+
+    public function loadFilmByFilter($genere, float $votoInizio, float $votoFine, DateTime $annoInizio, DateTime $annoFine) {
+        return FFilm::loadByFilter($genere, $votoInizio, $votoFine, $annoInizio, $annoFine);
+    }
 }
