@@ -90,7 +90,8 @@ class Installer
                 try {
                     $utente = new EAdmin($nome, $cognome, $username, $email, $password, false);
                 } catch (Exception $e) {
-                    $smarty->assign("e", $e);
+                    $smarty->assign("e", $e->getMessage());
+
                     $smarty->display("firstAdmin.tpl");
                     die;
                 }

@@ -12,13 +12,13 @@ class EInputChecker{
     }
 
     public function isNome(string $nome): bool {
-         $res = preg_replace("/[^a-zA-Z +]/", "", $nome);
-        return $res == $nome && strlen($nome) > 2;
+        $res = preg_replace("/[^a-zA-Z +]/", "", $nome);
+        return $res == $nome;
     }
 
     public function isUsername(string $username): bool {
         $res = preg_replace("/[^a-zA-Z0-9]/", "", $username);
-        return $res == $username && strlen($username) > 2;
+        return $res == $username && strlen($username) > 1;
     }
 
     public function isImage($typefile): bool
