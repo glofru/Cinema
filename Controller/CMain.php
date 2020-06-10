@@ -62,13 +62,13 @@ class CMain
                     $reflection = $class->getMethod($function);
                         
                     if(!$reflection->isPublic()){
-                        self::methodNotAllowed();
+                        VError::error(0, "Accesso negato!");
                     }
 
                     $controller::$function();
 
                 } catch (ReflectionException $e) {
-                    CMain::methodNotAllowed();
+                   self::notFound();
                 }
             }
         } else {
