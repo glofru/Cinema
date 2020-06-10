@@ -204,15 +204,21 @@
 								<span class="filter__item-label">GENERE:</span>
 
 								<div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-genre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<input type="button" id="g" name="g" value="Azione">
+									{if isset($genere)}
+										<input type="button" id="g" name="g" value="{$genere}">
+									{else}
+										<input type="button" id="g" name="g" value="AZIONE">
+									{/if}
 									<span></span>
 								</div>
 
 								<ul class="filter__item-menu dropdown-menu scrollbar-dropdown" aria-labelledby="filter-genre">
-									{foreach $genere as $g}
+									{foreach $generi as $g}
 										<li>{$g}</li>
 									{/foreach}
 								</ul>
+
+								<input type="hidden" name="genere" id="Genere">
 							</div>
 							<!-- end filter item -->
 
@@ -226,7 +232,6 @@
 										<input type="hidden" name="voto_inizio" id="voto_inizio">
 										<div id="filter__imbd-end"></div>
 										<input type="hidden" name="voto_fine" id="voto_fine">
-										<input type="hidden" name="Genere" id="Genere">
 									</div>
 									<span></span>
 								</div>
@@ -463,6 +468,80 @@
 		document.getElementById("anno_inizio").value = document.getElementById("filter__years-start").innerText;
 		document.getElementById("anno_fine").value = document.getElementById("filter__years-end").innerText;
 		document.getElementById("Genere").value = document.getElementById("g").value;
+	}
+
+
+	$(window).on('load', function () {
+		{if isset($annoInizio)}
+		initializeFirstSlider({$annoInizio}, {$annoFine});
+		initializeSecondSlider({$votoInizio}, {$votoFine});
+		{else}
+		initializeFirstSlider();
+		initializeSecondSlider();
+		{/if}
+	});
+
+	function initializeFirstSlider(begin = 2000, end = 2020) {
+		if ($('#filter__years').length) {
+			var firstSlider = document.getElementById('filter__years');
+			noUiSlider.create(firstSlider, {
+				range: {
+					'min': 1998,
+					'max': 2022
+				},
+				step: 1,
+				connect: true,
+				start: [begin, end],
+				format: wNumb({
+					decimals: 0,
+				})
+			});
+			var firstValues = [
+				document.getElementById('filter__years-start'),
+				document.getElementById('filter__years-end')
+			];
+			firstSlider.noUiSlider.on('update', function( values, handle ) {
+				firstValues[handle].innerHTML = values[handle];
+			});
+		} else {
+			return false;
+		}
+		return false;
+	}
+
+	function initializeSecondSlider(begin = 3.0, end = 8.0) {
+		if ($('#filter__imbd').length) {
+			var secondSlider = document.getElementById('filter__imbd');
+			noUiSlider.create(secondSlider, {
+				range: {
+					'min': 0,
+					'max': 10
+				},
+				step: 0.1,
+				connect: true,
+				start: [begin, end],
+				format: wNumb({
+					decimals: 1,
+				})
+			});
+
+			var secondValues = [
+				document.getElementById('filter__imbd-start'),
+				document.getElementById('filter__imbd-end')
+			];
+
+			secondSlider.noUiSlider.on('update', function( values, handle ) {
+				secondValues[handle].innerHTML = values[handle];
+			});
+
+			$('.filter__item-menu--range').on('click.bs.dropdown', function (e) {
+				e.stopPropagation();
+				e.preventDefault();
+			});
+		} else {
+			return false;
+		}
+		return false;
 	}
 </script>
 

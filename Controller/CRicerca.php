@@ -35,20 +35,20 @@ class CRicerca
 
     public static function cercaFilmAttributi() {
         if($_SERVER["REQUEST_METHOD"] === "POST") {
-            $annoInizio = $_POST["anno_inizio"];
-            $annoFine = $_POST["anno_fine"];
+            $genere = $_POST["genere"];
+            $annoI = $_POST["anno_inizio"];
+            $annoF = $_POST["anno_fine"];
             $votoInizio = floatval($_POST["voto_inizio"]);
             $votoFine = floatval($_POST["voto_fine"]);
-            $genere = $_POST["Genere"];
 
             $gestore = EHelper::getInstance();
 
-            $annoInizio = DateTime::createFromFormat('Y-m-d', $annoInizio . "-01-01");
+            $annoInizio = DateTime::createFromFormat('Y-m-d', $annoI . "-01-01");
             if ($annoInizio === false) {
                 $annoInizio = new DateTime('now');
             }
 
-            $annoFine = DateTime::createFromFormat('Y-m-d', $annoFine . "-12-31");
+            $annoFine = DateTime::createFromFormat('Y-m-d', $annoF . "-12-31");
             if ($annoFine === false) {
                 $annoFine = new DateTime('now');
             }
@@ -61,7 +61,7 @@ class CRicerca
             $consigliati = CHome::getConsigliati($cookie);
             $utente = CUtente::getUtente();
 
-            VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, $utente->isAdmin());
+            VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, $utente->isAdmin(), $genere, $annoI, $annoF, $votoInizio, $votoFine);
         } else {
             CMain::methodNotAllowed();
         }
