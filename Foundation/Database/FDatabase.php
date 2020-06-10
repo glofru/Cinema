@@ -79,7 +79,6 @@ class FDatabase
         } catch (PDOException $exception) {
             $this->error();
         }
-
         return null;
     }
 

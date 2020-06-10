@@ -94,6 +94,12 @@
                             <input id="pw2" type="password" class="sign__input" placeholder="Reinserisci la password">
                         </div>
 
+                        <!-- News Letter --->
+                        <div class="sign__group sign__group--checkbox">
+                            <input id="newsletter" name="newsletter" type="checkbox" onchange="changing(this.checked)">
+                            <label for="newsletter">Iscrivimi alla newsletter</label>
+                        </div>
+                        <div id="content"></div>
                         <button class="sign__btn">Registrati</button>
 
                         <span class="sign__text">Hai già un account? <a href="/Utente/login">Login!</a></span>
@@ -120,6 +126,34 @@
 <script src="{$path}../../Smarty/js/main.js"></script>
 
 <script>
+
+    function changing(me){
+        if(me === true){
+            document.querySelector('#content').insertAdjacentHTML(
+                'beforebegin',
+                `<br/>
+                 <div class="container" id="checklist">
+                    <div class="row">
+                    <h2 class="faq__text" style="margin: auto">Scegli i tuoi generi preferiti</h2>
+                         <div class="col-lg-12">
+                          {foreach $genere as $item}
+                         <div class="sign__group sign__group--checkbox">
+                            <input id="{$item}" name="{$item}" type="checkbox">
+                            <label for="{$item}">{$item}</label>
+                        </div>
+                         {/foreach}
+                            </div>
+                         </div>
+                    </div>
+                 </div>`
+            )
+        } else {
+            document.getElementById("checklist").remove();
+        }
+    }
+
+
+
     $(document).ready(function() {
         // Aggiorna nome copertina
         $('#choose_image').change(function (e) {
@@ -133,7 +167,7 @@
     {/if}
 
     function nameIsValid(name) {
-        let exp = /^[a-zA-Z\-]+$/;
+        let exp = /^[a-zA-Z\- ]+$/;
 
         return name.match(exp) != null;
     }

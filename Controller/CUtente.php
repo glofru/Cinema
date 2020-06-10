@@ -251,7 +251,7 @@ class CUtente
         if (self::isLogged()) {
             header("Location: /");
         } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
-            VUtente::signup();
+            VUtente::signup(EGenere::getAll());
         } elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
             $nome = $_POST["nome"];
             $cognome = $_POST["cognome"];
@@ -262,18 +262,18 @@ class CUtente
             try {
                 $utente = new ERegistrato($nome, $cognome, $username, $email, $password, false);
             } catch (Exception $e) {
-                VUtente::signup($nome, $cognome, $username, $email, $e->getMessage());
+                VUtente::signup(EGenere::getAll(), $nome, $cognome, $username, $email, $e->getMessage());
                 return;
             }
 
             $pm = FPersistentManager::getInstance();
 
             if (FUtente::exists($utente, true)) { //Se la mail già esiste
-                VUtente::signup($nome, $cognome, $username, $email, null, true);
+                VUtente::signup(EGenere::getAll(), $nome, $cognome, $username, $email, null, true);
             } elseif (FUtente::exists($utente, false)) { //Se l'username già esiste
-                VUtente::signup($nome, $cognome, $username, $email, null, false);
+                VUtente::signup(EGenere::getAll(), $nome, $cognome, $username, $email, null, false);
             } else {
-                if(!isset($_FILES["propic"])){
+                if(!is_uploaded_file($_FILES["propic"])){
                     $name = "";
                     $mimeType = "";
                     $data = "";
@@ -286,7 +286,7 @@ class CUtente
                     $data = file_get_contents($img["tmp_name"]);
                     $data = base64_encode($data);
                 } else {
-                    VUtente::signup($nome, $cognome, $username, $email, "Immagine non valida! Riprovare.");
+                    VUtente::signup(EGenere::getAll(), $nome, $cognome, $username, $email, "Immagine non valida! Riprovare.");
                     die;
                 }
 
@@ -297,6 +297,17 @@ class CUtente
                 $propic = new EMediaUtente($name, $mimeType, $time, $data, $utente);
                 FPersistentManager::getInstance()->save($propic);
 
+                if(isset($_POST["newsletter"])){
+                    $ns = "";
+                    $generi = EGenere::getAll();
+                    foreach ($generi as $item) {
+                        if(isset($_POST[$item])){
+                            $ns .= $item.";";
+                        }
+                    }
+                    $ns = substr($ns, 0, -1);
+                    FPersistentManager::getInstance()->saveNS($utente,$ns);
+                }
                 self::saveSession($utente);
                 CMail::newEntry($utente);
                 header("Location: /");

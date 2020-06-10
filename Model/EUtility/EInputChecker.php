@@ -12,8 +12,8 @@ class EInputChecker{
     }
 
     public function isNome(string $nome): bool {
-        //TODO
-        return true;
+         $res = preg_replace("/[^a-zA-Z +]/", "", $nome);
+        return $res == $nome && strlen($nome) > 2;
     }
 
     public function isUsername(string $username): bool {

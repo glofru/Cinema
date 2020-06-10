@@ -28,9 +28,10 @@ class VUtente
         $smarty->display('login.tpl');
     }
 
-    public static function signup(string $nome = null, string $cognome = null, string $username = null, string $email = null, string $error = null, bool $emailExists = null) {
+    public static function signup($generi, string $nome = null, string $cognome = null, string $username = null, string $email = null, string $error = null, bool $emailExists = null) {
         $smarty = StartSmarty::configuration();
 
+        $smarty->assign("genere", $generi);
         $smarty->assign("path", $GLOBALS["path"]);
         if ($nome != null) {
             $smarty->assign("nome", $nome);

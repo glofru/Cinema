@@ -11,7 +11,7 @@ class FNewsLetter
 
     public static function associate(PDOStatement $sender, ERegistrato $utente, string $preferenze) {
         $sender->bindValue(':idUtente', $utente->getId(), PDO::PARAM_INT);
-        $sender->bindValue(':preferenze', $preferenze, PDO::PARAM_INT);
+        $sender->bindValue(':preferenze', $preferenze, PDO::PARAM_STR);
     }
 
     public static function getClassName() {
