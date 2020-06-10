@@ -298,17 +298,26 @@ class CAdmin
         }
     }
 
-    public static function gestioneProiezioni() {
+    public static function gestioneProgrammazione() {
         self::checkAdmin();
 
         $pm = FPersistentManager::getInstance();
 
-        if($_SERVER["REQUEST_METHOD"] == "GET") {
+        $method = $_SERVER["REQUEST_METHOD"];
+
+        if($method == "GET") {
             $films = $pm->loadAll("EFilm");
             $sale = $pm->load(true, "disponibile", "ESala");
             $utente = CUtente::getUtente();
 
-            VAdmin::gestioneProiezioni($utente);
+            VAdmin::gestioneProgrammazione($utente, $films, $sale);
+        } elseif ($method == "POST") {
+            $idFilm = $_POST["film"];
+            $nSala = $_POST["sala"];
+            $dataInizio = $_POST["dataInizio"];
+            $dataFine = $_POST["dataFine"];
+
+            //TODO
         }
     }
 }

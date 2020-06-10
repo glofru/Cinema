@@ -50,11 +50,11 @@
                     <!-- content tabs nav -->
                     <ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist" style="margin-top: 50px">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Gestione prenotazioni</a>
+                            <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Gestione programmazione</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Aggiungi prenotazione</a>
+                            <a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Aggiungi programmazione</a>
                         </li>
                     </ul>
                     <!-- end content tabs nav -->
@@ -68,9 +68,9 @@
 
                         <div class="content__mobile-tabs-menu dropdown-menu" aria-labelledby="mobile-tabs">
                             <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item"><a class="nav-link {if (!isset($nSala) && !isset($nPosti) && !isset($nFile))}active{/if}" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Gestione sale</a></li>
+                                <li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Gestione programmazione</a></li>
 
-                                <li class="nav-item"><a class="nav-link {if (isset($nSala) || isset($nPosti) || isset($nFile))}active{/if}" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Aggiungi sala</a></li>
+                                <li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Aggiungi programmazione</a></li>
                             </ul>
                         </div>
                     </div>
@@ -115,18 +115,48 @@
 
                     <div class="tab-pane fade {if (isset($nSala) || isset($nPosti) || isset($nFile))}show active{/if}" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
                         <div class="row" style="align-content: center">
-                            <!-- reviews -->
-                            <form action="{$path}../../Admin/gestioneSale" method="POST" style="margin: auto" class="form" style="align-content: center">
-                                <input type="hidden" name="id" value="2">
-                                <input type="number" min="1" id="sala" class="form__input" name="sala" {if (isset($nSala))}value="{$nSala}"{/if} placeholder="Numero di Sala">
-                                <input type="number" min="1" id="file" class="form__input" name="file" {if (isset($nFile))}value="{$nFile}"{/if} placeholder="Numero di file">
-                                <input type="number" min="1" id="posti" class="form__input" name="posti" {if (isset($nPosti))}value="{$nPosti}"{/if} placeholder="Numero di posti per fila">
-                                <div class="sign__group sign__group--checkbox">
-                                    <input id="remember" name="disponibile" type="checkbox" checked="checked">
-                                    <label for="remember">Disponibile</label>
+                            <!-- authorization form -->
+                            <form action="{$path}/Admin/gestioneProgrammazione" onsubmit="return validate()" method="POST" class="form" enctype="multipart/form-data" style="margin: auto">
+
+                                <!-- Film -->
+                                <div class="sign__group">
+                                    <input id="filmChosen" list="films" class="sign__input" placeholder="Titolo del film">
+
+                                    <datalist id="films">
+                                        {foreach $films as $film}
+                                            <option data-value="{$film->getId()}" value="{$film->getNome()} - {$film->getAnno()}"></option>
+                                        {/foreach}
+                                    </datalist>
+
+                                    <input id="film" type="hidden" name="film">
                                 </div>
-                                <button type="submit" onclick="return control()" style="margin: auto" class="form__btn align-content-center">Aggiungi</button>
+
+                                <!-- Sala -->
+                                <div class="sign__group">
+                                    <input id="roomChosen" list="rooms" type="number" class="sign__input" placeholder="Sala">
+
+                                    <datalist id="rooms">
+                                        {foreach $sale as $sala}
+                                            <option value="{$sala->getNumeroSala()}"></option>
+                                        {/foreach}
+                                    </datalist>
+
+                                    <input id="room" type="hidden" name="room">
+                                </div>
+
+                                <!-- DataInizio -->
+                                <div class="sign__group">
+                                    <input id="dataInizio" type="date" class="sign__input" placeholder="Data inizio: GG/MM/AAAA" name="dataInizio">
+                                </div>
+
+                                <!-- DataInizio -->
+                                <div class="sign__group">
+                                    <input id="dataFine" type="date" class="sign__input" placeholder="Data fine: GG/MM/AAAA" name="dataFine">
+                                </div>
+
+                                <button id="submit" class="sign__btn" type="submit">Aggiungi proiezione</button>
                             </form>
+                            <!-- end authorization form -->
                         </div>
                     </div>
                     <!-- end reviews -->
@@ -204,6 +234,28 @@
 <script src="{$path}../../Smarty/js/photoswipe.min.js"></script>
 <script src="{$path}../../Smarty/js/photoswipe-ui-default.min.js"></script>
 <script src="{$path}../../Smarty/js/main.js"></script>
+
+<script>
+    function validate() {
+        let valFilm = $("#filmChosen").val();
+        let valSala = $("#roomChosen").val();
+
+        if (valFilm === null ||
+            valSala === null ||
+            $("#dataInizio").val() === "" ||
+            $("#dataFine").val() === "") {
+            alert("Compila tutti i campi");
+            return false;
+        }
+
+        // console.log($("#filmChosen").attr('id'));return false;
+        $("#film").val($("#films [value='" + valFilm + "'").data('value'));
+        $("#room").val(valSala);
+
+        return true;
+    }
+</script>
+
 </body>
 
 </html>

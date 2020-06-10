@@ -89,7 +89,7 @@
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
                                         <li><a href="{$path}/Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
                                         <li><a href="{$path}/Admin/addFilm">Aggiungi film</a></li>
-                                        <li><a href="{$path}/Admin/gestioneProiezioni">Gestione proiezioni</a></li>
+                                        <li><a href="{$path}/Admin/gestioneProgrammazione">Gestione programmazione</a></li>
                                         <li><a href="{$path}/Admin/gestioneUtenti">Gestione utenti</a></li>
                                         <li><a href="{$path}/Admin/modificaPrezzi">Gestione prezzi</a></li>
                                         <li><a href="{$path}/Admin/gestioneSale">Gestione sale</a></li>

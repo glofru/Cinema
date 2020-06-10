@@ -58,12 +58,14 @@ class VAdmin
         $smarty->display("gestioneSale.tpl");
     }
 
-    public static function gestioneProiezioni(EUtente $utente) {
+    public static function gestioneProgrammazione(EUtente $utente, array $films, array $sale) {
         $smarty = StartSmarty::configuration();
 
         $smarty->assign("utente", $utente);
+        $smarty->assign("films", $films);
+        $smarty->assign("sale", $sale);
 
-        $smarty->display("gestionePrenotazioni.tpl");
+        $smarty->display("gestioneProgrammazione.tpl");
     }
 
     public static function modificafilm(EFilm $film, $copertina){
