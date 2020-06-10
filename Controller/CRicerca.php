@@ -43,9 +43,6 @@ class CRicerca
 
             $gestore = EHelper::getInstance();
 
-            $pm = FPersistentManager::getInstance();
-            $film = $pm->load($genere, "genere", "EFilm");
-
             $annoInizio = DateTime::createFromFormat('Y-m-d', $annoInizio . "-01-01");
             if ($annoInizio === false) {
                 $annoInizio = new DateTime('now');
@@ -56,9 +53,11 @@ class CRicerca
                 $annoFine = new DateTime('now');
             }
 
-            $film = $gestore->filter($film, $votoInizio, $votoFine, $annoInizio, $annoFine);
+            $film = FPersistentManager::getInstance()->loadFilmByFilter(EGenere::fromString($genere), $votoInizio, $votoFine, $annoInizio, $annoFine);
             $data = self::getFilmData($film);
+
             $cookie = $gestore->preferences($_COOKIE['preferences']);
+
             $consigliati = CHome::getConsigliati($cookie);
             $utente = CUtente::getUtente();
 
@@ -68,6 +67,7 @@ class CRicerca
         }
     }
 
+    //TODO: non va in CFilm?
     private static function getFilmData(array $film): array {
         $result = [];
 

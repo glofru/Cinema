@@ -43,10 +43,11 @@ class FFilm implements Foundation
     public static function recreateArray(string $s): array
     {
         $return = [];
+
         if ($s == "") return $return;
+
         $temp = explode(";", $s);
-        foreach ($temp as $e)
-        {
+        foreach ($temp as $e) {
             array_push($return, FPersona::load($e, "id")[0]);
         }
 
@@ -71,13 +72,16 @@ class FFilm implements Foundation
     public static function save(EFilm $film)
     {
         $db = FDatabase::getInstance();
+
         $id = $db->saveToDB(self::getClassName(), $film);
+
         $film->setId($id);
     }
 
     public static function load(string $value, string $row): array
     {
         $db = FDatabase::getInstance();
+
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
 
         return self::parseResult($result);
@@ -86,6 +90,7 @@ class FFilm implements Foundation
     public static function loadAll(): array
     {
         $db = FDatabase::getInstance();
+
         $result = $db->loadAll(self::getClassName());
 
         return self::parseResult($result);
@@ -93,40 +98,39 @@ class FFilm implements Foundation
 
     public static function loadBetween($inizio,$fine) {
         $db = FDatabase::getInstance();
+
         $result = $db->loadBetween(self::getClassName(),$inizio,$fine,"dataRilascio");
+
         return self::parseResult($result);
     }
 
     public static function loadLike($value, $row) {
         $db = FDatabase::getInstance();
+
         $result = $db->loadLike(self::getClassName(), $value, $row);
+
         return self::parseResult($result);
     }
 
     public static function update($value, $row, $newvalue, $newrow): bool
     {
         $db = FDatabase::getInstance();
-        if($db->updateTheDB(self::getClassName(), $value, $row, $newvalue, $newrow))
-        {
-            return true;
-        }
-        return false;
+
+        return $db->updateTheDB(self::getClassName(), $value, $row, $newvalue, $newrow);
     }
 
     public static function delete($value, $row): bool
     {
         $db = FDatabase::getInstance();
-        if($db->deleteFromDB(self::getClassName(), $value, $row)){
-            return true;
-        }
-        return false;
+
+        return $db->deleteFromDB(self::getClassName(), $value, $row);
     }
 
     public static function ricercaPerData(string $dataInizio, string $dataFine)
     {
         $db = FDatabase::getInstance();
-        $result = $db->loadBetween(self::getClassName(), $dataInizio, $dataFine, "dataRilascio");
 
+        $result = $db->loadBetween(self::getClassName(), $dataInizio, $dataFine, "dataRilascio");
         if ($result == null || sizeof($result) == 0)
         {
             return [];
@@ -138,8 +142,8 @@ class FFilm implements Foundation
     public static function ricercaPerGenere(EGenere $genere)
     {
         $db = FDatabase::getInstance();
-        $result = $db->loadFromDB(self::getClassName(), $genere, "genere");
 
+        $result = $db->loadFromDB(self::getClassName(), $genere, "genere");
         if ($result == null || sizeof($result) == 0)
         {
             return [];
@@ -150,11 +154,19 @@ class FFilm implements Foundation
 
     public static function ricercaperNome(string $nome) {
         $db = FDatabase::getInstance();
+
         $result = $db->loadLike(self::getClassName(), $nome, "nome");
-        if ($result == null || sizeof($result) == 0)
-        {
+        if ($result == null || sizeof($result) == 0) {
             return [];
         }
+
+        return self::parseResult($result);
+    }
+
+    public static function loadByFilter($genere, float $votoInizio, float $votoFine, DateTime $annoInizio, DateTime $annoFine) {
+        $db = FDatabase::getInstance();
+
+        $result = $db->loadByFilter(self::getClassName(), $genere, $votoInizio, $votoFine, $annoInizio->format("Y-m-d"), $annoFine->format("Y-m-d"));
 
         return self::parseResult($result);
     }
@@ -169,11 +181,13 @@ class FFilm implements Foundation
             $nome = $row["nome"];
             $descrizione = $row["descrizione"];
             $durata = explode(':',$row["durata"]);
+
             try {
                 $durata = new DateInterval ("PT" . $durata[0] . "H" . $durata[1] . "M");
             } catch (Exception $e) {
                 $durata = null;
             }
+
             $trailerURL = $row["trailerURL"];
             $votoCritica = floatval($row["votoCritica"]);
             $dataRilascio = DateTime::createFromFormat("Y-m-d", $row["dataRilascio"]);

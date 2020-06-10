@@ -18,7 +18,7 @@ class EGenere {
 
     public static function fromString(string $s)
     {
-        switch ($s) {
+        switch (strtoupper($s)) {
             case "AZIONE":
                 return self::$AZIONE;
             case "AVVENTURA":
