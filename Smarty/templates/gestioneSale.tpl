@@ -33,7 +33,7 @@
 	<title>Magic Boulevard Cinema - Dove i sogni diventano realtà</title>
 
 </head>
-<body class="body" {if (isset($status))}onload="result('{$status}')"{/if}>
+<body class="body" {if (isset($status))}onload="alert('{$status}')"{/if}>
 
 <!-- header -->
 <header class="header">
@@ -230,9 +230,9 @@
 							<!-- reviews -->
 									<form action="{$path}../../Admin/gestioneSale" method="POST" style="margin: auto" class="form" style="align-content: center">
 										<input type="hidden" name="id" value="2">
-										<input type="number" min="0" id="" class="form__input" name="sala" placeholder="Numero di Sala">
-										<input type="number" min="0" id="" class="form__input" name="file" placeholder="Numero di file">
-										<input type="number" min="0" id="" class="form__input" name="posti" placeholder="Numero di posti per fila">
+										<input type="number" min="1" id="" class="form__input" name="sala" placeholder="Numero di Sala">
+										<input type="number" min="1" id="" class="form__input" name="file" placeholder="Numero di file">
+										<input type="number" min="1" id="" class="form__input" name="posti" placeholder="Numero di posti per fila">
 										<div class="sign__group sign__group--checkbox">
 											<input id="remember" name="disponibile" type="checkbox" checked="checked">
 											<label for="remember">Disponibile</label>

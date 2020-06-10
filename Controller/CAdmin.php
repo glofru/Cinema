@@ -292,7 +292,8 @@ class CAdmin
                 try{
                     $sala = new ESalaFisica($nSala, $nFile, $nPosti, $disponibile);
                 } catch (Exception $e) {
-                    VAdmin::gestioneSale($sale, CUtente::getUtente(),  $e);
+                    //VAdmin::gestioneSale($sale, CUtente::getUtente(),  $e);
+                    echo $e; die;
                 }
                 foreach ($sale as $item) {
                     if($item->getNumeroSala() === $sala->getNumeroSala()) {

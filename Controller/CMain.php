@@ -46,26 +46,29 @@ class CMain
                 $res = explode("/", $path);
 
                 array_shift($res);
+
                 $controller = "C" . $res[0];
-                $controllers = scandir("Controller");
+                $function = $res[1];
+                try {
+                    $class = new ReflectionClass($controller);
+                }
+                catch (ReflectionException $e) {
+                    CMain::notFound();
+                }
 
                 $function = $res[1];
 
-                if (in_array($controller . ".php", $controllers) && method_exists($controller, $function)) {
-                    $function = $res[1];
-                    try {
-                        $reflection = new ReflectionMethod($controller, $function);
+                try {
+                    $reflection = $class->getMethod($function);
                         
-                        if(!$reflection->isPublic()){
-                            self::methodNotAllowed();
-                        }
-
-                        $controller::$function();
-                    } catch (ReflectionException $e) {
-                        CMain::methodNotAllowed();
+                    if(!$reflection->isPublic()){
+                        self::methodNotAllowed();
                     }
-                } else {
-                    self::notFound();
+
+                    $controller::$function();
+
+                } catch (ReflectionException $e) {
+                    CMain::methodNotAllowed();
                 }
             }
         } else {
