@@ -69,15 +69,16 @@ class CRicerca
     }
 
     private static function getFilmData(array $film): array {
+        $result = [];
+
         $pm = FPersistentManager::getInstance();
 
         $punteggi = [];
-        $immaginiCercati = [];
+        $immaginiCercate = [];
         $giudizi = [];
-        $result = [];
 
         foreach($film as $f) {
-            array_push($immaginiCercati, $pm->load($f->getId(), "idFilm", "EMedia"));
+            array_push($immaginiCercate, $pm->load($f->getId(), "idFilm", "EMedia"));
             array_push($giudizi, $pm->load($f->getId(), "idFilm", "EGiudizio"));
         }
 
@@ -95,7 +96,7 @@ class CRicerca
             array_push($punteggi, 0);
         }
 
-        array_push($result, $immaginiCercati, $punteggi);
+        array_push($result, $immaginiCercate, $punteggi);
         return $result;
     }
 }

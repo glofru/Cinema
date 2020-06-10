@@ -74,7 +74,7 @@ class EHelper
     public function filter(array $film, float $votoInizio, float $votoFine, DateTime $annoInizio, DateTime $annoFine) {
         $result = [];
         foreach ($film as $f) {
-            if($f->getDataRilascio() <= $annoFine && $f->getDataRilascio() >= $annoInizio && $f->getVotoCritica() >= $votoInizio && $f->getVotoCritica() <= $votoFine) {
+            if($f->getDataRilascio() <= $annoFine && $f->getDataRilascio() >= $annoInizio && (($f->getVotoCritica() >= $votoInizio && $f->getVotoCritica() <= $votoFine) || $f->getVotoCritica() == 0)) {
                 array_push($result, $f);
             }
         }
