@@ -321,6 +321,10 @@ class EFilm implements JsonSerializable
         return $this->etaConsigliata;
     }
 
+    public static function sortByDatesFilm(EFilm $f1, EFilm $f2) {
+        return $f1->getDataRilascio() > $f2->getDataRilascio();
+    }
+
     /**
      * @return array|mixed
      */

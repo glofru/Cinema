@@ -110,6 +110,11 @@ class EBiglietto implements JsonSerializable
         }
         return $costo;
     }
+
+    public static function sortByDatesBiglietti(EBiglietto $b1, EBiglietto $b2) {
+        return $b1->getProiezione()->getDataproieizone() < $b2->getProiezione()->getDataproieizone();
+    }
+
 //------------- ALTRI METODI ----------------
     public function jsonSerialize ()
     {

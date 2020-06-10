@@ -43,6 +43,7 @@ class CRicerca
 
             $pm = FPersistentManager::getInstance();
             $film = $pm->load($genere, "genere", "EFilm");
+
             try {
                 $annoFine = DateTime::createFromFormat('Y-m-d', $annoFine . "-12-31");
             } catch (Exception $e) {

@@ -111,6 +111,9 @@ class EGiudizio implements JsonSerializable
         return $this->dataPubblicazione->format('d-m-Y');
     }
 
+    public static function sortByDatesGiudizi(EGiudizio $g1, EGiudizio $g2) {
+        return $g1->getDataPubblicazione() < $g2->getDataPubblicazione();
+    }
 
     public function jsonSerialize()
     {

@@ -44,7 +44,7 @@ class CUtente
 
                 $biglietti = $utente->getListaBiglietti();
 
-                usort($biglietti, array(EHelper::getInstance(), "sortByDatesBiglietti"));
+                usort($biglietti, array(EBiglietto::class, "sortByDatesBiglietti"));
                 $immagini = [];
 
                 foreach ($biglietti as $item) {
@@ -133,7 +133,7 @@ class CUtente
                 if(isset($toShow)){
                     if ($toShow->isRegistrato()) {
                         $giudizi = $toShow->getListaGiudizi();
-                        usort($giudizi, array(EHelper::getInstance(), "sortByDatesGiudizi"));
+                        usort($giudizi, array(EGiudizio::class, "sortByDatesGiudizi"));
                         if (sizeof($giudizi) > 10) {
                             array_splice($giudizi, 0, 10);
                         }
@@ -312,7 +312,7 @@ class CUtente
             header("Location: /");
         }
         $biglietti = $utente->getListaBiglietti();
-        usort($biglietti, array(EHelper::getInstance(), "sortByDatesBiglietti"));
+        usort($biglietti, array(EBiglietto::class, "sortByDatesBiglietti"));
         $immagini = [];
         foreach ($biglietti as $item) {
             array_push($immagini,FPersistentManager::getInstance()->load($item->GetProiezione()->getFilm()->getId(), "idFilm", "EMedia"));
@@ -421,7 +421,7 @@ class CUtente
             if(!self::getUtente()->isAdmin()){
                 $utente = self::getUtente();
                 $giudizi = $utente->getListaGiudizi();
-                usort($giudizi, array(EHelper::getInstance(), "sortByDatesGiudizi"));
+                usort($giudizi, array(EGiudizio::class, "sortByDatesGiudizi"));
                 $propic = FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EMediaUtente");
                 if($propic->getImmagine() == ""){
                     $propic->setImmagine('../../Smarty/img/user.png');

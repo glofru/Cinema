@@ -12,6 +12,7 @@ class EInputChecker{
     }
 
     public function isNome(string $nome): bool {
+        //TODO
         return true;
     }
 
@@ -31,16 +32,10 @@ class EInputChecker{
             case '/gif':
             case '/png':
                 return true;
-                break;
             default:
                 return false;
-                break;
         }
     }
-
-
-
-
 
     public function isPassword(string $password): bool {
         return strlen($password) > 6;

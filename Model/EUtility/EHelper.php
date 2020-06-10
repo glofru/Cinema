@@ -224,16 +224,4 @@ class EHelper
         $minutes = ($time % 60);
         return sprintf($format, $hours, $minutes);
     }
-
-    public function sortByDatesGiudizi(EGiudizio $g1, EGiudizio $g2) {
-        return $g1->getDataPubblicazione() < $g2->getDataPubblicazione();
-    }
-
-    public function sortByDatesFilm(EFilm $f1, EFilm $f2) {
-        return $f1->getDataRilascio() > $f2->getDataRilascio();
-    }
-
-    public function sortByDatesBiglietti(EBiglietto $b1, EBiglietto $b2) {
-        return $b1->getProiezione()->getDataproieizone() < $b2->getProiezione()->getDataproieizone();
-    }
 }
