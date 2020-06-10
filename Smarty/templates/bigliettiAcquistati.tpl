@@ -35,130 +35,31 @@
 </head>
 <body class="body">
 
-<!-- header -->
-<header class="header">
-	<div class="header__wrap">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<div class="header__content">
-						<!-- header logo -->
-						<a href="/" class="header__logo">
-							<img src="{$path}../../Smarty/img/logo.svg" alt="">
-						</a>
-						<!-- end header logo -->
+	{include file="{$path}Smarty/templates/header.tpl"}
 
-						<!-- header nav -->
-						<ul class="header__nav">
-							<!-- dropdown -->
-							<li class="header__nav-item">
-								<a class="dropdown-toggle header__nav-link" href="{$path}../../index.php" role="button" >Home</a>
-							</li>
-							<!-- end dropdown -->
+<!-- page title -->
+<section class="section section--first section--bg" data-bg="{$path}../../Smarty/img/section/section.jpg">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="section__wrap">
+					<!-- section title -->
+					<h2 class="section__title">Biglietti acquistati</h2>
+					<!-- end section title -->
 
-							<!-- dropdown -->
-							<li class="header__nav-item">
-								<a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalogo</a>
-
-								<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-									<li><a href="{$path}../../Catalogo/prossimeUscite/">Prossime uscite</a></li>
-									<li><a href="{$path}../../Catalogo/programmazioniPassate/">Programmazioni</a></li>
-									<li><a href="{$path}../../Catalogo/piuApprezzati/">Film più apprezzati</a></li>
-								</ul>
-							</li>
-							<!-- end dropdown -->
-
-							<li class="header__nav-item">
-								<a href="{$path}../../Informazioni/getCosti/" class="header__nav-link">Prezzi</a>
-							</li>
-
-							<li class="header__nav-item">
-								<a href="{$path}../../Informazioni/getHelp/" class="header__nav-link">Aiuto</a>
-							</li>
-
-							<!-- dropdown -->
-							<li class="dropdown header__nav-item">
-								<a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
-									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-										<li><a href="{$path}../../Informazioni/getAbout/">Su di noi</a></li>
-									</ul>
-							</li>
-							<!-- end dropdown -->
-						</ul>
-						<!-- end header nav -->
-
-						<!-- header auth -->
-						<div class="header__auth">
-							<button class="header__search-btn" type="button">
-								<i class="icon ion-ios-search"></i>
-							</button>
-								<li class="header__nav-item">
-									<a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<span>@{$utente->getUsername()}</span>
-									</a>
-									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-										<li><a href="{$path}../../Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
-										<li><a href="{$path}../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
-										<li><a href="{$path}../../Utente/showCommenti/">I miei giudizi</a></li>
-										<li><a href="{$path}../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
-									</ul>
-								</li>
-						</div>
-						<!-- end header auth -->
-
-						<!-- header menu btn -->
-						<button class="header__btn" type="button">
-							<span></span>
-							<span></span>
-							<span></span>
-						</button>
-						<!-- end header menu btn -->
-					</div>
+					<!-- breadcrumb-->
+					<ul class="breadcrumb">
+						<li class="breadcrumb__item"><a href="/">Home</a></li>
+						<li class="breadcrumb"><a href="">I miei acquisti</a></li>
+					</ul>
+					<!-- end breadcrumb -->
 				</div>
 			</div>
 		</div>
 	</div>
+</section>
+<!-- end page title -->
 
-	<!-- header search -->
-	<form action="../../Ricerca/cercaFilm" method= "POST" class="header__search">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<div class="header__search-content">
-						<input type="text" name="filmCercato" placeholder="Cerca un film">
-
-						<button type="submit">Cerca</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>
-	<!-- end header search -->
-</header>
-<!-- end header -->
-
-	<!-- page title -->
-	<section class="section section--first section--bg" data-bg="{$path}../../Smarty/img/section/section.jpg">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<div class="section__wrap">
-						<!-- section title -->
-						<h2 class="section__title">Biglietti acquistati</h2>
-						<!-- end section title -->
-
-						<!-- breadcrumb-->
-						<ul class="breadcrumb">
-							<li class="breadcrumb__item"><a href="/">Home</a></li>
-							<li class="breadcrumb"><a href="">I miei acquisti</a></li>
-						</ul>
-						<!-- end breadcrumb -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- end page title -->
 <!-- filter -->
 <div class="filter">
 	<div class="container">
