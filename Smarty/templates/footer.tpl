@@ -16,9 +16,9 @@
             <div class="col-6 col-sm-4 col-md-3">
                 <h6 class="footer__title">Informazioni</h6>
                 <ul class="footer__list">
-                    <li><a href="{$path}../../Informazioni/getAbout/">Su di noi</a></li>
-                    <li><a href="{$path}../../Informazioni/getCosti/">Costi</a></li>
-                    <li><a href="{$path}../../Informazioni/getHelp/">Aiuto</a></li>
+                    <li><a href="{$path}/Informazioni/getAbout/">Su di noi</a></li>
+                    <li><a href="{$path}/Informazioni/getCosti/">Costi</a></li>
+                    <li><a href="{$path}/Informazioni/getHelp/">Aiuto</a></li>
                 </ul>
             </div>
             <!-- end footer list -->
