@@ -15,7 +15,7 @@
                         <ul class="header__nav">
                             <!-- dropdown -->
                             <li class="header__nav-item">
-                                <a class="dropdown-toggle header__nav-link" href="{$path}/" role="button" id="dropdownMenuHome" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
+                                <a class="header__nav-link" href="/">Home</a>
                             </li>
                             <!-- end dropdown -->
 
