@@ -52,20 +52,6 @@ class EHelper
         setcookie('preferences', $cookie, time() + (86400 * 30), "/");
     }
 
-    public function checkWrite(EUtente $utente, $array, Efilm $film): bool {
-        $data = $film->getDataRilascio();
-        $today = new DateTime('now + 1 Week');
-        if(isset($utente) && $data < $today) {
-            foreach($array as $a){
-                if($a->getUtente()->getId() === $utente->getId()){
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-
     public function retrieveVote(string $punteggio): float {
         $punteggio = explode('.', $punteggio);
         $found = false;
