@@ -29,7 +29,7 @@ class CCatalogo
         $date = [];
         $toShow = [];
         for($i=2; $i < 6; $i++) {
-            $temp = EHelper::getInstance()->getSettimanaScorsa($i);
+            $temp = EData::getSettimanaScorsa($i);
             $values = [];
             array_push($values, DateTime::createFromFormat('Y-m-d', $temp[0]), DateTime::createFromFormat('Y-m-d', $temp[1]));
             array_push($toShow, "Settimana dal " . $values[0]->format('d-m-y') . " al " . $values[1]->format('d-m-y'));
@@ -51,7 +51,7 @@ class CCatalogo
         $cookie = EHelper::getInstance()->preferences($_COOKIE['preferences']);
         $consigliati = CHome::getConsigliati($cookie);
         $punteggi = [];
-        $oggi = EHelper::getInstance()->getDateProssime();
+        $oggi = EData::getDateProssime();
         $film = FPersistentManager::getInstance()->loadBetween('0000-00-00', $oggi[0], "EFilm");
         foreach($film as $item){
             $giudizi = FPersistentManager::getInstance()->load($item->getId(),"idFilm","EGiudizio");

@@ -7,7 +7,7 @@ class CNewsLetter
         if($_SERVER['REQUEST_METHOD']=="GET" && $_GET["token"] === "S3ndM34M41l") {
             $ns = FPersistentManager::getInstance()->loadAll("ENewsLetter");
             if(sizeof($ns->getListaUtenticonPreferenze()[0]) > 0) {
-                $date = EHelper::getInstance()->getSettimanaProssima();
+                $date = EData::getSettimanaProssima();
                 $results = CHome::getProiezioni($date);
                 foreach ($ns->getListaUtenticonPreferenze()[0] as $utente) {
                     CMail::newsLetter($utente, $date, $results);

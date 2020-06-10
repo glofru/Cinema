@@ -4,13 +4,12 @@ class CHome
 
     public static function showHome() {
         if($_SERVER["REQUEST_METHOD"] === "GET"){
-            $gestore = EHelper::getInstance();
-            $cookie = $gestore->preferences($_COOKIE['preferences']);
+//            $cookie = $gestore->preferences($_COOKIE['preferences']);
             $prossimi = self::getProssimi(5);
             $consigliati = self::getConsigliati($cookie);
-            $proiezioni = self::getProiezioni($gestore->getSettimana());
-            $prossima = self::getProiezioni($gestore->getSettimanaProssima());
-            $scorsa = self::getProiezioni($gestore->getSettimanaScorsa(1));
+            $proiezioni = self::getProiezioni(EData::getSettimana());
+            $prossima = self::getProiezioni(EData::getSettimanaProssima());
+            $scorsa = self::getProiezioni(EData::getSettimanaScorsa(1));
 
             $utente = CUtente::getUtente();
             $isAdmin = $utente != null && $utente->isAdmin();
@@ -22,7 +21,7 @@ class CHome
 
     public static function getProssimi(int $size) {
         $pm = FPersistentManager::getInstance();
-        $date = EHelper::getInstance()->getDateProssime();
+        $date = EData::getDateProssime();
         $filmProssimi = $pm->loadBetween($date[0], $date[1],"EFilm");
         if(sizeof($filmProssimi) > $size) {
             array_splice($filmProssimi, 0, $size);
@@ -41,7 +40,7 @@ class CHome
         $pm = FPersistentManager::getInstance();
         $result = [];
         if(EHelper::getInstance()->getPreferences($cookie) === true) {
-            $date = EHelper::getInstance()->getDatePassate();
+            $date = EData::getDatePassate();
             $filmConsigliati = $pm->loadBetween($date[1], $date[0], "EFilm");
             shuffle($filmConsigliati);
             if(sizeof($filmConsigliati) > 6) {
