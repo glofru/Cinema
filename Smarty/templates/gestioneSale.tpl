@@ -62,7 +62,7 @@
 					<!-- content mobile tabs nav -->
 					<div class="content__mobile-tabs" id="content__mobile-tabs">
 						<div class="content__mobile-tabs-btn dropdown-toggle" role="navigation" id="mobile-tabs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<input type="button" value="Utenti bannati">
+							<input type="button" value="Gestione sale">
 							<span></span>
 						</div>
 
@@ -116,26 +116,24 @@
 					<div class="tab-pane fade {if (isset($nSala) || isset($nPosti) || isset($nFile))}show active{/if}" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
 						<div class="row" style="align-content: center">
 							<!-- reviews -->
-									<form action="{$path}../../Admin/gestioneSale" method="POST" style="margin: auto" class="form" style="align-content: center">
-										<input type="hidden" name="id" value="2">
-										<input type="number" min="1" id="sala" class="form__input" name="sala" {if (isset($nSala))}value="{$nSala}"{/if} placeholder="Numero di Sala">
-										<input type="number" min="1" id="file" class="form__input" name="file" {if (isset($nFile))}value="{$nFile}"{/if} placeholder="Numero di file">
-										<input type="number" min="1" id="posti" class="form__input" name="posti" {if (isset($nPosti))}value="{$nPosti}"{/if} placeholder="Numero di posti per fila">
-										<div class="sign__group sign__group--checkbox">
-											<input id="remember" name="disponibile" type="checkbox" checked="checked">
-											<label for="remember">Disponibile</label>
-										</div>
-										<button type="submit" onclick="return control()" style="margin: auto" class="form__btn align-content-center">Aggiungi</button>
-									</form>
+							<form action="{$path}../../Admin/gestioneSale" method="POST" style="margin: auto" class="form" style="align-content: center">
+								<input type="hidden" name="id" value="2">
+								<input type="number" min="1" id="sala" class="form__input" name="sala" {if (isset($nSala))}value="{$nSala}"{/if} placeholder="Numero di Sala">
+								<input type="number" min="1" id="file" class="form__input" name="file" {if (isset($nFile))}value="{$nFile}"{/if} placeholder="Numero di file">
+								<input type="number" min="1" id="posti" class="form__input" name="posti" {if (isset($nPosti))}value="{$nPosti}"{/if} placeholder="Numero di posti per fila">
+								<div class="sign__group sign__group--checkbox">
+									<input id="remember" name="disponibile" type="checkbox" checked="checked">
+									<label for="remember">Disponibile</label>
 								</div>
-							</div>
-							<!-- end reviews -->
+								<button type="submit" onclick="return control()" style="margin: auto" class="form__btn align-content-center">Aggiungi</button>
+							</form>
 						</div>
 					</div>
+							<!-- end reviews -->
 				</div>
-				<!-- end content tabs -->
 			</div>
 		</div>
+				<!-- end content tabs -->
 	</div>
 </section>
 <!-- end content -->
