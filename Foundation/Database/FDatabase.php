@@ -139,23 +139,7 @@ class FDatabase
             try {
                 $table = $media == null ? $class::getTableName() : $class::getTableName($media);
                 $query = "SELECT * FROM " . $table . " WHERE " . $row . "='" . $value . "';";
-                $sender = $this->db->prepare($query);
-                $sender->execute();
-                $returnedRows = $sender->rowCount();
-                $return = [];
-                if($returnedRows == 0){
-                    return [];
-                }
-                elseif ($returnedRows == 1) {
-                    array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
-                }
-                else {
-                    $sender->setFetchMode(PDO::FETCH_ASSOC);
-                    while($elem = $sender->fetch()) {
-                        $return[] = $elem;
-                    }
-                }
-                return $return;
+                return $this->execute($query);
             }
             catch (PDOException $exception) {
                 $this->error(false);
@@ -167,23 +151,7 @@ class FDatabase
     public function loadFromDBDebole($class, $value, string $row, $value2, $row2) {
         try {
             $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . " = '" . $value. "' AND " . $row2 . " = '" . $value2 . "';";
-            $sender = $this->db->prepare($query);
-            $sender->execute();
-            $returnedRows = $sender->rowCount();
-            $return = [];
-            if($returnedRows == 0){
-                return [];
-            }
-            elseif ($returnedRows == 1) {
-                array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
-            }
-            else {
-                $sender->setFetchMode(PDO::FETCH_ASSOC);
-                while($elem = $sender->fetch()) {
-                    $return[] = $elem;
-                }
-            }
-            return $return;
+            return $this->execute($query);
         }
         catch (PDOException $exception) {
             $this->error(false);
@@ -195,23 +163,7 @@ class FDatabase
     public function loadBetween($class, string $datainizio, string $datafine, string $row) {
         try {
             $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . " BETWEEN '" . $datainizio . "' AND '" . $datafine . "';";
-            $sender = $this->db->prepare($query);
-            $sender->execute();
-            $returnedRows = $sender->rowCount();
-            $return = [];
-            if($returnedRows == 0){
-                return [];
-            }
-            elseif ($returnedRows == 1) {
-                array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
-            }
-            else {
-                $sender->setFetchMode(PDO::FETCH_ASSOC);
-                while($elem = $sender->fetch()) {
-                    $return[] = $elem;
-                }
-            }
-            return $return;
+            return $this->execute($query);
         }
         catch(Exception $exception) {
             $this->error(false);
@@ -223,21 +175,7 @@ class FDatabase
     public function loadLike($class, string $value, string $row) {
         try {
             $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . " LIKE '%" . $value . "%';";
-            $sender = $this->db->prepare($query);
-            $sender->execute();
-            $returnedRows = $sender->rowCount();
-            $return = [];
-            if($returnedRows == 0){
-                return [];
-            } elseif ($returnedRows == 1) {
-                array_push($return, $sender->fetch(PDO::FETCH_ASSOC));
-            } else {
-                $sender->setFetchMode(PDO::FETCH_ASSOC);
-                while($elem = $sender->fetch()) {
-                    $return[] = $elem;
-                }
-            }
-            return $return;
+            return $this->execute($query);
         } catch(Exception $exception) {
             $this->error(false);
         }
@@ -248,23 +186,7 @@ class FDatabase
     public function loadAll($class) {
         try {
             $query = "SELECT * FROM " . $class::getTableName() . ";";
-            $sender = $this->db->prepare($query);
-            $sender->execute();
-            $returnedRows = $sender->rowCount();
-            $return = [];
-            if($returnedRows == 0){
-                return [];
-            }
-            elseif ($returnedRows == 1) {
-                array_push($return,$sender->fetch(PDO::FETCH_ASSOC));
-            }
-            else {
-                $sender->setFetchMode(PDO::FETCH_ASSOC);
-                while($elem = $sender->fetch()) {
-                    $return[] = $elem;
-                }
-            }
-            return $return;
+            return $this->execute($query);
         }
         catch (PDOException $exception) {
             $this->error(false);
@@ -492,6 +414,29 @@ class FDatabase
         }
 
         return null;
+    }
+
+    private function execute($query) {
+        $sender = $this->db->prepare($query);
+        $sender->execute();
+
+        $returnedRows = $sender->rowCount();
+
+        $return = [];
+
+        if($returnedRows == 0){
+            return [];
+        } elseif ($returnedRows == 1) {
+            array_push($return, $sender->fetch(PDO::FETCH_ASSOC));
+        } else {
+            $sender->setFetchMode(PDO::FETCH_ASSOC);
+            
+            while($elem = $sender->fetch()) {
+                $return[] = $elem;
+            }
+        }
+
+        return $return;
     }
 
     private function error($rollBack = true) {
