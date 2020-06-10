@@ -288,16 +288,16 @@ class CAdmin
                 $nSala = intval($_POST["sala"]);
                 $nFile = intval($_POST["file"]);
                 $nPosti = intval($_POST["posti"]);
-                $disponibile = isset($_POST["disponiile"]);
+                $disponibile = isset($_POST["disponibile"]);
                 try{
                     $sala = new ESalaFisica($nSala, $nFile, $nPosti, $disponibile);
                 } catch (Exception $e) {
-                    //VAdmin::gestioneSale($sale, CUtente::getUtente(),  $e);
-                    echo $e; die;
+                    VAdmin::gestioneSale($sale, CUtente::getUtente(),  $e->getMessage(), $nSala>0 ? $nSala : null, $nFile>0 ? $nFile : null, $nPosti>0 ? $nPosti : null);
+                    die;
                 }
                 foreach ($sale as $item) {
-                    if($item->getNumeroSala() === $sala->getNumeroSala()) {
-                        VAdmin::gestioneSale($sale, CUtente::getUtente(), "NUMERO DI SALA GIA' IN USO!");
+                    if($item->getNumeroSala() == $sala->getNumeroSala()) {
+                        VAdmin::gestioneSale($sale, CUtente::getUtente(), "NUMERO DI SALA IN USO!", $nSala, $nFile, $nPosti);
                         die;
                     }
                 }

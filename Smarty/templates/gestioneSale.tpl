@@ -81,17 +81,9 @@
 							<!-- dropdown -->
 							<li class="dropdown header__nav-item">
 								<a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
-								{if (!isset($utente))}
-									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-										<li><a href="{$path}../../Informazioni/getAbout/">Su di noi</a></li>
-										<li><a href="{$path}../../Utente/signup">Registrati</a></li>
-										<li><a href="{$path}../../Utente/controlloBigliettiNonRegistrato/?">I miei biglietti</a></li>
-									</ul>
-								{else}
 									<ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
 										<li><a href="{$path}../../Informazioni/getAbout/">Su di noi</a></li>
 									</ul>
-								{/if}
 							</li>
 							<!-- end dropdown -->
 						</ul>
@@ -112,6 +104,7 @@
 										<li><a href="">Gestione Proiezioni</a></li>
 										<li><a href="{$path}../../Admin/gestioneUtenti">Gestione Utenti</a></li>
 										<li><a href="{$path}../../Admin/modificaPrezzi/?">Gestione Prezzi</a></li>
+										<li><a href="{$path}../../Admin/gestioneSale/?">Gestione sale</a></li>
 										<li><a href="{$path}../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
 									</ul>
 								</li>
@@ -162,11 +155,11 @@
 					<!-- content tabs nav -->
 					<ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist" style="margin-top: 50px">
 						<li class="nav-item">
-							<a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Gestione sale</a>
+							<a class="nav-link {if (!isset($nSala) && !isset($nPosti) && !isset($nFile))}active{/if}" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Gestione sale</a>
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Aggiungi sala</a>
+							<a class="nav-link {if (isset($nSala) || isset($nPosti) || isset($nFile))}active{/if}" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Aggiungi sala</a>
 						</li>
 					</ul>
 					<!-- end content tabs nav -->
@@ -180,9 +173,9 @@
 
 						<div class="content__mobile-tabs-menu dropdown-menu" aria-labelledby="mobile-tabs">
 							<ul class="nav nav-tabs" role="tablist">
-								<li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Gestione sale</a></li>
+								<li class="nav-item"><a class="nav-link {if (!isset($nSala) && !isset($nPosti) && !isset($nFile))}active{/if}" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Gestione sale</a></li>
 
-								<li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Aggiungi sala</a></li>
+								<li class="nav-item"><a class="nav-link {if (isset($nSala) || isset($nPosti) || isset($nFile))}active{/if}" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Aggiungi sala</a></li>
 							</ul>
 						</div>
 					</div>
@@ -197,7 +190,7 @@
 			<div class="col-12 col-lg-8 col-xl-8" style="margin: auto">
 				<!-- content tabs -->
 				<div class="tab-content" id="myTabContent">
-					<div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
+					<div class="tab-pane fade {if (!isset($nSala) && !isset($nPosti) && !isset($nFile))}show active{/if}" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
 						<div class="row">
 							<!-- comments -->
 							<div class="col-12">
@@ -225,14 +218,14 @@
 						</div>
 					</div>
 
-					<div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
+					<div class="tab-pane fade {if (isset($nSala) || isset($nPosti) || isset($nFile))}show active{/if}" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
 						<div class="row" style="align-content: center">
 							<!-- reviews -->
 									<form action="{$path}../../Admin/gestioneSale" method="POST" style="margin: auto" class="form" style="align-content: center">
 										<input type="hidden" name="id" value="2">
-										<input type="number" min="1" id="" class="form__input" name="sala" placeholder="Numero di Sala">
-										<input type="number" min="1" id="" class="form__input" name="file" placeholder="Numero di file">
-										<input type="number" min="1" id="" class="form__input" name="posti" placeholder="Numero di posti per fila">
+										<input type="number" min="1" id="sala" class="form__input" name="sala" {if (isset($nSala))}value="{$nSala}"{/if} placeholder="Numero di Sala">
+										<input type="number" min="1" id="file" class="form__input" name="file" {if (isset($nFile))}value="{$nFile}"{/if} placeholder="Numero di file">
+										<input type="number" min="1" id="posti" class="form__input" name="posti" {if (isset($nPosti))}value="{$nPosti}"{/if} placeholder="Numero di posti per fila">
 										<div class="sign__group sign__group--checkbox">
 											<input id="remember" name="disponibile" type="checkbox" checked="checked">
 											<label for="remember">Disponibile</label>
@@ -382,7 +375,7 @@
 	
 	function control() {
 
-		/*if(!isValid($("#sala").val())){
+		if(!isValid($("#sala").val())){
 			alert("Devi inserire un numero di sala");
 			return false;
 		} else if (!isValid($("#file").val())) {
@@ -391,7 +384,7 @@
 		}else if (!isValid($("#posti").val())) {
 			alert("Devi inserire un numero di posti per fila");
 			return false;
-		}*/
+		}
 		return true;
 	}
 

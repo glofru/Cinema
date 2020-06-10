@@ -129,6 +129,7 @@
 										<li><a href="">Gestione Proiezioni</a></li>
 										<li><a href="{$path}../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
 										<li><a href="{$path}../../Admin/modificaPrezzi/?">Gestione Prezzi</a></li>
+										<li><a href="{$path}../../Admin/gestioneSale/?">Gestione sale</a></li>
 										<li><a href="{$path}../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
 									</ul>
 								</li>
