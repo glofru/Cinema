@@ -86,40 +86,53 @@ class FDatabase
     public function saveToDBProiezioneEPosti(EProiezione $proiezione)
     {
         $posti = $proiezione->getSala()->getPosti();
+
         if (!isset($posti)) {
             return null;
         }
+
         try {
             $this->db->beginTransaction();
             $query = "INSERT INTO" . FProiezione::getTableName() . "VALUES " . FProiezione::getValuesName();
             $sender = $this->db->prepare($query);
             FProiezione::associate($sender, $proiezione);
+
             $sender->execute();
+
             $id = $this->db->lastInsertId();
+
             foreach ($posti as $file) {
                 foreach ($file as $item) {
                     $query = "INSERT INTO" . FPosto::getTableName() . "VALUES " . FPosto::getValuesName();
                     $sender = $this->db->prepare($query);
                     FPosto::associate($sender, $proiezione, $item);
+
                     $sender->execute();
                 }
             }
+
             $this->db->commit();
+
             return $id;
         } catch (Exception $exception) {
             $this->error();
         }
     }
 
-    public function saveToDBDebole($class, EProiezione $proiezione, EPosto $posto){
+    public function saveToDBDebole($class, EProiezione $proiezione, EPosto $posto) {
         try {
             $this->db->beginTransaction();
+
             $query = "INSERT INTO " . $class::getTableName() . " VALUES " . $class::getValuesName();
             $sender = $this->db->prepare($query);
             $class::associate($sender, $proiezione, $posto);
+
             $sender->execute();
+
             $id = $this->db->lastInsertId();
+
             $this->db->commit();
+
             return $id;
         } catch (PDOException $exception) {
             $this->error();
@@ -136,22 +149,24 @@ class FDatabase
      * @return array
      */
     public function loadFromDB($class, $value, string $row, $media = null) {
-            try {
-                $table = $media == null ? $class::getTableName() : $class::getTableName($media);
-                $query = "SELECT * FROM " . $table . " WHERE " . $row . "='" . $value . "';";
-                return $this->execute($query);
-            }
-            catch (PDOException $exception) {
-                $this->error(false);
-            }
+        try {
+            $table = $media == null ? $class::getTableName() : $class::getTableName($media);
+            $query = "SELECT * FROM " . $table . " WHERE " . $row . "='" . $value . "';";
 
-            return null;
+            return $this->executeQuery($query);
         }
+        catch (PDOException $exception) {
+            $this->error(false);
+        }
+
+        return null;
+    }
 
     public function loadFromDBDebole($class, $value, string $row, $value2, $row2) {
         try {
             $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . " = '" . $value. "' AND " . $row2 . " = '" . $value2 . "';";
-            return $this->execute($query);
+
+            return $this->executeQuery($query);
         }
         catch (PDOException $exception) {
             $this->error(false);
@@ -163,7 +178,8 @@ class FDatabase
     public function loadBetween($class, string $datainizio, string $datafine, string $row) {
         try {
             $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . " BETWEEN '" . $datainizio . "' AND '" . $datafine . "';";
-            return $this->execute($query);
+
+            return $this->executeQuery($query);
         }
         catch(Exception $exception) {
             $this->error(false);
@@ -175,7 +191,8 @@ class FDatabase
     public function loadLike($class, string $value, string $row) {
         try {
             $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . " LIKE '%" . $value . "%';";
-            return $this->execute($query);
+
+            return $this->executeQuery($query);
         } catch(Exception $exception) {
             $this->error(false);
         }
@@ -186,7 +203,8 @@ class FDatabase
     public function loadAll($class) {
         try {
             $query = "SELECT * FROM " . $class::getTableName() . ";";
-            return $this->execute($query);
+
+            return $this->executeQuery($query);
         }
         catch (PDOException $exception) {
             $this->error(false);
@@ -198,34 +216,24 @@ class FDatabase
     public function checkDisponibilita(int $nsala, string $data, string $oraInizioNuovoFilm) {
         try {
             $query = "SELECT * FROM Proiezione WHERE numerosala = '" . strval($nsala) . "' AND data = '" . $data . "';";
-            $sender = $this->db->prepare($query);
-            $sender->execute();
-            $returnedRows = $sender->rowCount();
-            $proiezioni = [];
+
+            $proiezioni = $this->executeQuery($query);
+
             $output = [];
-            if($returnedRows == 0){
-                return [];
-            }
-            elseif ($returnedRows == 1) {
-                array_push($proiezioni,$sender->fetch(PDO::FETCH_ASSOC));
-            }
-            else {
-                $sender->setFetchMode(PDO::FETCH_ASSOC);
-                while($elem = $sender->fetch()) {
-                    $proiezioni[] = $elem;
-                }
-            }
-            for($i=0;$i<sizeof($proiezioni);$i++) {
+
+            for($i = 0; $i < sizeof($proiezioni); $i++) {
                 $film = FFilm::load($proiezioni[$i]["idFilm"],"id");
-                $durata = $film[0]->getDurataDB();
-                $durata = new DateInterval($durata);
+
+                $durata = new DateInterval($film[0]->getDurataDB());
                 $oraFilmPresente = $proiezioni[$i]["ora"];
-                $oraFine = DateTime::createFromFormat("H:i:s",$oraFilmPresente);
-                $oraFine->add($durata);
+                $oraFine = DateTime::createFromFormat("H:i:s",$oraFilmPresente)->add($durata);
+
+                //TODO: Ale porco mondo
                 if((strtotime($oraInizioNuovoFilm) - strtotime($oraFilmPresente) >= 0) && (strtotime($oraInizioNuovoFilm) - strtotime($oraInizioNuovoFilm)) >= 0) {
                     $salaVirtuale = FSala::loadVirtuale(strval($nsala), "nSala")[0];
                     $data = DateTime::createFromFormat("Y-m-d",$proiezioni[$i]["data"]);
                     $proiezione = new EProiezione($film[0], $salaVirtuale, $data);
+
                     array_push($output, $proiezione);
                 }
             }
@@ -242,29 +250,16 @@ class FDatabase
      * @param $class
      * @param $value
      * @param $row
-     * @return int
-     */
-    public function numberofRows($class, $value, string $row) {
-        $result = $this->loadFromDB($class,$value,$row);
-        if($result[0] == null) {
-            return null;
-        }
-
-        return sizeof($result);
-    }
-
-    /**
-     * @param $class
-     * @param $value
-     * @param $row
      * @return bool
      */
     public function deleteFromDB($class, $value, string $row): bool {
         try{
             $this->db->beginTransaction();
+
             $query = "DELETE FROM " . $class::getTableName() . " WHERE " . $row . "='" . $value . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
+
             $this->db->commit();
 
             return true;
@@ -279,9 +274,11 @@ class FDatabase
     public function deleteFromDBDebole($class, $value, $row, $value2, $row2): bool {
         try{
             $this->db->beginTransaction();
+
             $query = "DELETE FROM " . $class::getTableName() . " WHERE " . $row . "='" . $value . "' AND ". $row2 . "= '" . $value2 . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
+
             $this->db->commit();
 
             return true;
@@ -304,9 +301,11 @@ class FDatabase
     public function updateTheDB($class, $value, string $row, $newValue, string $newRow): bool {
         try {
             $this->db->beginTransaction();
+
             $query = "UPDATE " . $class::getTableName() . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
+
             $this->db->commit();
 
             return true;
@@ -338,10 +337,12 @@ class FDatabase
     public function occupaPosti(array $biglietti) {
         try {
             $this->db->beginTransaction();
+
             foreach ($biglietti as $item) {
                 $query = "SELECT * FROM " . "Posti" . " WHERE " . "idProiezione = '" . $item->getProiezione()->getId() . "' AND " . "posizione = '" . $item->getPosto()->getId() . "' FOR UPDATE;";
                 $sender = $this->db->prepare($query);
                 $sender->execute();
+
                 $posto = $sender->fetch(PDO::FETCH_ASSOC);
 
                 if($posto == null) { //Non esiste il posto
@@ -357,11 +358,15 @@ class FDatabase
                 $query = "UPDATE Posti SET occupato = '1' WHERE idProiezione = '" . $item->getProiezione()->getId() . "' AND posizione = '" . $item->getPosto()->getId() . "';";
                 $sender = $this->db->prepare($query);
                 $sender->execute();
+
                 $query = "INSERT INTO " . FBiglietto::getTableName() . " VALUES " . FBiglietto::getValuesName();
                 $sender = $this->db->prepare($query);
+
                 FBiglietto::associate($sender, $item);
+
                 $sender->execute();
             }
+
             $this->db->commit();
         } catch(PDOException $exception) {
             $this->error();
@@ -400,9 +405,11 @@ class FDatabase
     {
         try {
             $this->db->beginTransaction();
+
             $query = "INSERT INTO ".$class::getTableName(get_class($media))." VALUES ".$class::getValuesName($media);
             $sender = $this->db->prepare($query);
             $class::associate($sender, $media);
+
             $sender->execute();
 
             $id=$this->db->lastInsertId();
@@ -416,7 +423,7 @@ class FDatabase
         return null;
     }
 
-    private function execute($query) {
+    private function executeQuery($query) {
         $sender = $this->db->prepare($query);
         $sender->execute();
 
@@ -430,7 +437,7 @@ class FDatabase
             array_push($return, $sender->fetch(PDO::FETCH_ASSOC));
         } else {
             $sender->setFetchMode(PDO::FETCH_ASSOC);
-            
+
             while($elem = $sender->fetch()) {
                 $return[] = $elem;
             }
@@ -443,7 +450,9 @@ class FDatabase
         if ($rollBack) {
             $this->db->rollBack();
         }
+
         VError::error(1);
+        die;
     }
 
 }
