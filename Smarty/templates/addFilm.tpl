@@ -165,7 +165,7 @@
 
                             <datalist id="actors">
                                 {foreach $attori as $attore}
-                                    <option id="{$attore->getId()}" value="{$attore->getFullName()}">Ei</option>
+                                    <option id="{$attore->getId()}" value="{$attore->getFullName()}">IMDB ID: {$attore->getImdbId()}</option>
                                 {/foreach}
                             </datalist>
 
@@ -183,7 +183,7 @@
 
                             <datalist id="directors">
                                 {foreach $registi as $regista}
-                                    <option id="{$regista->getId()}" value="{$regista->getFullName()}">
+                                    <option id="{$regista->getId()}" value="{$regista->getFullName()}">IMDB ID: {$regista->getImdbId()}</option>
                                 {/foreach}
                             </datalist>
 

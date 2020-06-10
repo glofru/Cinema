@@ -109,6 +109,11 @@ class EPersona implements JsonSerializable
         return $this->imdbUrl;
     }
 
+    public function getImdbId(): string {
+        $x = explode("/",$this->getImdbUrl());
+        return $x[sizeof($x)-2];
+    }
+
     /**
      * @param string $imdbUrl
      */
