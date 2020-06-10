@@ -230,13 +230,20 @@ class CUtente
         }
     }
 
-    private static function saveSession(EUtente $utente) {
+    public static function saveSession($utente = null) {
+        if(!isset($utente)) {
+            VError::error(100);
+            die;
+        }
+
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
         session_regenerate_id(true);
-        session_set_cookie_params(time() + 3600, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inseirto il 4° parametro
-        $salvare = serialize($utente); // a TRUE per fare si che il cookie viaggi solo su HTTPS. E' FALSE perchè non abbiamo un certificato SSL ma in un contesto reale va messo a TRUE!!!
+        session_set_cookie_params(time() + 3600, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inserito il 4° parametro
+        // a TRUE per fare si che il cookie viaggi solo su HTTPS. E' FALSE perchè non abbiamo un certificato SSL ma in un contesto reale va messo a TRUE!!!
+
+        $salvare = serialize($utente);
         $_SESSION['utente'] = $salvare;
     }
 

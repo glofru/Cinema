@@ -257,7 +257,7 @@
 						</div>
 
 						<!-- filter btn -->
-						<button class="filter__btn" onclick="sender()" type="submit">Applica filtri</button>
+						<button class="filter__btn" onclick="sender()">Applica filtri</button>
 						<!-- end filter btn -->
 					</div>
 				</div>
@@ -322,7 +322,7 @@
 				<!-- end card -->
 				{else}
 					<div class="col-12">
-						<h2 class="section__title section__title--center">Nessun risultato ottenuto... :(</h2>
+						<h2 class="section__title section__title--center">Nessun risultato ottenuto</h2>
 					</div>
 				{/if}
 			</div>
@@ -457,10 +457,10 @@
 
 <script>
 	function sender() {
-		document.getElementById("voto_inizio").value = document.getElementById("filter__imbd-start").outerHTML;
-		document.getElementById("voto_fine").value = document.getElementById("filter__imbd-end").outerHTML;
-		document.getElementById("anno_inizio").value = document.getElementById("filter__years-start").outerHTML;
-		document.getElementById("anno_fine").value = document.getElementById("filter__years-end").outerHTML;
+		document.getElementById("voto_inizio").value = document.getElementById("filter__imbd-start").innerText;
+		document.getElementById("voto_fine").value = document.getElementById("filter__imbd-end").innerText;
+		document.getElementById("anno_inizio").value = document.getElementById("filter__years-start").innerText;
+		document.getElementById("anno_fine").value = document.getElementById("filter__years-end").innerText;
 		document.getElementById("Genere").value = document.getElementById("g").value;
 	}
 </script>
