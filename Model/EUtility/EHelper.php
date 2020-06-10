@@ -52,18 +52,6 @@ class EHelper
         setcookie('preferences', $cookie, time() + (86400 * 30), "/");
     }
 
-    public function getMedia($g) {
-        $p = 0;
-        $n = sizeof($g);
-        if($n === 0){
-            return 0;
-        }
-        foreach($g as $elem){
-            $p+=$elem->getPunteggio();
-        }
-        return ($p/$n);
-    }
-
     public function checkWrite(EUtente $utente, $array, Efilm $film): bool {
         $data = $film->getDataRilascio();
         $today = new DateTime('now + 1 Week');

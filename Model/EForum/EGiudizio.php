@@ -118,7 +118,7 @@ class EGiudizio implements JsonSerializable
             $result += $g->getPunteggio();
         }
 
-        return $result/sizeof($giudizi);
+        return $result == 0 ? $result : $result/sizeof($giudizi);
     }
 
     public static function sortByDatesGiudizi(EGiudizio $g1, EGiudizio $g2) {
