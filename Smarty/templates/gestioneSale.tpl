@@ -129,11 +129,11 @@
 							</form>
 						</div>
 					</div>
-							<!-- end reviews -->
+				<!-- end reviews -->
 				</div>
 			</div>
 		</div>
-				<!-- end content tabs -->
+	<!-- end content tabs -->
 	</div>
 </section>
 <!-- end content -->

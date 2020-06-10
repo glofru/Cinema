@@ -69,7 +69,7 @@
                                     <i class="icon ion-ios-log-in"></i>
                                     <span>Login</span>
                                 </a>
-                            {elseif (isset($utente) && !$admin)}
+                            {elseif (isset($utente) && !$utente->isAdmin())}
                                 <li class="header__nav-item">
                                     <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <span>@{$utente->getUsername()}</span>
@@ -81,19 +81,19 @@
                                         <li><a href="{$path}Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
                                     </ul>
                                 </li>
-                            {elseif (isset($utente) && $admin)}
+                            {elseif (isset($utente) && $utente->isAdmin())}
                                 <li class="header__nav-item">
                                     <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <span>@{$utente->getUsername()}</span>
                                     </a>
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                        <li><a href="{$path}Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
-                                        <li><a href="{$path}Admin/addFilm/?">Aggiungi film</a></li>
-                                        <li><a href="">Gestione proiezioni</a></li>
-                                        <li><a href="{$path}Admin/gestioneUtenti/?">Gestione utenti</a></li>
-                                        <li><a href="{$path}Admin/modificaPrezzi/?">Gestione prezzi</a></li>
-                                        <li><a href="{$path}Admin/gestioneSale/?">Gestione sale</a></li>
-                                        <li><a href="{$path}Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+                                        <li><a href="{$path}/Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
+                                        <li><a href="{$path}/Admin/addFilm">Aggiungi film</a></li>
+                                        <li><a href="{$path}/Admin/gestioneProiezioni">Gestione proiezioni</a></li>
+                                        <li><a href="{$path}/Admin/gestioneUtenti">Gestione utenti</a></li>
+                                        <li><a href="{$path}/Admin/modificaPrezzi">Gestione prezzi</a></li>
+                                        <li><a href="{$path}/Admin/gestioneSale">Gestione sale</a></li>
+                                        <li><a href="{$path}/Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
                                     </ul>
                                 </li>
                             {/if}
@@ -105,7 +105,7 @@
                             <span></span>
                             <span></span>
                             <span></span>
-                        </button>
+                        </button>§
                         <!-- end header menu btn -->
                     </div>
                 </div>

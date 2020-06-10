@@ -14,15 +14,15 @@ class VAdmin
         $smarty->display("addFilm.tpl");
     }
 
-    public static function addProiezione(array $films, array $sale) {
-        $smarty = StartSmarty::configuration();
-
-        $smarty->assign("path", $GLOBALS["path"]);
-        $smarty->assign("films", $films);
-        $smarty->assign("sale", $sale);
-
-        $smarty->display("addProiezione.tpl");
-    }
+//    public static function addProiezione(array $films, array $sale) {
+//        $smarty = StartSmarty::configuration();
+//
+//        $smarty->assign("path", $GLOBALS["path"]);
+//        $smarty->assign("films", $films);
+//        $smarty->assign("sale", $sale);
+//
+//        $smarty->display("addProiezione.tpl");
+//    }
 
     public static function gestioneUtenti(array $bannati, EAdmin $utente, $status = null) {
         $smarty = StartSmarty::configuration();
@@ -54,7 +54,16 @@ class VAdmin
         $smarty->assign("nSala", $nSala);
         $smarty->assign("nFile", $nFile);
         $smarty->assign("nPosti", $nPosti);
+
         $smarty->display("gestioneSale.tpl");
+    }
+
+    public static function gestioneProiezioni(EUtente $utente) {
+        $smarty = StartSmarty::configuration();
+
+        $smarty->assign("utente", $utente);
+
+        $smarty->display("gestionePrenotazioni.tpl");
     }
 
     public static function modificafilm(EFilm $film, $copertina){

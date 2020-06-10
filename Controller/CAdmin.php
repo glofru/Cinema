@@ -69,21 +69,6 @@ class CAdmin
         }
     }
 
-    public static function addProiezione() {
-        self::checkAdmin();
-
-        $method = $_SERVER["REQUEST_METHOD"];
-
-        $pm = FPersistentManager::getInstance();
-
-        if ($method == "GET") {
-            $films = $pm->loadAll("EFilm");
-            $sale = $pm->load(true, "disponibile", "ESala");
-
-            VAdmin::addProiezione($films, $sale);
-        }
-    }
-
     public static function gestioneUtenti() {
         self::checkAdmin();
 
@@ -274,6 +259,7 @@ class CAdmin
     public static function gestioneSale() {
         self::checkAdmin();
         $sale = FPersistentManager::getInstance()->loadAll("ESalaFisica");
+
         if ($_SERVER["REQUEST_METHOD"] === "GET") {
             VAdmin::gestioneSale($sale, CUtente::getUtente());
         } else {
@@ -309,6 +295,20 @@ class CAdmin
             } else {
                 VError::error(0, "AZIONE NON VALIDA");
             }
+        }
+    }
+
+    public static function gestioneProiezioni() {
+        self::checkAdmin();
+
+        $pm = FPersistentManager::getInstance();
+
+        if($_SERVER["REQUEST_METHOD"] == "GET") {
+            $films = $pm->loadAll("EFilm");
+            $sale = $pm->load(true, "disponibile", "ESala");
+            $utente = CUtente::getUtente();
+
+            VAdmin::gestioneProiezioni($utente);
         }
     }
 }
