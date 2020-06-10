@@ -98,32 +98,32 @@ class CAdmin
         $toBan = $pm->load($utente,"username","EUtente");
 
         if(!isset($toBan)) {
-            $status = "ERRORE: UTENTE NON PRESENTE NEL DATABASE!";
+            $status = "Utente non presente";
         } else {
             if (!$toBan->isAdmin() && !$toBan->isBanned()) {
                 $pm->update($utente, "username", true, "isBanned", "EUtente");
-                $status = "OPERAZIONE RIUSCITA!";
+                return null;
             } else {
-                $status = "ERRORE: L'UTENTE SELEZIONATO È GIÀ BANNATO OPPURE UN AMMINISTRATORE!";
+                $status = "L'utente è già bannato o amministratore";
             }
         }
 
         return $status;
     }
 
-    private static function unban($unban): string {
+    private static function unban($unban) {
         $pm = FPersistentManager::getInstance();
 
         $toUnban = $pm->load($unban, "id", "EUtente");
 
         if(!isset($toUnban)){
-            $status = "ERRORE: UTENTE NON PRESENTE NEL DATABASE!";
+            $status = "Utente non presente";
         } else {
             if ($toUnban->isBanned()) {
                 $pm->update($unban, "id", 0, "isBanned", "EUtente");
-                $status = "OPERAZIONE RIUSCITA!";
+                return null;
             } else {
-                $status = "ERRORE: UTENTE NON BANNATO!";
+                $status = "Utente non bannato";
             }
         }
 

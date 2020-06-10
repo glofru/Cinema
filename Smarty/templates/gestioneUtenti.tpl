@@ -33,7 +33,7 @@
 	<title>Magic Boulevard Cinema - Dove i sogni diventano realtà</title>
 
 </head>
-<body class="body" {if (isset($status))}onload="result('{$status}')"{/if}>
+<body class="body" {if isset($status)}onload="alert('{$status}')"{/if}>
 
 {include file="{$path}Smarty/templates/header.tpl"}
 
@@ -50,11 +50,11 @@
 					<!-- content tabs nav -->
 					<ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist" style="margin-top: 50px">
 						<li class="nav-item">
-							<a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Utenti bannati</a>
+							<a class="nav-link {if !isset($status)}active{/if}" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="{!isset($status)}">Utenti bannati</a>
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Ricerca utente da bannare</a>
+							<a class="nav-link {if isset($status)}active{/if}" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="{isset($status)}">Ricerca utente da bannare</a>
 						</li>
 					</ul>
 					<!-- end content tabs nav -->
@@ -85,7 +85,7 @@
 			<div class="col-12 col-lg-8 col-xl-8" style="margin: auto">
 				<!-- content tabs -->
 				<div class="tab-content" id="myTabContent">
-					<div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
+					<div class="tab-pane fade {if !isset($status)}show active{/if}" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
 						<div class="row">
 							<!-- comments -->
 							<div class="col-12">
@@ -107,7 +107,7 @@
 										{/foreach}
 										{if (sizeof($bannati)) == 0}
 											<div class="col-12">
-												<h2 class="section__title section__title--center">Nessun utente attualmente bannato :)</h2>
+												<h2 class="section__title section__title--center">Nessun utente attualmente bannato</h2>
 											</div>
 										{/if}
 									</ul>
@@ -117,22 +117,20 @@
 						</div>
 					</div>
 
-					<div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
+					<div class="tab-pane fade {if isset($status)}show active{/if}" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
 						<div class="row" style="align-content: center">
 							<!-- reviews -->
-									<form action="{$path}../../Admin/gestioneUtenti" method="POST" style="margin: auto" class="form" style="align-content: center">
-										<input type="text" id="toBan" class="form__input" name="utente" placeholder="Username dell'utente da bannare">
-										<button type="submit" onclick="return control()" style="margin: auto" class="form__btn align-content-center">Banna</button>
-									</form>
-								</div>
-							</div>
-							<!-- end reviews -->
+							<form action="{$path}../../Admin/gestioneUtenti" method="POST" style="margin: auto" class="form" style="align-content: center">
+								<input type="text" id="toBan" class="form__input" name="utente" style="width: 300px" placeholder="Username dell'utente da bannare">
+								<button type="submit" onclick="return control()" style="margin: auto" class="form__btn align-content-center">Banna</button>
+							</form>
 						</div>
 					</div>
+					<!-- end reviews -->
 				</div>
-				<!-- end content tabs -->
 			</div>
 		</div>
+	<!-- end content tabs -->
 	</div>
 </section>
 <!-- end content -->
@@ -193,18 +191,13 @@
 
 <!-- JS -->
 <script>
-	function result(value){
-		alert(value);
-		document.location.href = "#tab-2";
-	}
-	
 	function control() {
-		if($("#toBan").val().length < 6){
-			alert("L'utente ha uno username di almeno 7 caratteri");
+		if($("#toBan").val().length < 1){
+			alert("L'utente ha uno username di almeno 2 caratteri");
 			return false;
-		} else {
-			return true;
 		}
+
+		return true;
 	}
 </script>
 <script src="{$path}../../Smarty/js/jquery-3.3.1.min.js"></script>
