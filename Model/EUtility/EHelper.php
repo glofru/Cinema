@@ -14,82 +14,6 @@ class EHelper
         return self::$instance;
     }
 
-    public function getDateProssime(): array {
-        $result = [];
-        $oggi = new DateTime('now');
-        $oggi = $oggi->format('Y-m-d');
-        $fine = "2100-01-01";
-        array_push($result, $oggi, $fine);
-        return $result;
-    }
-
-    public function getSettimana(): array {
-        $result = [];
-        $inizio = new DateTime('now');
-        $giorno = $inizio->format('D');
-        while($giorno != 'Mon') {
-            $inizio->modify('-1 Day');
-            $giorno = $inizio->format('D');
-        }
-        $inizio = $inizio->format('Y-m-d');
-        $fine = DateTime::createfromFormat('Y-m-d', $inizio);
-        $fine->modify('+ 6 Days');
-        $fine = $fine->format('Y-m-d');
-        array_push($result, $inizio, $fine);
-        return $result;
-    }
-
-    public function getSettimanaProssima(): array {
-        $result = [];
-        $inizio = new DateTime('now');
-        $giorno = $inizio->format('D');
-        $i = 0;
-        $found = false;
-        while(!$found) {
-            $inizio->modify('+1 Day');
-            $giorno = $inizio->format('D');
-            if($giorno == 'Mon' && $i > 0) {$found = true;}
-            $i++;
-        }
-        $inizio = $inizio->format('Y-m-d');
-        $fine = DateTime::createfromFormat('Y-m-d', $inizio);
-        $fine->modify('+ 6 Days');
-        $fine = $fine->format('Y-m-d');
-        array_push($result, $inizio, $fine);
-        return $result;
-    }
-
-    public function getSettimanaScorsa(int $n): array {
-        $result = [];
-        $inizio = new DateTime('now');
-        $i = 0;
-        $found = false;
-        $k = ($n * 6);
-        if($n > 2) {$k += $n - 2;}
-        while(!$found) {
-            $inizio->modify('-1 Day');
-            $giorno = $inizio->format('D');
-            if($giorno == 'Mon' && $i >= $k) {$found = true;}
-            $i++;
-        }
-        $inizio = $inizio->format('Y-m-d');
-        $fine = DateTime::createfromFormat('Y-m-d',$inizio);
-        $fine->modify('+ 6 Days');
-        $fine = $fine->format('Y-m-d');
-        array_push($result, $inizio, $fine);
-        return $result;
-    }
-
-    public function getDatePassate():array {
-        $oggi = new DateTime('first day of this month - 2 weeks');
-        $oggi = $oggi->format('Y-m-d');
-        $fine = new DateTime('first day of this month - 30 years');
-        $fine = $fine->format('Y-m-d');
-        $date = [];
-        array_push($date, $oggi, $fine);
-        return $date;
-    }
-
     public function preferences ($cookie) {
         if(!isset($cookie)) {
             $value = [];
@@ -202,6 +126,7 @@ class EHelper
         return $result;
     }
 
+    //TODO: Foundation
     public function filter(array $film, float $votoInizio, float $votoFine, DateTime $annoInizio, DateTime $annoFine) {
         $result = [];
         foreach ($film as $f) {
@@ -212,6 +137,7 @@ class EHelper
         return $result;
     }
 
+    //TODO: FUtility
     public function hash(string $password) {
         return password_hash($password, PASSWORD_BCRYPT);
     }
