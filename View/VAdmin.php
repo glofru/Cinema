@@ -53,4 +53,15 @@ class VAdmin
         $smarty->assign("status", $e);
         $smarty->display("gestioneSale.tpl");
     }
+
+    public static function modificafilm(EFilm $film, $copertina){
+        $smarty = StartSmarty::configuration();
+
+        $smarty->assign("path", $GLOBALS["path"]);
+        $smarty->assign("film", $film);
+        $smarty->assign("copertina", $copertina);
+        $smarty->assign("generi", EGenere::getAll());
+
+        $smarty->display("modificaFilm.tpl");
+    }
 }

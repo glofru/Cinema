@@ -89,6 +89,7 @@
                             <img src="../../Smarty/img/logo.svg" alt="">
                         </a>
                         <div class="sign__group">
+                            <span class="filter__item-label">Copertina:</span>
                             <img src="{$copertina->getImmagine()}" alt="">
                             <button id="insert_image" class="sign__btn" type="button" style="width: 200px" onclick="document.getElementById('choose_image').click()">Carica copertina</button>
                             <input id="choose_image" type="file" name="copertina" style="display: none" accept=".jpg, .jpeg, .gif, .png">
@@ -97,11 +98,13 @@
 
                         <!-- Titolo -->
                         <div class="sign__group">
+                            <span class="filter__item-label">Titolo:</span>
                             <input class="form__input" type="text" id="titolo" name="titolo" value="{$film->getNome()}" placeholder="Titolo">
                         </div>
 
                         <!-- Descrizione -->
                         <div class="sign__group">
+                            <span class="filter__item-label">Descrizione:</span>
                             <input class="form__input" type="text" id="descrizione" name="descrizione" value="{$film->getDescrizione()}" placeholder="Descrizione">
                         </div>
 
@@ -110,7 +113,7 @@
                             <span class="filter__item-label">Genere:</span>
 
                             <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-genre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <input type="text" name="genere" value="{$film->getGenere}" readonly>
+                                <input type="text" name="genere" value="{$film->getGenere()}" readonly>
                                 <span></span>
                             </div>
 
@@ -123,28 +126,33 @@
 
                         <!-- Durata -->
                         <div class="sign__group">
-                            <input class="sign__input" id="durata" type="number" max="500"  value="{$film->getDurataMinuti}" name="durata">
+                            <span class="filter__item-label">Durata: (in minuti)</span>
+                            <input class="sign__input" id="durata" type="number" max="500"  value="{$film->getDurataMinuti()}" name="durata">
                         </div>
 
                         <!-- TrailerURL -->
                         <div class="sign__group">
-                            <input type="url" class="sign__input" value="{$film->getTrailerURL}" name="trailerURL">
+                            <span class="filter__item-label">TRailer:</span>
+                            <input type="url" class="sign__input" value="{$film->getTrailerURL()}" name="trailerURL">
                         </div>
 
                         <!-- Voto critica -->
                         <div class="sign__group" style="position:relative;">
-                            <input style="padding-right: 30px;" type="number" min="0" max="10" step="0.1" class="sign__input" value="{$film->getVotoCritica}" name="votoCritica">
+                            <span class="filter__item-label">Voto critica:</span>
+                            <input style="padding-right: 30px;" type="number" min="0" max="10" step="0.1" class="sign__input" value="{$film->getVotoCritica()}" name="votoCritica">
                             <span class="card__rate" style="position: absolute; right: 10px; bottom: 13px;"><i class="icon ion-ios-star"></i></span>
                         </div>
 
                         <!-- DataRilascio -->
                         <div class="sign__group">
-                            <input id="dataRilascio" type="date" class="sign__input" value="{$film->getDataRilascioString}" name="dataRilascio">
+                            <span class="filter__item-label">Data rilascio:</span>
+                            <input id="dataRilascio" type="date" class="sign__input" value="{$film->getDataRilascioString()}" name="dataRilascio">
                         </div>
 
                         <!-- Paese -->
                         <div class="sign__group">
-                            <input type="text" maxlength="3" class="sign__input" value="{$film->getPaese}" name="paese">
+                            <span class="filter__item-label">Paese:</span>
+                            <input type="text" maxlength="3" class="sign__input" value="{$film->getPaese()}" name="paese">
                         </div>
 
                         <!-- Età consigliata -->
@@ -152,7 +160,7 @@
                             <span class="filter__item-label">Età consigliata:</span>
 
                             <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-age" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <input type="text" name="etaConsigliata" value=value="{$film->getEtaConsigliata}" readonly>
+                                <input type="text" name="etaConsigliata" value="{$film->getEtaConsigliata()}" readonly>
                                 <span></span>
                             </div>
 
@@ -166,7 +174,8 @@
 
                         <!-- Attori -->
                         <div class="sign__group" style="position: relative; margin-bottom: 0;">
-                            <input id="actorChosen" list="actors" class="sign__input" value="{$film->getAttori}">
+                            <span class="filter__item-label">Attori:</span>
+                            <input id="actorChosen" list="actors" class="sign__input" value="{print_r($film->getAttori())}">
                             <button id="addActor" type="button" class="sign__btn" style="position: absolute; right: 10px; bottom: 15px; width: 20px; height: 20px">+</button>
 
                             <datalist id="actors">
@@ -184,7 +193,8 @@
 
                         <!-- Registi -->
                         <div class="sign__group" style="position: relative; margin-top: 15px; margin-bottom: 0px;">
-                            <input id="directorChosen" list="directors" class="sign__input" value="{$film->getRegisti}"
+                            <span class="filter__item-label">Registi:</span>
+                            <input id="directorChosen" list="directors" class="sign__input" value="{print_r($film->getRegisti())}"
                             <button id="addDirector" type="button" class="sign__btn" style="position: absolute; right: 10px; bottom: 15px; width: 20px; height: 20px">+</button>
 
                             <datalist id="directors">

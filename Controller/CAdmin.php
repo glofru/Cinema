@@ -205,7 +205,7 @@ class CAdmin
 
                 if(isset($_POST["durata"])){
                     $film->setDurata($_POST["durata"]);
-                    $pm->update($filmID,"id",$film->getDurataDB(),"durata","EFilm");
+                    $pm->update($filmID,"id",$film->getDurataMinuti(),"durata","EFilm");
                 }
 
                 if(isset($_POST["trailerURL"])){
@@ -219,8 +219,9 @@ class CAdmin
                 }
 
                 if(isset($_POST["dataRilascio"])){
-                    $film->setDataRilascio($_POST["dataRilascio"]);
-                    $pm->update($filmID,"id",$film->getDataRilascio(),"dataRilascio","EFilm");
+                    $rilascio = str_replace("/", "-", $_POST["dataRilascio"]);
+                    $film->setDataRilascio($rilascio);
+                    $pm->update($filmID,"id",$film->getDataRilascioSQL(),"dataRilascio","EFilm");
                 }
 
                 if(isset($_POST["genere"])){
@@ -259,13 +260,14 @@ class CAdmin
             }catch (Exception $e){
                 print $e->getMessage();
             }
+           // VAdmin::modificafilm($film,$copertina);
         } elseif ($method == "GET"){
             $filmID = $_GET["film"];
 
             $film = $pm->load($filmID, "id", "EFilm")[0];
             $copertina = $pm->load($filmID,"id","EMediaLocandina");
 
-            VFilm::showFilm($film, $copertina);
+            VAdmin::modificafilm($film,$copertina);
         }
     }
 
