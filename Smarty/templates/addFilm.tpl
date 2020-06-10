@@ -80,13 +80,13 @@
                     <!-- authorization form -->
                     <form action="{$path}../../Admin/addFilm" onsubmit="return validate()" method="POST" class="sign__form" enctype="multipart/form-data">
                         <a href="/" class="sign__logo">
-                            <img src="../../Smarty/img/logo.svg" alt="">
+                            <img src="{$path}../../Smarty/img/logo.svg" alt="">
                         </a>
                         <div class="sign__group">
                             <button id="insert_image" class="sign__btn" type="button" style="width: 200px" onclick="document.getElementById('choose_image').click()">Carica copertina</button>
-                            <input id="choose_image" type="file" name="copertina" style="display: none" accept=".jpg, .jpeg, .gif, .png">
+                            <input id="choose_image" type="file" name="copertina" onchange="validateImage()" style="display: none" accept=".jpg, .jpeg, .gif, .png">
                             <br>
-                            <b><p id="image_name" class="faq__text" style="text-align: center; max-width: 300px">Nessuna immagine caricata</p></b>
+                            <b><p id="image_name" class="faq__text" style="text-align: center; max-width: 300px">Nessuna immagine caricata (MAX 2MB)</p></b>
                         </div>
 
                         <!-- Titolo -->
@@ -284,6 +284,26 @@
         $('#attori').attr("value", actors.join(";"));
         $('#registi').attr("value", directors.join(";"));
 
+        return true;
+    }
+
+    function validateImage() {
+        var formData = new FormData();
+
+        var file = document.getElementById("choose_image").files[0];
+
+        formData.append("Filedata", file);
+        var t = file.type.split('/').pop().toLowerCase();
+        if (t != "jpeg" && t != "jpg" && t != "png" && t != "gif") {
+            alert('Inserire un file di immagine valido!');
+            document.getElementById("choose_image").value = '';
+            return false;
+        }
+        if (file.size > 2048000) {
+            alert('Non puoi caricare file più grandi di 2 MB');
+            document.getElementById("choose_image").value = '';
+            return false;
+        }
         return true;
     }
 </script>

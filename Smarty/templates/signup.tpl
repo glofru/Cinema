@@ -42,11 +42,16 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- registration form -->
-                    <form id="form" action="{$path}../../Utente/signup" onsubmit="return validate()" method="POST" class="sign__form">
+                    <form id="form" action="{$path}../../Utente/signup" onsubmit="return validate()" method="POST" class="sign__form" enctype="multipart/form-data">
                         <a href="/" class="sign__logo">
                             <img src="{$path}../../Smarty/img/logo.svg" alt="">
                         </a>
-
+                        <div class="sign__group">
+                            <button id="insert_image" class="sign__btn" type="button" style="width: 200px" onclick="document.getElementById('choose_image').click()">Immagine del profilo</button>
+                            <input id="choose_image" type="file" name="propic" onchange="validateImage()" style="display: none" accept=".jpg, .jpeg, .gif, .png">
+                            <br>
+                            <b><p id="image_name" class="faq__text" style="text-align: center; max-width: 300px">Nessuna immagine caricata (MAX 2MB)</p></b>
+                        </div>
                         <!-- Nome -->
                         <div class="sign__group">
                             <input id="nome" type="text" name="nome" value="{$nome}" class="sign__input" placeholder="Nome">
@@ -115,6 +120,14 @@
 <script src="{$path}../../Smarty/js/main.js"></script>
 
 <script>
+    $(document).ready(function() {
+        // Aggiorna nome copertina
+        $('#choose_image').change(function (e) {
+            document.getElementById("image_name").innerText = e.target.files[0].name;
+        });
+    })
+
+
     {if isset($error)}
     alert("{$error}");
     {/if}
@@ -173,6 +186,26 @@
         }
 
         return false;
+    }
+
+    function validateImage() {
+        var formData = new FormData();
+
+        var file = document.getElementById("choose_image").files[0];
+
+        formData.append("Filedata", file);
+        var t = file.type.split('/').pop().toLowerCase();
+        if (t != "jpeg" && t != "jpg" && t != "png" && t != "gif") {
+            alert('Inserire un file di immagine valido!');
+            document.getElementById("choose_image").value = '';
+            return false;
+        }
+        if (file.size > 2048000) {
+            alert('Non puoi caricare file più grandi di 2 MB');
+            document.getElementById("choose_image").value = '';
+            return false;
+        }
+        return true;
     }
 </script>
 

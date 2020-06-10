@@ -71,11 +71,6 @@ class CFilm
         $img = [];
         foreach($reviews as $loc) {
             $temp = FPersistentManager::getInstance()->load($loc->getUtente()->getId(),"idUtente","EMediaUtente");
-            //TODO: muovere in foundation!!!
-            if($temp->getImmagine() == ""){
-                $temp->setImmagine('../../Smarty/img/user.png');
-            }
-
             array_push($img,$temp);
         }
 

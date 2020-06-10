@@ -176,7 +176,7 @@
     <div class="container">
         <div class="row">
             <!-- content -->
-            <form class="form" method="POST" action="{$path}../../Utente/modifica" onsubmit="return validate()" style="width: 1000px">
+            <form class="form" method="POST" action="{$path}../../Utente/modifica" onsubmit="return validate()" style="width: 1000px" enctype="multipart/form-data">
                 <div class="col-10">
                     <div class="card card--details card--series">
                         <div class="row">
@@ -190,10 +190,11 @@
                             <!-- card cover -->
                             <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
                                 <div class="card__cover">
-                                    <img src="{$propic->getImmagine()}" alt="">
+                                    <img id="mypropic" src="{$propic->getImmagineHTML()}" alt="">
                                     <button id="insert_image" class="sign__btn" type="button" style="width: 200px" onclick="document.getElementById('choose_image').click()">Carica foto profilo</button>
-                                    <input id="choose_image" type="file" name="propic" style="display: none" accept=".jpg, .jpeg, .gif, .png">
+                                    <input id="choose_image" type="file" name="propic" onchange="validateImage()" style="display: none" accept=".jpg, .jpeg, .gif, .png">
                                     <br>
+                                    <b><p id="image_name" class="faq__text" style="text-align: center; max-width: 300px">Nessuna immagine caricata (MAX 2MB)</p></b>
                                 </div>
                             </div>
                             <!-- end card cover -->
@@ -322,6 +323,12 @@
 <script src="{$path}../../Smarty/js/main.js"></script>
 
 <script>
+    $(document).ready(function() {
+        // Aggiorna nome copertina
+        $('#choose_image').change(function (e) {
+            document.getElementById("image_name").innerText = e.target.files[0].name;
+        });
+    })
     function nameIsValid(name) {
         let exp = /^[a-zA-Z\-]+$/;
 
@@ -384,6 +391,26 @@
         }
 
         return false;
+    }
+
+    function validateImage() {
+        var formData = new FormData();
+
+        var file = document.getElementById("choose_image").files[0];
+
+        formData.append("Filedata", file);
+        var t = file.type.split('/').pop().toLowerCase();
+        if (t != "jpeg" && t != "jpg" && t != "png" && t != "gif") {
+            alert('Inserire un file di immagine valido!');
+            document.getElementById("choose_image").value = '';
+            return false;
+        }
+        if (file.size > 2048000) {
+            alert('Non puoi caricare file più grandi di 2 MB');
+            document.getElementById("choose_image").value = '';
+            return false;
+        }
+        return true;
     }
 </script>
 

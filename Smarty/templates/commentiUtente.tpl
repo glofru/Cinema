@@ -165,7 +165,7 @@
                                     {foreach $giudizi as $key => $rev}
                                         <li class="reviews__item">
                                             <div class="reviews__autor">
-                                                <img class="reviews__avatar" src="{$propic->getImmagine()}" alt="">
+                                                <img class="reviews__avatar" src="{$propic->getImmagineHTML()}" alt="">
                                                 <span class="reviews__name" style="display: inline-block">{$rev->getTitle()}</span>
                                                 <span class="reviews__name" style="display: inline-block; position: relative; float: right; bottom: -7px">
                                                     <a style="line-height: normal" class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>

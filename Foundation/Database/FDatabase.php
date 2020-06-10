@@ -228,8 +228,7 @@ class FDatabase
                 $oraFilmPresente = $proiezioni[$i]["ora"];
                 $oraFine = DateTime::createFromFormat("H:i:s",$oraFilmPresente)->add($durata);
 
-                //TODO: Ale porco mondo
-                if((strtotime($oraInizioNuovoFilm) - strtotime($oraFilmPresente) >= 0) && (strtotime($oraInizioNuovoFilm) - strtotime($oraInizioNuovoFilm)) >= 0) {
+                if((strtotime($oraInizioNuovoFilm) - strtotime($oraFilmPresente) >= 0) && (strtotime($oraFine) - strtotime($oraInizioNuovoFilm)) >= 0) {
                     $salaVirtuale = FSala::loadVirtuale(strval($nsala), "nSala")[0];
                     $data = DateTime::createFromFormat("Y-m-d",$proiezioni[$i]["data"]);
                     $proiezione = new EProiezione($film[0], $salaVirtuale, $data);
@@ -301,8 +300,13 @@ class FDatabase
     public function updateTheDB($class, $value, string $row, $newValue, string $newRow): bool {
         try {
             $this->db->beginTransaction();
-
-            $query = "UPDATE " . $class::getTableName() . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
+            if($class === "FMedia" && $row === "idUtente") {
+                $query = "UPDATE " . $class::getTableName("EMediaUtente") . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
+            } else if ($class === "FMedia" && $row === "idFilm"){
+                $query = "UPDATE " . $class::getTableName("EMediaFilm") . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
+            } else {
+                $query = "UPDATE " . $class::getTableName() . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
+            }
             $sender = $this->db->prepare($query);
             $sender->execute();
 

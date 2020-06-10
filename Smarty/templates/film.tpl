@@ -396,7 +396,7 @@
                                             {foreach $recensioni as $key => $rev}
                                         <li class="reviews__item">
                                             <div class="reviews__autor">
-                                                <img class="reviews__avatar" src="{$propic[$key]->getImmagine()}" alt="">
+                                                <img class="reviews__avatar" src="{$propic[$key]->getImmagineHTML()}" alt="">
                                                 <span class="reviews__name" style="display: inline-block">{$rev->getTitle()}</span>
 
                                                 {if isset($utente) && ($rev->getUtente()->getId() == $utente->getId() || $utente->isAdmin())}

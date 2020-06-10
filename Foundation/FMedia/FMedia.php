@@ -91,17 +91,17 @@ class FMedia implements Foundation
         }
 
         $row = $result[0];
-        $idMedia = $row["idMedia"];
         $fileName = $row["fileName"];
         $mimeType = $row["mimeType"];
-        $immagine = $row["immagine"];
+        $immagine = strlen($row["immagine"])>0 ? $row["immagine"] : '../../Smarty/img/user.png' ;
         $date = $row["date"];
         $date = DateTime::createFromFormat('Y-m-d',$date);
+
         if (array_key_exists("idUtente", $row))
         {
             $idUtente = $row["idUtente"];
             $utente = FUtente::load($idUtente,"id");
-            return new EMediaUtente($fileName, $mimeType, null, $immagine,$utente);
+            return new EMediaUtente($fileName, $mimeType, $date, $immagine,$utente);
         }
         else if (array_key_exists("idFilm", $row))
         {

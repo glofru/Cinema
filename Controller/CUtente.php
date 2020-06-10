@@ -126,9 +126,6 @@ class CUtente
                 }
 
                 $propic = $pm->load($toShow->getId(),"idUtente","EMediaUtente");
-                if($propic->getImmagine() == ""){
-                    $propic->setImmagine('../../Smarty/img/user.png'); //Default image
-                }
 
                 if(isset($toShow)){
                     if ($toShow->isRegistrato()) {
@@ -191,19 +188,26 @@ class CUtente
                             throw new Exception("Vecchia password errata");
                         }
                     }
-
-                    if (isset($_POST["propic"])) {
-                        if (EInputChecker::getInstance()->isImage($_FILES[2])) {
-                            $propic = $_FILES;
-                            FMedia::update($utente->getId(), "id", $propic, "immagine");
+                    if (isset($_FILES["propic"])) {
+                        if (EInputChecker::getInstance()->isImage($_FILES["propic"]["type"]) && EInputChecker::getInstance()->isLight($_FILES["propic"]["size"])) {
+                            $propic = $_FILES["propic"];
+                            $name = $propic["name"];
+                            $mimeType = $propic["type"];
+                            $propic = file_get_contents($propic["tmp_name"]);
+                            $propic = base64_encode($propic);
+                            $data = new DateTime('now');
+                            $data = $data->format('Y-m-d');
+                            FPersistentManager::getInstance()->update($utente->getId(), "idUtente", $propic, "immagine", "EMediaUtente");
+                            FPersistentManager::getInstance()->update($utente->getId(), "idUtente", $data, "date", "EMediaUtente");
+                            FPersistentManager::getInstance()->update($utente->getId(), "idUtente", $name, "fileName", "EMediaUtente");
+                            FPersistentManager::getInstance()->update($utente->getId(), "idUtente", $mimeType, "mimeType", "EMediaUtente");
                         } else {
                             VError::error(10);
                         }
 
                     }
-
                     self::saveSession($utente);
-                    header("Location: /Utente/show/?id=" . $utente->getId());
+                   header("Location: /Utente/show/?id=" . $utente->getId());
                 } catch (Exception $e) {
                     print $e->getMessage();
 //                    VUtente::modifica($utente);
@@ -219,9 +223,6 @@ class CUtente
                 $utente = CUtente::getUtente();
 
                 $propic = $pm->load($utente->getId(),"idUtente","EMediaUtente");
-                if($propic->getImmagine() == ""){
-                    $propic->setImmagine('../../Smarty/img/user.png'); //Default image
-                }
 
                 VUtente::modifica($utente, $propic);
             } else {
@@ -276,7 +277,25 @@ class CUtente
             } elseif (FUtente::exists($utente, false)) {
                 VUtente::signup($nome, $cognome, $username, $email, null, false);
             } else {
+                echo sizeof($_FILES);
+                if(!isset($_FILES["propic"])){
+                    $name = "";
+                    $mimeType = "";
+                    $data = "";
+                } else if(EInputChecker::getInstance()->isImage($_FILES["propic"]["type"]) && EInputChecker::getInstance()->isLight($_FILES["propic"]["size"])) {
+                    $img = $_FILES["propic"];
+                    $name = $img["name"];
+                    $mimeType = $img["type"];
+                    $data = file_get_contents($img["tmp_name"]);
+                    $data = base64_encode($data);
+                } else {
+                    VUtente::signup($nome, $cognome, $username, $email, "Immagine non valida! Riprovare.");
+                    die;
+                }
+                $time = new DateTime("now");
                 $pm->signup($utente);
+                $propic = new EMediaUtente($name, $mimeType, $time, $data, $utente);
+                FPersistentManager::getInstance()->save($propic);
                 self::saveSession($utente);
                 CMail::newEntry($utente);
                 header("Location: /");
@@ -435,9 +454,6 @@ class CUtente
                 $giudizi = $utente->getListaGiudizi();
                 usort($giudizi, array(EGiudizio::class, "sortByDatesGiudizi"));
                 $propic = FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EMediaUtente");
-                if($propic->getImmagine() == ""){
-                    $propic->setImmagine('../../Smarty/img/user.png');
-                }
                 VUtente::showCommenti($giudizi, $utente, $propic);
             }
         } else {

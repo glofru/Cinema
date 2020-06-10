@@ -24,7 +24,6 @@ class EInputChecker{
     public function isImage($typefile): bool
     {
         $estensione = strtolower(strrchr($typefile, '/'));
-
         switch($estensione)
         {
             case '/jpg':
@@ -35,6 +34,10 @@ class EInputChecker{
             default:
                 return false;
         }
+    }
+
+    public function isLight($size) {
+        return (intval($size) <  2048000);
     }
 
     public function isPassword(string $password): bool {

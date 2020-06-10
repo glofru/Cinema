@@ -193,7 +193,7 @@
                             <!-- card cover -->
                             <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
                                 <div class="card__cover">
-                                    <img src="{$propic->getImmagine()}" alt="">
+                                    <img src="{$propic->getImmagineHTML()}" alt="">
                                 </div>
                             </div>
                             <!-- end card cover -->
@@ -218,7 +218,7 @@
                 </div>
                 <div class="col-12">
                     {if ($canModify)}
-                        <a href="../../Utente/modifica/?id={$utente->getId()}" class="section__btn align-content-center">Modifica</a>
+                        <a href="{$path}../../Utente/modifica/?id={$utente->getId()}" class="section__btn align-content-center">Modifica</a>
                     {/if}
                 </div>
                 <div class="col-12">
@@ -241,7 +241,7 @@
                                         {foreach $giudizi as $key => $rev}
                                             <li class="reviews__item">
                                                 <div class="reviews__autor">
-                                                    <img class="reviews__avatar" src="{$propic->getImmagine()}" alt="">
+                                                    <img class="reviews__avatar" src="{$propic->getImmagineHTML()}" alt="">
                                                     <span class="reviews__name" style="display: inline-block">{$rev->getTitle()}</span>
                                                     <span class="reviews__time">da @{$rev->getUtente()->getUsername()} il {$rev->getDataPubblicazioneString()} nel film <a href="{$path}../../Film/show/?film={$rev->getFilm()->getId()}&autoplay=true" target="_blank">{$rev->getFilm()->getNome()}</a></span>
                                                     <span class="reviews__rating"><i class="icon ion-ios-star"></i>{$rev->getPunteggio()}</span>
