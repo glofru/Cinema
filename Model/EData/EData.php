@@ -100,7 +100,13 @@ class EData extends DateTime
         $date = [];
 
         array_push($date, $oggi, $fine);
-        
+
         return $date;
+    }
+
+    public static function hoursandmins($time, $format = '%02d:%02d') {
+        $hours = floor($time / 60);
+        $minutes = ($time % 60);
+        return sprintf($format, $hours, $minutes);
     }
 }

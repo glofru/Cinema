@@ -25,7 +25,7 @@ class CAdmin
             $descrizione = $_POST["descrizione"];
             $genere = EGenere::fromString($_POST["genere"]);
 
-            $time = explode(":", EHelper::getInstance()->hoursandmins($_POST["durata"]));
+            $time = explode(":", EData::hoursandmins($_POST["durata"]));
             $durata = null;
             try {
                 $durata = new DateInterval("PT" . $time[0] . "H" . $time[1] . "M");
