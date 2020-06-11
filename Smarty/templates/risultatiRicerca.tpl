@@ -61,7 +61,7 @@
 	<!-- end page title -->
 
 	<!-- filter -->
-	<form action="{$path}../../Ricerca/cercaFilmAttributi" method="POST">
+	<form action="{$path}/Ricerca/cercaFilmAttributi" method="POST">
 	<div class="filter">
 		<div class="container">
 			<div class="row">

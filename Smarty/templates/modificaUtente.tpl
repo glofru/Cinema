@@ -33,7 +33,7 @@
     <title>Magic Boulevard Cinema - Dove i sogni diventano realtà</title>
 
 </head>
-<body class="body">
+<body class="body" {if (!$utente->isAdmin())}onload="changing(document.getElementById('newsletter').checked)"{/if}>
 
 {include file="{$path}Smarty/templates/header.tpl"}
 
@@ -100,6 +100,12 @@
                                     </ul>
                                 </div>
                             </div>
+                            <!-- News Letter --->
+                            <div class="sign__group sign__group--checkbox">
+                                <input id="newsletter" name="newsletter" type="checkbox" {if !$utente->isAdmin()}{if $isASub === true}checked="checked" {else}{/if}onchange="changing(this.checked)"{/if} >
+                                <label for="newsletter">Iscrivimi alla newsletter</label>
+                            </div>
+                            <div id="content"></div>
                             <!-- end card content -->
                         </div>
                     </div>
@@ -128,6 +134,30 @@
 <script src="{$path}../../Smarty/js/main.js"></script>
 
 <script>
+    function changing(me){
+        if(me === true){
+            document.querySelector('#content').insertAdjacentHTML(
+                'beforebegin',
+                `<br/>
+                 <div class="container" id="checklist">
+                    <div class="row">
+                    <h2 class="faq__text" style="margin: auto">Scegli i tuoi generi preferiti</h2>
+                         <div class="col-lg-12">
+                          {foreach $genere as $item}
+                         <div class="sign__group sign__group--checkbox">
+                            <input id="{$item}" name="{$item}" type="checkbox" {foreach $prefs as $p}{if $p == $item}checked="checked"{break}{/if}{/foreach} >
+                            <label for="{$item}">{$item}</label>
+                        </div>
+                         {/foreach}
+                            </div>
+                         </div>
+                    </div>
+                 </div>`
+            )
+        } else {
+            document.getElementById("checklist").remove();
+        }
+    }
     $(document).ready(function() {
         // Aggiorna nome copertina
         $('#choose_image').change(function (e) {

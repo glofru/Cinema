@@ -31,6 +31,11 @@ class FNewsLetter
         $db->saveToDBNS($utente, $preferenze);
     }
 
+    public static function load($utente)  {
+            $result = FDatabase::getInstance()->loadFromDB(self::getClassName(), $utente, "idUtente");
+            return $result[0]["preferenze"];
+    }
+
     public static function loadAll() {
         $db = FDatabase::getInstance();
         $result = $db->loadAll(self::getClassName());
@@ -41,17 +46,17 @@ class FNewsLetter
         return self::parseResult($result);
     }
 
-    public static function update($value, $row, $value2, $row2, $newvalue, $newrow): bool {
+    public static function update($value, $row, $newvalue, $newrow): bool {
         $db = FDatabase::getInstance();
-        if($db->updateTheDBDebole(self::getClassName(), $value, $row, $value2, $row2, $newvalue, $newrow)){
+        if($db->updateTheDB(self::getClassName(), $value, $row, $newvalue, $newrow)){
             return true;
         }
         return false;
     }
 
-    public static function delete($value, $row, $value2, $row2): bool {
+    public static function delete($value, $row): bool {
         $db = FDatabase::getInstance();
-        if($db->deleteFromDBDebole(self::getClassName(), $value, $row, $value2, $row2)){
+        if($db->deleteFromDB(self::getClassName(), $value, $row)){
             return true;
         }
         return false;
@@ -64,6 +69,12 @@ class FNewsLetter
             $ns->addUtenteEPreferenzaFromRaw($whois, $utente["preferenze"]);
         }
         return $ns;
+    }
+
+    public static function isASub(ERegistrato $utente): bool {
+        $db = FDatabase::getInstance();
+        $result = $db->loadFromDB(self::getClassName(), $utente->getId(), "idUtente");
+        return (sizeof($result) !== 0);
     }
 
 }

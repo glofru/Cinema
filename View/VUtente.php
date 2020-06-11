@@ -3,7 +3,7 @@
 
 class VUtente
 {
-    public static function show(EUtente $utente, bool $canModify, EMedia $propic, $giudizi) {
+    public static function show(EUtente $utente, bool $canModify, EMedia $propic, $giudizi, bool $isASub = false, string $prefs = "") {
         $smarty = StartSmarty::configuration();
 
         $smarty->assign("path", $GLOBALS["path"]);
@@ -12,6 +12,8 @@ class VUtente
         $smarty->assign("admin", $utente->isAdmin());
         $smarty->assign("propic", $propic);
         $smarty->assign("giudizi", $giudizi);
+        $smarty->assign("isASub", $isASub);
+        $smarty->assign("prefs", $prefs);
 
         $smarty->display("user.tpl");
     }
@@ -112,13 +114,15 @@ class VUtente
         $smarty->display("bigliettiNonRegistrato.tpl");
     }
 
-    public static function modifica(EUtente $utente, EMedia $propic) {
+    public static function modifica(EUtente $utente, EMedia $propic, $generi, $isASub, $prefs) {
         $smarty = StartSmarty::configuration();
 
+        $smarty->assign("genere", $generi);
         $smarty->assign("path", $GLOBALS["path"]);
         $smarty->assign("utente", $utente);
         $smarty->assign("propic", $propic);
-
+        $smarty->assign("prefs", $prefs);
+        $smarty->assign("isASub", $isASub);
         $smarty->display("modificaUtente.tpl");
     }
 }

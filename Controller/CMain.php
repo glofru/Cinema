@@ -68,7 +68,8 @@ class CMain
                     try {
                         $controller::$function();
                     } catch (Throwable $e) {
-                        CMain::notFound();
+                        //CMain::notFound();
+                        echo $e->getMessage();
                     }
 
                 } catch (ReflectionException $e) {

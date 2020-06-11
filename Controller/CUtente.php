@@ -113,6 +113,8 @@ class CUtente
 
                 if(CUtente::isLogged() && CUtente::getUtente()->getId() === intval($_GET["id"])) {
                     $canModify = true;
+                    $isASub = FPersistentManager::getInstance()->isASub(CUtente::getUtente());
+                    $prefs = str_replace(";",", ", FPersistentManager::getInstance()->load(CUtente::getUtente()->getId(), "idUtente", "ENewsLetter"));
                     $toShow = CUtente::getUtente();
                 } else {
                     $canModify = false;
@@ -136,7 +138,7 @@ class CUtente
                         }
                     }
 
-                    VUtente::show($toShow, $canModify, $propic, $giudizi);
+                    VUtente::show($toShow, $canModify, $propic, $giudizi, $isASub, $prefs);
                 } else {
                     VError::error(0,"Utente non trovato.");
                 }
@@ -205,6 +207,26 @@ class CUtente
                         }
 
                     }
+
+                    if(isset($_POST["newsletter"])){
+                        $prefs = "";
+                        foreach (EGenere::getAll() as $genere){
+                            if(isset($_POST[$genere])){
+                                $prefs .= $genere . ";";
+                            }
+                        }
+                        $prefs = substr($prefs,0,-1);
+                        if(FPersistentManager::getInstance()->isASub($utente)){
+                            FPersistentManager::getInstance()->update($utente->getId(), "idUtente", $prefs, "preferenze", "ENewsLetter");
+                        } else {
+                            FPersistentManager::getInstance()->saveNS($utente, $prefs);
+                        }
+                    } else {
+                        if(FPersistentManager::getInstance()->isASub($utente)){
+                            FPersistentManager::getInstance()->delete($utente->getId(), "idUtente", "ENewsLetter");
+                        }
+                    }
+
                     self::saveSession($utente);
                    header("Location: /Utente/show/?id=" . $utente->getId());
                 } catch (Exception $e) {
@@ -223,7 +245,7 @@ class CUtente
 
                 $propic = $pm->load($utente->getId(),"idUtente","EMediaUtente");
 
-                VUtente::modifica($utente, $propic);
+                VUtente::modifica($utente, $propic, EGenere::getAll(), FPersistentManager::getInstance()->isASub($utente), explode(";", FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "FNewsLetter")));
             } else {
                 CMain::forbidden();
             }

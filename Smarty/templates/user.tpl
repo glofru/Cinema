@@ -70,10 +70,12 @@
 
 
                                     <ul class="card__meta">
-                                        <li><span>Nome:</span>{$utente->getNome()}</li>
-                                        <li><span>Cognome:</span>{$utente->getCognome()}</li>
+                                        <li><span>Nome:</span> {$utente->getNome()}</li>
+                                        <li><span>Cognome:</span> {$utente->getCognome()}</li>
                                         {if ($canModify)}
-                                            <li><span>Email:</span> <a style="cursor: default">{$utente->getEmail()}</a> </li>
+                                            <li><span>Email:</span> <a style="cursor: default"> {$utente->getEmail()}</a> </li>
+                                            <li><span>Newsletter:</span> {if $isASub === true}Iscritto{else}Non iscritto{/if}</li>
+                                        {if $isASub === true}<li><span>Generi preferiti:</span> {if $prefs !== ""}{$prefs}{else}Nessuna{/if}</li>{/if}
                                         {/if}
                                     </ul>
                                 </div>
