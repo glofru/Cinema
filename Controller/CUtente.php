@@ -59,6 +59,7 @@ class CUtente
     }
 
     public static function createVisitor() {
+        ini_set('session.cookie_httponly', true);
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
