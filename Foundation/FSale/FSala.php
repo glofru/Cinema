@@ -73,20 +73,16 @@ class FSala implements Foundation
         return self::parseResult($result, false);
     }
 
-    public static function update($value,$row,$newvalue,$newrow): bool {
+    public static function update($value, $row, $newvalue, $newrow): bool {
         $db = FDatabase::getInstance();
-        if($db->updateTheDB(self::getClassName(),$value,$row,$newvalue,$newrow)){
-            return true;
-        }
-        return false;
+
+        return $db->updateTheDB(self::getClassName(), $value, $row, $newvalue, $newrow);
     }
 
     public static function delete($value,$row): bool {
         $db = FDatabase::getInstance();
-        if($db->deleteFromDB(self::getClassName(),$value,$row)){
-            return true;
-        }
-        return false;
+
+        return $db->deleteFromDB(self::getClassName(),$value,$row);
     }
 
     private static function parseResult(array $result, bool $fisica = true): array {

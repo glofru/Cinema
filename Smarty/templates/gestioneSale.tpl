@@ -91,8 +91,8 @@
 							<div class="col-12">
 								<div class="comments">
 									<ul class="comments__list">
-											<form action="{$path}../../Admin/gestioneSale" method="POST">
-												<input type="hidden" name="id" value="1">
+											<form action="{$path}/Admin/gestioneSale" method="POST">
+												<input type="hidden" name="op" value="1">
 												{foreach $sale as $item}
 													<div>
 												<div class="col-12">
@@ -116,8 +116,8 @@
 					<div class="tab-pane fade {if (isset($nSala) || isset($nPosti) || isset($nFile))}show active{/if}" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
 						<div class="row" style="align-content: center">
 							<!-- reviews -->
-							<form action="{$path}../../Admin/gestioneSale" method="POST" style="margin: auto" class="form" style="align-content: center">
-								<input type="hidden" name="id" value="2">
+							<form action="{$path}/Admin/gestioneSale" method="POST" style="margin: auto" class="form" style="align-content: center">
+								<input type="hidden" name="op" value="2">
 								<input type="number" min="1" id="sala" class="form__input" name="sala" {if (isset($nSala))}value="{$nSala}"{/if} placeholder="Numero di Sala">
 								<input type="number" min="1" id="file" class="form__input" name="file" {if (isset($nFile))}value="{$nFile}"{/if} placeholder="Numero di file">
 								<input type="number" min="1" id="posti" class="form__input" name="posti" {if (isset($nPosti))}value="{$nPosti}"{/if} placeholder="Numero di posti per fila">
