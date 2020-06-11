@@ -321,10 +321,35 @@ class CAdmin
         } elseif ($method == "POST") {
             $idFilm = $_POST["film"];
             $nSala = $_POST["sala"];
+            $orario = $_POST["orario"];
             $dataInizio = $_POST["dataInizio"];
             $dataFine = $_POST["dataFine"];
 
-            //TODO
+            $pm = FPersistentManager::getInstance();
+
+            $film = $pm->load($idFilm, "id", "EFilm")[0];
+            $ora = DateTime::createFromFormat('H:i', $orario);
+            $inizio = DateTime::createFromFormat('d/m/Y', $dataInizio);
+            $fine = DateTime::createFromFormat('d/m/Y', $dataFine);
+
+            $films = $pm->loadAll("EFilm");
+            $sale = $pm->load(true, "disponibile", "ESala");
+            $utente = CUtente::getUtente();
+
+            if ($ora === false) {
+                $error = "Orario non valido";
+            } elseif ($inizio === false) {
+                $error = "Data di inizio non valida";
+            } elseif ($fine === false) {
+                $error = "Data di fine non valida";
+            }
+
+            if (isset($error)) {
+                VAdmin::gestioneProgrammazione($utente, $films, $sale, $film, $nSala, $orario, $dataInizio, $dataFine, $error);
+                die;
+            }
+
+
         }
     }
 }
