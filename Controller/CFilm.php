@@ -85,6 +85,6 @@ class CFilm
         if (!isset($programmazioneFilm)){
             $programmazioneFilm = new EProgrammazioneFilm();
         }
-        return EHelper::getInstance()->programmazione($programmazioneFilm);
+        return EProgrammazioneFilm::amIStillGood($programmazioneFilm);
     }
 }

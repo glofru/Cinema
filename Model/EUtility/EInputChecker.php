@@ -12,7 +12,7 @@ class EInputChecker{
     }
 
     public function isNome(string $nome): bool {
-        $res = preg_replace("/[^a-zA-Z +]/", "", $nome);
+        $res = preg_replace("/[^a-zA-Z' +]/", "", $nome);
         return $res == $nome;
     }
 

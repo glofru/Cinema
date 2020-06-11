@@ -95,6 +95,23 @@ class EProgrammazioneFilm implements JsonSerializable
         return $result;
     }
 
+    public static function amIStillGood(EProgrammazioneFilm $proiezionifilm): EProgrammazioneFilm {
+        $result = new EProgrammazioneFilm();
+        $today = new DateTime('now');
+
+        foreach($proiezionifilm->getProiezioni() as $pro) {
+            if($pro->getDataproieizone() > $today) {
+                $result->addProiezione($pro);
+            } else if($pro->getDataproieizone() == $today){
+                if(strtotime($today->format('H:i')) - strtotime($pro->getDataProiezione()->format('H:i')) > 0) {
+                    $result->addProiezione($pro);
+                }
+            }
+        }
+
+        return $result;
+    }
+
     public function jsonSerialize ()
     {
         return
