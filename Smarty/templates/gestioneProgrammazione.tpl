@@ -33,7 +33,7 @@
     <title>Magic Boulevard Cinema - Dove i sogni diventano realtà</title>
 
 </head>
-<body class="body" {if (isset($status))}onload="alert('{$status}')"{/if}>
+<body class="body" {if (isset($error))}onload="alert('{$error}')"{/if}>
 
 {include file="{$path}Smarty/templates/header.tpl"}
 
@@ -50,11 +50,11 @@
                     <!-- content tabs nav -->
                     <ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist" style="margin-top: 50px">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Gestione programmazione</a>
+                            <a class="nav-link {if !isset($error)}active{/if}" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Gestione programmazione</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Aggiungi programmazione</a>
+                            <a class="nav-link {if isset($error)}active{/if}" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Aggiungi programmazione</a>
                         </li>
                     </ul>
                     <!-- end content tabs nav -->
@@ -85,26 +85,14 @@
             <div class="col-12 col-lg-8 col-xl-8" style="margin: auto">
                 <!-- content tabs -->
                 <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade {if (!isset($nSala) && !isset($nPosti) && !isset($nFile))}show active{/if}" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
+                    <div class="tab-pane fade {if (!isset($error))}show active{/if}" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
                         <div class="row">
                             <!-- comments -->
                             <div class="col-12">
                                 <div class="comments">
                                     <ul class="comments__list">
                                         <form action="{$path}../../Admin/gestioneSale" method="POST">
-                                            <input type="hidden" name="id" value="1">
-                                            {foreach $sale as $item}
-                                                <div>
-                                                    <div class="col-12">
-                                                        <h2 class="section__title section__title--center">Sala {$item->getNumeroSala()}</h2>
-                                                    </div>
-                                                    <div class="sign__group sign__group--checkbox">
-                                                        <input id="remember{$item->getNumeroSala()}" name="sala{$item->getNumeroSala()}" type="checkbox" {if ($item->isDisponibile())} checked="checked" {else} {/if}>
-                                                        <label for="remember{$item->getNumeroSala()}">Disponibile</label>
-                                                    </div>
-                                                </div>
-                                            {/foreach}
-                                            <button type="submit" style="margin: auto" class="form__btn align-content-center">Conferma</button>
+
                                         </form>
                                     </ul>
                                 </div>
@@ -113,18 +101,18 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane fade {if (isset($nSala) || isset($nPosti) || isset($nFile))}show active{/if}" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
+                    <div class="tab-pane fade {if (isset($error))}show active{/if}" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
                         <div class="row" style="align-content: center">
                             <!-- authorization form -->
                             <form action="{$path}/Admin/gestioneProgrammazione" onsubmit="return validate()" method="POST" class="form" enctype="multipart/form-data" style="margin: auto">
 
                                 <!-- Film -->
                                 <div class="sign__group">
-                                    <input id="filmChosen" list="films" class="sign__input" placeholder="Titolo del film">
+                                    <input id="filmChosen" list="films" class="sign__input" value="{if isset($film)}{$film->getNome()} - {$film->getAnno()}{/if}" placeholder="Titolo del film">
 
                                     <datalist id="films">
-                                        {foreach $films as $film}
-                                            <option data-value="{$film->getId()}" value="{$film->getNome()} - {$film->getAnno()}"></option>
+                                        {foreach $films as $f}
+                                            <option data-value="{$f->getId()}" value="{$f->getNome()} - {$f->getAnno()}"></option>
                                         {/foreach}
                                     </datalist>
 
@@ -133,25 +121,30 @@
 
                                 <!-- Sala -->
                                 <div class="sign__group">
-                                    <input id="roomChosen" list="rooms" type="number" class="sign__input" placeholder="Sala">
+                                    <input id="roomChosen" list="rooms" type="number" class="sign__input" value="{if isset($sala)}{$sala->getNumeroSala()}{/if}" placeholder="Sala">
 
                                     <datalist id="rooms">
-                                        {foreach $sale as $sala}
-                                            <option value="{$sala->getNumeroSala()}"></option>
+                                        {foreach $sale as $s}
+                                            <option value="{$s->getNumeroSala()}"></option>
                                         {/foreach}
                                     </datalist>
 
                                     <input id="room" type="hidden" name="room">
                                 </div>
 
-                                <!-- DataInizio -->
+                                <!-- Orario -->
                                 <div class="sign__group">
-                                    <input id="dataInizio" type="date" class="sign__input" placeholder="Data inizio: GG/MM/AAAA" name="dataInizio">
+                                    <input id="orario" type="time" class="sign__input" placeholder="Orario: HH:mm" value="{if isset($ora)}{$ora}{/if}" name="orario">
                                 </div>
 
                                 <!-- DataInizio -->
                                 <div class="sign__group">
-                                    <input id="dataFine" type="date" class="sign__input" placeholder="Data fine: GG/MM/AAAA" name="dataFine">
+                                    <input id="dataInizio" type="date" class="sign__input" placeholder="Data inizio: GG/MM/AAAA" value="{if isset($inizio)}{$inizio}{/if}" name="dataInizio">
+                                </div>
+
+                                <!-- DataInizio -->
+                                <div class="sign__group">
+                                    <input id="dataFine" type="date" class="sign__input" placeholder="Data fine: GG/MM/AAAA" value="{if isset($fine)}{$fine}{/if}" name="dataFine">
                                 </div>
 
                                 <button id="submit" class="sign__btn" type="submit">Aggiungi proiezione</button>
@@ -242,6 +235,7 @@
 
         if (valFilm === null ||
             valSala === null ||
+            $("#orario") === "" ||
             $("#dataInizio").val() === "" ||
             $("#dataFine").val() === "") {
             alert("Compila tutti i campi");
