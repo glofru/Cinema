@@ -92,7 +92,7 @@
                             <span class="filter__item-label">Copertina:</span>
                             <img src="{$copertina->getImmagine()}" alt="">
                             <button id="insert_image" class="sign__btn" type="button" style="width: 200px" onclick="document.getElementById('choose_image').click()">Carica copertina</button>
-                            <input id="choose_image" type="file" name="copertina" style="display: none" accept=".jpg, .jpeg, .gif, .png">
+                            <input id="choose_image" type="file" name="locandina" style="display: none" accept=".jpg, .jpeg, .gif, .png">
                             <br>
                         </div>
 
@@ -127,7 +127,7 @@
                         <!-- Durata -->
                         <div class="sign__group">
                             <span class="filter__item-label">Durata: (in minuti)</span>
-                            <input class="sign__input" id="durata" type="number" max="500"  value="{$film->getDurataMinuti()}" name="durata">
+                            <input class="sign__input" id="durata" min = "0" type="number" max="500"  value="{$film->getDurataMinuti()}" name="durata">
                         </div>
 
                         <!-- TrailerURL -->
@@ -146,7 +146,7 @@
                         <!-- DataRilascio -->
                         <div class="sign__group">
                             <span class="filter__item-label">Data rilascio:</span>
-                            <input id="dataRilascio" type="date" class="sign__input" value="{$film->getDataRilascioString()}" name="dataRilascio">
+                            <input id="dataRilascio" type="date" class="sign__input" value="{$film->getDataRliascioForm()}" name="dataRilascio">
                         </div>
 
                         <!-- Paese -->
@@ -171,7 +171,7 @@
                                 <li>18+</li>
                             </ul>
                         </div>
-
+                        <input type="hidden" name="filmId" value="{$film->getId()}">
                         <!-- Attori -->
                         <div class="sign__group" style="position: relative; margin-bottom: 0;">
                             <span class="filter__item-label">Attori:</span>

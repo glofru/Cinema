@@ -174,7 +174,7 @@ class CAdmin
         $method = $_SERVER["REQUEST_METHOD"];
 
         if($method == "POST"){
-            $filmID = $_POST["film"];
+            $filmID = $_POST["filmId"];
             $film = $pm->load($filmID, "id", "EFilm")[0];
             try {
 
@@ -204,7 +204,7 @@ class CAdmin
                 }
 
                 if(isset($_POST["dataRilascio"])){
-                    $rilascio = str_replace("/", "-", $_POST["dataRilascio"]);
+                    $rilascio = DateTime::createFromFormat('Y-m-d', $rilascio);
                     $film->setDataRilascio($rilascio);
                     $pm->update($filmID,"id",$film->getDataRilascioSQL(),"dataRilascio","EFilm");
                 }
