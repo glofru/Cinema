@@ -263,7 +263,8 @@ class CAdmin
         if ($_SERVER["REQUEST_METHOD"] === "GET") {
             VAdmin::gestioneSale($sale, CUtente::getUtente());
         } else {
-            if($_POST["id"] === '1') {
+            $operation = $_POST["op"];
+            if($operation === '1') {
                 foreach ($sale as $item) {
                     $disponibile = isset($_POST["sala" . strval($item->getNumeroSala())]);
                     if($item->isDisponibile() !== $disponibile) {
@@ -278,7 +279,7 @@ class CAdmin
                 }
 
                 VAdmin::gestioneSale($sale, CUtente::getUtente(), "Operazione avvenuta con successo!");
-            } else if($_POST["id"] === '2') {
+            } else if($operation === '2') {
                 $nSala = intval($_POST["sala"]);
                 $nFile = intval($_POST["file"]);
                 $nPosti = intval($_POST["posti"]);
