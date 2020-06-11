@@ -201,7 +201,7 @@ class CUtente
                             throw new Exception("Vecchia password errata");
                         }
                     }
-                    if (isset($_FILES["propic"])) {
+                    if (is_uploaded_file($_FILES["propic"])) {
                         if (EInputChecker::getInstance()->isImage($_FILES["propic"]["type"]) && EInputChecker::getInstance()->isLight($_FILES["propic"]["size"])) {
                             $propic = $_FILES["propic"];
                             $name = $propic["name"];

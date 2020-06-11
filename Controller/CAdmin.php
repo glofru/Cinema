@@ -233,19 +233,26 @@ class CAdmin
                     $attori = FFilm::recreateArray($_POST["attori"]);
                     $pm->update($filmID,"id",$attori,"attori","EFilm");
                 }
-
-                if(isset($_POST["locandina"])){
-                    if (EInputChecker::getInstance()->isImage($_FILES[2])) {
-                        $copertina = $_FILES;
-                        FMedia::update($filmID, "id", $copertina, "immagine");
-                    } else {
-                        VError::error(10);
+                if(is_uploaded_file($_FILES["locandina"])) {
+                    if (EInputChecker::getInstance()->isImage($_FILES["locandina"]["type"]) && EInputChecker::getInstance()->isLight($_FILES["locandina"]["size"])) {
+                        $propic = $_FILES["locandina"];
+                        $name = $propic["name"];
+                        $mimeType = $propic["type"];
+                        $propic = file_get_contents($propic["tmp_name"]);
+                        $propic = base64_encode($propic);
+                        $data = new DateTime('now');
+                        $data = $data->format('Y-m-d');
+                        FPersistentManager::getInstance()->update($film->getId(), "idFilm", $propic, "immagine", "EMediaLocandina");
+                        FPersistentManager::getInstance()->update($film->getId(), "idFilm", $data, "date", "EMediaLocandina");
+                        FPersistentManager::getInstance()->update($film->getId(), "idFilm", $name, "fileName", "EMediaLocandina");
+                        FPersistentManager::getInstance()->update($film->getId(), "idFilm", $mimeType, "mimeType", "EMediaLocandina");
                     }
                 }
             }catch (Exception $e){
                 print $e->getMessage();
             }
-           // VAdmin::modificafilm($film,$copertina);
+            $tmp = "/Film/show/?film=" . $filmID . "&autoplay=true";
+            header('Location: '.$tmp);
         } elseif ($method == "GET"){
             $filmID = $_GET["film"];
 
