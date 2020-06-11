@@ -264,6 +264,7 @@ class CUtente
     }
 
     public static function saveSession($utente = null) {
+        ini_set('session.cookie_httponly', true);
         if(!isset($utente)) {
             VError::error(100);
             die;

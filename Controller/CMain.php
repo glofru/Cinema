@@ -22,6 +22,8 @@ class CMain
 
     public static function run(string $url)
     {
+        ini_set('session.gc_probability', 10);
+        ini_set('session.gc_divisor', 200);
         $parsed_url = parse_url($url);
         $path = $parsed_url["path"];
         $isApi = strstr($path, "/api/");
