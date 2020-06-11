@@ -14,8 +14,8 @@ class FUtente implements Foundation
             $sender->bindValue(':id', NULL, PDO::PARAM_INT);
             $sender->bindValue(':username', $utente->getUsername(), PDO::PARAM_STR);
             $sender->bindValue(':email', $utente->getEmail(), PDO::PARAM_STR);
-            $sender->bindValue(':nome', $utente->getNome(), PDO::PARAM_STR);
-            $sender->bindValue(':cognome', $utente->getCognome(), PDO::PARAM_STR);
+            $sender->bindValue(':nome', str_replace("'", "\'", $utente->getNome()), PDO::PARAM_STR);
+            $sender->bindValue(':cognome',  str_replace("'", "\'", $utente->getCognome()), PDO::PARAM_STR);
             $sender->bindValue(':password', $utente->getPassword(), PDO::PARAM_STR);
             $sender->bindValue(':isAdmin', $utente instanceof EAdmin, PDO::PARAM_BOOL);
             $sender->bindValue(':isBanned', $utente->isBanned(), PDO::PARAM_BOOL);

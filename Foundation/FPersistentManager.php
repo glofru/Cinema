@@ -63,6 +63,7 @@ class FPersistentManager
     }
 
     public function loadLike($value, $row, $class) {
+        $value = str_replace("'", "\'", $value);
         $class = self::getClass($class);
         return $class::loadLike($value, $row);
     }

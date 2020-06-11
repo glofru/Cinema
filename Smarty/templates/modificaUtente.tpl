@@ -165,7 +165,7 @@
         });
     })
     function nameIsValid(name) {
-        let exp = /^[a-zA-Z\-]+$/;
+        let exp = /^([a-zA-Z '-]*)$/;
 
         return name.match(exp) != null;
     }

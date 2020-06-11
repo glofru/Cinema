@@ -83,6 +83,7 @@ class EUtente implements JsonSerializable
     public function setNome($nome)
     {
         if (EInputChecker::getInstance()->isNome($nome)) {
+            str_replace("\'", "'", $nome);
             $this->nome = $nome;
         } else {
             throw new Exception("Nome non valido");
