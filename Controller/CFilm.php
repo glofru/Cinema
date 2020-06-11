@@ -10,11 +10,7 @@ class CFilm
 
             $film = $pm->load($_GET["film"], "id", "EFilm")[0];
 
-            $gestore = EHelper::getInstance();
-            $cookie = $gestore->preferences($_COOKIE['preferences']);
-            $gestore->setPreferences($film->getGenere(), $cookie);
-
-            unset($cookie);
+            CUtente::getUtente()->incrementPreference($film->getGenere());
 
             $filmC = $pm->load($film->getGenere(), "Genere", "EFilm");
             foreach ($filmC as $key => $f) {
@@ -42,7 +38,7 @@ class CFilm
 
             $reviews = self::getReview($film, $utente);
 
-            VFilm::show($film, $autoplay, $copertina, $filmC, $locandine, $reviews[0], $reviews[1], $programmazioneFilm, $reviews[2], $utente, $isAdmin);
+            VFilm::show($film, $autoplay, $copertina, $filmC, $locandine, $reviews[0], $reviews[1], $programmazioneFilm, $reviews[2], $utente);
         } else {
             CMain::methodNotAllowed();
         }

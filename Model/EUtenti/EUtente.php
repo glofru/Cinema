@@ -39,6 +39,8 @@ class EUtente implements JsonSerializable
 
     private int $id = 0;
 
+    private array $preferences;
+
     /**
      * EUtente constructor.
      * @param string $nome
@@ -51,21 +53,31 @@ class EUtente implements JsonSerializable
      */
     public function __construct(string $nome, string $cognome, string $username, string $email, string $password, bool $isBanned)
     {
-        if (!$this instanceof ENonRegistrato) {
-            $this->setNome($nome);
-            $this->setCognome($cognome);
-            $this->setUsername($username);
-            $this->setEmail($email);
-            $this->setPassword($password);
-            $this->setIsBanned($isBanned);
-        } else {
+        if ($this instanceof ENonRegistrato) {
             $this->nome = "";
             $this->cognome = "";
             $this->username = "";
             $this->setEmail($email);
             $this->password = $password;
             $this->isBanned = false;
+
+        } else if ($this instanceof EVisitatore) {
+            $this->nome = "";
+            $this->cognome = "";
+            $this->username = "";
+            $this->email = "";
+            $this->password = "";
+            $this->isBanned = false;
+        } else {
+            $this->setNome($nome);
+            $this->setCognome($cognome);
+            $this->setUsername($username);
+            $this->setEmail($email);
+            $this->setPassword($password);
+            $this->setIsBanned($isBanned);
         }
+        $this->preferences = array();
+        $this->preferences();
     }
 
     /**
@@ -190,12 +202,63 @@ class EUtente implements JsonSerializable
         return $this->isBanned;
     }
 
+    private function getPreferencesArray(){
+        return $this->preferences;
+    }
+
+    public function setPreferece(string $genere, int $value) {
+        $this->preferences[$genere] = $value;
+    }
+
     public function isAdmin(): bool {
         return $this instanceof EAdmin;
     }
 
     public function isRegistrato(): bool {
         return $this instanceof ERegistrato;
+    }
+
+    public function isVisitatore(): bool {
+        return $this instanceof EVisitatore;
+    }
+
+    private function preferences () {
+        if(!isset($_COOKIE['preferences'])) {
+            $generi = EGenere::getAll();
+            foreach ($generi as $key) {
+                $this->setPreferece($key, 0);
+            }
+            $value = serialize($this->preferences);
+            setcookie('preferences', $value, time() + (86400 * 30), "/");
+        } else {
+            $this->preferences = unserialize($_COOKIE['preferences']);
+        }
+        return $this->getPreferencesArray();
+    }
+
+    public function getPreferences() {
+        $this->preferences();
+        $isEmpty = true;
+        $temp_values = [];
+        $all = 0;
+        foreach($this->getPreferencesArray() as $key => $a) {
+            if($a !== 0) {
+                $isEmpty = false;
+                $all += $a;
+                $temp_values[$key] = $a;
+            }
+        }
+        if($isEmpty === true) {return true;}
+        foreach($temp_values as $key => $arr) {
+            $temp_values[$key] = round(round(($arr / $all) * 100) * (10/100));
+        }
+        return $temp_values;
+    }
+
+    public function incrementPreference(string $genere) {
+        $this->preferences();
+        $this->preferences[$genere]++;
+        setcookie('preferences', serialize($this->getPreferencesArray()), time() + (86400 * 30), "/");
     }
 
     /**

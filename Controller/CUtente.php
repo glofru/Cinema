@@ -34,7 +34,7 @@ class CUtente
 
             $utente = FPersistentManager::getInstance()->login($email, $password, true);
             if(!isset($utente)) {
-                VUtente::showCheckNonRegsitrato(true, $email);
+                VUtente::showCheckNonRegsitrato(CUtente::getUtente(), true, $email);
             } else if($utente->isRegistrato()) {
                 VError::error(0, "Pagina destinata ad utenti non Registrati");
             } else {
@@ -51,10 +51,20 @@ class CUtente
                     array_push($immagini,FPersistentManager::getInstance()->load($item->GetProiezione()->getFilm()->getId(), "idFilm", "EMedia"));
                 }
 
-                VUtente::showCheckNonRegsitrato(false, $email, $biglietti, $immagini);
+                VUtente::showCheckNonRegsitrato(CUtente::getUtente(), false, $email, $biglietti, $immagini);
             }
         } else {
             CMain::methodNotAllowed();
+        }
+    }
+
+    public static function createVisitor() {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        if(!isset($_SESSION["utente"]) && !isset($_SESSION["nonRegistrato"]) && !isset($_SESSION["visitatore"])){
+            session_set_cookie_params(time() + 3600, "/", null, false, true);
+            $_SESSION["visitatore"] = serialize(new EVisitatore());
         }
     }
     
@@ -64,6 +74,7 @@ class CUtente
             session_unset();
             session_destroy();
             setcookie("PHPSESSID", "", time() - 3600,"/");
+            self::createVisitor();
         }
         if($redirect) {
             header("Location: /");
@@ -257,14 +268,15 @@ class CUtente
             VError::error(100);
             die;
         }
-
+        if(isset($_SESSION["visitatore"])){
+            unset($_SESSION["visitatore"]);
+        }
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
         session_regenerate_id(true);
         session_set_cookie_params(time() + 3600, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inserito il 4° parametro
         // a TRUE per fare si che il cookie viaggi solo su HTTPS. E' FALSE perchè non abbiamo un certificato SSL ma in un contesto reale va messo a TRUE!!!
-
         $salvare = serialize($utente);
         $_SESSION['utente'] = $salvare;
     }
@@ -346,10 +358,6 @@ class CUtente
             if(isset($_SESSION["utente"])) {
                 return true;
             }
-
-            if ($logout) {
-                self::logout();
-            }
         }
 
         return false;
@@ -358,9 +366,10 @@ class CUtente
     public static function getUtente() {
         if(self::isLogged()) {
             return unserialize($_SESSION["utente"]);
+        } else {
+            self::createVisitor();
+            return unserialize($_SESSION["visitatore"]);
         }
-
-        return NULL;
     }
 
     public static function bigliettiAcquistati() {
@@ -498,7 +507,7 @@ class CUtente
     public static function controlloBigliettiNonRegistrato() {
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             if(!CUtente::isLogged()){
-                VUtente::showCheckNonRegsitrato(true);
+                VUtente::showCheckNonRegsitrato(CUtente::getUtente(),true);
             } else {
                 VError::error(0, "Area riservata agli utenti <b>non registrati</b> presso il nostro portale");
                 die;

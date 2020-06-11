@@ -42,7 +42,7 @@
                             <!-- dropdown -->
                             <li class="dropdown header__nav-item">
                                 <a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
-                                {if (!isset($utente))}
+                                {if ($utente->isVisitatore())}
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
                                         <li><a href="{$path}/Informazioni/getAbout/">Su di noi</a></li>
                                         <li><a href="{$path}/Utente/signup">Registrati</a></li>
@@ -64,12 +64,12 @@
                                 <i class="icon ion-ios-search"></i>
                             </button>
 
-                            {if (!isset($utente))}
+                            {if ($utente->isVisitatore())}
                                 <a href="{$path}/Utente/login" methods="GET" class="header__sign-in">
                                     <i class="icon ion-ios-log-in"></i>
                                     <span>Login</span>
                                 </a>
-                            {elseif (isset($utente) && !$utente->isAdmin())}
+                            {elseif $utente->isRegistrato()}
                                 <li class="header__nav-item">
                                     <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <span>@{$utente->getUsername()}</span>
@@ -81,7 +81,7 @@
                                         <li><a href="{$path}/Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
                                     </ul>
                                 </li>
-                            {elseif (isset($utente) && $utente->isAdmin())}
+                            {elseif $utente->isAdmin()}
                                 <li class="header__nav-item">
                                     <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <span>@{$utente->getUsername()}</span>

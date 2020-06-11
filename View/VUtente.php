@@ -9,7 +9,6 @@ class VUtente
         $smarty->assign("path", $GLOBALS["path"]);
         $smarty->assign("utente", $utente);
         $smarty->assign("canModify", $canModify);
-        $smarty->assign("admin", $utente->isAdmin());
         $smarty->assign("propic", $propic);
         $smarty->assign("giudizi", $giudizi);
         $smarty->assign("isASub", $isASub);
@@ -102,7 +101,7 @@ class VUtente
         $smarty->display("newPassword.tpl");
     }
 
-    public static function showCheckNonRegsitrato(bool $isGet, string $email = "", array $biglietti = null, $immagini = null) {
+    public static function showCheckNonRegsitrato(EUtente $utente, bool $isGet, string $email = "", array $biglietti = null, $immagini = null) {
         $smarty = StartSmarty::configuration();
 
         $smarty->assign("path", $GLOBALS["path"]);
@@ -110,6 +109,7 @@ class VUtente
         $smarty->assign("email", $email);
         $smarty->assign("biglietti", $biglietti);
         $smarty->assign("immagini", $immagini);
+        $smarty->assign("utente", $utente);
 
         $smarty->display("bigliettiNonRegistrato.tpl");
     }

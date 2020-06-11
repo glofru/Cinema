@@ -5,24 +5,14 @@ class CCatalogo
 {
     public static function prossimeUscite() {
         $utente = CUtente::getUtente();
-        if(isset($utente))
-            $isAdmin = $utente->isAdmin();
-        else
-            $isAdmin = false;
         $result = CHome::getProssimi(20);
-        $cookie = EHelper::getInstance()->preferences($_COOKIE['preferences']);
-        $consigliati = CHome::getConsigliati($cookie);
-        VCatalogo::prossimeUscite($result, $utente, $isAdmin, $consigliati);
+        $consigliati = CHome::getConsigliati($utente);
+        VCatalogo::prossimeUscite($result, $utente, $consigliati);
     }
 
     public static function programmazioniPassate() {
         $utente = CUtente::getUtente();
-        if(isset($utente))
-            $isAdmin = $utente->isAdmin();
-        else
-            $isAdmin = false;
-        $cookie = EHelper::getInstance()->preferences($_COOKIE['preferences']);
-        $consigliati = CHome::getConsigliati($cookie);
+        $consigliati = CHome::getConsigliati($utente);
         $film = [];
         $immagini = [];
         $punteggio = [];
@@ -39,20 +29,13 @@ class CCatalogo
             array_push($punteggio, $temp[2]);
             array_push($date, $temp[3]);
         }
-        VCatalogo::programmazioniPassate($film, $immagini, $punteggio, $date, $utente, $isAdmin, $consigliati, $toShow);
+        VCatalogo::programmazioniPassate($film, $immagini, $punteggio, $date, $utente, $consigliati, $toShow);
     }
 
     public static function piuApprezzati() {
         $utente = CUtente::getUtente();
 
-        if(isset($utente)) {
-            $isAdmin = $utente->isAdmin();
-        } else {
-            $isAdmin = false;
-        }
-
-        $cookie = EHelper::getInstance()->preferences($_COOKIE['preferences']);
-        $consigliati = CHome::getConsigliati($cookie);
+        $consigliati = CHome::getConsigliati($utente);
         $oggi = EData::getDateProssime();
         $film = FPersistentManager::getInstance()->loadBetween('0000-00-00', $oggi[0], "EFilm");
 
@@ -92,6 +75,6 @@ class CCatalogo
         $result = [];
         array_push($result, $filmApprezzati, $immaginiApprezzati, $punteggi);
 
-        VCatalogo::piuApprezzati($result, $utente, $isAdmin, $consigliati);
+        VCatalogo::piuApprezzati($result, $utente, $consigliati);
     }
 }

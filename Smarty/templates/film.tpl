@@ -130,7 +130,7 @@
         </div>
     </div>
     <!-- end details content -->
-    {if (isset($utente)) && $admin}
+    {if $utente->isAdmin()}
     <form action="" method="POST">
         <div class="col-12--center">
             <a style="margin: auto;" class="header__sign-in" href="/Admin/modificaFilm/?film={$film->getId()}" role="button">
@@ -179,7 +179,7 @@
                 <h2 class="section__title section__title--center">Sala: {$pro->getSala()->getNumeroSala()}</h2>
             </div>
                 <div class="row--center">
-                    <form id="book" class="form" action="{$path}../../Acquisto/getBiglietti" method="POST">
+                    <form id="book" class="form" action="{$path}/Acquisto/getBiglietti" method="POST">
                         <table style="margin-left:auto;margin-right:auto;" id="t01">
                             {foreach $pro->getSala()->getPosti() as $fila}
                                 <tr>
@@ -187,7 +187,7 @@
                                         {if $posto->isOccupato()}
                                             <th><img name="{$pro->getId()}" id="{$posto->getId()}" src="{$path}../../Smarty/img/cinema/sedia_occupata.png" alt="Posto"/></th>
                                         {else}
-                                            <th><img name="{$pro->getId()}" id="{$posto->getId()}" {if (!$admin)} onclick="book(this)" {/if}src="{$path}../../Smarty/img/cinema/sedia_libera.png" alt="Posto"/></th>
+                                            <th><img name="{$pro->getId()}" id="{$posto->getId()}" {if (!$utente->isAdmin())} onclick="book(this)" {/if}src="{$path}../../Smarty/img/cinema/sedia_libera.png" alt="Posto"/></th>
                                         {/if}
                                     {/foreach}
                                 </tr>
@@ -197,14 +197,14 @@
                 </div>
             </div>
         {/foreach}
-        {if (!$admin)}
+        {if ($utente->isRegistrato() || $utente->isVisitatore())}
             <div class="col-12--center">
-                <a onclick="acquista({$utente != null})" style="color: white; cursor:pointer;" class="section__btn" id="acquista">Acquista</a>
+                <a onclick="acquista({$utente->isRegistrato()})" style="color: white; cursor:pointer;" class="section__btn" id="acquista">Acquista</a>
             </div>
         {/if}
-        {if (!isset($utente))}
+        {if ($utente->isVisitatore())}
             <div class="col-12--center">
-                <h3 class="section__btn" style="width: 500px; cursor: default; background-image: none; box-shadow: none; display: block">Inserisci la mail dove inviare i biglietti oppure effettua prima il <a style="color: #ff55a5; position: relative" href="{$path}../../Utente/login">login</a></h3>
+                <h3 class="section__btn" style="width: 500px; cursor: default; background-image: none; box-shadow: none; display: block">Inserisci la mail dove inviare i biglietti oppure effettua prima il <a style="color: #ff55a5; position: relative" href="{$path}/Utente/login">login</a></h3>
                 <input id="email" type="email" name="email" class="form__input section__btn" style="width: 350px; background-image: linear-gradient(90deg, #af55a5 0%, #ff55a5 100%)" placeholder="Email"/>
             </div>
         {/if}
@@ -270,7 +270,7 @@
                                                 <img class="reviews__avatar" src="{$propic[$key]->getImmagineHTML()}" alt="">
                                                 <span class="reviews__name" style="display: inline-block">{$rev->getTitle()}</span>
 
-                                                {if isset($utente) && ($rev->getUtente()->getId() == $utente->getId() || $utente->isAdmin())}
+                                                {if $utente->isRegistrato() && ($rev->getUtente()->getId() == $utente->getId() || $utente->isAdmin())}
                                                     <span class="reviews__name" style="display: inline-block; position: relative; float: right; bottom: -7px">
                                                     <a style="line-height: normal" class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
                                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
@@ -297,7 +297,7 @@
                                         {/if}
 
                                     </ul>
-                                    {if $canView && !$admin}
+                                    {if $canView && !$utente->isAdmin()}
                                     <form action="/Giudizio/add" class="form" method="POST">
                                         <input name="titolo" type="text" class="form__input" placeholder="Titolo (max 30 caratteri)" maxlength="30">
                                         <textarea name="commento" class="form__textarea" placeholder="Recensione (max 200 caratteri)" maxlength="200"></textarea>

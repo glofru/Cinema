@@ -71,7 +71,7 @@ class FNewsLetter
         return $ns;
     }
 
-    public static function isASub(ERegistrato $utente): bool {
+    public static function isASub(EUtente $utente): bool {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), $utente->getId(), "idUtente");
         return (sizeof($result) !== 0);

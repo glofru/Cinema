@@ -26,9 +26,13 @@ class CMain
         $path = $parsed_url["path"];
         $isApi = strstr($path, "/api/");
         if ($isApi === false) {
+            //GESTIONE UTENTE NON REGISTRATO
             $pass = !CUtente::isLogged(false) && isset($_SESSION["nonRegistrato"]) && $path == "/Acquisto/confermaAcquisto";
 
-            if (!$pass && CUtente::isLogged()) {
+            if(!$pass && isset($_SESSION["nonRegistrato"])){
+                CUtente::logout(false);
+
+            } else if (!$pass && CUtente::isLogged()) {
                 //Check ban dal database
                 $check = FPersistentManager::getInstance()->load(CUtente::getUtente()->getId(), "id", "EUtente");
                 if ($check->isBanned()) {
@@ -38,6 +42,8 @@ class CMain
                     CUtente::logout(false);
                     VError::error(0, "La password è stata cambiata!");
                 }
+            } else if(!CUtente::isLogged()) {
+                CUtente::getUtente();
             }
 
             if ($path == "/" || $path == "/index.php") {

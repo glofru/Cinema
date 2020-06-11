@@ -131,7 +131,7 @@ class FPersistentManager
         return FFilm::loadByFilter($genere, $votoInizio, $votoFine, $annoInizio, $annoFine);
     }
 
-    public function isASub(ERegistrato $utente): bool{
+    public function isASub(EUtente $utente): bool{
         return FNewsLetter::isASub($utente);
     }
 }

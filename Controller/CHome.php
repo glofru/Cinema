@@ -4,16 +4,13 @@ class CHome
 
     public static function showHome() {
         if($_SERVER["REQUEST_METHOD"] === "GET"){
-//            $cookie = $gestore->preferences($_COOKIE['preferences']);
+            $utente = CUtente::getUtente();
             $prossimi = self::getProssimi(5);
-            $consigliati = self::getConsigliati($cookie);
+            $consigliati = self::getConsigliati($utente);
             $proiezioni = self::getProiezioni(EData::getSettimana());
             $prossima = self::getProiezioni(EData::getSettimanaProssima());
             $scorsa = self::getProiezioni(EData::getSettimanaScorsa(1));
-
-            $utente = CUtente::getUtente();
-            $isAdmin = $utente != null && $utente->isAdmin();
-            VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2], $proiezioni[3], $scorsa[0], $scorsa[1], $scorsa[2], $scorsa[3], $prossima[0], $prossima[1], $prossima[2], $prossima[3], $utente, $isAdmin);
+            VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2], $proiezioni[3], $scorsa[0], $scorsa[1], $scorsa[2], $scorsa[3], $prossima[0], $prossima[1], $prossima[2], $prossima[3], $utente);
         } else {
             CMain::methodNotAllowed();
         }
@@ -36,10 +33,10 @@ class CHome
         return $result;
     }
 
-    public static function getConsigliati($cookie) {
+    public static function getConsigliati(EUtente $utente) {
         $pm = FPersistentManager::getInstance();
         $result = [];
-        if(EHelper::getInstance()->getPreferences($cookie) === true) {
+        if($utente->getPreferences() === true) {
             $date = EData::getDatePassate();
             $filmConsigliati = $pm->loadBetween($date[1], $date[0], "EFilm");
             shuffle($filmConsigliati);
@@ -49,7 +46,7 @@ class CHome
         }
         else {
             $filmConsigliati = [];
-            $cookie = EHelper::getInstance()->getPreferences($cookie);
+            $cookie = $utente->getPreferences();
             foreach($cookie as $key => $c) {
                 if($c !== 0) {
                     $f = $pm->load($key, "Genere", "EFilm");
