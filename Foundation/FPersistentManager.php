@@ -86,24 +86,24 @@ class FPersistentManager
         return FSala::nLoadAll();
     }
 
-    public function delete($value, $row, $class) {
+    public function delete($value, $row, $class): bool {
         $class = self::getClass($class);
-        $class::delete($value, $row);
+        return $class::delete($value, $row);
     }
 
-    public function deleteDebole($value, $row, $value2, $row2, $class) {
+    public function deleteDebole($value, $row, $value2, $row2, $class): bool {
         $class = self::getClass($class);
-        $class::delete($value, $row, $value2, $row2);
+        return $class::delete($value, $row, $value2, $row2);
     }
 
-    public function update($value, $row, $newValue, $newRow, $class) {
+    public function update($value, $row, $newValue, $newRow, $class): bool {
         $class = self::getClass($class);
-        $class::update($value, $row, $newValue, $newRow);
+        return $class::update($value, $row, $newValue, $newRow);
     }
 
-    public function updateDebole($value, $row, $value2, $row2, $newValue, $newRow, $class) {
+    public function updateDebole($value, $row, $value2, $row2, $newValue, $newRow, $class): bool {
         $class = $this::getClass($class);
-        $class::update($value, $row, $value2, $row2, $newValue, $newRow);
+        return $class::update($value, $row, $value2, $row2, $newValue, $newRow);
     }
 
     public function occupaPosti(array $biglietti) {

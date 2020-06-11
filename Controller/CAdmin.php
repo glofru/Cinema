@@ -266,11 +266,17 @@ class CAdmin
             if($_POST["id"] === '1') {
                 foreach ($sale as $item) {
                     $disponibile = isset($_POST["sala" . strval($item->getNumeroSala())]);
-                    if($item->isDisponibile() !== $disponibile){
-                        FPersistentManager::getInstance()->update($item->getNumeroSala(), "nSala", $disponibile, "disponibile", "ESalaFisica");
+                    if($item->isDisponibile() !== $disponibile) {
+                        $item->setDisponibile($disponibile);
+                        $val = $disponibile ? '1' : '0';
+                        $success = FPersistentManager::getInstance()->update($item->getNumeroSala(), "nSala", $val, "disponibile", "ESalaFisica");
+                        if (!$success) {
+                            VError::error(2);
+                            die;
+                        }
                     }
                 }
-                $sale = FPersistentManager::getInstance()->loadAll("ESalaFisica");
+
                 VAdmin::gestioneSale($sale, CUtente::getUtente(), "Operazione avvenuta con successo!");
             } else if($_POST["id"] === '2') {
                 $nSala = intval($_POST["sala"]);
@@ -285,7 +291,7 @@ class CAdmin
                 }
                 foreach ($sale as $item) {
                     if($item->getNumeroSala() == $sala->getNumeroSala()) {
-                        VAdmin::gestioneSale($sale, CUtente::getUtente(), "NUMERO DI SALA IN USO!", $nSala, $nFile, $nPosti);
+                        VAdmin::gestioneSale($sale, CUtente::getUtente(), "Sala già esistente!", $nSala, $nFile, $nPosti);
                         die;
                     }
                 }
@@ -293,7 +299,7 @@ class CAdmin
                 $sale = FPersistentManager::getInstance()->loadAll("ESalaFisica");
                 VAdmin::gestioneSale($sale, CUtente::getUtente(), "Operazione avvenuta con successo!");
             } else {
-                VError::error(0, "AZIONE NON VALIDA");
+                VError::error(0, "Azione non valida");
             }
         }
     }
