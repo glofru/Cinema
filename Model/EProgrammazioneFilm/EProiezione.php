@@ -87,7 +87,7 @@ class EProiezione implements JsonSerializable
      * @return DateTime, data ed orario di svolgimento.
      */
     public function getDataProiezione(): DateTime{
-        return $this->dataProiezione;
+        return clone $this->dataProiezione;
     }
 
     /**
