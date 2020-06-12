@@ -319,11 +319,6 @@ class CAdmin
 
         $films = $pm->loadAll("EFilm");
         $sale = $pm->load(true, "disponibile", "ESala");
-        $programmazioni = $pm->loadAll("EElencoProgrammazioni");
-        $locandine = [];
-        foreach($programmazioni->getElencoProgrammazioni() as $prog) {
-            array_push($locandine, $pm->load($prog->getFilm()->getId(), "idFilm", "EMedia"));
-        }
         $utente = CUtente::getUtente();
         $film = null;
         $nSala = null;
@@ -406,6 +401,12 @@ class CAdmin
                     $error = null;
                 }
             }
+        }
+
+        $programmazioni = $pm->loadAll("EElencoProgrammazioni");
+        $locandine = [];
+        foreach($programmazioni->getElencoProgrammazioni() as $prog) {
+            array_push($locandine, $pm->load($prog->getFilm()->getId(), "idFilm", "EMedia"));
         }
 
         VAdmin::gestioneProgrammazione($utente, $films, $sale, $programmazioni, $locandine, $film, $nSala, $orario, $dataInizio, $dataFine, $error);

@@ -107,11 +107,15 @@
                                                             <div class="card__content">
                                                                 <h3 class="card__title"><a href="{$path}/Film/show/?film={$prog->getFilm()->getId()}">{$prog->getFilm()->getNome()}</a></h3>
                                                                 <span class="card__category">
-                                                                        <a style="font-size:20px;">Prova</a>
+                                                                        <a style="font-size: 15px;">{$prog->getDataInizio()->format("d/m/Y")} - {$prog->getDataFine()->format("d/m/Y")}</a>
                                                                     </span>
 
                                                                 <div class="card__description">
-                                                                    <p>we</p>
+                                                                    <p>
+                                                                        {foreach $prog->getFasceOrarie() as $ora}
+                                                                            {$ora} {if $ora !== end($prog->getFasceOrarie())}-{/if}
+                                                                        {/foreach}
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                         </div>
