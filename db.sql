@@ -37,7 +37,7 @@ CREATE TABLE SalaFisica(
 CREATE TABLE Proiezione(
     `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
     `data` DATE NOT NULL,
-    `ora` TEXT NOT NULL,
+    `ora` TIME NOT NULL,
     `numerosala` INTEGER NOT NULL,
     `idFilm` INTEGER NOT NULL,
     FOREIGN KEY (`numerosala`)
