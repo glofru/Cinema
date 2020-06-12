@@ -31,7 +31,25 @@ INSERT INTO `Persona`(`id`, `nome`, `cognome`, `imdbURL`, `isAttore`, `isRegista
 (30, 'Nicolas', 'Pesce', 'https://www.imdb.com/name/nm2073372/', 0, 1),
 (31, 'Andrea Louise', 'Riseborough', 'https://www.imdb.com/name/nm2057859/', 1, 0),
 (32, 'Demián', 'Bichir', 'https://www.imdb.com/name/nm0065007/', 1, 0),
-(33, 'John', 'Cho', 'https://www.imdb.com/name/nm0158626/', 1, 0);
+(33, 'John', 'Cho', 'https://www.imdb.com/name/nm0158626/', 1, 0),
+(34, 'Luca', 'Bizzarri', 'https://www.imdb.com/name/nm0084709/', 1, 0),
+(35, 'Paolo', 'Kessisoglu', 'https://www.imdb.com/name/nm0450290/', 1, 0),
+(36,'Daniele', 'Liotti','https://www.imdb.com/name/nm0513394/', 1, 0),
+(37,'Ricky', 'Menphis', 'https://www.imdb.com/name/nm0578633/', 1, 0),
+(38, 'Alberto', 'Ferrari', 'https://www.imdb.com/name/nm0274028/', 0, 1),
+(39 , 'Sabrina', 'Ferilli', 'https://www.imdb.com/name/nm0272677/', 1, 0),
+(40 , 'Fabio', 'Volo', 'https://www.imdb.com/name/nm1182729/', 1, 0),
+(41 , 'David', 'Parenzo', 'https://www.imdb.com/name/nm5930022/', 1, 0),
+(42 , 'Dan', 'Scanlon', 'https://www.imdb.com/name/nm0768959/', 0, 1),
+(43, 'Dakota', 'Johnson', 'https://www.imdb.com/name/nm0424848/', 1, 0),
+(44, 'Kelvin', 'Harrison jr', 'https://www.imdb.com/name/nm5123156/', 1, 0),
+(45, 'Tacee Ellis', 'Ross', 'https://www.imdb.com/name/nm0743896/', 1, 0),
+(46, 'Nisha', 'Ganatra', 'https://www.imdb.com/name/nm0304091/', 0, 1),
+(47, 'Sharon', 'Horgan', 'https://www.imdb.com/name/nm1279721/', 1, 0),
+(48, 'Krinstin Scott', 'Thomas', 'https://www.imdb.com/name/nm0000218/', 1, 0),
+(49, 'Teresa', 'Mahoney', 'https://www.imdb.com/name/nm2972606/', 1, 0),
+(50, 'Jason', 'Flemyng', 'https://www.imdb.com/name/nm0002076/', 1, 0),
+(51, 'Peter', 'Cattaneo', 'https://www.imdb.com/name/nm0146341/', 0, 1);
 
 
 
@@ -44,7 +62,11 @@ INSERT INTO `Film` (`id`, `nome`, `dataRilascio`, `trailerURL`, `descrizione`, `
 (5, 'Black Widow', '2020-11-06', 'https://www.youtube.com/watch?v=m26QpnmN1aU', 'Black Widow è un film supereroistico statunitense del 2020 diretto da Cate Shortland. Basato sul personaggio di Natasha Romanoff dei fumetti Marvel Comics, è il primo film dove lei è protagonista. Si tratta inoltre del ventiquattresimo film del Marvel Cinematic Universe e del primo della cosiddetta "Fase Quattro".', '2:05', '0.0', 'AZIONE', '19;20;21', '18', 'USA', ''),
 (6, 'The King''s Man - Le origini', '2020-09-17', 'https://www.youtube.com/watch?v=d865SRSuRoQ&list=RDHqAmcMtOaVY&index=6', 'The King''s Man - Le origini (The King''s Man) è un film scritto e diretto da Matthew Vaughn in uscita nelle sale di tutto il mondo nel 2020. Si tratta nello specifico del prequel del film Kingsman - Secret Service.', '2:33', '0.0', 'AVVENTURA', '23;24;25', '22', 'UK', '+14'),
 (7, 'The New Mutants', '2020-08-28', 'https://www.youtube.com/watch?v=_wDyenpOb68', 'The New Mutants è un film del 2020 diretto da Josh Boone. La pellicola è il tredicesimo film dell''universo X-Men e adattamento cinematografico della serie a fumetti Marvel Nuovi Mutanti.', '1:39', '0.0', 'HORROR', '27;28;29', '26', 'USA', '+13'),
-(8, 'The Grudge', '2020-03-05', 'https://www.youtube.com/watch?v=O2NKzO-fxwQ', 'The Grudge è un film del 2020 diretto da Nicolas Pesce. La pellicola, reboot del remake statunitense del film Ju-on del 2000, è interpretato da Andrea Riseborough, Demián Bichir, John Cho, Betty Gilpin, Lin Shaye e Jacki Weaver. È il quarto film della serie The Grudge.', '1:34', '5.3', 'HORROR', '31;32;33', '30', 'USA', '+17');
+(8, 'The Grudge', '2020-03-05', 'https://www.youtube.com/watch?v=O2NKzO-fxwQ', 'The Grudge è un film del 2020 diretto da Nicolas Pesce. La pellicola, reboot del remake statunitense del film Ju-on del 2000, è interpretato da Andrea Riseborough, Demián Bichir, John Cho, Betty Gilpin, Lin Shaye e Jacki Weaver. È il quarto film della serie The Grudge.', '1:34', '5.3', 'HORROR', '31;32;33', '30', 'USA', '+17')
+(9, 'Un Figlio Di Nome Erasmus', '2020-07-01','https://www.youtube.com/watch?v=xIrDM-R-ZV8', 'Un film di Alberto Ferrari. Con Luca Bizzarri, Paolo Kessisoglu, Daniele Liotti, Ricky Memphis. Jacopo lavora per una multinazionale di carattere umanitario; \r\n\r\nAscanio fa la guida alpina per manager in cerca di ispirazione; Enrico è un architetto candidato alla Camera dei deputati e in procinto di sposarsi; e Pietro è un "manager artistico" il cui principale cliente è un gruppo che fa cover dei Pooh. Sono amici da quando erano ragazzi, ed è proprio un ricordo di gioventù a riunirli: una loro ex fiamma, Amalia, conosciuta durante il periodo di studio del quartetto in Portogallo, è deceduta e un giudice li ha convocati per comunicare loro le ultime volontà della defunta. All''arrivo scopriranno che uno di loro è il padre del figlio di Amalia: ma chi? Non resta che partire per un viaggio alla scoperta della paternità, che sarà anche un viaggio di scoperta di se stessi e un rinnovo dell''amicizia decennale.', '1:47', '2.70', 'COMMEDIA', '34;35;36;37', '38', 'ITA', '+14')
+(10, 'Onward-Oltre La Magia','2020-22-07','https://www.youtube.com/watch?v=fhJA3T0ttA0', 'Distribuzione Walt Disney. Due elfi decidono di partire per un viaggio alla ricerca di un po'' di magia nel mondo. \r\n\r\nIn un universo fantasy che il progresso tecnologico ha reso uguale al nostro, l''elfo Ian è un adolescente impacciato. Mamma Laurel e il fratello Barley non possono riempire del tutto il vuoto lasciato da un padre scomparso prima che Ian nascesse, ma per il suo sedicesimo compleanno il ragazzo potrà farlo tornare in vita per 24 ore. Opera seconda di Dan Scanlon, Onward fa della semplicità la sua carta vincente. E pur non essendo particolarmente complesso dal punto di vista narrativo, è un film dal sicuro impatto emotivo. Film sulla magia ma in realtà ancorato al quotidiano, racconta di un mondo fantastico che si è lasciato ammorbidire dalla comodità e ha dimenticato il potere della magia. Con un titolo che torna a invocare una direzione, come Up!, l''invito stavolta è a mettersi in gioco, sempre "avanti" e possibilmente senza scegliere la via più ovvia.', '1:42', '3.5', 'ANIMAZIONE', '39;40;41', '42', 'USA', '+12' )
+(11,'L''assistente Della Star', '2020-06-26', 'https://www.youtube.com/watch?v=RBaWu_1-xDs', 'Distribuzione Universal Pictures. Una grande star canora e la sua assistente stanno per cambiare le loro vite. \r\n\r\nGrace Davies è una delle più grandi popstar del mondo. O, meglio, di sicuro lo è stata: si tratta infatti di un''enorme star, ancora adorata dal pubblico, ma al principio di quello che sembra essere un lungo - e relativamente lento - declino, vista la sua età. Peccato però che l''artista abbia molta voglia di non rassegnarsi a una sparizione e decide di sfoderare una rentrée a effetto con tanto di nuovo album. Questo si traduce ovviamente in un aumento esponenziale del carico di lavoro di Maggie, l''assistente personale di Grace, che in teoria sarebbe un producer musicale esperta e dotata nei campi dell''arrangiamento e della composizione ma che si ritrova a dover compiacere la cantante in ogni suo capriccio (o quasi) e a farle da confidente, baby-sitter e riferimento. Unite dalla carriera, le due donne si trovano di fronte alla possibilità di poter cambiare le loro vite grazie alla possibilità che, in realtà, il nuovo disco di Grace offre a entrambe.', '1:54', '4.0', 'DRAMMATICO', '43;44;45', '46', 'USA', '+16')
+(12,'La Sfida Delle Mogli', '2020-01-07', 'https://www.youtube.com/watch?v=sS8kJvGJvdw', 'Un coro di donne in Afghanistan comincia ad attirare l''attenzione della stampa.\r\n\r\nKate ha sposato Richard e con lui la guerra. Moglie di un colonello e madre di un figlio caduto in battaglia, Kate vive in una base militare inglese e condivide con altre donne una guerra di rassegnazione. Perché i loro uomini sono (di nuovo) in missione in Afghanistan e loro hanno un dannato bisogno di tenersi occupate, di non pensare al peggio. Veterana del ''campo'', Kate si offre volontaria per sostenere Lisa, nominata responsabile delle attività ricreative. Compassata e classica l''una, informale e pop l''altra, Kate e Lisa si scontrano su tutto. A metterle d''accordo è finalmente il progetto di un coro. La musica si rivela un vero balsamo per le donne della base, un progetto che le porterà più lontano di quanto pensassero e più vicine ai rispettivi consorti.', '1:53', '3.2', 'COMMEDIA', '47;48;49;50', '51', 'USA', '+14');
 
 
 INSERT INTO `MediaLocandina`(`id`, `fileName`, `mimeType`, `idFilm`, `date`, `immagine`) VALUES
@@ -60,7 +82,28 @@ INSERT INTO `MediaLocandina`(`id`, `fileName`, `mimeType`, `idFilm`, `date`, `im
 INSERT INTO `SalaFisica`(`nSala`, `nFile`, `nPostiFila`, `disponibile`) VALUES (1,6,10,1), (2,5,9,1), (3,10,10,1), (4, 6, 11, 1);
 
 
-INSERT INTO `Utenti`(`id`, `username`, `email`, `nome`, `cognome`, `password`, `isAdmin`, `isBanned`) VALUES (1, 'bb3b', 'gianlucchio@mailer.com' , 'Gianluca', 'Lofrusanna', 'password', 0, 0);
+INSERT INTO `Utenti`(`id`, `username`, `email`, `nome`, `cognome`, `password`, `isAdmin`, `isBanned`) VALUES
+(1, 'bb3b', 'gianlucchio@mailer.com' , 'Gianluca', 'Lofrusanna', 'password1', 0, 0),
+(2, 'misterossi', 'misterossi@mailer.com', 'Mario', 'Rossi', 'password2', 0, 0),
+(3, 'skabboz', 'skabboz@mailer.com', 'Giovanni', 'Fisicati', 'password3', 0, 0),
+(4, 'alexa', 'alexa@mailer.com', 'Alessia', 'Zitella', 'password4', 0, 0),
+(5, 'luchino', 'luchino@mailer.com', 'Luca', 'Miraflores', 'password5', 0, 0),
+(6, 'sgalambro', 'sgalambro@mailer.com', 'Nico', 'Bellicoso', 'password6', 0, 0),
+(7, 'mariottide', 'mariottide@mailer.com', 'Mario', 'Savastano', 'password7', 0, 0),
+(8, 'mide', 'mide@mailer.com', 'Miriam', 'De Blasio', 'password8', 0, 0),
+(9, 'livius', 'livius@mailer.com', 'Livio', 'Minafra', 'password9', 0, 0),
+(10, 'marix', 'marix@mailer.com', 'Marianna', 'Grano', 'password10', 0, 0),
+(11, 'miky', 'miky@mailer.com', 'Michele', 'Santori', 'password11', 0, 0),
+(12, 'capatonda', 'capatonda@mailer.com', 'Marcello', 'Macchia', 'password12', 0, 0),
+(13, 'lucio', 'lucio@mailer.com', 'Luigi', 'Luciano', 'password13', 0, 0),
+(14, 'filips', 'filips@mailer.com', 'Antonio', 'Filiberti', 'password14', 0, 0),
+(15, 'mc', 'mc@mailer.com', 'Mario', 'DeCesaris', 'password15', 0, 0),
+(16, 'mirius', 'mirius@mailer.com', 'Miriam', 'Leone', 'password16', 0, 0),
+(17, 'fox', 'fox@mailer.com', 'Paolo', 'Galeota', 'password17', 0, 0),
+(18, 'brosy', 'brosy@mailer.com', 'Francesco', 'Brosio', 'password18', 0, 0),
+(19, 'otto', 'otto@mailer.com', 'Ottavio', 'Mirabilio', 'password19', 0, 0),
+(20, 'book', 'book@mailer.com', 'Matteo', 'Feltri', 'password20', 0, 0),
+(21, 'lion', 'lion@mailer.com', 'Alessandra', 'Leone', 'password21', 0, 0);
 
 
 INSERT INTO `Proiezione`(`id`, `data`, `ora`, `numerosala`, `idFilm`) VALUES
@@ -105,4 +148,25 @@ INSERT INTO `Proiezione`(`id`, `data`, `ora`, `numerosala`, `idFilm`) VALUES
 (39, '2020-05-30', '21:00', 2, 2),
 (40, '2020-05-31', '16:00', 2, 2),
 (41, '2020-05-31', '17:50', 2, 2),
-(42, '2020-05-31', '21:00', 2, 2);
+(42, '2020-05-31', '21:00', 2, 2),
+(43, '2020-05-25', '16:00', 3, 10),
+(44, '2020-05-25', '17:50', 3, 10),
+(45, '2020-05-25', '21:00', 3, 10),
+(46, '2020-05-26', '16:00', 3, 10),
+(47, '2020-05-26', '17:50', 3, 10),
+(48, '2020-05-26', '21:00', 3, 10),
+(49, '2020-05-27', '16:00', 3, 10),
+(50, '2020-05-27', '17:50', 3, 10),
+(51, '2020-05-27', '21:00', 3, 10),
+(52, '2020-05-28', '16:00', 3, 10),
+(53, '2020-05-28', '17:50', 3, 10),
+(54, '2020-05-28', '21:00', 3, 10),
+(55, '2020-05-29', '16:00', 3, 10),
+(56, '2020-05-29', '17:50', 3, 10),
+(57, '2020-05-29', '21:00', 3, 10),
+(58, '2020-05-30', '16:00', 3, 10),
+(59, '2020-05-30', '17:50', 3, 10),
+(60, '2020-05-30', '21:00', 3, 10),
+(61, '2020-05-31', '16:00', 3, 10),
+(62, '2020-05-31', '17:50', 3, 10),
+(63, '2020-05-31', '21:00', 3, 10);
