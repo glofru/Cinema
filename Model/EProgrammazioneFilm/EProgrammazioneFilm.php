@@ -72,6 +72,17 @@ class EProgrammazioneFilm implements JsonSerializable
             }
         }
 
+        usort($fasceOrarie, function ($a, $b) {
+            $a = explode(":", $a);
+            $b = explode(":", $b);
+
+            if ($a[0] === $b[0]) {
+                return intval($a[1]) > intval($b[1]);
+            }
+
+            return intval($a[0]) > intval($b[0]);
+        });
+
         return $fasceOrarie;
     }
 //------------- ALTRI METODI ----------------
