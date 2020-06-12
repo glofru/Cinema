@@ -326,8 +326,7 @@ class CAdmin
 
             VAdmin::gestioneProgrammazione($utente, $films, $sale);
         } elseif ($method == "POST") {
-            print_r($_POST);
-            /*$idFilm = $_POST["film"];
+            $idFilm = $_POST["film"];
             $nSala = $_POST["sala"];
             $orario = $_POST["orario"];
             $dataInizio = $_POST["dataInizio"];
@@ -336,9 +335,9 @@ class CAdmin
             $pm = FPersistentManager::getInstance();
 
             $film = $pm->load($idFilm, "id", "EFilm")[0];
-            $inizio = DateTime::createFromFormat('d/m/Y', $dataInizio);
+            $inizio = DateTime::createFromFormat('Y-m-d', $dataInizio);
             $inizio->setTime(0, 0, 0);
-            $fine = DateTime::createFromFormat('d/m/Y', $dataFine);
+            $fine = DateTime::createFromFormat('Y-m-d', $dataFine);
             $fine->setTime(0, 0, 0);
 //
             if ($film === null) {
@@ -395,7 +394,7 @@ class CAdmin
             if (!$result) {
                 $error = "La programmazione si sovrappone con altre già esistenti";
                 VAdmin::gestioneProgrammazione($utente, $films, $sale, $film, $nSala, $orario, $dataInizio, $dataFine, $error);
-            }*/
+            }
         }
     }
 }
