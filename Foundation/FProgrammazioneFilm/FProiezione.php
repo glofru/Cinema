@@ -34,16 +34,18 @@ class FProiezione implements Foundation
     }
 
 //------------- ALTRI METODI ----------------
-    public static function save(EProiezione $proiezione) {
+    public static function save(EProiezione $proiezione): bool {
         $db = FDatabase::getInstance();
-        $test = $db->checkDisponibilita($proiezione->getSala()->getNumeroSala(), $proiezione->getDataSQL(), $proiezione->getOra());
-        if(sizeof($test) < 1) {
+        $test = $db->checkSovrapposizione($proiezione);
+
+        if ($test) {
             $id = $db->saveToDBProiezioneEPosti($proiezione);
             $proiezione->setId($id);
+
             return true;
         }
 
-        return $test;
+        return false;
     }
 
     public static function load($value, $row): EElencoProgrammazioni {

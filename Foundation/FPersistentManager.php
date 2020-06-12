@@ -48,9 +48,10 @@ class FPersistentManager
         FNewsLetter::save($utente, $preferenze);
     }
 
-    public function saveProiezione(EProiezione $proiezione) {
-        $result = FProiezione::save($proiezione);
-        return $result;
+    public function saveProgrammazione(EProgrammazioneFilm $programmazioneFilm): bool {
+        foreach ($programmazioneFilm->getProiezioni() as $p) {
+            return FProiezione::save($p);
+        }
     }
 
     public function load($value, $row, $class) {

@@ -92,7 +92,7 @@ class FDatabase
 
         try {
             $this->db->beginTransaction();
-            $query = "INSERT INTO" . FProiezione::getTableName() . "VALUES " . FProiezione::getValuesName();
+            $query = "INSERT INTO " . FProiezione::getTableName() . " VALUES " . FProiezione::getValuesName() . ";";
             $sender = $this->db->prepare($query);
             FProiezione::associate($sender, $proiezione);
 
@@ -212,30 +212,26 @@ class FDatabase
         return null;
     }
 
-    public function checkDisponibilita(int $nsala, string $data, string $oraInizioNuovoFilm) {
+    public function checkSovrapposizione(EProiezione $proiezione) {
         try {
-            $query = "SELECT * FROM Proiezione WHERE numerosala = '" . strval($nsala) . "' AND data = '" . $data . "';";
+            $query = "SELECT * FROM Proiezione WHERE numerosala = '{strval($proiezione->getNumeroSala())}' AND data = '{$proiezione->getDataSQL()}';";
 
             $proiezioni = $this->executeQuery($query);
+            $proIn = $proiezione->getDataproieizone();
+            $proFin = $proIn->add($proiezione->getFilm()->getDurata());
 
-            $output = [];
+            foreach ($proiezioni as $p) {
+                $inizio = $p->getDataproiezione();
+                $fine = $p->getDataproiezione()->add($p->getFilm()->getDurata());
 
-            for($i = 0; $i < sizeof($proiezioni); $i++) {
-                $film = FFilm::load($proiezioni[$i]["idFilm"],"id");
-
-                $durata = new DateInterval($film[0]->getDurataDB());
-                $oraFilmPresente = $proiezioni[$i]["ora"];
-                $oraFine = DateTime::createFromFormat("H:i:s",$oraFilmPresente)->add($durata);
-
-                if((strtotime($oraInizioNuovoFilm) - strtotime($oraFilmPresente) >= 0) && (strtotime($oraFine) - strtotime($oraInizioNuovoFilm)) >= 0) {
-                    $salaVirtuale = FSala::loadVirtuale(strval($nsala), "nSala")[0];
-                    $data = DateTime::createFromFormat("Y-m-d",$proiezioni[$i]["data"]);
-                    $proiezione = new EProiezione($film[0], $salaVirtuale, $data);
-
-                    array_push($output, $proiezione);
+                if (($inizio->getTimestamp() > $proIn->getTimestamp() && $inizio->getTimestamp() < $proFin->getTimestamp()) ||
+                    ($fine->getTImestamp() > $proIn->getTimestamp() && $fine->getTimestamp() < $proFin->getTimestamp()) ||
+                    ($inizio->getTimestamp() < $proIn->getTimestamp() && $fine->getTimestamp() > $proFin->getTimestamp())) {
+                    return false;
                 }
             }
-            return $output;
+
+            return true;
         }
         catch(Exception $exception) {
             $this->error(false);
