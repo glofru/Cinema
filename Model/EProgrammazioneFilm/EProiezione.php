@@ -52,7 +52,7 @@ class EProiezione implements JsonSerializable
      * @param DateTime $dataproiezione data ed orario di svolgimento della proiezione
      */
     public function setDataproiezione(DateTime $dataproiezione){
-        $this->dataproiezione = $dataproiezione;
+        $this->dataproiezione = clone $dataproiezione;
     }
 
     public function setId(int $id){
@@ -115,7 +115,7 @@ class EProiezione implements JsonSerializable
      */
     public function __toString()
     {
-        return "Film: " . $this->getFilm() . "data ed ora: " . $this->getDataproieizone() . " nella sala: " . $this->getSala();
+        return "Film: " . $this->getFilm()->getNome() . "data ed ora: " . $this->getDataproieizone()->format("Y-m-d H:i") . " nella sala: " . $this->getSala()->getNumeroSala();
     }
 
 }

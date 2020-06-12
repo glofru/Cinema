@@ -22,6 +22,10 @@ class ESalaVirtuale extends ESalaFisica implements JsonSerializable
         $this->init($nFile, $nPostiFila);
     }
 
+    public static function fromSalaFisica(ESalaFisica $salaFisica) {
+        return new ESalaVirtuale($salaFisica->getNumeroSala(), $salaFisica->getNFile(), $salaFisica->getNPostiFila(), $salaFisica->isDisponibile());
+    }
+
     /**
      * @param $nFile
      * @param $nPostiFila
