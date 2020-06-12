@@ -395,6 +395,7 @@ class CAdmin
                 $error = "La programmazione si sovrappone con altre già esistenti";
                 VAdmin::gestioneProgrammazione($utente, $films, $sale, $film, $nSala, $orario, $dataInizio, $dataFine, $error);
             }
+            header("Location: /Admin/gestioneProgrammazione");
         }
     }
 }

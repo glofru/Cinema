@@ -52,8 +52,11 @@ class FPersistentManager
 
     public function saveProgrammazione(EProgrammazioneFilm $programmazioneFilm): bool {
         foreach ($programmazioneFilm->getProiezioni() as $p) {
-            return FProiezione::save($p);
+            if(FProiezione::save($p) === false) {
+                return false;
+            }
         }
+        return true;
     }
 
     public function load($value, $row, $class) {
