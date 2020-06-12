@@ -121,7 +121,7 @@
 
                                 <!-- Sala -->
                                 <div class="sign__group">
-                                    <input id="roomChosen" list="rooms" type="number" class="sign__input" value="{if isset($sala)}{$sala->getNumeroSala()}{/if}" placeholder="Sala">
+                                    <input id="roomChosen" list="rooms" type="number" class="sign__input" value="{if isset($sala)}{$sala}{/if}" placeholder="Sala">
 
                                     <datalist id="rooms">
                                         {foreach $sale as $s}
@@ -129,7 +129,7 @@
                                         {/foreach}
                                     </datalist>
 
-                                    <input id="room" type="hidden" name="room">
+                                    <input id="room" type="hidden" name="sala">
                                 </div>
 
                                 <!-- Orario -->

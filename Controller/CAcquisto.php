@@ -24,7 +24,7 @@ class CAcquisto
                         try {
                             $utente = new ENonRegistrato($mail, "");
                         } catch (Exception $e) {
-                           VError::error(8);
+                            VError::error(8);
                         }
                     }
 

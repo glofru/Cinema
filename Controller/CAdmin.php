@@ -335,20 +335,43 @@ class CAdmin
             $pm = FPersistentManager::getInstance();
 
             $film = $pm->load($idFilm, "id", "EFilm")[0];
-            $ora = DateTime::createFromFormat('H:i', $orario);
             $inizio = DateTime::createFromFormat('d/m/Y', $dataInizio);
+            $inizio->setTime(0, 0, 0);
             $fine = DateTime::createFromFormat('d/m/Y', $dataFine);
-
-            $films = $pm->loadAll("EFilm");
-            $sale = $pm->load(true, "disponibile", "ESala");
-            $utente = CUtente::getUtente();
-
-            if ($ora === false) {
-                $error = "Orario non valido";
+            $fine->setTime(0, 0, 0);
+//
+            if ($film === null) {
+                $error = "Film non valido";
+            } elseif ($orario !== null) {
+                try {
+                    $Hm = explode(":", $orario);
+                    $ora = new DateInterval("PT{$Hm[0]}H{$Hm[1]}M");
+                    $inizio->add($ora);
+                    $fine->add($ora);
+                } catch (Exception $e) {
+                    $error = "Orario non valido";
+                }
             } elseif ($inizio === false) {
                 $error = "Data di inizio non valida";
             } elseif ($fine === false) {
                 $error = "Data di fine non valida";
+            } elseif ($fine->getTimestamp() > $inizio->getTimestamp()) {
+                $error = "La data di fine è prima di quella d'inizio!";
+            }
+
+            $films = $pm->loadAll("EFilm");
+            $sale = $pm->load(true, "disponibile", "ESala");
+            $utente = CUtente::getUtente();
+//
+            $salaF = null;
+            foreach ($sale as $s) {
+                if ($s->getNumeroSala() == $nSala && $s->isDisponibile()) {
+                    $salaF = $s;
+                }
+            }
+
+            if ($salaF === null) {
+                $error = "La sala non esiste o non è disponibile";
             }
 
             if (isset($error)) {
@@ -356,7 +379,22 @@ class CAdmin
                 die;
             }
 
+            $programmazione = new EProgrammazioneFilm();
 
+            do {
+                $salaV = ESalaVirtuale::fromSalaFisica($salaF);
+                $proiezione = new EProiezione($film, $salaV, $inizio);
+                $inizio->modify("+1 day");
+
+                $programmazione->addProiezione($proiezione);
+            } while($inizio->getTimestamp() <= $fine->getTimestamp());
+
+            $result = $pm->saveProgrammazione($programmazione);
+
+            if (!$result) {
+                $error = "La programmazione si sovrappone con altre già esistenti";
+                VAdmin::gestioneProgrammazione($utente, $films, $sale, $film, $nSala, $orario, $dataInizio, $dataFine, $error);
+            }
         }
     }
 }
