@@ -2,28 +2,35 @@
 
 
 /**
+ * Nella classe Token sono presenti tutti i metodi e gli attributi necessari alla creazione e gestione di un token. un token viene istanziato nel momento in cui un utente necessita di un cambio della password. Questo in modo tale che solo lui possa accedere alla pagina di modifica della password in quanto solo lui dovrbebe possedere il valore del token.
  * Class EToken
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Model
  */
 class EToken
 {
     /**
+     * Valore del token.
      * @var string
      */
     private string $value;
     /**
-     * @var bool
+     * Data di creazione del token.
+     * @var DateTime
      */
     private DateTime $creationDate;
     /**
+     * Utente al quale appartiene il token.
      * @var EUtente
      */
     private EUtente $utente;
 
     /**
      * EToken constructor.
-     * @param string $value
-     * @param DateTime $creationDate
-     * @param EUtente $utente
+     * @param string $value, valore del token.
+     * @param DateTime $creationDate, data di creazione del token.
+     * @param EUtente $utente, utente a cui appartiene il token.
      */
     public function __construct(string $value, DateTime $creationDate, EUtente $utente)
     {
@@ -34,7 +41,7 @@ class EToken
 
 
     /**
-     * @return string
+     * @return string, valore del token.
      */
     public function getValue(): string
     {
@@ -42,7 +49,7 @@ class EToken
     }
 
     /**
-     * @param string $value
+     * @param string $value, valore del token (un uid).
      */
     public function setValue(string $value): void
     {
@@ -50,23 +57,29 @@ class EToken
     }
 
     /**
-     * @return DateTime
+     * @return DateTime, data di creazione del token.
      */
     public function getCreationDate(): DateTime
     {
         return $this->creationDate;
     }
 
+    /**
+     * @return string, data di creazione nel formato oppurtuno per essere slavato sul DB.
+     */
     public function getCreationdateDB(): string {
         return $this->getCreationDate()->format('Y-m-d');
     }
 
+    /**
+     * @return string, ora di creazione del token riportata nel formato ora:minuti:secondi.
+     */
     public function getCreationHour(): string {
         return $this->getCreationDate()->format('H:i:s');
     }
 
     /**
-     * @param DateTime $creationDate
+     * @param DateTime $creationDate, data di creazione del token.
      */
     public function setCreationDate(DateTime $creationDate): void
     {
@@ -74,7 +87,7 @@ class EToken
     }
 
     /**
-     * @return EUtente
+     * @return EUtente, utente al quale appartiene il token.
      */
     public function getUtente(): EUtente
     {
@@ -82,7 +95,7 @@ class EToken
     }
 
     /**
-     * @param EUtente $utente
+     * @param EUtente $utente, utente al quale appartiene il token.
      */
     public function setUtente(EUtente $utente): void
     {
@@ -97,6 +110,10 @@ class EToken
         return "Value: " . $this->getValue() . ", isUsed: " . $this->amIValid()?"true":"false";
     }
 
+    /**
+     * Funzione che controlla se il token sia ancora valido (ovvero che sia stato 'invocato' entro un'ora dalla sua creazione).
+     * @return bool, esito del controllo.
+     */
     public function amIValid(): bool {
         $maybeExpired = new DateTime('now -1 Hour');
         return $this->getCreationDate() >= $maybeExpired;
