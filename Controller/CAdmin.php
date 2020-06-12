@@ -317,15 +317,23 @@ class CAdmin
 
         $pm = FPersistentManager::getInstance();
 
+        $films = $pm->loadAll("EFilm");
+        $sale = $pm->load(true, "disponibile", "ESala");
+        $programmazioni = $pm->loadAll("EElencoProgrammazioni");
+        $locandine = [];
+        foreach($programmazioni->getElencoProgrammazioni() as $prog) {
+            array_push($locandine, $pm->load($prog->getFilm()->getId(), "idFilm", "EMedia"));
+        }
+        $utente = CUtente::getUtente();
+        $film = null;
+        $nSala = null;
+        $orario = null;
+        $dataInizio = null;
+        $dataFine = null;
+        $error = null;
+
         $method = $_SERVER["REQUEST_METHOD"];
-
-        if($method == "GET") {
-            $films = $pm->loadAll("EFilm");
-            $sale = $pm->load(true, "disponibile", "ESala");
-            $utente = CUtente::getUtente();
-
-            VAdmin::gestioneProgrammazione($utente, $films, $sale);
-        } elseif ($method == "POST") {
+        if ($method == "POST") {
             $idFilm = $_POST["film"];
             $nSala = $_POST["sala"];
             $orario = $_POST["orario"];
@@ -336,16 +344,16 @@ class CAdmin
 
             $film = $pm->load($idFilm, "id", "EFilm")[0];
             $inizio = DateTime::createFromFormat('Y-m-d', $dataInizio);
-            $inizio->setTime(0, 0, 0);
             $fine = DateTime::createFromFormat('Y-m-d', $dataFine);
-            $fine->setTime(0, 0, 0);
-//
+
             if ($film === null) {
                 $error = "Film non valido";
             } elseif ($orario !== null) {
                 try {
                     $Hm = explode(":", $orario);
                     $ora = new DateInterval("PT{$Hm[0]}H{$Hm[1]}M");
+                    $inizio->setTime(0, 0, 0);
+                    $fine->setTime(0, 0, 0);
                     $inizio->add($ora);
                     $fine->add($ora);
                 } catch (Exception $e) {
@@ -359,10 +367,6 @@ class CAdmin
                 $error = "La data di fine è prima di quella d'inizio!";
             }
 
-            $films = $pm->loadAll("EFilm");
-            $sale = $pm->load(true, "disponibile", "ESala");
-            $utente = CUtente::getUtente();
-//
             $salaF = null;
             foreach ($sale as $s) {
                 if ($s->getNumeroSala() == $nSala && $s->isDisponibile()) {
@@ -374,28 +378,24 @@ class CAdmin
                 $error = "La sala non esiste o non è disponibile";
             }
 
-            if (isset($error)) {
-                VAdmin::gestioneProgrammazione($utente, $films, $sale, $film, $nSala, $orario, $dataInizio, $dataFine, $error);
-                die;
+            if ($error === null) {
+                $programmazione = new EProgrammazioneFilm();
+                do {
+                    $salaV = ESalaVirtuale::fromSalaFisica($salaF);
+                    $proiezione = new EProiezione($film, $salaV, $inizio);
+                    $inizio->modify("+1 day");
+
+                    $programmazione->addProiezione($proiezione);
+                } while ($inizio->getTimestamp() <= $fine->getTimestamp());
+
+                $result = $pm->saveProgrammazione($programmazione);
+
+                if (!$result) {
+                    $error = "La programmazione si sovrappone con altre già esistenti";
+                }
             }
-
-            $programmazione = new EProgrammazioneFilm();
-
-            do {
-                $salaV = ESalaVirtuale::fromSalaFisica($salaF);
-                $proiezione = new EProiezione($film, $salaV, $inizio);
-                $inizio->modify("+1 day");
-
-                $programmazione->addProiezione($proiezione);
-            } while($inizio->getTimestamp() <= $fine->getTimestamp());
-
-            $result = $pm->saveProgrammazione($programmazione);
-
-            if (!$result) {
-                $error = "La programmazione si sovrappone con altre già esistenti";
-                VAdmin::gestioneProgrammazione($utente, $films, $sale, $film, $nSala, $orario, $dataInizio, $dataFine, $error);
-            }
-            header("Location: /Admin/gestioneProgrammazione");
         }
+
+        VAdmin::gestioneProgrammazione($utente, $films, $sale, $programmazioni, $locandine, $film, $nSala, $orario, $dataInizio, $dataFine, $error);
     }
 }

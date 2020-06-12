@@ -34,7 +34,7 @@ class FPersistentManager
             return "FMedia";
         } elseif($class === "ESalaFisica") {
             return "FSala";
-        } elseif($class === "EProgrammazione") {
+        } elseif($class === "EProgrammazione" || $class === "EElencoProgrammazioni") {
             return "FProiezione";
         }
         $class[0] = "F";

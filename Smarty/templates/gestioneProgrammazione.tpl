@@ -62,7 +62,7 @@
                     <!-- content mobile tabs nav -->
                     <div class="content__mobile-tabs" id="content__mobile-tabs">
                         <div class="content__mobile-tabs-btn dropdown-toggle" role="navigation" id="mobile-tabs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <input type="button" value="Gestione sale">
+                            <input type="button" value="Gestione programmazione">
                             <span></span>
                         </div>
 
@@ -90,11 +90,50 @@
                             <!-- comments -->
                             <div class="col-12">
                                 <div class="comments">
+                                    {if sizeof($programmazioni->getElencoProgrammazioni()) > 0}
+                                    {foreach $programmazioni->getElencoProgrammazioni() as $i => $prog}
                                     <ul class="comments__list">
-                                        <form action="{$path}../../Admin/gestioneSale" method="POST">
+                                            <!-- card -->
+                                            <div class="col-6 col-sm-12 col-lg-6">
+                                                <div class="card card--list">
+                                                    <div class="row">
+                                                        <div class="col-12 col-sm-4">
+                                                            <div class="card__cover">
+                                                                <img src="{$locandine[$i]}" alt="">
+                                                            </div>
+                                                        </div>
 
-                                        </form>
+                                                        <div class="col-12 col-sm-8">
+                                                            <div class="card__content">
+                                                                <h3 class="card__title"><a href="#">{$prog->getFilm()->getNome()}</a></h3>
+                                                                <span class="card__category">
+                                                                        <a style="font-size:20px;">Prova</a>
+                                                                    </span>
+
+                                                                <div class="card__wrap">
+                                                                    {if ($prog->getFilm()->getetaConsigliata() != "")}
+                                                                        <ul class="card__list">
+                                                                            <li>{$prog->getFilm()->getetaConsigliata()}</li>
+                                                                        </ul>
+                                                                    {/if}
+                                                                </div>
+
+                                                                <div class="card__description">
+                                                                    {*                                                                        <p>Biglietto #{$item->getId()} <br> Giorno {$item->getProiezione()->getData()} <br> Spettacolo delle {$item->getProiezione()->getOra()} <br> Sala {$item->getProiezione()->getSala()->getNumeroSala()} <br> Prezzo: {$item->getCosto()}€</p>*}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- end card -->
                                     </ul>
+                                    {/foreach}
+                                    {else}
+                                        <div style="text-align: center">
+                                            <h2 class="content__title">Nessuna programmazione</h2>
+                                        </div>
+                                    {/if}
                                 </div>
                             </div>
                             <!-- end comments -->
