@@ -392,6 +392,13 @@ class CAdmin
 
                 if (!$result) {
                     $error = "La programmazione si sovrappone con altre già esistenti";
+                } else {
+                    $film = null;
+                    $nSala = null;
+                    $orario = null;
+                    $dataInizio = null;
+                    $dataFine = null;
+                    $error = null;
                 }
             }
         }

@@ -160,7 +160,7 @@
 
                                 <!-- Sala -->
                                 <div class="sign__group">
-                                    <input id="roomChosen" list="rooms" type="number" class="sign__input" value="{if isset($sala)}{$sala}{/if}" name = "sala" placeholder="Sala">
+                                    <input id="roomChosen" list="rooms" type="number" class="sign__input" value="{if isset($sala) && $sala != 0}{$sala}{/if}" name = "sala" placeholder="Sala">
 
                                     <datalist id="rooms">
                                         {foreach $sale as $s}
@@ -172,18 +172,21 @@
                                 </div>
 
                                 <!-- Orario -->
+                                <h3 style="color: white">Orario</h3>
                                 <div class="sign__group">
                                     <input id="orario" type="time" class="sign__input" placeholder="Orario: HH:mm" value="{if isset($ora)}{$ora}{/if}" name="orario">
                                 </div>
 
                                 <!-- DataInizio -->
+                                <h3 style="color: white">Data di inizio</h3>
                                 <div class="sign__group">
-                                    <input id="dataInizio" type="date" class="sign__input" placeholder="Data inizio: GG/MM/AAAA" value="{if isset($inizio)}{$inizio}{/if}" name="dataInizio">
+                                    <input id="dataInizio" type="date" class="sign__input" placeholder="Data inizio: AAAA-MM-GG" value="{if isset($inizio)}{$inizio}{/if}" name="dataInizio">
                                 </div>
 
                                 <!-- DataFine -->
+                                <h3 style="color: white">Data di fine</h3>
                                 <div class="sign__group">
-                                    <input id="dataFine" type="date" class="sign__input" placeholder="Data fine: GG/MM/AAAA" value="{if isset($fine)}{$fine}{/if}" name="dataFine">
+                                    <input id="dataFine" type="date" class="sign__input" placeholder="Data fine: AAAA-MM-GG" value="{if isset($fine)}{$fine}{/if}" name="dataFine">
                                 </div>
 
                                 <button id="submit" class="sign__btn" type="submit">Aggiungi proiezione</button>
