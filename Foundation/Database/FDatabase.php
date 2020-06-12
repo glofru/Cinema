@@ -3,16 +3,20 @@
 require_once "configDB.conf.php";
 
 /**
- * Class FDatabase
+ * Classe che si occupa di connettersi al DB, via PDO, ed eseguire delle query da noi confezionate per eseguire tutte le operazioni necessarie al fine di garantire il recupero e la persistenza di oggetti sul DB. Gestita come Singleton.
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Foundation
  */
 class FDatabase
 {
     /**
+     * Istanza della classe.
      * @var FDatabase
      */
     private static $instance;
 
     /**
+     * Oggetto contente la 'connessione' al DB.
      * @var PDO
      */
     private PDO $db;
@@ -45,9 +49,10 @@ class FDatabase
     }
 
     /**
+     * Funzione che pemrette di salvare un oggetto sul DB. Ritorna l'id dell'oggetto inserito oppure mostra la schemata di errore in caso di problemi con il DB.
      * @param $class
      * @param $values
-     * @return
+     * @return mixed
      */
     public function saveToDB($class, $values){
         try {
@@ -64,10 +69,15 @@ class FDatabase
         } catch (PDOException $exception) {
             $this->error();
         }
-
         return null;
     }
 
+    /**
+     * Funzione che permette di salvare sul DB le preferenze di un utente che si iscrive alla Newsletter. Ritorna true in caso di successo o mostra la schemata di errore altrimenti.
+     * @param $utente
+     * @param $preferenze
+     * @return mixed
+     */
     public function saveToDBNS($utente, $preferenze) {
         try {
             $this->db->beginTransaction();
@@ -76,12 +86,18 @@ class FDatabase
             FNewsLetter::associate($sender, $utente, $preferenze);
             $sender->execute();
             $this->db->commit();
+            return true;
         } catch (PDOException $exception) {
             $this->error();
         }
         return null;
     }
 
+    /**
+     * Funzione che permette, atomicamente, di salvare sul DB una nuova proieizone ed al contempo istanziare nella tabella dei Posti tutti i sedili relativi alla proiezione. Ritorna l'id dell'oggetto aggiunto nel DB o la schemata di errore.
+     * @param EProiezione $proiezione
+     * @return mixed
+     */
     public function saveToDBProiezioneEPosti(EProiezione $proiezione)
     {
         $posti = $proiezione->getSala()->getPosti();
@@ -116,8 +132,16 @@ class FDatabase
         } catch (Exception $exception) {
             $this->error();
         }
+        return null;
     }
 
+    /**
+     * Funzione che permette di salvare
+     * @param $class
+     * @param EProiezione $proiezione
+     * @param EPosto $posto
+     * @return mixed
+     */
     public function saveToDBDebole($class, EProiezione $proiezione, EPosto $posto) {
         try {
             $this->db->beginTransaction();
@@ -136,16 +160,16 @@ class FDatabase
         } catch (PDOException $exception) {
             $this->error();
         }
-
         return null;
     }
 
     /**
+     * Funzione che permette di caricare oggetti dal DB. Ritorna un insieme di righe dal DB, corrispondenti alla ricerca, oppure una schemata di errore in caso di problemi con il DB.
      * @param $class
      * @param $value
      * @param string $row
      * @param null $media
-     * @return array
+     * @return mixed
      */
     public function loadFromDB($class, $value, string $row, $media = null) {
         try {
@@ -157,10 +181,17 @@ class FDatabase
         catch (PDOException $exception) {
             $this->error(false);
         }
-
-        return null;
     }
 
+    /**
+     * Funzione che permette di caricare un oggetto dal Db se l'entità è debole. Ritorna un array con le righe corrispondenti alla ricerca o una schermata di errore.
+     * @param $class
+     * @param $value
+     * @param string $row
+     * @param $value2
+     * @param $row2
+     * @return array|null
+     */
     public function loadFromDBDebole($class, $value, string $row, $value2, $row2) {
         try {
             $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . " = '" . $value. "' AND " . $row2 . " = '" . $value2 . "';";
@@ -170,10 +201,16 @@ class FDatabase
         catch (PDOException $exception) {
             $this->error(false);
         }
-
-        return null;
     }
 
+    /**
+     * Funzione che permette di reperire sul DB oggetti che hanno una data compresa nellintervallo inserito. Ritorna un array con le righe corrispondenti o una schermata di errore.
+     * @param $class
+     * @param string $datainizio
+     * @param string $datafine
+     * @param string $row
+     * @return mixed
+     */
     public function loadBetween($class, string $datainizio, string $datafine, string $row) {
         try {
             $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . " BETWEEN '" . $datainizio . "' AND '" . $datafine . "';";
@@ -183,10 +220,15 @@ class FDatabase
         catch(Exception $exception) {
             $this->error(false);
         }
-
-        return null;
     }
 
+    /**
+     * Funzione che permette di reperire sul Db oggetti con un valore (value) simile a quelli presenti nella colonna row. Ritorna un array con le righe corrispondenti o una scehrmata di errore.
+     * @param $class
+     * @param string $value
+     * @param string $row
+     * @return mixed
+     */
     public function loadLike($class, string $value, string $row) {
         try {
             $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . " LIKE '%" . $value . "%';";
@@ -195,10 +237,13 @@ class FDatabase
         } catch(Exception $exception) {
             $this->error(false);
         }
-
-        return null;
     }
 
+    /**
+     * Funzione che reperisce tutte le righe sul DB di una determnitata tabella. ritorna un array con tutte le righe o una schermaa di errore.
+     * @param $class
+     * @return mixed
+     */
     public function loadAll($class) {
         try {
             $query = "SELECT * FROM " . $class::getTableName() . ";";
@@ -208,10 +253,14 @@ class FDatabase
         catch (PDOException $exception) {
             $this->error(false);
         }
-
-        return null;
     }
 
+    /**
+     * Funzione che permette di caricare dal DB oggetti che hanno una data successiva a quella passata come parametro. Ritorna un insieme di righe oppure una schermata di errore.
+     * @param $class
+     * @param DateTime $time
+     * @return mixed
+     */
     public function loadByDate($class, DateTime $time) {
         try {
             $query = "SELECT * FROM " . $class::getTableName() . " WHERE data >= " . $time->format("Y-m-d") . ";";
@@ -221,10 +270,13 @@ class FDatabase
         catch (PDOException $exception) {
             $this->error(false);
         }
-
-        return null;
     }
 
+    /**
+     * Funzione che controlla se una proieizone che si vuole inserire nel DB si sovrapponga ad una già esistente. Permette, quindi, di mantenere consistente la base dati. Ritorna un booleano con l'esito o una schermatat di errore.
+     * @param EProiezione $proiezione
+     * @return mixed
+     */
     public function checkSovrapposizione(EProiezione $proiezione) {
         try {
             $query = "SELECT * FROM Proiezione WHERE numerosala = '{strval($proiezione->getNumeroSala())}' AND data = '{$proiezione->getDataSQL()}';";
@@ -249,17 +301,16 @@ class FDatabase
         catch(Exception $exception) {
             $this->error(false);
         }
-
-        return null;
     }
 
     /**
+     * Funzione che permette di eliminare un oggetto dal DB. Ritorna l'esito dell'operazione od una schermata di errore
      * @param $class
      * @param $value
      * @param $row
-     * @return bool
+     * @return mixed
      */
-    public function deleteFromDB($class, $value, string $row): bool {
+    public function deleteFromDB($class, $value, string $row) {
         try{
             $this->db->beginTransaction();
 
@@ -274,11 +325,18 @@ class FDatabase
         catch(PDOException $exception) {
             $this->error();
         }
-
-        return false;
     }
 
-    public function deleteFromDBDebole($class, $value, $row, $value2, $row2): bool {
+    /**
+     * Funzione che permette di eliminare un oggetto dal Db se l'oggetto è un'entità debole. Ritorna l'esito dell'operazione o una schermata di errore.
+     * @param $class
+     * @param $value
+     * @param $row
+     * @param $value2
+     * @param $row2
+     * @return bool
+     */
+    public function deleteFromDBDebole($class, $value, $row, $value2, $row2) {
         try{
             $this->db->beginTransaction();
 
@@ -293,19 +351,18 @@ class FDatabase
         catch(PDOException $exception) {
             $this->error();
         }
-
-        return false;
     }
 
     /**
+     * Funzione che permette di aggiornare un oggetto presente nella base dati. Ritorna l'esito dell'opreazione oppure una schermata di errore.
      * @param $class
      * @param $value
      * @param $row
      * @param $newRow
      * @param $newValue
-     * @return bool
+     * @return mixed
      */
-    public function updateTheDB($class, $value, string $row, $newValue, string $newRow): bool {
+    public function updateTheDB($class, $value, string $row, $newValue, string $newRow) {
         try {
             $this->db->beginTransaction();
             if($class === "FMedia" && $row === "idUtente") {
@@ -325,11 +382,20 @@ class FDatabase
         catch(PDOException $exception) {
             $this->error();
         }
-
-        return false;
     }
 
-    public function updateTheDBDebole($class, $value, $row, $value2, $row2, string $newRow, $newValue): bool {
+    /**
+     * Funzione che permette di aggiornare un oggetto sul DB se è una entità debole. ritorna l'esito dell'operazione o una schermata di errore.
+     * @param $class
+     * @param $value
+     * @param $row
+     * @param $value2
+     * @param $row2
+     * @param string $newRow
+     * @param $newValue
+     * @return mixed
+     */
+    public function updateTheDBDebole($class, $value, $row, $value2, $row2, string $newRow, $newValue) {
         try {
             $this->db->beginTransaction();
             $query = "UPDATE " . $class::getTableName() . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "= '" . $value. "' AND " . $row2 . "= '" . $value2 . "';";
@@ -342,10 +408,13 @@ class FDatabase
         catch(PDOException $exception) {
             $this->error();
         }
-
-        return false;
     }
 
+    /**
+     * Funzione che permette, dato un insieme di biglietti, di salvare questi ultimi sul DB ed al contempo di occupare i relativi posti. Ritorna null se non esiste il posto inserito, flase se uno dei posti è stato già occupato, true se l'operazione è andata a buon fine altrimenti una schermata di errore.
+     * @param array $biglietti
+     * @return mixed
+     */
     public function occupaPosti(array $biglietti) {
         try {
             $this->db->beginTransaction();
@@ -413,6 +482,12 @@ class FDatabase
         return false;
     }*/
 
+    /**
+     * Funzione che permette di salvare sul Database una immagine. Ritorna l'id dell'oggetto inserito oppure una schermata di errore.
+     * @param $class
+     * @param EMedia $media
+     * @return mixed
+     */
     public function storeMedia($class, EMedia $media)
     {
         try {
@@ -431,16 +506,29 @@ class FDatabase
         } catch(PDOException $exception) {
             $this->error();
         }
-
-        return null;
     }
 
+    /**
+     * Funzione che permette di caricare dal DB un oggetto seguendo alcuni valori di filtro. Ritorna un array contenente i valori corrispondenti.
+     * @param $class
+     * @param $genere
+     * @param float $votoInizio
+     * @param float $votoFine
+     * @param string $dataInizio
+     * @param string $dataFine
+     * @return array
+     */
     public function loadByFilter($class, $genere, float $votoInizio, float $votoFine, string $dataInizio, string $dataFine) {
         $query = "SELECT * FROM {$class::getTableName()} WHERE genere = '{$genere}' AND (dataRilascio >= '{$dataInizio}' AND dataRilascio <= '{$dataFine}') AND ((votoCritica >= {$votoInizio} AND votoCritica <= {$votoFine}) OR votoCritica = 0);";
 
         return $this->executeQuery($query);
     }
 
+    /**
+     * funzione che esegue la query passata come parametro sul DB. Ritorna un array con il risultato della query.
+     * @param $query
+     * @return array
+     */
     private function executeQuery($query) {
         $sender = $this->db->prepare($query);
         $sender->execute();
@@ -464,6 +552,10 @@ class FDatabase
         return $return;
     }
 
+    /**
+     * Funzione che viene chiamata nel caso di errore nel momento in cui si esegua una query sul DB. Ne mantiene la consistenza in caso di inserimenti attraverso il rollback e mostra una schermatat di errore per segnalare l'accaduto.
+     * @param bool $rollBack
+     */
     private function error($rollBack = true) {
         if ($rollBack) {
             $this->db->rollBack();

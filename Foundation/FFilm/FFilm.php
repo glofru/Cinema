@@ -1,14 +1,40 @@
 <?php
 
-
+/**
+ * Classe che permette il salvataggio sul DB di oggetti EFilm.
+ * Class FFilm
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Foundation
+ */
 class FFilm implements Foundation
 {
+    /**
+     * Nome della classe.
+     * @var string
+     */
     private static string $className = "FFilm";
+    /**
+     * Nome della corrispondente tabella presente sul DB.
+     * @var string
+     */
     private static string $tableName = "Film";
+    /**
+     * Insieme delle colonne presenti nella tabella sul DB che verrà sostituita in fase di binding.
+     * @var string
+     */
     private static string $valuesName = "(:id,:nome,:descrizione,:durata,:trailerURL,:votoCritica,:dataRilascio,:genere,:attori,:registi,:paese,:etaConsigliata)";
 
+    /**
+     * FFilm constructor.
+     */
     public function __construct() {}
 
+    /**
+     * Funzione che esegue il binding fra i parametri ed i reali valori da assegnare per salvare l'oggetto.
+     * @param PDOStatement $sender
+     * @param $film, oggetto dal quale si vogliono prelevare i valori.
+     * @return mixed|void
+     */
     public static function associate(PDOStatement $sender, $film) {
         if ($film instanceof EFilm) {
             $sender->bindValue(':id', NULL, PDO::PARAM_INT);
@@ -28,6 +54,11 @@ class FFilm implements Foundation
         }
     }
 
+    /**
+     * Funzione ausiliaria che permette di ottenere da un array di attori o registi una stringa in forma consona per essere inserita nel DB.
+     * @param array $a, array di attori o registi.
+     * @return string, stringa contente gli id degli attori o registi partecipanti al film sepratai da ';'.
+     */
     private static function splitArray(array $a): string
     {
         $s = "";
@@ -40,6 +71,11 @@ class FFilm implements Foundation
         return $s;
     }
 
+    /**
+     * Funzione inversa allo splitArray che permette di riscostruire un array da una stringa di attori o registi
+     * @param string $s, stringa contente gli id degli attori o registi partecipanti al film sepratai da ';'.
+     * @return array, array di attori o registi.
+     */
     public static function recreateArray(string $s): array
     {
         $return = [];
@@ -54,21 +90,37 @@ class FFilm implements Foundation
         return $return;
     }
 
+    /**
+     * Funzione che ritorna il nome della classe.
+     * @return string
+     */
     public static function getClassName()
     {
         return self::$className;
     }
 
+    /**
+     * Funzione che ritorna il nome della tabella presente sul DB.
+     * @return string
+     */
     public static function getTableName()
     {
         return self::$tableName;
     }
 
+    /**
+     * Funzione che ritorna i valori delle colonne della tabella per il binding.
+     * @return string
+     */
     public static function getValuesName()
     {
         return self::$valuesName;
     }
 
+    /**
+     * Funzione che permette di salvare un film sul DB.
+     * @param EFilm $film, film da salvare.
+     */
     public static function save(EFilm $film)
     {
         $db = FDatabase::getInstance();
@@ -78,6 +130,12 @@ class FFilm implements Foundation
         $film->setId($id);
     }
 
+    /**
+     * Funzione che permette di caricare un film dal DB. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti.
+     * @param string $value, valore da usare per identificare l'oggetto.
+     * @param string $row, colonna nella quale cercare il valore.
+     * @return array, array di EFilm.
+     */
     public static function load(string $value, string $row): array
     {
         $db = FDatabase::getInstance();
@@ -87,6 +145,10 @@ class FFilm implements Foundation
         return self::parseResult($result);
     }
 
+    /**
+     * Funzione che permette di caricare tutti i film presenti nel DB. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti.
+     * @return array, array con tutti gli EFilm nel database.
+     */
     public static function loadAll(): array
     {
         $db = FDatabase::getInstance();
@@ -96,6 +158,12 @@ class FFilm implements Foundation
         return self::parseResult($result);
     }
 
+    /**
+     * Funzione che permette di caricare un insieme di film a partire da un intervallo di date. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti.
+     * @param $inizio, data di inizio.
+     * @param $fine, data di fine.
+     * @return array, array di EFilm.
+     */
     public static function loadBetween($inizio,$fine) {
         $db = FDatabase::getInstance();
 
@@ -104,6 +172,12 @@ class FFilm implements Foundation
         return self::parseResult($result);
     }
 
+    /**
+     * Funzione che permette di caricare un insieme di oggetti dal DB sulla base di una parola. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti.
+     * @param $value, valore da usare per identificare l'oggetto.
+     * @param $row, colonna nella quale cercare il valore.
+     * @return array, array di EFilm.
+     */
     public static function loadLike($value, $row) {
         $db = FDatabase::getInstance();
 
@@ -112,13 +186,27 @@ class FFilm implements Foundation
         return self::parseResult($result);
     }
 
-    public static function update($value, $row, $newvalue, $newrow): bool
+    /**
+     * Funzione che permette di aggiornare un oggetto film nel DB. Ritorna l'esito dell'operazione.
+     * @param $value, valore necessario ad indetificare l'oggetto.
+     * @param $row, colonna nella quale cercare il valore.
+     * @param $newValue, valore che si vuole inserire.
+     * @param $newRow, colonna nella quale inserire il nuovo valore.
+     * @return bool, risultato dell'operazione.
+     */
+    public static function update($value, $row, $newValue, $newRow): bool
     {
         $db = FDatabase::getInstance();
 
-        return $db->updateTheDB(self::getClassName(), $value, $row, $newvalue, $newrow);
+        return $db->updateTheDB(self::getClassName(), $value, $row, $newValue, $newRow);
     }
 
+    /**
+     * Funzione che elimina un oggetto nel DB. Ritorna l'esito dell'operazione.
+     * @param $value, valore necessario ad indetificare l'oggetto.
+     * @param $row, colonna nella quale cercare il valore.
+     * @return bool, risultato dell'operazione.
+     */
     public static function delete($value, $row): bool
     {
         $db = FDatabase::getInstance();
@@ -126,6 +214,12 @@ class FFilm implements Foundation
         return $db->deleteFromDB(self::getClassName(), $value, $row);
     }
 
+    /**
+     * Funzione che permette di caricare un insieme di film a partire da un intervallo di date. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti se vi è almeno un risultato sennò torna un array vuoto.
+     * @param string $dataInizio, data di inzio.
+     * @param string $dataFine, data di fine.
+     * @return array, array di EFilm.
+     */
     public static function ricercaPerData(string $dataInizio, string $dataFine)
     {
         $db = FDatabase::getInstance();
@@ -139,6 +233,11 @@ class FFilm implements Foundation
         return self::parseResult($result);
     }
 
+    /**
+     * Funzione che permette di caricare un insieme di film a partire da un particolare genere. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti se vi è almeno un risultato sennò torna un array vuoto.
+     * @param EGenere $genere, genere dei film che si sta cercando.
+     * @return array, array di EFilm.
+     */
     public static function ricercaPerGenere(EGenere $genere)
     {
         $db = FDatabase::getInstance();
@@ -152,6 +251,11 @@ class FFilm implements Foundation
         return self::parseResult($result);
     }
 
+    /**
+     * Funzione che permette di caricare un insieme di film a partire da un nome. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti se vi è almeno un risultato sennò torna un array vuoto.
+     * @param string $nome, nome del film che si sta cercando.
+     * @return array, array di EFilm.
+     */
     public static function ricercaperNome(string $nome) {
         $db = FDatabase::getInstance();
 
@@ -163,6 +267,15 @@ class FFilm implements Foundation
         return self::parseResult($result);
     }
 
+    /**
+     * Funzione che permette di ottenere un film dal DB se questo rispetta determinati criteri passati come input. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti.
+     * @param $genere, genere del film.
+     * @param float $votoInizio, voto minimo del film che si sta cercando.
+     * @param float $votoFine, voto massimo del film che si sta cercando.
+     * @param DateTime $annoInizio, anno minimo nel quale il film deve essere stato rilasciato.
+     * @param DateTime $annoFine, anno massimo nel quale il film deve essere stato rilasciato.
+     * @return array, array di EFilm.
+     */
     public static function loadByFilter($genere, float $votoInizio, float $votoFine, DateTime $annoInizio, DateTime $annoFine) {
         $db = FDatabase::getInstance();
 
@@ -171,6 +284,11 @@ class FFilm implements Foundation
         return self::parseResult($result);
     }
 
+    /**
+     * Funzione che, dato un array di righe ritornate dal DB, permette di ricostruire oggetti della classe EFilm ed inserirli un array da ritornare.
+     * @param array $result, righe del database che si vuole 'parsare'.
+     * @return array, array di EFilm.
+     */
     private static function parseResult(array $result): array
     {
         $return = array();

@@ -1,14 +1,42 @@
 <?php
 
-
+/**
+ * Classe che permette il salvataggio e il caricamento di oggetti EProiezione dal DB.
+ * Class FProiezione
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Foundation
+ */
 class FProiezione implements Foundation
 {
+    /**
+     * Nome della classe.
+     * @var string
+     */
     private static string $className = "FProiezione";
+
+    /**
+     * Nome della corrispondente tabella presente sul DB.
+     * @var string
+     */
     private static string $tableName = "Proiezione";
+
+    /**
+     * Insieme delle colonne presenti nella tabella sul DB che verrà sostituita in fase di binding.
+     * @var string
+     */
     private static string $valuesName = "(:id,:data,:ora,:numerosala,:idFilm)";
 
+    /**
+     * FProiezione constructor.
+     */
     public function __construct() {}
 
+    /**
+     * Funzione che esegue il binding fra i parametri ed i reali valori da assegnare per salvare l'oggetto.
+     * @param PDOStatement $sender
+     * @param $proiezione, oggetto dal quale si vogliono prelevare i valori.
+     * @return mixed|void
+     */
     public static function associate(PDOStatement $sender, $proiezione) {
         if ($proiezione instanceof EProiezione) {
             $sender->bindValue(':id', NULL, PDO::PARAM_INT);
@@ -21,19 +49,37 @@ class FProiezione implements Foundation
         }
     }
 //----------------- GETTER --------------------
+    /**
+     * Funzione che ritorna il nome della classe.
+     * @return string
+     */
     public static function getClassName() {
         return self::$className;
     }
 
+    /**
+     * Funzione che ritorna il nome della tabella presente sul DB.
+     * @return string
+     */
     public static function getTableName() {
         return self::$tableName;
     }
 
+    /**
+     * Funzione che ritorna i valori delle colonne della tabella per il binding.
+     * @return string
+     */
     public static function getValuesName() {
         return self::$valuesName;
     }
 
 //------------- ALTRI METODI ----------------
+
+    /**
+     * Funzione che permette di salvare una proiezione sul DB. Prima di inserirla controlla se non si sovrapponga con un'altra già esistente sul DB.
+     * @param EProiezione $proiezione, proiezione da salvare.
+     * @return bool, esito dell'operazione.
+     */
     public static function save(EProiezione $proiezione): bool {
         $db = FDatabase::getInstance();
         $test = $db->checkSovrapposizione($proiezione);
@@ -48,6 +94,12 @@ class FProiezione implements Foundation
         return false;
     }
 
+    /**
+     * Funzione che permette di caricare una proiezione dal DB. Si appoggia alla funzione parseResult per ottenere come risultato un EElencoProgrammazioni.
+     * @param string $value, valore necessario ad indetificare l'oggetto.
+     * @param string $row, colonna nella quale cercare il valore.
+     * @return EElencoProgrammazioni, oggetto EElencoProgrammazioni.
+     */
     public static function load($value, $row): EElencoProgrammazioni {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
@@ -55,6 +107,10 @@ class FProiezione implements Foundation
         return self::parseResult($result);
     }
 
+    /**
+     * Funzione che permette di caricare tutte le proiezioni dal DB. Si appoggia alla funzione parseResult per ottenere come risultato un EElencoProgrammazioni.
+     * @return EElencoProgrammazioni, oggetto EElencoProgrammazioni.
+     */
     public static function loadAll(): EElencoProgrammazioni {
         $db = FDatabase::getInstance();
         $result = $db->loadByDate(self::getClassName(), new DateTime());
@@ -62,6 +118,12 @@ class FProiezione implements Foundation
         return self::parseResult($result);
     }
 
+    /**
+     * Funzione che permette di caricare un insieme di proiezioni a partire da un intervallo di date. Si appoggia alla funzione parseResult per ottenere come risultato un EElencoProgrammazioni.
+     * @param $inizio, data di inizio.
+     * @param $fine, data di fine.
+     * @return EElencoProgrammazioni, oggetto EElencoProgrammazioni.
+     */
     public static function loadBetween($inizio, $fine): EElencoProgrammazioni {
         $db = FDatabase::getInstance();
         $result = $db->loadBetween(self::getClassName(), $inizio, $fine, "data");
@@ -69,17 +131,36 @@ class FProiezione implements Foundation
         return self::parseResult($result);
     }
 
+    /**
+     * Funzione che permette di aggiornare un oggetto proiezione nel DB. Ritorna l'esito dell'operazione.
+     * @param $value, valore necessario ad indetificare l'oggetto.
+     * @param $row, colonna nella quale cercare il valore.
+     * @param $newvalue, valore che si vuole inserire.
+     * @param $newrow, colonna nella quale inserire il nuovo valore.
+     * @return bool, esito dell'operazione.
+     */
     public static function update($value, $row, $newvalue, $newrow): bool {
         $db = FDatabase::getInstance();
 
         return $db->updateTheDB(self::getClassName(), $value, $row, $newvalue, $newrow);
     }
 
+    /**
+     * Funzione che elimina un oggetto nel DB. Ritorna l'esito dell'operazione.
+     * @param $value, valore necessario ad indetificare l'oggetto.
+     * @param $row, colonna nella quale cercare il valore.
+     * @return bool, esito dell'operazione.
+     */
     public static function delete($value,$row): bool {
         $db = FDatabase::getInstance();
         return $db->deleteFromDB(self::getClassName(),$value,$row);
     }
 
+    /**
+     * Funzione che permette, dato un array di biglietti, di salvare i biglietti ed occupare i posti relativi. Ritorna il risultato dell'operazione.
+     * @param array $biglietti, array di biglietti usati per occupare i posti della proiezione.
+     * @return bool|mixed|null, esito dell'operazione.
+     */
     public static function occupaPosti(array $biglietti) {
         $db = FDatabase::getInstance();
         return $db->occupaPosti($biglietti);
@@ -90,6 +171,11 @@ class FProiezione implements Foundation
         return $db->liberaPosto($idProiezione, $posto, $emailUtente);
     }*/
 
+    /**
+     * Funzione che, sfruttando la parseProiezione, aggiunge all'ElencoProgrammazioni nel corrispettivo ProgrammazioneFilm la proiezione caricata.
+     * @param array $result, riga del database che si vuole 'parsare'.
+     * @return EElencoProgrammazioni, oggetto EElencoProgrammazioni.
+     */
     private static function parseResult(array $result)
     {
         $elencoProgrammazioni = new EElencoProgrammazioni();
@@ -101,6 +187,11 @@ class FProiezione implements Foundation
         return $elencoProgrammazioni;
     }
 
+    /**
+     * Funzione che, dato un array di righe ritornate dal DB, permette di ricostruire oggetti della classe Eproiezione.
+     * @param $row, riga del database che si vuole 'parsare'.
+     * @return EProiezione, oggetto EProiezione.
+     */
     private static function parseProiezione($row): EProiezione {
         $id = $row["id"];
         $data = $row["data"];
