@@ -11,7 +11,7 @@ class EProgrammazioneFilm implements JsonSerializable
      * Film di cui si raccolgono le proiezioni.
      * @var EFilm
      */
-    private EFilm $film;
+    private $film;
 
     /**
      * Insieme delle proieizoni.

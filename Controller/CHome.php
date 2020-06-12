@@ -71,13 +71,15 @@ class CHome
 
     public static function getProiezioni(array $date) {
         $pm = FPersistentManager::getInstance();
-        $elencoprogrammazioni = $pm->loadBetween($date[0], $date[1], "EProiezione");
+        $elencoProgrammazioni = $pm->loadBetween($date[0], $date[1], "EProiezione");
+
         $filmProiezioni = [];
         $immaginiProiezioni = [];
         $giudizifilm = [];
         $dateProiezioni = [];
         $punteggio = [];
-        foreach($elencoprogrammazioni->getElencoprogrammazioni() as $profilm) {
+
+        foreach($elencoProgrammazioni->getElencoprogrammazioni() as $profilm) {
             array_push($filmProiezioni, $profilm->getFilm());
             $giu = $pm->load($profilm->getFilm()->getId(), "idFilm", "EGiudizio");
             $temp = $profilm->getdateProiezioni();

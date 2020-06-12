@@ -85,6 +85,7 @@ class EUtente implements JsonSerializable
             $this->setPassword($password);
             $this->setIsBanned($isBanned);
         }
+
         $this->preferences = array();
     }
 
@@ -233,7 +234,7 @@ class EUtente implements JsonSerializable
      * @param string $genere, genere del film che si è visitato.
      * @param int $value, numero di volte che si è visitato un film di quel genere.
      */
-    public function setPreferece(string $genere, int $value) {
+    public function setPreference(string $genere, int $value) {
         $this->preferences[$genere] = $value;
     }
 
@@ -267,11 +268,12 @@ class EUtente implements JsonSerializable
         if(!isset($cookie)) {
             $generi = EGenere::getAll();
             foreach ($generi as $key) {
-                $this->setPreferece($key, 0);
+                $this->setPreference($key, 0);
             }
         } else {
             $this->preferences = unserialize($cookie);
         }
+
         return $this->getPreferencesArray();
     }
 
@@ -283,6 +285,7 @@ class EUtente implements JsonSerializable
         $isEmpty = true;
         $temp_values = [];
         $all = 0;
+
         foreach($this->getPreferencesArray() as $key => $a) {
             if($a !== 0) {
                 $isEmpty = false;
@@ -290,10 +293,15 @@ class EUtente implements JsonSerializable
                 $temp_values[$key] = $a;
             }
         }
-        if($isEmpty === true) {return true;}
+
+        if($isEmpty) {
+            return true;
+        }
+
         foreach($temp_values as $key => $arr) {
             $temp_values[$key] = round(round(($arr / $all) * 100) * (10/100));
         }
+
         return $temp_values;
     }
 
