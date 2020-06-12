@@ -50,11 +50,7 @@
                     <!-- content tabs nav -->
                     <ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist" style="margin-top: 50px">
                         <li class="nav-item">
-                            <a class="nav-link {if !isset($error)}active{/if}" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Gestione programmazione</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link {if isset($error)}active{/if}" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Aggiungi programmazione</a>
+                            <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Modifica programmazione</a>
                         </li>
                     </ul>
                     <!-- end content tabs nav -->
@@ -62,15 +58,13 @@
                     <!-- content mobile tabs nav -->
                     <div class="content__mobile-tabs" id="content__mobile-tabs">
                         <div class="content__mobile-tabs-btn dropdown-toggle" role="navigation" id="mobile-tabs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <input type="button" value="Gestione programmazione">
+                            <input type="button" value="Modifica programmazione">
                             <span></span>
                         </div>
 
                         <div class="content__mobile-tabs-menu dropdown-menu" aria-labelledby="mobile-tabs">
                             <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Gestione programmazione</a></li>
-
-                                <li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Aggiungi programmazione</a></li>
+                                <li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Modifica programmazione</a></li>
                             </ul>
                         </div>
                     </div>
@@ -85,42 +79,32 @@
             <div class="col-12 col-lg-8 col-xl-8" style="margin: auto">
                 <!-- content tabs -->
                 <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade {if (!isset($error))}show active{/if}" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
+                    <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
                         <div class="row">
                             <!-- comments -->
                             <div class="col-12">
                                 <div class="comments">
-                                    {if sizeof($programmazioni->getElencoProgrammazioni()) > 0}
-                                    {foreach $programmazioni->getElencoProgrammazioni() as $i => $prog}
+                                    <h2 class="card__title" style="font-size: 40px; margin-bottom: 20px;">{$programmazione->getFilm()->getNome()}</h2>
+                                    {foreach $programmazione->getProiezioni() as $p}
                                         <ul class="comments__list">
                                             <!-- card -->
                                             <div class="col-6 col-sm-12 col-lg-6">
                                                 <div class="card card--list" style="margin-bottom: 0">
                                                     <div class="row">
-                                                        <div class="col-12 col-sm-4" style="padding-left: 0; padding-right: 0">
-                                                            <div class="card__cover">
-                                                                <img src="{$locandine[$i]->getImmagineHTML()}" alt="">
-                                                            </div>
-                                                        </div>
-
                                                         <div class="col-12 col-sm-8">
-                                                            <div class="card__content">
-                                                                <h3 class="card__title"><a href="{$path}/Film/show/?film={$prog->getFilm()->getId()}">{$prog->getFilm()->getNome()}</a></h3>
-                                                                <span class="card__category">
-                                                                        <a style="font-size: 15px;">{$prog->getDataInizio()->format("d/m/Y")} - {$prog->getDataFine()->format("d/m/Y")}</a>
+                                                            <div class="card__content" style="height: 150px; width: 500px">
+                                                                <div>
+                                                                    <h3 class="card__title">{$p->getDataProiezione()->format("m/d/Y - H:i")}</h3>
+                                                                    <span class="card__category">
+                                                                        <a style="font-size: 20px;">Sala {$p->getSala()->getNumeroSala()}</a>
                                                                     </span>
-
-                                                                <div class="card__description">
-                                                                    <p>
-                                                                        {foreach $prog->getFasceOrarie() as $ora}
-                                                                            {$ora} {if $ora !== end($prog->getFasceOrarie())}-{/if}
-                                                                        {/foreach}
-                                                                    </p>
                                                                 </div>
-                                                                <form action="{$path}/Admin/modificaProgrammazione" method="GET">
-                                                                    <input type="hidden" name="film" value="{$prog->getFilm()->getId()}">
-                                                                    <button class="sign__btn" type="submit">Modifica</button>
-                                                                </form>
+                                                                <div>
+                                                                    <form action="{$path}/Admin/modificaProgrammazione" method="POST" style="width: 200px">
+                                                                        <input type="hidden" name="film" value="{$p->getFilm()->getId()}">
+                                                                        <button class="sign__btn" type="submit">Modifica</button>
+                                                                    </form>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -129,72 +113,11 @@
                                             <!-- end card -->
                                         </ul>
                                     {/foreach}
-                                    {else}
-                                        <div style="text-align: center">
-                                            <h2 class="content__title">Nessuna programmazione</h2>
-                                        </div>
-                                    {/if}
                                 </div>
                             </div>
                             <!-- end comments -->
                         </div>
                     </div>
-
-                    <div class="tab-pane fade {if (isset($error))}show active{/if}" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
-                        <div class="row" style="align-content: center">
-                            <!-- authorization form -->
-                            <form action="{$path}/Admin/gestioneProgrammazione" onsubmit="return validate()" method="POST" class="form" enctype="multipart/form-data" style="margin: auto">
-
-                                <!-- Film -->
-                                <div class="sign__group">
-                                    <input id="filmChosen" list="films" class="sign__input" value="{if isset($film)}{$film->getNome()} - {$film->getAnno()}{/if}" placeholder="Titolo del film">
-
-                                    <datalist id="films">
-                                        {foreach $films as $f}
-                                            <option data-value="{$f->getId()}" id="{$f->getNome()} - {$f->getAnno()}" value="{$f->getNome()} - {$f->getAnno()}"></option>
-                                        {/foreach}
-                                    </datalist>
-
-                                    <input id="film" type="hidden" name="film" value ="{if isset($film)}{$film->getId()}{/if}">
-                                </div>
-
-                                <!-- Sala -->
-                                <div class="sign__group">
-                                    <input id="roomChosen" list="rooms" type="number" class="sign__input" value="{if isset($sala) && $sala != 0}{$sala}{/if}" name = "sala" placeholder="Sala">
-
-                                    <datalist id="rooms">
-                                        {foreach $sale as $s}
-                                            <option value="{$s->getNumeroSala()}"></option>
-                                        {/foreach}
-                                    </datalist>
-
-
-                                </div>
-
-                                <!-- Orario -->
-                                <h3 style="color: white">Orario</h3>
-                                <div class="sign__group">
-                                    <input id="orario" type="time" class="sign__input" placeholder="Orario: HH:mm" value="{if isset($ora)}{$ora}{/if}" name="orario">
-                                </div>
-
-                                <!-- DataInizio -->
-                                <h3 style="color: white">Data di inizio</h3>
-                                <div class="sign__group">
-                                    <input id="dataInizio" type="date" class="sign__input" placeholder="Data inizio: AAAA-MM-GG" value="{if isset($inizio)}{$inizio}{/if}" name="dataInizio">
-                                </div>
-
-                                <!-- DataFine -->
-                                <h3 style="color: white">Data di fine</h3>
-                                <div class="sign__group">
-                                    <input id="dataFine" type="date" class="sign__input" placeholder="Data fine: AAAA-MM-GG" value="{if isset($fine)}{$fine}{/if}" name="dataFine">
-                                </div>
-
-                                <button id="submit" class="sign__btn" type="submit">Aggiungi proiezione</button>
-                            </form>
-                            <!-- end authorization form -->
-                        </div>
-                    </div>
-                    <!-- end reviews -->
                 </div>
             </div>
         </div>
@@ -269,27 +192,6 @@
 <script src="{$path}../../Smarty/js/photoswipe.min.js"></script>
 <script src="{$path}../../Smarty/js/photoswipe-ui-default.min.js"></script>
 <script src="{$path}../../Smarty/js/main.js"></script>
-
-<script>
-    function validate() {
-        let valFilm = $("#filmChosen").val();
-        let valSala = $("#roomChosen").val();
-
-        if (valFilm === "" ||
-            valSala === "" ||
-            $("#orario") === "" ||
-            $("#dataInizio").val() === "" ||
-            $("#dataFine").val() === "") {
-            alert("Compila tutti i campi");
-            return false;
-        }
-
-        $("#film").val(document.getElementById(valFilm).getAttribute("data-value"));
-        $("#room").val(valSala);
-
-        return true;
-    }
-</script>
 
 </body>
 

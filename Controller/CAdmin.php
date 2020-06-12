@@ -411,4 +411,18 @@ class CAdmin
 
         VAdmin::gestioneProgrammazione($utente, $films, $sale, $programmazioni, $locandine, $film, $nSala, $orario, $dataInizio, $dataFine, $error);
     }
+
+    public static function modificaProgrammazione() {
+        self::checkAdmin();
+
+        $method = $_SERVER["REQUEST_METHOD"];
+
+        if ($method === "GET") {
+            $idFilm = $_GET["film"];
+            $utente = CUtente::getUtente();
+            $programmazione = FPersistentManager::getInstance()->load($idFilm, "idFilm", "EProgrammazione")->getElencoProgrammazioni()[0];
+
+            VAdmin::modificaProgrammazione($utente, $programmazione);
+        }
+    }
 }
