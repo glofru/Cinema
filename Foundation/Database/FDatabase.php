@@ -212,6 +212,19 @@ class FDatabase
         return null;
     }
 
+    public function loadByDate($class, DateTime $time) {
+        try {
+            $query = "SELECT * FROM " . $class::getTableName() . " WHERE data >= " . $time->format("Y-m-d") . " AND ora >= " . $time->format("H:i") . ";";
+
+            return $this->executeQuery($query);
+        }
+        catch (PDOException $exception) {
+            $this->error(false);
+        }
+
+        return null;
+    }
+
     public function checkSovrapposizione(EProiezione $proiezione) {
         try {
             $query = "SELECT * FROM Proiezione WHERE numerosala = '{strval($proiezione->getNumeroSala())}' AND data = '{$proiezione->getDataSQL()}';";

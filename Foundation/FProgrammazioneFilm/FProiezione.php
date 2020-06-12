@@ -55,6 +55,13 @@ class FProiezione implements Foundation
         return self::parseResult($result);
     }
 
+    public static function loadAll(): EElencoProgrammazioni {
+        $db = FDatabase::getInstance();
+        $result = $db->loadByDate(self::getClassName(), new DateTime());
+
+        return self::parseResult($result);
+    }
+
     public static function loadBetween($inizio, $fine): EElencoProgrammazioni {
         $db = FDatabase::getInstance();
         $result = $db->loadBetween(self::getClassName(), $inizio, $fine, "data");

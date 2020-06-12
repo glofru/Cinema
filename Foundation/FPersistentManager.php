@@ -32,8 +32,10 @@ class FPersistentManager
             return "FUtente";
         } elseif($class == "EMediaLocandina" || $class == "EMediaUtente") {
             return "FMedia";
-        } else if($class === "ESalaFisica") {
+        } elseif($class === "ESalaFisica") {
             return "FSala";
+        } elseif($class === "EProgrammazione") {
+            return "FProiezione";
         }
         $class[0] = "F";
         return $class;
