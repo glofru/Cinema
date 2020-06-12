@@ -36,135 +36,7 @@
 </head>
 <body class="body">
 
-<!-- header -->
-<header class="header">
-    <div class="header__wrap">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="header__content">
-                        <!-- header logo -->
-                        <a href="{$path}../../index.php" class="header__logo">
-                            <img src="{$path}../../Smarty/img/logo.svg" alt="">
-                        </a>
-                        <!-- end header logo -->
-
-                        <!-- header nav -->
-                        <ul class="header__nav">
-                            <!-- dropdown -->
-                            <li class="header__nav-item">
-                                <a class="dropdown-toggle header__nav-link" href="{$path}../../index.php" role="button" >Home</a>
-
-                                
-                            </li>
-                            <!-- end dropdown -->
-
-                            <!-- dropdown -->
-                            <li class="header__nav-item">
-                                <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalogo</a>
-
-                                <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                    <li><a href="{$path}../../Catalogo/prossimeUscite/">Prossime uscite</a></li>
-                                    <li><a href="{$path}../../Catalogo/programmazioniPassate/">Programmazioni</a></li>
-                                    <li><a href="{$path}../../Catalogo/piuApprezzati/">Film più apprezzati</a></li>
-                                </ul>
-                            </li>
-                            <!-- end dropdown -->
-
-                            <li class="header__nav-item">
-                                <a href="{$path}../../Informazioni/getCosti/" class="header__nav-link">Prezzi</a>
-                            </li>
-
-                            <li class="header__nav-item">
-                                <a href="{$path}../../Informazioni/getHelp/" class="header__nav-link">Aiuto</a>
-                            </li>
-
-                            <!-- dropdown -->
-                            <li class="dropdown header__nav-item">
-                                <a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
-                                <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-                                    <li><a href="{$path}../../Informazioni/getAbout/">Su di noi</a></li>
-                                    {if (!isset($utente))}
-                                     <li><a href="{$path}../../Utente/signup">Registrati</a></li>
-                                     <li><a href="{$path}../../Utente/controlloBigliettiNonRegistrato/?">I miei biglietti</a></li>
-                                    {/if}
-                                </ul>
-                            </li>
-                            <!-- end dropdown -->
-                        </ul>
-                        <!-- end header nav -->
-
-                        <!-- header auth -->
-                        <div class="header__auth">
-                            <button class="header__search-btn" type="button">
-                                <i class="icon ion-ios-search"></i>
-                            </button>
-
-                            {if (!isset($utente))}
-                                <a href="{$path}../../Utente/login" methods="GET" class="header__sign-in">
-                                    <i class="icon ion-ios-log-in"></i>
-                                    <span>Login</span>
-                                </a>
-                            {elseif (isset($utente) && !$admin)}
-                                <li class="header__nav-item">
-                                    <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span>@{$utente->getUsername()}</span>
-                                    </a>
-                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                        <li><a href="{$path}../../Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
-                                        <li><a href="{$path}../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
-                                        <li><a href="{$path}../../Utente/showCommenti/">I miei giudizi</a></li>
-                                        <li><a href="{$path}../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
-                                    </ul>
-                                </li>
-                            {elseif (isset($utente) && $admin)}
-                                <li class="header__nav-item">
-                                    <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span>@{$utente->getUsername()}</span>
-                                    </a>
-                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                        <li><a href="{$path}../../Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
-                                        <li><a href="{$path}../../Admin/addFilm/?">Aggiungi film</a></li>
-                                        <li><a href="">Gestione Proiezioni</a></li>
-                                        <li><a href="{$path}../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
-                                        <li><a href="{$path}../../Admin/modificaPrezzi/?">Gestione Prezzi</a></li>
-                                        <li><a href="{$path}../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
-                                    </ul>
-                                </li>
-                            {/if}
-                        </div>
-                        <!-- end header auth -->
-
-                        <!-- header menu btn -->
-                        <button class="header__btn" type="button">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </button>
-                        <!-- end header menu btn -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- header search -->
-    <form action="{$path}../../Ricerca/cercaFilm" method= "POST" class="header__search">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="header__search-content">
-                        <input type="text" name="filmCercato" placeholder="Cerca un film">
-
-                        <button type="submit">Cerca</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-    <!-- end header search -->
-</header>
-<!-- end header -->
+{include file="{$path}Smarty/templates/header.tpl"}
 
 <!-- details -->
 <section class="section details">
@@ -258,7 +130,7 @@
         </div>
     </div>
     <!-- end details content -->
-    {if (isset($utente)) && $admin}
+    {if $utente->isAdmin()}
     <form action="" method="POST">
         <div class="col-12--center">
             <a style="margin: auto;" class="header__sign-in" href="/Admin/modificaFilm/?film={$film->getId()}" role="button">
@@ -307,7 +179,7 @@
                 <h2 class="section__title section__title--center">Sala: {$pro->getSala()->getNumeroSala()}</h2>
             </div>
                 <div class="row--center">
-                    <form id="book" class="form" action="{$path}../../Acquisto/getBiglietti" method="POST">
+                    <form id="book" class="form" action="{$path}/Acquisto/getBiglietti" method="POST">
                         <table style="margin-left:auto;margin-right:auto;" id="t01">
                             {foreach $pro->getSala()->getPosti() as $fila}
                                 <tr>
@@ -315,7 +187,7 @@
                                         {if $posto->isOccupato()}
                                             <th><img name="{$pro->getId()}" id="{$posto->getId()}" src="{$path}../../Smarty/img/cinema/sedia_occupata.png" alt="Posto"/></th>
                                         {else}
-                                            <th><img name="{$pro->getId()}" id="{$posto->getId()}" {if (!$admin)} onclick="book(this)" {/if}src="{$path}../../Smarty/img/cinema/sedia_libera.png" alt="Posto"/></th>
+                                            <th><img name="{$pro->getId()}" id="{$posto->getId()}" {if (!$utente->isAdmin())} onclick="book(this)" {/if}src="{$path}../../Smarty/img/cinema/sedia_libera.png" alt="Posto"/></th>
                                         {/if}
                                     {/foreach}
                                 </tr>
@@ -325,14 +197,14 @@
                 </div>
             </div>
         {/foreach}
-        {if (!$admin)}
+        {if ($utente->isRegistrato() || $utente->isVisitatore())}
             <div class="col-12--center">
-                <a onclick="acquista({$utente != null})" style="color: white; cursor:pointer;" class="section__btn" id="acquista">Acquista</a>
+                <a onclick="acquista({$utente->isRegistrato()})" style="color: white; cursor:pointer;" class="section__btn" id="acquista">Acquista</a>
             </div>
         {/if}
-        {if (!isset($utente))}
+        {if ($utente->isVisitatore())}
             <div class="col-12--center">
-                <h3 class="section__btn" style="width: 500px; cursor: default; background-image: none; box-shadow: none; display: block">Inserisci la mail dove inviare i biglietti oppure effettua prima il <a style="color: #ff55a5; position: relative" href="{$path}../../Utente/login">login</a></h3>
+                <h3 class="section__btn" style="width: 500px; cursor: default; background-image: none; box-shadow: none; display: block">Inserisci la mail dove inviare i biglietti oppure effettua prima il <a style="color: #ff55a5; position: relative" href="{$path}/Utente/login">login</a></h3>
                 <input id="email" type="email" name="email" class="form__input section__btn" style="width: 350px; background-image: linear-gradient(90deg, #af55a5 0%, #ff55a5 100%)" placeholder="Email"/>
             </div>
         {/if}
@@ -395,10 +267,10 @@
                                             {foreach $recensioni as $key => $rev}
                                         <li class="reviews__item">
                                             <div class="reviews__autor">
-                                                <img class="reviews__avatar" src="{$propic[$key]->getImmagine()}" alt="">
+                                                <img class="reviews__avatar" src="{$propic[$key]->getImmagineHTML()}" alt="">
                                                 <span class="reviews__name" style="display: inline-block">{$rev->getTitle()}</span>
 
-                                                {if isset($utente) && ($rev->getUtente()->getId() == $utente->getId() || $utente->isAdmin())}
+                                                {if $utente->isRegistrato() && ($rev->getUtente()->getId() == $utente->getId() || $utente->isAdmin())}
                                                     <span class="reviews__name" style="display: inline-block; position: relative; float: right; bottom: -7px">
                                                     <a style="line-height: normal" class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
                                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
@@ -412,16 +284,20 @@
                                                     </ul>
                                                     </span>
                                                 {/if}
-
                                                 <span class="reviews__time">da <a href="{$path}../../Utente/show/?id={$rev->getUtente()->getId()}">@{$rev->getUtente()->getUsername()}</a> il {$rev->getDataPubblicazioneString()}</span>
                                                 <span class="reviews__rating"><i class="icon ion-ios-star"></i>{$rev->getPunteggio()}</span>
                                             </div>
                                             <p class="reviews__text">{$rev->getCommento()}</p>
                                         </li>
                                             {/foreach}
+                                        {else}
+                                            <div class="col-12">
+                                                <h2 class="section__title section__title--center">Non ci sono commenti per questo film... :(</h2>
+                                            </div>
                                         {/if}
+
                                     </ul>
-                                    {if $canView && !$admin}
+                                    {if $canView && !$utente->isAdmin()}
                                     <form action="/Giudizio/add" class="form" method="POST">
                                         <input name="titolo" type="text" class="form__input" placeholder="Titolo (max 30 caratteri)" maxlength="30">
                                         <textarea name="commento" class="form__textarea" placeholder="Recensione (max 200 caratteri)" maxlength="200"></textarea>
@@ -485,74 +361,7 @@
 </section>
 <!-- end content -->
 
-<!-- footer -->
-<footer class="footer">
-    <div class="container">
-        <div class="row">
-            <!-- footer list -->
-            <div class="col-12 col-md-3">
-                <h6 class="footer__title">Scarica la nostra App</h6>
-                <ul class="footer__app">
-                    <li><a href="https://play.google.com/store?hl=it"><img src="{$path}../../Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
-                    <li><a href="https://www.apple.com/it/ios/app-store/"><img src="{$path}../../Smarty/img/google-play-badge.png" alt=""></a></li>
-                </ul>
-            </div>
-            <!-- end footer list -->
-
-            <!-- footer list -->
-            <div class="col-6 col-sm-4 col-md-3">
-                <h6 class="footer__title">Informazioni</h6>
-                <ul class="footer__list">
-                    <li><a href="{$path}../../Informazioni/getAbout/">Su di noi</a></li>
-                    <li><a href="{$path}../../Informazioni/getCosti/">Costi</a></li>
-                    <li><a href="{$path}../../Informazioni/getHelp/">Aiuto</a></li>
-                </ul>
-            </div>
-            <!-- end footer list -->
-
-            <!-- footer list -->
-            <div class="col-6 col-sm-4 col-md-3">
-                <h6 class="footer__title">Termini legali</h6>
-                <ul class="footer__list">
-                    <li><a href="#">Termini d'uso</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Sicurezza</a></li>
-                </ul>
-            </div>
-            <!-- end footer list -->
-
-            <!-- footer list -->
-            <div class="col-12 col-sm-4 col-md-3">
-                <h6 class="footer__title">Contatti</h6>
-                <ul class="footer__list">
-                    <li><a href="tel:+393357852000">+39 3357852000</a></li>
-                    <li><a href="mailto:support@magicboulevardcinema.com">support@magicboulevardcinema.com</a></li>
-                </ul>
-                <ul class="footer__social">
-                    <li class="facebook"><a href="https://facebook.com" target="_blank"><i class="icon ion-logo-facebook"></i></a></li>
-                    <li class="instagram"><a href="https://instagram.com" target="_blank"><i class="icon ion-logo-instagram"></i></a></li>
-                    <li class="twitter"><a href="https://twitter.com" target="_blank"><i class="icon ion-logo-twitter"></i></a></li>
-                    <li class="vk"><a href="https://vk.com" target="_blank"><i class="icon ion-logo-vk"></i></a></li>
-                </ul>
-            </div>
-            <!-- end footer list -->
-
-            <!-- footer copyright -->
-            <div class="col-12">
-                <div class="footer__copyright">
-                    <small><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></small>
-
-                    <ul>
-                        <li><a href="#">Termini d'uso</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-            <!-- end footer copyright -->
-        </div>
-    </div>
-</footer>
-<!-- end footer -->
+{include file="{$path}Smarty/templates/footer.tpl"}
 
 <!-- Root element of PhotoSwipe. Must have class pswp. -->
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
@@ -622,7 +431,7 @@
 
 <script>
     function getVal() {
-        document.getElementById("punteggio").value = document.getElementById("form__slider-value").outerHTML;
+        document.getElementById("punteggio").value = document.getElementById("form__slider-value").innerText;
     }
 
     let bookedSeat = [];

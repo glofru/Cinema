@@ -33,136 +33,9 @@
     <title>Magic Boulevard Cinema - Dove i sogni diventano realtà</title>
 
 </head>
-<body class="body">
+<body class="body" {if (!$utente->isAdmin())}onload="changing(document.getElementById('newsletter').checked)"{/if}>
 
-<!-- header -->
-<header class="header">
-    <div class="header__wrap">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="header__content">
-                        <!-- header logo -->
-                        <a href="{$path}../../index.php" class="header__logo">
-                            <img src="{$path}../../Smarty/img/logo.svg" alt="">
-                        </a>
-                        <!-- end header logo -->
-
-                        <!-- header nav -->
-                        <ul class="header__nav">
-                            <!-- dropdown -->
-                            <li class="header__nav-item">
-                                <a class="dropdown-toggle header__nav-link" href="{$path}../../index.php" role="button" >Home</a>
-
-
-                            </li>
-                            <!-- end dropdown -->
-
-                            <!-- dropdown -->
-                            <li class="header__nav-item">
-                                <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalogo</a>
-
-                                <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                    <li><a href="{$path}../../Catalogo/prossimeUscite/">Prossime uscite</a></li>
-                                    <li><a href="{$path}../../Catalogo/programmazioniPassate/">Programmazioni</a></li>
-                                    <li><a href="{$path}../../Catalogo/piuApprezzati/">Film più apprezzati</a></li>
-                                </ul>
-                            </li>
-                            <!-- end dropdown -->
-
-                            <li class="header__nav-item">
-                                <a href="{$path}../../Informazioni/getCosti/" class="header__nav-link">Prezzi</a>
-                            </li>
-
-                            <li class="header__nav-item">
-                                <a href="{$path}../../Informazioni/getHelp/" class="header__nav-link">Aiuto</a>
-                            </li>
-
-                            <!-- dropdown -->
-                            <li class="dropdown header__nav-item">
-                                <a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
-                                {if (!isset($utente))}
-                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-                                        <li><a href="{$path}../../Informazioni/getAbout/">Su di noi</a></li>
-                                        <li><a href="{$path}../../Utente/signup">Registrati</a></li>
-                                        <li><a href="{$path}../../Utente/controlloBigliettiNonRegistrato/?">I miei biglietti</a></li>
-                                    </ul>
-                                {else}
-                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-                                        <li><a href="{$path}../../Informazioni/getAbout/">Su di noi</a></li>
-                                    </ul>
-                                {/if}
-                            </li>
-                            <!-- end dropdown -->
-                        </ul>
-                        <!-- end header nav -->
-
-                        <!-- header auth -->
-                        <div class="header__auth">
-                            <button class="header__search-btn" type="button">
-                                <i class="icon ion-ios-search"></i>
-                            </button>
-
-                            {if (isset($utente) && !$admin)}
-                            <li class="header__nav-item">
-                                <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span>@{$utente->getUsername()}</span>
-                                </a>
-                                <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                    <li><a href="{$path}../../Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
-                                    <li><a href="{$path}../../Utente/bigliettiAcquistati">I miei acquisti</a></li>
-                                    <li><a href="{$path}../../Utente/showCommenti/">I miei giudizi</a></li>
-                                    <li><a href="{$path}../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
-                                </ul>
-                            </li>
-                            {elseif (isset($utente) && $admin)}
-                            <li class="header__nav-item">
-                                <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span>@{$utente->getUsername()}</span>
-                                </a>
-                                <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                    <li><a href="{$path}../../Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
-                                    <li><a href="{$path}../../Admin/addFilm/?">Aggiungi film</a></li>
-                                    <li><a href="">Gestione Proiezioni</a></li>
-                                    <li><a href="{$path}../../Admin/gestioneUtenti/?">Gestione Utenti</a></li>
-                                    <li><a href="{$path}../../Admin/modificaPrezzi/?">Gestione Prezzi</a></li>
-                                    <li><a href="{$path}../../Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
-                                </ul>
-                            </li>
-                            {/if}
-                        </div>
-                        <!-- end header auth -->
-
-                        <!-- header menu btn -->
-                        <button class="header__btn" type="button">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </button>
-                        <!-- end header menu btn -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- header search -->
-    <form action="{$path}../../Ricerca/cercaFilm" method= "POST" class="header__search">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="header__search-content">
-                        <input type="text" name="filmCercato" placeholder="Cerca un film">
-
-                        <button type="submit">Cerca</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-    <!-- end header search -->
-</header>
-<!-- end header -->
+{include file="{$path}Smarty/templates/header.tpl"}
 
 
 <!-- details -->
@@ -175,7 +48,7 @@
     <div class="container">
         <div class="row">
             <!-- content -->
-            <form class="form" method="POST" action="{$path}../../Utente/modifica" onsubmit="return validate()" style="width: 1000px">
+            <form class="form" method="POST" action="{$path}../../Utente/modifica" onsubmit="return validate()" style="width: 1000px" enctype="multipart/form-data">
                 <div class="col-10">
                     <div class="card card--details card--series">
                         <div class="row">
@@ -189,10 +62,11 @@
                             <!-- card cover -->
                             <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
                                 <div class="card__cover">
-                                    <img src="{$propic->getImmagine()}" alt="">
+                                    <img id="mypropic" src="{$propic->getImmagineHTML()}" alt="">
                                     <button id="insert_image" class="sign__btn" type="button" style="width: 200px" onclick="document.getElementById('choose_image').click()">Carica foto profilo</button>
-                                    <input id="choose_image" type="file" name="propic" style="display: none" accept=".jpg, .jpeg, .gif, .png">
+                                    <input id="choose_image" type="file" name="propic" onchange="validateImage()" style="display: none" accept=".jpg, .jpeg, .gif, .png">
                                     <br>
+                                    <b><p id="image_name" class="faq__text" style="text-align: center; max-width: 300px">Nessuna immagine caricata (MAX 2MB)</p></b>
                                 </div>
                             </div>
                             <!-- end card cover -->
@@ -226,6 +100,12 @@
                                     </ul>
                                 </div>
                             </div>
+                            <!-- News Letter --->
+                            <div class="sign__group sign__group--checkbox">
+                                <input id="newsletter" name="newsletter" type="checkbox" {if !$utente->isAdmin()}{if $isASub === true}checked="checked" {else}{/if}onchange="changing(this.checked)"{/if} >
+                                <label for="newsletter">Iscrivimi alla newsletter</label>
+                            </div>
+                            <div id="content"></div>
                             <!-- end card content -->
                         </div>
                     </div>
@@ -238,74 +118,7 @@
     </div>
 </section>
 
-<!-- footer -->
-<footer class="footer">
-    <div class="container">
-        <div class="row">
-            <!-- footer list -->
-            <div class="col-12 col-md-3">
-                <h6 class="footer__title">Scarica la nostra App</h6>
-                <ul class="footer__app">
-                    <li><a href="https://play.google.com/store?hl=it"><img src="{$path}../../Smarty/img/Download_on_the_App_Store_Badge.svg" alt=""></a></li>
-                    <li><a href="https://www.apple.com/it/ios/app-store/"><img src="{$path}../../Smarty/img/google-play-badge.png" alt=""></a></li>
-                </ul>
-            </div>
-            <!-- end footer list -->
-
-            <!-- footer list -->
-            <div class="col-6 col-sm-4 col-md-3">
-                <h6 class="footer__title">Informazioni</h6>
-                <ul class="footer__list">
-                    <li><a href="{$path}../../Informazioni/getAbout/">Su di noi</a></li>
-                    <li><a href="{$path}../../Informazioni/getCosti/">Costi</a></li>
-                    <li><a href="{$path}../../Informazioni/getHelp/">Aiuto</a></li>
-                </ul>
-            </div>
-            <!-- end footer list -->
-
-            <!-- footer list -->
-            <div class="col-6 col-sm-4 col-md-3">
-                <h6 class="footer__title">Termini legali</h6>
-                <ul class="footer__list">
-                    <li><a href="#">Termini d'uso</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Sicurezza</a></li>
-                </ul>
-            </div>
-            <!-- end footer list -->
-
-            <!-- footer list -->
-            <div class="col-12 col-sm-4 col-md-3">
-                <h6 class="footer__title">Contatti</h6>
-                <ul class="footer__list">
-                    <li><a href="tel:+393357852000">+39 3357852000</a></li>
-                    <li><a href="mailto:support@magicboulevardcinema.com">support@magicboulevardcinema.com</a></li>
-                </ul>
-                <ul class="footer__social">
-                    <li class="facebook"><a href="https://facebook.com" target="_blank"><i class="icon ion-logo-facebook"></i></a></li>
-                    <li class="instagram"><a href="https://instagram.com" target="_blank"><i class="icon ion-logo-instagram"></i></a></li>
-                    <li class="twitter"><a href="https://twitter.com" target="_blank"><i class="icon ion-logo-twitter"></i></a></li>
-                    <li class="vk"><a href="https://vk.com" target="_blank"><i class="icon ion-logo-vk"></i></a></li>
-                </ul>
-            </div>
-            <!-- end footer list -->
-
-            <!-- footer copyright -->
-            <div class="col-12">
-                <div class="footer__copyright">
-                    <small><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></small>
-
-                    <ul>
-                        <li><a href="#">Termini d'uso</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-            <!-- end footer copyright -->
-        </div>
-    </div>
-</footer>
-<!-- end footer -->
+{include file="{$path}Smarty/templates/footer.tpl"}
 <!-- JS -->
 <script src="{$path}../../Smarty/js/jquery-3.3.1.min.js"></script>
 <script src="{$path}../../Smarty/js/bootstrap.bundle.min.js"></script>
@@ -321,8 +134,38 @@
 <script src="{$path}../../Smarty/js/main.js"></script>
 
 <script>
+    function changing(me){
+        if(me === true){
+            document.querySelector('#content').insertAdjacentHTML(
+                'beforebegin',
+                `<br/>
+                 <div class="container" id="checklist">
+                    <div class="row">
+                    <h2 class="faq__text" style="margin: auto">Scegli i tuoi generi preferiti</h2>
+                         <div class="col-lg-12">
+                          {foreach $genere as $item}
+                         <div class="sign__group sign__group--checkbox">
+                            <input id="{$item}" name="{$item}" type="checkbox" {foreach $prefs as $p}{if $p == $item}checked="checked"{break}{/if}{/foreach} >
+                            <label for="{$item}">{$item}</label>
+                        </div>
+                         {/foreach}
+                            </div>
+                         </div>
+                    </div>
+                 </div>`
+            )
+        } else {
+            document.getElementById("checklist").remove();
+        }
+    }
+    $(document).ready(function() {
+        // Aggiorna nome copertina
+        $('#choose_image').change(function (e) {
+            document.getElementById("image_name").innerText = e.target.files[0].name;
+        });
+    })
     function nameIsValid(name) {
-        let exp = /^[a-zA-Z\-]+$/;
+        let exp = /^([a-zA-Z '-]*)$/;
 
         return name.match(exp) != null;
     }
@@ -383,6 +226,26 @@
         }
 
         return false;
+    }
+
+    function validateImage() {
+        var formData = new FormData();
+
+        var file = document.getElementById("choose_image").files[0];
+
+        formData.append("Filedata", file);
+        var t = file.type.split('/').pop().toLowerCase();
+        if (t != "jpeg" && t != "jpg" && t != "png" && t != "gif") {
+            alert('Inserire un file di immagine valido!');
+            document.getElementById("choose_image").value = '';
+            return false;
+        }
+        if (file.size > 2048000) {
+            alert('Non puoi caricare file più grandi di 2 MB');
+            document.getElementById("choose_image").value = '';
+            return false;
+        }
+        return true;
     }
 </script>
 

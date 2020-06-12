@@ -2,9 +2,6 @@
 class CGiudizio{
     public static function add() {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $pm = FPersistentManager::getInstance();
-            $idFilm = $_POST["film"];
-
             if (!CUtente::isLogged()) {
                 CMain::forbidden();
             }
@@ -13,18 +10,22 @@ class CGiudizio{
             if ($utente->isAdmin()) {
                 VError::error(0, "Un admin non può esprimere giudizi su un film.");
             } else {
+                $pm = FPersistentManager::getInstance();
+
                 $commento = $_POST["commento"]??"";
                 $titolo = $_POST["titolo"]??"";
-                $punteggio = EHelper::getInstance()->retrieveVote($_POST["punteggio"]);
+                $punteggio = floatval($_POST["punteggio"]);
+                $idFilm = $_POST["film"];
 
                 $film = $pm->load($idFilm, "id", "EFilm")[0];
+
                 $data = new DateTime('now');
 
                 $giudizio = new EGiudizio($commento, $punteggio, $film, $utente, $titolo, $data);
 
                 $pm->save($giudizio);
                 $utente->addGiudizio($giudizio);
-                $_SESSION["utente"] = serialize($utente);
+                CUtente::saveSession($utente);
                 header("Location: /Film/show/?film=" . $idFilm);
             }
         } else {

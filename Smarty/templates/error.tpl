@@ -42,7 +42,7 @@
             <div class="col-12">
                 <div class="page-404__wrap">
                     <div class="page-404__content">
-                        <h1 class="page-404__title">Errore {$error_number}</h1>
+                        <h1 class="page-404__title" style="text-align: center">Errore {$error_number}</h1>
                         <p class="page-404__text">{$error_description}</p>
                         <a href="/" class="page-404__btn">Torna alla Home</a>
                     </div>

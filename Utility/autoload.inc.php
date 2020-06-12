@@ -9,6 +9,7 @@ function autoloader_control($class){
 }
 
 function autoloader_model($class){
+    include_once('Model/EData/' . $class  . '.php');
     include_once('Model/EFilm/' . $class  . '.php');
     include_once('Model/EForum/' . $class  . '.php');
     include_once('Model/EMedia/' . $class  . '.php');

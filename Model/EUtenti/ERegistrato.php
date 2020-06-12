@@ -1,26 +1,33 @@
 <?php
 
-/**Nella clesse Utente sono presenti tutti i metodi e attributi necessari a definire il profilo di un utente
- * registrato
+/**Nella clesse registrato sono presenti tutti i metodi e attributi necessari a definire il profilo di un Utente registrato.
  * Class ERegistrato
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Model
  */
 class ERegistrato extends EUtente
 {
     /**
+     * Lista dei giudizi espressi dall'utente.
      * @var array
      */
     private array $listaGiudizi;
 
+    /**
+     * Lista dei biglietti acquistati dall'utente.
+     * @var array
+     */
     private array $listaBiglietti;
 
     /**
      * ERegistrato constructor.
-     * @param string $nome
-     * @param string $cognome
-     * @param string $username
-     * @param string $email
-     * @param string $password
-     * @throws Exception
+     * @param string $nome, nome dell'utente.
+     * @param string $cognome, cognome dell'utente.
+     * @param string $username, username dell'utente
+     * @param string $email, email dell'utente.
+     * @param string $password, password dell'utente.
+     * @throws Exception, se almeno uno dei parametri passato al costruttore non rispetta la relativa sintassi.
      */
     public function __construct(string $nome, string $cognome, string $username, string $email, string $password, bool $isBanned)
     {
@@ -32,7 +39,7 @@ class ERegistrato extends EUtente
 
 
     /**
-     * @return array
+     * @return array, insieme dei giudizi espressi dall'utente
      */
     public function getListaGiudizi(): array
     {
@@ -40,13 +47,16 @@ class ERegistrato extends EUtente
     }
 
     /**
-     * @param array $listagiudizi
+     * @param EGiudizio $giudizio, giudizio da aggiungere alla lsita.
      */
     public function addGiudizio(EGiudizio $giudizio): void
     {
         array_push($this->listaGiudizi, $giudizio);
     }
 
+    /**
+     * @param EGiudizio $giudizio, giudizio da rimuovere dall'insieme.
+     */
     public function removeGiudizio(EGiudizio $giudizio) {
         $value = false;
         foreach ($this->listaGiudizi as $key => $item) {
@@ -61,19 +71,31 @@ class ERegistrato extends EUtente
         }
     }
 
+    /**
+     * @return array, lista dei biglietti acquistati.
+     */
     public function getListaBiglietti(): array
     {
         return $this->listaBiglietti;
     }
 
     /**
-     * @param array $listagiudizi
+     * @param EBiglietto $biglietto, biglietto da aggiungere.
      */
     public function addBiglietto(EBiglietto $biglietto): void
     {
         array_push($this->listaBiglietti, $biglietto);
     }
 
-    //TODO: override jsonsSerialization per aggiungere lista giudizi
+    /**
+     * @return array|mixed, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFULL.
+     */
+    public function jsonSerialize()
+    {
+        $temp = parent::jsonSerialize();
+        $temp["biglietti"] = $this->getListaBiglietti();
+        $temp["giudizi"] = $this->getListaGiudizi();
+        return $temp;
+    }
 
 }

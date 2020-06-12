@@ -2,33 +2,41 @@
 
 
 /**
+ * Nella classe SalaFisica sono presenti tutti i metodi e gli attributi necessari alla creazione e gestione di una SalaFisica.
  * Class ESalaFisica
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Model
  */
 class ESalaFisica implements JsonSerializable
 {
     /**
+     * Numero della sala.
      * @var int
      */
     private int $numeroSala;
     /**
+     * Numero di file presenti nella sala.
      * @var int
      */
     private int $nFile;
     /**
+     * Numero di posti presenti in ongi fila.
      * @var int
      */
     private int $nPostiFila;
     /**
+     * Identifica se la sala sia disponibile ad ospitare delle proiezione o sia interdetta per motivi logistici.
      * @var bool
      */
     private bool $disponibile;
 
     /**
      * ESalaFisica constructor.
-     * @param int $numeroSala
-     * @param int $nFile
-     * @param int $nPostiFila
-     * @param bool $disponibile
+     * @param int $numeroSala, numero della sala.
+     * @param int $nFile, numero di file nella sala.
+     * @param int $nPostiFila, nuero di posti per ogni fila presente in sala.
+     * @param bool $disponibile, disponibilità della sala.
      */
     public function __construct(int $numeroSala, int $nFile, int $nPostiFila, bool $disponibile)
     {
@@ -39,7 +47,7 @@ class ESalaFisica implements JsonSerializable
     }
 
     /**
-     * @return int
+     * @return int, numero della sala.
      */
     public function getNumeroSala(): int
     {
@@ -47,7 +55,7 @@ class ESalaFisica implements JsonSerializable
     }
 
     /**
-     * @param int $numeroSala
+     * @param int $numeroSala, numero della sala.
      */
     public function setNumeroSala(int $numeroSala): void
     {
@@ -58,7 +66,7 @@ class ESalaFisica implements JsonSerializable
     }
 
     /**
-     * @return int
+     * @return int, numero di file.
      */
     public function getNFile(): int
     {
@@ -66,7 +74,7 @@ class ESalaFisica implements JsonSerializable
     }
 
     /**
-     * @param int $nFile
+     * @param int $nFile, numero di file.
      */
     public function setNFile(int $nFile): void
     {
@@ -77,7 +85,7 @@ class ESalaFisica implements JsonSerializable
     }
 
     /**
-     * @return int
+     * @return int, numero di posti per fila.
      */
     public function getNPostiFila(): int
     {
@@ -85,7 +93,7 @@ class ESalaFisica implements JsonSerializable
     }
 
     /**
-     * @param int $nPostiFila
+     * @param int $nPostiFila, numero di posti per fila.
      */
     public function setNPostiFila(int $nPostiFila): void
     {
@@ -96,7 +104,7 @@ class ESalaFisica implements JsonSerializable
     }
 
     /**
-     * @return bool
+     * @return bool, disponibilità della sala ad essere utilizzata.
      */
     public function isDisponibile(): bool
     {
@@ -104,7 +112,7 @@ class ESalaFisica implements JsonSerializable
     }
 
     /**
-     * @param bool $disponibile
+     * @param bool $disponibile, disponibilità della sala ad essere utilizzata.
      */
     public function setDisponibile(bool $disponibile): void
     {
@@ -112,7 +120,7 @@ class ESalaFisica implements JsonSerializable
     }
 
     /**
-     * @return mixed|void
+     * @return mixed|void, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFULL.
      */
     public function jsonSerialize()
     {

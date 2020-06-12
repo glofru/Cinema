@@ -382,77 +382,7 @@ $(document).ready(function () {
 	}
 	$(window).on('load', initializePlayer());
 
-	/*==============================
-	Range sliders
-	==============================*/
-	/*1*/
-	function initializeFirstSlider() {
-		if ($('#filter__years').length) {
-			var firstSlider = document.getElementById('filter__years');
-			noUiSlider.create(firstSlider, {
-				range: {
-					'min': 1998,
-					'max': 2022
-				},
-				step: 1,
-				connect: true,
-				start: [2000, 2020],
-				format: wNumb({
-					decimals: 0,
-				})
-			});
-			var firstValues = [
-				document.getElementById('filter__years-start'),
-				document.getElementById('filter__years-end')
-			];
-			firstSlider.noUiSlider.on('update', function( values, handle ) {
-				firstValues[handle].innerHTML = values[handle];
-			});
-		} else {
-			return false;
-		}
-		return false;
-	}
-	$(window).on('load', initializeFirstSlider());
-
-	/*2*/
-	function initializeSecondSlider() {
-		if ($('#filter__imbd').length) {
-			var secondSlider = document.getElementById('filter__imbd');
-			noUiSlider.create(secondSlider, {
-				range: {
-					'min': 0,
-					'max': 10
-				},
-				step: 0.1,
-				connect: true,
-				start: [3.0, 8.0],
-				format: wNumb({
-					decimals: 1,
-				})
-			});
-
-			var secondValues = [
-				document.getElementById('filter__imbd-start'),
-				document.getElementById('filter__imbd-end')
-			];
-
-			secondSlider.noUiSlider.on('update', function( values, handle ) {
-				secondValues[handle].innerHTML = values[handle];
-			});
-
-			$('.filter__item-menu--range').on('click.bs.dropdown', function (e) {
-				e.stopPropagation();
-				e.preventDefault();
-			});
-		} else {
-			return false;
-		}
-		return false;
-	}
-	$(window).on('load', initializeSecondSlider());
-
-	/*3*/
+	/*RangeSlider*/
 	function initializeThirdSlider() {
 		if ($('#slider__rating').length) {
 			var thirdSlider = document.getElementById('slider__rating');

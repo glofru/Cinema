@@ -34,7 +34,7 @@
 
 </head>
 
-<body class="body" {if isset($e)}onload="alert({$e})"{/if}>
+<body class="body" {if isset($e)}onload="alert('{$e}')"{/if}>
 
 <div class="sign section--bg" data-bg="{$path}../../Smarty/img/section/section.jpg">
     <div class="container">

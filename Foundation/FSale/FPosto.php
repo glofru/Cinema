@@ -1,14 +1,43 @@
 <?php
 
-
+/**
+ * Classe che permette il salvataggio e il caricamento di oggetti EPosto dal DB. Questa classe svolge il compito di creare, per ogni proiezione che viene inserita, un insieme di posti 'virtuali' riferiti ad una proiezione.
+ * Class FPosto
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Foundation
+ */
 class FPosto implements FoundationDebole
 {
+    /**
+     * Nome della classe.
+     * @var string
+     */
     private static string $className = "FPosto";
+
+    /**
+     * Nome della corrispondente tabella presente sul DB.
+     * @var string
+     */
     private static string $tableName = "Posti";
+
+    /**
+     * Insieme delle colonne presenti nella tabella sul DB che verrà sostituita in fase di binding.
+     * @var string
+     */
     private static string $valuesName = "(:idProiezione,:posizione,:occupato)";
 
+    /**
+     * FPosto constructor.
+     */
     public function __construct() {}
 
+    /**
+     * Funzione che esegue il binding fra i parametri ed i reali valori da assegnare per salvare l'oggetto.
+     * @param PDOStatement $sender
+     * @param $proiezione, oggetto dal quale si vogliono prelevare i valori.
+     * @param $posto, oggetto dal quale si vogliono prelevare i valori.
+     * @return mixed|void
+     */
     public static function associate(PDOStatement $sender, $proiezione, $posto) {
         if ($proiezione instanceof EProiezione && $posto instanceof EPosto) {
             $sender->bindValue(':idProiezione', $proiezione->getId(), PDO::PARAM_INT);
@@ -19,32 +48,52 @@ class FPosto implements FoundationDebole
         }
     }
     //----------------- GETTER --------------------
+
+    /**
+     * Funzione che ritorna il nome della classe.
+     * @return string
+     */
     public static function getClassName() {
         return self::$className;
     }
 
+    /**
+     * Funzione che ritorna il nome della tabella presente sul DB.
+     * @return string
+     */
     public static function getTableName() {
         return self::$tableName;
     }
 
+    /**
+     * Funzione che ritorna i valori delle colonne della tabella per il binding.
+     * @return string
+     */
     public static function getValuesName() {
         return self::$valuesName;
     }
 //------------- ALTRI METODI ----------------
 
-    public static function store(EProiezione $proiezione) {
+    /**
+     * Funzione che permette di salvare una insieme di posti sul DB. Data una proiezione ne viene recuperata la sala ed istanziati nel DB tutti i posti presenti nella sala dove si svolgerà la proiezione.
+     * @param EProiezione $proiezione, proiezione dalla quale estrarre la sala e poter slavare i relativi posti.
+     */
+    public static function save(EProiezione $proiezione) {
         $db = FDatabase::getInstance();
         foreach ($proiezione->getSala()->getPosti() as $elem) {
             $db->saveToDBDebole(self::getClassName(), $proiezione, $elem);
         }
     }
 
+    /**
+     * Funzione che permette di caricare un insieme di posti dal DB. Può tornare un array con i posti oppure un array vuoto se non vi sono posti.
+     * @param $value, valore necessario ad indetificare l'oggetto.
+     * @param $row, colonna nella quale cercare il valore.
+     * @return array, array di EPosto.
+     */
     public static function load(string $value, string $row) {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), $value,$row);
-        if($result === null){
-            return null;
-        }
 
         $return = [];
 
@@ -56,16 +105,30 @@ class FPosto implements FoundationDebole
         return $return;
     }
 
+    /**
+     * Funzione che carica un posto specifico essendo un'entità debole sul DB. Ritorna un oggetto EPosto.
+     * @param $idProiezione, primo valore necessario ad indetificare l'oggetto.
+     * @param string $posto, secondo valore necessario ad indetificare l'oggetto.
+     * @return EPosto, oggetto EPosto.
+     */
     public static function loadDoppio($idProiezione, string $posto) {
         $db = FDatabase::getInstance();
         $result = $db->loadFromDBDebole(self::getClassName(), $idProiezione, "idProiezione", $posto, "posizione");
-        if($result === null){
-            return $result;
-        }
+
         $occupato = boolval($result[0]["occupato"]);
         return EPosto::fromDB($posto, $occupato);
     }
 
+    /**
+     * Funzione che permette di aggiornare un oggetto Posto nel DB. Ritorna l'esito dell'operazione.
+     * @param $value, primo valore necessario ad indetificare l'oggetto.
+     * @param $row, prima colonna nella quale cercare il valore.
+     * @param $value2, secondo valore necessario ad indetificare l'oggetto.
+     * @param $row2, secondo valore necessario ad indetificare l'oggetto.
+     * @param $newvalue, valore che si vuole inserire.
+     * @param $newrow, colonna nella quale inserire il nuovo valore.
+     * @return bool, esito dell'operazione.
+     */
     public static function update($value, $row, $value2, $row2, $newvalue, $newrow): bool {
         $db = FDatabase::getInstance();
         if($db->updateTheDBDebole(self::getClassName(), $value, $row, $value2, $row2, $newvalue, $newrow)){
@@ -74,6 +137,14 @@ class FPosto implements FoundationDebole
         return false;
     }
 
+    /**
+     * Funzione che elimina un oggetto nel DB. Ritorna l'esito dell'operazione.
+     * @param $value, primo valore necessario ad indetificare l'oggetto.
+     * @param $row, prima colonna nella quale cercare il valore.
+     * @param $value2, secondo valore necessario ad indetificare l'oggetto.
+     * @param $row2, seconda colonna nella quale cercare il valore.
+     * @return bool, esito dell'operazione.
+     */
     public static function delete($value, $row, $value2, $row2): bool {
         $db = FDatabase::getInstance();
         if($db->deleteFromDB(self::getClassName(), $value, $row)) {

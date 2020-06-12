@@ -121,8 +121,7 @@
 <script>
     let actors = [];
     let directors = [];
-</script>
-<script>
+
     function validate() {
         if ($("#filmChosen").val() === "" ||
             $("#roomChosen").val() === "" ||

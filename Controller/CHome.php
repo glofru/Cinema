@@ -4,17 +4,13 @@ class CHome
 
     public static function showHome() {
         if($_SERVER["REQUEST_METHOD"] === "GET"){
-            $gestore = EHelper::getInstance();
-            $cookie = $gestore->preferences($_COOKIE['preferences']);
-            $prossimi = self::getProssimi(5);
-            $consigliati = self::getConsigliati($cookie);
-            $proiezioni = self::getProiezioni($gestore->getSettimana());
-            $prossima = self::getProiezioni($gestore->getSettimanaProssima());
-            $scorsa = self::getProiezioni($gestore->getSettimanaScorsa(1));
-
             $utente = CUtente::getUtente();
-            $isAdmin = $utente != null && $utente->isAdmin();
-            VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2], $proiezioni[3], $scorsa[0], $scorsa[1], $scorsa[2], $scorsa[3], $prossima[0], $prossima[1], $prossima[2], $prossima[3], $utente, $isAdmin);
+            $prossimi = self::getProssimi(5);
+            $consigliati = self::getConsigliati($utente);
+            $proiezioni = self::getProiezioni(EData::getSettimana());
+            $prossima = self::getProiezioni(EData::getSettimanaProssima());
+            $scorsa = self::getProiezioni(EData::getSettimanaScorsa(1));
+            VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2], $proiezioni[3], $scorsa[0], $scorsa[1], $scorsa[2], $scorsa[3], $prossima[0], $prossima[1], $prossima[2], $prossima[3], $utente);
         } else {
             CMain::methodNotAllowed();
         }
@@ -22,12 +18,12 @@ class CHome
 
     public static function getProssimi(int $size) {
         $pm = FPersistentManager::getInstance();
-        $date = EHelper::getInstance()->getDateProssime();
+        $date = EData::getDateProssime();
         $filmProssimi = $pm->loadBetween($date[0], $date[1],"EFilm");
         if(sizeof($filmProssimi) > $size) {
             array_splice($filmProssimi, 0, $size);
         }
-        usort($filmProssimi, array(EHelper::getInstance(), "sortByDatesFilm"));
+        usort($filmProssimi, array(EFilm::class, "sortByDatesFilm"));
         $immaginiProssimi = [];
         foreach($filmProssimi as $film) {
             array_push($immaginiProssimi, $pm->load($film->getId(), "idFilm", "EMedia"));
@@ -37,11 +33,12 @@ class CHome
         return $result;
     }
 
-    public static function getConsigliati($cookie) {
+    public static function getConsigliati(EUtente $utente) {
+        $utente->preferences(unserialize($_COOKIE["preferences"]));
         $pm = FPersistentManager::getInstance();
         $result = [];
-        if(EHelper::getInstance()->getPreferences($cookie) === true) {
-            $date = EHelper::getInstance()->getDatePassate();
+        if($utente->getPreferences() === true) {
+            $date = EData::getDatePassate();
             $filmConsigliati = $pm->loadBetween($date[1], $date[0], "EFilm");
             shuffle($filmConsigliati);
             if(sizeof($filmConsigliati) > 6) {
@@ -50,7 +47,7 @@ class CHome
         }
         else {
             $filmConsigliati = [];
-            $cookie = EHelper::getInstance()->getPreferences($cookie);
+            $cookie = $utente->getPreferences();
             foreach($cookie as $key => $c) {
                 if($c !== 0) {
                     $f = $pm->load($key, "Genere", "EFilm");
@@ -74,13 +71,15 @@ class CHome
 
     public static function getProiezioni(array $date) {
         $pm = FPersistentManager::getInstance();
-        $elencoprogrammazioni = $pm->loadBetween($date[0], $date[1], "EProiezione");
+        $elencoProgrammazioni = $pm->loadBetween($date[0], $date[1], "EProiezione");
+
         $filmProiezioni = [];
         $immaginiProiezioni = [];
         $giudizifilm = [];
         $dateProiezioni = [];
         $punteggio = [];
-        foreach($elencoprogrammazioni->getElencoprogrammazioni() as $profilm) {
+
+        foreach($elencoProgrammazioni->getElencoprogrammazioni() as $profilm) {
             array_push($filmProiezioni, $profilm->getFilm());
             $giu = $pm->load($profilm->getFilm()->getId(), "idFilm", "EGiudizio");
             $temp = $profilm->getdateProiezioni();
@@ -90,7 +89,7 @@ class CHome
         
         foreach($giudizifilm as $g) {
             if(sizeof($g) > 0) {
-                $p = EHelper::getInstance()->getMedia($g);
+                $p = EGiudizio::getMedia($g);
             }
             else {
                 $p = 0;

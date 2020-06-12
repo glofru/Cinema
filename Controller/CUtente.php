@@ -34,7 +34,7 @@ class CUtente
 
             $utente = FPersistentManager::getInstance()->login($email, $password, true);
             if(!isset($utente)) {
-                VUtente::showCheckNonRegsitrato(true, $email);
+                VUtente::showCheckNonRegsitrato(CUtente::getUtente(), true, $email);
             } else if($utente->isRegistrato()) {
                 VError::error(0, "Pagina destinata ad utenti non Registrati");
             } else {
@@ -44,17 +44,28 @@ class CUtente
 
                 $biglietti = $utente->getListaBiglietti();
 
-                usort($biglietti, array(EHelper::getInstance(), "sortByDatesBiglietti"));
+                usort($biglietti, array(EBiglietto::class, "sortByDatesBiglietti"));
                 $immagini = [];
 
                 foreach ($biglietti as $item) {
                     array_push($immagini,FPersistentManager::getInstance()->load($item->GetProiezione()->getFilm()->getId(), "idFilm", "EMedia"));
                 }
 
-                VUtente::showCheckNonRegsitrato(false, $email, $biglietti, $immagini);
+                VUtente::showCheckNonRegsitrato(CUtente::getUtente(), false, $email, $biglietti, $immagini);
             }
         } else {
             CMain::methodNotAllowed();
+        }
+    }
+
+    public static function createVisitor() {
+        ini_set('session.cookie_httponly', true);
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        if(!isset($_SESSION["utente"]) && !isset($_SESSION["nonRegistrato"]) && !isset($_SESSION["visitatore"])){
+            session_set_cookie_params(time() + 3600, "/", null, false, true);
+            $_SESSION["visitatore"] = serialize(new EVisitatore());
         }
     }
     
@@ -64,6 +75,7 @@ class CUtente
             session_unset();
             session_destroy();
             setcookie("PHPSESSID", "", time() - 3600,"/");
+            self::createVisitor();
         }
         if($redirect) {
             header("Location: /");
@@ -113,6 +125,8 @@ class CUtente
 
                 if(CUtente::isLogged() && CUtente::getUtente()->getId() === intval($_GET["id"])) {
                     $canModify = true;
+                    $isASub = FPersistentManager::getInstance()->isASub(CUtente::getUtente());
+                    $prefs = str_replace(";",", ", FPersistentManager::getInstance()->load(CUtente::getUtente()->getId(), "idUtente", "ENewsLetter"));
                     $toShow = CUtente::getUtente();
                 } else {
                     $canModify = false;
@@ -126,20 +140,17 @@ class CUtente
                 }
 
                 $propic = $pm->load($toShow->getId(),"idUtente","EMediaUtente");
-                if($propic->getImmagine() == ""){
-                    $propic->setImmagine('../../Smarty/img/user.png'); //Default image
-                }
 
                 if(isset($toShow)){
                     if ($toShow->isRegistrato()) {
                         $giudizi = $toShow->getListaGiudizi();
-                        usort($giudizi, array(EHelper::getInstance(), "sortByDatesGiudizi"));
+                        usort($giudizi, array(EGiudizio::class, "sortByDatesGiudizi"));
                         if (sizeof($giudizi) > 10) {
                             array_splice($giudizi, 0, 10);
                         }
                     }
 
-                    VUtente::show($toShow, $canModify, $propic, $giudizi);
+                    VUtente::show($toShow, $canModify, $propic, $giudizi, $isASub, $prefs);
                 } else {
                     VError::error(0,"Utente non trovato.");
                 }
@@ -184,26 +195,52 @@ class CUtente
                     if (isset($_POST["vecchiaPassword"]) && $_POST["vecchiaPassword"] != "") {
                         if (password_verify($_POST["vecchiaPassword"], $utente->getPassword())) {
                             $utente->setPassword($_POST["nuovaPassword"]); //Check password
-                            $utente->setPassword(EHelper::getInstance()->hash($utente->getPassword())); //HashPassword
 
-                            $pm->update($utente->getId(), "id", $utente->getPassword(), "password", "EUtente");
+                            $pm->updatePasswordUser($utente);
                         } else {
                             throw new Exception("Vecchia password errata");
                         }
                     }
-
-                    if (isset($_POST["propic"])) {
-                        if (EInputChecker::getInstance()->isImage($_FILES[2])) {
-                            $propic = $_FILES;
-                            FMedia::update($utente->getId(), "id", $propic, "immagine");
+                    if (is_uploaded_file($_FILES["propic"])) {
+                        if (EInputChecker::getInstance()->isImage($_FILES["propic"]["type"]) && EInputChecker::getInstance()->isLight($_FILES["propic"]["size"])) {
+                            $propic = $_FILES["propic"];
+                            $name = $propic["name"];
+                            $mimeType = $propic["type"];
+                            $propic = file_get_contents($propic["tmp_name"]);
+                            $propic = base64_encode($propic);
+                            $data = new DateTime('now');
+                            $data = $data->format('Y-m-d');
+                            FPersistentManager::getInstance()->update($utente->getId(), "idUtente", $propic, "immagine", "EMediaUtente");
+                            FPersistentManager::getInstance()->update($utente->getId(), "idUtente", $data, "date", "EMediaUtente");
+                            FPersistentManager::getInstance()->update($utente->getId(), "idUtente", $name, "fileName", "EMediaUtente");
+                            FPersistentManager::getInstance()->update($utente->getId(), "idUtente", $mimeType, "mimeType", "EMediaUtente");
                         } else {
                             VError::error(10);
                         }
 
                     }
 
+                    if(isset($_POST["newsletter"])){
+                        $prefs = "";
+                        foreach (EGenere::getAll() as $genere){
+                            if(isset($_POST[$genere])){
+                                $prefs .= $genere . ";";
+                            }
+                        }
+                        $prefs = substr($prefs,0,-1);
+                        if(FPersistentManager::getInstance()->isASub($utente)){
+                            FPersistentManager::getInstance()->update($utente->getId(), "idUtente", $prefs, "preferenze", "ENewsLetter");
+                        } else {
+                            FPersistentManager::getInstance()->saveNS($utente, $prefs);
+                        }
+                    } else {
+                        if(FPersistentManager::getInstance()->isASub($utente)){
+                            FPersistentManager::getInstance()->delete($utente->getId(), "idUtente", "ENewsLetter");
+                        }
+                    }
+
                     self::saveSession($utente);
-                    header("Location: /Utente/show/?id=" . $utente->getId());
+                   header("Location: /Utente/show/?id=" . $utente->getId());
                 } catch (Exception $e) {
                     print $e->getMessage();
 //                    VUtente::modifica($utente);
@@ -219,24 +256,30 @@ class CUtente
                 $utente = CUtente::getUtente();
 
                 $propic = $pm->load($utente->getId(),"idUtente","EMediaUtente");
-                if($propic->getImmagine() == ""){
-                    $propic->setImmagine('../../Smarty/img/user.png'); //Default image
-                }
 
-                VUtente::modifica($utente, $propic);
+                VUtente::modifica($utente, $propic, EGenere::getAll(), FPersistentManager::getInstance()->isASub($utente), explode(";", FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "FNewsLetter")));
             } else {
                 CMain::forbidden();
             }
         }
     }
 
-    private static function saveSession(EUtente $utente) {
+    public static function saveSession($utente = null) {
+        ini_set('session.cookie_httponly', true);
+        if(!isset($utente)) {
+            VError::error(100);
+            die;
+        }
+        if(isset($_SESSION["visitatore"])){
+            unset($_SESSION["visitatore"]);
+        }
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
         session_regenerate_id(true);
-        session_set_cookie_params(time() + 3600, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inseirto il 4° parametro
-        $salvare = serialize($utente); // a TRUE per fare si che il cookie viaggi solo su HTTPS. E' FALSE perchè non abbiamo un certificato SSL ma in un contesto reale va messo a TRUE!!!
+        session_set_cookie_params(time() + 3600, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inserito il 4° parametro
+        // a TRUE per fare si che il cookie viaggi solo su HTTPS. E' FALSE perchè non abbiamo un certificato SSL ma in un contesto reale va messo a TRUE!!!
+        $salvare = serialize($utente);
         $_SESSION['utente'] = $salvare;
     }
 
@@ -244,7 +287,7 @@ class CUtente
         if (self::isLogged()) {
             header("Location: /");
         } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
-            VUtente::signup();
+            VUtente::signup(EGenere::getAll());
         } elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
             $nome = $_POST["nome"];
             $cognome = $_POST["cognome"];
@@ -255,21 +298,52 @@ class CUtente
             try {
                 $utente = new ERegistrato($nome, $cognome, $username, $email, $password, false);
             } catch (Exception $e) {
-                VUtente::signup($nome, $cognome, $username, $email, $e->getMessage());
+                VUtente::signup(EGenere::getAll(), $nome, $cognome, $username, $email, $e->getMessage());
                 return;
             }
 
-            //La password ha superato il controllo di validità, quindi ne faccio l'hash
-            $utente->setPassword(EHelper::getInstance()->hash($password));
-
             $pm = FPersistentManager::getInstance();
 
-            if (FUtente::exists($utente, true)) {
-                VUtente::signup($nome, $cognome, $username, $email, null, true);
-            } elseif (FUtente::exists($utente, false)) {
-                VUtente::signup($nome, $cognome, $username, $email, null, false);
+            if (FUtente::exists($utente, true)) { //Se la mail già esiste
+                VUtente::signup(EGenere::getAll(), $nome, $cognome, $username, $email, null, true);
+            } elseif (FUtente::exists($utente, false)) { //Se l'username già esiste
+                VUtente::signup(EGenere::getAll(), $nome, $cognome, $username, $email, null, false);
             } else {
+                if(!is_uploaded_file($_FILES["propic"])){
+                    $name = "";
+                    $mimeType = "";
+                    $data = "";
+                } else if(EInputChecker::getInstance()->isImage($_FILES["propic"]["type"]) && EInputChecker::getInstance()->isLight($_FILES["propic"]["size"])) {
+                    $img = $_FILES["propic"];
+
+                    $name = $img["name"];
+                    $mimeType = $img["type"];
+
+                    $data = file_get_contents($img["tmp_name"]);
+                    $data = base64_encode($data);
+                } else {
+                    VUtente::signup(EGenere::getAll(), $nome, $cognome, $username, $email, "Immagine non valida! Riprovare.");
+                    die;
+                }
+
+                $time = new DateTime("now");
+
                 $pm->signup($utente);
+
+                $propic = new EMediaUtente($name, $mimeType, $time, $data, $utente);
+                FPersistentManager::getInstance()->save($propic);
+
+                if(isset($_POST["newsletter"])){
+                    $ns = "";
+                    $generi = EGenere::getAll();
+                    foreach ($generi as $item) {
+                        if(isset($_POST[$item])){
+                            $ns .= $item.";";
+                        }
+                    }
+                    $ns = substr($ns, 0, -1);
+                    FPersistentManager::getInstance()->saveNS($utente,$ns);
+                }
                 self::saveSession($utente);
                 CMail::newEntry($utente);
                 header("Location: /");
@@ -286,10 +360,6 @@ class CUtente
             if(isset($_SESSION["utente"])) {
                 return true;
             }
-
-            if ($logout) {
-                self::logout();
-            }
         }
 
         return false;
@@ -298,26 +368,32 @@ class CUtente
     public static function getUtente() {
         if(self::isLogged()) {
             return unserialize($_SESSION["utente"]);
+        } else {
+            self::createVisitor();
+            return unserialize($_SESSION["visitatore"]);
         }
-
-        return NULL;
     }
 
     public static function bigliettiAcquistati() {
-        $utente = self::getUtente();
-        if(!isset($utente)) {
+        if(CUtente::isLogged()) {
+            $utente = self::getUtente();
+
+            if($utente->isAdmin()) {
+                header(0, "Pagina non disponibile agli admin.");
+            }
+
+            $biglietti = $utente->getListaBiglietti();
+            usort($biglietti, array(EBiglietto::class, "sortByDatesBiglietti"));
+
+            $immagini = [];
+            foreach ($biglietti as $item) {
+                array_push($immagini,FPersistentManager::getInstance()->load($item->GetProiezione()->getFilm()->getId(), "idFilm", "EMedia"));
+            }
+
+            VUtente::showBiglietti($biglietti, $immagini, $utente);
+        } else {
             CMain::forbidden();
         }
-        if($utente->isAdmin()) {
-            header("Location: /");
-        }
-        $biglietti = $utente->getListaBiglietti();
-        usort($biglietti, array(EHelper::getInstance(), "sortByDatesBiglietti"));
-        $immagini = [];
-        foreach ($biglietti as $item) {
-            array_push($immagini,FPersistentManager::getInstance()->load($item->GetProiezione()->getFilm()->getId(), "idFilm", "EMedia"));
-        }
-        VUtente::showBiglietti($biglietti, $immagini, $utente);
     }
 
     public static function forgotPassword() {
@@ -360,8 +436,8 @@ class CUtente
                 VUtente::forgotPassword($username);
             } else if (!$utente->isRegistrato()){ //Utente non registrato, crea un nuovo uid come password
                 $utente->setPassword(uniqid());
+                FPersistentManager::getInstance()->updatePasswordUser($utente);
                 CMail::sendForgotMailNonRegistrato($utente);
-                FPersistentManager::getInstance()->update($utente->getId(), "id", EHelper::getInstance()->hash($utente->getPassword()), "password", "EUtente");
             } else {
                 //Crea token
                 $uid = uniqid();
@@ -404,8 +480,8 @@ class CUtente
                 VUtente::newPassword($valueToken, true);
                 die;
             }
-            $hashedPassword = EHelper::getInstance()->hash($password);
-            FUtente::update($utente->getId(), "id", $hashedPassword, "password");
+
+            FPersistentManager::getInstance()->updatePasswordUser($utente);
 
             //Consuma token
             FPersistentManager::getInstance()->delete($token->getValue(), "value", "EToken");
@@ -421,11 +497,8 @@ class CUtente
             if(!self::getUtente()->isAdmin()){
                 $utente = self::getUtente();
                 $giudizi = $utente->getListaGiudizi();
-                usort($giudizi, array(EHelper::getInstance(), "sortByDatesGiudizi"));
+                usort($giudizi, array(EGiudizio::class, "sortByDatesGiudizi"));
                 $propic = FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EMediaUtente");
-                if($propic->getImmagine() == ""){
-                    $propic->setImmagine('../../Smarty/img/user.png');
-                }
                 VUtente::showCommenti($giudizi, $utente, $propic);
             }
         } else {
@@ -436,7 +509,7 @@ class CUtente
     public static function controlloBigliettiNonRegistrato() {
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             if(!CUtente::isLogged()){
-                VUtente::showCheckNonRegsitrato(true);
+                VUtente::showCheckNonRegsitrato(CUtente::getUtente(),true);
             } else {
                 VError::error(0, "Area riservata agli utenti <b>non registrati</b> presso il nostro portale");
                 die;

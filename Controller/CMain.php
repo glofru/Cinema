@@ -22,13 +22,19 @@ class CMain
 
     public static function run(string $url)
     {
+        ini_set('session.gc_probability', 10);
+        ini_set('session.gc_divisor', 200);
         $parsed_url = parse_url($url);
         $path = $parsed_url["path"];
         $isApi = strstr($path, "/api/");
         if ($isApi === false) {
+            //GESTIONE UTENTE NON REGISTRATO
             $pass = !CUtente::isLogged(false) && isset($_SESSION["nonRegistrato"]) && $path == "/Acquisto/confermaAcquisto";
 
-            if (!$pass && CUtente::isLogged()) {
+            if(!$pass && isset($_SESSION["nonRegistrato"])){
+                CUtente::logout(false);
+
+            } else if (!$pass && CUtente::isLogged()) {
                 //Check ban dal database
                 $check = FPersistentManager::getInstance()->load(CUtente::getUtente()->getId(), "id", "EUtente");
                 if ($check->isBanned()) {
@@ -38,6 +44,13 @@ class CMain
                     CUtente::logout(false);
                     VError::error(0, "La password è stata cambiata!");
                 }
+            } else if(!CUtente::isLogged()) {
+                CUtente::getUtente();
+            }
+
+
+            if(!isset($_COOKIE["preferences"])){
+                setcookie("preferences", CUtente::getUtente()->preferences(null), 86400 * 30, '/');
             }
 
             if ($path == "/" || $path == "/index.php") {
@@ -46,26 +59,34 @@ class CMain
                 $res = explode("/", $path);
 
                 array_shift($res);
+
                 $controller = "C" . $res[0];
-                $controllers = scandir("Controller");
+
+                try {
+                    $class = new ReflectionClass($controller);
+                }
+                catch (ReflectionException $e) {
+                    CMain::notFound();
+                }
 
                 $function = $res[1];
 
-                if (in_array($controller . ".php", $controllers) && method_exists($controller, $function)) {
-                    $function = $res[1];
-                    try {
-                        $reflection = new ReflectionMethod($controller, $function);
+                try {
+                    $reflection = $class->getMethod($function);
                         
-                        if(!$reflection->isPublic()){
-                            self::methodNotAllowed();
-                        }
-
-                        $controller::$function();
-                    } catch (ReflectionException $e) {
-                        CMain::methodNotAllowed();
+                    if(!$reflection->isPublic()){
+                        VError::error(0, "Accesso negato!");
                     }
-                } else {
-                    self::notFound();
+
+                    try {
+                        $controller::$function();
+                    } catch (Throwable $e) {
+                        //CMain::notFound();
+                        echo $e->getMessage();
+                    }
+
+                } catch (ReflectionException $e) {
+                   self::notFound();
                 }
             }
         } else {

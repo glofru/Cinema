@@ -1,6 +1,8 @@
 <?php
 
-
+/**
+ * Class CAcquisto
+ */
 class CAcquisto
 {
     public static function getBiglietti() {
@@ -32,6 +34,7 @@ class CAcquisto
                     session_regenerate_id(true);
                     session_set_cookie_params(time() + 300, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inserito il 4° parametro
                     $_SESSION["nonRegistrato"] = serialize($utente);
+                    unset($_SESSION["visitatore"]);
                     self::loadBiglietti($id, $str, $utente);
                 }
             } else { //Errore, l'utente non è loggato e non ha inviato la mail, non dovrebbe accadere
@@ -60,8 +63,7 @@ class CAcquisto
         if(sizeof($biglietti) > 0) {
             $serialized = serialize($biglietti);
             $_SESSION["biglietti"] = $serialized;
-            $userPassed = $utente->isRegistrato() ? $utente : null;
-            VAcquisto::showAcquisto($biglietti, $locandina, $userPassed, $totale);
+            VAcquisto::showAcquisto($biglietti, $locandina, $utente, $totale);
         } else {
             VError::error(8);
         }
@@ -98,14 +100,13 @@ class CAcquisto
                 $utenteDB = FUtente::load($utente->getEmail(), "email");
                 if(!isset($utenteDB)) {
                     $uid = uniqid();
-                    $utente->setPassword(EHelper::getInstance()->hash($uid));
-                    FPersistentManager::getInstance()->save($utente);
+                    $utente->setPassword($uid);
+                    FPersistentManager::getInstance()->signup($utente);
                 } else {
                     $utente = $utenteDB;
                     $uid = null;
                 }
             }
-
             foreach ($biglietti as $item) {
                 if (!$utente->isRegistrato()) {
                     $item->setUtente($utente);
@@ -126,6 +127,7 @@ class CAcquisto
                     unset($uid);
                     CUtente::logout(false);
                     header("Location: ../../Utente/controlloBigliettiNonRegistrato");
+                    echo "GIUSTO";
                 } else {
                     foreach ($biglietti as $b) {
                         $utente->addBiglietto($b);
@@ -133,7 +135,9 @@ class CAcquisto
                     $_SESSION["utente"] = serialize($utente);
                     CMail::sendTickets($utente, $biglietti);
                     header("Location: ../../Utente/bigliettiAcquistati");
+                    echo "NO";
                 }
+                die;
             }
         } else {
             CMain::methodNotAllowed();

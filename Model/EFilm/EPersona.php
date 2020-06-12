@@ -2,42 +2,52 @@
 
 
 /**
+ *  * Nella classe Biglietto sono i presenti attributi e metodi per la creazione e la gestione di una persona. Ovvero un attore o un regsita.
  * Class EPersona
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Model
  */
 class EPersona implements JsonSerializable
 {
     /**
+     * Id della persona.
      * @var int
      */
     private int $id = 0;
     /**
-     * @var string
+     * Nome della persona.
+     * @var string,
      */
     private string $nome;
     /**
+     * Cognome della persona.
      * @var string
      */
     private string $cognome;
     /**
+     * URL del sito IMDB per reperire maggiori informazioni sulla persona.
      * @var string
      */
     private string $imdbUrl;
     /**
+     * Identifica se la persona è un attore.
      * @var bool
      */
     private bool $isAttore;
     /**
+     * Identifica se la persona è un regista.
      * @var bool
      */
     private bool $isRegista;
 
     /**
      * EPersona constructor.
-     * @param string $nome
-     * @param string $cognome
-     * @param string $imdbUrl
-     * @param bool $isAttore
-     * @param bool $isRegista
+     * @param string $nome, nome della persona.
+     * @param string $cognome, cognome della persona.
+     * @param string $imdbUrl, URL del sito IMDB.
+     * @param bool $isAttore, se la persona è un attore.
+     * @param bool $isRegista, se la persona è un regista.
      */
     public function __construct(string $nome, string $cognome, string $imdbUrl, bool $isAttore, bool $isRegista)
     {
@@ -49,7 +59,7 @@ class EPersona implements JsonSerializable
     }
 
     /**
-     * @return string
+     * @return int, id della persona.
      */
     public function getId(): int
     {
@@ -57,7 +67,7 @@ class EPersona implements JsonSerializable
     }
 
     /**
-     * @param string $id
+     * @param int $id, id della persona.
      */
     public function setId(int $id): void
     {
@@ -65,7 +75,7 @@ class EPersona implements JsonSerializable
     }
 
     /**
-     * @return string
+     * @return string, nome della persona.
      */
     public function getNome(): string
     {
@@ -73,7 +83,7 @@ class EPersona implements JsonSerializable
     }
 
     /**
-     * @param string $nome
+     * @param string $nome, nome della persona.
      */
     public function setNome(string $nome): void
     {
@@ -81,7 +91,7 @@ class EPersona implements JsonSerializable
     }
 
     /**
-     * @return string
+     * @return string, cognome della persona.
      */
     public function getCognome(): string
     {
@@ -89,20 +99,23 @@ class EPersona implements JsonSerializable
     }
 
     /**
-     * @param string $cognome
+     * @param string $cognome, cognome della persona.
      */
     public function setCognome(string $cognome): void
     {
         $this->cognome = $cognome;
     }
 
+    /**
+     * @return string, nome e cognome della persona.
+     */
     public function getFullName(): string
     {
         return $this->getNome() . " " . $this->getCognome();
     }
 
     /**
-     * @return string
+     * @return string, URL del sito IMDB.
      */
     public function getImdbUrl(): string
     {
@@ -110,7 +123,15 @@ class EPersona implements JsonSerializable
     }
 
     /**
-     * @param string $imdbUrl
+     * @return string, id della persona nel sito IMDB. Necessario per evitare che gli omonimi possano rendere impossibile distringuere due persone.
+     */
+    public function getImdbId(): string {
+        $x = explode("/",$this->getImdbUrl());
+        return $x[sizeof($x)-2];
+    }
+
+    /**
+     * @param string $imdbUrl, URL del sito IMDB.
      */
     public function setImdbUrl(string $imdbUrl): void
     {
@@ -118,7 +139,7 @@ class EPersona implements JsonSerializable
     }
 
     /**
-     * @return bool
+     * @return bool, se la persona è un attore.
      */
     public function isAttore(): bool
     {
@@ -126,7 +147,7 @@ class EPersona implements JsonSerializable
     }
 
     /**
-     * @param bool $isAttore
+     * @param bool $isAttore, se la persona è un attore.
      */
     public function setIsAttore(bool $isAttore): void
     {
@@ -134,7 +155,7 @@ class EPersona implements JsonSerializable
     }
 
     /**
-     * @return bool
+     * @return bool, se la persona è un regista.
      */
     public function isRegista(): bool
     {
@@ -142,7 +163,7 @@ class EPersona implements JsonSerializable
     }
 
     /**
-     * @param bool $isRegista
+     * @param bool $isRegista, se la persona è un regista.
      */
     public function setIsRegista(bool $isRegista): void
     {
@@ -150,7 +171,7 @@ class EPersona implements JsonSerializable
     }
 
     /**
-     * @return mixed|void
+     * @return mixed|void, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFULL.
      */
     public function jsonSerialize()
     {

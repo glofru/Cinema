@@ -3,15 +3,16 @@
 
 class VUtente
 {
-    public static function show(EUtente $utente, bool $canModify, EMedia $propic, $giudizi) {
+    public static function show(EUtente $utente, bool $canModify, EMedia $propic, $giudizi, bool $isASub = false, string $prefs = "") {
         $smarty = StartSmarty::configuration();
 
         $smarty->assign("path", $GLOBALS["path"]);
         $smarty->assign("utente", $utente);
         $smarty->assign("canModify", $canModify);
-        $smarty->assign("admin", $utente->isAdmin());
         $smarty->assign("propic", $propic);
         $smarty->assign("giudizi", $giudizi);
+        $smarty->assign("isASub", $isASub);
+        $smarty->assign("prefs", $prefs);
 
         $smarty->display("user.tpl");
     }
@@ -28,9 +29,10 @@ class VUtente
         $smarty->display('login.tpl');
     }
 
-    public static function signup(string $nome = null, string $cognome = null, string $username = null, string $email = null, string $error = null, bool $emailExists = null) {
+    public static function signup($generi, string $nome = null, string $cognome = null, string $username = null, string $email = null, string $error = null, bool $emailExists = null) {
         $smarty = StartSmarty::configuration();
 
+        $smarty->assign("genere", $generi);
         $smarty->assign("path", $GLOBALS["path"]);
         if ($nome != null) {
             $smarty->assign("nome", $nome);
@@ -99,7 +101,7 @@ class VUtente
         $smarty->display("newPassword.tpl");
     }
 
-    public static function showCheckNonRegsitrato(bool $isGet, string $email = "", array $biglietti = null, $immagini = null) {
+    public static function showCheckNonRegsitrato(EUtente $utente, bool $isGet, string $email = "", array $biglietti = null, $immagini = null) {
         $smarty = StartSmarty::configuration();
 
         $smarty->assign("path", $GLOBALS["path"]);
@@ -107,17 +109,20 @@ class VUtente
         $smarty->assign("email", $email);
         $smarty->assign("biglietti", $biglietti);
         $smarty->assign("immagini", $immagini);
+        $smarty->assign("utente", $utente);
 
         $smarty->display("bigliettiNonRegistrato.tpl");
     }
 
-    public static function modifica(EUtente $utente, EMedia $propic) {
+    public static function modifica(EUtente $utente, EMedia $propic, $generi, $isASub, $prefs) {
         $smarty = StartSmarty::configuration();
 
+        $smarty->assign("genere", $generi);
         $smarty->assign("path", $GLOBALS["path"]);
         $smarty->assign("utente", $utente);
         $smarty->assign("propic", $propic);
-
+        $smarty->assign("prefs", $prefs);
+        $smarty->assign("isASub", $isASub);
         $smarty->display("modificaUtente.tpl");
     }
 }

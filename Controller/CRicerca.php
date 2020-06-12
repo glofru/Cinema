@@ -6,21 +6,20 @@ class CRicerca
     public static function cercaFilm() {
         if($_SERVER['REQUEST_METHOD']=="POST") {
             $str = $_POST["filmCercato"];
-            $gestore = EHelper::getInstance();
+
             if($str !== "") {
-                $pm = FPersistentManager::getInstance();
-                $film = $pm->loadLike($str, "nome", "EFilm");
-                $data = self::getFilmData($film, $gestore);
+                $film = FPersistentManager::getInstance()->loadLike($str, "nome", "EFilm");
+                $data = self::getFilmData($film);
             } else {
                 $film = [];
                 $data = [];
+
                 array_push($data, [], []);
             }
-            $cookie = $gestore->preferences($_COOKIE['preferences']);
-            $consigliati = CHome::getConsigliati($cookie);
             $utente = CUtente::getUtente();
-            $isAdmin = $utente !== null && $utente->isAdmin();
-            VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, $isAdmin);
+            $consigliati = CHome::getConsigliati($utente);
+
+            VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente);
         }
         else {
             CMain::methodNotAllowed();
@@ -29,59 +28,53 @@ class CRicerca
 
     public static function cercaFilmAttributi() {
         if($_SERVER["REQUEST_METHOD"] === "POST") {
-            $annoInizio = $_POST["anno_inizio"];
-            $annoFine = $_POST["anno_fine"];
-            $votoInizio = $_POST["voto_inizio"];
-            $votoFine = $_POST["voto_fine"];
-            $genere = $_POST["Genere"];
+            $genere = $_POST["genere"];
+            $annoI = $_POST["anno_inizio"];
+            $annoF = $_POST["anno_fine"];
+            $votoInizio = floatval($_POST["voto_inizio"]);
+            $votoFine = floatval($_POST["voto_fine"]);
 
-            $gestore = EHelper::getInstance();
-            $votoInizio = $gestore->retrieveVote($votoInizio);
-            $votoFine = $gestore->retrieveVote($votoFine);
-            $annoInizio = $gestore->retrieveAnno($annoInizio);
-            $annoFine = $gestore->retrieveAnno($annoFine);
-
-            $pm = FPersistentManager::getInstance();
-            $film = $pm->load($genere, "genere", "EFilm");
-            try {
-                $annoFine = DateTime::createFromFormat('Y-m-d', $annoFine . "-12-31");
-            } catch (Exception $e) {
-                $annoFine = new DateTime('now');
-            }
-
-            try {
-                $annoInizio = DateTime::createFromFormat('Y-m-d', $annoInizio . "-01-01");
-            } catch (Exception $e) {
+            $annoInizio = DateTime::createFromFormat('Y-m-d', $annoI . "-01-01");
+            if ($annoInizio === false) {
                 $annoInizio = new DateTime('now');
             }
 
-            $film = $gestore->filter($film, floatval($votoInizio), floatval($votoFine), $annoInizio, $annoFine);
-            $data = self::getFilmData($film, $gestore);
-            $cookie = $gestore->preferences($_COOKIE['preferences']);
-            $consigliati = CHome::getConsigliati($cookie);
-            $utente = CUtente::getUtente();
+            $annoFine = DateTime::createFromFormat('Y-m-d', $annoF . "-12-31");
+            if ($annoFine === false) {
+                $annoFine = new DateTime('now');
+            }
 
-            VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, $utente->isAdmin());
+            $film = FPersistentManager::getInstance()->loadFilmByFilter(EGenere::fromString($genere), $votoInizio, $votoFine, $annoInizio, $annoFine);
+            $data = self::getFilmData($film);
+
+            $utente = CUtente::getUtente();
+            $consigliati = CHome::getConsigliati($utente);
+
+
+            VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, $genere, $annoI, $annoF, $votoInizio, $votoFine);
         } else {
             CMain::methodNotAllowed();
         }
     }
 
-    private static function getFilmData(array $film, EHelper $gestore): array {
-        $pm = FPersistentManager::getInstance();
-        $punteggi = [];
-        $immaginiCercati = [];
-        $giudizi = [];
+    //TODO: non va in CFilm?
+    private static function getFilmData(array $film): array {
         $result = [];
 
+        $pm = FPersistentManager::getInstance();
+
+        $punteggi = [];
+        $immaginiCercate = [];
+        $giudizi = [];
+
         foreach($film as $f) {
-            array_push($immaginiCercati, $pm->load($f->getId(), "idFilm", "EMedia"));
+            array_push($immaginiCercate, $pm->load($f->getId(), "idFilm", "EMedia"));
             array_push($giudizi, $pm->load($f->getId(), "idFilm", "EGiudizio"));
         }
 
         foreach($giudizi as $g) {
             if(sizeof($g) > 0) {
-                $p = $gestore->getMedia($g);
+                $p = EGiudizio::getMedia($g);
             }
             else {
                 $p = 0;
@@ -93,7 +86,7 @@ class CRicerca
             array_push($punteggi, 0);
         }
 
-        array_push($result, $immaginiCercati, $punteggi);
+        array_push($result, $immaginiCercate, $punteggi);
         return $result;
     }
 }

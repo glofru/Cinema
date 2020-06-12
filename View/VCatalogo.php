@@ -4,14 +4,13 @@
 class VCatalogo
 {
 
-    public static function prossimeUscite(array $result, $utente, bool $isAdmin, array $consigliati) {
+    public static function prossimeUscite(array $result, $utente, array $consigliati) {
         $smarty = StartSmarty::configuration();
 
         $smarty->assign("path", $GLOBALS["path"]);
         $smarty->assign("filmProssimi", $result[0]);
         $smarty->assign("immaginiProssimi", $result[1]);
         $smarty->assign("utente", $utente);
-        $smarty->assign("admin", $isAdmin);
         $smarty->assign("filmConsigliati", $consigliati[0]);
         $smarty->assign("immaginiConsigliati", $consigliati[1]);
         $smarty->assign("whois", "Prossime uscite");
@@ -19,12 +18,11 @@ class VCatalogo
         $smarty->display("catalogo.tpl");
     }
 
-    public static function programmazioniPassate(array $film, array $immagini, array $punteggio, array $date, $utente, bool $isAdmin, array $consigliati, array $toShow) {
+    public static function programmazioniPassate(array $film, array $immagini, array $punteggio, array $date, $utente, array $consigliati, array $toShow) {
         $smarty = StartSmarty::configuration();
 
         $smarty->assign("path", $GLOBALS["path"]);
         $smarty->assign("utente", $utente);
-        $smarty->assign("admin", $isAdmin);
         $smarty->assign("filmPassati", $film);
         $smarty->assign("immaginiPassati", $immagini);
         $smarty->assign("punteggio", $punteggio);
@@ -37,12 +35,11 @@ class VCatalogo
         $smarty->display("catalogo.tpl");
     }
 
-    public static function piuApprezzati(array $result, $utente, bool $isAdmin, array $consigliati) {
+    public static function piuApprezzati(array $result, $utente, array $consigliati) {
         $smarty = StartSmarty::configuration();
 
         $smarty->assign("path", $GLOBALS["path"]);
         $smarty->assign("utente", $utente);
-        $smarty->assign("admin", $isAdmin);
         $smarty->assign("filmApprezzati", $result[0]);
         $smarty->assign("immaginiApprezzati", $result[1]);
         $smarty->assign("punteggio", $result[2]);

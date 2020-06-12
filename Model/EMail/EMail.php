@@ -2,33 +2,37 @@
 
 
 /**
+ * Nella classe Film sono presenti tutti i metodi e gli attributi necessari alla creazione e gestione di una email.
  * Class EMail
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Model
  */
 class EMail
 {
     /**
-     * @var string
+     * @var string, indirizzo del destinatario della email.
      */
     private string $to;
     /**
-     * @var string
+     * @var string, nome del destinatario.
      */
     private string $name;
     /**
-     * @var string
+     * @var string, oggetto della email.
      */
     private string $subject;
     /**
-     * @var string
+     * @var string, contenuto della email.
      */
     private string $body;
 
     /**
      * EMail constructor.
-     * @param string $to
-     * @param string $name
-     * @param string $subject
-     * @param string $body
+     * @param string $to, indirizzo email del destinatario.
+     * @param string $name, nome del destinatario.
+     * @param string $subject, oggetto della email.
+     * @param string $body, contenuto della email.
      */
     public function __construct(string $to, string $name, string $subject, string $body)
     {
@@ -39,7 +43,7 @@ class EMail
     }
 
     /**
-     * @return string
+     * @return string, indirizzo email del destinatario.
      */
     public function getTo(): string
     {
@@ -47,7 +51,7 @@ class EMail
     }
 
     /**
-     * @param string $to
+     * @param string $to, indirizzo email del destinatario.
      */
     public function setTo(string $to): void
     {
@@ -55,7 +59,7 @@ class EMail
     }
 
     /**
-     * @return string
+     * @return string, nome del destinatario.
      */
     public function getName(): string
     {
@@ -63,7 +67,7 @@ class EMail
     }
 
     /**
-     * @param string $name
+     * @param string $name, nome del destinatario.
      */
     public function setName(string $name): void
     {
@@ -71,7 +75,7 @@ class EMail
     }
 
     /**
-     * @return string
+     * @return string, oggetto della email.
      */
     public function getSubject(): string
     {
@@ -79,7 +83,7 @@ class EMail
     }
 
     /**
-     * @param string $subject
+     * @param string $subject, oggetto della mail.
      */
     public function setSubject(string $subject): void
     {
@@ -87,7 +91,7 @@ class EMail
     }
 
     /**
-     * @return string
+     * @return string, corpo della email.
      */
     public function getBody(): string
     {
@@ -95,7 +99,7 @@ class EMail
     }
 
     /**
-     * @param string $body
+     * @param string $body, corpo della email.
      */
     public function setBody(string $body): void
     {
