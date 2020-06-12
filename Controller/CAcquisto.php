@@ -1,10 +1,20 @@
 <?php
 
 /**
+ * Nella classe Acquisto sono presenti metodi necessari a partettere ad Utenti Nonregistrati e Registrati di acquistare uno o più biglietti.
  * Class CAcquisto
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Controller
  */
 class CAcquisto
 {
+    /**
+     * Funzione richiamabile solo via metodo POST che, presi id della proiezione ed i posti in una stringa parsata, inizializza la fase di acquisto ed esegue le seguenti funzioni:
+     * 1) Controlla se l'utente che ha eseguito la richiesta sia un utente registrato. Nel caso in cui non lo sia crea un nuovo utente non Registrato attraverso la mail inserita nella fase di scelta dei posti da acquistare.
+     * 1-bis) Se l'utente è un non Registrato viene inizializzata una sessione ed inseirta come variabile di sessione l'oggetto utente non registrato.
+     * 2) Se l'utente è loggato oppure la creazione di un utente non registrato ha dato esito positivo si procede con il passare l'id della proiezione, la stringa con i posti parsata e l'oggetto utente al metodo loadBiglietti.
+     */
     public static function getBiglietti() {
         if ($_SERVER['REQUEST_METHOD']=="POST") {
             $id = $_POST["proiezione"];
@@ -45,6 +55,18 @@ class CAcquisto
         }
     }
 
+    /**
+     * Funzione privata che provvede alle seguenti funzioni di supporto al processo di acquisto dei biglietti:
+     * 1) Vengono reperiti dal DB il film e la locandina del film corrispondente alla proiezione.
+     * 2) Viene caricata la proiezione dal DB e viene effettuato il parsing della stringa contenente i posti che si vogliono acquistare.
+     * 3) Ottenuti tutti gli oggetti necessari vengono istanziati un numero di biglietti pari al numero di posti scelti.
+     * 4) I biglietti appena istanziati vengono salvati in un array ed inseriti in una variabile di sessione al fine di poter essere reperiti con facilità.
+     *
+     *
+     * @param int $id, id della proiezione.
+     * @param string $str, stringa parsata con i posti che si vogliono occupare.
+     * @param $utente, l'utente che effettua l'acquisto.
+     */
     private static function loadBiglietti(int $id, string $str, $utente) {
         $pm = FPersistentManager::getInstance();
 
@@ -69,6 +91,15 @@ class CAcquisto
         }
     }
 
+    /**
+     * Funzione che conclude il processo di acquisto di uno o più biglietti. Accessibile solo via metodo POST. Esegue le seguenti funzioni:
+     * 1) Controlla se l'utente che sta eseguendo l'acquisto è un utente Registrato o Non registrato ed estrae l'array di biglietti dalla variabile di sessione.
+     * 2) Se l'utente è un non Registrato allora si controlla nel DB degli utenti se è presente. Se loè allora viene caricato l'oggetto dal DB, altrimenti gli viene assegnata una password randomica e salvato nel DB.
+     * 3) A questo punto ad i biglietti viene assegnato l'utente che li ha acquistati e successivamente vnegono salvati i biglietti nel DB ed occupati i relativi posti. Se almeno uno dei posti è stato già occupato nel mentre viene annullato l'acquisto ed invitato l'utente a riprovare.
+     * 4) Se il passaggio precedente ha avuto esito positivo allora viene inviata una mail di conferma agli utenti con i biglietti ed un codice QR contenente l'id del biglietto.
+     * 5) Se l'utente è un non Registrato ed è la prima volta che affettua un acquisto allora nella mail è inclusa la password temporanea che gli è stata assegnata. Nel caso invece in cui non sia il primo acquisto che l'utente non Registrato effettua non viene inviata la password in quanto resta valida la prima assegnatali.
+     * 6) Se l'utente è un non registrato la sessione viene terminata al termine dell'acquisto.
+     */
     public static function confermaAcquisto() {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $isNonRegistrato = false;

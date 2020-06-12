@@ -142,9 +142,9 @@ class FPersistentManager
     }
 
     /**
-     * Funzione che permette di reperire tutti gli oggetti presenti sul DB di una particolare classe passata come input. Torna un array.
+     * Funzione che permette di reperire tutti gli oggetti presenti sul DB di una particolare classe passata come input. Torna un array o una istanza di EElencoProgrammazioni.
      * @param $class, classe entity che sta chiamndo il PM.
-     * @return array, array di oggetti.
+     * @return mixed, array di oggetti o una istanza di EElencoProgrammazioni.
      */
     public function loadAll($class) {
         $class = self::getClass($class);

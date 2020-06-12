@@ -203,7 +203,7 @@ class FProiezione implements Foundation
      * @param array $result, riga del database che si vuole 'parsare'.
      * @return EElencoProgrammazioni, oggetto EElencoProgrammazioni.
      */
-    private static function parseResult(array $result)
+    private static function parseResult(array $result): EElencoProgrammazioni
     {
         $elencoProgrammazioni = new EElencoProgrammazioni();
 

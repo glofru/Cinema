@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * Class CFilm
+ */
 class CFilm
 {
     public static function show()
