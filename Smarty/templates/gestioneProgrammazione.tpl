@@ -95,31 +95,23 @@
                                     <ul class="comments__list">
                                             <!-- card -->
                                             <div class="col-6 col-sm-12 col-lg-6">
-                                                <div class="card card--list">
+                                                <div class="card card--list" style="margin-bottom: 0">
                                                     <div class="row">
-                                                        <div class="col-12 col-sm-4">
+                                                        <div class="col-12 col-sm-4" style="padding-left: 0; padding-right: 0">
                                                             <div class="card__cover">
-                                                                <img src="{$locandine[$i]}" alt="">
+                                                                <img src="{$locandine[$i]->getImmagineHTML()}" alt="">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-12 col-sm-8">
                                                             <div class="card__content">
-                                                                <h3 class="card__title"><a href="#">{$prog->getFilm()->getNome()}</a></h3>
+                                                                <h3 class="card__title"><a href="{$path}/Film/show/?film={$prog->getFilm()->getId()}">{$prog->getFilm()->getNome()}</a></h3>
                                                                 <span class="card__category">
                                                                         <a style="font-size:20px;">Prova</a>
                                                                     </span>
 
-                                                                <div class="card__wrap">
-                                                                    {if ($prog->getFilm()->getetaConsigliata() != "")}
-                                                                        <ul class="card__list">
-                                                                            <li>{$prog->getFilm()->getetaConsigliata()}</li>
-                                                                        </ul>
-                                                                    {/if}
-                                                                </div>
-
                                                                 <div class="card__description">
-                                                                    {*                                                                        <p>Biglietto #{$item->getId()} <br> Giorno {$item->getProiezione()->getData()} <br> Spettacolo delle {$item->getProiezione()->getOra()} <br> Sala {$item->getProiezione()->getSala()->getNumeroSala()} <br> Prezzo: {$item->getCosto()}€</p>*}
+                                                                    <p>we</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -151,7 +143,7 @@
 
                                     <datalist id="films">
                                         {foreach $films as $f}
-                                            <option data-value="{$f->getId()}" value="{$f->getNome()} - {$f->getAnno()}"></option>
+                                            <option data-value="{$f->getId()}" id="{$f->getNome()} - {$f->getAnno()}" value="{$f->getNome()} - {$f->getAnno()}"></option>
                                         {/foreach}
                                     </datalist>
 
@@ -275,8 +267,8 @@
         let valFilm = $("#filmChosen").val();
         let valSala = $("#roomChosen").val();
 
-        if (valFilm === null ||
-            valSala === null ||
+        if (valFilm === "" ||
+            valSala === "" ||
             $("#orario") === "" ||
             $("#dataInizio").val() === "" ||
             $("#dataFine").val() === "") {
@@ -284,8 +276,7 @@
             return false;
         }
 
-        // console.log($("#filmChosen").attr('id'));return false;
-        $("#film").val($("#films [value='" + valFilm + "'").data('value'));
+        $("#film").val(document.getElementById(valFilm).getAttribute("data-value"));
         $("#room").val(valSala);
 
         return true;

@@ -393,6 +393,11 @@ class CAdmin
                 if (!$result) {
                     $error = "La programmazione si sovrappone con altre già esistenti";
                 } else {
+                    $programmazioni = $pm->loadAll("EElencoProgrammazioni");
+                    $locandine = [];
+                    foreach($programmazioni->getElencoProgrammazioni() as $prog) {
+                        array_push($locandine, $pm->load($prog->getFilm()->getId(), "idFilm", "EMedia"));
+                    }
                     $film = null;
                     $nSala = null;
                     $orario = null;

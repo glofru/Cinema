@@ -214,7 +214,7 @@ class FDatabase
 
     public function loadByDate($class, DateTime $time) {
         try {
-            $query = "SELECT * FROM " . $class::getTableName() . " WHERE data >= " . $time->format("Y-m-d") . " AND ora >= " . $time->format("H:i") . ";";
+            $query = "SELECT * FROM " . $class::getTableName() . " WHERE data >= " . $time->format("Y-m-d") . ";";
 
             return $this->executeQuery($query);
         }
