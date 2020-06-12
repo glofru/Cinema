@@ -102,7 +102,7 @@ class EBiglietto implements JsonSerializable
     }
 
     public static function getPrezzofromProiezione(EProiezione $proiezione) {
-        $dataProiezione = $proiezione->getDataproieizone();
+        $dataProiezione = $proiezione->getDataProiezione();
         $costo = $GLOBALS["prezzi"][$dataProiezione->format("D")];
         $date = new DateTime('now + 7 Days');
         if($dataProiezione > $date) {
@@ -112,7 +112,7 @@ class EBiglietto implements JsonSerializable
     }
 
     public static function sortByDatesBiglietti(EBiglietto $b1, EBiglietto $b2) {
-        return $b1->getProiezione()->getDataproieizone() < $b2->getProiezione()->getDataproieizone();
+        return $b1->getProiezione()->getDataProiezione() < $b2->getProiezione()->getDataProiezione();
     }
 
 //------------- ALTRI METODI ----------------
