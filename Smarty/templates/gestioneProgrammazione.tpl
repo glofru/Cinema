@@ -116,12 +116,12 @@
                                         {/foreach}
                                     </datalist>
 
-                                    <input id="film" type="hidden" name="film">
+                                    <input id="film" type="hidden" name="film" value ="{if isset($film)}{$film->getId()}{/if}">
                                 </div>
 
                                 <!-- Sala -->
                                 <div class="sign__group">
-                                    <input id="roomChosen" list="rooms" type="number" class="sign__input" value="{if isset($sala)}{$sala}{/if}" placeholder="Sala">
+                                    <input id="roomChosen" list="rooms" type="number" class="sign__input" value="{if isset($sala)}{$sala}{/if}" name = "sala" placeholder="Sala">
 
                                     <datalist id="rooms">
                                         {foreach $sale as $s}
@@ -129,7 +129,7 @@
                                         {/foreach}
                                     </datalist>
 
-                                    <input id="room" type="hidden" name="sala">
+
                                 </div>
 
                                 <!-- Orario -->
@@ -142,7 +142,7 @@
                                     <input id="dataInizio" type="date" class="sign__input" placeholder="Data inizio: GG/MM/AAAA" value="{if isset($inizio)}{$inizio}{/if}" name="dataInizio">
                                 </div>
 
-                                <!-- DataInizio -->
+                                <!-- DataFine -->
                                 <div class="sign__group">
                                     <input id="dataFine" type="date" class="sign__input" placeholder="Data fine: GG/MM/AAAA" value="{if isset($fine)}{$fine}{/if}" name="dataFine">
                                 </div>

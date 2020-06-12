@@ -326,7 +326,8 @@ class CAdmin
 
             VAdmin::gestioneProgrammazione($utente, $films, $sale);
         } elseif ($method == "POST") {
-            $idFilm = $_POST["film"];
+            print_r($_POST);
+            /*$idFilm = $_POST["film"];
             $nSala = $_POST["sala"];
             $orario = $_POST["orario"];
             $dataInizio = $_POST["dataInizio"];
@@ -394,7 +395,7 @@ class CAdmin
             if (!$result) {
                 $error = "La programmazione si sovrappone con altre già esistenti";
                 VAdmin::gestioneProgrammazione($utente, $films, $sale, $film, $nSala, $orario, $dataInizio, $dataFine, $error);
-            }
+            }*/
         }
     }
 }
