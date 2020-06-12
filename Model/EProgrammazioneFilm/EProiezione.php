@@ -4,7 +4,7 @@
  * I suoi attributi sono i seguenti:
  * - film: oggetto contenente tutti i dettagli sul film in proiezione
  * - sala: oggetto contente la sala nel quale verrà effettuata la proiezione
- * - dataproiezione: attributo contente data ed orario della la proiezione
+ * - dataProiezione: attributo contente data ed orario della la proiezione
  * @access public
  * @author Lofrumento - Di Santo - Susanna
  * @package Model
@@ -25,14 +25,14 @@ class EProiezione implements JsonSerializable
      * Data ed orario della proiezione
      * @AttributeType DateTime
      */
-    private DateTime $dataproiezione;
+    private DateTime $dataProiezione;
 
     private int $id = 0;
     public function __construct(EFilm $film, ESalaVirtuale $sala, DateTime $dataproiezione)
     {
         $this->setFilm($film);
         $this->setSala($sala);
-        $this->setDataproiezione($dataproiezione);
+        $this->setDataProiezione($dataproiezione);
     }
 
 //-------------- SETTER ----------------------
@@ -49,10 +49,10 @@ class EProiezione implements JsonSerializable
         $this->sala = $sala;
     }
     /**
-     * @param DateTime $dataproiezione data ed orario di svolgimento della proiezione
+     * @param DateTime $dataProiezione data ed orario di svolgimento della proiezione
      */
-    public function setDataproiezione(DateTime $dataproiezione){
-        $this->dataproiezione = clone $dataproiezione;
+    public function setDataProiezione(DateTime $dataProiezione){
+        $this->dataProiezione = clone $dataProiezione;
     }
 
     public function setId(int $id){
@@ -79,24 +79,24 @@ class EProiezione implements JsonSerializable
     /**
      * @return DateTime data ed orario di svolgimento
      */
-    public function getDataproieizone(): DateTime{
-        return $this->dataproiezione;
+    public function getDataProiezione(): DateTime{
+        return $this->dataProiezione;
     }
 
     public function getData(): string {
-        return $this->dataproiezione->format('d-m-Y');
+        return $this->dataProiezione->format('d-m-Y');
     }
 
     public function getDataRed(): string {
-        return $this->dataproiezione->format('d-m H:i');
+        return $this->dataProiezione->format('d-m H:i');
     }
 
     public function getDataSQL(): string {
-        return $this->dataproiezione->format('Y-m-d');
+        return $this->dataProiezione->format('Y-m-d');
     }
 
     public function getOra(): string {
-        return $this->dataproiezione->format('H:i');
+        return $this->dataProiezione->format('H:i');
     }
 
 //------------- ALTRI METODI ----------------
@@ -106,7 +106,7 @@ class EProiezione implements JsonSerializable
             [
                 'film'   => $this->getFilm(),
                 'sala' => $this->getSala(),
-                'dataproiezione'   => $this->getDataproieizone(),
+                'dataProiezione'   => $this->getDataProiezione(),
             ];
     }
 
@@ -115,7 +115,7 @@ class EProiezione implements JsonSerializable
      */
     public function __toString()
     {
-        return "Film: " . $this->getFilm()->getNome() . "data ed ora: " . $this->getDataproieizone()->format("Y-m-d H:i") . " nella sala: " . $this->getSala()->getNumeroSala();
+        return "Film: " . $this->getFilm()->getNome() . "data ed ora: " . $this->getDataProiezione()->format("Y-m-d H:i") . " nella sala: " . $this->getSala()->getNumeroSala();
     }
 
 }

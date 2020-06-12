@@ -13,10 +13,9 @@ class EProgrammazioneFilm implements JsonSerializable
      * Insieme delle proiezioni del film
      * @AttributeType array
      */
-    private array $proiezioni;
-
     private $film;
 
+    private array $proiezioni;
 
     public function __construct(){
         $this->proiezioni = array();
@@ -25,6 +24,11 @@ class EProgrammazioneFilm implements JsonSerializable
 //-------------- SETTER ----------------------
     public function addProiezione(EProiezione $proiezione){
         array_push($this->proiezioni, $proiezione);
+
+        usort($this->proiezioni, function ($a, $b) {
+            return $a->getDataProiezione > $b->getDataProiezione();
+        });
+
         if($this->film === null) {
             $this->film = $proiezione->getFilm();
         }
@@ -38,10 +42,38 @@ class EProgrammazioneFilm implements JsonSerializable
         return $this->proiezioni;
     }
 
-    public function getFilm(): EFilm {
-        return $this->film;
+    public function getFilm() {
+        return $this->film??null;
     }
 
+    public function getDataInizio() {
+        if (sizeof($this->proiezioni) > 0) {
+            return $this->proiezioni[0]->getDataProiezione();
+        }
+
+        return null;
+    }
+
+    public function getDataFine() {
+        if (sizeof($this->proiezioni) > 0) {
+            return end($this->proiezioni)->getDataProiezione();
+        }
+
+        return null;
+    }
+
+    public function getFasceOrarie(): array {
+        $fasceOrarie = [];
+
+        foreach ($this->proiezioni as $pro) {
+            $ora = $pro->getDataProiezione()->format("H:i");
+            if (!in_array($ora, $fasceOrarie)) {
+                array_push($fasceOrarie, $ora);
+            }
+        }
+
+        return $fasceOrarie;
+    }
 //------------- ALTRI METODI ----------------
     /**
      * Rimuove una proiezione dall'insieme
@@ -54,15 +86,14 @@ class EProgrammazioneFilm implements JsonSerializable
             unset($this->getProiezioni()[$result]);
             return true;
         }
-        else{
-            return false;
-        }
+
+        return false;
     }
 
     public function getDateProiezioni(): string {
         $dates = [];
         foreach($this->proiezioni as $pro) {
-            array_push($dates, $pro->getDataproieizone());
+            array_push($dates, $pro->getDataProieizone());
         }
         usort($dates, "date_sort");
         $sun = "DOM:";

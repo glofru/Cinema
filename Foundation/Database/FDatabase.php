@@ -282,7 +282,7 @@ class FDatabase
             $query = "SELECT * FROM Proiezione WHERE numerosala = '{strval($proiezione->getNumeroSala())}' AND data = '{$proiezione->getDataSQL()}';";
 
             $proiezioni = $this->executeQuery($query);
-            $proIn = $proiezione->getDataproieizone();
+            $proIn = $proiezione->getDataProiezione();
             $proFin = $proIn->add($proiezione->getFilm()->getDurata());
 
             foreach ($proiezioni as $p) {
