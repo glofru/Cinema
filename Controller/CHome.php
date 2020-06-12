@@ -34,6 +34,7 @@ class CHome
     }
 
     public static function getConsigliati(EUtente $utente) {
+        $utente->preferences(unserialize($_COOKIE["preferences"]));
         $pm = FPersistentManager::getInstance();
         $result = [];
         if($utente->getPreferences() === true) {

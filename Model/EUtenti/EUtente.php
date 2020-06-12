@@ -263,7 +263,7 @@ class EUtente implements JsonSerializable
      * @param $cookie, valore del cookie che contiene le informazioni sulle preferenze.
      * @return array, array contenente il valore del cookie oppure un nuovo array.
      */
-    private function preferences ($cookie) {
+    public function preferences ($cookie) {
         if(!isset($cookie)) {
             $generi = EGenere::getAll();
             foreach ($generi as $key) {
@@ -279,8 +279,7 @@ class EUtente implements JsonSerializable
      * Funzione che ritorna un vettore con, per ogni genere, il numero di film da mostrare nella relativa sezione. La scelta avviene sulla base di una media ponderata fra il numero di visite di un determinato e genre ed il numero di visite totali.
      * @return array|bool, ritorna un array con i film da mostrare per ogni genere oppure true se l'array contiene 0 per ogni genere.
      */
-    public function getPreferences($cookie) {
-        $this->preferences($cookie);
+    public function getPreferences() {
         $isEmpty = true;
         $temp_values = [];
         $all = 0;

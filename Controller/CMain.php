@@ -48,6 +48,11 @@ class CMain
                 CUtente::getUtente();
             }
 
+
+            if(!isset($_COOKIE["preferences"])){
+                setcookie("preferences", CUtente::getUtente()->preferences(null), 86400 * 30, '/');
+            }
+
             if ($path == "/" || $path == "/index.php") {
                 CHome::showHome();
             } else {
