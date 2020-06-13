@@ -1,15 +1,37 @@
 <?php
 
 
+/**
+ * Nella classe Admin troviamo tutti i metodi neccessari all'amministratore per la corretta gestione del sito. Nello specifico abbiamo metodi per la gestione degli utenti, dei film, delle proiezioni, delle sale e dei costi del cinema.
+ * Class CAdmin
+ * Class CAcquisto
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Controller
+ */
 class CAdmin
 {
 
-    public static function checkAdmin() {
+    /**
+     * Funzione privata che controlla se l'utente che sta eseguendo un operazione sia un amministratore. Nel caso non lo sia viene mostrato un 403 Forbidden.
+     * Viene richiamata in tutti i metodi di questa classe.
+     */
+    private static function checkAdmin() {
         if(!CUtente::isLogged() || !CUtente::getUtente()->isAdmin()) {
             CMain::forbidden();
         }
     }
 
+    /**
+     * Funzione che permette di aggiungere un film nel cinema. Richiamabile via metodi GET o POST esegue le seguenti operazioni:
+     *
+     * GET) In questo caso viene mostrata una schermata che permette di inserire tutti i dati relativi alla creazione di un nuovo oggetto Film.
+     *
+     * POST) Nel caso sia una richiesta POST allora tutti i campi presenti nella schermata precedente vengono passati allo script che provvederà alla creazione delle Entity
+     * necessarie a poter istanziare un nuovo Efilm.
+     * Se tutti i valori passati non hanno generato eccezioni quando processate dalle entity allora il film viene aggiunto alla nostra base dati.
+     * Si viene quindi portati alla pagina del nuovo film appena creato.
+     */
     public static function addFilm() {
         self::checkAdmin();
 
@@ -66,9 +88,19 @@ class CAdmin
             $_SESSION["idFilm"] = $film->getId();
             CNewsLetter::addedNewFilm();
             header("Location: /Film/show/?film=" . $film->getId());
+        } else {
+            CMain::methodNotAllowed();
         }
     }
 
+    /**
+     * Funzione che permette la gestione degli utenti bannati. Richiamabile sia in POST sia in GET svolge le seguenti funzioni:
+     *
+     * GET) Mostra la schermata dalla quale poter vedere gli utenti che sono stati bannati e la schermata che permette di bannare gli utenti.
+     *
+     * POST) Se viene passato in POST la variabile ban allora si sta inviando l'id dell'utente da bannare, se si passa invece unban allora si sta inviando l'id dell'utente sa unbannare.
+     * Vengono quindi richiamati i due metodi associati a queste due possibilità. In caso di successo si viene reindirizzati alla pagina di gestione degli utenti.
+     */
     public static function gestioneUtenti() {
         self::checkAdmin();
 
@@ -78,7 +110,7 @@ class CAdmin
         if($_SERVER["REQUEST_METHOD"] === "GET") {
             $bannati = $pm->loadbannati();
             VAdmin::gestioneUtenti($bannati, $utente);
-        } else {
+        } else if ($_SERVER["REQUEST_METHOD"] === "POST"){
             if(isset($_POST["utente"])) {
                 $status = self::ban($_POST["utente"]);
             } else if(isset($_POST["unban"])) {
@@ -89,9 +121,18 @@ class CAdmin
 
             $bannati = $pm->loadbannati();
             VAdmin::gestioneUtenti($bannati, $utente, $status);
+        } else {
+            CMain::methodNotAllowed();
         }
     }
 
+    /**
+     * Funzione privata che effettua il ban di un utente dal database. Se l'utente è presente nel DB, non è già stato bannato e non è un admin allora il ban va a buon fine.
+     * Viene tornata allora una stringa con il risultato.
+     *
+     * @param $utente, utente da bannare.
+     * @return string|null, esito del ban.
+     */
     private static function ban($utente) {
         $pm = FPersistentManager::getInstance();
 
@@ -111,6 +152,13 @@ class CAdmin
         return $status;
     }
 
+    /**
+     * Funzione privata che effettua l'unban di un utente. Se l'utente è presente nel DB ed è stato bannato allora l'unban va a buon fine.
+     * Viene quindi ritornata una stringa con il risultato.
+     *
+     * @param $unban, utente da unbannare.
+     * @return string|null, esito dell'unban.
+     */
     private static function unban($unban) {
         $pm = FPersistentManager::getInstance();
 
@@ -130,6 +178,9 @@ class CAdmin
         return $status;
     }
 
+    /**
+     * Funzione accessibile solo via metodo POST permette, nel caso in cui un utente abbia espresso un giudizio non consono, di cancellare il commento effettuato ed in contemporanea di bannare l'utente.
+     */
     public static function deleteAndBan() {
         self::checkAdmin();
 
@@ -143,11 +194,18 @@ class CAdmin
         }
     }
 
+    /**
+     * Funzione accessibile via GET e POST che permette di modificare i prezzi dei biglietti e del sovrapprezzo del cinema. La funzione esegue i seguenti passaggi:
+     *
+     * GET) Viene mostrata la pagina di modifica dei prezzi.
+     *
+     * POST) Vengono raccolti tutti i prezzi passati via post ed inseriti in un file (configCinema.conf.php) in modo tale da poter assegnare i prezzi ad altrettante variabili globali per poter essere accessibili in tutti gli script.
+     */
     public static function modificaPrezzi() {
         self::checkAdmin();
         if($_SERVER["REQUEST_METHOD"] === "GET") {
             VAdmin::modificaPrezzo();
-        } else {
+        } else if($_SERVER["REQUEST_METHOD"] === "POST") {
             $file = fopen('configCinema.conf.php', 'w+');
             $script = '<?php ' . PHP_EOL .
                 '$GLOBALS[\'extra\']= ' . floatval($_POST["extra"]) . ';' . PHP_EOL .
@@ -164,9 +222,19 @@ class CAdmin
             fwrite($file, $script);
             fclose($file);
             header("Location: /");
+        } else {
+            CMain::methodNotAllowed();
         }
     }
 
+    /**
+     * Funzione che permette di effettuare modifiche su un film. Accessibile via GET e POST il metodo esegue i seguenti passaggi:
+     *
+     * GET) Viene mostrata la pagina di modifica relativa al film selezionato.
+     *
+     * POST) Vengono passati allo script tutti i parametri del film che è stato modificato. Ogni parametro è poi aggiornato nel relativo campo del film sul DB.
+     * Al termine, in mnacanza di errori, si viene riporati alla pagina del film.
+     */
     public static function modificaFilm(){
         self::checkAdmin();
         $pm = FPersistentManager::getInstance();
@@ -204,7 +272,7 @@ class CAdmin
                 }
 
                 if(isset($_POST["dataRilascio"])){
-                    $rilascio = DateTime::createFromFormat('Y-m-d', $rilascio);
+                    $rilascio = DateTime::createFromFormat('Y-m-d', $_POST["dataRilascio"]);
                     $film->setDataRilascio($rilascio);
                     $pm->update($filmID,"id",$film->getDataRilascioSQL(),"dataRilascio","EFilm");
                 }
@@ -260,16 +328,27 @@ class CAdmin
             $copertina = $pm->load($filmID,"id","EMediaLocandina");
 
             VAdmin::modificafilm($film,$copertina);
+        } else {
+            CMain::methodNotAllowed();
         }
     }
 
+    /**
+     * Funzione accessibile sia via GET sia via POST permette di gestire le varie saledi cui dispone il cinema. La funzione svolge le seguenti funzioni:
+     *
+     * GET) Viene mostrata la schermata di gestione e aggiunta di una sala.
+     *
+     * POST) Se viene passato il parametro op con valore 1 allora si aggiorna la disponibilità delle sale presnrti, sulla base dei numeri di sala che sono stati inviati.
+     * Se invece op è impostato a 2 allora viene creata una nuova sala sulla base dei valori inviati dall'utente. Se l'entità sala non genera un eccezione a casua di parametri non validi l'operazione va a buon fine.
+     * Qualsiasi altro valore di op genera un errore.
+     */
     public static function gestioneSale() {
         self::checkAdmin();
         $sale = FPersistentManager::getInstance()->loadAll("ESalaFisica");
 
         if ($_SERVER["REQUEST_METHOD"] === "GET") {
             VAdmin::gestioneSale($sale, CUtente::getUtente());
-        } else {
+        } elseif($_SERVER["REQUEST_METHOD"] === "POST") {
             $operation = $_POST["op"];
             if($operation === '1') {
                 foreach ($sale as $item) {
@@ -309,9 +388,15 @@ class CAdmin
             } else {
                 VError::error(0, "Azione non valida");
             }
+        } else {
+            CMain::methodNotAllowed();
         }
     }
 
+    //TODO
+    /**
+     * Funzione accessibile solo via metodo POST permette di
+     */
     public static function gestioneProgrammazione() {
         self::checkAdmin();
 
@@ -401,6 +486,8 @@ class CAdmin
                     $error = null;
                 }
             }
+        } else {
+            CMain::methodNotAllowed();
         }
 
         $programmazioni = $pm->loadAll("EElencoProgrammazioni");
@@ -410,5 +497,19 @@ class CAdmin
         }
 
         VAdmin::gestioneProgrammazione($utente, $films, $sale, $programmazioni, $locandine, $film, $nSala, $orario, $dataInizio, $dataFine, $error);
+    }
+
+    public static function modificaProgrammazione() {
+        self::checkAdmin();
+
+        $method = $_SERVER["REQUEST_METHOD"];
+
+        if ($method === "GET") {
+            $idFilm = $_GET["film"];
+            $utente = CUtente::getUtente();
+            $programmazione = FPersistentManager::getInstance()->load($idFilm, "idFilm", "EProgrammazione")->getElencoProgrammazioni()[0];
+
+            VAdmin::modificaProgrammazione($utente, $programmazione);
+        }
     }
 }

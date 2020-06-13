@@ -1,55 +1,64 @@
 <?php
-/** Nella clesse Utente sono presenti tutti i metodi e attributi necessari a definire il profilo di un
- * generico utente indipendentemente dal ruolo all' interno del sito
- * I suoi attributi sono i seguenti:
- * -nome
- * -cognome
- * -username
- * -password
- * -email
- * -isAdmin: booleano che indica se l'utente in questione si tratta di un administrator
- *           oppure un semplice utente registrato
- *
+/** Nella clesse Utente sono presenti tutti i metodi e attributi necessari a definire il profilo di un generico utente indipendentemente dal ruolo all' interno del sito.
  * Class Utente
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Model
  */
 class EUtente implements JsonSerializable
 {
     /**
+     * Nome dell'utente.
      * @var string
      */
     private string $nome;
     /**
+     * Cognome dell'utente.
      * @var string
      */
     private string $cognome;
     /**
+     * Username dell'utente.
      * @var string
      */
     private string $username;
     /**
+     * Password dell'utente.
      * @var string
      */
     private string $password;
     /**
+     * Indirizzo email dell'utente.
      * @var string
      */
     private string $email;
 
+    /**
+     * Identifica se l'utente sia stato bannato o meno.
+     * @var bool
+     */
     private bool $isBanned;
 
+    /**
+     * Id dell'utente.
+     * @var int
+     */
     private int $id = 0;
 
+    /**
+     * Array contenente come chiavi i vari generi dei film e come valore quante volte l'utente abbia visitato la pagina di un film con quel particolare genere.
+     * @var array
+     */
     private array $preferences;
 
     /**
      * EUtente constructor.
-     * @param string $nome
-     * @param string $cognome
-     * @param string $username
-     * @param string $email
-     * @param string $password
-     * @param bool $isBanned
-     * @throws Exception
+     * @param string $nome, nome dell'utente.
+     * @param string $cognome, cognome dell'utente.
+     * @param string $username, username dell'utente
+     * @param string $email, email dell'utente.
+     * @param string $password, password dell'utente.
+     * @throws Exception, se almeno uno dei parametri passato al costruttore non rispetta la relativa sintassi.
      */
     public function __construct(string $nome, string $cognome, string $username, string $email, string $password, bool $isBanned)
     {
@@ -76,12 +85,12 @@ class EUtente implements JsonSerializable
             $this->setPassword($password);
             $this->setIsBanned($isBanned);
         }
+
         $this->preferences = array();
-        $this->preferences();
     }
 
     /**
-     * @return string
+     * @return string, nome dell'utente.
      */
     public function getNome()
     {
@@ -89,8 +98,8 @@ class EUtente implements JsonSerializable
     }
 
     /**
-     * @param string $nome
-     * @throws Exception
+     * @param string $nome, nome dell'utente.
+     * @throws Exception, se il nome non rispetta la sintassi accettata.
      */
     public function setNome($nome)
     {
@@ -103,7 +112,7 @@ class EUtente implements JsonSerializable
     }
 
     /**
-     * @return string
+     * @return string, cognome dell'utente.
      */
     public function getCognome()
     {
@@ -111,8 +120,8 @@ class EUtente implements JsonSerializable
     }
 
     /**
-     * @param string $cognome
-     * @throws Exception
+     * @param string $cognome, cognome dell'utente.
+     * @throws Exception,se il cognome non rispetta la sintassi accettata.
      */
     public function setCognome($cognome)
     {
@@ -124,7 +133,7 @@ class EUtente implements JsonSerializable
     }
 
     /**
-     * @return string
+     * @return string, username dell'utente.
      */
     public function getUsername()
     {
@@ -132,8 +141,8 @@ class EUtente implements JsonSerializable
     }
 
     /**
-     * @param string $username
-     * @throws Exception
+     * @param string $username, username dell'utente.
+     * @throws Exception, se l'username non rispetta la sintassi accettata.
      */
     public function setUsername($username)
     {
@@ -145,7 +154,7 @@ class EUtente implements JsonSerializable
     }
 
     /**
-     * @return string
+     * @return string, password dell'utente.
      */
     public function getPassword()
     {
@@ -153,8 +162,8 @@ class EUtente implements JsonSerializable
     }
 
     /**
-     * @param string $password
-     * @throws Exception
+     * @param string $password, password dell'utente.
+     * @throws Exception, se la password non rispetta la sintassi accettata.
      */
     public function setPassword($password)
     {
@@ -166,7 +175,7 @@ class EUtente implements JsonSerializable
     }
 
     /**
-     * @return string
+     * @return string, email dell'utente.
      */
     public function getEmail()
     {
@@ -174,8 +183,8 @@ class EUtente implements JsonSerializable
     }
 
     /**
-     * @param string $email
-     * @throws Exception
+     * @param string $email, email dell'utente.
+     * @throws Exception, se il nome non rispetta la sintassi accettata.
      */
     public function setEmail($email)
     {
@@ -186,61 +195,97 @@ class EUtente implements JsonSerializable
         }
     }
 
+    /**
+     * @param int $id, id dell'utente.
+     */
     public function setId(int $id) {
         $this->id = $id;
     }
 
+    /**
+     * @return int, id dell'utente.
+     */
     public function getId(): int {
         return $this->id;
     }
 
+    /**
+     * @param $isBanned, se l'utente è stato bannato.
+     */
     public function setIsBanned($isBanned) {
         $this->isBanned = $isBanned;
     }
 
+    /**
+     * @return bool, se l'utente è stato bannato.
+     */
     public function isBanned(): bool {
         return $this->isBanned;
     }
 
+    /**
+     * @return array, insieme delle preferenze dell'utente.
+     */
     private function getPreferencesArray(){
         return $this->preferences;
     }
 
-    public function setPreferece(string $genere, int $value) {
+    /**
+     * @param string $genere, genere del film che si è visitato.
+     * @param int $value, numero di volte che si è visitato un film di quel genere.
+     */
+    public function setPreference(string $genere, int $value) {
         $this->preferences[$genere] = $value;
     }
 
+    /**
+     * @return bool, se l'utente è un admin.
+     */
     public function isAdmin(): bool {
         return $this instanceof EAdmin;
     }
 
+    /**
+     * @return bool, se l'utente è registrato.
+     */
     public function isRegistrato(): bool {
         return $this instanceof ERegistrato;
     }
 
+    /**
+     * @return bool, se l'utente è un visitatore.
+     */
     public function isVisitatore(): bool {
         return $this instanceof EVisitatore;
     }
 
-    private function preferences () {
-        if(!isset($_COOKIE['preferences'])) {
+    /**
+     * Funzione che assegna all'insieme delle preferenze le preferenze prese dal cookie. Se questo è vuoto viene istanziato un nuovo array.
+     * @param $cookie, valore del cookie che contiene le informazioni sulle preferenze.
+     * @return array, array contenente il valore del cookie oppure un nuovo array.
+     */
+    public function preferences ($cookie) {
+        if(!isset($cookie)) {
             $generi = EGenere::getAll();
             foreach ($generi as $key) {
-                $this->setPreferece($key, 0);
+                $this->setPreference($key, 0);
             }
-            $value = serialize($this->preferences);
-            setcookie('preferences', $value, time() + (86400 * 30), "/");
         } else {
-            $this->preferences = unserialize($_COOKIE['preferences']);
+            $this->preferences = unserialize($cookie);
         }
+
         return $this->getPreferencesArray();
     }
 
+    /**
+     * Funzione che ritorna un vettore con, per ogni genere, il numero di film da mostrare nella relativa sezione. La scelta avviene sulla base di una media ponderata fra il numero di visite di un determinato e genre ed il numero di visite totali.
+     * @return array|bool, ritorna un array con i film da mostrare per ogni genere oppure true se l'array contiene 0 per ogni genere.
+     */
     public function getPreferences() {
-        $this->preferences();
         $isEmpty = true;
         $temp_values = [];
         $all = 0;
+
         foreach($this->getPreferencesArray() as $key => $a) {
             if($a !== 0) {
                 $isEmpty = false;
@@ -248,21 +293,32 @@ class EUtente implements JsonSerializable
                 $temp_values[$key] = $a;
             }
         }
-        if($isEmpty === true) {return true;}
+
+        if($isEmpty) {
+            return true;
+        }
+
         foreach($temp_values as $key => $arr) {
             $temp_values[$key] = round(round(($arr / $all) * 100) * (10/100));
         }
+
         return $temp_values;
     }
 
-    public function incrementPreference(string $genere) {
-        $this->preferences();
+    /**
+     * Funzione che incrementa il numero di visite di un particolare genere.
+     * @param string $genere, genere del film visitato.
+     * @param $cookie, cookie cotenente l'array.
+     * @return array, ritorna l'array 'incrementato'.
+     */
+    public function incrementPreference(string $genere, $cookie) {
+        $this->preferences($cookie);
         $this->preferences[$genere]++;
-        setcookie('preferences', serialize($this->getPreferencesArray()), time() + (86400 * 30), "/");
+        return $this->getPreferencesArray();
     }
 
     /**
-     * @return mixed|void
+     * @return mixed|void, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFULL.
      */
     public function jsonSerialize()
     {
@@ -271,7 +327,11 @@ class EUtente implements JsonSerializable
             'cognome' => $this->getCognome(),
             'username' => $this->getUsername(),
             'password' => $this->getPassword(),
-            'email' => $this->getEmail()
+            'email' => $this->getEmail(),
+            'isBanned' => $this->isBanned(),
+            'isAdmin' => $this->isAdmin(),
+            'isRegistrato' => $this->isRegistrato(),
+            'isVisitatore' => $this->isVisitatore(),
         ];
     }
 }

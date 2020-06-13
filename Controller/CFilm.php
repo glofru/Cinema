@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * Class CFilm
+ */
 class CFilm
 {
     public static function show()
@@ -10,7 +14,8 @@ class CFilm
 
             $film = $pm->load($_GET["film"], "id", "EFilm")[0];
 
-            CUtente::getUtente()->incrementPreference($film->getGenere());
+            CUtente::getUtente()->incrementPreference($film->getGenere(), unserialize($_COOKIE['preferences']));
+            setcookie("preferences", serialize(CUtente::getUtente()->getPreferencesArray()), 86400 * 30, '/');
 
             $filmC = $pm->load($film->getGenere(), "Genere", "EFilm");
             foreach ($filmC as $key => $f) {

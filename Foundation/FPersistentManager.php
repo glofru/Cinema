@@ -30,9 +30,11 @@ class FPersistentManager
 
         return self::$instance;
     }
+
     /**
      * Funzione che provvede a sostituire il nome delle classi Entity che richiamano il PM con le rispettive classi in Foundation.
-     * @param string $class, classe entity che sta chiamando il PersistentManager.
+     * @param string $class , classe entity che sta chiamando il PersistentManager.
+     * @return string
      */
     private function getClass(string $class){
         if($class === "EAdmin" || $class === "ERegistrato" || $class === "ENonRegistrato"){
@@ -140,9 +142,9 @@ class FPersistentManager
     }
 
     /**
-     * Funzione che permette di reperire tutti gli oggetti presenti sul DB di una particolare classe passata come input. Torna un array.
+     * Funzione che permette di reperire tutti gli oggetti presenti sul DB di una particolare classe passata come input. Torna un array o una istanza di EElencoProgrammazioni.
      * @param $class, classe entity che sta chiamndo il PM.
-     * @return array, array di oggetti.
+     * @return mixed, array di oggetti o una istanza di EElencoProgrammazioni.
      */
     public function loadAll($class) {
         $class = self::getClass($class);
@@ -239,7 +241,8 @@ class FPersistentManager
 
     /**
      * Funzione che permette, dato un utente, di registrarlo sul nostro DB.
-     * @param EUtente $utente, utente da registrare.
+     * @param EUtente $utente , utente da registrare.
+     * @throws Exception
      */
     public function signup(EUtente $utente) {
         FUtente::save($utente);
@@ -247,7 +250,8 @@ class FPersistentManager
 
     /**
      * Funzione che permette, dato un utente, di modificarne la password.
-     * @param EUtente $utente, utente a cui aggiornare la password.
+     * @param EUtente $utente , utente a cui aggiornare la password.
+     * @throws Exception
      */
     public function updatePasswordUser(EUtente $utente) {
         FUtente::updatePwd($utente);

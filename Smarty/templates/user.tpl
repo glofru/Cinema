@@ -48,7 +48,7 @@
             <div class="row">
                 <!-- title -->
                 <div class="col-12">
-                    <h1 class="details__title">@{$utente->getUsername()}{if ($admin)} [ADMIN]{/if}</h1>
+                    <h1 class="details__title">@{$utente->getUsername()}{if ($admin)} [ADMIN]{elseif ($utente->isBanned())} [BANNATO]{/if}</h1>
                 </div>
                 <!-- end title -->
 
@@ -74,8 +74,10 @@
                                         <li><span>Cognome:</span> {$utente->getCognome()}</li>
                                         {if ($canModify)}
                                             <li><span>Email:</span> <a style="cursor: default"> {$utente->getEmail()}</a> </li>
+                                        {if ($utente->isRegistrato())}
                                             <li><span>Newsletter:</span> {if $isASub === true}Iscritto{else}Non iscritto{/if}</li>
-                                        {if $isASub === true}<li><span>Generi preferiti:</span> {if $prefs !== ""}{$prefs}{else}Nessuna{/if}</li>{/if}
+                                            {if $isASub === true}<li><span>Generi preferiti:</span> {if $prefs !== ""}{$prefs}{else}Nessuna{/if}</li>{/if}
+                                            {/if}
                                         {/if}
                                     </ul>
                                 </div>

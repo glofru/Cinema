@@ -40,9 +40,9 @@ class FProiezione implements Foundation
     public static function associate(PDOStatement $sender, $proiezione) {
         if ($proiezione instanceof EProiezione) {
             $sender->bindValue(':id', NULL, PDO::PARAM_INT);
-            $sender->bindValue(':data',$proiezione->getDataSQL(),PDO::PARAM_STR);
-            $sender->bindValue(':ora',$proiezione->getOra(),PDO::PARAM_STR);
-            $sender->bindValue(':numerosala',$proiezione->getSala()->getNumeroSala(),PDO::PARAM_INT);
+            $sender->bindValue(':data', $proiezione->getDataSQL(),PDO::PARAM_STR);
+            $sender->bindValue(':ora', $proiezione->getDataProiezione()->format("H:i"), PDO::PARAM_STR);
+            $sender->bindValue(':numerosala', $proiezione->getSala()->getNumeroSala(), PDO::PARAM_INT);
             $sender->bindValue(':idFilm', $proiezione->getFilm()->getId(), PDO::PARAM_INT);
         } else {
             die("Not a projection!!");
@@ -82,7 +82,7 @@ class FProiezione implements Foundation
      */
     public static function save(EProiezione $proiezione): bool {
         $db = FDatabase::getInstance();
-        $test = $db->checkSovrapposizione($proiezione);
+        $test = self::checkSovrapposizione($proiezione);
 
         if ($test) {
             $id = $db->saveToDBProiezioneEPosti($proiezione);
@@ -92,6 +92,33 @@ class FProiezione implements Foundation
         }
 
         return false;
+    }
+
+    /**
+     * Funzione che controlla se una proieizone che si vuole inserire nel DB si sovrapponga ad una già esistente. Permette, quindi, di mantenere consistente la base dati. Ritorna un booleano con l'esito o una schermata di errore.
+     * @param EProiezione $proiezione
+     * @return bool
+     */
+    private static function checkSovrapposizione(EProiezione $proiezione): bool {
+        $proIn = $proiezione->getDataProiezione();
+        $proFin = (clone $proIn)->add($proiezione->getFilm()->getDurata());
+
+        $elencoProg = self::parseResult(FDatabase::getInstance()->checkSovrapposizioneProiezione($proiezione));
+
+        foreach ($elencoProg->getElencoProgrammazioni() as $prog) {
+            foreach ($prog->getProiezioni() as $p) {
+                $inizio = $p->getDataProiezione();
+                $fine = $p->getDataProiezione()->add($p->getFilm()->getDurata());
+
+                if (($inizio->getTimestamp() >= $proIn->getTimestamp() && $inizio->getTimestamp() <= $proFin->getTimestamp()) ||
+                    ($fine->getTImestamp() > $proIn->getTimestamp() && $fine->getTimestamp() < $proFin->getTimestamp()) ||
+                    ($inizio->getTimestamp() < $proIn->getTimestamp() && $fine->getTimestamp() > $proFin->getTimestamp())) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -176,7 +203,7 @@ class FProiezione implements Foundation
      * @param array $result, riga del database che si vuole 'parsare'.
      * @return EElencoProgrammazioni, oggetto EElencoProgrammazioni.
      */
-    private static function parseResult(array $result)
+    private static function parseResult(array $result): EElencoProgrammazioni
     {
         $elencoProgrammazioni = new EElencoProgrammazioni();
 

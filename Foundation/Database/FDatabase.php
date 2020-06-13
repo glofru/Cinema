@@ -102,10 +102,6 @@ class FDatabase
     {
         $posti = $proiezione->getSala()->getPosti();
 
-        if (!isset($posti)) {
-            return null;
-        }
-
         try {
             $this->db->beginTransaction();
             $query = "INSERT INTO " . FProiezione::getTableName() . " VALUES " . FProiezione::getValuesName() . ";";
@@ -273,36 +269,20 @@ class FDatabase
     }
 
     /**
-     * Funzione che controlla se una proieizone che si vuole inserire nel DB si sovrapponga ad una già esistente. Permette, quindi, di mantenere consistente la base dati. Ritorna un booleano con l'esito o una schermatat di errore.
+     * Funzione di supporto al controllo sovrapposizione di FProiezione.
      * @param EProiezione $proiezione
      * @return mixed
      */
-    public function checkSovrapposizione(EProiezione $proiezione) {
+    public function checkSovrapposizioneProiezione(EProiezione $proiezione) {
         try {
-            $query = "SELECT * FROM Proiezione WHERE numerosala = '{strval($proiezione->getNumeroSala())}' AND data = '{$proiezione->getDataSQL()}';";
+            $query = "SELECT * FROM Proiezione WHERE numerosala = '{$proiezione->getSala()->getNumeroSala()}' AND `data` = '{$proiezione->getDataSQL()}';";
 
-            $proiezioni = $this->executeQuery($query);
-            $proIn = $proiezione->getDataProiezione();
-            $proFin = $proIn->add($proiezione->getFilm()->getDurata());
-
-            foreach ($proiezioni as $p) {
-                $inizio = $p->getDataproiezione();
-                $fine = $p->getDataproiezione()->add($p->getFilm()->getDurata());
-
-                if (($inizio->getTimestamp() > $proIn->getTimestamp() && $inizio->getTimestamp() < $proFin->getTimestamp()) ||
-                    ($fine->getTImestamp() > $proIn->getTimestamp() && $fine->getTimestamp() < $proFin->getTimestamp()) ||
-                    ($inizio->getTimestamp() < $proIn->getTimestamp() && $fine->getTimestamp() > $proFin->getTimestamp())) {
-                    return false;
-                }
-            }
-
-            return true;
+            return $this->executeQuery($query);
         }
         catch(Exception $exception) {
             $this->error(false);
         }
     }
-
     /**
      * Funzione che permette di eliminare un oggetto dal DB. Ritorna l'esito dell'operazione od una schermata di errore
      * @param $class

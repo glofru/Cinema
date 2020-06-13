@@ -5,16 +5,44 @@ use PHPMailer\PHPMailer\Exception;
 require "PHPMailer/src/PHPMailer.php";
 require "PHPMailer/src/SMTP.php";
 
+/**
+ * Nella classe MailSender sono presenti tutti i metodi e gli attributi necessari all'invio di una mail.
+ * Class EMailSender
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Model
+ */
 class EMailSender
 {
+    /**
+     * @var string, indirizzo dell'account di posta che invierà la mail.
+     */
     private static string $user = "help.magicboulevard@gmail.com";
+
+    /**
+     * @var string, password della casella di posta.
+     */
     private static string $password = "Supp0rtM@gic";
 
+    /**
+     * @var string, inidirizzo del server SMTP.
+     */
     private static string $host = "smtp.gmail.com";
+    /**
+     * @var string, porta alla quale collegarsi al server SMTP.
+     */
     private static string $port = "587";
 
+    /**
+     * EMailSender constructor.
+     */
     private function __construct() {}
 
+    /**
+     * @param EMail $email, oggetto Email che si vuole inviare.
+     * @return bool, esito dell'invio.
+     * @throws Exception, eccezione nel caso l'invio riscontri un problema.
+     */
     public static function send(EMail $email): bool {
         $sender = new PHPMailer(true);
 

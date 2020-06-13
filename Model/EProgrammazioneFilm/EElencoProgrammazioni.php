@@ -1,19 +1,20 @@
 <?php
 /**
- * Nella classe Sala sono i presenti attributi e metodi per la creazione e gestione dell'elenco delle programmazioni
- * I suoi attributi sono i seguenti:
- * - elencoProgrammazioni: array contenente l'insieme di tutte le programmazioni dei film da proiettare nel cinema
+ * Nella classe ElencoProgrammazioni sono i presenti attributi e metodi per la creazione e gestione dell'insieme contente oggetti EProgramazioneFilm.
  * @access public
  * @author Lofrumento - Di Santo - Susanna
  * @package Model
  */class EElencoProgrammazioni implements JsonSerializable
 {
     /**
-     * Insieme delle programmazioni da proiettare
+     * Insieme delle programmazioni di un film
      * @AttributeType array
      */
     private array $elencoProgrammazioni;
 
+    /**
+     * EElencoProgrammazioni constructor.
+     */
     public function __construct() {
         $this->elencoProgrammazioni = [];
     }
@@ -22,7 +23,7 @@
 
 //----------------- GETTER --------------------
     /**
-     * @return array insieme delle programmazioni
+     * @return array, insieme delle programmazioni di un film.
      */
     public function getElencoProgrammazioni(): array {
         return $this->elencoProgrammazioni;
@@ -30,13 +31,17 @@
 
 //------------- ALTRI METODI ----------------
     /**
-     * Aggiunge una programmazione all'insieme
-     * @param EProgrammazionefilm $programmazione programmazione da aggiungere all'insieme
+     * Aggiunge una programmazione all'insieme.
+     * @param EProgrammazionefilm $programmazione, programmazione da aggiungere all'insieme.
      */
     public function addProgrammazioneFilm(EProgrammazioneFilm $programmazione) {
         array_push($this->elencoProgrammazioni, $programmazione);
     }
 
+    /**
+     * Funzione che, data una proiezione, cerca se è presente già una programmazioneFilm associata a quel film. Se è presente viene aggiunta a quest'ultima. Altrimenti viene creata una nuova EProgrammazioneFilm, a questa viene aggiunta la proiezione ed infine e infine la nuova programmazioneFilm viene aggiunta all'elenco delle programmazioni contenute nella classe.
+     * @param EProiezione $proiezione, proiezione che si vuole aggiungere.
+     */
     public function addProiezione(EProiezione $proiezione) {
         $programmazioneFilm = $this->getIfExistsProgrammazioneFilm($proiezione->getFilm());
 
@@ -49,6 +54,11 @@
         }
     }
 
+    /**
+     * Funzione che cerca nell'elenco delle programmazioniFilm se è già presente una programmazione associata al film  che gli viene passato.
+     * @param EFilm $film, film del quale si vuole identificare se sia presente una programmazione.
+     * @return mixed|null, se presente viene tornata la programmazione del film.
+     */
     public function getIfExistsProgrammazioneFilm(EFilm $film) {
         foreach ($this->elencoProgrammazioni as $programmazione) {
             if ($programmazione->getFilm()->getId() == $film->getId()) {
@@ -60,9 +70,9 @@
     }
 
     /**
-     * Aggiunge una programmazione all'insieme
-     * @param EProgrammazionefilm $programmazione programmazione da rimuovere dall'insieme
-     * @return bool esito dell'operazione
+     * Funzione che rimuove una programmazione dall'insieme.
+     * @param EProgrammazionefilm $programmazione programmazione da rimuovere dall'insieme.
+     * @return bool, esito dell'operazione.
      */
     public function rimuoviProgrammazione(EProgrammazioneFilm $programmazione): bool{
         $result = array_search($programmazione, $this->getElencoProgrammazioni());
@@ -74,6 +84,9 @@
         return false;
     }
 
+    /**
+     * @return array[]|mixed, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFULL.
+     */
     public function jsonSerialize ()
     {
         return

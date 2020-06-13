@@ -2,23 +2,27 @@
 
 
 /**
+ * Nella classe MediaLocandina sono presenti tutti i metodi e gli attributi necessari alla creazione e gestione di una locandina di un film.
  * Class EMediaLocandina
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Model
  */
 class EMediaLocandina extends EMedia
 {
     /**
+     * Film al quale appartiene la locandina.
      * @var EFilm
      */
     private EFilm $film;
 
     /**
      * EMediaLocandina constructor.
-     * @param string $id
-     * @param string $fileName
-     * @param string $mimeType
-     * @param DateTime $date
-     * @param $immagine
-     * @param EFilm $film
+     * @param string $fileName, nome del file.
+     * @param string $mimeType, mimeType dle file.
+     * @param DateTime $date, data di caricamento del file.
+     * @param $immagine, contenuto del file.
+     * @param EFilm $film, film al quale appartiene la locandina.
      */
     public function __construct(string $fileName, string $mimeType, DateTime $date, $immagine, EFilm $film)
     {
@@ -27,7 +31,7 @@ class EMediaLocandina extends EMedia
     }
 
     /**
-     * @return EFilm
+     * @return EFilm, film al quale appartiene la locandina.
      */
     public function getFilm(): EFilm
     {
@@ -35,7 +39,7 @@ class EMediaLocandina extends EMedia
     }
 
     /**
-     * @param EFilm $film
+     * @param EFilm $film, film al quale appartiene la locandina.
      */
     public function setFilm(EFilm $film): void
     {
@@ -43,7 +47,7 @@ class EMediaLocandina extends EMedia
     }
 
     /**
-     * @return array|mixed
+     * @return array|mixed, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFULL.
      */
     public function jsonSerialize()
     {
