@@ -100,8 +100,8 @@
                                                                     </span>
                                                                 </div>
                                                                 <div>
-                                                                    <form action="{$path}/Admin/modificaProgrammazione" method="POST" style="width: 200px">
-                                                                        <input type="hidden" name="film" value="{$p->getFilm()->getId()}">
+                                                                    <form action="{$path}/Admin/modificaProiezione" method="GET" style="width: 200px">
+                                                                        <input type="hidden" name="proiezione" value="{$p->getId()}">
                                                                         <button class="sign__btn" type="submit">Modifica</button>
                                                                     </form>
                                                                 </div>

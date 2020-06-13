@@ -116,8 +116,7 @@ class CMain
 
                 try {
                     $class = new ReflectionClass($controller);
-                }
-                catch (ReflectionException $e) {
+                } catch (ReflectionException $e) {
                     CMain::notFound();
                 }
 

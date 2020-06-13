@@ -19,6 +19,7 @@ class CAdmin
     private static function checkAdmin() {
         if(!CUtente::isLogged() || !CUtente::getUtente()->isAdmin()) {
             CMain::unauthorised();
+            die;
         }
     }
 
@@ -486,8 +487,6 @@ class CAdmin
                     $error = null;
                 }
             }
-        } else {
-            CMain::methodNotAllowed();
         }
 
         $programmazioni = $pm->loadAll("EElencoProgrammazioni");
@@ -510,6 +509,24 @@ class CAdmin
             $programmazione = FPersistentManager::getInstance()->load($idFilm, "idFilm", "EProgrammazione")->getElencoProgrammazioni()[0];
 
             VAdmin::modificaProgrammazione($utente, $programmazione);
+        }
+    }
+
+    public static function modificaProiezione() {
+        self::checkAdmin();
+
+        $pm = FPersistentManager::getInstance();
+
+        $films = $pm->loadAll("EFilm");
+        $sale = $pm->loadAll("ESala");
+        $utente = CUtente::getUtente();
+
+        $method = $_SERVER["REQUEST_METHOD"];
+        if ($method === "GET") {
+            $idProiezione = $_GET["proiezione"];
+            $proiezione = $pm->load($idProiezione, "id", "EProiezione")->getElencoProgrammazioni()[0]->getProiezioni()[0];
+
+            VAdmin::modificaProiezione($utente, $films, $sale, $proiezione);
         }
     }
 }
