@@ -272,9 +272,9 @@
 													<a href="{$path}Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggioSettimanaProssima[$key]}</a>
 												</span>
 												{/if}
-												{if ($film->getetaConsigliata() != "")}
+												{if ($film->getEtaConsigliata() != "")}
 													<ul class="card__list">
-														<li>{$film->getetaConsigliata()}</li>
+														<li>{$film->getEtaConsigliata()}</li>
 													</ul>
 												{/if}
 											</div>

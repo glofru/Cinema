@@ -111,9 +111,9 @@
 									</span>
 
 									<div class="card__wrap">
-										{if ($item->getProiezione()->getFilm()->getetaConsigliata() != "")}
+										{if ($item->getProiezione()->getFilm()->getEtaConsigliata() != "")}
 											<ul class="card__list">
-												<li>{$item->getProiezione()->getFilm()->getetaConsigliata()}</li>
+												<li>{$item->getProiezione()->getFilm()->getEtaConsigliata()}</li>
 											</ul>
 										{/if}
 									</div>
