@@ -1,7 +1,20 @@
 <?php
 
+/**
+ * La classe Admin contiene tutti i metodi necessari a mostrare le schermate di gestione di utenti, film, proiezioni, sale e prezzi.
+ * Class VAdmin
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package View
+ */
 class VAdmin
 {
+    /**
+     * Funzione che permette di mostrare la schermata di aggiunta di film.
+     * @param array $attori, insieme degli attori presenti nel nostro DB.
+     * @param array $registi, insieme dei registi presenti nel nostro DB.
+     * @throws SmartyException
+     */
     public static function addFilm(array $attori, array $registi)
     {
         $smarty = StartSmarty::configuration();
@@ -14,6 +27,13 @@ class VAdmin
         $smarty->display("addFilm.tpl");
     }
 
+    /**
+     * Funzione che permette di visualizzare la schermata di gestione degli utenti. Da questa è possibile visualizzare gli utenti bannati ed eventualmente bannarne altri.
+     * @param array $bannati, insieme degli utenti bannati.
+     * @param EAdmin $utente, utente che richiede la pagina.
+     * @param null $status, risultato dell'operazione eseguita.
+     * @throws SmartyException
+     */
     public static function gestioneUtenti(array $bannati, EAdmin $utente, $status = null) {
         $smarty = StartSmarty::configuration();
 
@@ -25,6 +45,10 @@ class VAdmin
         $smarty->display("gestioneUtenti.tpl");
     }
 
+    /**
+     * Schermata che permette di visualizzare la schermata di modifica dei prezzi dei biglietti.
+     * @throws SmartyException
+     */
     public static function modificaPrezzo() {
         $smarty = StartSmarty::configuration();
 
@@ -35,6 +59,16 @@ class VAdmin
         $smarty->display("modificaPrezzi.tpl");
     }
 
+    /**
+     * Schermata che permette di visualizzare e gestire la disponibilità delle sale presenti nel cinema. Inoltre permette di aggiungere nuove sale.
+     * @param array $sale, insieme delle sale fisiche presenti nel cinema.
+     * @param EUtente $utente, utente che richiede la pagina,
+     * @param null $e, esito dell'operazione eseguita.
+     * @param null $nSala, numero di sala. Viene restituito nel caso l'operazione di aggiunta di una sala non sia andata a buon fine.
+     * @param null $nFile, numero delle fine presenti nella sala. Viene restituito nel caso l'operazione di aggiunta di una sala non sia andata a buon fine.
+     * @param null $nPosti, numero dei posti presenti in ogni fila. Viene restituito nel caso l'operazione di aggiunta di una sala non sia andata a buon fine.
+     * @throws SmartyException
+     */
     public static function gestioneSale(array $sale, EUtente $utente, $e = null, $nSala = null, $nFile = null, $nPosti = null) {
         $smarty = StartSmarty::configuration();
 
@@ -49,6 +83,21 @@ class VAdmin
         $smarty->display("gestioneSale.tpl");
     }
 
+    /**
+     * Funzione che permette di vsiualizzare le programmazioni delle proiezioni che avverranno nel cinema. Da qui è possibile aggiungere delle proiezioni oppure modificarle.
+     * @param EUtente $utente, utente che richiede la pagina.
+     * @param array $films, insieme dei film in proiezione.
+     * @param array $sale, insieme delle sale fisiche.
+     * @param EElencoProgrammazioni $programmazioni, elenco con le programmazioni dei vari film.
+     * @param array $locandine, insieme delle locandine dei film.
+     * @param int|null $film, id del film del quale si voleva creare una proeizione. Viene restituito nel caso l'operazione di aggiunta di una proiezione non sia andata a buon fine.
+     * @param int|null $nSala, numero della sala scelta per la proiezione. Viene restituito nel caso l'operazione di aggiunta di una sala non sia andata a buon fine.
+     * @param string|null $ora, orario di inizio della proiezione. Viene restituito nel caso l'operazione di aggiunta di una sala non sia andata a buon fine.
+     * @param string|null $inizio, data di inizio della proiezione. Viene restituito nel caso l'operazione di aggiunta di una sala non sia andata a buon fine.
+     * @param string|null $fine, data fino alla quale verranno svolte le proieizoni. Viene restituito nel caso l'operazione di aggiunta di una sala non sia andata a buon fine.
+     * @param string|null $error, esito dell'operazione.
+     * @throws SmartyException
+     */
     public static function gestioneProgrammazione(EUtente $utente, array $films, array $sale, EElencoProgrammazioni $programmazioni, array $locandine, $film = null, $nSala = null, $ora = null, $inizio = null, $fine = null, $error = null) {
         $smarty = StartSmarty::configuration();
 
@@ -68,6 +117,12 @@ class VAdmin
         $smarty->display("gestioneProgrammazione.tpl");
     }
 
+    /**
+     * Schermata dalla quale è possibile effettuare una modifica alla programmazione di un film.
+     * @param EUtente $utente, utente che richiama la pagina.
+     * @param EProgrammazioneFilm $programmazioneFilm, programmazione che si intende modificare.
+     * @throws SmartyException
+     */
     public static function modificaProgrammazione(EUtente $utente, EProgrammazioneFilm $programmazioneFilm) {
         $smarty = StartSmarty::configuration();
 
@@ -78,6 +133,15 @@ class VAdmin
         $smarty->display("modificaProgrammazione.tpl");
     }
 
+    /**
+     * Schermata che permette la modifica di una proiezione.
+     * @param EUtente $utente, utente che richiede la pagina.
+     * @param array $films, insieme dei film attualemnte disponibili.
+     * @param array $sale, insieme delle sale fisiche presenti.
+     * @param bool $cambioSala, indidica se sia possibile cambiare la sala.
+     * @param EProiezione $proiezione, proiezione che si vuole modificare.
+     * @throws SmartyException
+     */
     public static function modificaProiezione(EUtente $utente, array $films, array $sale, bool $cambioSala, EProiezione $proiezione) {
         $smarty = StartSmarty::configuration();
 
@@ -91,6 +155,12 @@ class VAdmin
         $smarty->display("modificaProiezione.tpl");
     }
 
+    /**
+     * Schermata che permette di moficare le informazioni su un film.
+     * @param EFilm $film, film che si vuole modificare.
+     * @param $copertina, locandina del film.
+     * @throws SmartyException
+     */
     public static function modificafilm(EFilm $film, $copertina){
         $smarty = StartSmarty::configuration();
 
