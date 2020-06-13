@@ -86,7 +86,7 @@
                                     <a class="header__sign-in" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <span>@{$utente->getUsername()}</span>
                                     </a>
-                                    <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
+                                    <ul class="dropdown-menu header__dropdown-menu" style="width: 230px" aria-labelledby="dropdownMenuCatalog">
                                         <li><a href="{$path}/Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
                                         <li><a href="{$path}/Admin/addFilm">Aggiungi film</a></li>
                                         <li><a href="{$path}/Admin/gestioneProgrammazione">Gestione programmazione</a></li>

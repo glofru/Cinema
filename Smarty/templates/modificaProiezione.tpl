@@ -81,7 +81,7 @@
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
                         <div class="row">
-                            <form action="{$path}/Admin/modificaProiezione" onsubmit="return validate()" method="POST" class="form" enctype="multipart/form-data" style="margin: auto">
+                            <form id="form" onsubmit="return validate()" action="{$path}/Admin/modificaProiezione" method="POST" class="form" enctype="multipart/form-data" style="margin: auto">
 
                                 <!-- Proiezione -->
                                 <input type="hidden" name="proiezione" value="{$proiezione->getId()}">
@@ -95,7 +95,7 @@
                                 <!-- Sala -->
                                 <h3 style="color: white">Sala</h3>
                                 <div class="sign__group">
-                                    <input id="roomChosen" list="rooms" type="number" class="sign__input" value="{$proiezione->getSala()->getNumeroSala()}" name="sala">
+                                    <input id="roomChosen" list="rooms" type="number" class="sign__input" value="{$proiezione->getSala()->getNumeroSala()}" name="sala" placeholder="Sala">
 
                                     <datalist id="rooms">
                                         {foreach $sale as $s}
@@ -117,7 +117,8 @@
                                 </div>
 
                                 <button id="submit" class="sign__btn" type="submit">Modifica</button>
-                                <button id="submit" class="sign__btn" type="submit">Cancella</button>
+                                <button onclick="erase()" class="sign__btn" type="button">Cancella</button>
+                                <button onclick="window.location.href = '/Admin/modificaProgrammazione?film={$proiezione->getFilm()->getId()}'" class="sign__btn" type="button">Annulla</button>
                             </form>
                         </div>
                     </div>
@@ -198,21 +199,29 @@
 
 
 <script>
-    function validate() {
-        let valFilm = $("#filmChosen").val();
-        let valSala = $("#roomChosen").val();
+    function erase() {
+        let choice = confirm("Sei sicuro di voler cancellare la proiezione?");
 
-        if (valFilm === "" ||
-            valSala === "" ||
-            $("#orario") === "" ||
-            $("#dataInizio").val() === "" ||
-            $("#dataFine").val() === "") {
-            alert("Compila tutti i campi");
-            return false;
+        if (choice) {
+            $("<input>").attr({
+                id: 'erase',
+                type: 'hidden',
+                name: 'erase',
+                value: 'true'
+            }).appendTo($("#form"));
+            document.getElementById("form").submit.click();
         }
+    }
 
-        $("#film").val(document.getElementById(valFilm).getAttribute("data-value"));
-        $("#room").val(valSala);
+    function validate() {
+        if (document.getElementById("erase") === null) {
+            let valSala = $("#roomChosen").val();
+
+            if (valSala === "" || $("#orario").val() === "") {
+                alert("Inserisci sala e orario");
+                return false;
+            }
+        }
 
         return true;
     }
