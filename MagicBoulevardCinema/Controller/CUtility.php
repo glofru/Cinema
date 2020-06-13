@@ -14,21 +14,23 @@ class CUtility
      * @param int $size, numero dei film di prossima uscita che si richiede.
      * @return array, insieme di film e locandine.
      */
-    public static function getProssimi(int $size) {
+    public static function getProssimi(int $size)
+    {
         $pm = FPersistentManager::getInstance();
         $date = EData::getDateProssime();
-        $filmProssimi = $pm->loadBetween($date[0], $date[1],"EFilm");
-        if(sizeof($filmProssimi) > $size) {
-            array_splice($filmProssimi, 0, $size);
-        }
+        $filmProssimi = $pm->loadBetween($date[0], $date[1], "EFilm");
         usort($filmProssimi, array(EFilm::class, "sortByDatesFilm"));
-        $immaginiProssimi = [];
-        foreach($filmProssimi as $film) {
-            array_push($immaginiProssimi, $pm->load($film->getId(), "idFilm", "EMedia"));
+        if (sizeof($filmProssimi) > $size) {
+            $filmProssimi = array_splice($filmProssimi, 0, $size);
+            $immaginiProssimi = [];
+            foreach ($filmProssimi as $film) {
+                array_push($immaginiProssimi, $pm->load($film->getId(), "idFilm", "EMedia"));
+            }
+            $result = [];
+            array_push($result, $filmProssimi, $immaginiProssimi);
+
+            return $result;
         }
-        $result = [];
-        array_push($result, $filmProssimi, $immaginiProssimi);
-        return $result;
     }
 
     /**
