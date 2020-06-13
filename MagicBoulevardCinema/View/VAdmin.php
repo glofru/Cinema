@@ -10,24 +10,6 @@
 class VAdmin
 {
     /**
-     * Funzione che permette di mostrare la schermata di aggiunta di film.
-     * @param array $attori, insieme degli attori presenti nel nostro DB.
-     * @param array $registi, insieme dei registi presenti nel nostro DB.
-     * @throws SmartyException
-     */
-    public static function addFilm(array $attori, array $registi)
-    {
-        $smarty = StartSmarty::configuration();
-
-        $smarty->assign("path", $GLOBALS["path"]);
-        $smarty->assign("attori", $attori);
-        $smarty->assign("registi", $registi);
-        $smarty->assign("generi", EGenere::getAll());
-
-        $smarty->display("addFilm.tpl");
-    }
-
-    /**
      * Funzione che permette di visualizzare la schermata di gestione degli utenti. Da questa è possibile visualizzare gli utenti bannati ed eventualmente bannarne altri.
      * @param array $bannati, insieme degli utenti bannati.
      * @param EAdmin $utente, utente che richiede la pagina.
@@ -59,11 +41,28 @@ class VAdmin
         $smarty->display("modificaPrezzi.tpl");
     }
 
-    public static function gestioneFilm(EUtente $utente) {
+    public static function gestioneFilm(EUtente $utente, array $attori, array $registi, $erroreFilm = null, $errorePersona = null, $data = null) {
         $smarty = StartSmarty::configuration();
 
         $smarty->assign("path", $GLOBALS["path"]);
         $smarty->assign("utente", $utente);
+        $smarty->assign("attori", $attori);
+        $smarty->assign("registi", $registi);
+        $smarty->assign("generi", EGenere::getAll());
+        $smarty->assign("erroreAddFilm", $erroreFilm);
+        $smarty->assign("erroreAddPersona", $errorePersona);
+
+        if ($erroreFilm) {
+            $smarty->assign("titolo", $_POST["titolo"]);
+            $smarty->assign("descrizione", $_POST["descrizione"]);
+            $smarty->assign("genere", $_POST["genere"]);
+            $smarty->assign("durata", $_POST["durata"]);
+            $smarty->assign("trailerURL", $_POST["trailerURL"]);
+            $smarty->assign("votoCritica", $_POST["votoCritica"]);
+            $smarty->assign("dataRilascio", $_POST["dataRilascio"]);
+            $smarty->assign("paese", $_POST["paese"]);
+            $smarty->assign("etaConsigliata", $_POST["etaConsigliata"]);
+        }
 
         $smarty->display("gestioneFilm.tpl");
     }

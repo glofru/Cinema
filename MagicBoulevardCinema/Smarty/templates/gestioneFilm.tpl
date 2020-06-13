@@ -92,7 +92,7 @@
                         <div class="row">
                             <!-- authorization form -->
                             <form action="{$path}Admin/gestioneFilm" onsubmit="return validate()" method="POST" class="form" enctype="multipart/form-data" style="margin: auto">
-                                <input type="hidden" name="addPersona" value="true">
+                                <input type="hidden" name="addFilm" value="true">
 
                                 <!-- Copertina -->
                                 <div class="sign__group">
@@ -104,12 +104,12 @@
 
                                 <!-- Titolo -->
                                 <div class="sign__group">
-                                    <input id="titolo" type="text" class="sign__input" placeholder="Titolo del film" name="titolo">
+                                    <input id="titolo" type="text" class="sign__input" placeholder="Titolo del film" name="titolo" value="{$titolo}">
                                 </div>
 
                                 <!-- Descrizione -->
                                 <div class="sign__group">
-                                    <input id="descrizione" type="text" class="sign__input" placeholder="Descrizione" name="descrizione">
+                                    <textarea id="descrizione" type="text" class="sign__input" placeholder="Descrizione" name="descrizione" style="padding-top: 10px; height: 150px">{$descrizione}</textarea>
                                 </div>
 
                                 <!-- Genere -->
@@ -117,7 +117,7 @@
                                     <span class="filter__item-label">Genere:</span>
 
                                     <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-genre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <input type="text" name="genere" value="{$generi[0]}" readonly>
+                                        <input type="text" name="genere" value="{if isset($genere)}{$genere}{else}{$generi[0]}{/if}" readonly>
                                         <span></span>
                                     </div>
 
@@ -130,28 +130,28 @@
 
                                 <!-- Durata -->
                                 <div class="sign__group">
-                                    <input id="durata" type="number" min="0" max="500" class="sign__input" placeholder="Durata (minuti)" name="durata">
+                                    <input id="durata" type="number" min="0" max="500" class="sign__input" placeholder="Durata (minuti)" name="durata" value="{$durata}">
                                 </div>
 
                                 <!-- TrailerURL -->
                                 <div class="sign__group">
-                                    <input type="url" class="sign__input" placeholder="Trailer" name="trailerURL">
+                                    <input type="url" class="sign__input" placeholder="Trailer" name="trailerURL" value="{$trailerURL}">
                                 </div>
 
                                 <!-- Voto critica -->
                                 <div class="sign__group" style="position:relative;">
-                                    <input style="padding-right: 30px;" type="number" min="0" max="10" step="0.1" class="sign__input" placeholder="Voto della critica" name="votoCritica">
-                                    <span class="card__rate" style="position: absolute; right: 10px; bottom: 13px;"><i class="icon ion-ios-star"></i></span>
+                                    <input style="padding-right: 30px;" type="number" min="0" max="10" step="0.1" class="sign__input" placeholder="Voto della critica" name="votoCritica" value="{$votoCritica}">
+                                    <span class="card__rate" style="position: absolute; right: 22px; bottom: 13px;"><i class="icon ion-ios-star"></i></span>
                                 </div>
 
                                 <!-- DataRilascio -->
                                 <div class="sign__group">
-                                    <input id="dataRilascio" type="date" class="sign__input" placeholder="GG/MM/AAAA" name="dataRilascio">
+                                    <input id="dataRilascio" type="date" class="sign__input" placeholder="Data di rilascio: AAAA/MM/GG" name="dataRilascio" value="{$dataRilascio}">
                                 </div>
 
                                 <!-- Paese -->
                                 <div class="sign__group">
-                                    <input type="text" maxlength="3" class="sign__input" placeholder="Paese" name="paese">
+                                    <input type="text" maxlength="3" class="sign__input" placeholder="Paese" name="paese" value="{$paese}">
                                 </div>
 
                                 <!-- Età consigliata -->
@@ -159,7 +159,7 @@
                                     <span class="filter__item-label">Età consigliata:</span>
 
                                     <div class="filter__item-btn dropdown-toggle" role="navigation" id="filter-age" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <input type="text" name="etaConsigliata" value="NO" readonly>
+                                        <input type="text" name="etaConsigliata" value="{if isset($etaConsigliata)}{$etaConsigliata}{else}NO{/if}" readonly>
                                         <span></span>
                                     </div>
 
@@ -174,7 +174,7 @@
                                 <!-- Attori -->
                                 <div class="sign__group" style="position: relative; margin-bottom: 0;">
                                     <input id="actorChosen" list="actors" class="sign__input" placeholder="Attori">
-                                    <button id="addActor" type="button" class="sign__btn" style="position: absolute; right: 10px; bottom: 15px; width: 20px; height: 20px">+</button>
+                                    <button id="addActor" type="button" class="sign__btn" style="position: absolute; right: 30px; bottom: 15px; width: 20px; height: 20px">+</button>
 
                                     <datalist id="actors">
                                         {foreach $attori as $attore}
@@ -192,7 +192,7 @@
                                 <!-- Registi -->
                                 <div class="sign__group" style="position: relative; margin-top: 15px; margin-bottom: 0px;">
                                     <input id="directorChosen" list="directors" class="sign__input" placeholder="Registi">
-                                    <button id="addDirector" type="button" class="sign__btn" style="position: absolute; right: 10px; bottom: 15px; width: 20px; height: 20px">+</button>
+                                    <button id="addDirector" type="button" class="sign__btn" style="position: absolute; right: 30px; bottom: 15px; width: 20px; height: 20px">+</button>
 
                                     <datalist id="directors">
                                         {foreach $registi as $regista}

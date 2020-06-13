@@ -24,81 +24,6 @@ class CAdmin
     }
 
     /**
-     * Funzione che permette di aggiungere un film nel cinema. Richiamabile via metodi GET o POST esegue le seguenti operazioni:
-     *
-     * GET) In questo caso viene mostrata una schermata che permette di inserire tutti i dati relativi alla creazione di un nuovo oggetto Film.
-     *
-     * POST) Nel caso sia una richiesta POST allora tutti i campi presenti nella schermata precedente vengono passati allo script che provvederà alla creazione delle Entity
-     * necessarie a poter istanziare un nuovo Efilm.
-     * Se tutti i valori passati non hanno generato eccezioni quando processate dalle entity allora il film viene aggiunto alla nostra base dati.
-     * Si viene quindi portati alla pagina del nuovo film appena creato.
-     * @throws \PHPMailer\PHPMailer\Exception|SmartyException
-     */
-    public static function addFilm() {
-        self::checkAdmin();
-
-        $method = $_SERVER["REQUEST_METHOD"];
-
-        if ($method == "GET") {
-            $attori         = FPersistentManager::getInstance()->load("1", "isAttore", "EPersona");
-            $registi        = FPersistentManager::getInstance()->load("1", "isRegista", "EPersona");
-            VAdmin::addFilm($attori, $registi);
-        } elseif ($method == "POST") {
-            //TODO
-//            Costruzione oggetto Film
-            $titolo         = $_POST["titolo"];
-            $descrizione    = $_POST["descrizione"];
-            $genere         = EGenere::fromString($_POST["genere"]);
-
-            $time           = explode(":", EData::hoursandmins($_POST["durata"]));
-            $durata         = null;
-            try {
-                $durata     = new DateInterval("PT" . $time[0] . "H" . $time[1] . "M");
-            } catch (Exception $e) {
-                $durata     = new DateInterval("PT0H0M");
-            }
-
-            $trailerURL     = $_POST["trailerURL"];
-            $votoCritica    = floatval($_POST["votoCritica"]);
-
-            $rilascio       = str_replace("/", "-", $_POST["dataRilascio"] == "" ? "01/01/1970" : $_POST["dataRilascio"]);
-            $dataRilascio   = DateTime::createFromFormat("Y-m-d", $rilascio);
-
-            $paese          = $_POST["paese"];
-            $etaConsigliata = $_POST["etaConsigliata"];
-
-            $film           = new EFilm($titolo, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere, $paese, $etaConsigliata);
-
-            foreach (FFilm::recreateArray($_POST["attori"]) as $attore) {
-                if ($attore === null) {
-
-                }
-                $film->addAttore($attore);
-            }
-
-            foreach (FFilm::recreateArray($_POST["registi"]) as $regista) {
-                $film->addRegista($regista);
-            }
-
-            FPersistentManager::getInstance()->save($film);
-
-            $tempCop            = $_FILES["copertina"];
-            $name               = $tempCop["name"];
-            $mimeType           = $tempCop["type"];
-            $time               = new DateTime("now");
-            $data               = file_get_contents($tempCop["tmp_name"]);
-            $data               = base64_encode($data);
-            $copertina          = new EMediaLocandina($name, $mimeType, $time, $data, $film);
-            $_SESSION["idFilm"] = $film->getId();
-            FPersistentManager::getInstance()->save($copertina);
-            CNewsLetter::addedNewFilm();
-            header("Location: /MagicBoulevardCinema/Film/show/?film=" . $film->getId());
-        } else {
-            CMain::methodNotAllowed();
-        }
-    }
-
-    /**
      * Funzione che permette la gestione degli utenti bannati. Richiamabile sia in POST sia in GET svolge le seguenti funzioni:
      *
      * GET) Mostra la schermata dalla quale poter vedere gli utenti che sono stati bannati e la schermata che permette di bannare gli utenti.
@@ -205,6 +130,7 @@ class CAdmin
      * GET) Viene mostrata la pagina di modifica dei prezzi.
      *
      * POST) Vengono raccolti tutti i prezzi passati via post ed inseriti in un file (configCinema.conf.php) in modo tale da poter assegnare i prezzi ad altrettante variabili globali per poter essere accessibili in tutti gli script.
+     * @throws SmartyException
      */
     public static function modificaPrezzi() {
         self::checkAdmin();
@@ -350,12 +276,85 @@ class CAdmin
     public static function gestioneFilm() {
         self::checkAdmin();
 
-        $utente = CUtente::getUtente();
+        $utente  = CUtente::getUtente();
+        $attori  = FPersistentManager::getInstance()->load("1", "isAttore", "EPersona");
+        $registi = FPersistentManager::getInstance()->load("1", "isRegista", "EPersona");
 
         $method = $_SERVER["REQUEST_METHOD"];
 
         if ($method === "GET") {
-            VAdmin::gestioneFilm($utente);
+            VAdmin::gestioneFilm($utente, $attori, $registi);
+        } elseif ($method == "POST") {
+            if (isset($_POST["addFilm"])) {
+
+                try {
+                    $titolo = $_POST["titolo"];
+
+                    $descrizione = $_POST["descrizione"];
+
+                    $genere = EGenere::fromString($_POST["genere"]);
+                    if ($genere === EGenere::$NOT_DEFINED) {
+                        throw new Exception("Genere non valido");
+                    }
+
+                    $time = explode(":", EData::hoursandmins($_POST["durata"]));
+                    $durata = null;
+                    try {
+                        $durata = new DateInterval("PT" . $time[0] . "H" . $time[1] . "M");
+                    } catch (Exception $e) {
+                        throw new Exception("Durata non valida");
+                    }
+
+                    $trailerURL  = $_POST["trailerURL"];
+
+                    $votoCritica = floatval($_POST["votoCritica"]);
+
+                    $rilascio = str_replace("/", "-", $_POST["dataRilascio"] == "" ? "01/01/1970" : $_POST["dataRilascio"]);
+                    $dataRilascio = DateTime::createFromFormat("Y-m-d", $rilascio);
+                    if ($dataRilascio === false) {
+                        throw new Exception("Data di rilascio non valida");
+                    }
+
+                    $paese = $_POST["paese"];
+
+                    $etaConsigliata = $_POST["etaConsigliata"];
+
+                    $film = new EFilm($titolo, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere, $paese, $etaConsigliata);
+
+                    foreach (FFilm::recreateArray($_POST["attori"]) as $attore) {
+                        if ($attore === null) {
+                            throw new Exception("Hai inserito un attore non valido");
+                        }
+                        $film->addAttore($attore);
+                    }
+                    foreach (FFilm::recreateArray($_POST["registi"]) as $regista) {
+                        if ($regista === null) {
+                            throw new Exception("Hai inserito un regista non valido");
+                        }
+                        $film->addRegista($regista);
+                    }
+                } catch (Exception $e) {
+                    VAdmin::gestioneFilm($utente, $attori, $registi, $e->getMessage(), null, $_POST);
+                    die;
+                }
+
+                FPersistentManager::getInstance()->save($film);
+
+                $tempCop            = $_FILES["copertina"];
+                $name               = $tempCop["name"];
+                $mimeType           = $tempCop["type"];
+                $time               = new DateTime("now");
+                $data               = file_get_contents($tempCop["tmp_name"]);
+                $data               = base64_encode($data);
+                $copertina          = new EMediaLocandina($name, $mimeType, $time, $data, $film);
+                $_SESSION["idFilm"] = $film->getId();
+                FPersistentManager::getInstance()->save($copertina);
+                try {
+                    CNewsLetter::addedNewFilm();
+                } catch (\PHPMailer\PHPMailer\Exception $e) {}
+
+                header("Location: /MagicBoulevardCinema/Film/show/?film=" . $film->getId());
+            }
         }
     }
 
