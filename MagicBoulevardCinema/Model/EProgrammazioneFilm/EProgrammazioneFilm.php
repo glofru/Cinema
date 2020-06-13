@@ -35,7 +35,7 @@ class EProgrammazioneFilm implements JsonSerializable
         array_push($this->proiezioni, $proiezione);
 
         usort($this->proiezioni, function ($a, $b) {
-            return $a->getDataProiezione > $b->getDataProiezione();
+            return $a->getDataProiezione() > $b->getDataProiezione();
         });
 
         if($this->film === null) {

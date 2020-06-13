@@ -142,15 +142,16 @@ class VAdmin
      * @param EProiezione $proiezione, proiezione che si vuole modificare.
      * @throws SmartyException
      */
-    public static function modificaProiezione(EUtente $utente, array $films, array $sale, bool $cambioSala, EProiezione $proiezione) {
+    public static function modificaProiezione(EUtente $utente, array $films, array $sale, bool $cambioSala, EProiezione $proiezione, $status = null) {
         $smarty = StartSmarty::configuration();
 
-        $smarty->assign("path", $GLOBALS["path"]);
-        $smarty->assign("utente", $utente);
-        $smarty->assign("films", $films);
-        $smarty->assign("sale", $sale);
+        $smarty->assign("path",       $GLOBALS["path"]);
+        $smarty->assign("utente",     $utente);
+        $smarty->assign("films",      $films);
+        $smarty->assign("sale",       $sale);
         $smarty->assign("cambioSala", $cambioSala);
         $smarty->assign("proiezione", $proiezione);
+        $smarty->assign("status",     $status);
 
         $smarty->display("modificaProiezione.tpl");
     }

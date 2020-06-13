@@ -33,10 +33,11 @@ class ESalaFisica implements JsonSerializable
 
     /**
      * ESalaFisica constructor.
-     * @param int $numeroSala, numero della sala.
-     * @param int $nFile, numero di file nella sala.
-     * @param int $nPostiFila, nuero di posti per ogni fila presente in sala.
-     * @param bool $disponibile, disponibilità della sala.
+     * @param int $numeroSala , numero della sala.
+     * @param int $nFile , numero di file nella sala.
+     * @param int $nPostiFila , nuero di posti per ogni fila presente in sala.
+     * @param bool $disponibile , disponibilità della sala.
+     * @throws Exception
      */
     public function __construct(int $numeroSala, int $nFile, int $nPostiFila, bool $disponibile)
     {
@@ -55,7 +56,8 @@ class ESalaFisica implements JsonSerializable
     }
 
     /**
-     * @param int $numeroSala, numero della sala.
+     * @param int $numeroSala , numero della sala.
+     * @throws Exception
      */
     public function setNumeroSala(int $numeroSala): void
     {
@@ -74,7 +76,8 @@ class ESalaFisica implements JsonSerializable
     }
 
     /**
-     * @param int $nFile, numero di file.
+     * @param int $nFile , numero di file.
+     * @throws Exception
      */
     public function setNFile(int $nFile): void
     {
@@ -93,7 +96,8 @@ class ESalaFisica implements JsonSerializable
     }
 
     /**
-     * @param int $nPostiFila, numero di posti per fila.
+     * @param int $nPostiFila , numero di posti per fila.
+     * @throws Exception
      */
     public function setNPostiFila(int $nPostiFila): void
     {

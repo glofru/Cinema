@@ -519,14 +519,17 @@ class CAdmin
     public static function modificaProiezione() {
         self::checkAdmin();
 
-        $pm     = FPersistentManager::getInstance();
+        $pm             = FPersistentManager::getInstance();
 
-        $films  = $pm->loadAll("EFilm");
-        $sale   = $pm->loadAll("ESala");
+        $films          = $pm->loadAll("EFilm");
+        $sale           = $pm->loadAll("ESala");
+
         $idProiezione   = $_GET["proiezione"]??$_POST["proiezione"];
         $proiezione     = $pm->load($idProiezione, "id", "EProiezione")->getElencoProgrammazioni()[0]->getProiezioni()[0];
+
         $biglietti      = $pm->load($proiezione->getId(), "idProiezione", "EBiglietto");
         $cambioSala     = sizeof($biglietti) == 0;
+
         $utente = CUtente::getUtente();
 
         $method = $_SERVER["REQUEST_METHOD"];
@@ -540,29 +543,35 @@ class CAdmin
                 $pm->delete($proiezione->getId(), "id", "EProiezione");
                 header("Location: /MagicBoulevardCinema/Admin/modificaProgrammazione?film={$proiezione->getFilm()->getId()}");
             } else {
-                $orario = $_POST["orario"];
+                $orario     = $_POST["orario"];
 
-                if ($orario->format("H:i") !== $proiezione->getDataProiezione()->format("H:i")) {
-                    try {
-                        $Hm  = explode(":", $orario);
-                        $ora = new DateInterval("PT{$Hm[0]}H{$Hm[1]}M");
+                $changeOra  = false;
+                $changeSala = false;
+
+                try {
+                    $Hm   = explode(":", $orario);
+                    $ora  = new DateInterval("PT{$Hm[0]}H{$Hm[1]}M");
+                    $o    = $proiezione->getDataProiezione()->setTime(0, 0, 0);
+                    $o->add($ora);
+
+                    if ($o->getTimestamp() !== $proiezione->getDataProiezione()->getTimestamp()) {
                         $data = $proiezione->getDataProiezione()->setTime(0, 0, 0);
                         $data->add($ora);
 
                         $proiezione->setDataProiezione($data);
-                    } catch (Exception $e) {
-                        $status = "Orario non valido";
+                        $changeOra = true;
                     }
+                } catch (Exception $e) {
+                    $status = "Orario non valido";
                 }
 
                 if ($cambioSala) {
-                    $nSala = intval($_POST["nSala"]);
+                    $nSala = intval($_POST["sala"]);
                     
-                    if ($proiezione->getSala()->getNumeroSala() !== $nSala) {
-                        
+                    if ($proiezione->getSala()->getNumeroSala() != $nSala) {
                         $salaF = null;
                         foreach ($sale as $s) {
-                            if ($salaF->getNumeroSala() === $nSala) {
+                            if ($s->getNumeroSala() === $nSala) {
                                 $salaF = $s;
                                 break;
                             }
@@ -572,11 +581,33 @@ class CAdmin
                             $status = "Sala inesistente o non disponibile";
                         } else {
                             $salaV = ESalaVirtuale::fromSalaFisica($salaF);
+                            $proiezione->setSala($salaV);
+                            $changeSala = true;
                         }
                     }
                 }
 
-                //TODO
+                if ($changeOra || $changeSala) {
+                    $isSovrapposto = $pm->isSovrappostaProiezione($proiezione);
+
+                    if ($isSovrapposto) {
+                        $status = "La nuova proiezione si sovrappone con altre già esistente";
+                    } else {
+                        if ($changeOra) {
+                            $pm->update($proiezione->getId(), "id", $proiezione->getDataProiezione()->format("H:i"), "ora", "EProiezione");
+                        }
+
+                        if ($changeSala) {
+                            $pm->update($proiezione->getId(), "id", $proiezione->getSala()->getNumeroSala(), "numerosala", "EProiezione");
+                        }
+
+                        $status = "Operazione avvenuta con successo";
+                    }
+                } else {
+                    $status = "Nessun cambiamento effettuato";
+                }
+
+                VAdmin::modificaProiezione($utente, $films, $sale, $cambioSala, $proiezione, $status);
             }
         }
     }

@@ -37,6 +37,10 @@
 
 {include file="header.tpl"}
 
+{if isset($status)}
+    <script>alert("{$status}");</script>
+{/if}
+
 <!-- content -->
 <section class="content">
     <div class="content__head">
@@ -122,7 +126,7 @@
 
                                 <button id="submit" class="sign__btn" type="submit">Modifica</button>
                                 <button onclick="erase()" class="sign__btn" type="button">Cancella</button>
-                                <button onclick="window.location.href = '/Admin/modificaProgrammazione?film={$proiezione->getFilm()->getId()}'" class="sign__btn" type="button">Annulla</button>
+                                <button onclick="window.location.href = '/MagicBoulevardCinema/Admin/modificaProgrammazione?film={$proiezione->getFilm()->getId()}'" class="sign__btn" type="button">Torna indietro</button>
                             </form>
                         </div>
                     </div>

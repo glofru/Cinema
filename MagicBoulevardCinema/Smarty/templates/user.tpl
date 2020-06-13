@@ -40,7 +40,7 @@
 <!-- details -->
     <section class="section details">
         <!-- details background -->
-        <div class="details__bg" data-bg="{$path}Smarty/img/home/home__bg.jpg"></div>
+        <div class="details__bg" data-bg="{$path}/MagicBoulevardCinema/Smarty/img/home/home__bg.jpg"></div>
         <!-- end details background -->
 
         <!-- details content -->

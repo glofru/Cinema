@@ -82,9 +82,9 @@ class FProiezione implements Foundation
      */
     public static function save(EProiezione $proiezione): bool {
         $db = FDatabase::getInstance();
-        $test = self::isSovrapposto($proiezione);
+        $sovrapposto = self::isSovrapposto($proiezione);
 
-        if ($test) {
+        if (!$sovrapposto) {
             $db->saveToDBProiezioneEPosti($proiezione);
 
             return true;
@@ -112,12 +112,12 @@ class FProiezione implements Foundation
                 if (($inizio->getTimestamp() >= $proIn->getTimestamp() && $inizio->getTimestamp() <= $proFin->getTimestamp()) ||
                     ($fine->getTImestamp() > $proIn->getTimestamp() && $fine->getTimestamp() < $proFin->getTimestamp()) ||
                     ($inizio->getTimestamp() < $proIn->getTimestamp() && $fine->getTimestamp() > $proFin->getTimestamp())) {
-                    return false;
+                    return true;
                 }
             }
         }
 
-        return true;
+        return false;
     }
 
     /**
