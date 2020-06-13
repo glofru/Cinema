@@ -133,7 +133,7 @@
     {if $utente->isAdmin()}
     <form action="" method="POST">
         <div class="col-12--center">
-            <a style="margin: auto;" class="header__sign-in" href="Admin/modificaFilm/?film={$film->getId()}" role="button">
+            <a style="margin: auto;" class="header__sign-in" href="{$path}Admin/modificaFilm/?film={$film->getId()}" role="button">
                 <span>Modifica Film</span>
             </a>
         </div>
@@ -298,7 +298,7 @@
 
                                     </ul>
                                     {if $canView && !$utente->isAdmin()}
-                                    <form action="Giudizio/add" class="form" method="POST">
+                                    <form action="{$path}Giudizio/add" class="form" method="POST">
                                         <input name="titolo" type="text" class="form__input" placeholder="Titolo (max 30 caratteri)" maxlength="30">
                                         <textarea name="commento" class="form__textarea" placeholder="Recensione (max 200 caratteri)" maxlength="200"></textarea>
                                         <div class="form__slider">

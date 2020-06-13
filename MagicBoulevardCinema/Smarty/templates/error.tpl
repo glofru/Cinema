@@ -52,7 +52,9 @@
     </div>
 </div>
 <!-- end page 404 -->
-
+<noscript>
+    <meta http-equiv="refresh" content="0;url=/MagicBoulevardCinema/noJS.html">
+</noscript>
 <!-- JS -->
 <script src="{$path}Smarty/js/jquery-3.3.1.min.js"></script>
 <script src="{$path}Smarty/js/bootstrap.bundle.min.js"></script>

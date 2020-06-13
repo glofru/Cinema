@@ -68,3 +68,6 @@
 <!-- end footer -->
 
 <!-- JS -->
+<noscript>
+    <meta http-equiv="refresh" content="0;url=/MagicBoulevardCinema/noJS.html">
+</noscript>
