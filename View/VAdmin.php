@@ -75,6 +75,17 @@ class VAdmin
         $smarty->display("modificaProgrammazione.tpl");
     }
 
+    public static function modificaProiezione(EUtente $utente, array $films, array $sale, EProiezione $proiezione) {
+        $smarty = StartSmarty::configuration();
+
+        $smarty->assign("utente", $utente);
+        $smarty->assign("films", $films);
+        $smarty->assign("sale", $sale);
+        $smarty->assign("proiezione", $proiezione);
+
+        $smarty->display("modificaProiezione.tpl");
+    }
+
     public static function modificafilm(EFilm $film, $copertina){
         $smarty = StartSmarty::configuration();
 
