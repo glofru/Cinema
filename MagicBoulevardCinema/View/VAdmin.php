@@ -49,8 +49,8 @@ class VAdmin
         $smarty->assign("attori", $attori);
         $smarty->assign("registi", $registi);
         $smarty->assign("generi", EGenere::getAll());
-        $smarty->assign("erroreAddFilm", $erroreFilm);
-        $smarty->assign("erroreAddPersona", $errorePersona);
+        $smarty->assign("errorAddFilm", $erroreFilm);
+        $smarty->assign("errorAddPersona", $errorePersona);
 
         if ($erroreFilm) {
             $smarty->assign("titolo", $_POST["titolo"]);
@@ -62,6 +62,8 @@ class VAdmin
             $smarty->assign("dataRilascio", $_POST["dataRilascio"]);
             $smarty->assign("paese", $_POST["paese"]);
             $smarty->assign("etaConsigliata", $_POST["etaConsigliata"]);
+        } if ($errorePersona) {
+
         }
 
         $smarty->display("gestioneFilm.tpl");

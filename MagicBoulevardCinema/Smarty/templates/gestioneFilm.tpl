@@ -215,7 +215,7 @@
 
                     <div class="tab-pane fade {if (isset($errorAddPersona))}show active{/if}" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
                         <div class="row" style="align-content: center">
-                            <form action="{$path}Admin/gestioneFilm" onsubmit="return validate()" method="POST" class="form" enctype="multipart/form-data" style="margin: auto">
+                            <form action="{$path}Admin/gestioneFilm" onsubmit="return validatePersona()" method="POST" class="form" enctype="multipart/form-data" style="margin: auto">
                                 <input type="hidden" name="addPersona" value="true">
 
                                 <!-- Nome -->
@@ -410,6 +410,18 @@
         if (file.size > 2*1024*1024) {
             alert('Non puoi caricare file più grandi di 2 MB');
             document.getElementById("choose_image").value = '';
+            return false;
+        }
+
+        return true;
+    }
+
+    function validatePersona() {
+        if (document.getElementById("nome").value === "" || document.getElementById("nome").value === "") {
+            alert ("Inserire almeno un nome o cognome");
+            return false;
+        } else if (!(document.getElementById("attore").checked || document.getElementById("regista").checked)) {
+            alert ("Selezionare almeno uno tra attore o regista");
             return false;
         }
 

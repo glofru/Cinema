@@ -286,7 +286,6 @@ class CAdmin
             VAdmin::gestioneFilm($utente, $attori, $registi);
         } elseif ($method == "POST") {
             if (isset($_POST["addFilm"])) {
-
                 try {
                     $titolo = $_POST["titolo"];
 
@@ -354,6 +353,28 @@ class CAdmin
                 } catch (\PHPMailer\PHPMailer\Exception $e) {}
 
                 header("Location: /MagicBoulevardCinema/Film/show/?film=" . $film->getId());
+            } elseif (isset($_POST["addPersona"])) {
+                $nome = $_POST["nome"];
+                $cognome = $_POST["cognome"];
+                $imdbURL = $_POST["imdbURL"];
+                $isAttore = boolval($_POST["attore"]);
+                $isRegista = boolval($_POST["regista"]);
+
+                if ($nome === null || $cognome === null || $imdbURL === null) {
+                    //TODO: badRequest
+                } elseif ($nome === "" || $cognome === "") {
+                    $status = "Almeno uno tra nome o cognome non deve essere vuoto";
+                } elseif (!($isAttore || $isRegista)) {
+                    $status = "Almeno uno tra attore e regista deve essere selezionato";
+                } else {
+                    $persona = new EPersona($nome, $cognome, $imdbURL, $isAttore, $isRegista);
+                    FPersistentManager::getInstance()->save($persona);
+                    $status = "Operazione avvenuta con successo";
+                }
+
+                VAdmin::gestioneFilm($utente, $attori, $registi, null, $status);
+            } else {
+                //TODO badRequest
             }
         }
     }
