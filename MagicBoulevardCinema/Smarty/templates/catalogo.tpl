@@ -9,23 +9,23 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet">
 
 	<!-- CSS -->
-	<link rel="stylesheet" href="{$path}../../Smarty/css/bootstrap-reboot.min.css">
-	<link rel="stylesheet" href="{$path}../../Smarty/css/bootstrap-grid.min.css">
-	<link rel="stylesheet" href="{$path}../../Smarty/css/owl.carousel.min.css">
-	<link rel="stylesheet" href="{$path}../../Smarty/css/jquery.mCustomScrollbar.min.css">
-	<link rel="stylesheet" href="{$path}../../Smarty/css/nouislider.min.css">
-	<link rel="stylesheet" href="{$path}../../Smarty/css/ionicons.min.css">
-	<link rel="stylesheet" href="{$path}../../Smarty/css/plyr.css">
-	<link rel="stylesheet" href="{$path}../../Smarty/css/photoswipe.css">
-	<link rel="stylesheet" href="{$path}../../Smarty/css/default-skin.css">
-	<link rel="stylesheet" href="{$path}../../Smarty/css/main.css">
+	<link rel="stylesheet" href="{$path}Smarty/css/bootstrap-reboot.min.css">
+	<link rel="stylesheet" href="{$path}Smarty/css/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="{$path}Smarty/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="{$path}Smarty/css/jquery.mCustomScrollbar.min.css">
+	<link rel="stylesheet" href="{$path}Smarty/css/nouislider.min.css">
+	<link rel="stylesheet" href="{$path}Smarty/css/ionicons.min.css">
+	<link rel="stylesheet" href="{$path}Smarty/css/plyr.css">
+	<link rel="stylesheet" href="{$path}Smarty/css/photoswipe.css">
+	<link rel="stylesheet" href="{$path}Smarty/css/default-skin.css">
+	<link rel="stylesheet" href="{$path}Smarty/css/main.css">
 
 	<!-- Favicons -->
-	<link rel="icon" type="image/png" href="{$path}../../Smarty/icon/favicon-32x32.png" sizes="32x32">
-	<link rel="apple-touch-icon" href="{$path}../../Smarty/icon/favicon-32x32.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="{$path}../../Smarty/icon/apple-touch-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="{$path}../../Smarty/icon/apple-touch-icon-114x114.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="{$path}../../Smarty/icon/apple-touch-icon-144x144.png">
+	<link rel="icon" type="image/png" href="{$path}Smarty/icon/favicon-32x32.png" sizes="32x32">
+	<link rel="apple-touch-icon" href="{$path}Smarty/icon/favicon-32x32.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="{$path}Smarty/icon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="{$path}Smarty/icon/apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="{$path}Smarty/icon/apple-touch-icon-144x144.png">
 
 	<meta name="description" content="">
 	<meta name="keywords" content="">
@@ -38,7 +38,7 @@
 {include file="{$path}Smarty/templates/header.tpl"}
 
 <!-- page title -->
-	<section class="section section--first section--bg" data-bg="{$path}../../Smarty/img/section/section.jpg">
+	<section class="section section--first section--bg" data-bg="{$path}Smarty/img/section/section.jpg">
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
@@ -75,7 +75,7 @@
 							<div class="col-12 col-sm-4">
 								<div class="card__cover">
 									<img src="{$immaginiProssimi[$key]->getImmagineHTML()}" alt="">
-									<a href="{$path}/MagicBoulevardCinema/Film/show/?film={$item->getId()}&autoplay=true" class="card__play">
+									<a href="{$path}Film/show/?film={$item->getId()}&autoplay=true" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
 								</div>
@@ -83,9 +83,9 @@
 
 							<div class="col-12 col-sm-8">
 								<div class="card__content">
-									<h3 class="card__title"><a href="{$path}/MagicBoulevardCinema/Film/show/?film={$item->getId()}&autoplay=true">{$item->getNome()}</a></h3>
+									<h3 class="card__title"><a href="{$path}Film/show/?film={$item->getId()}&autoplay=true">{$item->getNome()}</a></h3>
 									<span class="card__category">
-										<a href="{$path}../../Film/show/?film={$item->getId()}&autoplay=true">{$item->getGenere()}</a>
+										<a href="{$path}Film/show/?film={$item->getId()}&autoplay=true">{$item->getGenere()}</a>
 									</span>
 
 									<div class="card__wrap">
@@ -131,7 +131,7 @@
 								<div class="col-12 col-sm-4">
 									<div class="card__cover">
 										<img src="{$immaginiPassati[$i][$key]->getImmagineHTML()}" alt="">
-										<a href="{$path}/MagicBoulevardCinema/Film/show/?film={$item->getId()}&autoplay=true" class="card__play">
+										<a href="{$path}Film/show/?film={$item->getId()}&autoplay=true" class="card__play">
 											<i class="icon ion-ios-play"></i>
 										</a>
 									</div>
@@ -139,16 +139,16 @@
 
 								<div class="col-12 col-sm-8">
 									<div class="card__content">
-										<h3 class="card__title"><a href="{$path}/MagicBoulevardCinema/Film/show/?film={$item->getId()}&autoplay=true">{$item->getNome()}</a></h3>
+										<h3 class="card__title"><a href="{$path}Film/show/?film={$item->getId()}&autoplay=true">{$item->getNome()}</a></h3>
 										<span class="card__category">
-										<a href="{$path}../../Film/show/?film={$item->getId()}&autoplay=true">{$item->getGenere()}</a>
+										<a href="{$path}Film/show/?film={$item->getId()}&autoplay=true">{$item->getGenere()}</a>
 									</span>
 
 										<div class="card__wrap">
 											<span class="card__rate"><i class="icon ion-ios-star"></i>{$item->getVotoCritica()} &nbsp;</span>
 											{if ($punteggio[$i][$key] != '0')}
 												<span class="card__category">
-													<a href="{$path}/MagicBoulevardCinema/Film/show/?film={$item->getId()}#acquista" >Voto utenti: {$punteggio[$i][$key]}</a>
+													<a href="{$path}Film/show/?film={$item->getId()}#acquista" >Voto utenti: {$punteggio[$i][$key]}</a>
 												</span>
 											{/if}
 											{if ($item->getetaConsigliata() != "")}
@@ -189,7 +189,7 @@
 									<div class="col-12 col-sm-4">
 										<div class="card__cover">
 											<img src="{$immaginiApprezzati[$key]->getImmagineHTML()}" alt="">
-											<a href="{$path}/MagicBoulevardCinema/Film/show/?film={$item->getId()}&autoplay=true" class="card__play">
+											<a href="{$path}Film/show/?film={$item->getId()}&autoplay=true" class="card__play">
 												<i class="icon ion-ios-play"></i>
 											</a>
 										</div>
@@ -197,15 +197,15 @@
 
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
-											<h3 class="card__title"><a href="{$path}/MagicBoulevardCinema/Film/show/?film={$item->getId()}&autoplay=true">{$item->getNome()}</a></h3>
+											<h3 class="card__title"><a href="{$path}Film/show/?film={$item->getId()}&autoplay=true">{$item->getNome()}</a></h3>
 											<span class="card__category">
-										<a href="{$path}/MagicBoulevardCinema/Film/show/?film={$item->getId()}&autoplay=true">{$item->getGenere()}</a>
+										<a href="{$path}Film/show/?film={$item->getId()}&autoplay=true">{$item->getGenere()}</a>
 									</span>
 
 											<div class="card__wrap">
 												<span class="card__rate"><i class="icon ion-ios-star"></i>{$item->getVotoCritica()} &nbsp;</span>
 													<span class="card__category">
-													<a href="{$path}/MagicBoulevardCinema/Film/show/?film={$item->getId()}#acquista" >Voto utenti: {$punteggio[$item->getId()]}</a>
+													<a href="{$path}Film/show/?film={$item->getId()}#acquista" >Voto utenti: {$punteggio[$item->getId()]}</a>
 												</span>
 												{if ($item->getetaConsigliata() != "")}
 													<ul class="card__list">
@@ -230,7 +230,7 @@
 {/if}
 
 				<!-- expected premiere -->
-				<section class="section section--bg" data-bg="{$path}../../img/section/section.jpg">
+				<section class="section section--bg" data-bg="{$path}img/section/section.jpg">
 					<div class="container">
 						<div class="row">
 							<!-- section title -->
@@ -245,12 +245,12 @@
 										<div class="card">
 											<div class="card__cover">
 												<img src="{$immaginiConsigliati[$key]->getImmagineHTML()}" alt="">
-												<a href="{$path}/MagicBoulevardCinema/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
+												<a href="{$path}Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
 													<i class="icon ion-ios-play"></i>
 												</a>
 											</div>
 											<div class="card__content">
-												<h3 class="card__title"><a href="{$path}/MagicBoulevardCinema/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
+												<h3 class="card__title"><a href="{$path}Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
 												<span class="card__category">
 								<a href="#">{$film->getGenere()}</a>
 							</span>
@@ -273,18 +273,18 @@
 {include file="{$path}Smarty/templates/footer.tpl"}
 
 	<!-- JS -->
-	<script src="{$path}../../Smarty/js/jquery-3.3.1.min.js"></script>
-	<script src="{$path}../../Smarty/js/bootstrap.bundle.min.js"></script>
-	<script src="{$path}../../Smarty/js/owl.carousel.min.js"></script>
-	<script src="{$path}../../Smarty/js/jquery.mousewheel.min.js"></script>
-	<script src="{$path}../../Smarty/js/jquery.mCustomScrollbar.min.js"></script>
-	<script src="{$path}../../Smarty/js/wNumb.js"></script>
-	<script src="{$path}../../Smarty/js/nouislider.min.js"></script>
-	<script src="{$path}../../Smarty/js/plyr.min.js"></script>
-	<script src="{$path}../../Smarty/js/jquery.morelines.min.js"></script>
-	<script src="{$path}../../Smarty/js/photoswipe.min.js"></script>
-	<script src="{$path}../../Smarty/js/photoswipe-ui-default.min.js"></script>
-	<script src="{$path}../../Smarty/js/main.js"></script>
+	<script src="{$path}Smarty/js/jquery-3.3.1.min.js"></script>
+	<script src="{$path}Smarty/js/bootstrap.bundle.min.js"></script>
+	<script src="{$path}Smarty/js/owl.carousel.min.js"></script>
+	<script src="{$path}Smarty/js/jquery.mousewheel.min.js"></script>
+	<script src="{$path}Smarty/js/jquery.mCustomScrollbar.min.js"></script>
+	<script src="{$path}Smarty/js/wNumb.js"></script>
+	<script src="{$path}Smarty/js/nouislider.min.js"></script>
+	<script src="{$path}Smarty/js/plyr.min.js"></script>
+	<script src="{$path}Smarty/js/jquery.morelines.min.js"></script>
+	<script src="{$path}Smarty/js/photoswipe.min.js"></script>
+	<script src="{$path}Smarty/js/photoswipe-ui-default.min.js"></script>
+	<script src="{$path}Smarty/js/main.js"></script>
 </body>
 
 </html>

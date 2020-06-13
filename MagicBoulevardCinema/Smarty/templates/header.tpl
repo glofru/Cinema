@@ -7,7 +7,7 @@
                     <div class="header__content">
                         <!-- header logo -->
                         <a href="/MagicBoulevardCinema/" class="header__logo">
-                            <img src="{$path}/MagicBoulevardCinema/Smarty/img/logo.svg" alt="">
+                            <img src="{$path}Smarty/img/logo.svg" alt="">
                         </a>
                         <!-- end header logo -->
 
@@ -24,19 +24,19 @@
                                 <a class="dropdown-toggle header__nav-link" href="#" role="button" id="dropdownMenuCatalog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalogo</a>
 
                                 <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                    <li><a href="{$path}/MagicBoulevardCinema/Catalogo/prossimeUscite/">Prossime uscite</a></li>
-                                    <li><a href="{$path}/MagicBoulevardCinema/Catalogo/programmazioniPassate/">Programmazioni</a></li>
-                                    <li><a href="{$path}/MagicBoulevardCinema/Catalogo/piuApprezzati/">Film più apprezzati</a></li>
+                                    <li><a href="{$path}Catalogo/prossimeUscite/">Prossime uscite</a></li>
+                                    <li><a href="{$path}Catalogo/programmazioniPassate/">Programmazioni</a></li>
+                                    <li><a href="{$path}Catalogo/piuApprezzati/">Film più apprezzati</a></li>
                                 </ul>
                             </li>
                             <!-- end dropdown -->
 
                             <li class="header__nav-item">
-                                <a href="{$path}/MagicBoulevardCinema/Informazioni/getCosti/" class="header__nav-link">Prezzi</a>
+                                <a href="{$path}Informazioni/getCosti/" class="header__nav-link">Prezzi</a>
                             </li>
 
                             <li class="header__nav-item">
-                                <a href="{$path}/MagicBoulevardCinema/Informazioni/getHelp/" class="header__nav-link">Aiuto</a>
+                                <a href="{$path}Informazioni/getHelp/" class="header__nav-link">Aiuto</a>
                             </li>
 
                             <!-- dropdown -->
@@ -44,13 +44,13 @@
                                 <a class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
                                 {if ($utente->isVisitatore())}
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-                                        <li><a href="{$path}/MagicBoulevardCinema/Informazioni/getAbout/">Su di noi</a></li>
-                                        <li><a href="{$path}/MagicBoulevardCinema/Utente/signup">Registrati</a></li>
-                                        <li><a href="{$path}/MagicBoulevardCinema/Utente/controlloBigliettiNonRegistrato/?">I miei biglietti</a></li>
+                                        <li><a href="{$path}Informazioni/getAbout/">Su di noi</a></li>
+                                        <li><a href="{$path}Utente/signup">Registrati</a></li>
+                                        <li><a href="{$path}Utente/controlloBigliettiNonRegistrato/?">I miei biglietti</a></li>
                                     </ul>
                                 {else}
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
-                                        <li><a href="{$path}/MagicBoulevardCinema/Informazioni/getAbout/">Su di noi</a></li>
+                                        <li><a href="{$path}Informazioni/getAbout/">Su di noi</a></li>
                                     </ul>
                                 {/if}
                             </li>
@@ -65,7 +65,7 @@
                             </button>
 
                             {if ($utente->isVisitatore())}
-                                <a href="{$path}/MagicBoulevardCinema/Utente/login" methods="GET" class="header__sign-in">
+                                <a href="{$path}Utente/login" methods="GET" class="header__sign-in">
                                     <i class="icon ion-ios-log-in"></i>
                                     <span>Login</span>
                                 </a>
@@ -75,10 +75,10 @@
                                         <span>@{$utente->getUsername()}</span>
                                     </a>
                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuCatalog">
-                                        <li><a href="{$path}/MagicBoulevardCinema/Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
-                                        <li><a href="{$path}/MagicBoulevardCinema/Utente/bigliettiAcquistati">I miei acquisti</a></li>
-                                        <li><a href="{$path}/MagicBoulevardCinema/Utente/showCommenti/">I miei giudizi</a></li>
-                                        <li><a href="{$path}/MagicBoulevardCinema/Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+                                        <li><a href="{$path}Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
+                                        <li><a href="{$path}Utente/bigliettiAcquistati">I miei acquisti</a></li>
+                                        <li><a href="{$path}Utente/showCommenti/">I miei giudizi</a></li>
+                                        <li><a href="{$path}Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
                                     </ul>
                                 </li>
                             {elseif $utente->isAdmin()}
@@ -87,13 +87,13 @@
                                         <span>@{$utente->getUsername()}</span>
                                     </a>
                                     <ul class="dropdown-menu header__dropdown-menu" style="width: 230px" aria-labelledby="dropdownMenuCatalog">
-                                        <li><a href="{$path}/MagicBoulevardCinema/Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
-                                        <li><a href="{$path}/MagicBoulevardCinema/Admin/addFilm">Aggiungi film</a></li>
-                                        <li><a href="{$path}/MagicBoulevardCinema/Admin/gestioneProgrammazione">Gestione programmazione</a></li>
-                                        <li><a href="{$path}/MagicBoulevardCinema/Admin/gestioneUtenti">Gestione utenti</a></li>
-                                        <li><a href="{$path}/MagicBoulevardCinema/Admin/modificaPrezzi">Gestione prezzi</a></li>
-                                        <li><a href="{$path}/MagicBoulevardCinema/Admin/gestioneSale">Gestione sale</a></li>
-                                        <li><a href="{$path}/MagicBoulevardCinema/Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
+                                        <li><a href="{$path}Utente/show/?id={$utente->getId()}">Il mio profilo</a></li>
+                                        <li><a href="{$path}Admin/addFilm">Aggiungi film</a></li>
+                                        <li><a href="{$path}Admin/gestioneProgrammazione">Gestione programmazione</a></li>
+                                        <li><a href="{$path}Admin/gestioneUtenti">Gestione utenti</a></li>
+                                        <li><a href="{$path}Admin/modificaPrezzi">Gestione prezzi</a></li>
+                                        <li><a href="{$path}Admin/gestioneSale">Gestione sale</a></li>
+                                        <li><a href="{$path}Utente/logout">Logout <i class="icon ion-ios-log-out"></i></a></li>
                                     </ul>
                                 </li>
                             {/if}
@@ -114,7 +114,7 @@
     </div>
 
     <!-- header search -->
-    <form action="{$path}/MagicBoulevardCinema/Ricerca/cercaFilm" method= "POST" class="header__search">
+    <form action="{$path}Ricerca/cercaFilm" method= "POST" class="header__search">
         <div class="container">
             <div class="row">
                 <div class="col-12">

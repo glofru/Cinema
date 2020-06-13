@@ -9,23 +9,23 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{$path}../../Smarty/css/bootstrap-reboot.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/bootstrap-grid.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/jquery.mCustomScrollbar.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/nouislider.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/ionicons.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/plyr.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/photoswipe.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/default-skin.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/main.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/nouislider.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/ionicons.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/plyr.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/photoswipe.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/default-skin.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/main.css">
 
     <!-- Favicons -->
-    <link rel="icon" type="image/png" href="{$path}../../Smarty/icon/favicon-32x32.png" sizes="32x32">
-    <link rel="apple-touch-icon" href="{$path}../../Smarty/icon/favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="{$path}../../Smarty/icon/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="{$path}../../Smarty/icon/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="{$path}../../Smarty/icon/apple-touch-icon-144x144.png">
+    <link rel="icon" type="image/png" href="{$path}Smarty/icon/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="{$path}Smarty/icon/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="{$path}Smarty/icon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="{$path}Smarty/icon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="{$path}Smarty/icon/apple-touch-icon-144x144.png">
 
     <meta name="description" content="">
     <meta name="keywords" content="">
@@ -36,15 +36,15 @@
 
 <body class="body">
 
-<div class="sign section--bg" data-bg="../../Smarty/img/section/section.jpg">
+<div class="sign section--bg" data-bg="Smarty/img/section/section.jpg">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="sign__content">
                     <!-- registration form -->
-                    <form id="form" action="{$path}/MagicBoulevardCinema/Utente/signup" onsubmit="return validate()" method="POST" class="sign__form" enctype="multipart/form-data">
+                    <form id="form" action="{$path}Utente/signup" onsubmit="return validate()" method="POST" class="sign__form" enctype="multipart/form-data">
                         <a href="/MagicBoulevardCinema" class="sign__logo">
-                            <img src="{$path}../../Smarty/img/logo.svg" alt="">
+                            <img src="{$path}Smarty/img/logo.svg" alt="">
                         </a>
                         <div class="sign__group">
                             <button id="insert_image" class="sign__btn" type="button" style="width: 200px" onclick="document.getElementById('choose_image').click()">Immagine del profilo</button>
@@ -102,7 +102,7 @@
                         <div id="content"></div>
                         <button class="sign__btn">Registrati</button>
 
-                        <span class="sign__text">Hai già un account? <a href="/MagicBoulevardCinema/Utente/login">Login!</a></span>
+                        <span class="sign__text">Hai già un account? <a href="{$path}Utente/login">Login!</a></span>
                     </form>
                     <!-- registration form -->
                 </div>
@@ -112,18 +112,18 @@
 </div>
 
 <!-- JS -->
-<script src="{$path}../../Smarty/js/jquery-3.3.1.min.js"></script>
-<script src="{$path}../../Smarty/js/bootstrap.bundle.min.js"></script>
-<script src="{$path}../../Smarty/js/owl.carousel.min.js"></script>
-<script src="{$path}../../Smarty/js/jquery.mousewheel.min.js"></script>
-<script src="{$path}../../Smarty/js/jquery.mCustomScrollbar.min.js"></script>
-<script src="{$path}../../Smarty/js/wNumb.js"></script>
-<script src="{$path}../../Smarty/js/nouislider.min.js"></script>
-<script src="{$path}../../Smarty/js/plyr.min.js"></script>
-<script src="{$path}../../Smarty/js/jquery.morelines.min.js"></script>
-<script src="{$path}../../Smarty/js/photoswipe.min.js"></script>
-<script src="{$path}../../Smarty/js/photoswipe-ui-default.min.js"></script>
-<script src="{$path}../../Smarty/js/main.js"></script>
+<script src="{$path}Smarty/js/jquery-3.3.1.min.js"></script>
+<script src="{$path}Smarty/js/bootstrap.bundle.min.js"></script>
+<script src="{$path}Smarty/js/owl.carousel.min.js"></script>
+<script src="{$path}Smarty/js/jquery.mousewheel.min.js"></script>
+<script src="{$path}Smarty/js/jquery.mCustomScrollbar.min.js"></script>
+<script src="{$path}Smarty/js/wNumb.js"></script>
+<script src="{$path}Smarty/js/nouislider.min.js"></script>
+<script src="{$path}Smarty/js/plyr.min.js"></script>
+<script src="{$path}Smarty/js/jquery.morelines.min.js"></script>
+<script src="{$path}Smarty/js/photoswipe.min.js"></script>
+<script src="{$path}Smarty/js/photoswipe-ui-default.min.js"></script>
+<script src="{$path}Smarty/js/main.js"></script>
 
 <script>
 

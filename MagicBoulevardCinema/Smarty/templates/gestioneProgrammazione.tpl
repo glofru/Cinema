@@ -9,23 +9,23 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{$path}../../Smarty/css/bootstrap-reboot.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/bootstrap-grid.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/jquery.mCustomScrollbar.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/nouislider.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/ionicons.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/plyr.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/photoswipe.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/default-skin.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/main.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/nouislider.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/ionicons.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/plyr.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/photoswipe.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/default-skin.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/main.css">
 
     <!-- Favicons -->
-    <link rel="icon" type="image/png" href="{$path}../../Smarty/icon/favicon-32x32.png" sizes="32x32">
-    <link rel="apple-touch-icon" href="{$path}../../Smarty/icon/favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="{$path}../../Smarty/icon/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="{$path}../../Smarty/icon/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="{$path}../../Smarty/icon/apple-touch-icon-144x144.png">
+    <link rel="icon" type="image/png" href="{$path}Smarty/icon/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="{$path}Smarty/icon/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="{$path}Smarty/icon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="{$path}Smarty/icon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="{$path}Smarty/icon/apple-touch-icon-144x144.png">
 
     <meta name="description" content="">
     <meta name="keywords" content="">
@@ -105,7 +105,7 @@
 
                                                         <div class="col-12 col-sm-8">
                                                             <div class="card__content">
-                                                                <h3 class="card__title"><a href="{$path}/MagicBoulevardCinema/Film/show/?film={$prog->getFilm()->getId()}">{$prog->getFilm()->getNome()}</a></h3>
+                                                                <h3 class="card__title"><a href="{$path}Film/show/?film={$prog->getFilm()->getId()}">{$prog->getFilm()->getNome()}</a></h3>
                                                                 <span class="card__category">
                                                                         <a style="font-size: 15px;">{$prog->getDataInizio()->format("d/m/Y")} - {$prog->getDataFine()->format("d/m/Y")}</a>
                                                                     </span>
@@ -117,7 +117,7 @@
                                                                         {/foreach}
                                                                     </p>
                                                                 </div>
-                                                                <form action="{$path}/MagicBoulevardCinema/Admin/modificaProgrammazione" method="GET">
+                                                                <form action="{$path}Admin/modificaProgrammazione" method="GET">
                                                                     <input type="hidden" name="film" value="{$prog->getFilm()->getId()}">
                                                                     <button class="sign__btn" type="submit">Modifica</button>
                                                                 </form>
@@ -143,7 +143,7 @@
                     <div class="tab-pane fade {if (isset($error))}show active{/if}" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
                         <div class="row" style="align-content: center">
                             <!-- authorization form -->
-                            <form action="{$path}/MagicBoulevardCinema/MagicBoulevardCinema/Admin/gestioneProgrammazione" onsubmit="return validate()" method="POST" class="form" enctype="multipart/form-data" style="margin: auto">
+                            <form action="{$path}MagicBoulevardCinema/Admin/gestioneProgrammazione" onsubmit="return validate()" method="POST" class="form" enctype="multipart/form-data" style="margin: auto">
 
                                 <!-- Film -->
                                 <h3 style="color: white">Film</h3>
@@ -257,18 +257,18 @@
     </div>
 </div>
 
-<script src="{$path}../../Smarty/js/jquery-3.3.1.min.js"></script>
-<script src="{$path}../../Smarty/js/bootstrap.bundle.min.js"></script>
-<script src="{$path}../../Smarty/js/owl.carousel.min.js"></script>
-<script src="{$path}../../Smarty/js/jquery.mousewheel.min.js"></script>
-<script src="{$path}../../Smarty/js/jquery.mCustomScrollbar.min.js"></script>
-<script src="{$path}../../Smarty/js/wNumb.js"></script>
-<script src="{$path}../../Smarty/js/nouislider.min.js"></script>
-<script src="{$path}../../Smarty/js/plyr.min.js"></script>
-<script src="{$path}../../Smarty/js/jquery.morelines.min.js"></script>
-<script src="{$path}../../Smarty/js/photoswipe.min.js"></script>
-<script src="{$path}../../Smarty/js/photoswipe-ui-default.min.js"></script>
-<script src="{$path}../../Smarty/js/main.js"></script>
+<script src="{$path}Smarty/js/jquery-3.3.1.min.js"></script>
+<script src="{$path}Smarty/js/bootstrap.bundle.min.js"></script>
+<script src="{$path}Smarty/js/owl.carousel.min.js"></script>
+<script src="{$path}Smarty/js/jquery.mousewheel.min.js"></script>
+<script src="{$path}Smarty/js/jquery.mCustomScrollbar.min.js"></script>
+<script src="{$path}Smarty/js/wNumb.js"></script>
+<script src="{$path}Smarty/js/nouislider.min.js"></script>
+<script src="{$path}Smarty/js/plyr.min.js"></script>
+<script src="{$path}Smarty/js/jquery.morelines.min.js"></script>
+<script src="{$path}Smarty/js/photoswipe.min.js"></script>
+<script src="{$path}Smarty/js/photoswipe-ui-default.min.js"></script>
+<script src="{$path}Smarty/js/main.js"></script>
 
 <script>
     function validate() {

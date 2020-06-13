@@ -9,23 +9,23 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{$path}../../Smarty/css/bootstrap-reboot.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/bootstrap-grid.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/jquery.mCustomScrollbar.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/nouislider.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/ionicons.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/plyr.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/photoswipe.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/default-skin.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/main.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/nouislider.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/ionicons.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/plyr.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/photoswipe.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/default-skin.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/main.css">
 
     <!-- Favicons -->
-    <link rel="icon" type="image/png" href="{$path}../../Smarty/icon/favicon-32x32.png" sizes="32x32">
-    <link rel="apple-touch-icon" href="{$path}../../Smarty/icon/favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="{$path}../../Smarty/icon/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="{$path}../../Smarty/icon/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="{$path}../../Smarty/icon/apple-touch-icon-144x144.png">
+    <link rel="icon" type="image/png" href="{$path}Smarty/icon/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="{$path}Smarty/icon/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="{$path}Smarty/icon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="{$path}Smarty/icon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="{$path}Smarty/icon/apple-touch-icon-144x144.png">
 
     <meta name="description" content="">
     <meta name="keywords" content="">
@@ -40,7 +40,7 @@
 <!-- details -->
     <section class="section details">
         <!-- details background -->
-        <div class="details__bg" data-bg="{$path}../../Smarty/img/home/home__bg.jpg"></div>
+        <div class="details__bg" data-bg="{$path}Smarty/img/home/home__bg.jpg"></div>
         <!-- end details background -->
 
         <!-- details content -->
@@ -71,7 +71,7 @@
                                                         <form id="form" action="" method="POST"></form>
                                                     </ul>
                                                 </span>
-                                                <span class="reviews__time">da @{$rev->getUtente()->getUsername()} il {$rev->getDataPubblicazioneString()} nel film <a href="{$path}/MagicBoulevardCinema/Film/show/?film={$rev->getFilm()->getId()}&autoplay=true" target="_blank">{$rev->getFilm()->getNome()}</a></span>
+                                                <span class="reviews__time">da @{$rev->getUtente()->getUsername()} il {$rev->getDataPubblicazioneString()} nel film <a href="{$path}Film/show/?film={$rev->getFilm()->getId()}&autoplay=true" target="_blank">{$rev->getFilm()->getNome()}</a></span>
                                                 <span class="reviews__rating"><i class="icon ion-ios-star"></i>{$rev->getPunteggio()}</span>
                                             </div>
                                             <p class="reviews__text">{$rev->getCommento()}</p>
@@ -101,18 +101,18 @@
         form.submit();
     }
 </script>
-<script src="{$path}../../Smarty/js/jquery-3.3.1.min.js"></script>
-<script src="{$path}../../Smarty/js/bootstrap.bundle.min.js"></script>
-<script src="{$path}../../Smarty/js/owl.carousel.min.js"></script>
-<script src="{$path}../../Smarty/js/jquery.mousewheel.min.js"></script>
-<script src="{$path}../../Smarty/js/jquery.mCustomScrollbar.min.js"></script>
-<script src="{$path}../../Smarty/js/wNumb.js"></script>
-<script src="{$path}../../Smarty/js/nouislider.min.js"></script>
-<script src="{$path}../../Smarty/js/plyr.min.js"></script>
-<script src="{$path}../../Smarty/js/jquery.morelines.min.js"></script>
-<script src="{$path}../../Smarty/js/photoswipe.min.js"></script>
-<script src="{$path}../../Smarty/js/photoswipe-ui-default.min.js"></script>
-<script src="{$path}../../Smarty/js/main.js"></script>
+<script src="{$path}Smarty/js/jquery-3.3.1.min.js"></script>
+<script src="{$path}Smarty/js/bootstrap.bundle.min.js"></script>
+<script src="{$path}Smarty/js/owl.carousel.min.js"></script>
+<script src="{$path}Smarty/js/jquery.mousewheel.min.js"></script>
+<script src="{$path}Smarty/js/jquery.mCustomScrollbar.min.js"></script>
+<script src="{$path}Smarty/js/wNumb.js"></script>
+<script src="{$path}Smarty/js/nouislider.min.js"></script>
+<script src="{$path}Smarty/js/plyr.min.js"></script>
+<script src="{$path}Smarty/js/jquery.morelines.min.js"></script>
+<script src="{$path}Smarty/js/photoswipe.min.js"></script>
+<script src="{$path}Smarty/js/photoswipe-ui-default.min.js"></script>
+<script src="{$path}Smarty/js/main.js"></script>
 
 
 </body>

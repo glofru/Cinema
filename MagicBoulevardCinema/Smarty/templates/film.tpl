@@ -9,23 +9,23 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{$path}../../Smarty/css/bootstrap-reboot.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/bootstrap-grid.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/jquery.mCustomScrollbar.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/nouislider.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/ionicons.min.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/plyr.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/photoswipe.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/default-skin.css">
-    <link rel="stylesheet" href="{$path}../../Smarty/css/main.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/nouislider.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/ionicons.min.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/plyr.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/photoswipe.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/default-skin.css">
+    <link rel="stylesheet" href="{$path}Smarty/css/main.css">
 
     <!-- Favicons -->
-    <link rel="icon" type="image/png" href="{$path}../../Smarty/icon/favicon-32x32.png" sizes="32x32">
-    <link rel="apple-touch-icon" href="{$path}../../Smarty/icon/favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="{$path}../../Smarty/icon/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="{$path}../../Smarty/icon/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="{$path}../../Smarty/icon/apple-touch-icon-144x144.png">
+    <link rel="icon" type="image/png" href="{$path}Smarty/icon/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="{$path}Smarty/icon/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="{$path}Smarty/icon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="{$path}Smarty/icon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="{$path}Smarty/icon/apple-touch-icon-144x144.png">
 
     <meta name="description" content="">
     <meta name="keywords" content="">
@@ -41,7 +41,7 @@
 <!-- details -->
 <section class="section details">
     <!-- details background -->
-    <div class="details__bg" data-bg="{$path}../../Smarty/img/home/home__bg.jpg"></div>
+    <div class="details__bg" data-bg="{$path}Smarty/img/home/home__bg.jpg"></div>
     <!-- end details background -->
 
     <!-- details content -->
@@ -133,7 +133,7 @@
     {if $utente->isAdmin()}
     <form action="" method="POST">
         <div class="col-12--center">
-            <a style="margin: auto;" class="header__sign-in" href="/MagicBoulevardCinema/Admin/modificaFilm/?film={$film->getId()}" role="button">
+            <a style="margin: auto;" class="header__sign-in" href="Admin/modificaFilm/?film={$film->getId()}" role="button">
                 <span>Modifica Film</span>
             </a>
         </div>
@@ -179,15 +179,15 @@
                 <h2 class="section__title section__title--center">Sala: {$pro->getSala()->getNumeroSala()}</h2>
             </div>
                 <div class="row--center">
-                    <form id="book" class="form" action="{$path}/MagicBoulevardCinema/Acquisto/getBiglietti" method="POST">
+                    <form id="book" class="form" action="{$path}Acquisto/getBiglietti" method="POST">
                         <table style="margin-left:auto;margin-right:auto;" id="t01">
                             {foreach $pro->getSala()->getPosti() as $fila}
                                 <tr>
                                     {foreach $fila as $posto}
                                         {if $posto->isOccupato()}
-                                            <th><img name="{$pro->getId()}" id="{$posto->getId()}" src="{$path}../../Smarty/img/cinema/sedia_occupata.png" alt="Posto"/></th>
+                                            <th><img name="{$pro->getId()}" id="{$posto->getId()}" src="{$path}Smarty/img/cinema/sedia_occupata.png" alt="Posto"/></th>
                                         {else}
-                                            <th><img name="{$pro->getId()}" id="{$posto->getId()}" {if (!$utente->isAdmin())} onclick="book(this)" {/if}src="{$path}../../Smarty/img/cinema/sedia_libera.png" alt="Posto"/></th>
+                                            <th><img name="{$pro->getId()}" id="{$posto->getId()}" {if (!$utente->isAdmin())} onclick="book(this)" {/if}src="{$path}Smarty/img/cinema/sedia_libera.png" alt="Posto"/></th>
                                         {/if}
                                     {/foreach}
                                 </tr>
@@ -204,7 +204,7 @@
         {/if}
         {if ($utente->isVisitatore())}
             <div class="col-12--center">
-                <h3 class="section__btn" style="width: 500px; cursor: default; background-image: none; box-shadow: none; display: block">Inserisci la mail dove inviare i biglietti oppure effettua prima il <a style="color: #ff55a5; position: relative" href="{$path}/MagicBoulevardCinema/Utente/login">login</a></h3>
+                <h3 class="section__btn" style="width: 500px; cursor: default; background-image: none; box-shadow: none; display: block">Inserisci la mail dove inviare i biglietti oppure effettua prima il <a style="color: #ff55a5; position: relative" href="{$path}Utente/login">login</a></h3>
                 <input id="email" type="email" name="email" class="form__input section__btn" style="width: 350px; background-image: linear-gradient(90deg, #af55a5 0%, #ff55a5 100%)" placeholder="Email"/>
             </div>
         {/if}
@@ -284,7 +284,7 @@
                                                     </ul>
                                                     </span>
                                                 {/if}
-                                                <span class="reviews__time">da <a href="{$path}/MagicBoulevardCinema/Utente/show/?id={$rev->getUtente()->getId()}">@{$rev->getUtente()->getUsername()}</a> il {$rev->getDataPubblicazioneString()}</span>
+                                                <span class="reviews__time">da <a href="{$path}Utente/show/?id={$rev->getUtente()->getId()}">@{$rev->getUtente()->getUsername()}</a> il {$rev->getDataPubblicazioneString()}</span>
                                                 <span class="reviews__rating"><i class="icon ion-ios-star"></i>{$rev->getPunteggio()}</span>
                                             </div>
                                             <p class="reviews__text">{$rev->getCommento()}</p>
@@ -298,7 +298,7 @@
 
                                     </ul>
                                     {if $canView && !$utente->isAdmin()}
-                                    <form action="/MagicBoulevardCinema/Giudizio/add" class="form" method="POST">
+                                    <form action="Giudizio/add" class="form" method="POST">
                                         <input name="titolo" type="text" class="form__input" placeholder="Titolo (max 30 caratteri)" maxlength="30">
                                         <textarea name="commento" class="form__textarea" placeholder="Recensione (max 200 caratteri)" maxlength="200"></textarea>
                                         <div class="form__slider">
@@ -335,14 +335,14 @@
                         <div class="card">
                             <div class="card__cover">
                                 <img src="{$immagini[$key]->getImmagineHTML()}" alt="">
-                                <a href="{$path}/MagicBoulevardCinema/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
+                                <a href="{$path}Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
                                     <i class="icon ion-ios-play"></i>
                                 </a>
                             </div>
                             <div class="card__content">
-                                <h3 class="card__title"><a href="{$path}../../Film/show/?film={$film->getId()}&autoplay=true">{$film->getNome()}</a></h3>
+                                <h3 class="card__title"><a href="{$path}Film/show/?film={$film->getId()}&autoplay=true">{$film->getNome()}</a></h3>
                                 <span class="card__category">
-										<a href="/MagicBoulevardCinema/Film/show/?film={$film->getId()}&autoplay=true">{$film->getGenere()}</a>
+										<a href="Film/show/?film={$film->getId()}&autoplay=true">{$film->getGenere()}</a>
                                     </span>
                                 {if ($film->getVotoCritica() != '0')}
                                 <span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
@@ -416,18 +416,18 @@
 </div>
 
 <!-- JS -->
-<script src="{$path}../../Smarty/js/jquery-3.3.1.min.js"></script>
-<script src="{$path}../../Smarty/js/bootstrap.bundle.min.js"></script>
-<script src="{$path}../../Smarty/js/owl.carousel.min.js"></script>
-<script src="{$path}../../Smarty/js/jquery.mousewheel.min.js"></script>
-<script src="{$path}../../Smarty/js/jquery.mCustomScrollbar.min.js"></script>
-<script src="{$path}../../Smarty/js/wNumb.js"></script>
-<script src="{$path}../../Smarty/js/nouislider.min.js"></script>
-<script src="{$path}../../Smarty/js/plyr.min.js"></script>
-<script src="{$path}../../Smarty/js/jquery.morelines.min.js"></script>
-<script src="{$path}../../Smarty/js/photoswipe.min.js"></script>
-<script src="{$path}../../Smarty/js/photoswipe-ui-default.min.js"></script>
-<script src="{$path}../../Smarty/js/main.js"></script>
+<script src="{$path}Smarty/js/jquery-3.3.1.min.js"></script>
+<script src="{$path}Smarty/js/bootstrap.bundle.min.js"></script>
+<script src="{$path}Smarty/js/owl.carousel.min.js"></script>
+<script src="{$path}Smarty/js/jquery.mousewheel.min.js"></script>
+<script src="{$path}Smarty/js/jquery.mCustomScrollbar.min.js"></script>
+<script src="{$path}Smarty/js/wNumb.js"></script>
+<script src="{$path}Smarty/js/nouislider.min.js"></script>
+<script src="{$path}Smarty/js/plyr.min.js"></script>
+<script src="{$path}Smarty/js/jquery.morelines.min.js"></script>
+<script src="{$path}Smarty/js/photoswipe.min.js"></script>
+<script src="{$path}Smarty/js/photoswipe-ui-default.min.js"></script>
+<script src="{$path}Smarty/js/main.js"></script>
 
 <script>
     function getVal() {
@@ -436,8 +436,8 @@
 
     let bookedSeat = [];
     let proiezione;
-    let libera = "../../Smarty/img/cinema/sedia_libera.png";
-    let occupazione = "../../Smarty/img/cinema/sedia_in_occupazione.png";
+    let libera = "Smarty/img/cinema/sedia_libera.png";
+    let occupazione = "Smarty/img/cinema/sedia_in_occupazione.png";
 
     function isEmail(email) {
         let exp = /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/;
