@@ -66,8 +66,8 @@ class Installer
                     VError::error(0, $value);
                     die;
                 } else {
-                    setcookie('cookie_enabled', '', time()-3600);
-                    setcookie('js_enabled', '', time()-3600);
+                    setcookie('cookie_enabled', '', time()-3600, '/');
+                    setcookie('js_enabled', '', time()-3600, '/');
                     self::installDB($dbname, $username, $pwd, $population);
                 }
             } elseif (!self::checkInstallCinema()) {
