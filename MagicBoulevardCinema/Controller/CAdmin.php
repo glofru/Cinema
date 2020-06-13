@@ -234,15 +234,19 @@ class CAdmin
                     $pm->update($film->getId(),"id",$film->getEtaConsigliata(),"etaConsigliata","EFilm");
                 }
 
-//                if(isset($_POST["registi"])){
-//                    $registi = FFilm::recreateArray($_POST["registi"]);
-//                    $pm->update($film->getId(),"id",$registi,"registi","EFilm");
-//                }
-//
-//                if(isset($_POST["attori"])){
-//                    $attori = FFilm::recreateArray($_POST["attori"]);
-//                    $pm->update($film->getId(),"id",$attori,"attori","EFilm");
-//                }
+                foreach (FFilm::recreateArray($_POST["attori"]) as $attore) {
+                    if ($attore === null) {
+                        throw new Exception("Hai inserito un attore non valido");
+                    }
+                }
+                $pm->update($film->getId(), "id", $_POST["attori"], "attori", "EFilm");
+
+                foreach (FFilm::recreateArray($_POST["registi"]) as $regista) {
+                    if ($regista === null) {
+                        throw new Exception("Hai inserito un attore non valido");
+                    }
+                }
+                $pm->update($film->getId(), "id", $_POST["registi"], "registi", "EFilm");
 
                 if(is_uploaded_file($_FILES["locandina"])) {
                     if (EInputChecker::getInstance()->isImage($_FILES["locandina"]["type"]) && EInputChecker::getInstance()->isLight($_FILES["locandina"]["size"])) {
@@ -260,7 +264,7 @@ class CAdmin
                     }
                 }
             } catch (Exception $e) {
-                VAdmin::modificafilm($film, $e->getMessage());
+                VAdmin::modificafilm($film, $copertina, $attori, $registi, $e->getMessage());
             }
 
             header("Location: /MagicBoulevardCinema/Film/show/?film=" . $filmID);
