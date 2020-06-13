@@ -16,7 +16,7 @@ class CGiudizio{
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             if (!CUtente::isLogged()) {
-                CMain::unauthorised();
+                CMain::unauthorized();
             }
 
             $utente = CUtente::getUtente();
@@ -71,7 +71,7 @@ class CGiudizio{
                 CMain::methodNotAllowed();
             }
         } else {
-            CMain::unauthorised();
+            CMain::unauthorized();
         }
     }
 }

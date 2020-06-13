@@ -282,7 +282,7 @@ class CUtente
                    VUtente::modifica($utente, FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EMediaUtente"), EGenere::getAll(), FPersistentManager::getInstance()->isASub($utente), explode(";", FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "FNewsLetter")));
                 }
             } else {
-                CMain::unauthorised();
+                CMain::unauthorized();
             }
         } elseif ($method === "GET") {
             $id = $_GET["id"];
@@ -295,7 +295,7 @@ class CUtente
 
                 VUtente::modifica($utente, $propic, EGenere::getAll(), FPersistentManager::getInstance()->isASub($utente), explode(";", FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "FNewsLetter")));
             } else {
-                CMain::unauthorised();
+                CMain::unauthorized();
             }
         }
     }
@@ -440,7 +440,7 @@ class CUtente
 
             VUtente::showBiglietti($biglietti, $immagini, $utente);
         } else {
-            CMain::unauthorised();
+            CMain::unauthorized();
         }
     }
 
@@ -559,7 +559,7 @@ class CUtente
                 VUtente::showCommenti($giudizi, $utente, $propic);
             }
         } else {
-            CMain::unauthorised();
+            CMain::unauthorized();
         }
     }
 
