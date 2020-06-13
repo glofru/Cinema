@@ -111,13 +111,13 @@ class ESalaVirtuale extends ESalaFisica implements JsonSerializable
         } else {
             throw new Exception("Posto inesistente");
         }
-
     }
 
     /**
      * Funzione che controlla se un posto è occupato o meno in sala.
      * @param EPosto $posto, posto che si vuole controllare.
      * @return bool, risultato booleano del controllo.
+     * @throws Exception
      */
     public function occupaPosto(EPosto $posto): bool
     {
@@ -128,10 +128,12 @@ class ESalaVirtuale extends ESalaFisica implements JsonSerializable
 
         return false;
     }
+
     /**
      * Funzione che controlla se un posto è occupato in sala.
-     * @param EPosto $posto, posto che si vuole controllare.
+     * @param EPosto $posto , posto che si vuole controllare.
      * @return bool, risultato booleano del controllo.
+     * @throws Exception
      */
     public function liberaPosto(EPosto $posto): bool
     {

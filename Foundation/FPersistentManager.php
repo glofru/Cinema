@@ -278,4 +278,8 @@ class FPersistentManager
     public function isASub(EUtente $utente): bool{
         return FNewsLetter::isASub($utente);
     }
+
+    public function checkSovrapposizioneProiezione(EProiezione $proiezione): bool {
+        return FProiezione::checkSovrapposizione($proiezione);
+    }
 }

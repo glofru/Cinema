@@ -93,15 +93,19 @@
                                 </div>
 
                                 <!-- Sala -->
-                                <h3 style="color: white">Sala</h3>
+                                <h3 style="color: white">Sala {if !$cambioSala}[NON MODIFICABILE<br> - ALMENO UN BIGLIETTO PRESENTE]{/if}</h3>
                                 <div class="sign__group">
-                                    <input id="roomChosen" list="rooms" type="number" class="sign__input" value="{$proiezione->getSala()->getNumeroSala()}" name="sala" placeholder="Sala">
+                                    {if $cambioSala}
+                                        <input id="roomChosen" list="rooms" type="number" class="sign__input" value="{$proiezione->getSala()->getNumeroSala()}" name="sala" placeholder="Sala">
 
-                                    <datalist id="rooms">
-                                        {foreach $sale as $s}
-                                            <option value="{$s->getNumeroSala()}"></option>
-                                        {/foreach}
-                                    </datalist>
+                                        <datalist id="rooms">
+                                            {foreach $sale as $s}
+                                                <option value="{$s->getNumeroSala()}"></option>
+                                            {/foreach}
+                                        </datalist>
+                                    {else}
+                                        <input type="number" class="sign__input" value="{$proiezione->getSala()->getNumeroSala()}" disabled="disabled">
+                                    {/if}
                                 </div>
 
                                 <!-- Orario -->
@@ -215,9 +219,11 @@
 
     function validate() {
         if (document.getElementById("erase") === null) {
+            {if $cambioSala}
             let valSala = $("#roomChosen").val();
+            {/if}
 
-            if (valSala === "" || $("#orario").val() === "") {
+            if ({if $cambioSala}valSala === "" ||{/if} $("#orario").val() === "") {
                 alert("Inserisci sala e orario");
                 return false;
             }
