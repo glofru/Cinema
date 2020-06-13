@@ -1,33 +1,71 @@
 <?php
 
-
+/**
+ * La classe Installer ci permette di inzializzare il sito quando viene caricato per la prima volta su un nuovo server.
+ * Class Installer
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ */
 class Installer
 {
+    /**
+     * Nome del file di configurazione del DB.
+     * @var string
+     */
     private static string $confDB = "configDB.conf.php";
+    /**
+     * Nome del file di configurazione dei prezzi dei biglietti del cinema.
+     * @var string
+     */
     private static string $confCinema = "configCinema.conf.php";
 
+    /**
+     * Funzione che controlla se tutte le 4 componenti di installazione sono state completate.
+     * @return bool
+     */
     public static function checkInstall(): bool
     {
         return self::checkInstallDB() && self::checkInstallCinema() && self::checkAdmin() && self::checkPhysical();
     }
 
+    /**
+     * Funzione che controlla se il file di configurazione del DB è stato creato.
+     * @return bool
+     */
     private static function checkInstallDB(): bool {
         return file_exists(self::$confDB);
     }
 
+    /**
+     * Funzione che controlla se il file di configurazione del cinema sia stato creato.
+     * @return bool
+     */
     private static function checkInstallCinema(): bool {
         return file_exists(self::$confCinema);
     }
 
+    /**
+     * Funzione che controlla se un utente Admin è stato creato nel DB.
+     * @return bool
+     */
     private static function checkAdmin(): bool {
         $admin = FPersistentManager::getInstance()->load(1, 'isAdmin', "EUtente");
         return isset($admin) && sizeof($admin) > 0;
     }
 
+    /**
+     * Funzione che controlla se sia stata presente almeno una sala fisica nel DB.
+     * @return bool
+     */
     public static function checkPhysical() {
         return FPersistentManager::getInstance()->loadAllSF() > 0;
     }
 
+    /**
+     * Funzione principale che mostra le varie schermate di installazione necessarie a poter configurare correttamente l'applicazione.
+     * Viene inoltre controllato se si disponga di una versioen di PHP pari almeno alla 7.4.0 che i cookie siano abilitati e che il codice Javascript venga eseguito.
+     * @throws SmartyException
+     */
     public static function start()
     {
         $smarty = StartSmarty::configuration();
@@ -154,6 +192,17 @@ class Installer
         }
     }
 
+    /**
+     * Funzione che permette di salvare nel file di configurazione dle cinema le variabili globali contenenti i costi dei biglietti per ogni giornata ed il sovrapprezzo.
+     * @param float $Mon
+     * @param float $Tue
+     * @param float $Wed
+     * @param float $Thu
+     * @param float $Fri
+     * @param float $Sat
+     * @param float $Sun
+     * @param float $extra
+     */
     private static function installCinema(float $Mon, float $Tue, float $Wed, float $Thu, float $Fri, float $Sat, float $Sun, float $extra) {
         $script = '<?php ' . PHP_EOL .
             '$GLOBALS[\'extra\']= ' . $extra . ';' . PHP_EOL .
@@ -173,6 +222,14 @@ class Installer
         header("Location: /MagicBoulevardCinema");
     }
 
+    /**
+     * funzione che permette di istanziare il file di conigurazione del DB con all'interno i dati necessari a potersi connettere alla base dati.
+     * @param string $dbname
+     * @param string $username
+     * @param string $pwd
+     * @param bool $population, se l'installatore ha richiesto di popolare il db con alcuni film.
+     * @throws SmartyException
+     */
     private static function installDB(string $dbname, string $username, string $pwd, bool $population) {
         $db = null;
 
