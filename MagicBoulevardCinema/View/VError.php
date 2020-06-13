@@ -1,8 +1,20 @@
 <?php
 
-
+/**
+ * La classe Error permette di visualizzare diverse schermate di errore.
+ * Class VError
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package view
+ */
 class VError
 {
+    /**
+     * Funzione che permette di scegliere diverse possibili schermate di errore sulla base di un codice numerico.
+     * @param int $num, numero di errore.
+     * @param string $descrizione, nel caso in cui num sia 0 è possibile inserire un messaggio particolare da mostrare.
+     * @throws SmartyException
+     */
     public static function error(int $num, string $descrizione = "")
     {
         $smarty = StartSmarty::configuration();
