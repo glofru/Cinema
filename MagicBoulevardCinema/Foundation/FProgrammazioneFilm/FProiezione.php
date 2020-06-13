@@ -85,8 +85,7 @@ class FProiezione implements Foundation
         $test = self::checkSovrapposizione($proiezione);
 
         if ($test) {
-            $id = $db->saveToDBProiezioneEPosti($proiezione);
-            $proiezione->setId($id);
+            $db->saveToDBProiezioneEPosti($proiezione);
 
             return true;
         }

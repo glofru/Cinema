@@ -110,21 +110,17 @@ class FDatabase
 
             $sender->execute();
 
-            $id = $this->db->lastInsertId();
+            $proiezione->setId($this->db->lastInsertId());
 
             foreach ($posti as $file) {
                 foreach ($file as $item) {
-                    $query = "INSERT INTO" . FPosto::getTableName() . "VALUES " . FPosto::getValuesName();
+                    $query = "INSERT INTO " . FPosto::getTableName() . " VALUES " . FPosto::getValuesName();
                     $sender = $this->db->prepare($query);
                     FPosto::associate($sender, $proiezione, $item);
-
                     $sender->execute();
                 }
             }
-
             $this->db->commit();
-
-            return $id;
         } catch (Exception $exception) {
             $this->error();
         }
