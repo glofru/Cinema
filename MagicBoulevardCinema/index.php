@@ -4,7 +4,7 @@ require_once 'Utility/autoload.inc.php';
 require_once 'StartSmarty.php';
 $GLOBALS["path"] = "/MagicBoulevardCinema/";
 if (Installer::checkInstall()) {
-    CMain::run($_SERVER["REQUEST_URI"]);
+   CMain::run($_SERVER["REQUEST_URI"]);
 } else {
     Installer::start();
 }

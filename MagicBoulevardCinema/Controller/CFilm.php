@@ -22,8 +22,7 @@ class CFilm
 
             $film = $pm->load($_GET["film"], "id", "EFilm")[0];
 
-            CUtente::getUtente()->incrementPreference($film->getGenere(), $_COOKIE['preferences']);
-            setcookie("preferences", serialize(CUtente::getUtente()->preferences($_COOKIE['preferences'])), 86400 * 30, '/');
+            setcookie("preferences", serialize(CUtente::getUtente()->incrementPreference($film->getGenere(), $_COOKIE['preferences'])), time()+(86400 * 30), '/');
 
             $filmC = $pm->load($film->getGenere(), "Genere", "EFilm");
             foreach ($filmC as $key => $f) {

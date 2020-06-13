@@ -80,6 +80,10 @@ class CMain
      */
     public static function run(string $url)
     {
+         if(!isset($_COOKIE["preferences"])){
+             setcookie("preferences", serialize(CUtente::getUtente()->preferences(null)), time()+(86400*30), '/');
+        }
+
         ini_set('session.gc_probability', 10);
         ini_set('session.gc_divisor', 200);
         $parsed_url = parse_url($url);
@@ -104,11 +108,6 @@ class CMain
                 }
             } else if(!CUtente::isLogged()) {
                 CUtente::getUtente();
-            }
-
-
-            if(!isset($_COOKIE["preferences"])){
-                setcookie("preferences", CUtente::getUtente()->preferences(null), 86400 * 30, '/');
             }
 
             if ($path == "/MagicBoulevardCinema/" || $path == "/MagicBoulevardCinema/index.php") {
