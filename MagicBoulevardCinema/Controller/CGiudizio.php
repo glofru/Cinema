@@ -39,7 +39,7 @@ class CGiudizio{
                 $pm->save($giudizio);
                 $utente->addGiudizio($giudizio);
                 CUtente::saveSession($utente);
-                header("Location: /Film/show/?film=" . $idFilm);
+                header("Location: /MagicBoulevardCinema/Film/show/?film=" . $idFilm);
             }
         } else {
             CMain::methodNotAllowed();
@@ -63,9 +63,9 @@ class CGiudizio{
                 $utente->removeGiudizio($giudizio);
                 $_SESSION["utente"] = serialize($utente);
                 if(!isset($_POST["redirect"])) {
-                    header("Location: /Film/show/?film=" . $idFilm);
+                    header("Location: /MagicBoulevardCinema/Film/show/?film=" . $idFilm);
                 } else {
-                    header("Location: /Utente/showCommenti/");
+                    header("Location: /MagicBoulevardCinema/Utente/showCommenti/");
                 }
             } else {
                 CMain::methodNotAllowed();
