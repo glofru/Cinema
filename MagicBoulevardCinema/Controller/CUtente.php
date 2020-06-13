@@ -22,7 +22,7 @@ class CUtente
      */
     public static function login() {
         if (self::isLogged()) {
-            header("Location: /");
+            header("Location: /MagicBoulevardCinema");
         } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
             if(isset($_COOKIE["remember"])){
                 VUtente::loginForm($_COOKIE["remember"], false, 1);
@@ -57,7 +57,7 @@ class CUtente
      */
     public static function loginNonRegistrato() {
         if(self::isLogged()){
-            header("Location: /");
+            header("Location: /MagicBoulevardCinema");
         } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if(EInputChecker::getInstance()->isEmail($_POST["email"])) {
@@ -128,7 +128,7 @@ class CUtente
                 self::createVisitor();
             }
             if ($redirect) {
-                header("Location: /");
+                header("Location: /MagicBoulevardCinema");
             }
         } else {
             CMain::methodNotAllowed();
@@ -175,7 +175,7 @@ class CUtente
                     }
                 }
                 self::saveSession($utente);
-                header("Location: /");
+                header("Location: /MagicBoulevardCinema");
             }
         } else {
             VUtente::loginForm($user, true);
@@ -385,7 +385,7 @@ class CUtente
      */
     public static function signup() {
         if (self::isLogged()) {
-            header("Location: /");
+            header("Location: /MagicBoulevardCinema");
         } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
             VUtente::signup(EGenere::getAll());
         } elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -446,7 +446,7 @@ class CUtente
                 }
                 self::saveSession($utente);
                 CMail::newEntry($utente);
-                header("Location: /");
+                header("Location: /MagicBoulevardCinema");
             }
         } else {
             CMain::methodNotAllowed();
@@ -519,7 +519,7 @@ class CUtente
      */
     public static function forgotPassword() {
         if (CUtente::isLogged()) {
-            header("Location: /");
+            header("Location: /MagicBoulevardCinema");
         }
 
         $method = $_SERVER["REQUEST_METHOD"];

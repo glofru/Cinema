@@ -222,7 +222,7 @@ class CAdmin
                 '?>' . PHP_EOL;
             fwrite($file, $script);
             fclose($file);
-            header("Location: /");
+            header("Location: /MagicBoulevardCinema");
         } else {
             CMain::methodNotAllowed();
         }

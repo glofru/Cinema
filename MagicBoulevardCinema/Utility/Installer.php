@@ -98,7 +98,7 @@ class Installer
 
                 FPersistentManager::getInstance()->signup($utente);
                 unset($utente);
-                header("Location: /");
+                header("Location: /MagicBoulevardCinema");
             } elseif (!self::checkPhysical()){
                 $nSale = [];
                 $sale = [];
@@ -126,7 +126,7 @@ class Installer
                 foreach ($sale as $item) {
                     FPersistentManager::getInstance()->save($item);
                 }
-                header("Location: /");
+                header("Location: /MagicBoulevardCinema");
             } else {
                 CHome::showHome();
             }
@@ -149,7 +149,7 @@ class Installer
         $file = fopen(self::$confCinema, 'c+');
         fwrite($file, $script);
         fclose($file);
-        header("Location: /");
+        header("Location: /MagicBoulevardCinema");
     }
 
     private static function installDB(string $dbname, string $username, string $pwd, bool $population) {
@@ -182,7 +182,7 @@ class Installer
             if(!in_array(self::$confDB, $dir)) {
                 VError::error(0, "I diritti di scrittura in questa cartella ci impediscono di creare le configurazioni. Modificane i diritti e riprova."); die;
             }
-            header("Location: /");
+            header("Location: /MagicBoulevardCinema");
         } catch (PDOException $e) {
             $db->rollBack();
             VError::error(2);
@@ -205,6 +205,6 @@ class Installer
         }
 
         $db = null;
-        header("Location: /");
+        header("Location: /MagicBoulevardCinema");
     }
 }
