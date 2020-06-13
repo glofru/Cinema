@@ -94,7 +94,7 @@
                                                         <div class="col-12 col-sm-8">
                                                             <div class="card__content" style="height: 150px; width: 500px">
                                                                 <div>
-                                                                    <h3 class="card__title">{$p->getDataProiezione()->format("m/d/Y - H:i")}</h3>
+                                                                    <h3 class="card__title">{$p->getDataProiezione()->format("d/m/Y - H:i")}</h3>
                                                                     <span class="card__category">
                                                                         <a style="font-size: 20px;">Sala {$p->getSala()->getNumeroSala()}</a>
                                                                     </span>

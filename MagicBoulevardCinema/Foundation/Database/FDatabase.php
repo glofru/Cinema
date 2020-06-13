@@ -269,7 +269,7 @@ class FDatabase
      * @param EProiezione $proiezione
      * @return mixed
      */
-    public function checkSovrapposizioneProiezione(EProiezione $proiezione) {
+    public function isSovrappostaProiezione(EProiezione $proiezione) {
         try {
             $query = "SELECT * FROM Proiezione WHERE numerosala = '{$proiezione->getSala()->getNumeroSala()}' AND `data` = '{$proiezione->getDataSQL()}';";
 
@@ -290,7 +290,7 @@ class FDatabase
         try{
             $this->db->beginTransaction();
 
-            $query = "DELETE FROM " . $class::getTableName() . " WHERE " . $row . "='" . $value . "';";
+            $query = "DELETE FROM " . $class::getTableName() . " WHERE " . $row . " = '" . $value . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
 
