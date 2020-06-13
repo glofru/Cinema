@@ -59,6 +59,15 @@ class VAdmin
         $smarty->display("modificaPrezzi.tpl");
     }
 
+    public static function gestioneFilm(EUtente $utente) {
+        $smarty = StartSmarty::configuration();
+
+        $smarty->assign("path", $GLOBALS["path"]);
+        $smarty->assign("utente", $utente);
+
+        $smarty->display("gestioneFilm.tpl");
+    }
+
     /**
      * Schermata che permette di visualizzare e gestire la disponibilità delle sale presenti nel cinema. Inoltre permette di aggiungere nuove sale.
      * @param array $sale, insieme delle sale fisiche presenti nel cinema.

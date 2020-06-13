@@ -347,6 +347,18 @@ class CAdmin
         }
     }
 
+    public static function gestioneFilm() {
+        self::checkAdmin();
+
+        $utente = CUtente::getUtente();
+
+        $method = $_SERVER["REQUEST_METHOD"];
+
+        if ($method === "GET") {
+            VAdmin::gestioneFilm($utente);
+        }
+    }
+
     /**
      * Funzione accessibile sia via GET sia via POST permette di gestire le varie saledi cui dispone il cinema. La funzione svolge le seguenti funzioni:
      *
@@ -409,6 +421,7 @@ class CAdmin
 
     /**
      * Funzione accessibile solo via metodo POST permette di
+     * @throws SmartyException
      */
     public static function gestioneProgrammazione()
     {
@@ -502,16 +515,15 @@ class CAdmin
                 }
             }
         }
-            $programmazioni = $pm->loadAll("EElencoProgrammazioni");
-            $locandine = [];
 
-            foreach ($programmazioni->getElencoProgrammazioni() as $prog) {
-                array_push($locandine, $pm->load($prog->getFilm()->getId(), "idFilm", "EMedia"));
-            }
+        $programmazioni = $pm->loadAll("EElencoProgrammazioni");
+        $locandine = [];
 
-            VAdmin::gestioneProgrammazione($utente, $films, $sale, $programmazioni, $locandine, $film, $nSala, $orario, $dataInizio, $dataFine, $error);
+        foreach ($programmazioni->getElencoProgrammazioni() as $prog) {
+            array_push($locandine, $pm->load($prog->getFilm()->getId(), "idFilm", "EMedia"));
+        }
 
-
+        VAdmin::gestioneProgrammazione($utente, $films, $sale, $programmazioni, $locandine, $film, $nSala, $orario, $dataInizio, $dataFine, $error);
     }
 
     public static function modificaProgrammazione() {
