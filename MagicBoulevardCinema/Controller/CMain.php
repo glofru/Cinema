@@ -83,7 +83,6 @@ class CMain
          if(!isset($_COOKIE["preferences"])){
              setcookie("preferences", serialize(CUtente::getUtente()->preferences(null)), time()+(86400*30), '/');
         }
-
         ini_set('session.gc_probability', 10);
         ini_set('session.gc_divisor', 200);
         $parsed_url = parse_url($url);

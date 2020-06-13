@@ -70,7 +70,7 @@ class EData extends DateTime
 
         $inizio = new DateTime('now');
 
-        for($i = 0; true; $i++) {
+        for($i = 1; true; $i++) {
             $inizio->modify('+1 Day');
             $giorno = $inizio->format('D');
             if($giorno == 'Mon' && $i > 0) {
@@ -84,7 +84,7 @@ class EData extends DateTime
         $fine = $fine->format('Y-m-d');
 
         array_push($result, $inizio, $fine);
-
+        
         return $result;
     }
 
