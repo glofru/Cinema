@@ -83,7 +83,7 @@ INSERT INTO `SalaFisica`(`nSala`, `nFile`, `nPostiFila`, `disponibile`) VALUES (
 
 
 INSERT INTO `Utenti`(`id`, `username`, `email`, `nome`, `cognome`, `password`, `isAdmin`, `isBanned`) VALUES
-(1, 'bb3b', 'gianlucchio@mailer.com' , 'Gianluca', 'Lofrusanna', 'password1', 0, 0),
+(1, 'bb3b', 'gianlucchio@mailer.com' , 'Gianluca', 'Lofrusanna', '$2y$10$aGGitoeXJRMec2YdKm4nlu2xXxXZMxPEpBjP0lNPX1DUCD3LeOmfK', 0, 0),
 (2, 'misterossi', 'misterossi@mailer.com', 'Mario', 'Rossi', '$2y$10$aGGitoeXJRMec2YdKm4nlu2xXxXZMxPEpBjP0lNPX1DUCD3LeOmfK', 0, 0),
 (3, 'skabboz', 'skabboz@mailer.com', 'Giovanni', 'Fisicati', '$2y$10$aGGitoeXJRMec2YdKm4nlu2xXxXZMxPEpBjP0lNPX1DUCD3LeOmfK', 0, 0),
 (4, 'alexa', 'alexa@mailer.com', 'Alessia', 'Zitella', '$2y$10$aGGitoeXJRMec2YdKm4nlu2xXxXZMxPEpBjP0lNPX1DUCD3LeOmfK', 0, 0),
@@ -104,6 +104,7 @@ INSERT INTO `Utenti`(`id`, `username`, `email`, `nome`, `cognome`, `password`, `
 (19, 'otto', 'otto@mailer.com', 'Ottavio', 'Mirabilio', '$2y$10$aGGitoeXJRMec2YdKm4nlu2xXxXZMxPEpBjP0lNPX1DUCD3LeOmfK', 0, 0),
 (20, 'book', 'book@mailer.com', 'Matteo', 'Feltri', '$2y$10$aGGitoeXJRMec2YdKm4nlu2xXxXZMxPEpBjP0lNPX1DUCD3LeOmfK', 0, 0),
 (21, 'lion', 'lion@mailer.com', 'Alessandra', 'Leone', '$2y$10$aGGitoeXJRMec2YdKm4nlu2xXxXZMxPEpBjP0lNPX1DUCD3LeOmfK', 0, 0);
+//tutte le password corrispondono alla parola "password"
 
 
 INSERT INTO `Proiezione`(`id`, `data`, `ora`, `numerosala`, `idFilm`) VALUES
