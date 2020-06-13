@@ -239,14 +239,16 @@ class CAdmin
      *
      * POST) Vengono passati allo script tutti i parametri del film che è stato modificato. Ogni parametro è poi aggiornato nel relativo campo del film sul DB.
      * Al termine, in mnacanza di errori, si viene riporati alla pagina del film.
+     * @throws SmartyException
      */
     public static function modificaFilm(){
         self::checkAdmin();
+
         $pm     = FPersistentManager::getInstance();
 
         $method = $_SERVER["REQUEST_METHOD"];
 
-        if($method == "POST"){
+        if($method == "POST") {
             $filmID = $_POST["filmId"];
             $film   = $pm->load($filmID, "id", "EFilm")[0];
 
@@ -329,7 +331,7 @@ class CAdmin
                     }
                 }
             } catch (Exception $e) {
-                print $e->getMessage();
+                VAdmin::modificafilm($film, $e->getMessage());
             }
 
             header("Location: /MagicBoulevardCinema/Film/show/?film=" . $filmID);
@@ -337,7 +339,7 @@ class CAdmin
             $filmID     = $_GET["film"];
 
             $film       = $pm->load($filmID, "id", "EFilm")[0];
-            $copertina  = $pm->load($filmID,"id","EMediaLocandina");
+            $copertina  = $pm->load($filmID,"idFilm","EMediaLocandina");
 
             VAdmin::modificafilm($film,$copertina);
         } else {

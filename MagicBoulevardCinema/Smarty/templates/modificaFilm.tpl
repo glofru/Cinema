@@ -19,6 +19,11 @@
     <link rel="stylesheet" href="{$path}Smarty/css/photoswipe.css">
     <link rel="stylesheet" href="{$path}Smarty/css/default-skin.css">
     <link rel="stylesheet" href="{$path}Smarty/css/main.css">
+    <style>
+        .filter__item-label {
+            font-size: 19px;
+        }
+    </style>
 
     <!-- Favicons -->
     <link rel="icon" type="image/png" href="{$path}Smarty/icon/favicon-32x32.png" sizes="32x32">
@@ -90,7 +95,7 @@
                         </a>
                         <div class="sign__group">
                             <span class="filter__item-label">Copertina:</span>
-                            <img src="{$copertina->getImmagine()}" alt="">
+                            <img src="{$copertina->getImmagineHTML()}" alt="">
                             <button id="insert_image" class="sign__btn" type="button" style="width: 200px" onclick="document.getElementById('choose_image').click()">Carica copertina</button>
                             <input id="choose_image" type="file" name="locandina" style="display: none" accept=".jpg, .jpeg, .gif, .png">
                             <br>
@@ -132,7 +137,7 @@
 
                         <!-- TrailerURL -->
                         <div class="sign__group">
-                            <span class="filter__item-label">TRailer:</span>
+                            <span class="filter__item-label">Trailer:</span>
                             <input type="url" class="sign__input" value="{$film->getTrailerURL()}" name="trailerURL">
                         </div>
 
