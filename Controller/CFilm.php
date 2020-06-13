@@ -111,4 +111,41 @@ class CFilm
         }
         return EProgrammazioneFilm::amIStillGood($programmazioneFilm);
     }
+
+    /**
+     * Funzione che permette, dato un film, di ottenerne la media dei giudizi dell'utenza e la relativa locandina.
+     * @param array $film, film di cui si vogliono ottenere i dati.
+     * @return array, insieme contenente la locandina
+     */
+    public static function getFilmData(array $film): array {
+        $result = [];
+
+        $pm = FPersistentManager::getInstance();
+
+        $punteggi = [];
+        $immaginiCercate = [];
+        $giudizi = [];
+
+        foreach($film as $f) {
+            array_push($immaginiCercate, $pm->load($f->getId(), "idFilm", "EMedia"));
+            array_push($giudizi, $pm->load($f->getId(), "idFilm", "EGiudizio"));
+        }
+
+        foreach($giudizi as $g) {
+            if(sizeof($g) > 0) {
+                $p = EGiudizio::getMedia($g);
+            }
+            else {
+                $p = 0;
+            }
+            array_push($punteggi, $p);
+        }
+
+        if(sizeof($giudizi) == 0) {
+            array_push($punteggi, 0);
+        }
+
+        array_push($result, $immaginiCercate, $punteggi);
+        return $result;
+    }
 }

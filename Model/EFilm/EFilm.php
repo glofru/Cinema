@@ -401,7 +401,7 @@ class EFilm implements JsonSerializable
     }
 
     /**
-     * @return array|mixed, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFULL.
+     * @return array|mixed, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFUL.
      */
     public function jsonSerialize()
     {

@@ -81,7 +81,7 @@ class CMain
         $isApi = strstr($path, "/api/");
         if ($isApi === false) {
             //GESTIONE UTENTE NON REGISTRATO
-            $pass = !CUtente::isLogged(false) && isset($_SESSION["nonRegistrato"]) && $path == "/Acquisto/confermaAcquisto";
+            $pass = !CUtente::isLogged() && isset($_SESSION["nonRegistrato"]) && $path == "/Acquisto/confermaAcquisto";
 
             if(!$pass && isset($_SESSION["nonRegistrato"])){
                 CUtente::logout(false);

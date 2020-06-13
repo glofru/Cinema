@@ -17,7 +17,8 @@ class CUtente
      * GET) Se richiesta via GET la pagina mostra il form di login. Se l'utente ha in un login precedente cliccato sul bottone 'ricordami' il nome utente o email usata pr il login
      * viene ripreso dal cookie settato ed inserito nella pagina.
      *
-     * POST) Se la pagina è richista via metodo POST questa prende i parametri passati e per prima cosa se l'utente ha
+     * POST) Se la pagina è richista via metodo POST questa prende i parametri passati e per prima cosa controlla se l'utente ha chiesto di ricodare il proprio username o la propia mail.
+     * Allora salva il contenuto in un cookie. Successivamente richiama la funzione chekLogin per sapere se il login è valido o meno.
      */
     public static function login() {
         if (self::isLogged()) {
@@ -44,35 +45,49 @@ class CUtente
     }
 
     /**
+     * Funzione che permette ad un utente non Registrato di effettuare il login presso il nostro sito e poter accedere alla pagina con i biglietti acquistati. Disponibile solo via metodo POST.
+     * La funzione controlla che l'utente non sia già loggato e prende i parametri di email e la password che gli sono stati passati.
+     * Se l'utente è registrato viene mostrata una schermata di errore in quanto non destinata a quella tipologia di utenti.
+     * Se le credenziali sono giuste l'utente viene portato alla schermata di riepilogo con i propri acquisti.
+     * Intenzionalmente non è presente una sessione in questo 'login' in quanto abbiamo voluto rendere il non registrato meno possibile simile all'utente Registrato.
+     * Questo implica ad esempio che ogni volta che un utente non Registrato voglia controllare i porprio biglietti dovrà sempre reinserire le credenziali.
+     * Va comunque considerato che un non registrato normalemnte non dovrebbe accedere spesso a questa pagina.
+     * Lo scopo principale è di questa scelta è comunque quello di spingere i non registrati a registrarsi a tutti gli effetti al nostro sito.
      *
      */
     public static function loginNonRegistrato() {
         if(self::isLogged()){
             header("Location: /");
-        } else if ($_SERVER["REQUEST_METHOD"] == "POST" && EInputChecker::getInstance()->isEmail($_POST["email"])) {
-            $email = $_POST["email"];
-            $password = $_POST["password"];
+        } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-            $utente = FPersistentManager::getInstance()->login($email, $password, true);
-            if(!isset($utente)) {
-                VUtente::showCheckNonRegsitrato(CUtente::getUtente(), true, $email);
-            } else if($utente->isRegistrato()) {
-                VError::error(0, "Pagina destinata ad utenti non Registrati");
+            if(EInputChecker::getInstance()->isEmail($_POST["email"])) {
+
+                $email = $_POST["email"];
+                $password = $_POST["password"];
+
+                $utente = FPersistentManager::getInstance()->login($email, $password, true);
+                if (!isset($utente)) {
+                    VUtente::showCheckNonRegsitrato(CUtente::getUtente(), true, $email);
+                } else if ($utente->isRegistrato()) {
+                    VError::error(0, "Pagina destinata ad utenti non Registrati");
+                } else {
+                    foreach (FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EBiglietto") as $b) {
+                        $utente->addBiglietto($b);
+                    }
+
+                    $biglietti = $utente->getListaBiglietti();
+
+                    usort($biglietti, array(EBiglietto::class, "sortByDatesBiglietti"));
+                    $immagini = [];
+
+                    foreach ($biglietti as $item) {
+                        array_push($immagini, FPersistentManager::getInstance()->load($item->GetProiezione()->getFilm()->getId(), "idFilm", "EMedia"));
+                    }
+
+                    VUtente::showCheckNonRegsitrato(CUtente::getUtente(), false, $email, $biglietti, $immagini);
+                }
             } else {
-                foreach (FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EBiglietto") as $b) {
-                    $utente->addBiglietto($b);
-                }
-
-                $biglietti = $utente->getListaBiglietti();
-
-                usort($biglietti, array(EBiglietto::class, "sortByDatesBiglietti"));
-                $immagini = [];
-
-                foreach ($biglietti as $item) {
-                    array_push($immagini,FPersistentManager::getInstance()->load($item->GetProiezione()->getFilm()->getId(), "idFilm", "EMedia"));
-                }
-
-                VUtente::showCheckNonRegsitrato(CUtente::getUtente(), false, $email, $biglietti, $immagini);
+                VUtente::showCheckNonRegsitrato(CUtente::getUtente(), true);
             }
         } else {
             CMain::methodNotAllowed();
@@ -80,9 +95,11 @@ class CUtente
     }
 
     /**
-     *
+     * Funzione, privata, che permette di creare una sessione associata ad un utente visistatore. Il cookie di sessione viene inizializzato solo se non è già presente una variabile di sessione
+     * associata ad una delle altre tipologie di utente oppure se già non è identificato come visitataore.
+     * Viene inoltre modificata localmente la variabile 'session.cookie_httponly' pee evitare che i cookie possano essere fuori dell'HTTP.
      */
-    public static function createVisitor() {
+    private static function createVisitor() {
         ini_set('session.cookie_httponly', true);
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -94,24 +111,38 @@ class CUtente
     }
 
     /**
-     * @param bool $redirect
+     * Funzione che esegue il logut dell'utente. Se è impostata a true la variabile redierct si viene riportati alla home page al termine dell.operazione.
+     * La funzione svolge le operazioni relative all'eliminazione delle variabili di sessione in RAM e sul FS del nostro server. Al termne viene eliminato il cookie di sessione.
+     * Una volta distrutta la sessione si crea una nuova sessione ma con un utente visitatore.
+     * @param bool $redirect, indica se bisogna essere reindirizzati alla home page dopo il logout.
      */
     public static function logout($redirect = true) {
-        if(isset($_COOKIE["PHPSESSID"])) {
-            session_start();
-            session_unset();
-            session_destroy();
-            setcookie("PHPSESSID", "", time() - 3600,"/");
-            self::createVisitor();
-        }
-        if($redirect) {
-            header("Location: /");
+        if($_SERVER["REQUEST_METHOD"] === "GET") {
+
+
+            if (isset($_COOKIE["PHPSESSID"])) {
+                session_start();
+                session_unset();
+                session_destroy();
+                setcookie("PHPSESSID", "", time() - 3600, "/");
+                self::createVisitor();
+            }
+            if ($redirect) {
+                header("Location: /");
+            }
+        } else {
+            CMain::methodNotAllowed();
         }
     }
 
     /**
-     * @param $user
-     * @param $password
+     * Funzione privata sfruttata per controllare se le credenziali inserite dall'utente corrispondano ad un utente realmente presente nel nostro DB.
+     * Per prima cosa si controlla se sia stata passato un username od una email valida. Sennò si ritorna alla schermata di login.
+     * Di seguito si tenta il login dell'utente sul DB. Se ha successo si controlla se l'utente sia bannato, in tal caso si viene portati su una schermata di errore.
+     * Se l'utente non è un admin vengono caricati i suoi biglietti ed i suoi giudizi.
+     * Al termine si procede ad invocare la funzione di saveSession per salvare l'utente nella sessione.
+     * @param $user, username o email forniti in fase di login.
+     * @param $password, password fornita in fase di login.
      */
     private static function checkLogin($user, $password)
     {
@@ -138,6 +169,10 @@ class CUtente
                     foreach ($biglietti as $b) {
                         $utente->addBiglietto($b);
                     }
+                    $giudizi = $pm->load($utente->getId(), "idUtente", "EGiudizio");
+                    foreach ($giudizi as $g){
+                        $utente->addGiudizio($g);
+                    }
                 }
                 self::saveSession($utente);
                 header("Location: /");
@@ -148,6 +183,12 @@ class CUtente
     }
 
     /**
+     * Funzione che permette di mostrare il profilo di un utente. Richiamabile solo via metodo GET.
+     * Viene passato come parametro l'id dell'utente cercato che se non esiste conduce ad una pagina di errore.
+     * Altrimenti si procede a caricare tutti i dati dell'utente dal DB, se il profilo non appartiene direttamente all'utente stesso.
+     * In questo caso i parametri vengono presi dalla variabile di sessione dell'utente e si abilita la variabile canModify così da permettere all'utente di modificare il proprio profilo.
+     * Se l'utente vuole vedere il proprio profilo e non è un admin vengono reperite inoltre le informazioni sulla sua eventuale iscrizione alla newsletter.
+     * Al termine viene visualizzata la schermata con i relativi giudizi espressi se si sta visualizzando un profilo un utente non Admin.
      *
      */
     public static function show() {
@@ -196,7 +237,11 @@ class CUtente
     }
 
     /**
+     * Funzione, accessibile sia via GET sia via POST, che permette ad un utente di visualizzare una schermaata contenente i propri e dati e di modificare questi ultimi.
      *
+     * GET) Se richiamata via GET mostra una schermata con tutti i dati personali dell'utente.
+     *
+     * POST) Se richiamata in POST permette di modificare i dati dell'utente con quelli fornuti.
      */
     public static function modifica() {
         $method = $_SERVER["REQUEST_METHOD"];
@@ -297,11 +342,18 @@ class CUtente
             } else {
                 CMain::unauthorized();
             }
+        } else {
+            CMain::methodNotAllowed();
         }
     }
 
     /**
-     * @param null $utente
+     * Funzione che permette dato un utente di salvarlo nella sessione. Viene sovrascritta localmente la variabile 'session.cookie_httponly' per evitare che il cookie di sessione sia disponibile
+     * fuori dall'HTTP.
+     * Se è impostata una variabile di sessione inerente all'utente non registrato questa viene eliminata.
+     * Viene rigenerato il cookie di sessione per fare sì che sia diverso da quello precedente. Norma di sicurezza perchè il cookie da utente visitatore non è direttamente gestibile dall'utente,
+     * che invece può gestire quello da Utente eseguendo il logout quando vuole chiudere la sessione.
+     * @param EUtente|null $utente, utente da salvare.
      */
     public static function saveSession($utente = null) {
         ini_set('session.cookie_httponly', true);
@@ -322,6 +374,15 @@ class CUtente
         $_SESSION['utente'] = $salvare;
     }
 
+    /**
+     * Funzione accessibile sia via GET sia via POST che permette di far registrare un nuovo utente nel nostro Database.
+     *
+     * GET) Se chiamata via metodo GET la funzione mostra all'utente la schermatta di registrazione.
+     *
+     *POST) Se chiamata via POST allora vengono presi i parametri inseriti e viene creato un nuovo utente. Viene, quindi, inviata una mail di conferma dell'iscrizione.
+     *
+     * @throws \PHPMailer\PHPMailer\Exception
+     */
     public static function signup() {
         if (self::isLogged()) {
             header("Location: /");
@@ -387,11 +448,14 @@ class CUtente
                 CMail::newEntry($utente);
                 header("Location: /");
             }
+        } else {
+            CMain::methodNotAllowed();
         }
     }
 
     /**
-     * @return bool
+     * Funzione che permette di sapere se un utente è attualmente loggato nel nostro sito.
+     * @return bool, esito del controllo.
      */
     public static function isLogged(): bool {
         if (isset($_COOKIE["PHPSESSID"])) {
@@ -403,12 +467,12 @@ class CUtente
                 return true;
             }
         }
-
         return false;
     }
 
     /**
-     * @return mixed
+     * Funzione che restituisce l'utente salvato in sessione.
+     * @return mixed, un utente registrato oppure un utente visitatore.
      */
     public static function getUtente() {
         if(self::isLogged()) {
@@ -420,31 +484,37 @@ class CUtente
     }
 
     /**
-     *
+     * Funzione che permette di mostrare tutti i biglietti acquistati dall'utente.
      */
     public static function bigliettiAcquistati() {
-        if(CUtente::isLogged()) {
-            $utente = self::getUtente();
+        if($_SERVER["REQUEST_METHOD"] === "GET") {
+            if (CUtente::isLogged()) {
+                $utente = self::getUtente();
 
-            if($utente->isAdmin()) {
-                header(0, "Pagina non disponibile agli admin.");
+                if ($utente->isAdmin()) {
+                    header(0, "Pagina non disponibile agli admin.");
+                }
+
+                $biglietti = $utente->getListaBiglietti();
+                usort($biglietti, array(EBiglietto::class, "sortByDatesBiglietti"));
+
+                $immagini = [];
+                foreach ($biglietti as $item) {
+                    array_push($immagini, FPersistentManager::getInstance()->load($item->GetProiezione()->getFilm()->getId(), "idFilm", "EMedia"));
+                }
+
+                VUtente::showBiglietti($biglietti, $immagini, $utente);
+            } else {
+                CMain::unauthorized();
             }
-
-            $biglietti = $utente->getListaBiglietti();
-            usort($biglietti, array(EBiglietto::class, "sortByDatesBiglietti"));
-
-            $immagini = [];
-            foreach ($biglietti as $item) {
-                array_push($immagini,FPersistentManager::getInstance()->load($item->GetProiezione()->getFilm()->getId(), "idFilm", "EMedia"));
-            }
-
-            VUtente::showBiglietti($biglietti, $immagini, $utente);
         } else {
-            CMain::unauthorized();
+            CMain::methodNotAllowed();
         }
     }
 
     /**
+     * Funzione che permette di accedere alla schermata di reset della password se chiamata via GET.
+     * Altrimenti, se chiamata via POST, da il via alla fase di reset della password ed invio sulla mail di un link di reset della password.
      * @throws Exception
      */
     public static function forgotPassword() {
@@ -507,6 +577,9 @@ class CUtente
     }
 
     /**
+     * Funzione che viene eseguita quando un utente accede alla pagina di ereset della password ed inserisce una nuova password.
+     * Se la password ed il token sono validi esegue il cambio della password.
+     * Accessibile solo tramite metodo POST.
      * @throws \PHPMailer\PHPMailer\Exception
      */
     public static function newPassword() {
@@ -542,29 +615,33 @@ class CUtente
             CMail::modifiedPassword($utente);
             VUtente::loginForm();
         } else {
-            CMain::notFound();
+            CMain::methodNotAllowed();
         }
     }
 
     /**
-     *
+     * Funzione che permette di mostrare tutti i giudizi espressi dall'utente. Accessible solo tramite metodo GET.
      */
     public static function showCommenti() {
-        if(self::isLogged()){
-            if(!self::getUtente()->isAdmin()){
-                $utente = self::getUtente();
-                $giudizi = $utente->getListaGiudizi();
-                usort($giudizi, array(EGiudizio::class, "sortByDatesGiudizi"));
-                $propic = FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EMediaUtente");
-                VUtente::showCommenti($giudizi, $utente, $propic);
+        if($_SERVER["REQUEST_METHOD"] === "GET") {
+            if (self::isLogged()) {
+                if (!self::getUtente()->isAdmin()) {
+                    $utente = self::getUtente();
+                    $giudizi = $utente->getListaGiudizi();
+                    usort($giudizi, array(EGiudizio::class, "sortByDatesGiudizi"));
+                    $propic = FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EMediaUtente");
+                    VUtente::showCommenti($giudizi, $utente, $propic);
+                }
+            } else {
+                CMain::unauthorized();
             }
         } else {
-            CMain::unauthorized();
+            CMain::methodNotAllowed();
         }
     }
 
     /**
-     *
+     * Funzione che permette di visualizzare i biglietti acquistati se l'utente è un utente non Registrato.
      */
     public static function controlloBigliettiNonRegistrato() {
         if ($_SERVER["REQUEST_METHOD"] == "GET") {

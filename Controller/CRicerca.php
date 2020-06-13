@@ -1,12 +1,18 @@
 <?php
 
 /**
+ * La classe Ricerca mette a disposizione i metodi necessari a poter processare le richieste formulate nell'utente nell'ambito della ricerca di film
+ * sulla base di particolari criteri (Anno di rilascio, voto della critica, genere, nome)
  * Class CRicerca
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Controller
  */
 class CRicerca
 {
     /**
-     *
+     * Funzione che permette la ricercra di un film tramite nome. Vengono restituiti tutti i film che contengono nel nome la parola chiave cercata.
+     * Insieme ad i film vengono restituite anche le relative locandine.
      */
     public static function cercaFilm() {
         if($_SERVER['REQUEST_METHOD']=="POST") {
@@ -32,7 +38,8 @@ class CRicerca
     }
 
     /**
-     *
+     * Funzione che permette di ricercare un film tramite il genere, l'anno di rilascio ed il voto della critica.
+     * Vengono restituiti nella pagina i film con le relative locandine.
      */
     public static function cercaFilmAttributi() {
         if($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -53,7 +60,7 @@ class CRicerca
             }
 
             $film = FPersistentManager::getInstance()->loadFilmByFilter(EGenere::fromString($genere), $votoInizio, $votoFine, $annoInizio, $annoFine);
-            $data = self::getFilmData($film);
+            $data = CFilm::getFilmData($film);
 
             $utente = CUtente::getUtente();
             $consigliati = CUtility::getConsigliati($utente);
@@ -63,38 +70,5 @@ class CRicerca
         } else {
             CMain::methodNotAllowed();
         }
-    }
-
-    //TODO: non va in CFilm?
-    private static function getFilmData(array $film): array {
-        $result = [];
-
-        $pm = FPersistentManager::getInstance();
-
-        $punteggi = [];
-        $immaginiCercate = [];
-        $giudizi = [];
-
-        foreach($film as $f) {
-            array_push($immaginiCercate, $pm->load($f->getId(), "idFilm", "EMedia"));
-            array_push($giudizi, $pm->load($f->getId(), "idFilm", "EGiudizio"));
-        }
-
-        foreach($giudizi as $g) {
-            if(sizeof($g) > 0) {
-                $p = EGiudizio::getMedia($g);
-            }
-            else {
-                $p = 0;
-            }
-            array_push($punteggi, $p);
-        }
-
-        if(sizeof($giudizi) == 0) {
-            array_push($punteggi, 0);
-        }
-
-        array_push($result, $immaginiCercate, $punteggi);
-        return $result;
     }
 }
