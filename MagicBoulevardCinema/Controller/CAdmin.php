@@ -362,8 +362,8 @@ class CAdmin
 
                 if ($nome === null || $cognome === null || $imdbURL === null) {
                     //TODO: badRequest
-                } elseif ($nome === "" || $cognome === "") {
-                    $status = "Almeno uno tra nome o cognome non deve essere vuoto";
+                } elseif ($nome === "" || $cognome === "" || $imdbURL === "") {
+                    $status = "Compila tutti i campi";
                 } elseif (!($isAttore || $isRegista)) {
                     $status = "Almeno uno tra attore e regista deve essere selezionato";
                 } else {

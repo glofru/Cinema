@@ -178,7 +178,7 @@
 
                                     <datalist id="actors">
                                         {foreach $attori as $attore}
-                                            <option id="{$attore->getId()}" value="{$attore->getFullName()}">IMDB ID: {$attore->getImdbId()}</option>
+                                            <option id="{$attore->getId()}" value="{$attore->getFullName()}">{$attore->getFullName()} - IMDB ID: {$attore->getImdbId()}</option>
                                         {/foreach}
                                     </datalist>
 
@@ -196,7 +196,7 @@
 
                                     <datalist id="directors">
                                         {foreach $registi as $regista}
-                                            <option id="{$regista->getId()}" value="{$regista->getFullName()}">IMDB ID: {$regista->getImdbId()}</option>
+                                            <option id="{$regista->getId()}" value="{$regista->getFullName()}">{$regista->getFullName()} - IMDB ID: {$regista->getImdbId()}</option>
                                         {/foreach}
                                     </datalist>
 
@@ -230,7 +230,7 @@
 
                                 <!-- IMDB URL -->
                                 <div class="sign__group">
-                                    <input type="url" class="sign__input" placeholder="URL Imdb" name="imdbURL">
+                                    <input id="imdbURL" type="url" class="sign__input" placeholder="URL Imdb" name="imdbURL">
                                 </div>
 
                                 <!-- isAttore -->
@@ -417,8 +417,8 @@
     }
 
     function validatePersona() {
-        if (document.getElementById("nome").value === "" || document.getElementById("nome").value === "") {
-            alert ("Inserire almeno un nome o cognome");
+        if (document.getElementById("nome").value === "" || document.getElementById("nome").value === "" || document.getElementById("imdbURL").value === "") {
+            alert ("Compila tutti i campi");
             return false;
         } else if (!(document.getElementById("attore").checked || document.getElementById("regista").checked)) {
             alert ("Selezionare almeno uno tra attore o regista");
