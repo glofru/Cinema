@@ -75,13 +75,13 @@ class EFilm implements JsonSerializable
 
     /**
      * EFilm constructor.
-     * @param string $nome, nome dle film.
+     * @param string $nome, nome del film.
      * @param string $descrizione, descrizione del film.
      * @param DateInterval $durata, durata del film.
      * @param string $trailerURL, URL del trailer su Youtube del film.
      * @param float $votoCritica, voto della critica specializzata.
      * @param DateTime $dataDiRilascio, data di rilascio del film.
-     * @param string $genere, genere dle film.
+     * @param string $genere, genere del film.
      * @param string $paese, paese di produzione del film.
      * @param string $etaConsigliata, età consigliata per la visione del film.
      */

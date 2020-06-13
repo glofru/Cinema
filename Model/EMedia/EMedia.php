@@ -149,7 +149,7 @@ class EMedia implements JsonSerializable
     }
 
     /**
-     * Funzione che restituisce il path dell'immagine di default se non è stata acaricata alcuna immagine. Altrimenti restituisce l'immagine con un header adatto ad essere decodificata in fase di visualizzazione.
+     * Funzione che restituisce il path dell'immagine di default se non è stata caricata alcuna immagine. Altrimenti restituisce l'immagine con un header adatto ad essere decodificata in fase di visualizzazione.
      * @return string, immagine.
      */
     public function getImmagineHTML(): string{

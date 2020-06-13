@@ -45,7 +45,7 @@ class EGiudizio implements JsonSerializable
      * @param EFilm $film, film sul quale è stato espresso il giudizio.
      * @param EUtente $utente, utente che ha espresso il giudizio.
      * @param string $title, titolo del giudizio.
-     * @param DateTime $dataPubblicazione, data di pubblicazione dle giudizio.
+     * @param DateTime $dataPubblicazione, data di pubblicazione del giudizio.
      */
     public function __construct(string $commento, float $punteggio, EFilm $film, EUtente $utente, string $title, DateTime $dataPubblicazione)
     {
@@ -134,7 +134,7 @@ class EGiudizio implements JsonSerializable
     }
 
     /**
-     * @param DateTime $dataPubblicazione, data di pubblicazione dle giudizio.
+     * @param DateTime $dataPubblicazione, data di pubblicazione del giudizio.
      */
     public function setDataPubblicazione(DateTime $dataPubblicazione) {
         $this->dataPubblicazione = $dataPubblicazione;
@@ -148,14 +148,14 @@ class EGiudizio implements JsonSerializable
     }
 
     /**
-     * @return string, data di pubblicazione nel formato idoneo ad essere salvat nel DB.
+     * @return string, data di pubblicazione nel formato idoneo ad essere salvato nel DB.
      */
     public function getDataPubblicazioneDB(): string {
         return $this->dataPubblicazione->format('Y-m-d');
     }
 
     /**
-     * @return string, data di pubblicazione nel formato che comunemente siamo abituati a leggere, giorno-mese-anno.
+     * @return string, data di pubblicazione nel formato giorno-mese-anno.
      */
     public function getDataPubblicazioneString(): string {
         return $this->dataPubblicazione->format('d-m-Y');

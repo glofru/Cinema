@@ -277,7 +277,7 @@
 
         if (valFilm === "" ||
             valSala === "" ||
-            $("#orario") === "" ||
+            $("#orario").val() === "" ||
             $("#dataInizio").val() === "" ||
             $("#dataFine").val() === "") {
             alert("Compila tutti i campi");

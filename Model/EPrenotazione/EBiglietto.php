@@ -145,7 +145,7 @@ class EBiglietto implements JsonSerializable
     }
 
     /**
-     * Funzione ausiliaria a usort() neseccaria ad identificare secondo quali criteri eseguire il sorting dell'array di oggetti che gli viene passato. L'array viene sortato in ordine descrescente.
+     * Funzione ausiliaria a usort() necessaria ad identificare secondo quali criteri eseguire il sorting dell'array di oggetti che gli viene passato. L'array viene sortato in ordine descrescente.
      * @param EBiglietto $b1, generico bilgietto.
      * @param EBiglietto $b2, generico biglietto.
      * @return bool, esito del confronto fra i due oggetti.

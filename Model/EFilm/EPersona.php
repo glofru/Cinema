@@ -123,7 +123,7 @@ class EPersona implements JsonSerializable
     }
 
     /**
-     * @return string, id della persona nel sito IMDB. Necessario per evitare che gli omonimi possano rendere impossibile distringuere due persone.
+     * @return string, id della persona nel sito IMDB. Necessario per evitare che gli omonimi possano rendere impossibile distinguere due persone.
      */
     public function getImdbId(): string {
         $x = explode("/",$this->getImdbUrl());

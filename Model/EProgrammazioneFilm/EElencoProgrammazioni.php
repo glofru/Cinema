@@ -39,7 +39,7 @@
     }
 
     /**
-     * Funzione che, data una proiezione, cerca se è presente già una programmazioneFilm associata a quel film. Se è presente viene aggiunta a quest'ultima. Altrimenti viene creata una nuova EProgrammazioneFilm, a questa viene aggiunta la proiezione ed infine e infine la nuova programmazioneFilm viene aggiunta all'elenco delle programmazioni contenute nella classe.
+     * Funzione che, data una proiezione, cerca se è presente già una programmazioneFilm associata a quel film. Se è presente viene aggiunta a quest'ultima. Altrimenti viene creata una nuova EProgrammazioneFilm, a questa viene aggiunta la proiezione ed infine la nuova programmazioneFilm viene aggiunta all'elenco delle programmazioni contenute nella classe.
      * @param EProiezione $proiezione, proiezione che si vuole aggiungere.
      */
     public function addProiezione(EProiezione $proiezione) {
