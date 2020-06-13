@@ -127,9 +127,10 @@ class VUtente
     }
 
     /**
-     * @param array $giudizi
-     * @param EUtente $utente
-     * @param EMedia $propic
+     * Funzione che permette di mostrare i giudizi espressi dall'utente.
+     * @param array $giudizi, insieme dei giudizi.
+     * @param EUtente $utente, utente che ha richiesto la pagina e che ha espresso i giudizi.
+     * @param EMedia $propic, immagine del profilo dell'utente.
      * @throws SmartyException
      */
     public static function showCommenti(array $giudizi, EUtente $utente, EMedia $propic) {
@@ -144,8 +145,9 @@ class VUtente
     }
 
     /**
-     * @param string $token
-     * @param bool $error
+     * Funzione che permette di mostrare la schermata dove inserire la nuova password dopo aver chiesto il reset.
+     * @param string $token, token di richiesta del reset password.
+     * @param bool $error, nel caso ci sia un errore nell'effettuare l'operazione.
      * @throws SmartyException
      */
     public static function newPassword(string $token, bool $error = false) {
@@ -159,11 +161,12 @@ class VUtente
     }
 
     /**
-     * @param EUtente $utente
-     * @param bool $isGet
-     * @param string $email
-     * @param array|null $biglietti
-     * @param null $immagini
+     * Funzione che permette di visualizzare la schermata di login per utenti non registrati. Se effettuato il login mostra i biglietti acquistati dall'utente.
+     * @param EUtente $utente, utente che richiede la pagina.
+     * @param bool $isGet, se è richiesta la pafina in GET (form di login) o in POST (insieme dei biglietti acquistati).
+     * @param string $email, email dell'utente.
+     * @param array|null $biglietti, insieme dei biglietti acquistati.
+     * @param null $immagini, locandine dei film.
      * @throws SmartyException
      */
     public static function showCheckNonRegsitrato(EUtente $utente, bool $isGet, string $email = "", array $biglietti = null, $immagini = null) {
@@ -180,11 +183,12 @@ class VUtente
     }
 
     /**
-     * @param EUtente $utente
-     * @param EMedia $propic
-     * @param $generi
-     * @param $isASub
-     * @param $prefs
+     * Funzione che permette di mostarre la schermata di modifica dei dati dell'utente.
+     * @param EUtente $utente, utente che richiede la pagina.
+     * @param EMedia $propic, immagine di profilo dell'utente.
+     * @param $generi, insieme di tutti i generi dei film.
+     * @param $isASub, se l'utente è iscritto alla newsletter.
+     * @param $prefs, le preferenze espresse dall'utente iscritto alla newsletter.
      * @throws SmartyException
      */
     public static function modifica(EUtente $utente, EMedia $propic, $generi, $isASub, $prefs) {
