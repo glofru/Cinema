@@ -86,7 +86,7 @@
                     <!-- authorization form -->
                     <form action="{$path}Admin/modificaFilm/?film={$film->getId()}" method="POST" class="sign__form" enctype="multipart/form-data">
                         <a href="/MagicBoulevardCinema" class="sign__logo">
-                            <img src="{$path}Smarty/img/logo.svg" alt="">
+                            <img src="{$path}Smarty/img/logo.svg" alt="Logo">
                         </a>
                         <div class="sign__group">
                             <span class="filter__item-label">Copertina:</span>

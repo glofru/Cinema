@@ -157,7 +157,7 @@ class CAcquisto
                     CMail::sendTicketsNonRegistrato($utente, $biglietti, $uid);
                     unset($uid);
                     CUtente::logout(false);
-                    header("Location: ../../Utente/controlloBigliettiNonRegistrato");
+                    header("Location: /MagicBoulevardCinema/Utente/controlloBigliettiNonRegistrato");
                     echo "GIUSTO";
                 } else {
                     foreach ($biglietti as $b) {
@@ -165,7 +165,7 @@ class CAcquisto
                     }
                     $_SESSION["utente"] = serialize($utente);
                     CMail::sendTickets($utente, $biglietti);
-                    header("Location: ../../Utente/bigliettiAcquistati");
+                    header("Location: /MagicBoulevardCinema/Utente/bigliettiAcquistati");
                     echo "NO";
                 }
                 die;
