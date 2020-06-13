@@ -158,7 +158,7 @@ class FMedia implements Foundation
         $row = $result[0];
         $fileName = $row["fileName"];
         $mimeType = $row["mimeType"];
-        $immagine = strlen($row["immagine"])>0 ? $row["immagine"] : '../../Smarty/img/user.png' ;
+        $immagine = strlen($row["immagine"])>0 ? $row["immagine"] : '/MagicBoulevardCinema/Smarty/img/user.png' ;
         $date = $row["date"];
         $date = DateTime::createFromFormat('Y-m-d',$date);
 

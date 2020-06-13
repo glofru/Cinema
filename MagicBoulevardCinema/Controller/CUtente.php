@@ -197,7 +197,8 @@ class CUtente
                 CMain::notFound();
             } else {
                 $pm = FPersistentManager::getInstance();
-
+                $isASub = false;
+                $prefs = "";
                 if(CUtente::isLogged() && CUtente::getUtente()->getId() === intval($_GET["id"])) {
                     $canModify = true;
                     $isASub = FPersistentManager::getInstance()->isASub(CUtente::getUtente());

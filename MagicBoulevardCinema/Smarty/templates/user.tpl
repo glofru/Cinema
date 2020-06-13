@@ -94,7 +94,7 @@
                 <div class="col-12">
                     <h2 class="section__title"></h2>
                 </div>
-                {if !$admin}
+                {if !$utente->isAdmin()}
                     <div class="col-12">
                         <h2 class="section__title section__title--center">Alcuni dei giudizi espressi dall'utente</h2>
                     </div>
