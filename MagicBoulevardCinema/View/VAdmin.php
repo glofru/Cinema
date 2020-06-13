@@ -38,6 +38,7 @@ class VAdmin
     public static function gestioneSale(array $sale, EUtente $utente, $e = null, $nSala = null, $nFile = null, $nPosti = null) {
         $smarty = StartSmarty::configuration();
 
+        $smarty->assign("path", $GLOBALS["path"]);
         $smarty->assign("sale", $sale);
         $smarty->assign("utente", $utente);
         $smarty->assign("status", $e);
@@ -51,6 +52,7 @@ class VAdmin
     public static function gestioneProgrammazione(EUtente $utente, array $films, array $sale, EElencoProgrammazioni $programmazioni, array $locandine, $film = null, $nSala = null, $ora = null, $inizio = null, $fine = null, $error = null) {
         $smarty = StartSmarty::configuration();
 
+        $smarty->assign("path", $GLOBALS["path"]);
         $smarty->assign("utente", $utente);
         $smarty->assign("films", $films);
         $smarty->assign("sale", $sale);
@@ -69,6 +71,7 @@ class VAdmin
     public static function modificaProgrammazione(EUtente $utente, EProgrammazioneFilm $programmazioneFilm) {
         $smarty = StartSmarty::configuration();
 
+        $smarty->assign("path", $GLOBALS["path"]);
         $smarty->assign("utente", $utente);
         $smarty->assign("programmazione", $programmazioneFilm);
 
@@ -78,6 +81,7 @@ class VAdmin
     public static function modificaProiezione(EUtente $utente, array $films, array $sale, bool $cambioSala, EProiezione $proiezione) {
         $smarty = StartSmarty::configuration();
 
+        $smarty->assign("path", $GLOBALS["path"]);
         $smarty->assign("utente", $utente);
         $smarty->assign("films", $films);
         $smarty->assign("sale", $sale);
