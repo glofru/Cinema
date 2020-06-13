@@ -143,7 +143,7 @@
                     <div class="tab-pane fade {if (isset($error))}show active{/if}" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
                         <div class="row" style="align-content: center">
                             <!-- authorization form -->
-                            <form action="{$path}MagicBoulevardCinema/Admin/gestioneProgrammazione" onsubmit="return validate()" method="POST" class="form" enctype="multipart/form-data" style="margin: auto">
+                            <form action="{$path}Admin/gestioneProgrammazione" onsubmit="return validate()" method="POST" class="form" enctype="multipart/form-data" style="margin: auto">
 
                                 <!-- Film -->
                                 <h3 style="color: white">Film</h3>

@@ -103,7 +103,7 @@ class CAcquisto
     public static function confermaAcquisto() {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $isNonRegistrato = false;
-            if(!CUtente::isLogged(false) && isset($_SESSION["nonRegistrato"])) {
+            if(!CUtente::isLogged() && isset($_SESSION["nonRegistrato"])) {
                 $isNonRegistrato = true;
             }
             else if (!isset($_SESSION["biglietti"])  || CUtente::getUtente()->isAdmin()) {
@@ -147,7 +147,7 @@ class CAcquisto
             $result = $pm->occupaPosti($biglietti);
 
             if ($result === null) {
-                VError::error(5); //Il posto non esisteva
+                VError::error(0, "Posto non presente nella sala."); //Il posto non esisteva
                 die;
             } else if (!$result) {
                 VError::error(0, "Almeno uno dei posti che voleva acquistare è stato già occupato. La invitiamo a riprovare!");

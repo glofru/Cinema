@@ -436,8 +436,8 @@
 
     let bookedSeat = [];
     let proiezione;
-    let libera = "Smarty/img/cinema/sedia_libera.png";
-    let occupazione = "Smarty/img/cinema/sedia_in_occupazione.png";
+    let libera = "/MagicBoulevardCinema/Smarty/img/cinema/sedia_libera.png";
+    let occupazione = "/MagicBoulevardCinema/Smarty/img/cinema/sedia_in_occupazione.png";
 
     function isEmail(email) {
         let exp = /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/;
