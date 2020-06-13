@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * La classe Informazioni raccoglie i metodi necessari a poter portare in output diverse schermate contenenti informazioni di vario genere.
+ * Class CInformazioni
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Controller
+ */
+class CInformazioni
+{
+    /**
+     * Funzione che permette di visualizzare i costi dei biglietti durante la settimana ed il relativo sovrapprezzo nel caso di acquisti per
+     * proiezioni che si terranno a distanza di almeno una settimana dal giorno di acquisto.
+     */
+    public static function getCosti() {
+        if($_SERVER["REQUEST_METHOD"] === "GET") {
+            VInformazioni::getCosti(CUtente::getUtente());
+        } else {
+            CMain::methodNotAllowed();
+        }
+    }
+
+    /**
+     * Funzione che permette di visualizzare una pagina con alcune informazioni utili al fine di comprendere il funzionamento del nostro portale.
+     */
+    public static function getAbout() {
+        if($_SERVER["REQUEST_METHOD"] === "GET") {
+            VInformazioni::getAbout(CUtente::getUtente());
+        } else {
+            CMain::methodNotAllowed();
+        }
+    }
+
+    /**
+     * Funzione che permette di visualizare una pagina contenente i recapiti al quale poter contatatre gli amministratori in caso di problemi riscontrati nell'utilizzo della nostra applicazione.
+     */
+    public static function getHelp() {
+        if($_SERVER["REQUEST_METHOD"] === "GET") {
+            VInformazioni::getHelp(CUtente::getUtente());
+        } else {
+            CMain::methodNotAllowed();
+        }
+    }
+}

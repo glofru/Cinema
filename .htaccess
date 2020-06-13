@@ -1,4 +1,7 @@
-ErrorDocument 404 /404.html
+ErrorDocument 401 /MagicBoulevardCinema/401.html
+ErrorDocument 403 /MagicBoulevardCinema/403.html
+ErrorDocument 404 /MagicBoulevardCinema/404.html
+ErrorDocument 405 /MagicBoulevardCinema/405.html
 
 <IfModule mod_rewrite.c>
 
@@ -9,5 +12,6 @@ RewriteCond %{HTTP:X-Forwarded-Proto} !https
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule . /index.php [L]
+RewriteRule . /MagicBoulevardCinema/index.php [L]
+#RedirectMatch / /MagicBoulevardCinema/index.php
 </IfModule>
