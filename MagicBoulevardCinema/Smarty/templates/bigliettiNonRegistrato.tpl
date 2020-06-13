@@ -35,7 +35,7 @@
 </head>
 <body class="body" {if (isset($status))}onload="result('{$status}')"{/if}>
 
-{include file="{$path}Smarty/templates/header.tpl"}
+{include file="header.tpl"}
 
 {if ($isGet === true)}
 <!-- content -->
@@ -160,7 +160,7 @@
 	</div>
 	<!-- end catalog -->
 {/if}
-{include file="{$path}Smarty/templates/footer.tpl"}
+{include file="footer.tpl"}
 
 <!-- Root element of PhotoSwipe. Must have class pswp. -->
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">

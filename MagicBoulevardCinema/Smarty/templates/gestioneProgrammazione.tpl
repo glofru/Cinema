@@ -35,7 +35,7 @@
 </head>
 <body class="body" {if (isset($error))}onload="alert('{$error}')"{/if}>
 
-{include file="{$path}Smarty/templates/header.tpl"}
+{include file="header.tpl"}
 
 <!-- content -->
 <section class="content">
@@ -203,7 +203,7 @@
 </section>
 <!-- end content -->
 
-{include file="{$path}Smarty/templates/footer.tpl"}
+{include file="footer.tpl"}
 
 <!-- Root element of PhotoSwipe. Must have class pswp. -->
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">

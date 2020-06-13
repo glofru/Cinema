@@ -86,9 +86,8 @@ class CMain
 
             if(!$pass && isset($_SESSION["nonRegistrato"])){
                 CUtente::logout(false);
-
             } else if (!$pass && CUtente::isLogged()) {
-                //Check ban dal database
+                //Check ban e cambio password dal database
                 $check = FPersistentManager::getInstance()->load(CUtente::getUtente()->getId(), "id", "EUtente");
                 if ($check->isBanned()) {
                     CUtente::logout(false);

@@ -35,7 +35,7 @@
 </head>
 <body class="body">
 
-{include file="{$path}Smarty/templates/header.tpl"}
+{include file="header.tpl"}
 
 <!-- details -->
     <section class="section details">
@@ -87,7 +87,7 @@
         </div>
     </section>
 
-{include file="{$path}Smarty/templates/footer.tpl"}
+{include file="footer.tpl"}
                             <!-- JS -->
 <script>
     function erase(idFilm, idUtente) {

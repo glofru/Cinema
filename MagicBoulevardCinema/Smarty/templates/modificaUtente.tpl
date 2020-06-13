@@ -35,7 +35,7 @@
 </head>
 <body class="body" {if (!$utente->isAdmin())}onload="changing(document.getElementById('newsletter').checked)"{/if}>
 
-{include file="{$path}Smarty/templates/header.tpl"}
+{include file="header.tpl"}
 
 
 <!-- details -->
@@ -118,7 +118,7 @@
     </div>
 </section>
 
-{include file="{$path}Smarty/templates/footer.tpl"}
+{include file="footer.tpl"}
 <!-- JS -->
 <script src="{$path}Smarty/js/jquery-3.3.1.min.js"></script>
 <script src="{$path}Smarty/js/bootstrap.bundle.min.js"></script>

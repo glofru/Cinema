@@ -43,7 +43,7 @@
 </head>
 <body class="body">
 
-	{include file="{$path}Smarty/templates/header.tpl"}
+	{include file="header.tpl"}
 
 	<!-- home -->
 	<section class="home home--bg">
@@ -407,7 +407,7 @@
 	</section>
 	<!-- end partners -->
 
-{include file="{$path}Smarty/templates/footer.tpl"}
+{include file="footer.tpl"}
 
 	<!-- JS -->
 	<script src="{$path}Smarty/js/jquery-3.3.1.min.js"></script>

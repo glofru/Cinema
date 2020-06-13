@@ -35,7 +35,7 @@
 </head>
 <body class="body">
 
-	{include file="{$path}Smarty/templates/header.tpl"}
+	{include file="header.tpl"}
 
 	<!-- page title -->
 	<section class="section section--first section--bg" data-bg="Smarty/img/section/section.jpg">
@@ -249,7 +249,7 @@
 	</section>
 	<!-- end partners -->
 
-	{include file="{$path}Smarty/templates/footer.tpl"}
+	{include file="footer.tpl"}
 
 	<!-- JS -->
 	<script src="{$path}Smarty/js/jquery-3.3.1.min.js"></script>

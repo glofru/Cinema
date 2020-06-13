@@ -35,7 +35,7 @@
 </head>
 <body class="body">
 
-{include file="{$path}Smarty/templates/header.tpl"}
+{include file="header.tpl"}
 
 <!-- details -->
     <section class="section details">
@@ -130,7 +130,7 @@
         </div>
     </section>
 
-{include file="{$path}Smarty/templates/footer.tpl"}
+{include file="footer.tpl"}
                             <!-- JS -->
 <script src="{$path}Smarty/js/jquery-3.3.1.min.js"></script>
 <script src="{$path}Smarty/js/bootstrap.bundle.min.js"></script>
