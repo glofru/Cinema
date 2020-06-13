@@ -81,7 +81,7 @@
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
                         <div class="row">
-                            <form id="form" onsubmit="return validate()" action="{$path}/Admin/modificaProiezione" method="POST" class="form" enctype="multipart/form-data" style="margin: auto">
+                            <form id="form" onsubmit="return validate()" action="{$path}/MagicBoulevardCinema/Admin/modificaProiezione" method="POST" class="form" enctype="multipart/form-data" style="margin: auto">
 
                                 <!-- Proiezione -->
                                 <input type="hidden" name="proiezione" value="{$proiezione->getId()}">

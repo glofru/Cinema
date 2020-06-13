@@ -48,7 +48,7 @@
     <div class="container">
         <div class="row">
             <!-- content -->
-            <form class="form" method="POST" action="{$path}../../Utente/modifica" onsubmit="return validate()" style="width: 1000px" enctype="multipart/form-data">
+            <form class="form" method="POST" action="{$path}/MagicBoulevardCinema/Utente/modifica" onsubmit="return validate()" style="width: 1000px" enctype="multipart/form-data">
                 <div class="col-10">
                     <div class="card card--details card--series">
                         <div class="row">

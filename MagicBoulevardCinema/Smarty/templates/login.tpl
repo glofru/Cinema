@@ -41,7 +41,7 @@
 				<div class="col-12">
 					<div class="sign__content">
 						<!-- authorization form -->
-						<form action="{$path}../../Utente/login" method="POST" class="sign__form">
+						<form action="{$path}/MagicBoulevardCinema/Utente/login" method="POST" class="sign__form">
 							<a href="/" class="sign__logo">
 								<img src="{$path}../../Smarty/img/logo.svg" alt="">
 							</a>
@@ -67,9 +67,9 @@
 							
 							<button class="sign__btn" type="submit">Accedi</button>
 
-							<span class="sign__text"><a href="{$path}../../Utente/forgotPassword">Password dimenticata?</a></span>
+							<span class="sign__text"><a href="{$path}/MagicBoulevardCinema/Utente/forgotPassword">Password dimenticata?</a></span>
 
-							<span class="sign__text">Non hai un account? <a href="{$path}../../Utente/signup">Registrati!</a></span>
+							<span class="sign__text">Non hai un account? <a href="{$path}/MagicBoulevardCinema/Utente/signup">Registrati!</a></span>
 						</form>
 						<!-- end authorization form -->
 					</div>

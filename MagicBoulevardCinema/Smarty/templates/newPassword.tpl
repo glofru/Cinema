@@ -41,7 +41,7 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- authorization form -->
-                    <form action="{$path}../../Utente/newPassword" method="POST" class="sign__form">
+                    <form action="{$path}/MagicBoulevardCinema/Utente/newPassword" method="POST" class="sign__form">
                         <a href="/" class="sign__logo">
                             <img src="{$path}../../Smarty/img/logo.svg" alt="">
                         </a>

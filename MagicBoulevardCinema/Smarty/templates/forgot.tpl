@@ -41,9 +41,9 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- authorization form -->
-                    <form action="{$path}../../Utente/forgotPassword" method="POST" class="sign__form">
+                    <form action="{$path}/MagicBoulevardCinema/Utente/forgotPassword" method="POST" class="sign__form">
                         <a href="/" class="sign__logo">
-                            <img src="{$path}../../Smarty/img/logo.svg" alt="">
+                            <img src="{$path}/MagicBoulevardCinema/Smarty/img/logo.svg" alt="">
                         </a>
 
                         <div class="sign__group">
@@ -65,7 +65,7 @@
 
                         <button class="sign__btn" onclick="return validate()">Recupera</button>
 
-                        <span class="sign__text"><a href="{$path}../../Utente/login">Torna al login</a></span>
+                        <span class="sign__text"><a href="{$path}/MagicBoulevardCinema/Utente/login">Torna al login</a></span>
                     </form>
                     <!-- end authorization form -->
                 </div>

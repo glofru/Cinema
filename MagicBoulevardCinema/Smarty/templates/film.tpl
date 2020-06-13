@@ -133,7 +133,7 @@
     {if $utente->isAdmin()}
     <form action="" method="POST">
         <div class="col-12--center">
-            <a style="margin: auto;" class="header__sign-in" href="/Admin/modificaFilm/?film={$film->getId()}" role="button">
+            <a style="margin: auto;" class="header__sign-in" href="/MagicBoulevardCinema/Admin/modificaFilm/?film={$film->getId()}" role="button">
                 <span>Modifica Film</span>
             </a>
         </div>
@@ -179,7 +179,7 @@
                 <h2 class="section__title section__title--center">Sala: {$pro->getSala()->getNumeroSala()}</h2>
             </div>
                 <div class="row--center">
-                    <form id="book" class="form" action="{$path}/Acquisto/getBiglietti" method="POST">
+                    <form id="book" class="form" action="{$path}/MagicBoulevardCinema/Acquisto/getBiglietti" method="POST">
                         <table style="margin-left:auto;margin-right:auto;" id="t01">
                             {foreach $pro->getSala()->getPosti() as $fila}
                                 <tr>
@@ -204,7 +204,7 @@
         {/if}
         {if ($utente->isVisitatore())}
             <div class="col-12--center">
-                <h3 class="section__btn" style="width: 500px; cursor: default; background-image: none; box-shadow: none; display: block">Inserisci la mail dove inviare i biglietti oppure effettua prima il <a style="color: #ff55a5; position: relative" href="{$path}/Utente/login">login</a></h3>
+                <h3 class="section__btn" style="width: 500px; cursor: default; background-image: none; box-shadow: none; display: block">Inserisci la mail dove inviare i biglietti oppure effettua prima il <a style="color: #ff55a5; position: relative" href="{$path}/MagicBoulevardCinema/Utente/login">login</a></h3>
                 <input id="email" type="email" name="email" class="form__input section__btn" style="width: 350px; background-image: linear-gradient(90deg, #af55a5 0%, #ff55a5 100%)" placeholder="Email"/>
             </div>
         {/if}
@@ -284,7 +284,7 @@
                                                     </ul>
                                                     </span>
                                                 {/if}
-                                                <span class="reviews__time">da <a href="{$path}../../Utente/show/?id={$rev->getUtente()->getId()}">@{$rev->getUtente()->getUsername()}</a> il {$rev->getDataPubblicazioneString()}</span>
+                                                <span class="reviews__time">da <a href="{$path}/MagicBoulevardCinema/Utente/show/?id={$rev->getUtente()->getId()}">@{$rev->getUtente()->getUsername()}</a> il {$rev->getDataPubblicazioneString()}</span>
                                                 <span class="reviews__rating"><i class="icon ion-ios-star"></i>{$rev->getPunteggio()}</span>
                                             </div>
                                             <p class="reviews__text">{$rev->getCommento()}</p>
@@ -298,7 +298,7 @@
 
                                     </ul>
                                     {if $canView && !$utente->isAdmin()}
-                                    <form action="/Giudizio/add" class="form" method="POST">
+                                    <form action="/MagicBoulevardCinema/Giudizio/add" class="form" method="POST">
                                         <input name="titolo" type="text" class="form__input" placeholder="Titolo (max 30 caratteri)" maxlength="30">
                                         <textarea name="commento" class="form__textarea" placeholder="Recensione (max 200 caratteri)" maxlength="200"></textarea>
                                         <div class="form__slider">
@@ -335,14 +335,14 @@
                         <div class="card">
                             <div class="card__cover">
                                 <img src="{$immagini[$key]->getImmagineHTML()}" alt="">
-                                <a href="{$path}../../Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
+                                <a href="{$path}/MagicBoulevardCinema/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
                                     <i class="icon ion-ios-play"></i>
                                 </a>
                             </div>
                             <div class="card__content">
                                 <h3 class="card__title"><a href="{$path}../../Film/show/?film={$film->getId()}&autoplay=true">{$film->getNome()}</a></h3>
                                 <span class="card__category">
-										<a href="/Film/show/?film={$film->getId()}&autoplay=true">{$film->getGenere()}</a>
+										<a href="/MagicBoulevardCinema/Film/show/?film={$film->getId()}&autoplay=true">{$film->getGenere()}</a>
                                     </span>
                                 {if ($film->getVotoCritica() != '0')}
                                 <span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
@@ -489,9 +489,9 @@
         let form = $("#form");
 
         if (ban) {
-            form.attr("action", "/Admin/deleteAndBan");
+            form.attr("action", "/MagicBoulevardCinema/Admin/deleteAndBan");
         } else {
-            form.attr("action", "/Giudizio/delete");
+            form.attr("action", "/MagicBoulevardCinema/Giudizio/delete");
         }
 
         form.append("<input type='hidden' name='film' value='" + idFilm + "' />");

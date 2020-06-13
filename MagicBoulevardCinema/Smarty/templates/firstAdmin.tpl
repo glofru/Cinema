@@ -42,8 +42,8 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- registration form -->
-                    <form id="form" action="/" onsubmit="return validate()" method="POST" class="sign__form">
-                        <a href="/" class="sign__logo">
+                    <form id="form" action="/MagicBoulevardCinema/" onsubmit="return validate()" method="POST" class="sign__form">
+                        <a href="/MagicBoulevardCinema/" class="sign__logo">
                             <img src="{$path}../../Smarty/img/logo.svg" alt="">
                         </a>
                         <div class="col-12">

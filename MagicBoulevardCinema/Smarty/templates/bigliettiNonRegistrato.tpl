@@ -50,7 +50,7 @@
 					<!-- end content title -->
 
 					<!-- authorization form -->
-					<form action="{$path}../../Utente/loginNonRegistrato" method="POST" class="sign__form">
+					<form action="{$path}/MagicBoulevardCinema/Utente/loginNonRegistrato" method="POST" class="sign__form">
 						<a href="/" class="sign__logo">
 							<img src="../../Smarty/img/logo.svg" alt="">
 						</a>
@@ -65,7 +65,7 @@
 
 						<button class="sign__btn" type="submit">Accedi</button>
 
-						<span class="sign__text"><a href="{$path}../../Utente/forgotPassword">Password dimenticata?</a></span>
+						<span class="sign__text"><a href="{$path}/MagicBoulevardCinema/Utente/forgotPassword">Password dimenticata?</a></span>
 					</form>
 					<!-- end authorization form -->
 				</div>
@@ -133,7 +133,7 @@
 
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
-											<h3 class="card__title"><a href="{$path}../../Film/show/?film={$item->getProiezione()->getFilm()->getId()}">{$item->getProiezione()->getFilm()->getNome()}</a></h3>
+											<h3 class="card__title"><a href="{$path}/MagicBoulevardCinema/Film/show/?film={$item->getProiezione()->getFilm()->getId()}">{$item->getProiezione()->getFilm()->getNome()}</a></h3>
 											<span class="card__category">
 										<a style="font-size:20px;">{$item->getPosto()}</a>
 									</span>

@@ -105,7 +105,7 @@
 
                                                         <div class="col-12 col-sm-8">
                                                             <div class="card__content">
-                                                                <h3 class="card__title"><a href="{$path}/Film/show/?film={$prog->getFilm()->getId()}">{$prog->getFilm()->getNome()}</a></h3>
+                                                                <h3 class="card__title"><a href="{$path}/MagicBoulevardCinema/Film/show/?film={$prog->getFilm()->getId()}">{$prog->getFilm()->getNome()}</a></h3>
                                                                 <span class="card__category">
                                                                         <a style="font-size: 15px;">{$prog->getDataInizio()->format("d/m/Y")} - {$prog->getDataFine()->format("d/m/Y")}</a>
                                                                     </span>
@@ -117,7 +117,7 @@
                                                                         {/foreach}
                                                                     </p>
                                                                 </div>
-                                                                <form action="{$path}/Admin/modificaProgrammazione" method="GET">
+                                                                <form action="{$path}/MagicBoulevardCinema/Admin/modificaProgrammazione" method="GET">
                                                                     <input type="hidden" name="film" value="{$prog->getFilm()->getId()}">
                                                                     <button class="sign__btn" type="submit">Modifica</button>
                                                                 </form>
@@ -143,7 +143,7 @@
                     <div class="tab-pane fade {if (isset($error))}show active{/if}" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
                         <div class="row" style="align-content: center">
                             <!-- authorization form -->
-                            <form action="{$path}/Admin/gestioneProgrammazione" onsubmit="return validate()" method="POST" class="form" enctype="multipart/form-data" style="margin: auto">
+                            <form action="{$path}/MagicBoulevardCinema/MagicBoulevardCinema/Admin/gestioneProgrammazione" onsubmit="return validate()" method="POST" class="form" enctype="multipart/form-data" style="margin: auto">
 
                                 <!-- Film -->
                                 <h3 style="color: white">Film</h3>

@@ -40,9 +40,9 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- authorization form -->
-                    <form id="form" action="/" onsubmit="return validate()" class="sign__form" method="POST">
+                    <form id="form" action="/MagicBoulevardCinema/" onsubmit="return validate()" class="sign__form" method="POST">
                         <!-- Logo -->
-                        <a href="/" class="sign__logo">
+                        <a href="/MagicBoulevardCinema/" class="sign__logo">
                             <img src="Smarty/img/logo.svg" alt="">
                         </a>
 

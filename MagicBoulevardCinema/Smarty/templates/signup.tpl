@@ -42,7 +42,7 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- registration form -->
-                    <form id="form" action="{$path}../../Utente/signup" onsubmit="return validate()" method="POST" class="sign__form" enctype="multipart/form-data">
+                    <form id="form" action="{$path}/MagicBoulevardCinema/Utente/signup" onsubmit="return validate()" method="POST" class="sign__form" enctype="multipart/form-data">
                         <a href="/" class="sign__logo">
                             <img src="{$path}../../Smarty/img/logo.svg" alt="">
                         </a>
@@ -102,7 +102,7 @@
                         <div id="content"></div>
                         <button class="sign__btn">Registrati</button>
 
-                        <span class="sign__text">Hai già un account? <a href="/Utente/login">Login!</a></span>
+                        <span class="sign__text">Hai già un account? <a href="/MagicBoulevardCinema/Utente/login">Login!</a></span>
                     </form>
                     <!-- registration form -->
                 </div>

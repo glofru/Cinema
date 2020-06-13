@@ -61,7 +61,7 @@
 	<!-- end page title -->
 
 	<!-- filter -->
-	<form action="{$path}/Ricerca/cercaFilmAttributi" method="POST">
+	<form action="{$path}/MagicBoulevardCinema/Ricerca/cercaFilmAttributi" method="POST">
 	<div class="filter">
 		<div class="container">
 			<div class="row">
@@ -155,7 +155,7 @@
 							<div class="col-12 col-sm-4">
 								<div class="card__cover">
 									<img src="{$immaginiCercati[$key]->getImmagineHTML()}" alt="">
-									<a href="{$path}../../Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
+									<a href="{$path}/MagicBoulevardCinema/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
 								</div>
@@ -163,7 +163,7 @@
 
 							<div class="col-12 col-sm-8">
 								<div class="card__content">
-									<h3 class="card__title"><a href="{$path}../../Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
+									<h3 class="card__title"><a href="{$path}/MagicBoulevardCinema/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
 
 									<div class="card__wrap">
 										{if ($film->getVotoCritica() != 0)}
@@ -174,7 +174,7 @@
 
 										{if ($punteggio[$key] != 0)}
 											<span class="card__category">
-													<a href="{$path}../../Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggio[$key]}</a>
+													<a href="{$path}/MagicBoulevardCinema/Film/show/?film={$film->getId()}#acquista" >Voto utenti: {$punteggio[$key]}</a>
 												</span>
 										{/if}
 
@@ -221,12 +221,12 @@
 							<div class="card">
 								<div class="card__cover">
 									<img src="{$immaginiConsigliati[$key]->getImmagineHTML()}" alt="">
-									<a href="{$path}../../Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
+									<a href="{$path}/MagicBoulevardCinema/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
 								</div>
 								<div class="card__content">
-									<h3 class="card__title"><a href="{$path}../../Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
+									<h3 class="card__title"><a href="{$path}/MagicBoulevardCinema/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
 									<span class="card__category">
 								<a href="#">{$film->getGenere()}</a>
 							</span>

@@ -75,7 +75,7 @@
 							<div class="col-12 col-sm-4">
 								<div class="card__cover">
 									<img src="{$immaginiProssimi[$key]->getImmagineHTML()}" alt="">
-									<a href="{$path}../../Film/show/?film={$item->getId()}&autoplay=true" class="card__play">
+									<a href="{$path}/MagicBoulevardCinema/Film/show/?film={$item->getId()}&autoplay=true" class="card__play">
 										<i class="icon ion-ios-play"></i>
 									</a>
 								</div>
@@ -83,7 +83,7 @@
 
 							<div class="col-12 col-sm-8">
 								<div class="card__content">
-									<h3 class="card__title"><a href="{$path}../../Film/show/?film={$item->getId()}&autoplay=true">{$item->getNome()}</a></h3>
+									<h3 class="card__title"><a href="{$path}/MagicBoulevardCinema/Film/show/?film={$item->getId()}&autoplay=true">{$item->getNome()}</a></h3>
 									<span class="card__category">
 										<a href="{$path}../../Film/show/?film={$item->getId()}&autoplay=true">{$item->getGenere()}</a>
 									</span>
@@ -131,7 +131,7 @@
 								<div class="col-12 col-sm-4">
 									<div class="card__cover">
 										<img src="{$immaginiPassati[$i][$key]->getImmagineHTML()}" alt="">
-										<a href="{$path}../../Film/show/?film={$item->getId()}&autoplay=true" class="card__play">
+										<a href="{$path}/MagicBoulevardCinema/Film/show/?film={$item->getId()}&autoplay=true" class="card__play">
 											<i class="icon ion-ios-play"></i>
 										</a>
 									</div>
@@ -139,7 +139,7 @@
 
 								<div class="col-12 col-sm-8">
 									<div class="card__content">
-										<h3 class="card__title"><a href="{$path}../../Film/show/?film={$item->getId()}&autoplay=true">{$item->getNome()}</a></h3>
+										<h3 class="card__title"><a href="{$path}/MagicBoulevardCinema/Film/show/?film={$item->getId()}&autoplay=true">{$item->getNome()}</a></h3>
 										<span class="card__category">
 										<a href="{$path}../../Film/show/?film={$item->getId()}&autoplay=true">{$item->getGenere()}</a>
 									</span>
@@ -148,7 +148,7 @@
 											<span class="card__rate"><i class="icon ion-ios-star"></i>{$item->getVotoCritica()} &nbsp;</span>
 											{if ($punteggio[$i][$key] != '0')}
 												<span class="card__category">
-													<a href="{$path}../../Film/show/?film={$item->getId()}#acquista" >Voto utenti: {$punteggio[$i][$key]}</a>
+													<a href="{$path}/MagicBoulevardCinema/Film/show/?film={$item->getId()}#acquista" >Voto utenti: {$punteggio[$i][$key]}</a>
 												</span>
 											{/if}
 											{if ($item->getetaConsigliata() != "")}
@@ -189,7 +189,7 @@
 									<div class="col-12 col-sm-4">
 										<div class="card__cover">
 											<img src="{$immaginiApprezzati[$key]->getImmagineHTML()}" alt="">
-											<a href="{$path}../../Film/show/?film={$item->getId()}&autoplay=true" class="card__play">
+											<a href="{$path}/MagicBoulevardCinema/Film/show/?film={$item->getId()}&autoplay=true" class="card__play">
 												<i class="icon ion-ios-play"></i>
 											</a>
 										</div>
@@ -197,15 +197,15 @@
 
 									<div class="col-12 col-sm-8">
 										<div class="card__content">
-											<h3 class="card__title"><a href="{$path}../../Film/show/?film={$item->getId()}&autoplay=true">{$item->getNome()}</a></h3>
+											<h3 class="card__title"><a href="{$path}/MagicBoulevardCinema/Film/show/?film={$item->getId()}&autoplay=true">{$item->getNome()}</a></h3>
 											<span class="card__category">
-										<a href="{$path}../../Film/show/?film={$item->getId()}&autoplay=true">{$item->getGenere()}</a>
+										<a href="{$path}/MagicBoulevardCinema/Film/show/?film={$item->getId()}&autoplay=true">{$item->getGenere()}</a>
 									</span>
 
 											<div class="card__wrap">
 												<span class="card__rate"><i class="icon ion-ios-star"></i>{$item->getVotoCritica()} &nbsp;</span>
 													<span class="card__category">
-													<a href="{$path}../../Film/show/?film={$item->getId()}#acquista" >Voto utenti: {$punteggio[$item->getId()]}</a>
+													<a href="{$path}/MagicBoulevardCinema/Film/show/?film={$item->getId()}#acquista" >Voto utenti: {$punteggio[$item->getId()]}</a>
 												</span>
 												{if ($item->getetaConsigliata() != "")}
 													<ul class="card__list">
@@ -245,12 +245,12 @@
 										<div class="card">
 											<div class="card__cover">
 												<img src="{$immaginiConsigliati[$key]->getImmagineHTML()}" alt="">
-												<a href="{$path}../../Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
+												<a href="{$path}/MagicBoulevardCinema/Film/show/?film={$film->getId()}&autoplay=true" class="card__play">
 													<i class="icon ion-ios-play"></i>
 												</a>
 											</div>
 											<div class="card__content">
-												<h3 class="card__title"><a href="{$path}../../Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
+												<h3 class="card__title"><a href="{$path}/MagicBoulevardCinema/Film/show/?film={$film->getId()}">{$film->getNome()}</a></h3>
 												<span class="card__category">
 								<a href="#">{$film->getGenere()}</a>
 							</span>

@@ -40,7 +40,7 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- authorization form -->
-                    <form id="form" action="{$path}../../Admin/modificaPrezzi" class="sign__form" method="POST">
+                    <form id="form" action="{$path}/MagicBoulevardCinema/Admin/modificaPrezzi" class="sign__form" method="POST">
                         {*                        <a href="index.html" class="sign__logo">*}
                         <img src="Smarty/img/logo.svg" alt="">
                         {*                        </a>*}
@@ -110,7 +110,7 @@
                         </div>
 
                         <button id="install" class="sign__btn" type="button">Installa</button>
-                        <form action="/index.php">
+                        <form action="/MagicBoulevardCinema/">
                             <button class="sign__btn" type="submit">Annulla</button>
                         </form>
                     </form>

@@ -92,7 +92,7 @@
 								<div class="comments">
 									<ul class="comments__list">
 										{foreach $bannati as $key => $item}
-											<form action="{$path}../../Admin/gestioneUtenti" method="POST">
+											<form action="{$path}/MagicBoulevardCinema/Admin/gestioneUtenti" method="POST">
 										<li class="comments__item">
 											<div class="comments__autor">
 												<img class="comments__avatar" src="{$path}../../Smarty/img/user.png" alt="">
@@ -120,7 +120,7 @@
 					<div class="tab-pane fade {if isset($status)}show active{/if}" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
 						<div class="row" style="align-content: center">
 							<!-- reviews -->
-							<form action="{$path}../../Admin/gestioneUtenti" method="POST" style="margin: auto" class="form" style="align-content: center">
+							<form action="{$path}/MagicBoulevardCinema/Admin/gestioneUtenti" method="POST" style="margin: auto" class="form" style="align-content: center">
 								<input type="text" id="toBan" class="form__input" name="utente" style="width: 300px" placeholder="Username dell'utente da bannare">
 								<button type="submit" onclick="return control()" style="margin: auto" class="form__btn align-content-center">Banna</button>
 							</form>
