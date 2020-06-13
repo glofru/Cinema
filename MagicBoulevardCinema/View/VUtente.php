@@ -1,8 +1,24 @@
 <?php
 
-
+/**
+ * La classe Utente permette di ottenere le schermate necessarie all'utente per poter gestire il suo account, gestire i propri giudizi, vedere i bigliatti acquistati, poter effettuare il login e potersi registrare.
+ * Class VUtente
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package View
+ */
 class VUtente
 {
+    /**
+     * Funzione che permette di visualizzare il profilo di un utente.
+     * @param EUtente $utente, utente che richiede la pagina.
+     * @param bool $canModify, se l'utente sta guardando il proprio profilo allora può modificarlo.
+     * @param EMedia $propic, immagine del profilo dell'utente.
+     * @param $giudizi, insieme di alcuni dei giudizi espressi dall'utente di cui si sta visitando il profilo.
+     * @param bool $isASub, se l'utente è iscritto alla newsletter.
+     * @param string $prefs, preferenze espresse dall'utente.
+     * @throws SmartyException
+     */
     public static function show(EUtente $utente, bool $canModify, EMedia $propic, $giudizi, bool $isASub = false, string $prefs = "") {
         $smarty = StartSmarty::configuration();
 
@@ -17,7 +33,13 @@ class VUtente
         $smarty->display("user.tpl");
     }
 
-
+    /**
+     * Funzione che permette di visualizzare il form di login.
+     * @param string|null $username, username o email dell'utente.
+     * @param bool $error, se il login non ha avuto successo viene tornato un errore.
+     * @param bool|null $checked, se l'utente ha deciso di essere ricordato.
+     * @throws SmartyException
+     */
     public static function loginForm($username = null, bool $error = false, $checked = null) {
         $smarty = StartSmarty::configuration();
 
@@ -29,6 +51,17 @@ class VUtente
         $smarty->display('login.tpl');
     }
 
+    /**
+     * Funzione che permette di visualizzare la pagina dove un utente possa registrarsi.
+     * @param $generi, insieme dei possibili generi di un film.
+     * @param string|null $nome, nome dell'utente. Viene passato se l'utente ha inserito dei parametri non validi in fase di signup e viene quindi riportato alla pagina di creazione account.
+     * @param string|null $cognome, cognome dell'utente. Viene passato se l'utente ha inserito dei parametri non validi in fase di signup e viene quindi riportato alla pagina di creazione account
+     * @param string|null $username, username dell'utente. Viene passato se l'utente ha inserito dei parametri non validi in fase di signup e viene quindi riportato alla pagina di creazione account
+     * @param string|null $email, email dell'utente. Viene passato se l'utente ha inserito dei parametri non validi in fase di signup e viene quindi riportato alla pagina di creazione account
+     * @param string|null $error, se in fase di registrazione è stato riscontrato un errore viene avvisato l'utente.
+     * @param bool|null $emailExists se la mail dell'utente è già presente nel sistema.
+     * @throws SmartyException
+     */
     public static function signup($generi, string $nome = null, string $cognome = null, string $username = null, string $email = null, string $error = null, bool $emailExists = null) {
         $smarty = StartSmarty::configuration();
 
@@ -56,6 +89,13 @@ class VUtente
         $smarty->display("signup.tpl");
     }
 
+    /**
+     * Funzione che permette, ad un utente registrato, di visualizzare tutti i biglietti acquistati.
+     * @param array $biglietti, insieme dei biglietti acquistati.
+     * @param array $immagini, locandine dei film presenti.
+     * @param EUtente $utente, utente che richiede la pagina.
+     * @throws SmartyException
+     */
     public static function showBiglietti(array $biglietti, array $immagini, EUtente $utente) {
         $smarty = StartSmarty::configuration();
 
@@ -67,6 +107,12 @@ class VUtente
         $smarty->display("bigliettiAcquistati.tpl");
     }
 
+    /**
+     * Funzione che permette di visualizzare la schermata dove inserire la propria mail per poter resettare la propria password.
+     * @param string|null $username, viene restitituita la mail inserita dopo aver eseguito la richiesta.
+     * @param bool $ok, se la mail è presente realmente nel nostro DB.
+     * @throws SmartyException
+     */
     public static function forgotPassword($username = null, bool $ok = false) {
         $smarty = StartSmarty::configuration();
 
@@ -80,6 +126,12 @@ class VUtente
         $smarty->display("forgot.tpl");
     }
 
+    /**
+     * @param array $giudizi
+     * @param EUtente $utente
+     * @param EMedia $propic
+     * @throws SmartyException
+     */
     public static function showCommenti(array $giudizi, EUtente $utente, EMedia $propic) {
         $smarty = StartSmarty::configuration();
 
@@ -91,6 +143,11 @@ class VUtente
         $smarty->display("commentiUtente.tpl");
     }
 
+    /**
+     * @param string $token
+     * @param bool $error
+     * @throws SmartyException
+     */
     public static function newPassword(string $token, bool $error = false) {
         $smarty = StartSmarty::configuration();
 
@@ -101,6 +158,14 @@ class VUtente
         $smarty->display("newPassword.tpl");
     }
 
+    /**
+     * @param EUtente $utente
+     * @param bool $isGet
+     * @param string $email
+     * @param array|null $biglietti
+     * @param null $immagini
+     * @throws SmartyException
+     */
     public static function showCheckNonRegsitrato(EUtente $utente, bool $isGet, string $email = "", array $biglietti = null, $immagini = null) {
         $smarty = StartSmarty::configuration();
 
@@ -114,6 +179,14 @@ class VUtente
         $smarty->display("bigliettiNonRegistrato.tpl");
     }
 
+    /**
+     * @param EUtente $utente
+     * @param EMedia $propic
+     * @param $generi
+     * @param $isASub
+     * @param $prefs
+     * @throws SmartyException
+     */
     public static function modifica(EUtente $utente, EMedia $propic, $generi, $isASub, $prefs) {
         $smarty = StartSmarty::configuration();
 

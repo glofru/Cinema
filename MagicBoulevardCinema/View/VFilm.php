@@ -5,7 +5,7 @@
  * Class VFilm
  * @access public
  * @author Lofrumento - Di Santo - Susanna
- * @package view
+ * @package View
  */
 class VFilm
 {

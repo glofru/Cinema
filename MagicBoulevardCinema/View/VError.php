@@ -5,7 +5,7 @@
  * Class VError
  * @access public
  * @author Lofrumento - Di Santo - Susanna
- * @package view
+ * @package View
  */
 class VError
 {

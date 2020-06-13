@@ -1,8 +1,35 @@
 <?php
 
-
+/**
+ * La classe Home permette di ottenere la schermata principale del npstro sito.
+ * Class VHome
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package view
+ */
 class VHome
 {
+    /**
+     * Funzione che permette di ottenere in output i film di prossima usciti. I film in programmazione nella settimana scorsa, in questa e nella prossima. I film consigliati per l'utente.
+     * @param $filmProssimi, film in prossima uscita.
+     * @param $immaginiProssimi, locandinde dei film in prossima sucita.
+     * @param $filmConsigliati, film consigliati per l'utente.
+     * @param $immaginiConsigliati, locandinde dei film consigliati.
+     * @param $filmProgrammazione, film in programmazione questa settimana.
+     * @param $immaginiProgrammazione, locandinde dei film in programmazione questa settimana.
+     * @param $punteggioProgrammazione, media voti dei giudizi espressi dagli utenti.
+     * @param $dateProgrammazione, date nelle quali i film di questa settimana sono in proiezione.
+     * @param $filmSettimanaScorsa, film in programmazione nella settimana scorsa.
+     * @param $immaginiSettimanaScorsa, locandine dei film in programmazione la settimana scorsa.
+     * @param $punteggioSettimanaScorsa, media voti dei giudizi espressi dagli utenti sui film in programmazione la settimana scorsa.
+     * @param $dateSettimanaScorsa, date nelle quali i film della settimaan scorsa erano in proiezione.
+     * @param $filmSettimanaProssima, film in programmazione nella settimana scorsa.
+     * @param $immaginiSettimanaProssima, locandinde dei film in programmazione la settimana prossima.
+     * @param $punteggioSettimanaProssima, media voti dei giudizi espressi dagli utenti sui film in programmazione la settimana prossima.
+     * @param $dateSettimanaProssima, date nelle quali i film della settimana prossima saranno in proeizione.
+     * @param $utente, utente che richiede la pagina.
+     * @throws SmartyException
+     */
     public static function showHome($filmProssimi, $immaginiProssimi, $filmConsigliati, $immaginiConsigliati, $filmProgrammazione, $immaginiProgrammazione, $punteggioProgrammazione, $dateProgrammazione, $filmSettimanaScorsa,$immaginiSettimanaScorsa, $punteggioSettimanaScorsa, $dateSettimanaScorsa, $filmSettimanaProssima,$immaginiSettimanaProssima, $punteggioSettimanaProssima, $dateSettimanaProssima, $utente)
     {
         $smarty = StartSmarty::configuration();

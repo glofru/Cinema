@@ -550,12 +550,12 @@ class CUtente
             } elseif (EInputChecker::getInstance()->isUsername($username)) {
                 $utente = FPersistentManager::getInstance()->load($username, "username", "EUtente");
             } else {
-                VUtente::forgotPassword($username);
+                VUtente::forgotPassword($username); die;
             }
 
             if (!$utente instanceof EUtente) {
-                VUtente::forgotPassword($username);
-            } else if (!$utente->isRegistrato()){ //Utente non registrato, crea un nuovo uid come password
+                VUtente::forgotPassword($username); die;
+            } else if (!$utente->isRegistrato() && !$utente->isAdmin()){ //Utente non registrato, crea un nuovo uid come password
                 $utente->setPassword(uniqid());
                 FPersistentManager::getInstance()->updatePasswordUser($utente);
                 CMail::sendForgotMailNonRegistrato($utente);
