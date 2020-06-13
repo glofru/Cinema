@@ -42,10 +42,12 @@ CREATE TABLE Proiezione(
     `idFilm` INTEGER NOT NULL,
     FOREIGN KEY (`numerosala`)
         REFERENCES SalaFisica(`nSala`)
-    ON UPDATE CASCADE,
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
     FOREIGN KEY (`idFilm`)
         REFERENCES Film(`id`)
         ON UPDATE CASCADE
+        ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 CREATE TABLE Posti(
@@ -79,10 +81,12 @@ CREATE TABLE Biglietto (
     PRIMARY KEY (`idProiezione`,`posto`),
     FOREIGN KEY (`idUtente`)
         REFERENCES Utenti(`id`)
-    ON UPDATE CASCADE,
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
     FOREIGN KEY (`idProiezione`)
         REFERENCES Proiezione(`id`)
     ON UPDATE CASCADE
+    ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE Giudizio(
@@ -95,10 +99,12 @@ CREATE TABLE Giudizio(
     PRIMARY KEY (`idUtente`,`idFilm`),
     FOREIGN KEY (`idUtente`)
         REFERENCES Utenti(`id`)
-    ON UPDATE CASCADE,
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
     FOREIGN KEY (`idFilm`)
         REFERENCES Film(`id`)
     ON UPDATE CASCADE
+    ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE MediaUtente(
@@ -111,6 +117,7 @@ CREATE TABLE MediaUtente(
     FOREIGN KEY (`idUtente`)
         REFERENCES Utenti(`id`)
     ON UPDATE CASCADE
+    ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 CREATE TABLE MediaLocandina(
@@ -123,6 +130,7 @@ CREATE TABLE MediaLocandina(
     FOREIGN KEY (`idFilm`)
         REFERENCES Film(`id`)
     ON UPDATE CASCADE
+    ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
 
 CREATE TABLE Token(
@@ -134,6 +142,7 @@ CREATE TABLE Token(
     FOREIGN KEY (`idUtente`)
         REFERENCES Utenti(`id`)
     ON UPDATE CASCADE
+    ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE NewsLetter(
@@ -143,4 +152,5 @@ CREATE TABLE NewsLetter(
     FOREIGN KEY (`idUtente`)
         REFERENCES Utenti(`id`)
     ON UPDATE CASCADE
+    ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
