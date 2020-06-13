@@ -172,12 +172,15 @@ class CAdmin
 
         $pm     = FPersistentManager::getInstance();
 
+        $filmID     = isset($_GET["film"]) ? $_GET["film"] : $_POST["film"];
+        $film       = $pm->load($filmID, "id", "EFilm")[0];
+        $copertina  = $pm->load($filmID,"idFilm","EMediaLocandina");
+        $attori  = FPersistentManager::getInstance()->load("1", "isAttore", "EPersona");
+        $registi = FPersistentManager::getInstance()->load("1", "isRegista", "EPersona");
+
         $method = $_SERVER["REQUEST_METHOD"];
 
         if($method == "POST") {
-            $filmID = $_POST["filmId"];
-            $film   = $pm->load($filmID, "id", "EFilm")[0];
-
             try {
                 if($_POST["titolo"] !== $film->getNome()) {
                     $film->setNome($_POST["titolo"]);
@@ -261,16 +264,9 @@ class CAdmin
             }
 
             header("Location: /MagicBoulevardCinema/Film/show/?film=" . $filmID);
-        } elseif ($method == "GET") {
-            $filmID     = $_GET["film"];
-
-            $film       = $pm->load($filmID, "id", "EFilm")[0];
-            $copertina  = $pm->load($filmID,"idFilm","EMediaLocandina");
-
-            VAdmin::modificafilm($film,$copertina);
-        } else {
-            CMain::methodNotAllowed();
         }
+
+        VAdmin::modificafilm($film, $copertina, $attori, $registi);
     }
 
     public static function gestioneFilm() {
