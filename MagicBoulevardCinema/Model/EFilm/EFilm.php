@@ -95,7 +95,7 @@ class EFilm implements JsonSerializable
         $this->setDataRilascio($dataDiRilascio);
         $this->setGenere($genere);
         $this->setPaese($paese);
-        $this->setetaconsigliata($etaConsigliata);
+        $this->setEtaConsigliata($etaConsigliata);
         $this->registi = array();
         $this->attori = array();
     }
