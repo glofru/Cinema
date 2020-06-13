@@ -1,8 +1,24 @@
 <?php
 
-
+/**
+ * La classe Utente mette a disposizione tutti i metodi necessari a permettere ad un utente di poter loggare, eseguire il logout,
+ * creare un visitatore quando un utilizzatore si connette al nostro sito, visualizzare e modificare il proprio profilo,
+ * gestire i commenti espressi e poter visualizzare i biglietti acquistati.
+ * Class CUtente
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Controller
+ */
 class CUtente
 {
+    /**
+     * Funzione, accessibile sia in GET sia in POST, che esegue le seguenti funzioni:
+     *
+     * GET) Se richiesta via GET la pagina mostra il form di login. Se l'utente ha in un login precedente cliccato sul bottone 'ricordami' il nome utente o email usata pr il login
+     * viene ripreso dal cookie settato ed inserito nella pagina.
+     *
+     * POST) Se la pagina è richista via metodo POST questa prende i parametri passati e per prima cosa se l'utente ha
+     */
     public static function login() {
         if (self::isLogged()) {
             header("Location: /");
@@ -22,9 +38,14 @@ class CUtente
                 setcookie("remember", "", time() + time() - (168 * 3600),"/");
             }
             self::checkLogin($username, $password);
+        } else {
+            CMain::methodNotAllowed();
         }
     }
 
+    /**
+     *
+     */
     public static function loginNonRegistrato() {
         if(self::isLogged()){
             header("Location: /");
@@ -58,6 +79,9 @@ class CUtente
         }
     }
 
+    /**
+     *
+     */
     public static function createVisitor() {
         ini_set('session.cookie_httponly', true);
         if (session_status() == PHP_SESSION_NONE) {
@@ -68,7 +92,10 @@ class CUtente
             $_SESSION["visitatore"] = serialize(new EVisitatore());
         }
     }
-    
+
+    /**
+     * @param bool $redirect
+     */
     public static function logout($redirect = true) {
         if(isset($_COOKIE["PHPSESSID"])) {
             session_start();
@@ -82,6 +109,10 @@ class CUtente
         }
     }
 
+    /**
+     * @param $user
+     * @param $password
+     */
     private static function checkLogin($user, $password)
     {
         $pm = FPersistentManager::getInstance();
@@ -116,6 +147,9 @@ class CUtente
         }
     }
 
+    /**
+     *
+     */
     public static function show() {
         if($_SERVER['REQUEST_METHOD'] == "GET") {
             if(!isset($_GET["id"])){
@@ -161,6 +195,9 @@ class CUtente
         }
     }
 
+    /**
+     *
+     */
     public static function modifica() {
         $method = $_SERVER["REQUEST_METHOD"];
 
@@ -242,8 +279,7 @@ class CUtente
                     self::saveSession($utente);
                    header("Location: /Utente/show/?id=" . $utente->getId());
                 } catch (Exception $e) {
-                    print $e->getMessage();
-//                    VUtente::modifica($utente);
+                   VUtente::modifica($utente, FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EMediaUtente"), EGenere::getAll(), FPersistentManager::getInstance()->isASub($utente), explode(";", FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "FNewsLetter")));
                 }
             } else {
                 CMain::unauthorised();
@@ -264,6 +300,9 @@ class CUtente
         }
     }
 
+    /**
+     * @param null $utente
+     */
     public static function saveSession($utente = null) {
         ini_set('session.cookie_httponly', true);
         if(!isset($utente)) {
@@ -351,7 +390,10 @@ class CUtente
         }
     }
 
-    public static function isLogged(bool $logout = true): bool {
+    /**
+     * @return bool
+     */
+    public static function isLogged(): bool {
         if (isset($_COOKIE["PHPSESSID"])) {
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
@@ -365,6 +407,9 @@ class CUtente
         return false;
     }
 
+    /**
+     * @return mixed
+     */
     public static function getUtente() {
         if(self::isLogged()) {
             return unserialize($_SESSION["utente"]);
@@ -374,6 +419,9 @@ class CUtente
         }
     }
 
+    /**
+     *
+     */
     public static function bigliettiAcquistati() {
         if(CUtente::isLogged()) {
             $utente = self::getUtente();
@@ -396,6 +444,9 @@ class CUtente
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public static function forgotPassword() {
         if (CUtente::isLogged()) {
             header("Location: /");
@@ -455,6 +506,9 @@ class CUtente
         }
     }
 
+    /**
+     * @throws \PHPMailer\PHPMailer\Exception
+     */
     public static function newPassword() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $valueToken = $_POST["token"];
@@ -492,6 +546,9 @@ class CUtente
         }
     }
 
+    /**
+     *
+     */
     public static function showCommenti() {
         if(self::isLogged()){
             if(!self::getUtente()->isAdmin()){
@@ -506,6 +563,9 @@ class CUtente
         }
     }
 
+    /**
+     *
+     */
     public static function controlloBigliettiNonRegistrato() {
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             if(!CUtente::isLogged()){

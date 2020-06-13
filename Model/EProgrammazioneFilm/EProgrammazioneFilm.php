@@ -126,10 +126,10 @@ class EProgrammazioneFilm implements JsonSerializable
      * Funzione che, preso l'insieme delle proiezioni, restituisce una stringa contente per ogni giorno della settimana gli orari nei quali avverranno le proieizoni.
      * @return string, giorni ed orari delle proiezioni.
      */
-    public function getDateProiezioni(): string {
+    public function getDateProiezione(): string {
         $dates = [];
         foreach($this->proiezioni as $pro) {
-            array_push($dates, $pro->getDataProieizone());
+            array_push($dates, $pro->getDataProiezione());
         }
         usort($dates, "date_sort");
         $sun = "DOM:";

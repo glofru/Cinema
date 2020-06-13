@@ -1,8 +1,13 @@
 <?php
 
-
+/**
+ * Class CRicerca
+ */
 class CRicerca
 {
+    /**
+     *
+     */
     public static function cercaFilm() {
         if($_SERVER['REQUEST_METHOD']=="POST") {
             $str = $_POST["filmCercato"];
@@ -26,6 +31,9 @@ class CRicerca
         }
     }
 
+    /**
+     *
+     */
     public static function cercaFilmAttributi() {
         if($_SERVER["REQUEST_METHOD"] === "POST") {
             $genere = $_POST["genere"];

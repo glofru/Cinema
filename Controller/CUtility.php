@@ -1,13 +1,18 @@
 <?php
 
 /**
+ * La classe Utility contiene alcuni metodi sfruttati da altre classi controller per reperire alcuni oggetti utili al fine di una corretta visualizzazione della pagna.
  * Class CUtility
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Controller
  */
 class CUtility
 {
     /**
-     * @param int $size
-     * @return array
+     * Funzione che restituisce un numero variabile (size) di film in prossima uscita. Insieme a questi sono restituite anche le relative locandine.
+     * @param int $size, numero dei film di prossima uscita che si richiede.
+     * @return array, insieme di film e locandine.
      */
     public static function getProssimi(int $size) {
         $pm = FPersistentManager::getInstance();
@@ -27,11 +32,12 @@ class CUtility
     }
 
     /**
-     * @param EUtente $utente
-     * @return array
+     * Funzione che dato il cookie "preferences" indidividua i generi preferiti dall'utente e quindi un insieme di film da mostrare. Se il cookie è 'vuoto' allora viene mostrata una scelta di 6 film casuali.
+     * @param EUtente $utente, utente dal quale reperire le preferenze.
+     * @return array, insieme di film e locandine.
      */
     public static function getConsigliati(EUtente $utente) {
-        $utente->preferences(unserialize($_COOKIE["preferences"]));
+        $utente->preferences($_COOKIE["preferences"]);
         $pm = FPersistentManager::getInstance();
         $result = [];
         if($utente->getPreferences() === true) {
@@ -67,8 +73,9 @@ class CUtility
     }
 
     /**
-     * @param array $date
-     * @return array
+     * Funzione che permette, dato un intervallo di date, di ottenere tutti i film con almeno una proiezione nell'intervallo scelto.
+     * @param array $date, intervallo di date da cinsiderare.
+     * @return array, insieme di film, locandine, punteggio medio delle recensioni per ogni film e date delle proiezioni per ogni film.
      */
     public static function getProiezioni(array $date) {
         $pm = FPersistentManager::getInstance();
@@ -83,7 +90,7 @@ class CUtility
         foreach($elencoProgrammazioni->getElencoprogrammazioni() as $profilm) {
             array_push($filmProiezioni, $profilm->getFilm());
             $giu = $pm->load($profilm->getFilm()->getId(), "idFilm", "EGiudizio");
-            $temp = $profilm->getdateProiezioni();
+            $temp = $profilm->getDateProiezione();
             array_push($giudizifilm, $giu);
             array_push($dateProiezioni,$temp);
         }

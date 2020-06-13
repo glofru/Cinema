@@ -1,8 +1,20 @@
 <?php
 
-
+/**
+ * La classe Newsletter mette a disposizione dei metodi necessari per gestire l'invio di informazioni agli utenti iscritti alla newsletter.
+ * Class CNewsLetter
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Controller
+ */
 class CNewsLetter
 {
+    /**
+     * Funzione che andrebbe chiamata sfruttando un'applicazione di Cron-Jobs ma che non possiamo usare in quanto il sito non è online ma solo in un server locale.
+     * Un Cron-Job fissato per le 21:00 di ogni giovedì della settimana dovrebbe richiamare la seguente funzione per inviare a tutti gli utenti iscritti alla newsletter
+     * la programmazione della prossima settimana.
+     * @throws \PHPMailer\PHPMailer\Exception
+     */
     public static function sendNewsLetter() {
         if($_SERVER['REQUEST_METHOD']=="GET" && $_GET["token"] === "S3ndM34M41l") {
             $ns = FPersistentManager::getInstance()->loadAll("ENewsLetter");
@@ -18,6 +30,12 @@ class CNewsLetter
         }
     }
 
+    /**
+     * Funzione, da richiamare quando viene caricato un nuovo film nel sistema, che permette di individuare gli utenti iscritti alla newsletter
+     * quelli con genere prefertio quello del film appena inserito.
+     * Per ognuno viene inviata una mail con le informazioni sul nuovo film appena inserito.
+     * @throws \PHPMailer\PHPMailer\Exception
+     */
     public static function addedNewFilm() {
         if (!CUtente::isLogged() || !CUtente::getUtente()->isAdmin()) {
             CMain::forbidden();
