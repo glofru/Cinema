@@ -82,7 +82,7 @@ class FProiezione implements Foundation
      */
     public static function save(EProiezione $proiezione): bool {
         $db = FDatabase::getInstance();
-        $test = self::checkSovrapposizione($proiezione);
+        $test = self::isSovrapposto($proiezione);
 
         if ($test) {
             $db->saveToDBProiezioneEPosti($proiezione);
@@ -98,11 +98,11 @@ class FProiezione implements Foundation
      * @param EProiezione $proiezione
      * @return bool
      */
-    public static function checkSovrapposizione(EProiezione $proiezione): bool {
+    public static function isSovrapposto(EProiezione $proiezione): bool {
         $proIn = $proiezione->getDataProiezione();
         $proFin = (clone $proIn)->add($proiezione->getFilm()->getDurata());
 
-        $elencoProg = self::parseResult(FDatabase::getInstance()->checkSovrapposizioneProiezione($proiezione));
+        $elencoProg = self::parseResult(FDatabase::getInstance()->isSovrappostaProiezione($proiezione));
 
         foreach ($elencoProg->getElencoProgrammazioni() as $prog) {
             foreach ($prog->getProiezioni() as $p) {
@@ -177,9 +177,9 @@ class FProiezione implements Foundation
      * @param $row, colonna nella quale cercare il valore.
      * @return bool, esito dell'operazione.
      */
-    public static function delete($value,$row): bool {
+    public static function delete($value, $row): bool {
         $db = FDatabase::getInstance();
-        return $db->deleteFromDB(self::getClassName(),$value,$row);
+        return $db->deleteFromDB(self::getClassName(), $value, $row);
     }
 
     /**

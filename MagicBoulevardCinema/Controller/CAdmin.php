@@ -88,7 +88,7 @@ class CAdmin
             $_SESSION["idFilm"] = $film->getId();
             FPersistentManager::getInstance()->save($copertina);
             CNewsLetter::addedNewFilm();
-            header("Location: /Film/show/?film=" . $film->getId());
+            header("Location: /MagicBoulevardCinema/Film/show/?film=" . $film->getId());
         } else {
             CMain::methodNotAllowed();
         }
@@ -538,7 +538,7 @@ class CAdmin
 
             if ($erase) {
                 $pm->delete($proiezione->getId(), "id", "EProiezione");
-                header("Location: /Admin/modificaProgrammazione?film={$proiezione->getFilm()->getId()}");
+                header("Location: /MagicBoulevardCinema/Admin/modificaProgrammazione?film={$proiezione->getFilm()->getId()}");
             } else {
                 $orario = $_POST["orario"];
 

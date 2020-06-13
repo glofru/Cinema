@@ -203,7 +203,6 @@ class Installer
             if(!in_array(self::$confDB, $dir)) {
                 VError::error(0, "I diritti di scrittura in questa cartella ci impediscono di creare le configurazioni. Modificane i diritti e riprova."); die;
             }
-            header("Location: /MagicBoulevardCinema");
         } catch (PDOException $e) {
             $db->rollBack();
             VError::error(2);
@@ -225,7 +224,6 @@ class Installer
             }
         }
 
-        $db = null;
         header("Location: /MagicBoulevardCinema");
     }
 }

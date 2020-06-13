@@ -322,7 +322,7 @@ class CUtente
                     }
 
                     self::saveSession($utente);
-                   header("Location: /Utente/show/?id=" . $utente->getId());
+                   header("Location: /MagicBoulevardCinema/Utente/show/?id=" . $utente->getId());
                 } catch (Exception $e) {
                    VUtente::modifica($utente, FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EMediaUtente"), EGenere::getAll(), FPersistentManager::getInstance()->isASub($utente), explode(";", FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "FNewsLetter")));
                 }

@@ -12,7 +12,8 @@ class CMain
      */
     public static function unauthorized() {
         header("HTTP/1.1 401 Unauthorized ");
-        header("Location: /401.html");
+        header("Location: /MagicBoulevardCinema/401.html");
+        die;
     }
     /**
      * Funzione che mette a disposizione la vsiualizzazione d una pagina 403 forbidden con relativa intestazione HTTP.
@@ -20,7 +21,7 @@ class CMain
      */
     public static function forbidden() {
         header("HTTP/1.1 403 Forbidden");
-        header("Location: /403.html");
+        header("Location: /MagicBoulevardCinema/403.html");
         die;
     }
 
@@ -29,7 +30,7 @@ class CMain
      */
     public static function notFound() {
         header("HTTP/1.1 404 Not Found");
-        header("Location: /404.html");
+        header("Location: /MagicBoulevardCinema/404.html");
         die;
     }
 
@@ -38,7 +39,7 @@ class CMain
      */
     public static function methodNotAllowed() {
         header("HTTP/1.1 405 Method Not Allowed");
-        header("Location: /405.html");
+        header("Location: /MagicBoulevardCinema/405.html");
         die;
     }
 

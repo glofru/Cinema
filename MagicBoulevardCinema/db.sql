@@ -55,7 +55,8 @@ CREATE TABLE Posti(
     PRIMARY KEY (`idProiezione`,`posizione`),
     FOREIGN KEY (`idProiezione`)
         REFERENCES Proiezione(`id`)
-    ON UPDATE CASCADE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE Utenti(
