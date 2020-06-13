@@ -134,15 +134,10 @@ class CMain
                         CMain::forbidden();
                     }
 
-                    try {
-                        $controller::$function();
-                    } catch (Throwable $e) {
-                        CMain::notFound();
-                    }
-
                 } catch (ReflectionException $e) {
                    self::notFound();
                 }
+                $controller::$function();
             }
         } else {
             $api = explode("/", $path);

@@ -172,9 +172,9 @@ class EProgrammazioneFilm implements JsonSerializable
         $today = new DateTime('now');
 
         foreach($proiezionifilm->getProiezioni() as $pro) {
-            if($pro->getDataproieizone() > $today) {
+            if($pro->getDataProiezione() > $today) {
                 $result->addProiezione($pro);
-            } else if($pro->getDataproieizone() == $today){
+            } else if($pro->getDataProiezione() == $today){
                 if(strtotime($today->format('H:i')) - strtotime($pro->getDataProiezione()->format('H:i')) > 0) {
                     $result->addProiezione($pro);
                 }
