@@ -37,18 +37,18 @@ class FFilm implements Foundation
      */
     public static function associate(PDOStatement $sender, $film) {
         if ($film instanceof EFilm) {
-            $sender->bindValue(':id', NULL, PDO::PARAM_INT);
-            $sender->bindValue(':nome', $film->getNome(), PDO::PARAM_STR);
-            $sender->bindValue(':descrizione', $film->getDescrizione(), PDO::PARAM_STR);
-            $sender->bindValue(':durata', $film->getDurataString(), PDO::PARAM_STR);
-            $sender->bindValue(':trailerURL', $film->getTrailerURL(), PDO::PARAM_STR);
-            $sender->bindValue(':votoCritica', $film->getVotoCritica(), PDO::PARAM_STR);
-            $sender->bindValue(':dataRilascio', $film->getdataRilascioSQL(), PDO::PARAM_STR);
-            $sender->bindValue(':genere', $film->getGenere(), PDO::PARAM_STR);
-            $sender->bindValue(':attori', self::splitArray($film->getAttori()), PDO::PARAM_STR);
-            $sender->bindValue(':registi', self::splitArray($film->getRegisti()), PDO::PARAM_STR);
-            $sender->bindValue(':paese', $film->getPaese(), PDO::PARAM_STR);
-            $sender->bindValue(':etaConsigliata', $film->getEtaConsigliata(), PDO::PARAM_STR);
+            $sender->bindValue(':id',               NULL,                             PDO::PARAM_INT);
+            $sender->bindValue(':nome',             $film->getNome(),                       PDO::PARAM_STR);
+            $sender->bindValue(':descrizione',      $film->getDescrizione(),                PDO::PARAM_STR);
+            $sender->bindValue(':durata',           $film->getDurataString(),               PDO::PARAM_STR);
+            $sender->bindValue(':trailerURL',       $film->getTrailerURL(),                 PDO::PARAM_STR);
+            $sender->bindValue(':votoCritica',      $film->getVotoCritica(),                PDO::PARAM_STR);
+            $sender->bindValue(':dataRilascio',     $film->getdataRilascioSQL(),            PDO::PARAM_STR);
+            $sender->bindValue(':genere',           $film->getGenere(),                     PDO::PARAM_STR);
+            $sender->bindValue(':attori',           self::splitArray($film->getAttori()),   PDO::PARAM_STR);
+            $sender->bindValue(':registi',          self::splitArray($film->getRegisti()),  PDO::PARAM_STR);
+            $sender->bindValue(':paese',            $film->getPaese(),                      PDO::PARAM_STR);
+            $sender->bindValue(':etaConsigliata',   $film->getEtaConsigliata(),             PDO::PARAM_STR);
         } else {
             die("Not a film!!");
         }
@@ -84,7 +84,12 @@ class FFilm implements Foundation
 
         $temp = explode(";", $s);
         foreach ($temp as $e) {
-            array_push($return, FPersona::load($e, "id")[0]);
+            $pers = FPersona::load($e, "id");
+            $p = null;
+            if (sizeof($pers) > 0) {
+                $p = $pers[0];
+            }
+            array_push($return, $p);
         }
 
         return $return;

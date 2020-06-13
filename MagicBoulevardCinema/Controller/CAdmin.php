@@ -32,6 +32,7 @@ class CAdmin
      * necessarie a poter istanziare un nuovo Efilm.
      * Se tutti i valori passati non hanno generato eccezioni quando processate dalle entity allora il film viene aggiunto alla nostra base dati.
      * Si viene quindi portati alla pagina del nuovo film appena creato.
+     * @throws \PHPMailer\PHPMailer\Exception|SmartyException
      */
     public static function addFilm() {
         self::checkAdmin();
@@ -43,6 +44,7 @@ class CAdmin
             $registi        = FPersistentManager::getInstance()->load("1", "isRegista", "EPersona");
             VAdmin::addFilm($attori, $registi);
         } elseif ($method == "POST") {
+            //TODO
 //            Costruzione oggetto Film
             $titolo         = $_POST["titolo"];
             $descrizione    = $_POST["descrizione"];
@@ -60,7 +62,6 @@ class CAdmin
             $votoCritica    = floatval($_POST["votoCritica"]);
 
             $rilascio       = str_replace("/", "-", $_POST["dataRilascio"] == "" ? "01/01/1970" : $_POST["dataRilascio"]);
-            echo $rilascio;
             $dataRilascio   = DateTime::createFromFormat("Y-m-d", $rilascio);
 
             $paese          = $_POST["paese"];
@@ -69,6 +70,9 @@ class CAdmin
             $film           = new EFilm($titolo, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere, $paese, $etaConsigliata);
 
             foreach (FFilm::recreateArray($_POST["attori"]) as $attore) {
+                if ($attore === null) {
+
+                }
                 $film->addAttore($attore);
             }
 
@@ -249,64 +253,64 @@ class CAdmin
             try {
                 if($_POST["titolo"] !== $film->getNome()) {
                     $film->setNome($_POST["titolo"]);
-                    $pm->update($filmID,"id",$film->getNome(),"nome","EFilm");
+                    $pm->update($film->getId(),"id",$film->getNome(),"nome","EFilm");
                 }
 
                 if($_POST["descrizione"] !== $film->getDescrizione()) {
                     $film->setDescrizione($_POST["descrizione"]);
-                    $pm->update($filmID,"id",$film->getDescrizione(),"descrizione","EFilm");
+                    $pm->update($film->getId(),"id",$film->getDescrizione(),"descrizione","EFilm");
                 }
 
-                $time           = explode(":", EData::hoursandmins($_POST["durata"]));
+                if(EGenere::fromString($_POST["genere"]) !== $film->getGenere()) {
+                    $film->setGenere(EGenere::fromString($_POST["genere"]));
+                    $pm->update($film->getId(), "id", $film->getGenere(),"genere","EFilm");
+                }
+
+                $time = explode(":", EData::hoursandmins($_POST["durata"]));
                 try {
-                    $durata     = new DateInterval("PT" . $time[0] . "H" . $time[1] . "M");
+                    $durata = new DateInterval("PT" . $time[0] . "H" . $time[1] . "M");
                 } catch (Exception $e) {
                     throw new Exception("Durata non valida");
                 }
                 if($durata->h !== $film->getDurata()->h || $durata->i !== $film->getDurata()->i) {
                     $film->setDurata($durata);
-                    $pm->update($filmID,"id",$film->getDurataMinuti(),"durata","EFilm");
+                    $pm->update($film->getId(), "id", $film->getDurataString(), "durata","EFilm");
                 }
 
                 if($_POST["trailerURL"] !== $film->getTrailerURL()){
                     $film->setTrailerURL($_POST["trailerURL"]);
-                    $pm->update($filmID,"id",$film->getTrailerURL(),"trailerURL","EFilm");
+                    $pm->update($film->getId(),"id",$film->getTrailerURL(),"trailerURL","EFilm");
                 }
 
                 if(floatval($_POST["votoCritica"]) !== $film->getVotoCritica){
                     $film->setVotoCritica($_POST["votoCritica"]);
-                    $pm->update($filmID,"id",$film->getVotoCritica(),"votoCritica","EFilm");
+                    $pm->update($film->getId(),"id",$film->getVotoCritica(),"votoCritica","EFilm");
                 }
 
                 $rilascio = DateTime::createFromFormat('Y-m-d', $_POST["dataRilascio"]);
                 if($rilascio->format("Y-m-d") !== $film->getDataRilascio()->format("Y-m-d")){
                     $film->setDataRilascio($rilascio);
-                    $pm->update($filmID,"id",$film->getDataRilascioSQL(),"dataRilascio","EFilm");
-                }
-
-                if(EGenere::fromString($_POST["genere"]) !== $film->getGenere()){
-                    $film->getGenere(EGenere::fromString($_POST["genere"]));
-                    $pm->update($filmID,"id",$film->getGenere(),"genere","EFilm");
+                    $pm->update($film->getId(),"id",$film->getDataRilascioSQL(),"dataRilascio","EFilm");
                 }
 
                 if($_POST["paese"] !== $film->getPaese()){
                     $film->setPaese($_POST["paese"]);
-                    $pm->update($filmID,"id",$film->getPaese(),"paese","EFilm");
+                    $pm->update($film->getId(),"id",$film->getPaese(),"paese","EFilm");
                 }
 
                 if($_POST["etaConsigliata"] != $film->getEtaConsigliata()){
                     $film->setEtaConsigliata($_POST["etaConsigliata"]);
-                    $pm->update($filmID,"id",$film->getEtaConsigliata(),"etaConsigliata","EFilm");
+                    $pm->update($film->getId(),"id",$film->getEtaConsigliata(),"etaConsigliata","EFilm");
                 }
 
 //                if(isset($_POST["registi"])){
 //                    $registi = FFilm::recreateArray($_POST["registi"]);
-//                    $pm->update($filmID,"id",$registi,"registi","EFilm");
+//                    $pm->update($film->getId(),"id",$registi,"registi","EFilm");
 //                }
 //
 //                if(isset($_POST["attori"])){
 //                    $attori = FFilm::recreateArray($_POST["attori"]);
-//                    $pm->update($filmID,"id",$attori,"attori","EFilm");
+//                    $pm->update($film->getId(),"id",$attori,"attori","EFilm");
 //                }
 
                 if(is_uploaded_file($_FILES["locandina"])) {
@@ -401,7 +405,6 @@ class CAdmin
         }
     }
 
-    //TODO
     /**
      * Funzione accessibile solo via metodo POST permette di
      */

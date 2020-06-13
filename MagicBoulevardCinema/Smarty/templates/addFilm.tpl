@@ -247,10 +247,6 @@
             }
         });
 
-        $('#removeActor').click(function(e) {
-            console.log('we');
-        });
-
         $('#addDirector').click(function(e) {
             let directorChosen = $("#directorChosen").val();
             if (directorChosen !== "") {
@@ -288,22 +284,25 @@
     }
 
     function validateImage() {
-        var formData = new FormData();
+        let formData = new FormData();
 
-        var file = document.getElementById("choose_image").files[0];
+        let file = document.getElementById("choose_image").files[0];
 
         formData.append("Filedata", file);
-        var t = file.type.split('/').pop().toLowerCase();
-        if (t != "jpeg" && t != "jpg" && t != "png" && t != "gif") {
+
+        let t = file.type.split('/').pop().toLowerCase();
+        if (t !== "jpeg" && t !== "jpg" && t !== "png" && t !== "gif") {
             alert('Inserire un file di immagine valido!');
             document.getElementById("choose_image").value = '';
             return false;
         }
-        if (file.size > 2048000) {
+
+        if (file.size > 2*1024*1024) {
             alert('Non puoi caricare file più grandi di 2 MB');
             document.getElementById("choose_image").value = '';
             return false;
         }
+
         return true;
     }
 </script>
