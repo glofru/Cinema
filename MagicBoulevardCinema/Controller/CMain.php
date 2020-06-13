@@ -7,11 +7,16 @@
 class CMain
 {
 
+    public static function badRequest () {
+        header("HTTP/1.1 400 Bad Request");
+        header("Location: /MagicBoulevardCinema/400.html");
+        die;
+    }
     /**
      * Funzione che permette di visualizzare una pagina 401 Unauthorised, con relativa intestazione HTTP, se l'utente tenta di accedere ad una pagina per la quale non è autorizzato.
      */
     public static function unauthorized() {
-        header("HTTP/1.1 401 Unauthorized ");
+        header("HTTP/1.1 401 Unauthorized");
         header("Location: /MagicBoulevardCinema/401.html");
         die;
     }

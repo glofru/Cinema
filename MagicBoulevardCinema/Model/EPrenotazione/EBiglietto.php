@@ -32,9 +32,9 @@ class EBiglietto implements JsonSerializable
 
     /**
      * Id del biglietto.
-     * @var int
+     * @var string
      */
-    private int $id = 0;
+    private string $id;
 
     /**
      * EBiglietto constructor.
@@ -44,7 +44,7 @@ class EBiglietto implements JsonSerializable
      * @param float $costo, costo del biglietto.
      * @param int $id, id del biglietto.
      */
-    public function __construct(EProiezione $proiezione, EPosto $posto, EUtente $utente, float $costo, int $id)
+    public function __construct(EProiezione $proiezione, EPosto $posto, EUtente $utente, float $costo, string $id)
     {
         $this->setProiezione($proiezione);
         $this->setPosto($posto);
@@ -81,9 +81,9 @@ class EBiglietto implements JsonSerializable
     }
 
     /**
-     * @param int $id, id del biglietto.
+     * @param string $id, id del biglietto.
      */
-    public function setId(int $id){
+    public function setId(string $id){
         $this->id = $id;
     }
 
@@ -115,9 +115,9 @@ class EBiglietto implements JsonSerializable
     }
 
     /**
-     * @return int, id del biglietto.
+     * @return string, id del biglietto.
      */
-    public function getId(): int{
+    public function getId(): string{
         return $this->id;
     }
 

@@ -101,7 +101,7 @@ class CAcquisto
      * 6) Se l'utente è un non registrato la sessione viene terminata al termine dell'acquisto.
      */
     public static function confermaAcquisto() {
-        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $isNonRegistrato = false;
             if(!CUtente::isLogged() && isset($_SESSION["nonRegistrato"])) {
                 $isNonRegistrato = true;
@@ -158,7 +158,6 @@ class CAcquisto
                     unset($uid);
                     CUtente::logout(false);
                     header("Location: /MagicBoulevardCinema/Utente/controlloBigliettiNonRegistrato");
-                    echo "GIUSTO";
                 } else {
                     foreach ($biglietti as $b) {
                         $utente->addBiglietto($b);
@@ -166,7 +165,6 @@ class CAcquisto
                     $_SESSION["utente"] = serialize($utente);
                     CMail::sendTickets($utente, $biglietti);
                     header("Location: /MagicBoulevardCinema/Utente/bigliettiAcquistati");
-                    echo "NO";
                 }
                 die;
             }
