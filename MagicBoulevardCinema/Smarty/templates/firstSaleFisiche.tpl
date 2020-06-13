@@ -126,10 +126,9 @@
                                 <input id="disponibile3" name="disponibile3" type="checkbox" checked="checked">
                                 <label for="disponibile3">Sala disponibile</label>
                             </div>
-
                             <button class="sign__btn" type="button" onclick="removeRow(this)">Rimuovi</button>
                         </div>
-
+                        <div id="content" ></div>
                         <button class="sign__btn" onclick="addRow()" type="button">Aggiungi sala</button>
                         <button class="sign__btn" type="submit">Conferma</button>
                     </form>
@@ -239,6 +238,7 @@
 
     function removeRow (input) {
         input.parentNode.remove();
+        a -=1;
     }
 </script>
 

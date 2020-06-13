@@ -3,6 +3,13 @@
 
 class VAcquisto
 {
+    /**
+     * @param array $biglietti
+     * @param EMediaLocandina $locandina
+     * @param $utente
+     * @param float $totale
+     * @throws SmartyException
+     */
     public static function showAcquisto(array $biglietti, EMediaLocandina $locandina, $utente, float $totale) {
         $smarty = StartSmarty::configuration();
 

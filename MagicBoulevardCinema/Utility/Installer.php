@@ -36,12 +36,16 @@ class Installer
         if ($method == "GET") {
             if (!self::checkInstallDB()) {
                 setcookie('cookie_enabled', 'Hello, there!', time()+3600, "/");
+                $smarty->assign("path", $GLOBALS["path"]);
                 $smarty->display("installationDB.tpl");
             } elseif (!self::checkInstallCinema()) {
+                $smarty->assign("path", $GLOBALS["path"]);
                 $smarty->display("installationCinema.tpl");
             } elseif (!self::checkAdmin()) {
+                $smarty->assign("path", $GLOBALS["path"]);
                 $smarty->display("firstAdmin.tpl");
             } else if (!self::checkPhysical()){
+                $smarty->assign("path", $GLOBALS["path"]);
                 $smarty->display("firstSaleFisiche.tpl");
             } else {
                 CHome::showHome();
@@ -67,7 +71,7 @@ class Installer
                     die;
                 } else {
                     setcookie('cookie_enabled', '', time()-3600, '/');
-                    setcookie('js_enabled', '', time()-3600, '/');
+                    setcookie('js_enabled', '', time()-3600);
                     self::installDB($dbname, $username, $pwd, $population);
                 }
             } elseif (!self::checkInstallCinema()) {
