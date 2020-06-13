@@ -30,7 +30,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="Dmitry Volkov">
-    <title>FlixGo – Online Movies, TV Shows & Cinema HTML Template</title>
+    <title>Magic Boulevard Cinema - Dove i sogni diventano realtà</title>
 
 </head>
 <body class="body">
@@ -56,10 +56,10 @@
                             </div>
                         {/if}
 
-                        {if $ok}
+                        {if ($ok && !$error)}
                             <script>alert("Abbiamo inviato un link alla mail")</script>
                             <div class="sign__group">
-                                <span class="sign__text" style="color: red"><b>Abbiamo inviato un link alla mail</b></span>
+                                <span class="sign__text" style="color: greenyellow"><b>Abbiamo inviato un link alla mail</b></span>
                             </div>
                         {/if}
 

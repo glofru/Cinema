@@ -22,15 +22,14 @@ class CUtility
         usort($filmProssimi, array(EFilm::class, "sortByDatesFilm"));
         if (sizeof($filmProssimi) > $size) {
             $filmProssimi = array_splice($filmProssimi, 0, $size);
-            $immaginiProssimi = [];
-            foreach ($filmProssimi as $film) {
-                array_push($immaginiProssimi, $pm->load($film->getId(), "idFilm", "EMedia"));
-            }
-            $result = [];
-            array_push($result, $filmProssimi, $immaginiProssimi);
-
-            return $result;
         }
+        $immaginiProssimi = [];
+        foreach ($filmProssimi as $film) {
+            array_push($immaginiProssimi, $pm->load($film->getId(), "idFilm", "EMedia"));
+        }
+        $result = [];
+        array_push($result, $filmProssimi, $immaginiProssimi);
+        return $result;
     }
 
     /**

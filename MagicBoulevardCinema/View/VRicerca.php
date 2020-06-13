@@ -1,8 +1,29 @@
 <?php
 
-
+/**
+ * La classe Ricerca permette di ottenere una schermata con i film che corrispondoo ad i criteri di ricerca espressi dall'utente.
+ * Class VRicerca
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package View
+ */
 class VRicerca
 {
+    /**
+     * Funzione che mostra un insieme di film che corrispondono ad i criteri di ricerca espressi dall'utente.
+     * @param array $film, insieme dei film da mostrare.
+     * @param array $immaginiCercati, locandine dei film.
+     * @param array $punteggio, media voti dei giudizi espressi dall'utente per ogni film.
+     * @param array $filmConsigliati, insieme dei film consigliati per l'utente,
+     * @param array $immaginiConsigliati, locandine dei film consigliati.
+     * @param $utente, utente che richiede la pagina.
+     * @param null $genere, genere ricercato. Viene ritornato se l'utente ha usufruito dei filtri di ricerca.
+     * @param null $annoInizio, anno minimo nel quale il film deve essere stato rilasciato. Viene ritornato se l'utente ha usufruito dei filtri di ricerca.
+     * @param null $annoFine, anno massimo nel wuale il film deve essere stato rilasciato. Viene ritornato se l'utente ha usufruito dei filtri di ricerca.
+     * @param null $votoInizio, voto minimo che il film deve aver ottenuto dalla critica. Viene ritornato se l'utente ha usufruito dei filtri di ricerca.
+     * @param null $votoFine, voto massimo che il film deve aver ottenuto dalla critica. Viene ritornato se l'utente ha usufruito dei filtri di ricerca.
+     * @throws SmartyException
+     */
     public static function showResult(array $film, array $immaginiCercati, array $punteggio, array $filmConsigliati, array $immaginiConsigliati, $utente, $genere = null, $annoInizio = null, $annoFine =null, $votoInizio = null, $votoFine = null) {
         $smarty = StartSmarty::configuration();
 
