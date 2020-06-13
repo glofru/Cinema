@@ -105,7 +105,7 @@
                         <!-- Descrizione -->
                         <div class="sign__group">
                             <span class="filter__item-label">Descrizione:</span>
-                            <input class="form__input" type="text" id="descrizione" name="descrizione" value="{$film->getDescrizione()}" placeholder="Descrizione" style="width: 280px">
+                            <textarea class="form__input" type="text" id="descrizione" name="descrizione" placeholder="Descrizione" style="width: 280px; height: 200px; padding-top: 10px">{$film->getDescrizione()}</textarea>
                         </div>
 
                         <!-- Genere -->

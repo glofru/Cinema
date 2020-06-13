@@ -247,8 +247,8 @@ class CAdmin
             $film   = $pm->load($filmID, "id", "EFilm")[0];
 
             try {
-                if($_POST["nome"] !== $film->getNome()) {
-                    $film->setNome($_POST["nome"]);
+                if($_POST["titolo"] !== $film->getNome()) {
+                    $film->setNome($_POST["titolo"]);
                     $pm->update($filmID,"id",$film->getNome(),"nome","EFilm");
                 }
 
@@ -299,16 +299,16 @@ class CAdmin
                     $pm->update($filmID,"id",$film->getEtaConsigliata(),"etaConsigliata","EFilm");
                 }
 
-                if(isset($_POST["registi"])){
-                    $registi = FFilm::recreateArray($_POST["registi"]);
-                    $pm->update($filmID,"id",$registi,"registi","EFilm");
-                }
+//                if(isset($_POST["registi"])){
+//                    $registi = FFilm::recreateArray($_POST["registi"]);
+//                    $pm->update($filmID,"id",$registi,"registi","EFilm");
+//                }
+//
+//                if(isset($_POST["attori"])){
+//                    $attori = FFilm::recreateArray($_POST["attori"]);
+//                    $pm->update($filmID,"id",$attori,"attori","EFilm");
+//                }
 
-                if(isset($_POST["attori"])){
-                    $attori = FFilm::recreateArray($_POST["attori"]);
-                    $pm->update($filmID,"id",$attori,"attori","EFilm");
-                }
-                
                 if(is_uploaded_file($_FILES["locandina"])) {
                     if (EInputChecker::getInstance()->isImage($_FILES["locandina"]["type"]) && EInputChecker::getInstance()->isLight($_FILES["locandina"]["size"])) {
                         $propic     = $_FILES["locandina"];
@@ -327,8 +327,8 @@ class CAdmin
             } catch (Exception $e) {
                 print $e->getMessage();
             }
-            $tmp = "/Film/show/?film=" . $filmID . "&autoplay=true";
-            header('Location: '.$tmp);
+
+            header("Location: /MagicBoulevardCinema/Film/show/?film=" . $filmID);
         } elseif ($method == "GET") {
             $filmID     = $_GET["film"];
 
