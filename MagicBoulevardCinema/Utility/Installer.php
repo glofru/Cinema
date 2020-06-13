@@ -106,11 +106,28 @@ class Installer
             } elseif (!self::checkPhysical()){
                 $nSale = [];
                 $sale = [];
-                for($i=1;$i <= sizeof($_POST)/4;$i++) {
-                    $nSala = intval($_POST["numeroSala" . strval($i)]);
-                    $nFile = intval($_POST["file" . strval($i)]);
-                    $nPosti = intval($_POST["postiPerFila" . strval($i)]);
-                    $disponibile = boolval($_POST["disponibile" . strval($i)]);
+                $n = sizeof($_POST);
+                if(isset($_POST["numeroSala"])){
+                    $n = $n-4;
+                    $nSala = intval($_POST["numeroSala"]);
+                    $nFile = intval($_POST["file"]);
+                    $nPosti = intval($_POST["postiPerFila"]);
+                    $disponibile = boolval($_POST["disponibile"]);
+                    array_push($nSale, $nSala);
+                    try {
+                        $sala = new ESalaFisica($nSala, $nFile, $nPosti, $disponibile);
+                    } catch (Exception $e) {
+                        $smarty->assign("error", $e->getMessage());
+                        $smarty->display("firstSaleFisiche.tpl"); die;
+                    }
+                    array_push($sale, $sala);
+                }
+                for($i=1;$i <= $n/4;$i++) {
+                     $nSala = intval($_POST["numeroSala" . strval($i)]);
+                     $nFile = intval($_POST["file" . strval($i)]);
+                     $nPosti = intval($_POST["postiPerFila" . strval($i)]);
+                     $disponibile = boolval($_POST["disponibile" . strval($i)]);
+
                     if(!in_array($nSala, $nSale)){
                         array_push($nSale, $nSala);
                     } else {
@@ -121,7 +138,7 @@ class Installer
                     try {
                         $sala = new ESalaFisica($nSala, $nFile, $nPosti, $disponibile);
                     } catch (Exception $e) {
-                        $smarty->assign("error", $e);
+                        $smarty->assign("error", $e->getMessage());
                         $smarty->display("firstSaleFisiche.tpl"); die;
                     }
 
