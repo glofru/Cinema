@@ -52,7 +52,7 @@ class EProgrammazioneFilm implements JsonSerializable
     }
 
     /**
-     * @return EFilm|null, ritorna l'oggetto EFilm se settato altirmenti null.
+     * @return EFilm|null, ritorna l'oggetto EFilm se settato, altirmenti null.
      */
     public function getFilm() {
         return $this->film??null;
@@ -81,7 +81,7 @@ class EProgrammazioneFilm implements JsonSerializable
     }
 
     /**
-     * @return array, insieme degli orari nelle quali avvengono le proiezioni.
+     * @return array, insieme degli orari nei quali avvengono le proiezioni.
      */
     public function getFasceOrarie(): array {
         $fasceOrarie = [];
@@ -108,7 +108,7 @@ class EProgrammazioneFilm implements JsonSerializable
     }
 //------------- ALTRI METODI ----------------
     /**
-     * Funzione che imuove una proiezione dall'insieme.
+     * Funzione che rimuove una proiezione dall'insieme.
      * @param EProiezione $proiezione proiezione da rimuovere dall'insieme.
      * @return bool valore che indica il successo dell'operazione.
      */
@@ -163,9 +163,9 @@ class EProgrammazioneFilm implements JsonSerializable
     }
 
     /**
-     * Funzione che controlla se una programmazioneFilm contiene proiezioni che sono già state proiettate. Ritornando un array con le proiezioni che ancota non sono avvenute.
+     * Funzione che controlla se una programmazioneFilm contiene proiezioni che sono già state proiettate. Ritornando un array con le proiezioni che ancora non sono avvenute.
      * @param EProgrammazioneFilm $proiezionifilm, insieme di proiezioni che si vuole controllare.
-     * @return EProgrammazioneFilm, insieme di proieizoni non ancota avvenute.
+     * @return EProgrammazioneFilm, insieme di proieizoni non ancora avvenute.
      */
     public static function amIStillGood(EProgrammazioneFilm $proiezionifilm): EProgrammazioneFilm {
         $result = new EProgrammazioneFilm();

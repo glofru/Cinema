@@ -117,7 +117,7 @@ class ESalaVirtuale extends ESalaFisica implements JsonSerializable
     /**
      * Funzione che controlla se un posto è occupato o meno in sala.
      * @param EPosto $posto, posto che si vuole controllare.
-     * @return bool, risultato del controllo.
+     * @return bool, risultato booleano del controllo.
      */
     public function occupaPosto(EPosto $posto): bool
     {

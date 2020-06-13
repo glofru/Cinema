@@ -104,7 +104,7 @@ class EPosto implements JsonSerializable
     }
 
     /**
-     * Funzione che permette di controllare se un posto sia uguale ad un altro passato.
+     * Funzione che permette di controllare se un posto sia uguale ad un altro posto passato come parametro.
      * @param EPosto $posto, posto che si vuole confrontare.
      * @return bool, esito del confronto.
      */
