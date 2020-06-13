@@ -245,8 +245,8 @@ class CAdmin
         if($method == "POST"){
             $filmID = $_POST["filmId"];
             $film   = $pm->load($filmID, "id", "EFilm")[0];
-            try {
 
+            try {
                 if(isset($_POST["nome"])){
                     $film->setNome($_POST["nome"]);
                     $pm->update($filmID,"id",$film->getNome(),"nome","EFilm");

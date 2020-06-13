@@ -72,8 +72,8 @@
                             <!-- end card cover -->
 
                             <!-- card content -->
-                            <div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-9">
-                                <div class="card__content">
+                            <div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-9" style="padding-left: 30px">
+                                <div class="card__content" style="width: 500px">
 
                                     <div class="col-8">
                                         <h1 class="details__title">Dati utente</h1>
@@ -87,7 +87,7 @@
                                     </ul>
                                 </div>
 
-                                <div class="card__content">
+                                <div class="card__content" style="width: 500px">
 
                                     <div class="col-8">
                                         <h1 class="details__title">Cambio password</h1>

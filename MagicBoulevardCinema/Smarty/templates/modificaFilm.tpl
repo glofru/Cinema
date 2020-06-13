@@ -99,13 +99,13 @@
                         <!-- Titolo -->
                         <div class="sign__group">
                             <span class="filter__item-label">Titolo:</span>
-                            <input class="form__input" type="text" id="titolo" name="titolo" value="{$film->getNome()}" placeholder="Titolo">
+                            <input class="form__input" type="text" id="titolo" name="titolo" value="{$film->getNome()}" placeholder="Titolo" style="width: 280px">
                         </div>
 
                         <!-- Descrizione -->
                         <div class="sign__group">
                             <span class="filter__item-label">Descrizione:</span>
-                            <input class="form__input" type="text" id="descrizione" name="descrizione" value="{$film->getDescrizione()}" placeholder="Descrizione">
+                            <input class="form__input" type="text" id="descrizione" name="descrizione" value="{$film->getDescrizione()}" placeholder="Descrizione" style="width: 280px">
                         </div>
 
                         <!-- Genere -->
