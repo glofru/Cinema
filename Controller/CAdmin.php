@@ -39,34 +39,34 @@ class CAdmin
         $method = $_SERVER["REQUEST_METHOD"];
 
         if ($method == "GET") {
-            $attori = FPersistentManager::getInstance()->load("1", "isAttore", "EPersona");
-            $registi = FPersistentManager::getInstance()->load("1", "isRegista", "EPersona");
+            $attori         = FPersistentManager::getInstance()->load("1", "isAttore", "EPersona");
+            $registi        = FPersistentManager::getInstance()->load("1", "isRegista", "EPersona");
             VAdmin::addFilm($attori, $registi);
         } elseif ($method == "POST") {
 //            Costruzione oggetto Film
-            $titolo = $_POST["titolo"];
-            $descrizione = $_POST["descrizione"];
-            $genere = EGenere::fromString($_POST["genere"]);
+            $titolo         = $_POST["titolo"];
+            $descrizione    = $_POST["descrizione"];
+            $genere         = EGenere::fromString($_POST["genere"]);
 
-            $time = explode(":", EData::hoursandmins($_POST["durata"]));
-            $durata = null;
+            $time           = explode(":", EData::hoursandmins($_POST["durata"]));
+            $durata         = null;
             try {
-                $durata = new DateInterval("PT" . $time[0] . "H" . $time[1] . "M");
+                $durata     = new DateInterval("PT" . $time[0] . "H" . $time[1] . "M");
             } catch (Exception $e) {
-                $durata = new DateInterval("PT0H0M");
+                $durata     = new DateInterval("PT0H0M");
             }
 
-            $trailerURL = $_POST["trailerURL"];
-            $votoCritica = floatval($_POST["votoCritica"]);
+            $trailerURL     = $_POST["trailerURL"];
+            $votoCritica    = floatval($_POST["votoCritica"]);
 
-            $rilascio = str_replace("/", "-", $_POST["dataRilascio"] == "" ? "01/01/1970" : $_POST["dataRilascio"]);
+            $rilascio       = str_replace("/", "-", $_POST["dataRilascio"] == "" ? "01/01/1970" : $_POST["dataRilascio"]);
             echo $rilascio;
-            $dataRilascio = DateTime::createFromFormat("Y-m-d", $rilascio);
+            $dataRilascio   = DateTime::createFromFormat("Y-m-d", $rilascio);
 
-            $paese = $_POST["paese"];
+            $paese          = $_POST["paese"];
             $etaConsigliata = $_POST["etaConsigliata"];
 
-            $film = new EFilm($titolo, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere, $paese, $etaConsigliata);
+            $film           = new EFilm($titolo, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere, $paese, $etaConsigliata);
 
             foreach (FFilm::recreateArray($_POST["attori"]) as $attore) {
                 $film->addAttore($attore);
@@ -78,15 +78,15 @@ class CAdmin
 
             FPersistentManager::getInstance()->save($film);
 
-            $tempCop = $_FILES["copertina"];
-            $name = $tempCop["name"];
-            $mimeType = $tempCop["type"];
-            $time = new DateTime("now");
-            $data = file_get_contents($tempCop["tmp_name"]);
-            $data = base64_encode($data);
-            $copertina = new EMediaLocandina($name, $mimeType, $time, $data, $film);
-            FPersistentManager::getInstance()->save($copertina);
+            $tempCop            = $_FILES["copertina"];
+            $name               = $tempCop["name"];
+            $mimeType           = $tempCop["type"];
+            $time               = new DateTime("now");
+            $data               = file_get_contents($tempCop["tmp_name"]);
+            $data               = base64_encode($data);
+            $copertina          = new EMediaLocandina($name, $mimeType, $time, $data, $film);
             $_SESSION["idFilm"] = $film->getId();
+            FPersistentManager::getInstance()->save($copertina);
             CNewsLetter::addedNewFilm();
             header("Location: /Film/show/?film=" . $film->getId());
         } else {
@@ -238,13 +238,13 @@ class CAdmin
      */
     public static function modificaFilm(){
         self::checkAdmin();
-        $pm = FPersistentManager::getInstance();
+        $pm     = FPersistentManager::getInstance();
 
         $method = $_SERVER["REQUEST_METHOD"];
 
         if($method == "POST"){
             $filmID = $_POST["filmId"];
-            $film = $pm->load($filmID, "id", "EFilm")[0];
+            $film   = $pm->load($filmID, "id", "EFilm")[0];
             try {
 
                 if(isset($_POST["nome"])){
@@ -304,13 +304,13 @@ class CAdmin
                 }
                 if(is_uploaded_file($_FILES["locandina"])) {
                     if (EInputChecker::getInstance()->isImage($_FILES["locandina"]["type"]) && EInputChecker::getInstance()->isLight($_FILES["locandina"]["size"])) {
-                        $propic = $_FILES["locandina"];
-                        $name = $propic["name"];
-                        $mimeType = $propic["type"];
-                        $propic = file_get_contents($propic["tmp_name"]);
-                        $propic = base64_encode($propic);
-                        $data = new DateTime('now');
-                        $data = $data->format('Y-m-d');
+                        $propic     = $_FILES["locandina"];
+                        $name       = $propic["name"];
+                        $mimeType   = $propic["type"];
+                        $propic     = file_get_contents($propic["tmp_name"]);
+                        $propic     = base64_encode($propic);
+                        $data       = new DateTime('now');
+                        $data       = $data->format('Y-m-d');
                         FPersistentManager::getInstance()->update($film->getId(), "idFilm", $propic, "immagine", "EMediaLocandina");
                         FPersistentManager::getInstance()->update($film->getId(), "idFilm", $data, "date", "EMediaLocandina");
                         FPersistentManager::getInstance()->update($film->getId(), "idFilm", $name, "fileName", "EMediaLocandina");
@@ -323,10 +323,10 @@ class CAdmin
             $tmp = "/Film/show/?film=" . $filmID . "&autoplay=true";
             header('Location: '.$tmp);
         } elseif ($method == "GET"){
-            $filmID = $_GET["film"];
+            $filmID     = $_GET["film"];
 
-            $film = $pm->load($filmID, "id", "EFilm")[0];
-            $copertina = $pm->load($filmID,"id","EMediaLocandina");
+            $film       = $pm->load($filmID, "id", "EFilm")[0];
+            $copertina  = $pm->load($filmID,"id","EMediaLocandina");
 
             VAdmin::modificafilm($film,$copertina);
         } else {
@@ -356,7 +356,7 @@ class CAdmin
                     $disponibile = isset($_POST["sala" . strval($item->getNumeroSala())]);
                     if($item->isDisponibile() !== $disponibile) {
                         $item->setDisponibile($disponibile);
-                        $val = $disponibile ? '1' : '0';
+                        $val     = $disponibile ? '1' : '0';
                         $success = FPersistentManager::getInstance()->update($item->getNumeroSala(), "nSala", $val, "disponibile", "ESalaFisica");
                         if (!$success) {
                             VError::error(2);
@@ -367,9 +367,9 @@ class CAdmin
 
                 VAdmin::gestioneSale($sale, CUtente::getUtente(), "Operazione avvenuta con successo!");
             } else if($operation === '2') {
-                $nSala = intval($_POST["sala"]);
-                $nFile = intval($_POST["file"]);
-                $nPosti = intval($_POST["posti"]);
+                $nSala      = intval($_POST["sala"]);
+                $nFile      = intval($_POST["file"]);
+                $nPosti     = intval($_POST["posti"]);
                 $disponibile = isset($_POST["disponibile"]);
                 try{
                     $sala = new ESalaFisica($nSala, $nFile, $nPosti, $disponibile);
@@ -403,36 +403,42 @@ class CAdmin
 
         $pm = FPersistentManager::getInstance();
 
-        $films = $pm->loadAll("EFilm");
-        $sale = $pm->load(true, "disponibile", "ESala");
-        $utente = CUtente::getUtente();
-        $film = null;
-        $nSala = null;
-        $orario = null;
+        $films      = $pm->loadAll("EFilm");
+        $sale       = $pm->load(true, "disponibile", "ESala");
+        $utente     = CUtente::getUtente();
+        $film       = null;
+        $nSala      = null;
+        $orario     = null;
         $dataInizio = null;
-        $dataFine = null;
-        $error = null;
+        $dataFine   = null;
+        $error      = null;
 
         $method = $_SERVER["REQUEST_METHOD"];
         if ($method == "POST") {
-            $idFilm = $_POST["film"];
-            $nSala = $_POST["sala"];
-            $orario = $_POST["orario"];
+            $idFilm     = $_POST["film"];
+            $nSala      = $_POST["sala"];
+            $orario     = $_POST["orario"];
             $dataInizio = $_POST["dataInizio"];
-            $dataFine = $_POST["dataFine"];
+            $dataFine   = $_POST["dataFine"];
 
             $pm = FPersistentManager::getInstance();
 
-            $film = $pm->load($idFilm, "id", "EFilm")[0];
+            $film   = $pm->load($idFilm, "id", "EFilm")[0];
             $inizio = DateTime::createFromFormat('Y-m-d', $dataInizio);
-            $fine = DateTime::createFromFormat('Y-m-d', $dataFine);
+            $fine   = DateTime::createFromFormat('Y-m-d', $dataFine);
 
             if ($film === null) {
                 $error = "Film non valido";
-            } elseif ($orario !== null) {
+            } elseif ($inizio === false) {
+                $error = "Data di inizio non valida";
+            } elseif ($fine === false) {
+                $error = "Data di fine non valida";
+            } elseif ($fine->getTimestamp() > $inizio->getTimestamp()) {
+                $error = "La data di fine è prima di quella d'inizio!";
+            } else {
                 try {
-                    $Hm = explode(":", $orario);
-                    $ora = new DateInterval("PT{$Hm[0]}H{$Hm[1]}M");
+                    $Hm     = explode(":", $orario);
+                    $ora    = new DateInterval("PT{$Hm[0]}H{$Hm[1]}M");
                     $inizio->setTime(0, 0, 0);
                     $fine->setTime(0, 0, 0);
                     $inizio->add($ora);
@@ -440,18 +446,13 @@ class CAdmin
                 } catch (Exception $e) {
                     $error = "Orario non valido";
                 }
-            } elseif ($inizio === false) {
-                $error = "Data di inizio non valida";
-            } elseif ($fine === false) {
-                $error = "Data di fine non valida";
-            } elseif ($fine->getTimestamp() > $inizio->getTimestamp()) {
-                $error = "La data di fine è prima di quella d'inizio!";
             }
 
             $salaF = null;
             foreach ($sale as $s) {
                 if ($s->getNumeroSala() == $nSala && $s->isDisponibile()) {
                     $salaF = $s;
+                    break;
                 }
             }
 
@@ -462,7 +463,7 @@ class CAdmin
             if ($error === null) {
                 $programmazione = new EProgrammazioneFilm();
                 do {
-                    $salaV = ESalaVirtuale::fromSalaFisica($salaF);
+                    $salaV      = ESalaVirtuale::fromSalaFisica($salaF);
                     $proiezione = new EProiezione($film, $salaV, $inizio);
                     $inizio->modify("+1 day");
 
@@ -476,21 +477,23 @@ class CAdmin
                 } else {
                     $programmazioni = $pm->loadAll("EElencoProgrammazioni");
                     $locandine = [];
+
                     foreach($programmazioni->getElencoProgrammazioni() as $prog) {
                         array_push($locandine, $pm->load($prog->getFilm()->getId(), "idFilm", "EMedia"));
                     }
-                    $film = null;
-                    $nSala = null;
-                    $orario = null;
+
+                    $film       = null;
+                    $nSala      = null;
+                    $orario     = null;
                     $dataInizio = null;
-                    $dataFine = null;
-                    $error = null;
+                    $dataFine   = null;
+                    $error      = null;
                 }
             }
         }
 
         $programmazioni = $pm->loadAll("EElencoProgrammazioni");
-        $locandine = [];
+        $locandine      = [];
         foreach($programmazioni->getElencoProgrammazioni() as $prog) {
             array_push($locandine, $pm->load($prog->getFilm()->getId(), "idFilm", "EMedia"));
         }
@@ -504,8 +507,8 @@ class CAdmin
         $method = $_SERVER["REQUEST_METHOD"];
 
         if ($method === "GET") {
-            $idFilm = $_GET["film"];
-            $utente = CUtente::getUtente();
+            $idFilm         = $_GET["film"];
+            $utente         = CUtente::getUtente();
             $programmazione = FPersistentManager::getInstance()->load($idFilm, "idFilm", "EProgrammazione")->getElencoProgrammazioni()[0];
 
             VAdmin::modificaProgrammazione($utente, $programmazione);
@@ -515,18 +518,65 @@ class CAdmin
     public static function modificaProiezione() {
         self::checkAdmin();
 
-        $pm = FPersistentManager::getInstance();
+        $pm     = FPersistentManager::getInstance();
 
-        $films = $pm->loadAll("EFilm");
-        $sale = $pm->loadAll("ESala");
+        $films  = $pm->loadAll("EFilm");
+        $sale   = $pm->loadAll("ESala");
+        $idProiezione   = $_GET["proiezione"]??$_POST["proiezione"];
+        $proiezione     = $pm->load($idProiezione, "id", "EProiezione")->getElencoProgrammazioni()[0]->getProiezioni()[0];
+        $biglietti      = $pm->load($proiezione->getId(), "idProiezione", "EBiglietto");
+        $cambioSala     = sizeof($biglietti) == 0;
         $utente = CUtente::getUtente();
 
         $method = $_SERVER["REQUEST_METHOD"];
         if ($method === "GET") {
-            $idProiezione = $_GET["proiezione"];
-            $proiezione = $pm->load($idProiezione, "id", "EProiezione")->getElencoProgrammazioni()[0]->getProiezioni()[0];
+            VAdmin::modificaProiezione($utente, $films, $sale, $cambioSala, $proiezione);
+        } elseif ($method === "POST") {
+            $erase  = isset($_POST["erase"]);
+            $status = null;
 
-            VAdmin::modificaProiezione($utente, $films, $sale, $proiezione);
+            if ($erase) {
+                $pm->delete($proiezione->getId(), "id", "EProiezione");
+                header("Location: /Admin/modificaProgrammazione?film={$proiezione->getFilm()->getId()}");
+            } else {
+                $orario = $_POST["orario"];
+
+                if ($orario->format("H:i") !== $proiezione->getDataProiezione()->format("H:i")) {
+                    try {
+                        $Hm  = explode(":", $orario);
+                        $ora = new DateInterval("PT{$Hm[0]}H{$Hm[1]}M");
+                        $data = $proiezione->getDataProiezione()->setTime(0, 0, 0);
+                        $data->add($ora);
+
+                        $proiezione->setDataProiezione($data);
+                    } catch (Exception $e) {
+                        $status = "Orario non valido";
+                    }
+                }
+
+                if ($cambioSala) {
+                    $nSala = intval($_POST["nSala"]);
+                    
+                    if ($proiezione->getSala()->getNumeroSala() !== $nSala) {
+                        
+                        $salaF = null;
+                        foreach ($sale as $s) {
+                            if ($salaF->getNumeroSala() === $nSala) {
+                                $salaF = $s;
+                                break;
+                            }
+                        }
+
+                        if ($salaF === null) {
+                            $status = "Sala inesistente o non disponibile";
+                        } else {
+                            $salaV = ESalaVirtuale::fromSalaFisica($salaF);
+                        }
+                    }
+                }
+
+                //TODO
+            }
         }
     }
 }

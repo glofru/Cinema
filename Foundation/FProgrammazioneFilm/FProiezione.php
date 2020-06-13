@@ -95,11 +95,11 @@ class FProiezione implements Foundation
     }
 
     /**
-     * Funzione che controlla se una proieizone che si vuole inserire nel DB si sovrapponga ad una già esistente. Permette, quindi, di mantenere consistente la base dati. Ritorna un booleano con l'esito o una schermata di errore.
+     * Funzione che controlla se una proieizone che si vuole inserire nel DB si sovrapponga ad una già esistente. Permette, quindi, di mantenere consistente la base dati. Ritorna un booleano con l'esito.
      * @param EProiezione $proiezione
      * @return bool
      */
-    private static function checkSovrapposizione(EProiezione $proiezione): bool {
+    public static function checkSovrapposizione(EProiezione $proiezione): bool {
         $proIn = $proiezione->getDataProiezione();
         $proFin = (clone $proIn)->add($proiezione->getFilm()->getDurata());
 
