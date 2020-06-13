@@ -77,6 +77,9 @@
     </style>
 </head>
 <body class="body">
+
+{if isset($errore)}<script>alert("{$errore}")</script>{/if}
+
 <div class="sign section--bg" data-bg="{$path}Smarty/img/section/section.jpg">
     <div class="container">
         <div class="row">
@@ -90,6 +93,9 @@
                 <div class="sign__content">
                     <!-- authorization form -->
                     <form action="{$path}Admin/modificaFilm/?film={$film->getId()}" method="POST" class="sign__form" enctype="multipart/form-data">
+                        <input type="hidden" name="film" value="{$film->getId()}">
+
+                        <!-- Copertina -->
                         <a href="/MagicBoulevardCinema" class="sign__logo">
                             <img src="{$path}Smarty/img/logo.svg" alt="Logo">
                         </a>
@@ -176,16 +182,16 @@
                                 <li>18+</li>
                             </ul>
                         </div>
-                        <input type="hidden" name="filmId" value="{$film->getId()}">
+
                         <!-- Attori -->
                         <div class="sign__group" style="position: relative; margin-bottom: 0;">
                             <span class="filter__item-label">Attori:</span>
-                            <input id="actorChosen" list="actors" class="sign__input" value="{print_r($film->getAttori())}">
+                            <input id="actorChosen" list="actors" class="sign__input" placeholder="Attori">
                             <button id="addActor" type="button" class="sign__btn" style="position: absolute; right: 10px; bottom: 15px; width: 20px; height: 20px">+</button>
 
                             <datalist id="actors">
                                 {foreach $attori as $attore}
-                                    <option id="{$attore->getId()}" value="{$attore->getFullName()}">Ei</option>
+                                    <option id="{$attore->getId()}" value="{$attore->getFullName()}">{$attore->getFullName()} - IMDB ID: {$attore->getImdbId()}</option>
                                 {/foreach}
                             </datalist>
 
@@ -199,13 +205,13 @@
                         <!-- Registi -->
                         <div class="sign__group" style="position: relative; margin-top: 15px; margin-bottom: 0px;">
                             <span class="filter__item-label">Registi:</span>
-                            <input id="directorChosen" list="directors" class="sign__input" value="{print_r($film->getRegisti())}"
+                            <input id="directorChosen" list="directors" class="sign__input" placeholder="Registi">
                             <button id="addDirector" type="button" class="sign__btn" style="position: absolute; right: 10px; bottom: 15px; width: 20px; height: 20px">+</button>
 
                             <datalist id="directors">
                                 {foreach $registi as $regista}
-                                <option id="{$regista->getId()}" value="{$regista->getFullName()}">
-                                    {/foreach}
+                                    <option id="{$regista->getId()}" value="{$regista->getFullName()}">{$regista->getFullName()} - IMDB ID: {$regista->getImdbId()}</option>
+                                {/foreach}
                             </datalist>
 
                             <input id="registi" type="hidden" name="registi" value="">
@@ -215,7 +221,7 @@
                             </ul>
                         </div>
 
-                        <button id="submit" class="sign__btn">Applica Modifiche</button>
+                        <button id="submit" class="sign__btn" style="width: 280px">Applica Modifiche</button>
                     </form>
                     <!-- end authorization form -->
                 </div>
@@ -238,7 +244,120 @@
 <script src="{$path}Smarty/js/photoswipe-ui-default.min.js"></script>
 <script src="{$path}Smarty/js/main.js"></script>
 
+<script>
+    let actors = [];
+    let directors = [];
 
+    {foreach $film->getAttori() as $att}
+    actors.push({$att->getId()});
+    var button = $("<button type='button' name='" + {$att->getId()} + "' class='sign__btn' style='width: 20px; height: 20px; display: inline'>X</button>");
+    var list = $("#displayActors");
+    var li = $("<li id='" + {$att->getId()} + "' style=\"color: white; text-align: right\"></li>").append('{$att->getFullName()}', " ", button);
+    li.click(function(e) {
+        actors.splice(actors.indexOf($(this).attr("id")), 1);
+        $(this).remove();
+    });
+    list.append(li);
+    {/foreach}
+
+    {foreach $film->getRegisti() as $reg}
+    directors.push({$reg->getId()});
+    var button = $("<button type='button' name='" + {$reg->getId()} + "' class='sign__btn' style='width: 20px; height: 20px; display: inline'>X</button>");
+    var list = $("#displayDirectors");
+    var li = $("<li id='" + {$reg->getId()} + "' style=\"color: white; text-align: right\"></li>").append('{$reg->getFullName()}', " ", button);
+    li.click(function(e) {
+        actors.splice(actors.indexOf($(this).attr("id")), 1);
+        $(this).remove();
+    });
+    list.append(li);
+    {/foreach}
+
+    $(document).ready(function(){
+        // Aggiorna nome copertina
+        $('#choose_image').change(function(e) {
+            document.getElementById("image_name").innerText = e.target.files[0].name;
+        });
+
+        // Aggiungi attore
+        $('#addActor').click(function(e) {
+            let actorChosen = $("#actorChosen").val();
+            if (actorChosen !== "") {
+                let idActorChosen = $("#actors").find("option[value='" + actorChosen + "']").attr("id");
+
+                actors.push(idActorChosen);
+
+                $("#actorChosen").val("");
+
+                let button = $("<button type='button' name='" + idActorChosen + "' class='sign__btn' style='width: 20px; height: 20px; display: inline'>X</button>");
+                let list = $("#displayActors");
+                let li = $("<li id='" + idActorChosen + "' style=\"color: white; text-align: right\"></li>").append(actorChosen, " ", button);
+                li.click(function(e) {
+                    actors.splice(actors.indexOf($(this).attr("id")), 1);
+                    $(this).remove();
+                });
+                list.append(li);
+            }
+        });
+
+        $('#addDirector').click(function(e) {
+            let directorChosen = $("#directorChosen").val();
+            if (directorChosen !== "") {
+                let idDirectorChosen = $("#directors").find("option[value='" + directorChosen + "']").attr("id");
+
+                directors.push(idDirectorChosen);
+
+                $("#directorChosen").val("");
+
+                let button = $("<button type='button' name='" + idDirectorChosen + "' class='sign__btn' style='width: 20px; height: 20px; display: inline'>X</button>");
+                let list = $("#displayDirectors");
+                let li = $("<li id='" + idDirectorChosen + "' style=\"color: white; text-align: right\"></li>").append(directorChosen, " ", button);
+                li.click(function(e) {
+                    directors.splice(directors.indexOf($(this).attr("id")), 1);
+                    $(this).remove();
+                });
+                list.append(li);
+            }
+        });
+    });
+
+    function validate() {
+        if ($("#titolo").val() === "" ||
+            $("#descrizione").val() === "" ||
+            $("#durata").val() === "" ||
+            $("#dataRilascio").val() === "") {
+            alert("Inserisci almeno titolo, descrizione, durata e data di rilascio");
+            return false;
+        }
+
+        $('#attori').attr("value", actors.join(";"));
+        $('#registi').attr("value", directors.join(";"));
+
+        return true;
+    }
+
+    function validateImage() {
+        let formData = new FormData();
+
+        let file = document.getElementById("choose_image").files[0];
+
+        formData.append("Filedata", file);
+
+        let t = file.type.split('/').pop().toLowerCase();
+        if (t !== "jpeg" && t !== "jpg" && t !== "png" && t !== "gif") {
+            alert('Inserire un file di immagine valido!');
+            document.getElementById("choose_image").value = '';
+            return false;
+        }
+
+        if (file.size > 2*1024*1024) {
+            alert('Non puoi caricare file più grandi di 2 MB');
+            document.getElementById("choose_image").value = '';
+            return false;
+        }
+
+        return true;
+    }
+</script>
 
 </body>
 </html>

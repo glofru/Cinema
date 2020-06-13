@@ -63,7 +63,7 @@ class VAdmin
             $smarty->assign("paese", $_POST["paese"]);
             $smarty->assign("etaConsigliata", $_POST["etaConsigliata"]);
         } if ($errorePersona) {
-
+            //TODO
         }
 
         $smarty->display("gestioneFilm.tpl");
@@ -172,13 +172,16 @@ class VAdmin
      * @param $copertina, locandina del film.
      * @throws SmartyException
      */
-    public static function modificafilm(EFilm $film, $copertina){
+    public static function modificafilm(EFilm $film, $copertina, array $attori, array $registi, $errore = null){
         $smarty = StartSmarty::configuration();
 
         $smarty->assign("path", $GLOBALS["path"]);
         $smarty->assign("film", $film);
         $smarty->assign("copertina", $copertina);
+        $smarty->assign("attori", $attori);
+        $smarty->assign("registi", $registi);
         $smarty->assign("generi", EGenere::getAll());
+        $smarty->assign("errore", $errore);
 
         $smarty->display("modificaFilm.tpl");
     }
