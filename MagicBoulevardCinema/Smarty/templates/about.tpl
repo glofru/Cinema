@@ -49,7 +49,7 @@
 
 						<!-- breadcrumb -->
 						<ul class="breadcrumb">
-							<li class="breadcrumb__item"><a href="/">Home</a></li>
+							<li class="breadcrumb__item"><a href="/MagicBoulevardCinema">Home</a></li>
 							<li class="breadcrumb__item breadcrumb__item--active">Su di noi</li>
 						</ul>
 						<!-- end breadcrumb -->

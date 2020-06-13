@@ -43,7 +43,7 @@
                 <div class="sign__content">
                     <!-- registration form -->
                     <form id="form" action="{$path}/MagicBoulevardCinema/Utente/signup" onsubmit="return validate()" method="POST" class="sign__form" enctype="multipart/form-data">
-                        <a href="/" class="sign__logo">
+                        <a href="/MagicBoulevardCinema" class="sign__logo">
                             <img src="{$path}../../Smarty/img/logo.svg" alt="">
                         </a>
                         <div class="sign__group">

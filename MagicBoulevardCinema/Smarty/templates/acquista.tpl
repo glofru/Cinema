@@ -49,7 +49,7 @@
 
 						<!-- breadcrumb-->
 						<ul class="breadcrumb">
-							<li class="breadcrumb__item"><a href="/">Home</a></li>
+							<li class="breadcrumb__item"><a href="/MagicBoulevardCinema">Home</a></li>
 							<li class="breadcrumb__item"><a href="{$path}/MagicBoulevardCinema/Film/show/?film={$biglietti[0]->getProiezione()->getFilm()->getId()}&autoplay=true">Film</a></li>
 							<li class="breadcrumb__item breadcrumb__item--active">Acquisto Biglietto</li>
 						</ul>

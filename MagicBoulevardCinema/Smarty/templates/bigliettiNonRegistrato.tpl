@@ -51,7 +51,7 @@
 
 					<!-- authorization form -->
 					<form action="{$path}/MagicBoulevardCinema/Utente/loginNonRegistrato" method="POST" class="sign__form">
-						<a href="/" class="sign__logo">
+						<a href="/MagicBoulevardCinema" class="sign__logo">
 							<img src="../../Smarty/img/logo.svg" alt="">
 						</a>
 
@@ -86,7 +86,7 @@
 
 						<!-- breadcrumb-->
 						<ul class="breadcrumb">
-							<li class="breadcrumb__item"><a href="/">Home</a></li>
+							<li class="breadcrumb__item"><a href="/MagicBoulevardCinema">Home</a></li>
 							<li class="breadcrumb"><a href="">I miei biglietti</a></li>
 						</ul>
 						<!-- end breadcrumb -->

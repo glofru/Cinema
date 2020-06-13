@@ -42,7 +42,7 @@
                 <div class="sign__content">
                     <!-- authorization form -->
                     <form action="{$path}/MagicBoulevardCinema/Utente/newPassword" method="POST" class="sign__form">
-                        <a href="/" class="sign__logo">
+                        <a href="/MagicBoulevardCinema" class="sign__logo">
                             <img src="{$path}../../Smarty/img/logo.svg" alt="">
                         </a>
 
