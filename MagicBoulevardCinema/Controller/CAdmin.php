@@ -398,34 +398,35 @@ class CAdmin
     /**
      * Funzione accessibile solo via metodo POST permette di
      */
-    public static function gestioneProgrammazione() {
+    public static function gestioneProgrammazione()
+    {
         self::checkAdmin();
 
         $pm = FPersistentManager::getInstance();
 
-        $films      = $pm->loadAll("EFilm");
-        $sale       = $pm->load(true, "disponibile", "ESala");
-        $utente     = CUtente::getUtente();
-        $film       = null;
-        $nSala      = null;
-        $orario     = null;
+        $films = $pm->loadAll("EFilm");
+        $sale = $pm->load(true, "disponibile", "ESala");
+        $utente = CUtente::getUtente();
+        $film = null;
+        $nSala = null;
+        $orario = null;
         $dataInizio = null;
-        $dataFine   = null;
-        $error      = null;
+        $dataFine = null;
+        $error = null;
 
         $method = $_SERVER["REQUEST_METHOD"];
         if ($method == "POST") {
-            $idFilm     = $_POST["film"];
-            $nSala      = $_POST["sala"];
-            $orario     = $_POST["orario"];
+            $idFilm = $_POST["film"];
+            $nSala = $_POST["sala"];
+            $orario = $_POST["orario"];
             $dataInizio = $_POST["dataInizio"];
-            $dataFine   = $_POST["dataFine"];
+            $dataFine = $_POST["dataFine"];
 
             $pm = FPersistentManager::getInstance();
 
-            $film   = $pm->load($idFilm, "id", "EFilm")[0];
+            $film = $pm->load($idFilm, "id", "EFilm")[0];
             $inizio = DateTime::createFromFormat('Y-m-d', $dataInizio);
-            $fine   = DateTime::createFromFormat('Y-m-d', $dataFine);
+            $fine = DateTime::createFromFormat('Y-m-d', $dataFine);
 
             if ($film === null) {
                 $error = "Film non valido";
@@ -433,12 +434,12 @@ class CAdmin
                 $error = "Data di inizio non valida";
             } elseif ($fine === false) {
                 $error = "Data di fine non valida";
-            } elseif ($fine->getTimestamp() > $inizio->getTimestamp()) {
+            } elseif ($inizio->getTimestamp() > $fine->getTimestamp()) {
                 $error = "La data di fine è prima di quella d'inizio!";
             } else {
                 try {
-                    $Hm     = explode(":", $orario);
-                    $ora    = new DateInterval("PT{$Hm[0]}H{$Hm[1]}M");
+                    $Hm = explode(":", $orario);
+                    $ora = new DateInterval("PT{$Hm[0]}H{$Hm[1]}M");
                     $inizio->setTime(0, 0, 0);
                     $fine->setTime(0, 0, 0);
                     $inizio->add($ora);
@@ -447,7 +448,6 @@ class CAdmin
                     $error = "Orario non valido";
                 }
             }
-
             $salaF = null;
             foreach ($sale as $s) {
                 if ($s->getNumeroSala() == $nSala && $s->isDisponibile()) {
@@ -463,7 +463,7 @@ class CAdmin
             if ($error === null) {
                 $programmazione = new EProgrammazioneFilm();
                 do {
-                    $salaV      = ESalaVirtuale::fromSalaFisica($salaF);
+                    $salaV = ESalaVirtuale::fromSalaFisica($salaF);
                     $proiezione = new EProiezione($film, $salaV, $inizio);
                     $inizio->modify("+1 day");
 
@@ -471,34 +471,35 @@ class CAdmin
                 } while ($inizio->getTimestamp() <= $fine->getTimestamp());
 
                 $result = $pm->saveProgrammazione($programmazione);
-
                 if (!$result) {
                     $error = "La programmazione si sovrappone con altre già esistenti";
                 } else {
                     $programmazioni = $pm->loadAll("EElencoProgrammazioni");
                     $locandine = [];
 
-                    foreach($programmazioni->getElencoProgrammazioni() as $prog) {
+                    foreach ($programmazioni->getElencoProgrammazioni() as $prog) {
                         array_push($locandine, $pm->load($prog->getFilm()->getId(), "idFilm", "EMedia"));
                     }
 
-                    $film       = null;
-                    $nSala      = null;
-                    $orario     = null;
+                    $film = null;
+                    $nSala = null;
+                    $orario = null;
                     $dataInizio = null;
-                    $dataFine   = null;
-                    $error      = null;
+                    $dataFine = null;
+                    $error = null;
                 }
             }
         }
+            $programmazioni = $pm->loadAll("EElencoProgrammazioni");
+            $locandine = [];
 
-        $programmazioni = $pm->loadAll("EElencoProgrammazioni");
-        $locandine      = [];
-        foreach($programmazioni->getElencoProgrammazioni() as $prog) {
-            array_push($locandine, $pm->load($prog->getFilm()->getId(), "idFilm", "EMedia"));
-        }
+            foreach ($programmazioni->getElencoProgrammazioni() as $prog) {
+                array_push($locandine, $pm->load($prog->getFilm()->getId(), "idFilm", "EMedia"));
+            }
 
-        VAdmin::gestioneProgrammazione($utente, $films, $sale, $programmazioni, $locandine, $film, $nSala, $orario, $dataInizio, $dataFine, $error);
+            VAdmin::gestioneProgrammazione($utente, $films, $sale, $programmazioni, $locandine, $film, $nSala, $orario, $dataInizio, $dataFine, $error);
+
+
     }
 
     public static function modificaProgrammazione() {
