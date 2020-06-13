@@ -8,7 +8,7 @@ class CNewsLetter
             $ns = FPersistentManager::getInstance()->loadAll("ENewsLetter");
             if(sizeof($ns->getListaUtenticonPreferenze()[0]) > 0) {
                 $date = EData::getSettimanaProssima();
-                $results = CHome::getProiezioni($date);
+                $results = CUtility::getProiezioni($date);
                 foreach ($ns->getListaUtenticonPreferenze()[0] as $utente) {
                     CMail::newsLetter($utente, $date, $results);
                 }

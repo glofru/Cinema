@@ -17,7 +17,7 @@ class CRicerca
                 array_push($data, [], []);
             }
             $utente = CUtente::getUtente();
-            $consigliati = CHome::getConsigliati($utente);
+            $consigliati = CUtility::getConsigliati($utente);
 
             VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente);
         }
@@ -48,7 +48,7 @@ class CRicerca
             $data = self::getFilmData($film);
 
             $utente = CUtente::getUtente();
-            $consigliati = CHome::getConsigliati($utente);
+            $consigliati = CUtility::getConsigliati($utente);
 
 
             VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, $genere, $annoI, $annoF, $votoInizio, $votoFine);

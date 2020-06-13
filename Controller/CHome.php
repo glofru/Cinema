@@ -1,107 +1,29 @@
 <?php
+
+/**
+ * La classe Home contiene un metodo necessario a poter reperire tutti gli oggetti necessari (film, locandine e proiezioni) a dover essere visualizzati nella nostra pagina principale.
+ * Class CHome
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Controller
+ */
 class CHome
 {
-
+    /**
+     * Funzione che, accessibile solo tramite metodo GET, permette di reperire film proiezioni e locandine. Vengono, quindi, recuperati alcuni film di prossima uscita,
+     * film che sono stati proiettati nella settimana scora, in questa, e saranno proiettati nella prossima settimana, ed i film consigliati sulla base delle visite effettuate dall'utente.
+     */
     public static function showHome() {
         if($_SERVER["REQUEST_METHOD"] === "GET"){
             $utente = CUtente::getUtente();
-            $prossimi = self::getProssimi(5);
-            $consigliati = self::getConsigliati($utente);
-            $proiezioni = self::getProiezioni(EData::getSettimana());
-            $prossima = self::getProiezioni(EData::getSettimanaProssima());
-            $scorsa = self::getProiezioni(EData::getSettimanaScorsa(1));
+            $prossimi = CUtility::getProssimi(5);
+            $consigliati = CUtility::getConsigliati($utente);
+            $proiezioni = CUtility::getProiezioni(EData::getSettimana());
+            $prossima = CUtility::getProiezioni(EData::getSettimanaProssima());
+            $scorsa = CUtility::getProiezioni(EData::getSettimanaScorsa(1));
             VHome::showHome($prossimi[0], $prossimi[1], $consigliati[0], $consigliati[1], $proiezioni[0], $proiezioni[1], $proiezioni[2], $proiezioni[3], $scorsa[0], $scorsa[1], $scorsa[2], $scorsa[3], $prossima[0], $prossima[1], $prossima[2], $prossima[3], $utente);
         } else {
             CMain::methodNotAllowed();
         }
     }
-
-    public static function getProssimi(int $size) {
-        $pm = FPersistentManager::getInstance();
-        $date = EData::getDateProssime();
-        $filmProssimi = $pm->loadBetween($date[0], $date[1],"EFilm");
-        if(sizeof($filmProssimi) > $size) {
-            array_splice($filmProssimi, 0, $size);
-        }
-        usort($filmProssimi, array(EFilm::class, "sortByDatesFilm"));
-        $immaginiProssimi = [];
-        foreach($filmProssimi as $film) {
-            array_push($immaginiProssimi, $pm->load($film->getId(), "idFilm", "EMedia"));
-        }
-        $result = [];
-        array_push($result, $filmProssimi, $immaginiProssimi);
-        return $result;
-    }
-
-    public static function getConsigliati(EUtente $utente) {
-        $utente->preferences(unserialize($_COOKIE["preferences"]));
-        $pm = FPersistentManager::getInstance();
-        $result = [];
-        if($utente->getPreferences() === true) {
-            $date = EData::getDatePassate();
-            $filmConsigliati = $pm->loadBetween($date[1], $date[0], "EFilm");
-            shuffle($filmConsigliati);
-            if(sizeof($filmConsigliati) > 6) {
-                $filmConsigliati = array_slice($filmConsigliati, 0, 6);
-            }
-        }
-        else {
-            $filmConsigliati = [];
-            $cookie = $utente->getPreferences();
-            foreach($cookie as $key => $c) {
-                if($c !== 0) {
-                    $f = $pm->load($key, "Genere", "EFilm");
-                    shuffle($f);
-                    if(sizeof($f) > $c) {
-                        $f = array_slice($f, 0,$c);
-                    }
-                    foreach($f as $elem) {
-                        array_push($filmConsigliati, $elem);
-                    }
-                }
-            }
-        }
-        $immaginiConsigliati = [];
-        foreach($filmConsigliati as $film) {
-            array_push($immaginiConsigliati, $pm->load($film->getId(), "idFilm", "EMedia"));
-        }
-        array_push($result, $filmConsigliati, $immaginiConsigliati);
-        return $result;
-    }
-
-    public static function getProiezioni(array $date) {
-        $pm = FPersistentManager::getInstance();
-        $elencoProgrammazioni = $pm->loadBetween($date[0], $date[1], "EProiezione");
-
-        $filmProiezioni = [];
-        $immaginiProiezioni = [];
-        $giudizifilm = [];
-        $dateProiezioni = [];
-        $punteggio = [];
-
-        foreach($elencoProgrammazioni->getElencoprogrammazioni() as $profilm) {
-            array_push($filmProiezioni, $profilm->getFilm());
-            $giu = $pm->load($profilm->getFilm()->getId(), "idFilm", "EGiudizio");
-            $temp = $profilm->getdateProiezioni();
-            array_push($giudizifilm, $giu);
-            array_push($dateProiezioni,$temp);
-        }
-        
-        foreach($giudizifilm as $g) {
-            if(sizeof($g) > 0) {
-                $p = EGiudizio::getMedia($g);
-            }
-            else {
-                $p = 0;
-            }
-            array_push($punteggio, $p);
-        }
-        foreach($filmProiezioni as $film) {
-            array_push($immaginiProiezioni, $pm->load($film->getId(), "idFilm", "EMedia"));
-        }
-        $result = [];
-        array_push($result, $filmProiezioni, $immaginiProiezioni, $punteggio, $dateProiezioni);
-        return $result;
-    }
 }
-?>

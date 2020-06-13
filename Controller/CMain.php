@@ -1,7 +1,23 @@
 <?php
 
+/**
+ * La classe Main o FrontController dispone di metodi necessari alla corretta gestione di tutte le richieste effettuate sul nsotro sito. Ad ogni richiesta di una pagina viene interpellato al fine di ottenere il risultato atteso.
+ * Class CMain
+ */
 class CMain
 {
+
+    /**
+     *
+     */
+    public static function unauthorised() {
+        header("HTTP/1.1 401 Unauthorized ");
+        header("Location: /401.html");
+    }
+    /**
+     * Funzione che mette a disposizione la vsiualizzazione d una pagina 403 forbidden con relativa intestazione HTTP.
+     * Da richiamare se l'utente accede ad una pagina riservata ad utilizzo interno dei gestori.
+     */
     public static function forbidden() {
         header("HTTP/1.1 403 Forbidden");
         header("Location: /403.html");
@@ -69,13 +85,18 @@ class CMain
                     CMain::notFound();
                 }
 
+                if($class->getName() === "CUtility"){
+                    CMain::forbidden();
+                }
+
+
                 $function = $res[1];
 
                 try {
                     $reflection = $class->getMethod($function);
                         
                     if(!$reflection->isPublic()){
-                        VError::error(0, "Accesso negato!");
+                        CMain::forbidden();
                     }
 
                     try {

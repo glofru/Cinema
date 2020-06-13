@@ -1,9 +1,22 @@
 <?php
+
+/**
+ * La classe Giudizio contiene i metodo necessari a poter aggiungere e cancellare un giudizio espresso da un utente Registrato.
+ * Class CGiudizio
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Controller
+ */
 class CGiudizio{
+    /**
+     *Funzione, accessibile solo tramite metodo POST, che permette di poter creare un oggetto giudizio, aggiungerlo alla lista dei giudizi espressi dall'utente e salvare l'oggetto nel DB.
+     * Solo un utente registrato può esrimere un giudizio!
+     */
     public static function add() {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
             if (!CUtente::isLogged()) {
-                CMain::forbidden();
+                CMain::unauthorised();
             }
 
             $utente = CUtente::getUtente();
@@ -33,6 +46,11 @@ class CGiudizio{
         }
     }
 
+    /**
+     * Funzione che permette di cancellare un giudizio espresso da un utente Registrato. Questo viene eliminato dall'insieme dei giudizi espresso dall'utente e rimosso dalla persistenza.
+     * Questa funzione è accessibile solo attraverso due pagine (pagina dle film e pagina dei commenti dell'utente).
+     * Si viene, quindi, reindirizzati alla pagina dalla quale è stata effettuata la richiesta di eliminazione.
+     */
     public static function delete() {
         if(CUtente::isLogged()) {
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -53,7 +71,7 @@ class CGiudizio{
                 CMain::methodNotAllowed();
             }
         } else {
-            CMain::forbidden();
+            CMain::unauthorised();
         }
     }
 }

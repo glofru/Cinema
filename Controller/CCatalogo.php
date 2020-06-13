@@ -15,8 +15,8 @@ class CCatalogo
     public static function prossimeUscite() {
         if($_SERVER["REQUEST_METHOD"] === "GET") {
             $utente = CUtente::getUtente();
-            $result = CHome::getProssimi(20);
-            $consigliati = CHome::getConsigliati($utente);
+            $result = CUtility::getProssimi(20);
+            $consigliati = CUtility::getConsigliati($utente);
             VCatalogo::prossimeUscite($result, $utente, $consigliati);
         } else {
             CMain::methodNotAllowed();
@@ -29,7 +29,7 @@ class CCatalogo
     public static function programmazioniPassate() {
         if($_SERVER["REQUEST_METHOD"] === "GET") {
             $utente = CUtente::getUtente();
-            $consigliati = CHome::getConsigliati($utente);
+            $consigliati = CUtility::getConsigliati($utente);
             $film = [];
             $immagini = [];
             $punteggio = [];
@@ -40,7 +40,7 @@ class CCatalogo
                 $values = [];
                 array_push($values, DateTime::createFromFormat('Y-m-d', $temp[0]), DateTime::createFromFormat('Y-m-d', $temp[1]));
                 array_push($toShow, "Settimana dal " . $values[0]->format('d-m-y') . " al " . $values[1]->format('d-m-y'));
-                $temp = CHome::getProiezioni($temp);
+                $temp = CUtility::getProiezioni($temp);
                 array_push($film, $temp[0]);
                 array_push($immagini, $temp[1]);
                 array_push($punteggio, $temp[2]);
@@ -59,7 +59,7 @@ class CCatalogo
         if($_SERVER["REQUEST_METHOD"]) {
             $utente = CUtente::getUtente();
 
-            $consigliati = CHome::getConsigliati($utente);
+            $consigliati = CUtility::getConsigliati($utente);
             $oggi = EData::getDateProssime();
             $film = FPersistentManager::getInstance()->loadBetween('0000-00-00', $oggi[0], "EFilm");
 

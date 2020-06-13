@@ -18,7 +18,7 @@ class CAdmin
      */
     private static function checkAdmin() {
         if(!CUtente::isLogged() || !CUtente::getUtente()->isAdmin()) {
-            CMain::forbidden();
+            CMain::unauthorised();
         }
     }
 
