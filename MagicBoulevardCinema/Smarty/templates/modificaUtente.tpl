@@ -33,7 +33,7 @@
     <title>Magic Boulevard Cinema - Dove i sogni diventano realtà</title>
 
 </head>
-<body class="body" {if (!$utente->isAdmin())}onload="changing(document.getElementById('newsletter').checked)"{/if} {if isset($errore)}onload="alert('{$errore}')"{/if}>
+<body class="body" {if (!$utente->isAdmin())}onload="changing(document.getElementById('newsletter').checked, '{$errore}')"{/if}>
 
 {include file="header.tpl"}
 
@@ -136,7 +136,7 @@
 <script src="{$path}Smarty/js/main.js"></script>
 
 <script>
-    function changing(me){
+    function changing(me, str){
         if(me === true){
             document.querySelector('#content').insertAdjacentHTML(
                 'beforebegin',
@@ -158,6 +158,9 @@
             )
         } else {
             document.getElementById("checklist").remove();
+        }
+        if(str !== ""){
+            alert(str);
         }
     }
     $(document).ready(function() {
