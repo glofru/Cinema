@@ -221,7 +221,7 @@ INSERT INTO `Proiezione`(`id`, `data`, `ora`, `numerosala`, `idFilm`) VALUES
 (103, '2020-06-20', '22:00:00', 3, 3),
 (104, '2020-06-21', '22:00:00', 3, 3);
 
-INSERT INTO `posti` (`idProiezione`, `posizione`, `occupato`) VALUES
+INSERT INTO `Posti` (`idProiezione`, `posizione`, `occupato`) VALUES
 (85, 'A_1', 0),
 (85, 'A_2', 0),
 (85, 'A_3', 0),
