@@ -74,7 +74,6 @@ class CUtente
                 } else if ($utente->isRegistrato()) {
                     VError::error(0, "Pagina destinata ad utenti non Registrati");
                 } else {
-                    print "WE";die;
                     foreach (FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EBiglietto") as $b) {
                         $utente->addBiglietto($b);
                     }

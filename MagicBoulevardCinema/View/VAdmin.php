@@ -189,11 +189,14 @@ class VAdmin
         $smarty->display("modificaFilm.tpl");
     }
 
-    public static function modificaPersona(EPersona $persona, $errore = null){
+    public static function modificaPersona(EUtente $utente, EPersona $persona, $errore = null){
         $smarty = StartSmarty::configuration();
 
-        $smarty->assign("persona", $persona);
-        $smarty->assign("errore", $errore);
+        $smarty->assign("path",         $GLOBALS["path"]);
+        $smarty->assign("utente",       $utente);
+        $smarty->assign("persona",      $persona);
+        $smarty->assign("errore",       $errore);
+
         $smarty->display("modificaPersona.tpl");
     }
 }

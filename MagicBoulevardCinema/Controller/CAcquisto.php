@@ -30,7 +30,7 @@ class CAcquisto
 
                 $utente = FUtente::load($mail, "email");
 
-                if (isset($utente) && $utente->isRegistrato()) {
+                if (isset($utente) && ($utente->isRegistrato() || $utente->isAdmin())) {
                     VUtente::loginForm($mail, false);
                 } else {
                     if (!isset($utente)) {

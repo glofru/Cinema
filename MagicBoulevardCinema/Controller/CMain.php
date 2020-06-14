@@ -160,7 +160,8 @@ class CMain
                 try {
                     $controller::$function();
                 } catch (Exception $e) {
-                    self::internalServerError();
+                    //self::internalServerError();
+                    echo $e->getMessage(); die;
                 }
             }
         } else {

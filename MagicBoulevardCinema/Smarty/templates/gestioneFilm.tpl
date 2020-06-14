@@ -257,7 +257,7 @@
                     <!-- end reviews -->
                     <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="3-tab">
                         <div class="row" style="align-content: center">
-                            <form action="{$path}Admin/modificaPersona" method="GET" class="form" enctype="multipart/form-data" style="margin: auto">
+                            <form method="GET" class="form" enctype="multipart/form-data" style="margin: auto">
                                 <input type="hidden" id="persona" name="idPersona" value="">
                                 {foreach $persone as $p}
                                 <li class="reviews__item">
@@ -265,7 +265,7 @@
                                         <span class="reviews__name" style="display: inline-block">{$p->getFullName()}</span>
                                         <span class="reviews__time">{$p->getImdbId()}</span>
                                         <input type="hidden" name="valore" value="{$p->getId()}">
-                                        <button class="sign__btn" onclick="send(this)" type="submit">Modifica</button>
+                                        <a href="/MagicBoulevardCinema/Admin/modificaPersona/?idPersona={$p->getId()}" class="sign__btn">Modifica</a>
                                     </div>
                                     <div></div>
                                     {/foreach}
