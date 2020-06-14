@@ -124,7 +124,7 @@ class CMain
                 }
             }
 
-            if ($path == "/MagicBoulevardCinema/" || $path == "/MagicBoulevardCinema/index.php") {
+            if ($path === "/" || $path === "/MagicBoulevardCinema/" || $path === "/MagicBoulevardCinema/index.php") {
                 CHome::showHome();
             } else {
                 $res = explode("/", $path);

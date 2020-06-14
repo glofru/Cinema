@@ -68,11 +68,13 @@ class CUtente
                 $password = $_POST["password"];
 
                 $utente   = FPersistentManager::getInstance()->login($email, $password, true);
+
                 if (!isset($utente)) {
                     VUtente::showCheckNonRegsitrato(CUtente::getUtente(), true, $email);
                 } else if ($utente->isRegistrato()) {
                     VError::error(0, "Pagina destinata ad utenti non Registrati");
                 } else {
+                    print "WE";die;
                     foreach (FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EBiglietto") as $b) {
                         $utente->addBiglietto($b);
                     }

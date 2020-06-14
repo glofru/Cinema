@@ -132,12 +132,12 @@ class FUtente implements Foundation
         $db = FDatabase::getInstance();
 
         if($isMail) {
-            $result = $db->loadFromDB(self::getClassName(), $value, "email");
+            $result  = $db->loadFromDB(self::getClassName(), $value, "email");
         } else {
-            $result = $db->loadFromDB(self::getClassName(), $value, "username");
+            $result  = $db->loadFromDB(self::getClassName(), $value, "username");
         }
 
-        $utente     = self::parseResult($result)[0];
+        $utente      = self::parseResult($result)[0];
 
         if ($utente != null) {
             if (password_verify($pass, $utente->getPassword())) {
