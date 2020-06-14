@@ -425,7 +425,7 @@ class CUtente
             } elseif (FUtente::exists($utente, false)) { //Se l'username già esiste
                 VUtente::signup(EGenere::getAll(), $nome, $cognome, $username, $email, null, false);
             } else {
-                if(!is_uploaded_file($_FILES["propic"]["tmp_name"])){
+                if(!is_uploaded_file($_FILES["propic"]["tmp_name"])) {
                     $name = "";
                     $mimeType = "";
                     $data = "";
@@ -680,14 +680,15 @@ class CUtente
      * Funzione che permette ad un utente di eliminare il proprio profilo.
      * @throws SmartyException
      */
-    public static function eliminaUtente()
-    {
+    public static function eliminaUtente() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if(!CUtente::isLogged()){
                 CMain::unauthorized();
             }
+
             if(isset($_POST["idUtente"]) && CUtente::getUtente()->getId() == $_POST["idUtente"]) {
                 CUtente::logout();
+
                 FPersistentManager::getInstance()->delete($_POST["idUtente"], "id", "EUtente");
             } else {
                 CMain::badRequest();

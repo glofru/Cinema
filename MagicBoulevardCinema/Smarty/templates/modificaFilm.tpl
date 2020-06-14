@@ -250,7 +250,7 @@
 
     {foreach $film->getAttori() as $att}
     actors.push("{$att->getId()}");
-    var button = $("<button type='button' name='" + {$att->getId()} + "' class='sign__btn' style='width: 20px; height: 20px; display: inline'>X</button>");
+    var button = $("<button type='button' name='" + {$att->getId()} + "' class='sign__btn' style='font-size: inherit; width: 20px; height: 20px; display: inline'>X</button>");
     var list = $("#displayActors");
     var li = $("<li id='" + {$att->getId()} + "' style=\"color: white; text-align: right\"></li>").append('{$att->getFullName()}', " ", button);
     li.click(function(e) {
@@ -262,7 +262,7 @@
 
     {foreach $film->getRegisti() as $reg}
     directors.push("{$reg->getId()}");
-    var button = $("<button type='button' name='" + {$reg->getId()} + "' class='sign__btn' style='width: 20px; height: 20px; display: inline'>X</button>");
+    var button = $("<button type='button' name='" + {$reg->getId()} + "' class='sign__btn' style='font-size: inherit; width: 20px; height: 20px; display: inline'>X</button>");
     var list = $("#displayDirectors");
     var li = $("<li id='" + {$reg->getId()} + "' style=\"color: white; text-align: right\"></li>").append('{$reg->getFullName()}', " ", button);
     li.click(function(e) {
@@ -288,7 +288,7 @@
 
                 $("#actorChosen").val("");
 
-                let button = $("<button type='button' name='" + idActorChosen + "' class='sign__btn' style='width: 20px; height: 20px; display: inline'>X</button>");
+                let button = $("<button type='button' name='" + idActorChosen + "' class='sign__btn' style='font-size: inherit; width: 20px; height: 20px; display: inline'>X</button>");
                 let list = $("#displayActors");
                 let li = $("<li id='" + idActorChosen + "' style=\"color: white; text-align: right\"></li>").append(actorChosen, " ", button);
                 li.click(function(e) {
@@ -308,7 +308,7 @@
 
                 $("#directorChosen").val("");
 
-                let button = $("<button type='button' name='" + idDirectorChosen + "' class='sign__btn' style='width: 20px; height: 20px; display: inline'>X</button>");
+                let button = $("<button type='button' name='" + idDirectorChosen + "' class='sign__btn' style='font-size: inherit; width: 20px; height: 20px; display: inline'>X</button>");
                 let list = $("#displayDirectors");
                 let li = $("<li id='" + idDirectorChosen + "' style=\"color: white; text-align: right\"></li>").append(directorChosen, " ", button);
                 li.click(function(e) {

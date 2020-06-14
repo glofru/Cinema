@@ -59,13 +59,15 @@ class CAdmin
     /**
      * Funzione che permette di eliminare un film.
      */
-    public static function eliminaFilm(){
+    public static function eliminaFilm() {
         self::checkAdmin();
+
         if(($_SERVER["REQUEST_METHOD"] === "POST")) {
             if(!isset($_POST["idFilm"])) {
                 CMain::badRequest();
             } else {
                 FPersistentManager::getInstance()->delete($_POST["idFilm"], 'id', "EFilm");
+
                 header("Location: /MagicBoulevardCinema/");
             }
         } else {
@@ -82,7 +84,7 @@ class CAdmin
      */
     private static function ban($utente) {
         $pm     = FPersistentManager::getInstance();
-        if($utente instanceof ERegistrato){
+        if($utente instanceof ERegistrato) {
             $toBan = $utente;
         } else {
             $toBan = $pm->load($utente,"username","EUtente");
@@ -506,7 +508,7 @@ class CAdmin
         $error      = null;
 
         $method     = $_SERVER["REQUEST_METHOD"];
-        if($method !== "POST"){
+        if($method !== "POST") {
             CMain::methodNotAllowed();
         } else{
             $idFilm     = $_POST["film"];
@@ -607,10 +609,13 @@ class CAdmin
         if ($method === "GET") {
             $idFilm         = $_GET["film"];
             $utente         = CUtente::getUtente();
+
             $programmazione = FPersistentManager::getInstance()->load($idFilm, "idFilm", "EProgrammazione")->getElencoProgrammazioni()[0];
+
             if(sizeof($programmazione) == 0){
                 self::gestioneProgrammazione();
             }
+
             VAdmin::modificaProgrammazione($utente, $programmazione);
         } else {
             CMain::methodNotAllowed();
