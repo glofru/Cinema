@@ -81,9 +81,9 @@
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
                         <div class="row" style="align-content: center">
-                            <form action="{$path}Admin/gestioneFilm" onsubmit="" method="POST" class="form" enctype="multipart/form-data" style="margin: auto">
-                                <input type="hidden" name="addPersona" value="true">
+                            <form action="{$path}Admin/modificaPersona" onsubmit="return check()" method="POST" class="form" enctype="multipart/form-data" style="margin: auto">
 
+                                <input type="hidden" name="idPersona" value="{$persona->getId()}">
                                 <!-- Nome -->
                                 <div class="sign__group">
                                     <input id="nome" type="text" class="sign__input" placeholder="Nome" name="nome" value="{$persona->getNome()}">
@@ -96,24 +96,28 @@
 
                                 <!-- IMDB URL -->
                                 <div class="sign__group">
-                                    <input id="imdbURL" type="url" class="sign__input" placeholder="URL Imdb" name="imdbURL" value="{$persona->getImdbUrl()}">
+                                    <input id="url" type="url" class="sign__input" placeholder="URL Imdb" name="url" value="{$persona->getImdbUrl()}">
                                 </div>
 
                                 <!-- isAttore -->
                                 <div class="sign__group sign__group--checkbox">
-                                    <input id="attore" name="attore" type="checkbox" {if $persona->isAttore()}checked="checked"{else}{/if}>
+                                    <input id="attore" name="isAttore" type="checkbox" {if $persona->isAttore()}checked="checked"{else}{/if}>
                                     <label for="attore">Attore</label>
                                 </div>
 
                                 <!-- isRegista -->
                                 <div class="sign__group sign__group--checkbox">
-                                    <input id="regista" name="regista" type="checkbox" {if $persona->isAttore()}checked="checked"{else}{/if}>
+                                    <input id="regista" name="isRegista" type="checkbox" {if $persona->isRegista()}checked="checked"{else}{/if}>
                                     <label for="regista">Regista</label>
                                 </div>
 
                                 <button id="submit" class="sign__btn">Aggiungi</button>
                             </form>
                             <!-- end authorization form -->
+                            <form action="/MagicBoulevardCinema/Admin/gestioneFilm/" method="get" class="sign__btn">
+                                <button id="submit" class="sign__btn">Indietro</button>
+                            </form>
+
                         </div>
                     </div>
                 </div>
@@ -178,6 +182,16 @@
     </div>
 </div>
 
+<script>
+    function check() {
+
+        if($('#nome').val() === "" || $('#cognome').val() === "" || $('#url').val() === "" ) {
+            alert("Compilare tutti i campi");
+            return false;
+        }
+        return true;
+    }
+</script>
 <script src="{$path}Smarty/js/jquery-3.3.1.min.js"></script>
 <script src="{$path}Smarty/js/bootstrap.bundle.min.js"></script>
 <script src="{$path}Smarty/js/owl.carousel.min.js"></script>

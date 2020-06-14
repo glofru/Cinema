@@ -722,6 +722,10 @@ class CAdmin
         }
     }
 
+    /**
+     * Funzione accessibile sia via metodo GET sia via metodo POST che permette di visualizzare la schermata di modifica di una persona e permette di attuare questi cambiamento sul DB.
+     * @throws SmartyException
+     */
     public static function modificaPersona() {
         self::checkAdmin();
         if($_SERVER["REQUEST_METHOD"] === "GET"){
@@ -735,16 +739,16 @@ class CAdmin
             if(!isset($_POST["idPersona"])) {
                 CMain::badRequest();
             } else {
-                if($_POST["Nome"] === "" || $_POST["Cognome"] === "" || $_POST["URL Imdb"] === ""){
+                if($_POST["nome"] == "" || $_POST["cognome"] == "" || $_POST["url"] == "") {
                     VAdmin::modificaPersona(CUtente::getUtente(), FPersistentManager::getInstance()->load($_POST["idPersona"], "id", "EPersona")[0], "Inseriti dati non validi");
                 }
 
-                FPersistentManager::getInstance()->update($_POST["idPersona"], "id", $_POST["Nome"], "nome", "EPersona");
-                FPersistentManager::getInstance()->update($_POST["idPersona"], "id", $_POST["Cognome"], "cognome", "EPersona");
-                FPersistentManager::getInstance()->update($_POST["idPersona"], "id", $_POST["URL Imdb"], "imdbURL", "EPersona");
-                FPersistentManager::getInstance()->update($_POST["idPersona"], "id",$_POST["attore"] , "isAttore", "EPersona");
-                FPersistentManager::getInstance()->update($_POST["idPersona"], "id",$_POST["regista"] , "isRegista", "EPersona");
-                header("Location: /MagicBoulevardCinema/Admin/modificaPersona/?");
+                FPersistentManager::getInstance()->update($_POST["idPersona"], "id", $_POST["nome"], "nome", "EPersona");
+                FPersistentManager::getInstance()->update($_POST["idPersona"], "id", $_POST["cognome"], "cognome", "EPersona");
+                FPersistentManager::getInstance()->update($_POST["idPersona"], "id", $_POST["url"], "imdbURL", "EPersona");
+                FPersistentManager::getInstance()->update($_POST["idPersona"], "id", boolval($_POST["isAttore"]) , "isAttore", "EPersona");
+                FPersistentManager::getInstance()->update($_POST["idPersona"], "id", boolval($_POST["isRegista"]) , "isRegista", "EPersona");
+                header("Location: /MagicBoulevardCinema/Admin/gestioneFilm/?");
             }
         } else {
             CMain::methodNotAllowed();
