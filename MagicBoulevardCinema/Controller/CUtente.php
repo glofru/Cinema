@@ -425,7 +425,7 @@ class CUtente
             } elseif (FUtente::exists($utente, false)) { //Se l'username già esiste
                 VUtente::signup(EGenere::getAll(), $nome, $cognome, $username, $email, null, false);
             } else {
-                if(!is_uploaded_file($_FILES["propic"])){
+                if(!is_uploaded_file($_FILES["propic"]["tmp_name"])){
                     $name = "";
                     $mimeType = "";
                     $data = "";
