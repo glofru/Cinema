@@ -2,7 +2,7 @@
 
 
 /**
- * Nella classe Admin troviamo tutti i metodi neccessari all'amministratore per la corretta gestione del sito. Nello specifico abbiamo metodi per la gestione degli utenti, dei film, delle proiezioni, delle sale e dei costi del cinema.
+ * Nella classe Admin troviamo tutti i metodi neccessari all'amministratore per la corretta gestione del sito. Nello specifico abbiamo metodi per la gestione degli utenti, dei film, delle proiezioni, delle sale e dei costi dei biglietti del cinema.
  * Class CAdmin
  * Class CAcquisto
  * @access public
@@ -24,7 +24,7 @@ class CAdmin
     }
 
     /**
-     * Funzione che permette la gestione degli utenti bannati. Richiamabile sia in POST sia in GET svolge le seguenti funzioni:
+     * Funzione che permette la gestione degli utenti bannati. Richiamabile sia in POST sia in GET e svolge le seguenti funzioni:
      *
      * GET) Mostra la schermata dalla quale poter vedere gli utenti che sono stati bannati e la schermata che permette di bannare gli utenti.
      *
@@ -130,7 +130,7 @@ class CAdmin
     }
 
     /**
-     * Funzione accessibile solo via metodo POST permette, nel caso in cui un utente abbia espresso un giudizio non consono, di cancellare il commento effettuato ed in contemporanea di bannare l'utente.
+     * Funzione accessibile solo via metodo POST, che permette, nel caso in cui un utente abbia espresso un giudizio non consono, di cancellare il commento effettuato ed in contemporanea di bannare l'utente.
      */
     public static function deleteAndBan() {
         self::checkAdmin();
@@ -151,7 +151,7 @@ class CAdmin
      *
      * GET) Viene mostrata la pagina di modifica dei prezzi.
      *
-     * POST) Vengono raccolti tutti i prezzi passati via post ed inseriti in un file (configCinema.conf.php) in modo tale da poter assegnare i prezzi ad altrettante variabili globali per poter essere accessibili in tutti gli script.
+     * POST) Vengono raccolti tutti i prezzi passati via post ed inseriti in un file (configCinema.conf.php) in modo tale da poter assegnare i prezzi ad altrettante variabili globali per poter essere accessibili a tutti gli script.
      * @throws SmartyException
      */
     public static function modificaPrezzi() {
@@ -189,7 +189,7 @@ class CAdmin
      * GET) Viene mostrata la pagina di modifica relativa al film selezionato.
      *
      * POST) Vengono passati allo script tutti i parametri del film che è stato modificato. Ogni parametro è poi aggiornato nel relativo campo del film sul DB.
-     * Al termine, in mnacanza di errori, si viene riporati alla pagina del film.
+     * Al termine, in mancanza di errori, si viene riporati alla pagina del film.
      * @throws SmartyException
      */
     public static function modificaFilm(){
@@ -411,12 +411,12 @@ class CAdmin
     }
 
     /**
-     * Funzione accessibile sia via GET sia via POST permette di gestire le varie saledi cui dispone il cinema. La funzione svolge le seguenti funzioni:
+     * Funzione accessibile sia via GET sia via POST e permette di gestire le varie sale di cui dispone il cinema. La funzione svolge le seguenti funzioni:
      *
      * GET) Viene mostrata la schermata di gestione e aggiunta di una sala.
      *
-     * POST) Se viene passato il parametro op con valore 1 allora si aggiorna la disponibilità delle sale presnrti, sulla base dei numeri di sala che sono stati inviati.
-     * Se invece op è impostato a 2 allora viene creata una nuova sala sulla base dei valori inviati dall'utente. Se l'entità sala non genera un eccezione a casua di parametri non validi l'operazione va a buon fine.
+     * POST) Se viene passato il parametro op con valore 1 allora si aggiorna la disponibilità delle sale presenti, sulla base dei numeri di sala che sono stati inviati.
+     * Se invece op è impostato a 2 allora viene creata una nuova sala sulla base dei valori inviati dall'admin. Se l'entità sala non genera un eccezione a casua di parametri non validi l'operazione va a buon fine.
      * Qualsiasi altro valore di op genera un errore.
      * @throws SmartyException
      */

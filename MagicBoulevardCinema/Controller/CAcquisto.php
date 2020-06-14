@@ -94,10 +94,10 @@ class CAcquisto
     /**
      * Funzione che conclude il processo di acquisto di uno o più biglietti. Accessibile solo via metodo POST. Esegue le seguenti funzioni:
      * 1) Controlla se l'utente che sta eseguendo l'acquisto è un utente Registrato o Non registrato ed estrae l'array di biglietti dalla variabile di sessione.
-     * 2) Se l'utente è un non Registrato allora si controlla nel DB degli utenti se è presente. Se loè allora viene caricato l'oggetto dal DB, altrimenti gli viene assegnata una password randomica e salvato nel DB.
-     * 3) A questo punto ad i biglietti viene assegnato l'utente che li ha acquistati e successivamente vnegono salvati i biglietti nel DB ed occupati i relativi posti. Se almeno uno dei posti è stato già occupato nel mentre viene annullato l'acquisto ed invitato l'utente a riprovare.
+     * 2) Se l'utente è un non Registrato allora si controlla nel DB degli utenti se è presente. Se lo è allora viene caricato l'oggetto dal DB, altrimenti gli viene assegnata una password randomica e salvato nel DB.
+     * 3) A questo punto ad ogni biglietto acquistato viene assegnato il corrispettivo utente e successivamente vengono salvati i biglietti nel DB ed occupati i relativi posti. Se almeno uno dei posti è stato già occupato durante tale processo l'acquisto viene annullato e l'utente viene invitato a riprovare.
      * 4) Se il passaggio precedente ha avuto esito positivo allora viene inviata una mail di conferma agli utenti con i biglietti ed un codice QR contenente l'id del biglietto.
-     * 5) Se l'utente è un non Registrato ed è la prima volta che affettua un acquisto allora nella mail è inclusa la password temporanea che gli è stata assegnata. Nel caso invece in cui non sia il primo acquisto che l'utente non Registrato effettua non viene inviata la password in quanto resta valida la prima assegnatali.
+     * 5) Se l'utente è un non Registrato ed è la prima volta che effettua un acquisto allora nella mail è inclusa la password temporanea che gli è stata assegnata. Nel caso invece in cui non sia il primo acquisto per l'utente non Registrato, non viene inviata la password in quanto resta valida la prima assegnatagli.
      * 6) Se l'utente è un non registrato la sessione viene terminata al termine dell'acquisto.
      * @throws SmartyException
      */
