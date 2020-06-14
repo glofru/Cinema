@@ -400,6 +400,7 @@ class CUtente
      *POST) Se chiamata via POST allora vengono presi i parametri inseriti e viene creato un nuovo utente. Viene, quindi, inviata una mail di conferma dell'iscrizione.
      *
      * @throws \PHPMailer\PHPMailer\Exception|SmartyException
+     * @throws Exception
      */
     public static function signup() {
         if (self::isLogged()) {
@@ -448,9 +449,9 @@ class CUtente
                 if(FPersistentManager::getInstance()->exists($utente, true)) {
                     $reg = FPersistentManager::getInstance()->load($utente->getEmail(), "email", "Eutente");
                     $utente->setId($reg->getId());
-                    FPersistentManager::getInstance()->update($utente->getId(), "id", $utente->getNome(), "nome", "EUtente");
-                    FPersistentManager::getInstance()->update($utente->getId(), "id", $utente->getCognome(), "cognome", "EUtente");
-                    FPersistentManager::getInstance()->update($utente->getId(), "id", $utente->getUsername(), "username", "EUtente");
+                    FPersistentManager::getInstance()->update($utente->getId(), "id", $utente->getNome(),     "nome",       "EUtente");
+                    FPersistentManager::getInstance()->update($utente->getId(), "id", $utente->getCognome(),  "cognome",    "EUtente");
+                    FPersistentManager::getInstance()->update($utente->getId(), "id", $utente->getUsername(), "username",   "EUtente");
                     FPersistentManager::getInstance()->updatePasswordUser($utente);
                 } else {
                     $pm->signup($utente);
