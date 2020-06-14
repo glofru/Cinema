@@ -272,7 +272,7 @@
     list.append(li);
     {/foreach}
 
-    $(document).ready(function(){
+    $(document).ready(function() {
         // Aggiorna nome copertina
         $('#choose_image').change(function(e) {
             document.getElementById("image_name").innerText = e.target.files[0].name;
@@ -281,42 +281,52 @@
         // Aggiungi attore
         $('#addActor').click(function(e) {
             let actorChosen = $("#actorChosen").val();
+
             if (actorChosen !== "") {
                 let idActorChosen = $("#actors").find("option[value='" + actorChosen + "']").attr("id");
 
-                actors.push(idActorChosen);
+                if (!actors.includes(idActorChosen)) {
+                    actors.push(idActorChosen);
 
-                $("#actorChosen").val("");
+                    $("#actorChosen").val("");
 
-                let button = $("<button type='button' name='" + idActorChosen + "' class='sign__btn' style='font-size: inherit; width: 20px; height: 20px; display: inline'>X</button>");
-                let list = $("#displayActors");
-                let li = $("<li id='" + idActorChosen + "' style=\"color: white; text-align: right\"></li>").append(actorChosen, " ", button);
-                li.click(function(e) {
-                    actors.splice(actors.indexOf($(this).attr("id")), 1);
-                    $(this).remove();
-                });
-                list.append(li);
+                    let button = $("<button type='button' name='" + idActorChosen + "' class='sign__btn' style='font-size: inherit; width: 20px; height: 20px; display: inline'>X</button>");
+                    let list = $("#displayActors");
+                    let li = $("<li id='" + idActorChosen + "' style=\"color: white; text-align: right\"></li>").append(actorChosen, " ", button);
+                    li.click(function(e) {
+                        actors.splice(actors.indexOf($(this).attr("id")), 1);
+                        $(this).remove();
+                    });
+                    list.append(li);
+                } else {
+                    $("#actorChosen").val("");
+                }
             }
         });
 
         $('#addDirector').click(function(e) {
             let directorChosen = $("#directorChosen").val();
+
             if (directorChosen !== "") {
                 let idDirectorChosen = $("#directors").find("option[value='" + directorChosen + "']").attr("id");
 
-                directors.push(idDirectorChosen);
+                if (!directors.includes(idDirectorChosen)) {
+                    directors.push(idDirectorChosen);
 
-                $("#directorChosen").val("");
+                    $("#directorChosen").val("");
 
-                let button = $("<button type='button' name='" + idDirectorChosen + "' class='sign__btn' style='font-size: inherit; width: 20px; height: 20px; display: inline'>X</button>");
-                let list = $("#displayDirectors");
-                let li = $("<li id='" + idDirectorChosen + "' style=\"color: white; text-align: right\"></li>").append(directorChosen, " ", button);
-                li.click(function(e) {
-                    directors.splice(directors.indexOf($(this).attr("id")), 1);
-                    $(this).remove();
-                });
-                list.append(li);
-                console.log(directors);
+                    let button = $("<button type='button' name='" + idDirectorChosen + "' class='sign__btn' style='font-size: inherit; width: 20px; height: 20px; display: inline'>X</button>");
+                    let list = $("#displayDirectors");
+                    let li = $("<li id='" + idDirectorChosen + "' style=\"color: white; text-align: right\"></li>").append(directorChosen, " ", button);
+                    li.click(function(e) {
+                        directors.splice(directors.indexOf($(this).attr("id")), 1);
+                        $(this).remove();
+                    });
+                    list.append(li);
+                    console.log(directors);
+                } else {
+                    $("#directorChosen").val("");
+                }
             }
         });
     });
