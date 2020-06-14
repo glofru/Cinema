@@ -105,7 +105,7 @@
                             <span></span>
                             <span></span>
                             <span></span>
-                        </button>§
+                        </button>
                         <!-- end header menu btn -->
                     </div>
                 </div>
