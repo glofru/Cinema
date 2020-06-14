@@ -138,6 +138,10 @@
             </a>
         </div>
     </form>
+    <form action="{$path}Admin/eliminaFilm" method="post" onsubmit="return check()">
+        <input type="hidden" name="idFilm" value="{$film->getId()}">
+        <button type="submit" class="section__btn align-content-center">Elimina Film</button>
+    </form>
     {/if}
 </section>
 <!-- end details -->
@@ -498,6 +502,10 @@
         form.append("<input type='hidden' name='utente' value='" + idUtente + "' />");
 
         form.submit();
+    }
+
+    function check() {
+        return confirm("Sei sicuro di voler cancellare il tuo account? Questa azione è irreversibile!");
     }
 </script>
 

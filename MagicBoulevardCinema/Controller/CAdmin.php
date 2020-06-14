@@ -59,10 +59,10 @@ class CAdmin
     public static function eliminaFilm(){
         self::checkAdmin();
         if(($_SERVER["REQUEST_METHOD"] === "POST")) {
-            if(!isset($_POST["filmID"])) {
+            if(!isset($_POST["idFilm"])) {
                 CMain::badRequest();
             } else {
-                FPersistentManager::getInstance()->delete($_POST["filmID"], 'id', "EFilm");
+                FPersistentManager::getInstance()->delete($_POST["idFilm"], 'id', "EFilm");
                 header("Location: /MagicBoulevardCinema/");
             }
         } else {
