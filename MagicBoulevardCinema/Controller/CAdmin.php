@@ -56,6 +56,9 @@ class CAdmin
         }
     }
 
+    /**
+     * Funzione che permette di eliminare un film.
+     */
     public static function eliminaFilm(){
         self::checkAdmin();
         if(($_SERVER["REQUEST_METHOD"] === "POST")) {
@@ -298,7 +301,11 @@ class CAdmin
     }
 
     /**
+     * Funzione che permette di modoficare le informazioni di un film. Accessibile sia in GET sia in POST.
      *
+     * GET) Mostra la schermata di modifica del film.
+     *
+     * POST) Esegue lo modifiche sul film.
      */
     public static function gestioneFilm() {
         self::checkAdmin();
@@ -407,6 +414,8 @@ class CAdmin
             } else {
                 CMain::badRequest();
             }
+        } else {
+            CMain::methodNotAllowed();
         }
     }
 
@@ -477,7 +486,7 @@ class CAdmin
     }
 
     /**
-     * Funzione accessibile solo via metodo POST permette di
+     * Funzione accessibile solo via metodo POST permette di aggiungere una proiezione.
      * @throws SmartyException
      */
     public static function gestioneProgrammazione()
@@ -497,7 +506,9 @@ class CAdmin
         $error      = null;
 
         $method     = $_SERVER["REQUEST_METHOD"];
-        if ($method == "POST") {
+        if($method !== "POST"){
+            CMain::methodNotAllowed();
+        } else{
             $idFilm     = $_POST["film"];
             $nSala      = $_POST["sala"];
             $orario     = $_POST["orario"];
@@ -585,6 +596,7 @@ class CAdmin
     }
 
     /**
+     * Funzione che permette di raggiungere la pagina di modifica di una programmazione. Accessibile solo tramite GET.
      * @throws SmartyException
      */
     public static function modificaProgrammazione() {
@@ -600,10 +612,13 @@ class CAdmin
                 self::gestioneProgrammazione();
             }
             VAdmin::modificaProgrammazione($utente, $programmazione);
+        } else {
+            CMain::methodNotAllowed();
         }
     }
 
     /**
+     * Funzione che permette se richiamamta tramite metodo GET di visualizzare la pagina di modifica della proiezione. Se rihciamata in POST permette di applicare le modifiche.
      * @throws SmartyException
      */
     public static function modificaProiezione() {
@@ -699,6 +714,8 @@ class CAdmin
 
                 VAdmin::modificaProiezione($utente, $films, $sale, $cambioSala, $proiezione, $status);
             }
+        } else {
+            CMain::methodNotAllowed();
         }
     }
 }
