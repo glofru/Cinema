@@ -186,7 +186,7 @@ class CAdmin
 
         if($method == "POST") {
             try {
-              /*  if($_POST["titolo"] !== $film->getNome()) {
+                if($_POST["titolo"] !== $film->getNome()) {
                     $film->setNome($_POST["titolo"]);
                     $pm->update($film->getId(),"id",$film->getNome(),"nome","EFilm");
                 }
@@ -250,7 +250,7 @@ class CAdmin
                         throw new Exception("Hai inserito un attore non valido");
                     }
                 }
-                $pm->update($film->getId(), "id", $_POST["registi"], "registi", "EFilm");*/
+                $pm->update($film->getId(), "id", $_POST["registi"], "registi", "EFilm");
 
                 if(is_uploaded_file($_FILES["locandina"]["tmp_name"])) {
                     if (EInputChecker::getInstance()->isImage($_FILES["locandina"]["type"]) && EInputChecker::getInstance()->isLight($_FILES["locandina"]["size"])) {

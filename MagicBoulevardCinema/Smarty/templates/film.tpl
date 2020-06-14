@@ -270,7 +270,7 @@
                                                 <img class="reviews__avatar" src="{$propic[$key]->getImmagineHTML()}" alt="">
                                                 <span class="reviews__name" style="display: inline-block">{$rev->getTitle()}</span>
 
-                                                {if $utente->isRegistrato() && ($rev->getUtente()->getId() == $utente->getId() || $utente->isAdmin())}
+                                                {if ($utente->isRegistrato() && $rev->getUtente()->getId() == $utente->getId()) || $utente->isAdmin()}
                                                     <span class="reviews__name" style="display: inline-block; position: relative; float: right; bottom: -7px">
                                                     <a style="line-height: normal" class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
                                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">

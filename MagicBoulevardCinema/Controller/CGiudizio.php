@@ -64,9 +64,9 @@ class CGiudizio{
 
                 $giudizio = $pm->loadDebole($idFilm, "idFilm", $idUtente, "idUtente", "EGiudizio");
                 $pm->deleteDebole($idFilm, "idFilm", $idUtente, "idUtente", "EGiudizio");
-
-                $utente->removeGiudizio($giudizio);
-
+                if(!$utente->isAdmin()) {
+                    $utente->removeGiudizio($giudizio);
+                }
                 CUtente::saveSession($utente);
 
                 if(!isset($_POST["redirect"])) {
