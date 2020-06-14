@@ -200,7 +200,7 @@ class VUtente
         $smarty->assign("propic",   $propic);
         $smarty->assign("prefs",    $prefs);
         $smarty->assign("isASub",   $isASub);
-        
+
         $smarty->display("modificaUtente.tpl");
     }
 }

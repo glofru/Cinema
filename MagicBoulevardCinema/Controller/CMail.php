@@ -195,8 +195,8 @@ class CMail
      * @return bool, esito dell'invio.
      */
     public static function newEntry(EUtente $utente): bool {
-        $subject = "Benvenuto  - Magic Boulevard Cinema";
-        $body    = "Ciao " . $utente->getNome() . " " . $utente->getCognome() . " grazie per esserti registrato sul nostro portale. Adesso puoi effettuare il login <a href='localhost/Utente/login'><b>qui</b></a>.<br>Speriamo che il nostri contenuti siano di tuo gradimento e di facile utilizzo :)";
+        $subject = "Benvenuto - Magic Boulevard Cinema";
+        $body    = "Ciao " . $utente->getNome() . ", grazie per esserti registrato sul nostro portale. Adesso puoi effettuare il login <a href='localhost/Utente/login'><b>qui</b></a>.<br>Speriamo che il nostri contenuti siano di tuo gradimento e di facile utilizzo :)";
         $name    = $utente->getNome() . " " . $utente->getCognome();
 
         return self::sendMail($utente->getEmail(), $subject, $body, $name);
