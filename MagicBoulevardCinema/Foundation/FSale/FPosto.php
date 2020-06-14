@@ -6,7 +6,7 @@
  * @author Lofrumento - Di Santo - Susanna
  * @package Foundation
  */
-class FPosto
+class FPosto implements FoundationDebole
 {
     /**
      * Nome della classe.
@@ -146,7 +146,7 @@ class FPosto
      * @param $row2, seconda colonna nella quale cercare il valore.
      * @return bool, esito dell'operazione.
      */
-    public static function delete($value, $row): bool {
+    public static function delete($value, $row, $value2, $row2): bool {
         $db = FDatabase::getInstance();
 
         return $db->deleteFromDB(self::getClassName(), $value, $row);
