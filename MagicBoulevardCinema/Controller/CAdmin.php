@@ -56,6 +56,20 @@ class CAdmin
         }
     }
 
+    public static function eliminaFilm(){
+        self::checkAdmin();
+        if(($_SERVER["REQUEST_METHOD"] === "POST")) {
+            if(!isset($_POST["filmID"])) {
+                CMain::badRequest();
+            } else {
+                FPersistentManager::getInstance()->delete($_POST["filmID"], 'id', "EFilm");
+                header("Location: /MagicBoulevardCinema/");
+            }
+        } else {
+            CMain::methodNotAllowed();
+        }
+    }
+
     /**
      * Funzione privata che effettua il ban di un utente dal database. Se l'utente è presente nel DB, non è già stato bannato e non è un admin allora il ban va a buon fine.
      * Viene tornata allora una stringa con il risultato.

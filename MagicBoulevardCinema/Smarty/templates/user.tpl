@@ -89,6 +89,12 @@
                 <div class="col-12">
                     {if ($canModify)}
                         <a href="{$path}Utente/modifica/?id={$utente->getId()}" class="section__btn align-content-center">Modifica</a>
+
+                        <form action="{$path}Utente/eliminaUtente/" onsubmit="return check()" method="post">
+                            <input type="hidden" name="idUtente" value="{$utente->getId()}">
+                            <button type="submit" class="section__btn align-content-center">Elimina Profilo</button>
+                        </form>
+
                     {/if}
                 </div>
                 <div class="col-12">
@@ -132,6 +138,13 @@
 
 {include file="footer.tpl"}
                             <!-- JS -->
+<script>
+    function check() {
+        let choise = confirm("Sei sicuro di voler cancellare il tuo account? Questa azione è irreversibile!");
+        return choise;
+    }
+
+</script>
 <script src="{$path}Smarty/js/jquery-3.3.1.min.js"></script>
 <script src="{$path}Smarty/js/bootstrap.bundle.min.js"></script>
 <script src="{$path}Smarty/js/owl.carousel.min.js"></script>

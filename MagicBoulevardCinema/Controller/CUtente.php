@@ -676,4 +676,21 @@ class CUtente
         }
     }
 
+    public static function eliminaUtente()
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if(!CUtente::isLogged()){
+                CMain::unauthorized();
+            }
+            if(isset($_POST["idUtente"]) && CUtente::getUtente()->getId() == $_POST["idUtente"]) {
+                CUtente::logout();
+                FPersistentManager::getInstance()->delete($_POST["idUtente"], "id", "EUtente");
+            } else {
+                CMain::badRequest();
+            }
+        } else {
+            CMain::methodNotAllowed();
+        }
+    }
+
 }
