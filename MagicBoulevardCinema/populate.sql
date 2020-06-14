@@ -3650,7 +3650,7 @@ INSERT INTO `Posti` (`idProiezione`, `posizione`, `occupato`) VALUES
 (111, 'F_9', 0);
 
 
-INSERT INTO `giudizio`(`idUtente`, `idFilm`, `commento`, `punteggio`, `titolo`, `datapubblicazione`) VALUES
+INSERT INTO `Giudizio`(`idUtente`, `idFilm`, `commento`, `punteggio`, `titolo`, `datapubblicazione`) VALUES
 (15, 13, 'Film molto divertente! Da vedere e rivedere', '9.0', 'Gran bella commedia', '2020-06-13'),
 (13, 13, 'Il film non mi è piaciuto per niente!', '2.0', 'Pessimo', '2020-06-13'),
 (19, 13, 'Film nella media... Nulla di speciale devo dire', '6.0', 'Sciapo', '2020-06-13'),
@@ -3676,7 +3676,7 @@ INSERT INTO `giudizio`(`idUtente`, `idFilm`, `commento`, `punteggio`, `titolo`, 
 (13, 3, 'Non ho ben capito alcuni passaggi, forse dovrei riseguirlo con più attenzione, anche se devo ammetere che è ben fatto.', '7.0', 'Ci sta!', '2020-06-13');
 
 
-INSERT INTO `mediautente`(`id`, `fileName`, `mimeType`, `idUtente`, `date`, `immagine`) VALUES
+INSERT INTO `MediaUtente`(`id`, `fileName`, `mimeType`, `idUtente`, `date`, `immagine`) VALUES
 (1, '', '', 1, '2020-06-13', ''),
 (2, '', '', 2, '2020-06-13', ''),
 (3, '', '', 3, '2020-06-13', ''),
