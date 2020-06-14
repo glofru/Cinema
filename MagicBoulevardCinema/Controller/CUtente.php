@@ -353,8 +353,10 @@ class CUtente
      * Funzione che permette dato un utente di salvarlo nella sessione. Viene sovrascritta localmente la variabile 'session.cookie_httponly' per evitare che il cookie di sessione sia disponibile
      * fuori dall'HTTP.
      * Se è impostata una variabile di sessione inerente all'utente non registrato questa viene eliminata.
-     * Viene rigenerato il cookie di sessione per fare sì che sia diverso da quello precedente. Norma di sicurezza perchè il cookie da utente visitatore non è direttamente gestibile dall'utente,
-     * che invece può gestire quello da Utente eseguendo il logout quando vuole chiudere la sessione.
+     * Viene rigenerato il cookie di sessione per fare sì che sia diverso da quello precedente. Questo  perchè la sessione da utente visitatore non è direttamente gestibile dall'utente,
+     * che può invece gestire quella da utente Registrato in quanto in grado di eseguire il logout e quindi di cancellare la propria sessione.
+     * Una cookie di sessione che perdura per molto tempo può essere una vulnerabilità per l'utente che quindi ne ritrova uno diverso ad ogni login.
+     *
      * @param EUtente|null $utente , utente da salvare.
      * @throws SmartyException
      */
