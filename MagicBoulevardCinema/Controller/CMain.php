@@ -76,13 +76,14 @@ class CMain
      *
      *
      *
-     * @param string $url, url richiesto dall'utente.
+     * @param string $url , url richiesto dall'utente.
+     * @throws SmartyException
      */
-    public static function run(string $url)
-    {
-         if(!isset($_COOKIE["preferences"])){
+    public static function run(string $url) {
+        if(!isset($_COOKIE["preferences"])){
              setcookie("preferences", serialize(CUtente::getUtente()->preferences(null)), time()+(86400*30), '/');
         }
+
         ini_set('session.gc_probability', 10);
         ini_set('session.gc_divisor', 200);
         $parsed_url = parse_url($url);
@@ -91,11 +92,7 @@ class CMain
 
         if ($isApi === false) {
             //GESTIONE UTENTE NON REGISTRATO
-            $pass = !CUtente::isLogged() && isset($_SESSION["nonRegistrato"]) && $path == "/Acquisto/confermaAcquisto";
-
-            if(!$pass && isset($_SESSION["nonRegistrato"])){
-                CUtente::logout(false);
-            } else if (!$pass && CUtente::isLogged()) {
+            if (CUtente::isLogged()) {
                 //Check ban e cambio password dal database
                 $check = FPersistentManager::getInstance()->load(CUtente::getUtente()->getId(), "id", "EUtente");
                 if ($check->isBanned()) {
@@ -105,8 +102,16 @@ class CMain
                     CUtente::logout(false);
                     VError::error(0, "La password è stata cambiata!");
                 }
-            } else if(!CUtente::isLogged()) {
-                CUtente::getUtente();
+            } else {
+                if (isset($_SESSION["nonRegistrato"])) {
+                    if ($path != "/MagicBoulevardCinema/Acquisto/confermaAcquisto") {
+                        CUtente::logout(false);
+                    }
+                } else {
+                    if (!isset($_SESSION["visitatore"])) {
+                        CUtente::createVisitor();
+                    }
+                }
             }
 
             if ($path == "/MagicBoulevardCinema/" || $path == "/MagicBoulevardCinema/index.php") {
@@ -141,7 +146,12 @@ class CMain
                 } catch (ReflectionException $e) {
                    self::notFound();
                 }
-                $controller::$function();
+
+                try {
+                    $controller::$function();
+                } catch (Exception $e) {
+                    //TODO: internal server error
+                }
             }
         } else {
             $api = explode("/", $path);

@@ -78,7 +78,7 @@
 					<form action="{$path}Acquisto/confermaAcquisto" method="POST">
 						<button class="filter__btn" type="submit">Acquista</button>
 					</form>
-					<button class="filter__btn" type="button" onclick="window.">Annulla</button>
+					<button class="filter__btn" type="button" onclick="window.location.href = '/MagicBoulevardCinema/Film/show?film={$biglietti[0]->getProiezione()->getFilm()->getId()}'">Annulla</button>
 					<!-- end filter btn -->
 				</div>
 			</div>

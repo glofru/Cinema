@@ -2,9 +2,19 @@
 error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE & ~E_DEPRECATED);
 require_once 'Utility/autoload.inc.php';
 require_once 'StartSmarty.php';
+
 $GLOBALS["path"] = "/MagicBoulevardCinema/";
+
 if (Installer::checkInstall()) {
-   CMain::run($_SERVER["REQUEST_URI"]);
+    try {
+        CMain::run($_SERVER["REQUEST_URI"]);
+    } catch (SmartyException $e) {
+        //500
+    }
 } else {
-    Installer::start();
+    try {
+        Installer::start();
+    } catch (SmartyException $e) {
+        //500
+    }
 }

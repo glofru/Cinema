@@ -98,40 +98,29 @@ class CUtente
      * Funzione, privata, che permette di creare una sessione associata ad un utente visistatore. Il cookie di sessione viene inizializzato solo se non è già presente una variabile di sessione
      * associata ad una delle altre tipologie di utente oppure se già non è identificato come visitataore.
      * Viene inoltre modificata localmente la variabile 'session.cookie_httponly' pee evitare che i cookie possano essere fuori dell'HTTP.
+     * @throws SmartyException
      */
-    private static function createVisitor() {
-        ini_set('session.cookie_httponly', true);
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-        if(!isset($_SESSION["utente"]) && !isset($_SESSION["nonRegistrato"]) && !isset($_SESSION["visitatore"])){
-            session_set_cookie_params(time() + 3600, "/", null, false, true);
-            $_SESSION["visitatore"] = serialize(new EVisitatore());
-        }
+    public static function createVisitor() {
+        self::saveSession(new EVisitatore());
     }
 
     /**
      * Funzione che esegue il logut dell'utente. Se è impostata a true la variabile redierct si viene riportati alla home page al termine dell.operazione.
      * La funzione svolge le operazioni relative all'eliminazione delle variabili di sessione in RAM e sul FS del nostro server. Al termne viene eliminato il cookie di sessione.
      * Una volta distrutta la sessione si crea una nuova sessione ma con un utente visitatore.
-     * @param bool $redirect, indica se bisogna essere reindirizzati alla home page dopo il logout.
+     * @param bool $redirect , indica se bisogna essere reindirizzati alla home page dopo il logout.
+     * @throws SmartyException
      */
     public static function logout($redirect = true) {
-        if($_SERVER["REQUEST_METHOD"] === "GET") {
-
-
-            if (isset($_COOKIE["PHPSESSID"])) {
-                session_start();
-                session_unset();
-                session_destroy();
-                setcookie("PHPSESSID", "", time() - 3600, "/");
-                self::createVisitor();
-            }
-            if ($redirect) {
-                header("Location: /MagicBoulevardCinema");
-            }
-        } else {
-            CMain::methodNotAllowed();
+        if (isset($_COOKIE["PHPSESSID"])) {
+            session_start();
+            session_unset();
+            session_destroy();
+            setcookie("PHPSESSID", "", time() - 3600, "/");
+            self::createVisitor();
+        }
+        if ($redirect) {
+            header("Location: /MagicBoulevardCinema");
         }
     }
 
@@ -354,25 +343,39 @@ class CUtente
      * Se è impostata una variabile di sessione inerente all'utente non registrato questa viene eliminata.
      * Viene rigenerato il cookie di sessione per fare sì che sia diverso da quello precedente. Norma di sicurezza perchè il cookie da utente visitatore non è direttamente gestibile dall'utente,
      * che invece può gestire quello da Utente eseguendo il logout quando vuole chiudere la sessione.
-     * @param EUtente|null $utente, utente da salvare.
+     * @param EUtente|null $utente , utente da salvare.
+     * @throws SmartyException
      */
     public static function saveSession($utente = null) {
         ini_set('session.cookie_httponly', true);
+
         if(!isset($utente)) {
             VError::error(100);
             die;
         }
-        if(isset($_SESSION["visitatore"])){
-            unset($_SESSION["visitatore"]);
-        }
+
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
+
         session_regenerate_id(true);
         session_set_cookie_params(time() + 3600, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inserito il 4° parametro
         // a TRUE per fare si che il cookie viaggi solo su HTTPS. E' FALSE perchè non abbiamo un certificato SSL ma in un contesto reale va messo a TRUE!!!
         $salvare = serialize($utente);
-        $_SESSION['utente'] = $salvare;
+
+        if ($utente->isVisitatore()) {
+            $_SESSION['visitatore'] = $salvare;
+        } else {
+            if(isset($_SESSION["visitatore"])){
+                unset($_SESSION["visitatore"]);
+            }
+
+            if ($utente->isRegistrato() || $utente->isAdmin()) {
+                $_SESSION['utente'] = $salvare;
+            } else {
+                $_SESSION['nonRegistrato'] = $salvare;
+            }
+        }
     }
 
     /**

@@ -14,6 +14,7 @@ class CAcquisto
      * 1) Controlla se l'utente che ha eseguito la richiesta sia un utente registrato. Nel caso in cui non lo sia crea un nuovo utente non Registrato attraverso la mail inserita nella fase di scelta dei posti da acquistare.
      * 1-bis) Se l'utente è un non Registrato viene inizializzata una sessione ed inseirta come variabile di sessione l'oggetto utente non registrato.
      * 2) Se l'utente è loggato oppure la creazione di un utente non registrato ha dato esito positivo si procede con il passare l'id della proiezione, la stringa con i posti parsata e l'oggetto utente al metodo loadBiglietti.
+     * @throws SmartyException
      */
     public static function getBiglietti() {
         if ($_SERVER['REQUEST_METHOD']=="POST") {
@@ -40,11 +41,8 @@ class CAcquisto
                         }
                     }
 
-                    session_start();
-                    session_regenerate_id(true);
-                    session_set_cookie_params(time() + 300, "/", null, false, true); //http only cookie, add session.cookie_httponly=On on php.ini | Andrebbe inoltre inserito il 4° parametro
-                    $_SESSION["nonRegistrato"] = serialize($utente);
-                    unset($_SESSION["visitatore"]);
+                    CUtente::saveSession($utente, true);
+
                     self::loadBiglietti($id, $str, $utente);
                 }
             } else { //Errore, l'utente non è loggato e non ha inviato la mail, non dovrebbe accadere
@@ -63,9 +61,10 @@ class CAcquisto
      * 4) I biglietti appena istanziati vengono salvati in un array ed inseriti in una variabile di sessione al fine di poter essere reperiti con facilità.
      *
      *
-     * @param int $id, id della proiezione.
-     * @param string $str, stringa parsata con i posti che si vogliono occupare.
-     * @param $utente, l'utente che effettua l'acquisto.
+     * @param int $id , id della proiezione.
+     * @param string $str , stringa parsata con i posti che si vogliono occupare.
+     * @param $utente , l'utente che effettua l'acquisto.
+     * @throws SmartyException
      */
     private static function loadBiglietti(int $id, string $str, $utente) {
         $pm = FPersistentManager::getInstance();
@@ -85,6 +84,7 @@ class CAcquisto
         if(sizeof($biglietti) > 0) {
             $serialized = serialize($biglietti);
             $_SESSION["biglietti"] = $serialized;
+
             VAcquisto::showAcquisto($biglietti, $locandina, $utente, $totale);
         } else {
             VError::error(8);
@@ -99,17 +99,19 @@ class CAcquisto
      * 4) Se il passaggio precedente ha avuto esito positivo allora viene inviata una mail di conferma agli utenti con i biglietti ed un codice QR contenente l'id del biglietto.
      * 5) Se l'utente è un non Registrato ed è la prima volta che affettua un acquisto allora nella mail è inclusa la password temporanea che gli è stata assegnata. Nel caso invece in cui non sia il primo acquisto che l'utente non Registrato effettua non viene inviata la password in quanto resta valida la prima assegnatali.
      * 6) Se l'utente è un non registrato la sessione viene terminata al termine dell'acquisto.
+     * @throws SmartyException
      */
     public static function confermaAcquisto() {
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $isNonRegistrato = false;
+
             if(!CUtente::isLogged() && isset($_SESSION["nonRegistrato"])) {
                 $isNonRegistrato = true;
-            }
-            else if (!isset($_SESSION["biglietti"])  || CUtente::getUtente()->isAdmin()) {
+            } else if (!isset($_SESSION["biglietti"])  || CUtente::getUtente()->isAdmin()) {
                 VError::error(100);
                 return;
             }
+
             $biglietti = unserialize($_SESSION["biglietti"]);
             if(!$isNonRegistrato) {
                 foreach ($biglietti as $item) {
