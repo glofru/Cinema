@@ -279,7 +279,8 @@ class CUtente
 
                             $pm->updatePasswordUser($utente);
                         } else {
-                            throw new Exception("Vecchia password errata");
+                            VUtente::modifica($utente, FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EMediaUtente"), EGenere::getAll(), FPersistentManager::getInstance()->isASub($utente), explode(";", FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "FNewsLetter")), "La password vecchia non coincide");
+                            die;
                         }
                     }
                     if (is_uploaded_file($_FILES["propic"]["tmp_name"])) {

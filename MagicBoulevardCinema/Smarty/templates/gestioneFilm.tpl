@@ -150,6 +150,7 @@
 
                                 <!-- DataRilascio -->
                                 <div class="sign__group">
+                                    <span class="filter__item-label">Data di rilascio:</span>
                                     <input id="dataRilascio" type="date" class="sign__input" placeholder="Data di rilascio: AAAA/MM/GG" name="dataRilascio" value="{$dataRilascio}">
                                 </div>
 

@@ -191,7 +191,7 @@ class VUtente
      * @param $prefs, le preferenze espresse dall'utente iscritto alla newsletter.
      * @throws SmartyException
      */
-    public static function modifica(EUtente $utente, EMedia $propic, $generi, $isASub, $prefs) {
+    public static function modifica(EUtente $utente, EMedia $propic, $generi, $isASub, $prefs, $errore = null) {
         $smarty = StartSmarty::configuration();
 
         $smarty->assign("genere",   $generi);
@@ -199,6 +199,7 @@ class VUtente
         $smarty->assign("utente",   $utente);
         $smarty->assign("propic",   $propic);
         $smarty->assign("prefs",    $prefs);
+        $smarty->assign("errore",   $errore);
         $smarty->assign("isASub",   $isASub);
 
         $smarty->display("modificaUtente.tpl");

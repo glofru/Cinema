@@ -33,13 +33,13 @@
     <title>Magic Boulevard Cinema - Dove i sogni diventano realtà</title>
 
 </head>
-<body class="body" {if (!$utente->isAdmin())}onload="changing(document.getElementById('newsletter').checked)"{/if}>
+<body class="body" {if (!$utente->isAdmin())}onload="changing(document.getElementById('newsletter').checked)"{/if} {if isset($errore)}onload="alert('{$errore}')"{/if}>
 
 {include file="header.tpl"}
 
 
 <!-- details -->
-<section class="section details">
+<section class="section details" >
     <!-- details background -->
     <div class="details__bg" data-bg="{$path}Smarty/img/home/home__bg.jpg"></div>
     <!-- end details background -->

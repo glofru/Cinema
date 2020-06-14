@@ -139,6 +139,9 @@ class Installer
                 }
 
                 FPersistentManager::getInstance()->signup($utente);
+                $data = new DateTime();
+                $media = new EMediaUtente('','',$data, '', $utente);
+                FPersistentManager::getInstance()->save($media);
                 unset($utente);
                 header("Location: /MagicBoulevardCinema");
             } elseif (!self::checkPhysical()){
