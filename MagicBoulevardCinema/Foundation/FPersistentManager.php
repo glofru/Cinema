@@ -39,13 +39,14 @@ class FPersistentManager
     private function getClass(string $class){
         if($class === "EAdmin" || $class === "ERegistrato" || $class === "ENonRegistrato"){
             return "FUtente";
-        } elseif($class == "EMediaLocandina" || $class == "EMediaUtente") {
+        } elseif($class === "EMediaLocandina" || $class === "EMediaUtente") {
             return "FMedia";
         } elseif($class === "ESalaFisica") {
             return "FSala";
         } elseif($class === "EProgrammazione" || $class === "EElencoProgrammazioni") {
             return "FProiezione";
         }
+
         $class[0] = "F";
         return $class;
     }
@@ -79,6 +80,7 @@ class FPersistentManager
                 return false;
             }
         }
+
         return true;
     }
 
@@ -91,6 +93,7 @@ class FPersistentManager
      */
     public function load($value, $row, $class) {
         $class = self::getClass($class);
+
         return $class::load($value, $row);
     }
 
@@ -112,6 +115,7 @@ class FPersistentManager
     public function loadLike($value, $row, $class) {
         $value = str_replace("'", "\'", $value);
         $class = self::getClass($class);
+
         return $class::loadLike($value, $row);
     }
 
@@ -126,6 +130,7 @@ class FPersistentManager
      */
     public function loadDebole($value, $row, $value2, $row2, $class) {
         $class = self::getClass($class);
+
         return $class::loadDoppio($value, $row, $value2, $row2);
     }
 
@@ -138,6 +143,7 @@ class FPersistentManager
      */
     public function loadBetween($inizio, $fine, $class) {
         $class = self::getClass($class);
+
         return $class::loadBetween($inizio, $fine);
     }
 
@@ -148,6 +154,7 @@ class FPersistentManager
      */
     public function loadAll($class) {
         $class = self::getClass($class);
+
         return $class::loadAll();
     }
 
@@ -168,6 +175,7 @@ class FPersistentManager
      */
     public function delete($value, $row, $class): bool {
         $class = self::getClass($class);
+
         return $class::delete($value, $row);
     }
 
@@ -182,6 +190,7 @@ class FPersistentManager
      */
     public function deleteDebole($value, $row, $value2, $row2, $class): bool {
         $class = self::getClass($class);
+
         return $class::delete($value, $row, $value2, $row2);
     }
 
@@ -196,6 +205,7 @@ class FPersistentManager
      */
     public function update($value, $row, $newValue, $newRow, $class): bool {
         $class = self::getClass($class);
+
         return $class::update($value, $row, $newValue, $newRow);
     }
 
@@ -212,6 +222,7 @@ class FPersistentManager
      */
     public function updateDebole($value, $row, $value2, $row2, $newValue, $newRow, $class): bool {
         $class = $this::getClass($class);
+
         return $class::update($value, $row, $value2, $row2, $newValue, $newRow);
     }
 
@@ -223,10 +234,6 @@ class FPersistentManager
     public function occupaPosti(array $biglietti) {
         return FProiezione::occupaPosti($biglietti);
     }
-
-    /*public function liberaPosto($idProiezione, $posto, $emailUtente)  {
-        return FProiezione::liberaPosto($idProiezione, $posto, $emailUtente);
-    }*/
 
     /**
      * Funzione che permette attraverso username o email, la password ed un valore (che identifica se è stato passato un username od una mail) di controllare se le credenziali appartengano ad un utente. Torna un Utente oppure null.

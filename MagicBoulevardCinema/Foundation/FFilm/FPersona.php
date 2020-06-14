@@ -12,13 +12,13 @@ class FPersona implements Foundation
      * Nome della classe.
      * @var string
      */
-    private static string $className = "FPersona";
+    private static string $className  = "FPersona";
 
     /**
      * Nome della corrispondente tabella presente sul DB.
      * @var string
      */
-    private static string $tableName = "Persona";
+    private static string $tableName  = "Persona";
 
     /**
      * Insieme delle colonne presenti nella tabella sul DB che verrà sostituita in fase di binding.
@@ -39,12 +39,12 @@ class FPersona implements Foundation
      */
     public static function associate(PDOStatement $sender, $persona) {
         if ($persona instanceof EPersona) {
-            $sender->bindValue(':id', $persona->getId(), PDO::PARAM_INT);
-            $sender->bindValue(':nome', $persona->getNome(), PDO::PARAM_STR);
-            $sender->bindValue(':cognome', $persona->getCognome(), PDO::PARAM_STR);
-            $sender->bindValue(':imdbURL', $persona->getImdbUrl(), PDO::PARAM_STR);
-            $sender->bindValue(':isAttore', $persona->isAttore(), PDO::PARAM_BOOL);
-            $sender->bindValue(':isRegista', $persona->isRegista(), PDO::PARAM_BOOL);
+            $sender->bindValue(':id',        $persona->getId(),      PDO::PARAM_INT);
+            $sender->bindValue(':nome',      $persona->getNome(),    PDO::PARAM_STR);
+            $sender->bindValue(':cognome',   $persona->getCognome(), PDO::PARAM_STR);
+            $sender->bindValue(':imdbURL',   $persona->getImdbUrl(), PDO::PARAM_STR);
+            $sender->bindValue(':isAttore',  $persona->isAttore(),   PDO::PARAM_BOOL);
+            $sender->bindValue(':isRegista', $persona->isRegista(),  PDO::PARAM_BOOL);
         } else {
             die("Not a person!!");
         }
@@ -54,8 +54,7 @@ class FPersona implements Foundation
      * Funzione che ritorna il nome della classe.
      * @return string
      */
-    public static function getClassName()
-    {
+    public static function getClassName() {
         return self::$className;
     }
 
@@ -63,8 +62,7 @@ class FPersona implements Foundation
      * Funzione che ritorna il nome della tabella presente sul DB.
      * @return string
      */
-    public static function getTableName()
-    {
+    public static function getTableName() {
         return self::$tableName;
     }
 
@@ -72,8 +70,7 @@ class FPersona implements Foundation
      * Funzione che ritorna i valori delle colonne della tabella per il binding.
      * @return string
      */
-    public static function getValuesName()
-    {
+    public static function getValuesName() {
         return self::$valuesName;
     }
 
@@ -81,10 +78,12 @@ class FPersona implements Foundation
      * Funzione che permette di salvare una persona sul DB.
      * @param EPersona $persona, persona da salvare.
      */
-    public static function save(EPersona $persona)
-    {
+    public static function save(EPersona $persona) {
         $db = FDatabase::getInstance();
-        $db->saveToDB(self::getClassName(), $persona);
+
+        $id = $db->saveToDB(self::getClassName(), $persona);
+
+        $persona->setId($id);
     }
 
     /**
@@ -95,16 +94,10 @@ class FPersona implements Foundation
      * @param $newrow, colonna nella quale inserire il nuovo valore.
      * @return bool, risultato dell'operazione.
      */
-    public static function update($value, $row, $newvalue, $newrow): bool
-    {
+    public static function update($value, $row, $newvalue, $newrow): bool {
         $db = FDatabase::getInstance();
 
-        if($db->updateTheDB(self::getClassName(), $value, $row, $newvalue, $newrow))
-        {
-            return true;
-        }
-
-        return false;
+        return $db->updateTheDB(self::getClassName(), $value, $row, $newvalue, $newrow);
     }
 
     /**
@@ -115,10 +108,8 @@ class FPersona implements Foundation
      */
     public static function delete($value, $row): bool {
         $db = FDatabase::getInstance();
-        if($db->deleteFromDB(self::getClassName(),$value,$row)){
-            return true;
-        }
-        return false;
+
+        return $db->deleteFromDB(self::getClassName(),$value,$row);
     }
 
     /**
@@ -127,21 +118,20 @@ class FPersona implements Foundation
      * @param string $row, colonna nella quale cercare il valore.
      * @return array, array di EPersona.
      */
-    public static function load (string $value, string $row): array
-    {
-        $db = FDatabase::getInstance();
+    public static function load (string $value, string $row): array {
+        $db     = FDatabase::getInstance();
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
 
         $return = [];
 
         foreach ($result as $row) {
-            $id = $row["id"];
-            $nome = $row["nome"];
-            $cognome = $row["cognome"];
-            $imdbUrl = $row["imdbURL"];
-            $isAttore = $row["isAttore"];
-            $isRegista = $row["isRegista"];
-            $p = new EPersona($nome, $cognome, $imdbUrl, boolval($isAttore), boolval($isRegista));
+            $id         = $row["id"];
+            $nome       = $row["nome"];
+            $cognome    = $row["cognome"];
+            $imdbUrl    = $row["imdbURL"];
+            $isAttore   = $row["isAttore"];
+            $isRegista  = $row["isRegista"];
+            $p          = new EPersona($nome, $cognome, $imdbUrl, boolval($isAttore), boolval($isRegista));
             $p->setId($id);
             array_push($return, $p);
         }

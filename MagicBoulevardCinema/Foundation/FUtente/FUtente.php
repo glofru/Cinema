@@ -13,13 +13,13 @@ class FUtente implements Foundation
      * Nome della classe.
      * @var string
      */
-    private static string $className = "FUtente";
+    private static string $className  = "FUtente";
 
     /**
      * Nome della corrispondente tabella presente sul DB.
      * @var string
      */
-    private static string $tableName = "Utenti";
+    private static string $tableName  = "Utenti";
 
     /**
      * Insieme delle colonne presenti nella tabella sul DB che verrà sostituita in fase di binding.
@@ -40,19 +40,18 @@ class FUtente implements Foundation
      */
     public static function associate(PDOStatement $sender, $utente){
         if ($utente instanceof EUtente) {
-            $sender->bindValue(':id', NULL, PDO::PARAM_INT);
-            $sender->bindValue(':username', $utente->getUsername(), PDO::PARAM_STR);
-            $sender->bindValue(':email', $utente->getEmail(), PDO::PARAM_STR);
-            $sender->bindValue(':nome', str_replace("'", "\'", $utente->getNome()), PDO::PARAM_STR);
+            $sender->bindValue(':id',       NULL,                                          PDO::PARAM_INT);
+            $sender->bindValue(':username', $utente->getUsername(),                        PDO::PARAM_STR);
+            $sender->bindValue(':email',    $utente->getEmail(),                           PDO::PARAM_STR);
+            $sender->bindValue(':nome',     str_replace("'", "\'", $utente->getNome()),    PDO::PARAM_STR);
             $sender->bindValue(':cognome',  str_replace("'", "\'", $utente->getCognome()), PDO::PARAM_STR);
-            $sender->bindValue(':password', $utente->getPassword(), PDO::PARAM_STR);
-            $sender->bindValue(':isAdmin', $utente instanceof EAdmin, PDO::PARAM_BOOL);
-            $sender->bindValue(':isBanned', $utente->isBanned(), PDO::PARAM_BOOL);
+            $sender->bindValue(':password', $utente->getPassword(),                        PDO::PARAM_STR);
+            $sender->bindValue(':isAdmin',  $utente instanceof EAdmin,                     PDO::PARAM_BOOL);
+            $sender->bindValue(':isBanned', $utente->isBanned(),                           PDO::PARAM_BOOL);
         } else {
             die("Not a user!!");
         }
     }
-
 
     /**
      * Funzione che ritorna il nome della classe.
@@ -99,7 +98,8 @@ class FUtente implements Foundation
      * @return EUtente, oggetto EUtente.
      */
     public static function load(string  $value, string $row) {
-        $db = FDatabase::getInstance();
+        $db     = FDatabase::getInstance();
+
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
 
         return self::parseResult($result)[0];
@@ -111,11 +111,13 @@ class FUtente implements Foundation
      * @return array|null[], insieme di utenti bannati.
      */
     public static function loadBannati() {
-        $db = FDatabase::getInstance();
+        $db     = FDatabase::getInstance();
+
         $result = $db->loadFromDB(self::getClassName(), '1', 'isBanned');
         if ($result == null) {
             return [];
         }
+
         return self::parseResult($result);
     }
 
@@ -124,7 +126,7 @@ class FUtente implements Foundation
      * @param string $value, username o email dell'utente.
      * @param string $pass, password dell'utente.
      * @param bool $isMail, se il valore passato è un username o uan mail.
-     * @return mixed|null
+     * @return EUtente|null
      */
     public static function login(string $value, string $pass, bool $isMail) {
         $db = FDatabase::getInstance();
@@ -135,7 +137,7 @@ class FUtente implements Foundation
             $result = $db->loadFromDB(self::getClassName(), $value, "username");
         }
 
-        $utente = self::parseResult($result)[0];
+        $utente     = self::parseResult($result)[0];
 
         if ($utente != null) {
             if (password_verify($pass, $utente->getPassword())) {
@@ -193,14 +195,15 @@ class FUtente implements Foundation
         $return = [];
 
         foreach ($result as $row) {
-            $id = $row["id"];
-            $nome = $row["nome"];
-            $cognome = $row["cognome"];
-            $username = $row["username"];
-            $email = $row["email"];
-            $password = $row["password"];
-            $isAdmin = $row["isAdmin"];
-            $isBanned = $row["isBanned"];
+            $id         = $row["id"];
+            $nome       = $row["nome"];
+            $cognome    = $row["cognome"];
+            $username   = $row["username"];
+            $email      = $row["email"];
+            $password   = $row["password"];
+            $isAdmin    = $row["isAdmin"];
+            $isBanned   = $row["isBanned"];
+
             try {
                 if ($isAdmin) {
                     $utente = new EAdmin($nome, $cognome, $username, $email, $password, $isBanned);
@@ -214,6 +217,7 @@ class FUtente implements Foundation
                     return [null];
                 }
             }
+
             $utente->setId($id);
             array_push($return, $utente);
         }
@@ -228,17 +232,21 @@ class FUtente implements Foundation
      * @return bool, esito dell'operazione.
      */
     public static function exists(EUtente $utente, bool $checkMail = null): bool {
-        $db = FDatabase::getInstance();
+        $db         = FDatabase::getInstance();
 
         $resultMail = $db->loadFromDB(self::getClassName(), $utente->getEmail(), "email");
         $existsMail = $resultMail != null && sizeof($resultMail) > 0;
 
-        if ($checkMail) return $existsMail;
+        if ($checkMail) {
+            return $existsMail;
+        }
 
         $resultUser = $db->loadFromDB(self::getClassName(), $utente->getUsername(), "username");
         $existsUser = $resultUser != null && sizeof($resultUser) > 0;
 
-        if (!$checkMail) return $existsUser;
+        if (!$checkMail) {
+            return $existsUser;
+        }
 
         return $existsMail && $existsUser;
     }

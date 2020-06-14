@@ -16,7 +16,7 @@ class FDatabase
     private static $instance;
 
     /**
-     * Oggetto contente la 'connessione' al DB.
+     * Oggetto che gestisce la connessione al DB.
      * @var PDO
      */
     private PDO $db;
@@ -25,14 +25,13 @@ class FDatabase
      * FDatabase constructor.
      */
     private function __construct() {
-        $dbname = $GLOBALS["dbname"];
+        $dbname   = $GLOBALS["dbname"];
         $username = $GLOBALS["username"];
         $password = $GLOBALS["password"];
 
         try {
             $this->db = new PDO("mysql:dbname=" . $dbname . "; host=localhost; charset=utf8;", $username, $password);
-        }
-        catch (PDOException $exception) {
+        } catch (PDOException $exception) {
             VError::error(1);
         }
     }
@@ -49,7 +48,7 @@ class FDatabase
     }
 
     /**
-     * Funzione che pemrette di salvare un oggetto sul DB. Ritorna l'id dell'oggetto inserito oppure mostra la schemata di errore in caso di problemi con il DB.
+     * Funzione che permette di salvare un oggetto sul DB. Ritorna l'id dell'oggetto inserito oppure mostra la schemata di errore in caso di problemi con il DB.
      * @param $class
      * @param $values
      * @return mixed
@@ -57,18 +56,20 @@ class FDatabase
     public function saveToDB($class, $values){
         try {
             $this->db->beginTransaction();
-            $query = "INSERT INTO " . $class::getTableName() . " VALUES " . $class::getValuesName();
+
+            $query  = "INSERT INTO " . $class::getTableName() . " VALUES " . $class::getValuesName();
             $sender = $this->db->prepare($query);
             $class::associate($sender, $values);
             $sender->execute();
 
-            $id = $this->db->lastInsertId();
+            $id     = $this->db->lastInsertId();
             $this->db->commit();
 
             return $id;
         } catch (PDOException $exception) {
             $this->error();
         }
+
         return null;
     }
 
@@ -81,15 +82,19 @@ class FDatabase
     public function saveToDBNS($utente, $preferenze) {
         try {
             $this->db->beginTransaction();
-            $query = "INSERT INTO " . FNewsLetter::getTableName() . " VALUES " . FNewsLetter::getValuesName();
+
+            $query  = "INSERT INTO " . FNewsLetter::getTableName() . " VALUES " . FNewsLetter::getValuesName();
             $sender = $this->db->prepare($query);
             FNewsLetter::associate($sender, $utente, $preferenze);
             $sender->execute();
+
             $this->db->commit();
+
             return true;
         } catch (PDOException $exception) {
             $this->error();
         }
+
         return null;
     }
 
@@ -104,13 +109,15 @@ class FDatabase
 
         try {
             $this->db->beginTransaction();
-            $query = "INSERT INTO " . FProiezione::getTableName() . " VALUES " . FProiezione::getValuesName() . ";";
+
+            $query  = "INSERT INTO " . FProiezione::getTableName() . " VALUES " . FProiezione::getValuesName() . ";";
             $sender = $this->db->prepare($query);
             FProiezione::associate($sender, $proiezione);
 
             $sender->execute();
 
-            $proiezione->setId($this->db->lastInsertId());
+            $id     = $this->db->lastInsertId();
+            $proiezione->setId($id);
 
             foreach ($posti as $file) {
                 foreach ($file as $item) {
@@ -120,31 +127,35 @@ class FDatabase
                     $sender->execute();
                 }
             }
+
             $this->db->commit();
+
+            return $id;
         } catch (Exception $exception) {
             $this->error();
         }
+
         return null;
     }
 
     /**
-     * Funzione che permette di salvare
+     * Funzione che permette di salvare un'entità debole. Ritorna l'id dell'oggetto inserito oppure mostra la schemata di errore in caso di problemi con il DB.
      * @param $class
-     * @param EProiezione $proiezione
-     * @param EPosto $posto
+     * @param $entity1
+     * @param $entity2
      * @return mixed
      */
-    public function saveToDBDebole($class, EProiezione $proiezione, EPosto $posto) {
+    public function saveToDBDebole($class, $entity1, $entity2) {
         try {
             $this->db->beginTransaction();
 
-            $query = "INSERT INTO " . $class::getTableName() . " VALUES " . $class::getValuesName();
+            $query  = "INSERT INTO " . $class::getTableName() . " VALUES " . $class::getValuesName();
             $sender = $this->db->prepare($query);
-            $class::associate($sender, $proiezione, $posto);
+            $class::associate($sender, $entity1, $entity2);
 
             $sender->execute();
 
-            $id = $this->db->lastInsertId();
+            $id     = $this->db->lastInsertId();
 
             $this->db->commit();
 
@@ -152,6 +163,7 @@ class FDatabase
         } catch (PDOException $exception) {
             $this->error();
         }
+
         return null;
     }
 
@@ -161,7 +173,7 @@ class FDatabase
      * @param $value
      * @param string $row
      * @param null $media
-     * @return mixed
+     * @return array
      */
     public function loadFromDB($class, $value, string $row, $media = null) {
         try {
@@ -169,8 +181,7 @@ class FDatabase
             $query = "SELECT * FROM " . $table . " WHERE " . $row . "='" . $value . "';";
 
             return $this->executeQuery($query);
-        }
-        catch (PDOException $exception) {
+        } catch (PDOException $exception) {
             $this->error(false);
         }
     }
@@ -182,15 +193,14 @@ class FDatabase
      * @param string $row
      * @param $value2
      * @param $row2
-     * @return array|null
+     * @return array
      */
     public function loadFromDBDebole($class, $value, string $row, $value2, $row2) {
         try {
             $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . " = '" . $value. "' AND " . $row2 . " = '" . $value2 . "';";
 
             return $this->executeQuery($query);
-        }
-        catch (PDOException $exception) {
+        } catch (PDOException $exception) {
             $this->error(false);
         }
     }
@@ -201,25 +211,24 @@ class FDatabase
      * @param string $datainizio
      * @param string $datafine
      * @param string $row
-     * @return mixed
+     * @return array
      */
     public function loadBetween($class, string $datainizio, string $datafine, string $row) {
         try {
             $query = "SELECT * FROM " . $class::getTableName() . " WHERE " . $row . " BETWEEN '" . $datainizio . "' AND '" . $datafine . "';";
 
             return $this->executeQuery($query);
-        }
-        catch(Exception $exception) {
+        } catch(Exception $exception) {
             $this->error(false);
         }
     }
 
     /**
-     * Funzione che permette di reperire sul Db oggetti con un valore (value) simile a quelli presenti nella colonna row. Ritorna un array con le righe corrispondenti o una scehrmata di errore.
+     * Funzione che permette di reperire sul DB oggetti con un valore (value) simile a quelli presenti nella colonna row. Ritorna un array con le righe corrispondenti o una scehrmata di errore.
      * @param $class
      * @param string $value
      * @param string $row
-     * @return mixed
+     * @return array
      */
     public function loadLike($class, string $value, string $row) {
         try {
@@ -234,15 +243,14 @@ class FDatabase
     /**
      * Funzione che reperisce tutte le righe sul DB di una determnitata tabella. ritorna un array con tutte le righe o una schermaa di errore.
      * @param $class
-     * @return mixed
+     * @return array
      */
     public function loadAll($class) {
         try {
             $query = "SELECT * FROM " . $class::getTableName() . ";";
 
             return $this->executeQuery($query);
-        }
-        catch (PDOException $exception) {
+        } catch (PDOException $exception) {
             $this->error(false);
         }
     }
@@ -251,15 +259,14 @@ class FDatabase
      * Funzione che permette di caricare dal DB oggetti che hanno una data successiva a quella passata come parametro. Ritorna un insieme di righe oppure una schermata di errore.
      * @param $class
      * @param DateTime $time
-     * @return mixed
+     * @return array
      */
     public function loadByDate($class, DateTime $time) {
         try {
             $query = "SELECT * FROM " . $class::getTableName() . " WHERE data >= " . $time->format("Y-m-d") . ";";
 
             return $this->executeQuery($query);
-        }
-        catch (PDOException $exception) {
+        } catch (PDOException $exception) {
             $this->error(false);
         }
     }
@@ -267,40 +274,41 @@ class FDatabase
     /**
      * Funzione di supporto al controllo sovrapposizione di FProiezione.
      * @param EProiezione $proiezione
-     * @return mixed
+     * @return array
      */
     public function isSovrappostaProiezione(EProiezione $proiezione) {
         try {
             $query = "SELECT * FROM Proiezione WHERE numerosala = '{$proiezione->getSala()->getNumeroSala()}' AND `data` = '{$proiezione->getDataSQL()}';";
 
             return $this->executeQuery($query);
-        }
-        catch(Exception $exception) {
+        } catch(Exception $exception) {
             $this->error(false);
         }
     }
+
     /**
      * Funzione che permette di eliminare un oggetto dal DB. Ritorna l'esito dell'operazione od una schermata di errore
      * @param $class
      * @param $value
      * @param $row
-     * @return mixed
+     * @return bool
      */
-    public function deleteFromDB($class, $value, string $row) {
+    public function deleteFromDB($class, $value, string $row): bool {
         try{
             $this->db->beginTransaction();
 
-            $query = "DELETE FROM " . $class::getTableName() . " WHERE " . $row . " = '" . $value . "';";
+            $query  = "DELETE FROM " . $class::getTableName() . " WHERE " . $row . " = '" . $value . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
 
             $this->db->commit();
 
             return true;
-        }
-        catch(PDOException $exception) {
+        } catch(PDOException $exception) {
             $this->error();
         }
+
+        return false;
     }
 
     /**
@@ -312,21 +320,22 @@ class FDatabase
      * @param $row2
      * @return bool
      */
-    public function deleteFromDBDebole($class, $value, $row, $value2, $row2) {
+    public function deleteFromDBDebole($class, $value, $row, $value2, $row2): bool {
         try{
             $this->db->beginTransaction();
 
-            $query = "DELETE FROM " . $class::getTableName() . " WHERE " . $row . "='" . $value . "' AND ". $row2 . "= '" . $value2 . "';";
+            $query  = "DELETE FROM " . $class::getTableName() . " WHERE " . $row . "='" . $value . "' AND ". $row2 . "= '" . $value2 . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
 
             $this->db->commit();
 
             return true;
-        }
-        catch(PDOException $exception) {
+        } catch(PDOException $exception) {
             $this->error();
         }
+
+        return false;
     }
 
     /**
@@ -336,71 +345,77 @@ class FDatabase
      * @param $row
      * @param $newRow
      * @param $newValue
-     * @return mixed
+     * @return bool
      */
-    public function updateTheDB($class, $value, string $row, $newValue, string $newRow) {
+    public function updateTheDB($class, $value, string $row, $newValue, string $newRow): bool {
         try {
             $this->db->beginTransaction();
+
             if($class === "FMedia" && $row === "idUtente") {
-                $query = "UPDATE " . $class::getTableName("EMediaUtente") . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
+                $query = "UPDATE " . $class::getTableName("EMediaUtente")   . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
             } else if ($class === "FMedia" && $row === "idFilm"){
-                $query = "UPDATE " . $class::getTableName("EMediaFilm") . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
+                $query = "UPDATE " . $class::getTableName("EMediaFilm")     . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
             } else {
-                $query = "UPDATE " . $class::getTableName() . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
+                $query = "UPDATE " . $class::getTableName()                 . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
             }
+
             $sender = $this->db->prepare($query);
             $sender->execute();
 
             $this->db->commit();
 
             return true;
-        }
-        catch(PDOException $exception) {
+        } catch(PDOException $exception) {
             $this->error();
         }
+
+        return false;
     }
 
     /**
-     * Funzione che permette di aggiornare un oggetto sul DB se è una entità debole. ritorna l'esito dell'operazione o una schermata di errore.
+     * Funzione che permette di aggiornare un oggetto sul DB se è una entità debole. Ritorna l'esito dell'operazione o una schermata di errore.
      * @param $class
      * @param $value
      * @param $row
      * @param $value2
      * @param $row2
-     * @param string $newRow
+     * @param $newRow
      * @param $newValue
-     * @return mixed
+     * @return bool
      */
-    public function updateTheDBDebole($class, $value, $row, $value2, $row2, string $newRow, $newValue) {
+    public function updateTheDBDebole($class, $value, $row, $value2, $row2, $newRow, $newValue): bool {
         try {
             $this->db->beginTransaction();
-            $query = "UPDATE " . $class::getTableName() . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "= '" . $value. "' AND " . $row2 . "= '" . $value2 . "';";
+
+            $query  = "UPDATE " . $class::getTableName() . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "= '" . $value. "' AND " . $row2 . "= '" . $value2 . "';";
             $sender = $this->db->prepare($query);
             $sender->execute();
+
             $this->db->commit();
 
             return true;
-        }
-        catch(PDOException $exception) {
+        } catch(PDOException $exception) {
             $this->error();
         }
+
+        return false;
     }
 
     /**
      * Funzione che permette, dato un insieme di biglietti, di salvare questi ultimi sul DB ed al contempo di occupare i relativi posti. Ritorna null se non esiste il posto inserito, flase se uno dei posti è stato già occupato, true se l'operazione è andata a buon fine altrimenti una schermata di errore.
      * @param array $biglietti
-     * @return mixed
+     * @return bool|null
      */
     public function occupaPosti(array $biglietti) {
         try {
             $this->db->beginTransaction();
 
             foreach ($biglietti as $item) {
-                $query = "SELECT * FROM " . "Posti" . " WHERE " . "idProiezione = '" . $item->getProiezione()->getId() . "' AND " . "posizione = '" . $item->getPosto()->getId() . "' FOR UPDATE;";
+                $query  = "SELECT * FROM " . "Posti" . " WHERE " . "idProiezione = '" . $item->getProiezione()->getId() . "' AND " . "posizione = '" . $item->getPosto()->getId() . "' FOR UPDATE;";
                 $sender = $this->db->prepare($query);
                 $sender->execute();
 
-                $posto = $sender->fetch(PDO::FETCH_ASSOC);
+                $posto  = $sender->fetch(PDO::FETCH_ASSOC);
 
                 if($posto == null) { //Non esiste il posto
                     $this->db->rollBack();
@@ -412,11 +427,11 @@ class FDatabase
                     return false;
                 }
 
-                $query = "UPDATE Posti SET occupato = '1' WHERE idProiezione = '" . $item->getProiezione()->getId() . "' AND posizione = '" . $item->getPosto()->getId() . "';";
+                $query  = "UPDATE Posti SET occupato = '1' WHERE idProiezione = '" . $item->getProiezione()->getId() . "' AND posizione = '" . $item->getPosto()->getId() . "';";
                 $sender = $this->db->prepare($query);
                 $sender->execute();
 
-                $query = "INSERT INTO " . FBiglietto::getTableName() . " VALUES " . FBiglietto::getValuesName();
+                $query  = "INSERT INTO " . FBiglietto::getTableName() . " VALUES " . FBiglietto::getValuesName();
                 $sender = $this->db->prepare($query);
 
                 FBiglietto::associate($sender, $item);
@@ -428,35 +443,9 @@ class FDatabase
         } catch(PDOException $exception) {
             $this->error();
         }
+
         return true;
     }
-
-    /*public function liberaPosto($idProiezione, $posto, $emailUtente) {
-        try {
-            $this->db->beginTransaction();
-            $query = "SELECT * FROM " . "Posti" . " WHERE " . "idProiezione" . "= '" . $idProiezione. "' AND " . "posizione" . "= '" . $posto . "' LOCK IN SHARE MODE;";
-            $sender = $this->db->prepare($query);
-            $sender->execute();
-
-            $acquisto = $sender->fetch(PDO::FETCH_ASSOC);
-            $islibero = $acquisto["libero"];
-            $biglietto = FBiglietto::loadDoppio($idProiezione, "idProiezione", $posto, "posto");
-
-            if(!boolval($islibero) && ($biglietto->getUtente()->getEmail() === $emailUtente)) {
-                $query = "UPDATE Posti SET libero = '1' WHERE idProiezione = '" . $idProiezione . "' AND posizione = '" . $posto . "';";
-                $sender = $this->db->prepare($query);
-                $sender->execute();
-                $this->db->commit();
-
-                FBiglietto::delete($idProiezione,"idProiezione",$posto,"posto");
-                return true;
-            }
-        } catch(PDOException $exception) {
-            $this->error();
-        }
-
-        return false;
-    }*/
 
     /**
      * Funzione che permette di salvare sul Database una immagine. Ritorna l'id dell'oggetto inserito oppure una schermata di errore.
@@ -464,8 +453,7 @@ class FDatabase
      * @param EMedia $media
      * @return mixed
      */
-    public function storeMedia($class, EMedia $media)
-    {
+    public function storeMedia($class, EMedia $media) {
         try {
             $this->db->beginTransaction();
 
@@ -501,7 +489,7 @@ class FDatabase
     }
 
     /**
-     * funzione che esegue la query passata come parametro sul DB. Ritorna un array con il risultato della query.
+     * Funzione di utilità che esegue la query, passata come parametro, sul DB. Ritorna un array con il risultato della query.
      * @param $query
      * @return array
      */
@@ -529,8 +517,9 @@ class FDatabase
     }
 
     /**
-     * Funzione che viene chiamata nel caso di errore nel momento in cui si esegua una query sul DB. Ne mantiene la consistenza in caso di inserimenti attraverso il rollback e mostra una schermatat di errore per segnalare l'accaduto.
+     * Funzione che viene chiamata nel caso di errore nel momento in cui si esegua un'operazione sul DB. Ne mantiene la consistenza in caso di inserimenti attraverso il rollback e mostra una schermata di errore per segnalare l'accaduto.
      * @param bool $rollBack
+     * @throws SmartyException
      */
     private function error($rollBack = true) {
         if ($rollBack) {

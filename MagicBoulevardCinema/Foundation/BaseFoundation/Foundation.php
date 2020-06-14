@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Interfaccia alla quale si appoggiano tutte le classi Foundation che sono entità non deboli. Contiene solo i metodi CRUD, implementati in maniera differente per ogni classe.
+ * Interfaccia alla quale si appoggiano tutte le classi Foundation che sono entità non deboli. Contiene solo i metodi CRUD.
  * @author Lofrumento - Di Santo - Susanna
  * @package Foundation
  */
