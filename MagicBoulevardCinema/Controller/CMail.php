@@ -191,7 +191,7 @@ class CMail
      */
     public static function newEntry(EUtente $utente): bool {
         $subject = "Benvenuto - Magic Boulevard Cinema";
-        $body    = "Ciao " . $utente->getNome() . ", grazie per esserti registrato sul nostro portale. Adesso puoi effettuare il login <a href='" . $GLOBALS["domain"] . "/MagicBoulevardCinema/Utente/login'><b>qui</b></a>.<br>Speriamo che il nostri contenuti siano di tuo gradimento e di facile utilizzo :)";
+        $body    = "Ciao " . $utente->getNome() . ", grazie per esserti registrato sul nostro portale. Adesso puoi effettuare il login <a href='http://" . $GLOBALS["domain"] . "/MagicBoulevardCinema/Utente/login'><b>qui</b></a>.<br>Speriamo che il nostri contenuti siano di tuo gradimento e di facile utilizzo :)";
         $name    = $utente->getNome() . " " . $utente->getCognome();
 
         return self::sendMail($utente->getEmail(), $subject, $body, $name);
@@ -205,7 +205,7 @@ class CMail
      */
     public static function modifiedPassword(EUtente $utente): bool {
         $subject = "Password modificata  - Magic Boulevard Cinema";
-        $body    = "Ciao " . $utente->getNome() . " " . $utente->getCognome() . " ti segnaliamo che la tua password è stata modificata. Puoi effettuare il login <a href='" . $GLOBALS["domain"] . "MagicBoulevardCinema/Utente/login'><b>qui</b></a>.<br><br><b>ATTENZIONE</b>:Se non sei stato tu ad effettuare questa modifica manda una mail al nostro supporto tecnico per avere un aiuto <a href=\"mailto:support@magicboulevardcinema.com\">support@magicboulevardcinema.com</a>";
+        $body    = "Ciao " . $utente->getNome() . " " . $utente->getCognome() . " ti segnaliamo che la tua password è stata modificata. Puoi effettuare il login <a href='http://" . $GLOBALS["domain"] . "/MagicBoulevardCinema/Utente/login'><b>qui</b></a>.<br><br><b>ATTENZIONE</b>:Se non sei stato tu ad effettuare questa modifica <a href='http://" . $GLOBALS["domain"] . "/MagicBoulevardCinema/Utente/forgotPassword'>richiedi una nuova password</a>";
         $name    = $utente->getNome() . " " . $utente->getCognome();
 
         return self::sendMail($utente->getEmail(), $subject, $body, $name);
