@@ -86,6 +86,10 @@ class CMain
      * @throws SmartyException
      */
     public static function run(string $url) {
+        if(!isset($GLOBALS["domain"])){
+            $GLOBALS["domain"] = $_SERVER['SERVER_NAME'];
+        }
+
         if(!isset($_COOKIE["preferences"])){
              setcookie("preferences", serialize(CUtente::getUtente()->preferences(null)), time()+(86400*30), '/');
         }

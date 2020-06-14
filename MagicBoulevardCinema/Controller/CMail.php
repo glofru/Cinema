@@ -9,11 +9,6 @@
  */
 class CMail
 {
-    /**
-     * Dominio del sito. Non essendo hostato su un server pubblico riportiamo localhost.
-     * @var string
-     */
-    private static string $domain = "localhost";
 
     /**
      * Funzione che invia una email contenente un nuovo codice univoco (uid) ad un utente non Registrato che non trovi più quello che gli è stato assegnato dopo aver effettuato il suo primo acquisto.
@@ -22,7 +17,7 @@ class CMail
      * @throws \PHPMailer\PHPMailer\Exception
      */
     public static function sendForgotMailNonRegistrato(EUtente $utente): bool {
-        $link    = "http://" . self::$domain . "/MagicBoulevardCinema/Utente/controlloBigliettiNonRegistrato/?";
+        $link    = "http://" . $GLOBALS["domain"] . "/MagicBoulevardCinema/Utente/controlloBigliettiNonRegistrato/?";
 
         $subject = "Reset del tuo codice — Magic Boulevard Cinema";
         $body    = "Ciao " . $utente->getEmail() . ",<br><br>" .
@@ -42,7 +37,7 @@ class CMail
      * @throws \PHPMailer\PHPMailer\Exception
      */
     public static function sendForgotMail(EUtente $utente, EToken $token): bool {
-        $link    = "http://" . self::$domain . "/MagicBoulevardCinema/Utente/forgotPassword/?token=" . $token->getValue();
+        $link    = "http://" . $GLOBALS["domain"] . "/MagicBoulevardCinema/Utente/forgotPassword/?token=" . $token->getValue();
 
         $subject = "Reset della password - Magic Boulevard Cinema";
         $body    = "Ciao " . $utente->getNome() . ",<br><br>" .
@@ -196,7 +191,7 @@ class CMail
      */
     public static function newEntry(EUtente $utente): bool {
         $subject = "Benvenuto - Magic Boulevard Cinema";
-        $body    = "Ciao " . $utente->getNome() . ", grazie per esserti registrato sul nostro portale. Adesso puoi effettuare il login <a href='localhost/Utente/login'><b>qui</b></a>.<br>Speriamo che il nostri contenuti siano di tuo gradimento e di facile utilizzo :)";
+        $body    = "Ciao " . $utente->getNome() . ", grazie per esserti registrato sul nostro portale. Adesso puoi effettuare il login <a href='" . $GLOBALS["domain"] . "/MagicBoulevardCinema/Utente/login'><b>qui</b></a>.<br>Speriamo che il nostri contenuti siano di tuo gradimento e di facile utilizzo :)";
         $name    = $utente->getNome() . " " . $utente->getCognome();
 
         return self::sendMail($utente->getEmail(), $subject, $body, $name);
@@ -210,7 +205,7 @@ class CMail
      */
     public static function modifiedPassword(EUtente $utente): bool {
         $subject = "Password modificata  - Magic Boulevard Cinema";
-        $body    = "Ciao " . $utente->getNome() . " " . $utente->getCognome() . " ti segnaliamo che la tua password è stata modificata. Puoi effettuare il login <a href='localhost/Utente/login'><b>qui</b></a>.<br><br><b>ATTENZIONE</b>:Se non sei stato tu ad effettuare questa modifica manda una mail al nostro supporto tecnico per avere un aiuto <a href=\"mailto:support@magicboulevardcinema.com\">support@magicboulevardcinema.com</a>";
+        $body    = "Ciao " . $utente->getNome() . " " . $utente->getCognome() . " ti segnaliamo che la tua password è stata modificata. Puoi effettuare il login <a href='" . $GLOBALS["domain"] . "MagicBoulevardCinema/Utente/login'><b>qui</b></a>.<br><br><b>ATTENZIONE</b>:Se non sei stato tu ad effettuare questa modifica manda una mail al nostro supporto tecnico per avere un aiuto <a href=\"mailto:support@magicboulevardcinema.com\">support@magicboulevardcinema.com</a>";
         $name    = $utente->getNome() . " " . $utente->getCognome();
 
         return self::sendMail($utente->getEmail(), $subject, $body, $name);
