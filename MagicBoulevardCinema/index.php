@@ -9,12 +9,12 @@ if (Installer::checkInstall()) {
     try {
         CMain::run($_SERVER["REQUEST_URI"]);
     } catch (SmartyException $e) {
-        //500
+        CMain::internalServerError();
     }
 } else {
     try {
         Installer::start();
     } catch (SmartyException $e) {
-        //500
+        CMain::internalServerError();
     }
 }

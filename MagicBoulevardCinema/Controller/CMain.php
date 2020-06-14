@@ -48,6 +48,12 @@ class CMain
         die;
     }
 
+    public static function internalServerError() {
+        header("HTTP/1.1 500 Internal Server Error");
+        header("Location: /MagicBoulevardCinema/500.html");
+        die;
+    }
+
     /**
      * Funzione principale dell'applicazione che viene invocata ogni volta che viene richiesta una pagina. Svolge le seguenti funzioni:
      *
@@ -150,7 +156,7 @@ class CMain
                 try {
                     $controller::$function();
                 } catch (Exception $e) {
-                    //TODO: internal server error
+                    self::internalServerError();
                 }
             }
         } else {
