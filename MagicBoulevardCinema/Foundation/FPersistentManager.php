@@ -60,6 +60,10 @@ class FPersistentManager
         $class::save($istanza);
     }
 
+    public function savePostiNuovaSala(EProiezione $pro) {
+        FPosto::save($pro);
+    }
+
     /**
      * Funzione che permette di salvare nel DB le preferenze di Newsletter di un utente.
      * @param $utente, utente da aggiungere alla Newsletter.

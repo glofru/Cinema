@@ -691,6 +691,8 @@ class CAdmin
                             $salaV  = ESalaVirtuale::fromSalaFisica($salaF);
                             $proiezione->setSala($salaV);
                             $changeSala = true;
+                            FPersistentManager::getInstance()->delete($proiezione->getId(), "id", "EPosto");
+                            FPersistentManager::getInstance()->savePostiNuovaSala($proiezione);
                         }
                     }
                 }

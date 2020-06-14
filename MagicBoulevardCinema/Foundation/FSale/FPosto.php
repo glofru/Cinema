@@ -6,7 +6,7 @@
  * @author Lofrumento - Di Santo - Susanna
  * @package Foundation
  */
-class FPosto implements FoundationDebole
+class FPosto
 {
     /**
      * Nome della classe.
@@ -80,7 +80,9 @@ class FPosto implements FoundationDebole
         $db = FDatabase::getInstance();
 
         foreach ($proiezione->getSala()->getPosti() as $elem) {
-            $db->saveToDBDebole(self::getClassName(), $proiezione, $elem);
+            foreach($elem as $item){
+                $db->saveToDBDebole(self::getClassName(), $proiezione, $item);
+            }
         }
     }
 
@@ -144,7 +146,7 @@ class FPosto implements FoundationDebole
      * @param $row2, seconda colonna nella quale cercare il valore.
      * @return bool, esito dell'operazione.
      */
-    public static function delete($value, $row, $value2, $row2): bool {
+    public static function delete($value, $row): bool {
         $db = FDatabase::getInstance();
 
         return $db->deleteFromDB(self::getClassName(), $value, $row);
