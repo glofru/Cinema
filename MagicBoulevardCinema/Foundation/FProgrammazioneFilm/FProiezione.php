@@ -113,6 +113,7 @@ class FProiezione implements Foundation
                 if (($inizio->getTimestamp() >= $proIn->getTimestamp() && $inizio->getTimestamp() <= $proFin->getTimestamp()) ||
                     ($fine->getTImestamp()    > $proIn->getTimestamp() && $fine->getTimestamp()    < $proFin->getTimestamp()) ||
                     ($inizio->getTimestamp()  < $proIn->getTimestamp() && $fine->getTimestamp()    > $proFin->getTimestamp())) {
+
                     return true;
                 }
             }

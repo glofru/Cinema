@@ -14,7 +14,7 @@ class CUtente
     /**
      * Funzione, accessibile sia in GET sia in POST, che esegue le seguenti funzioni:
      *
-     * GET) Se richiesta via GET la pagina mostra il form di login. Se l'utente ha in un login precedente cliccato sul bottone 'ricordami' il nome utente o email usata pr il login
+     * GET) Se richiesta via GET la pagina mostra il form di login. Se l'utente ha in un login precedente cliccato sul bottone 'ricordami' il nome utente o email usata per il login
      * viene ripreso dal cookie settato ed inserito nella pagina.
      *
      * POST) Se la pagina è richista via metodo POST questa prende i parametri passati e per prima cosa controlla se l'utente ha chiesto di ricodare il proprio username o la propia mail.
@@ -51,7 +51,7 @@ class CUtente
      * Se l'utente è registrato viene mostrata una schermata di errore in quanto non destinata a quella tipologia di utenti.
      * Se le credenziali sono giuste l'utente viene portato alla schermata di riepilogo con i propri acquisti.
      * Intenzionalmente non è presente una sessione in questo 'login' in quanto abbiamo voluto rendere il non registrato meno possibile simile all'utente Registrato.
-     * Questo implica ad esempio che ogni volta che un utente non Registrato voglia controllare i porprio biglietti dovrà sempre reinserire le credenziali.
+     * Questo implica ad esempio che ogni volta che un utente non Registrato voglia controllare i propri biglietti dovrà sempre reinserire le credenziali.
      * Va comunque considerato che un non registrato normalemnte non dovrebbe accedere spesso a questa pagina.
      * Lo scopo principale è di questa scelta è comunque quello di spingere i non registrati a registrarsi a tutti gli effetti al nostro sito.
      *
@@ -99,7 +99,7 @@ class CUtente
     /**
      * Funzione, privata, che permette di creare una sessione associata ad un utente visistatore. Il cookie di sessione viene inizializzato solo se non è già presente una variabile di sessione
      * associata ad una delle altre tipologie di utente oppure se già non è identificato come visitataore.
-     * Viene inoltre modificata localmente la variabile 'session.cookie_httponly' pee evitare che i cookie possano essere fuori dell'HTTP.
+     * Viene inoltre modificata localmente la variabile 'session.cookie_httponly' per evitare che i cookie possano essere fuori dall'HTTP.
      * @throws SmartyException
      */
     public static function createVisitor() {
@@ -107,8 +107,8 @@ class CUtente
     }
 
     /**
-     * Funzione che esegue il logut dell'utente. Se è impostata a true la variabile redierct si viene riportati alla home page al termine dell.operazione.
-     * La funzione svolge le operazioni relative all'eliminazione delle variabili di sessione in RAM e sul FS del nostro server. Al termne viene eliminato il cookie di sessione.
+     * Funzione che esegue il logut dell'utente. Se è impostata a true la variabile redierct si viene riportati alla home page al termine dell'operazione.
+     * La funzione svolge le operazioni relative all'eliminazione delle variabili di sessione in RAM e sul FS del server. Al termine viene eliminato il cookie di sessione.
      * Una volta distrutta la sessione si crea una nuova sessione ma con un utente visitatore.
      * @param bool $redirect , indica se bisogna essere reindirizzati alla home page dopo il logout.
      * @throws SmartyException
@@ -180,8 +180,8 @@ class CUtente
      * Viene passato come parametro l'id dell'utente cercato che se non esiste conduce ad una pagina di errore.
      * Altrimenti si procede a caricare tutti i dati dell'utente dal DB, se il profilo non appartiene direttamente all'utente stesso.
      * In questo caso i parametri vengono presi dalla variabile di sessione dell'utente e si abilita la variabile canModify così da permettere all'utente di modificare il proprio profilo.
-     * Se l'utente vuole vedere il proprio profilo e non è un admin vengono reperite inoltre le informazioni sulla sua eventuale iscrizione alla newsletter.
-     * Al termine viene visualizzata la schermata con i relativi giudizi espressi se si sta visualizzando un profilo un utente non Admin.
+     * Se l'utente vuole vedere il proprio profilo, e non è un admin, vengono reperite inoltre le informazioni sulla sua eventuale iscrizione alla newsletter.
+     * Al termine viene visualizzata la schermata con i relativi giudizi espressi se si sta visualizzando un profilo utente non Admin.
      *
      * @throws SmartyException
      */
@@ -238,7 +238,7 @@ class CUtente
      *
      * GET) Se richiamata via GET mostra una schermata con tutti i dati personali dell'utente.
      *
-     * POST) Se richiamata in POST permette di modificare i dati dell'utente con quelli fornuti.
+     * POST) Se richiamata in POST permette di modificare i dati dell'utente con quelli forniti.
      */
     public static function modifica() {
         $method = $_SERVER["REQUEST_METHOD"];
@@ -391,7 +391,7 @@ class CUtente
     }
 
     /**
-     * Funzione accessibile sia via GET sia via POST che permette di far registrare un nuovo utente nel nostro Database.
+     * Funzione accessibile sia via GET sia via POST che permette di far registrare un nuovo utente nel Database.
      *
      * GET) Se chiamata via metodo GET la funzione mostra all'utente la schermatta di registrazione.
      *
@@ -425,7 +425,7 @@ class CUtente
             } elseif (FUtente::exists($utente, false)) { //Se l'username già esiste
                 VUtente::signup(EGenere::getAll(), $nome, $cognome, $username, $email, null, false);
             } else {
-                if(!is_uploaded_file($_FILES["propic"]["tmp_name"])){
+                if(!is_uploaded_file($_FILES["propic"]["tmp_name"])) {
                     $name = "";
                     $mimeType = "";
                     $data = "";
@@ -604,7 +604,7 @@ class CUtente
     }
 
     /**
-     * Funzione che viene eseguita quando un utente accede alla pagina di ereset della password ed inserisce una nuova password.
+     * Funzione che viene eseguita quando un utente inserisce una nuova password nella pagina di resetpassword.
      * Se la password ed il token sono validi esegue il cambio della password.
      * Accessibile solo tramite metodo POST.
      * @throws \PHPMailer\PHPMailer\Exception|SmartyException
@@ -688,14 +688,15 @@ class CUtente
      * Funzione che permette ad un utente di eliminare il proprio profilo.
      * @throws SmartyException
      */
-    public static function eliminaUtente()
-    {
+    public static function eliminaUtente() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if(!CUtente::isLogged()){
                 CMain::unauthorized();
             }
+
             if(isset($_POST["idUtente"]) && CUtente::getUtente()->getId() == $_POST["idUtente"]) {
                 CUtente::logout();
+
                 FPersistentManager::getInstance()->delete($_POST["idUtente"], "id", "EUtente");
             } else {
                 CMain::badRequest();

@@ -35,7 +35,7 @@ class CInformazioni
     }
 
     /**
-     * Funzione che permette di visualizare una pagina contenente i recapiti al quale poter contatatre gli amministratori in caso di problemi riscontrati nell'utilizzo della nostra applicazione.
+     * Funzione che permette di visualizare una pagina contenente i recapiti al quale poter contatatre gli amministratori in caso di problemi riscontrati nell'utilizzo dell' applicazione.
      * @throws SmartyException
      */
     public static function getHelp() {
