@@ -1,7 +1,7 @@
 <?php
 
 /**
- * La classe Utente permette di ottenere le schermate necessarie all'utente per poter gestire il suo account, gestire i propri giudizi, vedere i bigliatti acquistati, poter effettuare il login e potersi registrare.
+ * La classe Utente permette di ottenere le schermate necessarie all'utente per poter gestire il suo account, gestire i propri giudizi, vedere i biglietti acquistati, poter effettuare il login e potersi registrare.
  * Class VUtente
  * @access public
  * @author Lofrumento - Di Santo - Susanna
@@ -163,7 +163,7 @@ class VUtente
     /**
      * Funzione che permette di visualizzare la schermata di login per utenti non registrati. Se effettuato il login mostra i biglietti acquistati dall'utente.
      * @param EUtente $utente, utente che richiede la pagina.
-     * @param bool $isGet, se è richiesta la pafina in GET (form di login) o in POST (insieme dei biglietti acquistati).
+     * @param bool $isGet, se è richiesta la pagina in GET (form di login) o in POST (insieme dei biglietti acquistati).
      * @param string $email, email dell'utente.
      * @param array|null $biglietti, insieme dei biglietti acquistati.
      * @param null $immagini, locandine dei film.
@@ -183,7 +183,7 @@ class VUtente
     }
 
     /**
-     * Funzione che permette di mostarre la schermata di modifica dei dati dell'utente.
+     * Funzione che permette di mostrare la schermata di modifica dei dati dell'utente.
      * @param EUtente $utente, utente che richiede la pagina.
      * @param EMedia $propic, immagine di profilo dell'utente.
      * @param $generi, insieme di tutti i generi dei film.

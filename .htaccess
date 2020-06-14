@@ -13,6 +13,5 @@ RewriteCond %{HTTP:X-Forwarded-Proto} !https
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule . /MagicBoulevardCinema/index.php [L]
-#RedirectMatch / /MagicBoulevardCinema/index.php
+RewriteRule ^(.*)$ /MagicBoulevardCinema/index.php [L]
 </IfModule>

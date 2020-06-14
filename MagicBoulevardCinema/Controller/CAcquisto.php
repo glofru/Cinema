@@ -100,10 +100,11 @@ class CAcquisto
      * 5) Se l'utente è un non Registrato ed è la prima volta che effettua un acquisto allora nella mail è inclusa la password temporanea che gli è stata assegnata. Nel caso invece in cui non sia il primo acquisto per l'utente non Registrato, non viene inviata la password in quanto resta valida la prima assegnatagli.
      * 6) Se l'utente è un non registrato la sessione viene terminata al termine dell'acquisto.
      * @throws SmartyException
+     * @throws Exception
      */
     public static function confermaAcquisto() {
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
-            $isNonRegistrato    = false;
+            $isNonRegistrato     = false;
 
             if(!CUtente::isLogged() && isset($_SESSION["nonRegistrato"])) {
                 $isNonRegistrato = true;
@@ -123,10 +124,11 @@ class CAcquisto
             }
 
             $pm = FPersistentManager::getInstance();
+
             if($isNonRegistrato) {
                 $utente = unserialize($_SESSION["nonRegistrato"]);
             } else {
-               $utente  = CUtente::getUtente();
+                $utente  = CUtente::getUtente();
             }
 
             if(!$utente->isRegistrato()) {
@@ -134,12 +136,14 @@ class CAcquisto
                 if(!isset($utenteDB)) {
                     $uid    = uniqid();
                     $utente->setPassword($uid);
+
                     FPersistentManager::getInstance()->signup($utente);
                 } else {
                     $utente = $utenteDB;
                     $uid    = null;
                 }
             }
+
             foreach ($biglietti as $item) {
                 if (!$utente->isRegistrato()) {
                     $item->setUtente($utente);
@@ -157,8 +161,10 @@ class CAcquisto
             } else {
                 if (!$utente->isRegistrato()) {
                     CMail::sendTicketsNonRegistrato($utente, $biglietti, $uid);
+
                     unset($uid);
                     CUtente::logout(false);
+
                     header("Location: /MagicBoulevardCinema/Utente/controlloBigliettiNonRegistrato");
                 } else {
                     foreach ($biglietti as $b) {
@@ -166,9 +172,9 @@ class CAcquisto
                     }
                     $_SESSION["utente"] = serialize($utente);
                     CMail::sendTickets($utente, $biglietti);
+
                     header("Location: /MagicBoulevardCinema/Utente/bigliettiAcquistati");
                 }
-                die;
             }
         } else {
             CMain::methodNotAllowed();

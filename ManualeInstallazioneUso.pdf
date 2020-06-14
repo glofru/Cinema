@@ -17,7 +17,7 @@ Per poter visitare le pagine web bisogna necessariamente avere cookie e Javascri
 
 L'installazione richiederà pochi e semplici passi:
 
-1. Copiare la cartella *MagicBoulevardCinema* del pacchetto fornito all'interno di
+1. Copiare la cartella *MagicBoulevardCinema* e il file *.htaccess* del pacchetto fornito all'interno di
 
    **Windows:** *C:\xampp\htdocs*
 
@@ -58,6 +58,8 @@ L'installazione richiederà pochi e semplici passi:
 
 7. Buon Magic Boulevard Cinema — Il cinema dei tuoi sogni!
     ![image-20200614132451336](/Users/gianluca/Library/Application Support/typora-user-images/image-20200614132451336.png)
+
+
 
 ## Uso admin
 
@@ -175,4 +177,3 @@ Dalla schermata *aggiungi sala* inserire il numero della sala, il numero di file
 Dalla schermata *gestione sale* sarà possibile vedere un riepilogo di tutte le sale e cambiare la loro disponibilità selezionando la checkbox e premendo il tasto conferma.
 
 ![image-20200614150221337](/Users/gianluca/Library/Application Support/typora-user-images/image-20200614150221337.png)
-

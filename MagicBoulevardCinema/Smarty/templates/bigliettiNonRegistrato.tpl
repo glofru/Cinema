@@ -63,7 +63,7 @@
 							<input name="password" id="password" type="password" class="sign__input" placeholder="Codice">
 						</div>
 
-						<button class="sign__btn" type="submit">Accedi</button>
+						<button class="sign__btn" type="submit" style="width: 200px">Accedi</button>
 
 						<span class="sign__text"><a href="{$path}Utente/forgotPassword">Password dimenticata?</a></span>
 					</form>
