@@ -494,6 +494,7 @@ class CAdmin
             $inizio     = DateTime::createFromFormat('Y-m-d', $dataInizio);
             $fine       = DateTime::createFromFormat('Y-m-d', $dataFine);
 
+            $now = new DateTime('now');
             if ($film === null) {
                 $error  = "Film non valido";
             } elseif ($inizio === false) {
@@ -502,6 +503,8 @@ class CAdmin
                 $error  = "Data di fine non valida";
             } elseif ($inizio->getTimestamp() > $fine->getTimestamp()) {
                 $error  = "La data di fine è prima di quella d'inizio!";
+            } elseif ($inizio < $now) {
+                $error  = "La data di inizio è antecedente ad oggi!";
             } else {
                 try {
                     $Hm    = explode(":", $orario);
