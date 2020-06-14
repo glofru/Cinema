@@ -35,7 +35,6 @@ class CMail
      * @param EToken $token , token di reset della password.
      * @return bool, esito dell'invio.
      * @throws \PHPMailer\PHPMailer\Exception
-     * @throws SmartyException
      */
     public static function sendForgotMail(EUtente $utente, EToken $token): bool {
         $link    = "http://" . $GLOBALS["domain"] . "/MagicBoulevardCinema/Utente/forgotPassword/?token=" . $token->getValue();
@@ -47,7 +46,7 @@ class CMail
             "ATTENZIONE: mail generata automaticamente, un eventuale risposta non verra' letta.";
 
         $name    = $utente->getNome() . " " . $utente->getCognome();
-        
+
         return self::sendMail($utente->getEmail(), $subject, $body, $name);
     }
 
