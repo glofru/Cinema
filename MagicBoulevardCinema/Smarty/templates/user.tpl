@@ -40,7 +40,7 @@
 <!-- details -->
     <section class="section details">
         <!-- details background -->
-        <div class="details__bg" data-bg="{$path}/MagicBoulevardCinema/Smarty/img/home/home__bg.jpg"></div>
+        <div class="details__bg" data-bg="{$path}Smarty/img/home/home__bg.jpg"></div>
         <!-- end details background -->
 
         <!-- details content -->
@@ -48,7 +48,7 @@
             <div class="row">
                 <!-- title -->
                 <div class="col-12">
-                    <h1 class="details__title">@{$utente->getUsername()}{if ($admin)} [ADMIN]{elseif ($utente->isBanned())} [BANNATO]{/if}</h1>
+                    <h1 class="details__title">@{$utente->getUsername()}{if ($utente->isAdmin())} [ADMIN]{elseif ($utente->isBanned())} [BANNATO]{/if}</h1>
                 </div>
                 <!-- end title -->
 
