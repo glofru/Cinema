@@ -93,8 +93,8 @@ class CMain
         ini_set('session.gc_probability', 10);
         ini_set('session.gc_divisor', 200);
         $parsed_url = parse_url($url);
-        $path = $parsed_url["path"];
-        $isApi = strstr($path, "/api/");
+        $path       = $parsed_url["path"];
+        $isApi      = strstr($path, "/api/");
 
         if ($isApi === false) {
             //GESTIONE UTENTE NON REGISTRATO
@@ -161,9 +161,11 @@ class CMain
             }
         } else {
             $api = explode("/", $path);
+
             array_shift($api);
             array_shift($api);
             array_shift($api);
+
             if ($api[0] !== "GestoreREST") {
                 self::notFound();
             } else {
@@ -171,11 +173,15 @@ class CMain
                 if (method_exists("CGestoreREST", $function)) {
                     $function = $api[1];
                     $controller = "CGestoreREST";
-                    $controller::$function();
+
+                    try {
+                        $controller::$function();
+                    } catch (Exception $e) {
+                        self::internalServerError();
+                    }
                 } else {
                     self::notFound();
                 }
-
             }
         }
     }

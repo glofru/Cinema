@@ -18,7 +18,7 @@ class CAcquisto
      */
     public static function getBiglietti() {
         if ($_SERVER['REQUEST_METHOD']=="POST") {
-            $id = $_POST["proiezione"];
+            $id  = $_POST["proiezione"];
             $str = $_POST["posti"];
 
             if (!isset($id) || !isset($str)) {
@@ -26,7 +26,7 @@ class CAcquisto
             } elseif (CUtente::isLogged()) { //Utente registrato
                 self::loadBiglietti($id, $str, CUtente::getUtente());
             } elseif (isset($_POST["mail"]) && EInputChecker::getInstance()->isEmail($_POST["mail"])) { //Utente non registrato
-                $mail = $_POST["mail"];
+                $mail   = $_POST["mail"];
 
                 $utente = FUtente::load($mail, "email");
 
@@ -41,7 +41,7 @@ class CAcquisto
                         }
                     }
 
-                    CUtente::saveSession($utente, true);
+                    CUtente::saveSession($utente);
 
                     self::loadBiglietti($id, $str, $utente);
                 }
@@ -67,22 +67,22 @@ class CAcquisto
      * @throws SmartyException
      */
     private static function loadBiglietti(int $id, string $str, $utente) {
-        $pm = FPersistentManager::getInstance();
+        $pm         = FPersistentManager::getInstance();
 
-        $posti = EPosto::fromString($str, true);
+        $posti      = EPosto::fromString($str, true);
         $proiezione = $pm->load($id, "id", "EProiezione")->getElencoProgrammazioni()[0]->getProiezioni()[0];
-        $locandina = $pm->load($proiezione->getFilm()->getId(), "idFilm", "EMedia");
-        $biglietti = [];
-        $totale = 0;
+        $locandina  = $pm->load($proiezione->getFilm()->getId(), "idFilm", "EMedia");
+        $biglietti  = [];
+        $totale     = 0;
 
         foreach ($posti as $key => $posto) {
-            $costo = EBiglietto::getPrezzofromProiezione($proiezione);
+            $costo  = EBiglietto::getPrezzofromProiezione($proiezione);
             array_push($biglietti, new EBiglietto($proiezione, $posto, $utente, $costo, uniqid()));
             $totale += $costo;
         }
 
         if(sizeof($biglietti) > 0) {
-            $serialized = serialize($biglietti);
+            $serialized            = serialize($biglietti);
             $_SESSION["biglietti"] = $serialized;
 
             VAcquisto::showAcquisto($biglietti, $locandina, $utente, $totale);
@@ -103,13 +103,13 @@ class CAcquisto
      */
     public static function confermaAcquisto() {
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
-            $isNonRegistrato = false;
+            $isNonRegistrato    = false;
 
             if(!CUtente::isLogged() && isset($_SESSION["nonRegistrato"])) {
                 $isNonRegistrato = true;
             } else if (!isset($_SESSION["biglietti"])  || CUtente::getUtente()->isAdmin()) {
                 VError::error(100);
-                return;
+                die;
             }
 
             $biglietti = unserialize($_SESSION["biglietti"]);
@@ -117,7 +117,7 @@ class CAcquisto
                 foreach ($biglietti as $item) {
                     if ($item->getUtente()->getId() !== CUtente::getUtente()->getId()) {
                         VError::error(100);
-                        return;
+                        die;
                     }
                 }
             }
@@ -126,18 +126,18 @@ class CAcquisto
             if($isNonRegistrato) {
                 $utente = unserialize($_SESSION["nonRegistrato"]);
             } else {
-               $utente = CUtente::getUtente();
+               $utente  = CUtente::getUtente();
             }
 
             if(!$utente->isRegistrato()) {
-                $utenteDB = FUtente::load($utente->getEmail(), "email");
+                $utenteDB   = FUtente::load($utente->getEmail(), "email");
                 if(!isset($utenteDB)) {
-                    $uid = uniqid();
+                    $uid    = uniqid();
                     $utente->setPassword($uid);
                     FPersistentManager::getInstance()->signup($utente);
                 } else {
                     $utente = $utenteDB;
-                    $uid = null;
+                    $uid    = null;
                 }
             }
             foreach ($biglietti as $item) {

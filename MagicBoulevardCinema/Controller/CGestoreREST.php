@@ -14,7 +14,8 @@ class CGestoreREST
      */
     public static function proiezioniSettimanali() {
         $settimana = EData::getSettimana();
-        $elenco = FPersistentManager::getInstance()->loadBetween($settimana[0], $settimana[1], "EProiezione");
+        $elenco    = FPersistentManager::getInstance()->loadBetween($settimana[0], $settimana[1], "EProiezione");
+
         VGestoreREST::showJSON($elenco);
     }
 
@@ -23,7 +24,8 @@ class CGestoreREST
      */
     public static function proiezioniSettimanaProssima() {
         $settimana = EData::getSettimanaProssima();
-        $elenco = FPersistentManager::getInstance()->loadBetween($settimana[0], $settimana[1], "EProiezione");
+        $elenco    = FPersistentManager::getInstance()->loadBetween($settimana[0], $settimana[1], "EProiezione");
+
         VGestoreREST::showJSON($elenco);
     }
 
@@ -32,7 +34,8 @@ class CGestoreREST
      */
     public static function proiezioniSettimanaScorsa() {
         $settimana = EData::getSettimanaScorsa(1);
-        $elenco = FPersistentManager::getInstance()->loadBetween($settimana[0], $settimana[1], "EProiezione");
+        $elenco    = FPersistentManager::getInstance()->loadBetween($settimana[0], $settimana[1], "EProiezione");
+
         VGestoreREST::showJSON($elenco);
     }
 
@@ -42,6 +45,7 @@ class CGestoreREST
     public static function filmProssimi() {
         $data = EData::getDateProssime();
         $film = FPersistentManager::getInstance()->loadBetween($data[0], $data[1], "EFilm");
+
         VGestoreREST::showJSONArray($film);
     }
 
@@ -50,12 +54,13 @@ class CGestoreREST
      * Se esiste si provede ad inviare un token univoco.
      */
     public static function myToken() {
-        $whois = json_decode('php://input',true); //Torna un tipo associativo
+        $whois  = json_decode('php://input',true); //Torna un tipo associativo
         $utente = FPersistentManager::getInstance()->load($whois["email"], "email", "EUtente");
+
         if(isset($utente)) {
             VGestoreREST::showJSON(uniqid());
         } else {
-            VGestoreREST::showJSON("ERRORE NELLA RICHIESTA");
+            VGestoreREST::showJSON("Errore");
         }
     }
 }

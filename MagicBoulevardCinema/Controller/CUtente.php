@@ -19,6 +19,7 @@ class CUtente
      *
      * POST) Se la pagina è richista via metodo POST questa prende i parametri passati e per prima cosa controlla se l'utente ha chiesto di ricodare il proprio username o la propia mail.
      * Allora salva il contenuto in un cookie. Successivamente richiama la funzione chekLogin per sapere se il login è valido o meno.
+     * @throws SmartyException
      */
     public static function login() {
         if (self::isLogged()) {
@@ -54,6 +55,7 @@ class CUtente
      * Va comunque considerato che un non registrato normalemnte non dovrebbe accedere spesso a questa pagina.
      * Lo scopo principale è di questa scelta è comunque quello di spingere i non registrati a registrarsi a tutti gli effetti al nostro sito.
      *
+     * @throws SmartyException
      */
     public static function loginNonRegistrato() {
         if(self::isLogged()){
@@ -62,10 +64,10 @@ class CUtente
 
             if(EInputChecker::getInstance()->isEmail($_POST["email"])) {
 
-                $email = $_POST["email"];
+                $email    = $_POST["email"];
                 $password = $_POST["password"];
 
-                $utente = FPersistentManager::getInstance()->login($email, $password, true);
+                $utente   = FPersistentManager::getInstance()->login($email, $password, true);
                 if (!isset($utente)) {
                     VUtente::showCheckNonRegsitrato(CUtente::getUtente(), true, $email);
                 } else if ($utente->isRegistrato()) {
@@ -78,7 +80,7 @@ class CUtente
                     $biglietti = $utente->getListaBiglietti();
 
                     usort($biglietti, array(EBiglietto::class, "sortByDatesBiglietti"));
-                    $immagini = [];
+                    $immagini  = [];
 
                     foreach ($biglietti as $item) {
                         array_push($immagini, FPersistentManager::getInstance()->load($item->GetProiezione()->getFilm()->getId(), "idFilm", "EMedia"));
@@ -119,6 +121,7 @@ class CUtente
             setcookie("PHPSESSID", "", time() - 3600, "/");
             self::createVisitor();
         }
+
         if ($redirect) {
             header("Location: /MagicBoulevardCinema");
         }
@@ -130,12 +133,13 @@ class CUtente
      * Di seguito si tenta il login dell'utente sul DB. Se ha successo si controlla se l'utente sia bannato, in tal caso si viene portati su una schermata di errore.
      * Se l'utente non è un admin vengono caricati i suoi biglietti ed i suoi giudizi.
      * Al termine si procede ad invocare la funzione di saveSession per salvare l'utente nella sessione.
-     * @param $user, username o email forniti in fase di login.
-     * @param $password, password fornita in fase di login.
+     * @param $user , username o email forniti in fase di login.
+     * @param $password , password fornita in fase di login.
+     * @throws SmartyException
      */
     private static function checkLogin($user, $password)
     {
-        $pm = FPersistentManager::getInstance();
+        $pm      = FPersistentManager::getInstance();
         $gestore = EInputChecker::getInstance();
 
         if ($gestore->isEmail($user)) {
@@ -158,7 +162,7 @@ class CUtente
                     foreach ($biglietti as $b) {
                         $utente->addBiglietto($b);
                     }
-                    $giudizi = $pm->load($utente->getId(), "idUtente", "EGiudizio");
+                    $giudizi   = $pm->load($utente->getId(), "idUtente", "EGiudizio");
                     foreach ($giudizi as $g){
                         $utente->addGiudizio($g);
                     }
@@ -179,6 +183,7 @@ class CUtente
      * Se l'utente vuole vedere il proprio profilo e non è un admin vengono reperite inoltre le informazioni sulla sua eventuale iscrizione alla newsletter.
      * Al termine viene visualizzata la schermata con i relativi giudizi espressi se si sta visualizzando un profilo un utente non Admin.
      *
+     * @throws SmartyException
      */
     public static function show() {
         if($_SERVER['REQUEST_METHOD'] == "GET") {
@@ -186,16 +191,18 @@ class CUtente
                 CMain::notFound();
             } else {
                 $pm = FPersistentManager::getInstance();
+
                 $isASub = false;
                 $prefs = "";
+
                 if(CUtente::isLogged() && CUtente::getUtente()->getId() === intval($_GET["id"])) {
-                    $canModify = true;
-                    $isASub = FPersistentManager::getInstance()->isASub(CUtente::getUtente());
-                    $prefs = str_replace(";",", ", FPersistentManager::getInstance()->load(CUtente::getUtente()->getId(), "idUtente", "ENewsLetter"));
-                    $toShow = CUtente::getUtente();
+                    $canModify   = true;
+                    $isASub      = FPersistentManager::getInstance()->isASub(CUtente::getUtente());
+                    $prefs       = str_replace(";",", ", FPersistentManager::getInstance()->load(CUtente::getUtente()->getId(), "idUtente", "ENewsLetter"));
+                    $toShow      = CUtente::getUtente();
                 } else {
-                    $canModify = false;
-                    $toShow = $pm->load($_GET["id"],"id","EUtente");
+                    $canModify   = false;
+                    $toShow      = $pm->load($_GET["id"],"id","EUtente");
                     if(isset($toShow) && !$toShow->isAdmin()) {
                         $giudizi = $pm->load($_GET["id"], "idUtente", "EGiudizio");
                         foreach ($giudizi as $g) {
@@ -206,7 +213,7 @@ class CUtente
 
                 $propic = $pm->load($toShow->getId(),"idUtente","EMediaUtente");
 
-                if(isset($toShow)){
+                if(isset($toShow)) {
                     if ($toShow->isRegistrato()) {
                         $giudizi = $toShow->getListaGiudizi();
                         usort($giudizi, array(EGiudizio::class, "sortByDatesGiudizi"));
@@ -240,8 +247,9 @@ class CUtente
             $id = $_POST["utente"];
 
             if (self::isLogged() && CUtente::getUtente()->getId() == $id) {
+                $pm     = FPersistentManager::getInstance();
+
                 $utente = self::getUtente();
-                $pm = FPersistentManager::getInstance();
 
                 try {
                     if (isset($_POST["nome"])) {
@@ -276,12 +284,16 @@ class CUtente
                     if (is_uploaded_file($_FILES["propic"])) {
                         if (EInputChecker::getInstance()->isImage($_FILES["propic"]["type"]) && EInputChecker::getInstance()->isLight($_FILES["propic"]["size"])) {
                             $propic = $_FILES["propic"];
+
                             $name = $propic["name"];
                             $mimeType = $propic["type"];
+
                             $propic = file_get_contents($propic["tmp_name"]);
                             $propic = base64_encode($propic);
+
                             $data = new DateTime('now');
                             $data = $data->format('Y-m-d');
+
                             FPersistentManager::getInstance()->update($utente->getId(), "idUtente", $propic, "immagine", "EMediaUtente");
                             FPersistentManager::getInstance()->update($utente->getId(), "idUtente", $data, "date", "EMediaUtente");
                             FPersistentManager::getInstance()->update($utente->getId(), "idUtente", $name, "fileName", "EMediaUtente");
@@ -323,7 +335,7 @@ class CUtente
             $id = $_GET["id"];
 
             if (self::isLogged() && CUtente::getUtente()->getId() == $id) {
-                $pm = FPersistentManager::getInstance();
+                $pm     = FPersistentManager::getInstance();
                 $utente = CUtente::getUtente();
 
                 $propic = $pm->load($utente->getId(),"idUtente","EMediaUtente");
@@ -371,7 +383,7 @@ class CUtente
             }
 
             if ($utente->isRegistrato() || $utente->isAdmin()) {
-                $_SESSION['utente'] = $salvare;
+                $_SESSION['utente']        = $salvare;
             } else {
                 $_SESSION['nonRegistrato'] = $salvare;
             }
@@ -385,7 +397,7 @@ class CUtente
      *
      *POST) Se chiamata via POST allora vengono presi i parametri inseriti e viene creato un nuovo utente. Viene, quindi, inviata una mail di conferma dell'iscrizione.
      *
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws \PHPMailer\PHPMailer\Exception|SmartyException
      */
     public static function signup() {
         if (self::isLogged()) {
@@ -393,10 +405,10 @@ class CUtente
         } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
             VUtente::signup(EGenere::getAll());
         } elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $nome = $_POST["nome"];
-            $cognome = $_POST["cognome"];
+            $nome     = $_POST["nome"];
+            $cognome  = $_POST["cognome"];
             $username = $_POST["username"];
-            $email = $_POST["email"];
+            $email    = $_POST["email"];
             $password = $_POST["password"];
 
             try {
@@ -471,12 +483,14 @@ class CUtente
                 return true;
             }
         }
+
         return false;
     }
 
     /**
      * Funzione che restituisce l'utente salvato in sessione.
      * @return mixed, un utente registrato oppure un utente visitatore.
+     * @throws SmartyException
      */
     public static function getUtente() {
         if(self::isLogged()) {
@@ -547,7 +561,7 @@ class CUtente
         } elseif ($method == "POST") {
             $username = $_POST["username"];
 
-            $utente = null;
+            $utente     = null;
 
             if (EInputChecker::getInstance()->isEmail($username)) {
                 $utente = FPersistentManager::getInstance()->load($username, "email", "EUtente");
@@ -576,7 +590,8 @@ class CUtente
                     die;
                 }
             }
-                VUtente::forgotPassword(null, true);
+
+            VUtente::forgotPassword(null, true);
         }
     }
 
@@ -584,12 +599,12 @@ class CUtente
      * Funzione che viene eseguita quando un utente accede alla pagina di ereset della password ed inserisce una nuova password.
      * Se la password ed il token sono validi esegue il cambio della password.
      * Accessibile solo tramite metodo POST.
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws \PHPMailer\PHPMailer\Exception|SmartyException
      */
     public static function newPassword() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $valueToken = $_POST["token"];
-            $token = FPersistentManager::getInstance()->load($_POST["token"], "value", "EToken");
+            $token      = FPersistentManager::getInstance()->load($_POST["token"], "value", "EToken");
 
             if(!$token->amIValid()) {
                 FPersistentManager::getInstance()->delete($token->getValue(), "value", "EToken");
@@ -603,7 +618,7 @@ class CUtente
             $password = $_POST["password"];
 
             //Aggiorna password
-            $utente = FUtente::load($token->getUtente()->getId(), "id");
+            $utente   = FUtente::load($token->getUtente()->getId(), "id");
             try {
                 $utente->setPassword($password);//Controllo password ok
             } catch (Exception $e) {
@@ -630,10 +645,10 @@ class CUtente
         if($_SERVER["REQUEST_METHOD"] === "GET") {
             if (self::isLogged()) {
                 if (!self::getUtente()->isAdmin()) {
-                    $utente = self::getUtente();
+                    $utente  = self::getUtente();
                     $giudizi = $utente->getListaGiudizi();
                     usort($giudizi, array(EGiudizio::class, "sortByDatesGiudizi"));
-                    $propic = FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EMediaUtente");
+                    $propic  = FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EMediaUtente");
                     VUtente::showCommenti($giudizi, $utente, $propic);
                 }
             } else {
@@ -646,6 +661,7 @@ class CUtente
 
     /**
      * Funzione che permette di visualizzare i biglietti acquistati se l'utente è un utente non Registrato.
+     * @throws SmartyException
      */
     public static function controlloBigliettiNonRegistrato() {
         if ($_SERVER["REQUEST_METHOD"] == "GET") {

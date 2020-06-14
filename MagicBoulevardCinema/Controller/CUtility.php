@@ -16,19 +16,23 @@ class CUtility
      */
     public static function getProssimi(int $size)
     {
-        $pm = FPersistentManager::getInstance();
-        $date = EData::getDateProssime();
-        $filmProssimi = $pm->loadBetween($date[0], $date[1], "EFilm");
+        $pm               = FPersistentManager::getInstance();
+        $date             = EData::getDateProssime();
+        $filmProssimi     = $pm->loadBetween($date[0], $date[1], "EFilm");
+
         usort($filmProssimi, array(EFilm::class, "sortByDatesFilm"));
         if (sizeof($filmProssimi) > $size) {
             $filmProssimi = array_splice($filmProssimi, 0, $size);
         }
+
         $immaginiProssimi = [];
         foreach ($filmProssimi as $film) {
             array_push($immaginiProssimi, $pm->load($film->getId(), "idFilm", "EMedia"));
         }
+
         $result = [];
         array_push($result, $filmProssimi, $immaginiProssimi);
+
         return $result;
     }
 
@@ -38,38 +42,46 @@ class CUtility
      * @return array, insieme di film e locandine.
      */
     public static function getConsigliati(EUtente $utente) {
-        $utente->preferences($_COOKIE["preferences"]);
         $pm = FPersistentManager::getInstance();
-        $result = [];
+
+        $utente->preferences($_COOKIE["preferences"]);
+
+        $result   = [];
         if($utente->getPreferences() === true) {
             $date = EData::getDatePassate();
             $filmConsigliati = $pm->loadBetween($date[1], $date[0], "EFilm");
+
             shuffle($filmConsigliati);
             if(sizeof($filmConsigliati) > 6) {
                 $filmConsigliati = array_slice($filmConsigliati, 0, 6);
             }
-        }
-        else {
+        } else {
             $filmConsigliati = [];
-            $cookie = $utente->getPreferences();
+            $cookie          = $utente->getPreferences();
+
             foreach($cookie as $key => $c) {
                 if($c !== 0) {
                     $f = $pm->load($key, "Genere", "EFilm");
+
                     shuffle($f);
                     if(sizeof($f) > $c) {
                         $f = array_slice($f, 0,$c);
                     }
+
                     foreach($f as $elem) {
                         array_push($filmConsigliati, $elem);
                     }
                 }
             }
         }
+
         $immaginiConsigliati = [];
         foreach($filmConsigliati as $film) {
             array_push($immaginiConsigliati, $pm->load($film->getId(), "idFilm", "EMedia"));
         }
+
         array_push($result, $filmConsigliati, $immaginiConsigliati);
+
         return $result;
     }
 
@@ -82,16 +94,18 @@ class CUtility
         $pm = FPersistentManager::getInstance();
         $elencoProgrammazioni = $pm->loadBetween($date[0], $date[1], "EProiezione");
 
-        $filmProiezioni = [];
+        $filmProiezioni     = [];
         $immaginiProiezioni = [];
-        $giudizifilm = [];
-        $dateProiezioni = [];
-        $punteggio = [];
+        $giudizifilm        = [];
+        $dateProiezioni     = [];
+        $punteggio          = [];
 
         foreach($elencoProgrammazioni->getElencoprogrammazioni() as $profilm) {
             array_push($filmProiezioni, $profilm->getFilm());
+
             $giu = $pm->load($profilm->getFilm()->getId(), "idFilm", "EGiudizio");
             $temp = $profilm->getDateProiezione();
+
             array_push($giudizifilm, $giu);
             array_push($dateProiezioni,$temp);
         }
@@ -99,18 +113,20 @@ class CUtility
         foreach($giudizifilm as $g) {
             if(sizeof($g) > 0) {
                 $p = EGiudizio::getMedia($g);
-            }
-            else {
+            } else {
                 $p = 0;
             }
+
             array_push($punteggio, $p);
         }
+
         foreach($filmProiezioni as $film) {
             array_push($immaginiProiezioni, $pm->load($film->getId(), "idFilm", "EMedia"));
         }
+
         $result = [];
         array_push($result, $filmProiezioni, $immaginiProiezioni, $punteggio, $dateProiezioni);
+
         return $result;
     }
-
 }

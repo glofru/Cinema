@@ -12,6 +12,7 @@ class CInformazioni
     /**
      * Funzione che permette di visualizzare i costi dei biglietti durante la settimana ed il relativo sovrapprezzo nel caso di acquisti per
      * proiezioni che si terranno a distanza di almeno una settimana dal giorno di acquisto.
+     * @throws SmartyException
      */
     public static function getCosti() {
         if($_SERVER["REQUEST_METHOD"] === "GET") {
@@ -23,6 +24,7 @@ class CInformazioni
 
     /**
      * Funzione che permette di visualizzare una pagina con alcune informazioni utili al fine di comprendere il funzionamento del nostro portale.
+     * @throws SmartyException
      */
     public static function getAbout() {
         if($_SERVER["REQUEST_METHOD"] === "GET") {
@@ -34,6 +36,7 @@ class CInformazioni
 
     /**
      * Funzione che permette di visualizare una pagina contenente i recapiti al quale poter contatatre gli amministratori in caso di problemi riscontrati nell'utilizzo della nostra applicazione.
+     * @throws SmartyException
      */
     public static function getHelp() {
         if($_SERVER["REQUEST_METHOD"] === "GET") {
