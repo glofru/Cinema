@@ -15,13 +15,13 @@ class FGiudizio
     private static string $className  = "FGiudizio";
 
     /**
-     * Nome della corrispondente tabella presente sul DB.
+     * Nome della corrispondente tabella presente nel DB.
      * @var string
      */
     private static string $tableName  = "Giudizio";
 
     /**
-     * Insieme delle colonne presenti nella tabella sul DB che verrà sostituita in fase di binding.
+     * Insieme delle colonne presenti nella tabella nel DB che verrà sostituita in fase di binding.
      * @var string
      */
     private static string $valuesName = "(:idUtente,:idFilm,:commento,:punteggio,:titolo,:datapubblicazione)";
@@ -56,7 +56,7 @@ class FGiudizio
     }
 
     /**
-     * Funzione che ritorna il nome della tabella presente sul DB.
+     * Funzione che ritorna il nome della tabella presente nel DB.
      * @return string
      */
     public static function getTableName() {
@@ -72,7 +72,7 @@ class FGiudizio
     }
 
     /**
-     * Funzione che permette di salvare un giudizio sul DB.
+     * Funzione che permette di salvare un giudizio nel DB.
      * @param EGiudizio $giudizio, giudizio da salvare.
      */
     public static function save(EGiudizio $giudizio) {

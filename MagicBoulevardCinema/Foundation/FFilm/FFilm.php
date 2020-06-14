@@ -103,7 +103,7 @@ class FFilm implements Foundation
     }
 
     /**
-     * Funzione che ritorna il nome della tabella presente sul DB.
+     * Funzione che ritorna il nome della tabella presente nel DB.
      * @return string
      */
     public static function getTableName() {
@@ -119,7 +119,7 @@ class FFilm implements Foundation
     }
 
     /**
-     * Funzione che permette di salvare un film sul DB.
+     * Funzione che permette di salvare un film nel DB.
      * @param EFilm $film, film da salvare.
      */
     public static function save(EFilm $film) {
@@ -211,7 +211,7 @@ class FFilm implements Foundation
     }
 
     /**
-     * Funzione che permette di caricare un insieme di film a partire da un intervallo di date. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti se vi è almeno un risultato sennò torna un array vuoto.
+     * Funzione che permette di caricare un insieme di film a partire da un intervallo di date. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti se vi è almeno un risultato altrimenti torna un array vuoto.
      * @param string $dataInizio, data di inzio.
      * @param string $dataFine, data di fine.
      * @return array di EFilm.
@@ -228,7 +228,7 @@ class FFilm implements Foundation
     }
 
     /**
-     * Funzione che permette di caricare un insieme di film a partire da un particolare genere. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti se vi è almeno un risultato sennò torna un array vuoto.
+     * Funzione che permette di caricare un insieme di film a partire da un particolare genere. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti se vi è almeno un risultato altrimenti torna un array vuoto.
      * @param EGenere $genere, genere dei film che si sta cercando.
      * @return array, array di EFilm.
      */
@@ -244,7 +244,7 @@ class FFilm implements Foundation
     }
 
     /**
-     * Funzione che permette di caricare un insieme di film a partire da un nome. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti se vi è almeno un risultato sennò torna un array vuoto.
+     * Funzione che permette di caricare un insieme di film a partire da un nome. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti se vi è almeno un risultato altrimenti torna un array vuoto.
      * @param string $nome, nome del film che si sta cercando.
      * @return array, array di EFilm.
      */

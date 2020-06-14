@@ -15,13 +15,13 @@ class FNewsLetter
     private static string $className  = "FNewsLetter";
 
     /**
-     * Nome della corrispondente tabella presente sul DB.
+     * Nome della corrispondente tabella presente nel DB.
      * @var string
      */
     private static string $tableName  = "NewsLetter";
 
     /**
-     * Insieme delle colonne presenti nella tabella sul DB che verrà sostituita in fase di binding.
+     * Insieme delle colonne presenti nella tabella nel DB che verrà sostituita in fase di binding.
      * @var string
      */
     private static string $valuesName = "(:idUtente,:preferenze)";
@@ -51,7 +51,7 @@ class FNewsLetter
     }
 
     /**
-     * Funzione che ritorna il nome della tabella presente sul DB.
+     * Funzione che ritorna il nome della tabella presente nel DB.
      * @return string
      */
     public static function getTableName() {

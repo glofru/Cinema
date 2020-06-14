@@ -607,7 +607,7 @@ class CUtente
     }
 
     /**
-     * Funzione che viene eseguita quando un utente inserisce una nuova password nella pagina di resetpassword.
+     * Funzione che viene eseguita quando un utente inserisce una nuova password nella pagina di reset password.
      * Se la password ed il token sono validi esegue il cambio della password.
      * Accessibile solo tramite metodo POST.
      * @throws \PHPMailer\PHPMailer\Exception|SmartyException

@@ -15,13 +15,13 @@ class FProiezione implements Foundation
     private static string $className  = "FProiezione";
 
     /**
-     * Nome della corrispondente tabella presente sul DB.
+     * Nome della corrispondente tabella presente nel DB.
      * @var string
      */
     private static string $tableName  = "Proiezione";
 
     /**
-     * Insieme delle colonne presenti nella tabella sul DB che verrà sostituita in fase di binding.
+     * Insieme delle colonne presenti nella tabella nel DB che verrà sostituita in fase di binding.
      * @var string
      */
     private static string $valuesName = "(:id,:data,:ora,:numerosala,:idFilm)";
@@ -58,7 +58,7 @@ class FProiezione implements Foundation
     }
 
     /**
-     * Funzione che ritorna il nome della tabella presente sul DB.
+     * Funzione che ritorna il nome della tabella presente nel DB.
      * @return string
      */
     public static function getTableName() {
@@ -76,7 +76,7 @@ class FProiezione implements Foundation
 //------------- ALTRI METODI ----------------
 
     /**
-     * Funzione che permette di salvare una proiezione sul DB. Prima di inserirla controlla se non si sovrapponga con un'altra già esistente sul DB.
+     * Funzione che permette di salvare una proiezione nel DB. Prima di inserirla controlla se non si sovrapponga con un'altra già esistente sul DB.
      * @param EProiezione $proiezione, proiezione da salvare.
      * @return bool, esito dell'operazione.
      */

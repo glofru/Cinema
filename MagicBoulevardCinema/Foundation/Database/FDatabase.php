@@ -48,7 +48,7 @@ class FDatabase
     }
 
     /**
-     * Funzione che permette di salvare un oggetto sul DB. Ritorna l'id dell'oggetto inserito oppure mostra la schemata di errore in caso di problemi con il DB.
+     * Funzione che permette di salvare un oggetto nel DB. Ritorna l'id dell'oggetto inserito oppure mostra la schemata di errore in caso di problemi con il DB.
      * @param $class
      * @param $values
      * @return mixed
@@ -74,7 +74,7 @@ class FDatabase
     }
 
     /**
-     * Funzione che permette di salvare sul DB le preferenze di un utente che si iscrive alla Newsletter. Ritorna true in caso di successo o mostra la schemata di errore altrimenti.
+     * Funzione che permette di salvare nel DB le preferenze di un utente che si iscrive alla Newsletter. Ritorna true in caso di successo o mostra la schemata di errore altrimenti.
      * @param $utente
      * @param $preferenze
      * @return mixed
@@ -99,7 +99,7 @@ class FDatabase
     }
 
     /**
-     * Funzione che permette, atomicamente, di salvare sul DB una nuova proieizone ed al contempo istanziare nella tabella dei Posti tutti i sedili relativi alla proiezione. Ritorna l'id dell'oggetto aggiunto nel DB o la schemata di errore.
+     * Funzione che permette, atomicamente, di salvare nel DB una nuova proieizone ed al contempo istanziare nella tabella dei Posti tutti i sedili relativi alla proiezione. Ritorna l'id dell'oggetto aggiunto nel DB o la schemata di errore.
      * @param EProiezione $proiezione
      * @return mixed
      */
@@ -206,7 +206,7 @@ class FDatabase
     }
 
     /**
-     * Funzione che permette di reperire sul DB oggetti che hanno una data compresa nellintervallo inserito. Ritorna un array con le righe corrispondenti o una schermata di errore.
+     * Funzione che permette di reperire dal DB oggetti che hanno una data compresa nell'intervallo inserito. Ritorna un array con le righe corrispondenti o una schermata di errore.
      * @param $class
      * @param string $datainizio
      * @param string $datafine
@@ -224,7 +224,7 @@ class FDatabase
     }
 
     /**
-     * Funzione che permette di reperire sul DB oggetti con un valore (value) simile a quelli presenti nella colonna row. Ritorna un array con le righe corrispondenti o una scehrmata di errore.
+     * Funzione che permette di reperire dal DB oggetti con un valore (value) simile a quelli presenti nella colonna row. Ritorna un array con le righe corrispondenti o una schermata di errore.
      * @param $class
      * @param string $value
      * @param string $row
@@ -241,7 +241,7 @@ class FDatabase
     }
 
     /**
-     * Funzione che reperisce tutte le righe sul DB di una determnitata tabella. ritorna un array con tutte le righe o una schermaa di errore.
+     * Funzione che reperisce tutte le righe dal DB di una determnitata tabella. Ritorna un array con tutte le righe o una schermata di errore.
      * @param $class
      * @return array
      */
@@ -339,7 +339,7 @@ class FDatabase
     }
 
     /**
-     * Funzione che permette di aggiornare un oggetto presente nella base dati. Ritorna l'esito dell'opreazione oppure una schermata di errore.
+     * Funzione che permette di aggiornare un oggetto presente nella base dati. Ritorna l'esito dell'operazione oppure una schermata di errore.
      * @param $class
      * @param $value
      * @param $row
@@ -373,7 +373,7 @@ class FDatabase
     }
 
     /**
-     * Funzione che permette di aggiornare un oggetto sul DB se è una entità debole. Ritorna l'esito dell'operazione o una schermata di errore.
+     * Funzione che permette di aggiornare un oggetto nel DB se è una entità debole. Ritorna l'esito dell'operazione o una schermata di errore.
      * @param $class
      * @param $value
      * @param $row
@@ -402,7 +402,7 @@ class FDatabase
     }
 
     /**
-     * Funzione che permette, dato un insieme di biglietti, di salvare questi ultimi sul DB ed al contempo di occupare i relativi posti. Ritorna null se non esiste il posto inserito, flase se uno dei posti è stato già occupato, true se l'operazione è andata a buon fine altrimenti una schermata di errore.
+     * Funzione che permette, dato un insieme di biglietti, di salvare questi ultimi nel DB ed al contempo di occupare i relativi posti. Ritorna null se non esiste il posto inserito, false se uno dei posti è stato già occupato, true se l'operazione è andata a buon fine, altrimenti una schermata di errore.
      * @param array $biglietti
      * @return bool|null
      */
@@ -448,7 +448,7 @@ class FDatabase
     }
 
     /**
-     * Funzione che permette di salvare sul Database una immagine. Ritorna l'id dell'oggetto inserito oppure una schermata di errore.
+     * Funzione che permette di salvare nel Database una immagine. Ritorna l'id dell'oggetto inserito oppure una schermata di errore.
      * @param $class
      * @param EMedia $media
      * @return mixed

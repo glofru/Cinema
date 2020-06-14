@@ -75,7 +75,7 @@ class FPersona implements Foundation
     }
 
     /**
-     * Funzione che permette di salvare una persona sul DB.
+     * Funzione che permette di salvare una persona nel DB.
      * @param EPersona $persona, persona da salvare.
      */
     public static function save(EPersona $persona) {

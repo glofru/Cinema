@@ -34,7 +34,7 @@ interface Foundation
     public static function update($value, $row, $newvalue, $newrow);
 
     /**
-     * Funzione che pemrette di eliminare un oggetto dal DB sulla base di un valore ed una colonna. Ritorna l'esito dell'operazione
+     * Funzione che permette di eliminare un oggetto dal DB sulla base di un valore ed una colonna. Ritorna l'esito dell'operazione
      * @param $value, valore da usare per identificare l'oggetto.
      * @param $row, colonna nella quale cercare il valore.
      * @return mixed, insieme delle righe risultanti.

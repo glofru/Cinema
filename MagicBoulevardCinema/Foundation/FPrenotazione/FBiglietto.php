@@ -59,7 +59,7 @@ class FBiglietto implements FoundationDebole
     }
 
     /**
-     * Funzione che ritorna il nome della tabella presente sul DB.
+     * Funzione che ritorna il nome della tabella presente nel DB.
      * @return string
      */
     public static function getTableName() {
@@ -75,7 +75,7 @@ class FBiglietto implements FoundationDebole
     }
 
     /**
-     * Funzione che permette di salvare un giudizio sul DB.
+     * Funzione che permette di salvare un giudizio nel DB.
      * @param EBiglietto $biglietto, biglietto da salvare.
      */
     public static function save(EBiglietto $biglietto) {
@@ -102,10 +102,10 @@ class FBiglietto implements FoundationDebole
 
     /**
      * Funzione che permette di caricare un giudizio dal DB passando due parametri in quanto entità debole. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti.
-     * @param $value, primo valore necessario ad indetificare l'oggetto.
+     * @param $value, primo valore necessario ad indentificare l'oggetto.
      * @param $row, prima colonna nella quale cercare il valore.
-     * @param $value2, secondo valore necessario ad indetificare l'oggetto.
-     * @param $row2, secondo valore necessario ad indetificare l'oggetto.
+     * @param $value2, secondo valore necessario ad indentificare l'oggetto.
+     * @param $row2, secondo valore necessario ad indentificare l'oggetto.
      * @return EBiglietto|null, oggetto EBiglietto.
      */
     public static function loadDoppio($value, $row, $value2, $row2) {
@@ -121,10 +121,10 @@ class FBiglietto implements FoundationDebole
 
     /**
      * Funzione che permette di aggiornare un oggetto biglietto nel DB. Ritorna l'esito dell'operazione.
-     * @param $value, primo valore necessario ad indetificare l'oggetto.
+     * @param $value, primo valore necessario ad indentificare l'oggetto.
      * @param $row, prima colonna nella quale cercare il valore.
-     * @param $value2, secondo valore necessario ad indetificare l'oggetto.
-     * @param $row2, secondo valore necessario ad indetificare l'oggetto.
+     * @param $value2, secondo valore necessario ad indentificare l'oggetto.
+     * @param $row2, secondo valore necessario ad indentificare l'oggetto.
      * @param $newvalue, valore che si vuole inserire.
      * @param $newrow, colonna nella quale inserire il nuovo valore.
      * @return bool, esito dell'operazione.
@@ -137,10 +137,10 @@ class FBiglietto implements FoundationDebole
 
     /**
      * Funzione che elimina un oggetto nel DB. Ritorna l'esito dell'operazione.
-     * @param $value, primo valore necessario ad indetificare l'oggetto.
+     * @param $value, primo valore necessario ad indentificare l'oggetto.
      * @param $row, prima colonna nella quale cercare il valore.
-     * @param $value2, secondo valore necessario ad indetificare l'oggetto.
-     * @param $row2, secondo valore necessario ad indetificare l'oggetto.
+     * @param $value2, secondo valore necessario ad indentificare l'oggetto.
+     * @param $row2, secondo valore necessario ad indentificare l'oggetto.
      * @return bool, esito dell'operazione.
      */
     public static function delete($value, $row, $value2, $row2): bool {

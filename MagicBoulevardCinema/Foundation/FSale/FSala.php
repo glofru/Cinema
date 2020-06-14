@@ -15,13 +15,13 @@ class FSala implements Foundation
     private static string $className  = "FSala";
 
     /**
-     * Nome della corrispondente tabella presente sul DB.
+     * Nome della corrispondente tabella presente nel DB.
      * @var string
      */
     private static string $tableName  = "SalaFisica";
 
     /**
-     * Insieme delle colonne presenti nella tabella sul DB che verrà sostituita in fase di binding.
+     * Insieme delle colonne presenti nella tabella nel DB che verrà sostituita in fase di binding.
      * @var string
      */
     private static string $valuesName = "(:nSala,:nFile,:nPostiFila,:disponibile)";
@@ -58,7 +58,7 @@ class FSala implements Foundation
     }
 
     /**
-     * Funzione che ritorna il nome della tabella presente sul DB.
+     * Funzione che ritorna il nome della tabella presente nel DB.
      * @return string
      */
     public static function getTableName() {
@@ -76,7 +76,7 @@ class FSala implements Foundation
 //------------- ALTRI METODI ----------------
 
     /**
-     * Funzione che permette di salvare una SalaFisica sul DB.
+     * Funzione che permette di salvare una SalaFisica nel DB.
      * @param ESalaFisica $salaFisica, SalaFisica da salvare.
      */
     public static function save(ESalaFisica $salaFisica) {
@@ -86,7 +86,7 @@ class FSala implements Foundation
     }
 
     /**
-     * Funzione che ritorna il numero di SaleFisiche attualemnte presente nel DB
+     * Funzione che ritorna il numero di SaleFisiche attualemnte presenti nel DB
      * @return int, numero di SaleFisiche presenti nel DB.
      */
     public static function nLoadAll(): int {
@@ -111,7 +111,7 @@ class FSala implements Foundation
 
     /**
      * Funzione che permette di caricare una sala dal DB. Si appoggia alla funzione parseResult per ottenere come risultato un array di ESalaFisica.
-     * @param string $nSala, valore necessario ad indetificare l'oggetto.
+     * @param string $nSala, valore necessario ad indentificare l'oggetto.
      * @param string $row, colonna nella quale cercare il valore.
      * @return array, array di ESalaFisica.
      */
@@ -125,7 +125,7 @@ class FSala implements Foundation
 
     /**
      * Funzione che permette di caricare una sala dal DB. Si appoggia alla funzione parseResult per ottenere come risultato un array di ESalaVirtuale.
-     * @param string $nSala, valore necessario ad indetificare l'oggetto.
+     * @param string $nSala, valore necessario ad indentificare l'oggetto.
      * @param string $row, colonna nella quale cercare il valore.
      * @return array, array di ESalaVirtuale.
      */
@@ -139,7 +139,7 @@ class FSala implements Foundation
 
     /**
      * Funzione che permette di aggiornare un oggetto Sala nel DB. Ritorna l'esito dell'operazione.
-     * @param $value, valore necessario ad indetificare l'oggetto.
+     * @param $value, valore necessario ad indentificare l'oggetto.
      * @param $row, colonna nella quale cercare il valore.
      * @param $newvalue, valore che si vuole inserire.
      * @param $newrow, colonna nella quale inserire il nuovo valore.
@@ -153,7 +153,7 @@ class FSala implements Foundation
 
     /**
      * Funzione che elimina un oggetto nel DB. Ritorna l'esito dell'operazione.
-     * @param $value, valore necessario ad indetificare l'oggetto.
+     * @param $value, valore necessario ad indentificare l'oggetto.
      * @param $row, colonna nella quale cercare il valore.
      * @return bool, risultato dell'operazione.
      */

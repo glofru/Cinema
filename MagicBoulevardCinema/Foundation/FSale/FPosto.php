@@ -15,13 +15,13 @@ class FPosto implements FoundationDebole
     private static string $className  = "FPosto";
 
     /**
-     * Nome della corrispondente tabella presente sul DB.
+     * Nome della corrispondente tabella presente nel DB.
      * @var string
      */
     private static string $tableName  = "Posti";
 
     /**
-     * Insieme delle colonne presenti nella tabella sul DB che verrà sostituita in fase di binding.
+     * Insieme delle colonne presenti nella tabella nel DB che verrà sostituita in fase di binding.
      * @var string
      */
     private static string $valuesName = "(:idProiezione,:posizione,:occupato)";
@@ -57,7 +57,7 @@ class FPosto implements FoundationDebole
     }
 
     /**
-     * Funzione che ritorna il nome della tabella presente sul DB.
+     * Funzione che ritorna il nome della tabella presente nel DB.
      * @return string
      */
     public static function getTableName() {
@@ -73,8 +73,8 @@ class FPosto implements FoundationDebole
     }
 
     /**
-     * Funzione che permette di salvare un insieme di posti sul DB. Data una proiezione ne viene recuperata la sala ed istanziati nel DB tutti i posti presenti nella sala dove si svolgerà la proiezione.
-     * @param EProiezione $proiezione, proiezione dalla quale estrarre la sala e poter slavare i relativi posti.
+     * Funzione che permette di salvare un insieme di posti nel DB. Data una proiezione ne viene recuperata la sala ed istanziati nel DB tutti i posti presenti nella sala dove si svolgerà la proiezione.
+     * @param EProiezione $proiezione, proiezione dalla quale estrarre la sala e poter salvare i relativi posti.
      */
     public static function save(EProiezione $proiezione) {
         $db = FDatabase::getInstance();
@@ -106,7 +106,7 @@ class FPosto implements FoundationDebole
     }
 
     /**
-     * Funzione che carica un posto specifico essendo un'entità debole sul DB. Ritorna un oggetto EPosto.
+     * Funzione che carica un posto specifico essendo un'entità debole nel DB. Ritorna un oggetto EPosto.
      * @param $idProiezione, primo valore necessario ad indetificare l'oggetto.
      * @param string $posto, secondo valore necessario ad indetificare l'oggetto.
      * @return EPosto, oggetto EPosto.
@@ -122,10 +122,10 @@ class FPosto implements FoundationDebole
 
     /**
      * Funzione che permette di aggiornare un oggetto Posto nel DB. Ritorna l'esito dell'operazione.
-     * @param $value, primo valore necessario ad indetificare l'oggetto.
+     * @param $value, primo valore necessario ad indentificare l'oggetto.
      * @param $row, prima colonna nella quale cercare il valore.
-     * @param $value2, secondo valore necessario ad indetificare l'oggetto.
-     * @param $row2, secondo valore necessario ad indetificare l'oggetto.
+     * @param $value2, secondo valore necessario ad indentificare l'oggetto.
+     * @param $row2, secondo valore necessario ad indentificare l'oggetto.
      * @param $newvalue, valore che si vuole inserire.
      * @param $newrow, colonna nella quale inserire il nuovo valore.
      * @return bool, esito dell'operazione.
@@ -138,9 +138,9 @@ class FPosto implements FoundationDebole
 
     /**
      * Funzione che elimina un oggetto nel DB. Ritorna l'esito dell'operazione.
-     * @param $value, primo valore necessario ad indetificare l'oggetto.
+     * @param $value, primo valore necessario ad indentificare l'oggetto.
      * @param $row, prima colonna nella quale cercare il valore.
-     * @param $value2, secondo valore necessario ad indetificare l'oggetto.
+     * @param $value2, secondo valore necessario ad indentificare l'oggetto.
      * @param $row2, seconda colonna nella quale cercare il valore.
      * @return bool, esito dell'operazione.
      */
