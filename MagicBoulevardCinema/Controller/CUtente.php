@@ -264,11 +264,21 @@ class CUtente
                     }
 
                     if (isset($_POST["username"])) {
+                        $usr = FPersistentManager::getInstance()->load($_POST["username"], "username", "EUtente");
+                        if($usr instanceof EUtente && ($utente->getUsername() !== $_POST["username"])){
+                            VUtente::modifica($utente, FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EMediaUtente"), EGenere::getAll(), FPersistentManager::getInstance()->isASub($utente), explode(";", FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "FNewsLetter")), "username già in uso da un altro utente");
+                            die;
+                        }
                         $utente->setUsername($_POST["username"]);
                         $pm->update($utente->getId(), "id", $utente->getUsername(), "username", "EUtente");
                     }
 
                     if (isset($_POST["email"])) {
+                        $usr = FPersistentManager::getInstance()->load($_POST["email"], "email", "EUtente");
+                        if($usr instanceof EUtente && ($utente->getEmail() !== $_POST["email"])){
+                            VUtente::modifica($utente, FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EMediaUtente"), EGenere::getAll(), FPersistentManager::getInstance()->isASub($utente), explode(";", FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "FNewsLetter")), "email già in uso da un altro utente");
+                            die;
+                        }
                         $utente->setEmail($_POST["email"]);
                         $pm->update($utente->getId(), "id", $utente->getEmail(), "email", "EUtente");
                     }
@@ -588,8 +598,8 @@ class CUtente
                 VUtente::forgotPassword($username); die;
             } else if (!$utente->isRegistrato() && !$utente->isAdmin()){ //Utente non registrato, crea un nuovo uid come password
                 $utente->setPassword(uniqid());
-                FPersistentManager::getInstance()->updatePasswordUser($utente);
                 CMail::sendForgotMailNonRegistrato($utente);
+                FPersistentManager::getInstance()->updatePasswordUser($utente);
             } else {
                 //Crea token
                 $uid = uniqid();
