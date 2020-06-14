@@ -21,7 +21,7 @@ class CRicerca
 
             if($str !== "") {
                 $film = FPersistentManager::getInstance()->loadLike($str, "nome", "EFilm");
-                $data = self::getFilmData($film);
+                $data = CFilm::getFilmData($film);
             } else {
                 $film = [];
                 $data = [];

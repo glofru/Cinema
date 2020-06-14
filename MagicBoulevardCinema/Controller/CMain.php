@@ -139,7 +139,7 @@ class CMain
                     CMain::notFound();
                 }
 
-                if($class->getName() === "CUtility"){
+                if($class->getName() === "CUtility" || $class->getName() === "CMail"){
                     CMain::forbidden();
                 }
 
