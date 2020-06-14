@@ -342,7 +342,7 @@
                             <div class="card__content">
                                 <h3 class="card__title"><a href="{$path}Film/show/?film={$film->getId()}&autoplay=true">{$film->getNome()}</a></h3>
                                 <span class="card__category">
-										<a href="Film/show/?film={$film->getId()}&autoplay=true">{$film->getGenere()}</a>
+										<a href="{$path}Film/show/?film={$film->getId()}&autoplay=true">{$film->getGenere()}</a>
                                     </span>
                                 {if ($film->getVotoCritica() != '0')}
                                 <span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>

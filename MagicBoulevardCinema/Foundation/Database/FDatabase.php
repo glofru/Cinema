@@ -354,7 +354,7 @@ class FDatabase
             if($class === "FMedia" && $row === "idUtente") {
                 $query = "UPDATE " . $class::getTableName("EMediaUtente")   . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
             } else if ($class === "FMedia" && $row === "idFilm"){
-                $query = "UPDATE " . $class::getTableName("EMediaFilm")     . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
+                $query = "UPDATE " . $class::getTableName("EMediaLocandina")     . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
             } else {
                 $query = "UPDATE " . $class::getTableName()                 . " SET " . $newRow . "='" . $newValue . "' WHERE " . $row . "='" . $value . "';";
             }
