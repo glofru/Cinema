@@ -27,19 +27,19 @@ class VFilm
     {
         $smarty = StartSmarty::configuration();
 
-        $smarty->assign("path", $GLOBALS["path"]);
-        $smarty->assign("film", $film);
-        $smarty->assign("consigli", $filmconsigliati);
-        $smarty->assign("autoplay", $autoplay);
-        $smarty->assign("locandina", $copertina);
-        $smarty->assign("immagini", $imgconsigliati);
-        $smarty->assign("registi", $film->getRegisti());
-        $smarty->assign("attori", $film->getAttori());
-        $smarty->assign("recensioni", $reviews);
-        $smarty->assign("propic", $propic);
-        $smarty->assign("canView", $canView);
-        $smarty->assign("programmazioneFilm", $programmazioneFilm);
-        $smarty->assign("utente", $utente);
+        $smarty->assign("path",                 $GLOBALS["path"]);
+        $smarty->assign("utente",               $utente);
+        $smarty->assign("film",                 $film);
+        $smarty->assign("consigli",             $filmconsigliati);
+        $smarty->assign("autoplay",             $autoplay);
+        $smarty->assign("locandina",            $copertina);
+        $smarty->assign("immagini",             $imgconsigliati);
+        $smarty->assign("registi",              $film->getRegisti());
+        $smarty->assign("attori",               $film->getAttori());
+        $smarty->assign("recensioni",           $reviews);
+        $smarty->assign("propic",               $propic);
+        $smarty->assign("canView",              $canView);
+        $smarty->assign("programmazioneFilm",   $programmazioneFilm);
 
         $smarty->display("film.tpl");
     }
