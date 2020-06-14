@@ -266,7 +266,7 @@
     var list = $("#displayDirectors");
     var li = $("<li id='" + {$reg->getId()} + "' style=\"color: white; text-align: right\"></li>").append('{$reg->getFullName()}', " ", button);
     li.click(function(e) {
-        actors.splice(actors.indexOf($(this).attr("id")), 1);
+        directors.splice(directors.indexOf($(this).attr("id")), 1);
         $(this).remove();
     });
     list.append(li);
@@ -316,6 +316,7 @@
                     $(this).remove();
                 });
                 list.append(li);
+                console.log(directors);
             }
         });
     });
