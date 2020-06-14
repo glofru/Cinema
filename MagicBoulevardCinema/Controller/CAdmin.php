@@ -579,7 +579,9 @@ class CAdmin
             $idFilm         = $_GET["film"];
             $utente         = CUtente::getUtente();
             $programmazione = FPersistentManager::getInstance()->load($idFilm, "idFilm", "EProgrammazione")->getElencoProgrammazioni()[0];
-
+            if(sizeof($programmazione) == 0){
+                self::gestioneProgrammazione();
+            }
             VAdmin::modificaProgrammazione($utente, $programmazione);
         }
     }
