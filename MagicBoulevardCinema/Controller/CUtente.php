@@ -420,7 +420,7 @@ class CUtente
 
             $pm = FPersistentManager::getInstance();
 
-            if (FUtente::exists($utente, true)) { //Se la mail già esiste
+            if (FPersistentManager::getInstance()->exists($utente, true) && $pm->load($utente->getEmail(), "email", "EUtente")->getUsername() !== "") { //Se la mail già esiste
                 VUtente::signup(EGenere::getAll(), $nome, $cognome, $username, $email, null, true);
             } elseif (FUtente::exists($utente, false)) { //Se l'username già esiste
                 VUtente::signup(EGenere::getAll(), $nome, $cognome, $username, $email, null, false);
@@ -443,8 +443,16 @@ class CUtente
                 }
 
                 $time = new DateTime("now");
-
-                $pm->signup($utente);
+                if(FPersistentManager::getInstance()->exists($utente, true)) {
+                    $reg = FPersistentManager::getInstance()->load($utente->getEmail(), "email", "Eutente");
+                    $utente->setId($reg->getId());
+                    FPersistentManager::getInstance()->update($utente->getId(), "id", $utente->getNome(), "nome", "EUtente");
+                    FPersistentManager::getInstance()->update($utente->getId(), "id", $utente->getCognome(), "cognome", "EUtente");
+                    FPersistentManager::getInstance()->update($utente->getId(), "id", $utente->getUsername(), "username", "EUtente");
+                    FPersistentManager::getInstance()->updatePasswordUser($utente);
+                } else {
+                    $pm->signup($utente);
+                }
 
                 $propic = new EMediaUtente($name, $mimeType, $time, $data, $utente);
                 FPersistentManager::getInstance()->save($propic);

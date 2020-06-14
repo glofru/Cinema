@@ -526,7 +526,7 @@ class CAdmin
                 $error  = "Data di fine non valida";
             } elseif ($inizio->getTimestamp() > $fine->getTimestamp()) {
                 $error  = "La data di fine è prima di quella d'inizio!";
-            } elseif ($inizio < $now) {
+            } elseif ($inizio->getTimestamp() < $now->getTimestamp()) {
                 $error  = "La data di inizio è antecedente ad oggi!";
             } else {
                 try {

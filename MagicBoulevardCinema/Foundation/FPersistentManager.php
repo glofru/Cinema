@@ -289,4 +289,8 @@ class FPersistentManager
     public function isSovrappostaProiezione(EProiezione $proiezione): bool {
         return FProiezione::isSovrapposto($proiezione);
     }
+
+    public function exists(EUtente $utente, $isMail) {
+        return FUtente::exists($utente, $isMail);
+    }
 }
