@@ -32,8 +32,7 @@ class EToken
      * @param DateTime $creationDate, data di creazione del token.
      * @param EUtente $utente, utente a cui appartiene il token.
      */
-    public function __construct(string $value, DateTime $creationDate, EUtente $utente)
-    {
+    public function __construct(string $value, DateTime $creationDate, EUtente $utente) {
         $this->setValue($value);
         $this->setCreationDate($creationDate);
         $this->setUtente($utente);
@@ -43,24 +42,21 @@ class EToken
     /**
      * @return string, valore del token.
      */
-    public function getValue(): string
-    {
+    public function getValue(): string {
         return $this->value;
     }
 
     /**
      * @param string $value, valore del token (un uid).
      */
-    public function setValue(string $value): void
-    {
+    public function setValue(string $value): void {
         $this->value = $value;
     }
 
     /**
      * @return DateTime, data di creazione del token.
      */
-    public function getCreationDate(): DateTime
-    {
+    public function getCreationDate(): DateTime {
         return $this->creationDate;
     }
 
@@ -81,32 +77,28 @@ class EToken
     /**
      * @param DateTime $creationDate, data di creazione del token.
      */
-    public function setCreationDate(DateTime $creationDate): void
-    {
+    public function setCreationDate(DateTime $creationDate): void {
         $this->creationDate = $creationDate;
     }
 
     /**
      * @return EUtente, utente al quale appartiene il token.
      */
-    public function getUtente(): EUtente
-    {
+    public function getUtente(): EUtente {
         return $this->utente;
     }
 
     /**
      * @param EUtente $utente, utente al quale appartiene il token.
      */
-    public function setUtente(EUtente $utente): void
-    {
+    public function setUtente(EUtente $utente): void {
         $this->utente = $utente;
     }
 
     /**
      * @return string
      */
-    public function __toString(): string
-    {
+    public function __toString(): string {
         return "Value: " . $this->getValue() . ", isUsed: " . $this->amIValid()?"true":"false";
     }
 
@@ -116,6 +108,7 @@ class EToken
      */
     public function amIValid(): bool {
         $maybeExpired = new DateTime('now -1 Hour');
+
         return $this->getCreationDate() >= $maybeExpired;
     }
 }

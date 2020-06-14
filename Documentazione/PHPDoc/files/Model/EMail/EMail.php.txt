@@ -1,0 +1,99 @@
+<?php
+
+
+/**
+ * Nella classe Film sono presenti tutti i metodi e gli attributi necessari alla creazione e gestione di una email.
+ * Class EMail
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Model
+ */
+class EMail
+{
+    /**
+     * @var string, indirizzo del destinatario della email.
+     */
+    private string $to;
+    /**
+     * @var string, nome del destinatario.
+     */
+    private string $name;
+    /**
+     * @var string, oggetto della email.
+     */
+    private string $subject;
+    /**
+     * @var string, contenuto della email.
+     */
+    private string $body;
+
+    /**
+     * EMail constructor.
+     * @param string $to, indirizzo email del destinatario.
+     * @param string $name, nome del destinatario.
+     * @param string $subject, oggetto della email.
+     * @param string $body, contenuto della email.
+     */
+    public function __construct(string $to, string $name, string $subject, string $body) {
+        $this->setTo($to);
+        $this->setName($name);
+        $this->setSubject($subject);
+        $this->setBody($body);
+    }
+
+    /**
+     * @return string, indirizzo email del destinatario.
+     */
+    public function getTo(): string {
+        return $this->to;
+    }
+
+    /**
+     * @param string $to, indirizzo email del destinatario.
+     */
+    public function setTo(string $to): void {
+        $this->to = $to;
+    }
+
+    /**
+     * @return string, nome del destinatario.
+     */
+    public function getName(): string {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name, nome del destinatario.
+     */
+    public function setName(string $name): void {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string, oggetto della email.
+     */
+    public function getSubject(): string {
+        return $this->subject;
+    }
+
+    /**
+     * @param string $subject, oggetto della mail.
+     */
+    public function setSubject(string $subject): void {
+        $this->subject = $subject;
+    }
+
+    /**
+     * @return string, corpo della email.
+     */
+    public function getBody(): string {
+        return $this->body;
+    }
+
+    /**
+     * @param string $body, corpo della email.
+     */
+    public function setBody(string $body): void {
+        $this->body = $body;
+    }
+}

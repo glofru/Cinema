@@ -12,16 +12,16 @@ class FProiezione implements Foundation
      * Nome della classe.
      * @var string
      */
-    private static string $className = "FProiezione";
+    private static string $className  = "FProiezione";
 
     /**
-     * Nome della corrispondente tabella presente sul DB.
+     * Nome della corrispondente tabella presente nel DB.
      * @var string
      */
-    private static string $tableName = "Proiezione";
+    private static string $tableName  = "Proiezione";
 
     /**
-     * Insieme delle colonne presenti nella tabella sul DB che verrà sostituita in fase di binding.
+     * Insieme delle colonne presenti nella tabella nel DB che verrà sostituita in fase di binding.
      * @var string
      */
     private static string $valuesName = "(:id,:data,:ora,:numerosala,:idFilm)";
@@ -39,16 +39,16 @@ class FProiezione implements Foundation
      */
     public static function associate(PDOStatement $sender, $proiezione) {
         if ($proiezione instanceof EProiezione) {
-            $sender->bindValue(':id', NULL, PDO::PARAM_INT);
-            $sender->bindValue(':data', $proiezione->getDataSQL(),PDO::PARAM_STR);
-            $sender->bindValue(':ora', $proiezione->getDataProiezione()->format("H:i"), PDO::PARAM_STR);
-            $sender->bindValue(':numerosala', $proiezione->getSala()->getNumeroSala(), PDO::PARAM_INT);
-            $sender->bindValue(':idFilm', $proiezione->getFilm()->getId(), PDO::PARAM_INT);
+            $sender->bindValue(':id',         NULL,                                            PDO::PARAM_INT);
+            $sender->bindValue(':data',       $proiezione->getDataSQL(),                       PDO::PARAM_STR);
+            $sender->bindValue(':ora',        $proiezione->getDataProiezione()->format("H:i"), PDO::PARAM_STR);
+            $sender->bindValue(':numerosala', $proiezione->getSala()->getNumeroSala(),         PDO::PARAM_INT);
+            $sender->bindValue(':idFilm',     $proiezione->getFilm()->getId(),                 PDO::PARAM_INT);
         } else {
             die("Not a projection!!");
         }
     }
-//----------------- GETTER --------------------
+
     /**
      * Funzione che ritorna il nome della classe.
      * @return string
@@ -58,7 +58,7 @@ class FProiezione implements Foundation
     }
 
     /**
-     * Funzione che ritorna il nome della tabella presente sul DB.
+     * Funzione che ritorna il nome della tabella presente nel DB.
      * @return string
      */
     public static function getTableName() {
@@ -76,12 +76,13 @@ class FProiezione implements Foundation
 //------------- ALTRI METODI ----------------
 
     /**
-     * Funzione che permette di salvare una proiezione sul DB. Prima di inserirla controlla se non si sovrapponga con un'altra già esistente sul DB.
+     * Funzione che permette di salvare una proiezione nel DB. Prima di inserirla controlla se non si sovrapponga con un'altra già esistente sul DB.
      * @param EProiezione $proiezione, proiezione da salvare.
      * @return bool, esito dell'operazione.
      */
     public static function save(EProiezione $proiezione): bool {
-        $db = FDatabase::getInstance();
+        $db          = FDatabase::getInstance();
+
         $sovrapposto = self::isSovrapposto($proiezione);
 
         if (!$sovrapposto) {
@@ -99,19 +100,20 @@ class FProiezione implements Foundation
      * @return bool
      */
     public static function isSovrapposto(EProiezione $proiezione): bool {
-        $proIn = $proiezione->getDataProiezione();
-        $proFin = (clone $proIn)->add($proiezione->getFilm()->getDurata());
+        $proIn      = $proiezione->getDataProiezione();
+        $proFin     = (clone $proIn)->add($proiezione->getFilm()->getDurata());
 
         $elencoProg = self::parseResult(FDatabase::getInstance()->isSovrappostaProiezione($proiezione));
 
         foreach ($elencoProg->getElencoProgrammazioni() as $prog) {
             foreach ($prog->getProiezioni() as $p) {
                 $inizio = $p->getDataProiezione();
-                $fine = $p->getDataProiezione()->add($p->getFilm()->getDurata());
+                $fine   = $p->getDataProiezione()->add($p->getFilm()->getDurata());
 
                 if (($inizio->getTimestamp() >= $proIn->getTimestamp() && $inizio->getTimestamp() <= $proFin->getTimestamp()) ||
-                    ($fine->getTImestamp() > $proIn->getTimestamp() && $fine->getTimestamp() < $proFin->getTimestamp()) ||
-                    ($inizio->getTimestamp() < $proIn->getTimestamp() && $fine->getTimestamp() > $proFin->getTimestamp())) {
+                    ($fine->getTImestamp()    > $proIn->getTimestamp() && $fine->getTimestamp()    < $proFin->getTimestamp()) ||
+                    ($inizio->getTimestamp()  < $proIn->getTimestamp() && $fine->getTimestamp()    > $proFin->getTimestamp())) {
+
                     return true;
                 }
             }
@@ -127,7 +129,8 @@ class FProiezione implements Foundation
      * @return EElencoProgrammazioni, oggetto EElencoProgrammazioni.
      */
     public static function load($value, $row): EElencoProgrammazioni {
-        $db = FDatabase::getInstance();
+        $db     = FDatabase::getInstance();
+
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
 
         return self::parseResult($result);
@@ -138,7 +141,8 @@ class FProiezione implements Foundation
      * @return EElencoProgrammazioni, oggetto EElencoProgrammazioni.
      */
     public static function loadAll(): EElencoProgrammazioni {
-        $db = FDatabase::getInstance();
+        $db     = FDatabase::getInstance();
+
         $result = $db->loadByDate(self::getClassName(), new DateTime());
 
         return self::parseResult($result);
@@ -152,6 +156,7 @@ class FProiezione implements Foundation
      */
     public static function loadBetween($inizio, $fine): EElencoProgrammazioni {
         $db = FDatabase::getInstance();
+
         $result = $db->loadBetween(self::getClassName(), $inizio, $fine, "data");
 
         return self::parseResult($result);
@@ -179,6 +184,7 @@ class FProiezione implements Foundation
      */
     public static function delete($value, $row): bool {
         $db = FDatabase::getInstance();
+
         return $db->deleteFromDB(self::getClassName(), $value, $row);
     }
 
@@ -189,21 +195,16 @@ class FProiezione implements Foundation
      */
     public static function occupaPosti(array $biglietti) {
         $db = FDatabase::getInstance();
+
         return $db->occupaPosti($biglietti);
     }
-
-   /* public static function liberaPosto($idProiezione, $posto, $emailUtente) {
-        $db = FDatabase::getInstance();
-        return $db->liberaPosto($idProiezione, $posto, $emailUtente);
-    }*/
 
     /**
      * Funzione che, sfruttando la parseProiezione, aggiunge all'ElencoProgrammazioni nel corrispettivo ProgrammazioneFilm la proiezione caricata.
      * @param array $result, riga del database che si vuole 'parsare'.
      * @return EElencoProgrammazioni, oggetto EElencoProgrammazioni.
      */
-    private static function parseResult(array $result): EElencoProgrammazioni
-    {
+    private static function parseResult(array $result): EElencoProgrammazioni {
         $elencoProgrammazioni = new EElencoProgrammazioni();
 
         foreach ($result as $row) {
@@ -219,16 +220,16 @@ class FProiezione implements Foundation
      * @return EProiezione, oggetto EProiezione.
      */
     private static function parseProiezione($row): EProiezione {
-        $id = $row["id"];
-        $data = $row["data"];
-        $ora = $row["ora"];
+        $id     = $row["id"];
+        $data   = $row["data"];
+        $ora    = $row["ora"];
 
         //OTTENGO L'OGGETTO FILM
-        $film = FFilm::load($row["idFilm"], "id")[0];
+        $film   = FFilm::load($row["idFilm"], "id")[0];
 
         //COSTRUISCO L'OGGETTO SALAVIRTUALE
-        $sala = FSala::loadVirtuale($row["numerosala"], "nSala")[0];
-        $posti = FPosto::load($id, "idProiezione");
+        $sala   = FSala::loadVirtuale($row["numerosala"], "nSala")[0];
+        $posti  = FPosto::load($id, "idProiezione");
 
         foreach($posti as $posto) {
             if ($posto->isOccupato()) {
@@ -244,7 +245,7 @@ class FProiezione implements Foundation
         }
 
         //AGGIUNGO LA PROIEZIONE ALLA LISTA DI RITORNO
-        $proiezione = new EProiezione($film, $sala, $dataora);
+        $proiezione  = new EProiezione($film, $sala, $dataora);
         $proiezione->setId($id);
 
         return $proiezione;

@@ -34,7 +34,7 @@
 </head>
 <body class="body">
 
-<div class="sign section--bg" data-bg="Smarty/img/section/section.jpg">
+<div class="sign section--bg" data-bg="{$path}Smarty/img/section/section.jpg">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -43,7 +43,7 @@
                     <form id="form" action="/MagicBoulevardCinema/" onsubmit="return validate()" class="sign__form" method="POST">
                         <!-- Logo -->
                         <a href="/MagicBoulevardCinema/" class="sign__logo">
-                            <img src="Smarty/img/logo.svg" alt="">
+                            <img src="{$path}Smarty/img/logo.svg" alt="">
                         </a>
 
                         <!-- Lunedì -->

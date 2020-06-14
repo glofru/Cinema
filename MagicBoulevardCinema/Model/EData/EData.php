@@ -15,8 +15,7 @@ class EData extends DateTime
      * @param DateTimeZone|null $timezone, timezone dell'area geografica.
      * @throws Exception
      */
-    public function __construct($time = 'now', DateTimeZone $timezone = null)
-    {
+    public function __construct($time = 'now', DateTimeZone $timezone = null) {
         parent::__construct($time, $timezone);
     }
 
@@ -27,9 +26,9 @@ class EData extends DateTime
     public static function getDateProssime(): array {
         $result = [];
 
-        $oggi = new DateTime('now');
-        $oggi = $oggi->format('Y-m-d');
-        $fine = "2100-01-01";
+        $oggi   = new DateTime('now');
+        $oggi   = $oggi->format('Y-m-d');
+        $fine   = "2100-01-01";
 
         array_push($result, $oggi, $fine);
 
@@ -48,13 +47,13 @@ class EData extends DateTime
 
         while($giorno != 'Mon') {
             $inizio->modify('-1 Day');
-            $giorno = $inizio->format('D');
+            $giorno    = $inizio->format('D');
         }
 
         $inizio = $inizio->format('Y-m-d');
-        $fine = DateTime::createfromFormat('Y-m-d', $inizio);
+        $fine   = DateTime::createfromFormat('Y-m-d', $inizio);
         $fine->modify('+ 6 Days');
-        $fine = $fine->format('Y-m-d');
+        $fine   = $fine->format('Y-m-d');
 
         array_push($result, $inizio, $fine);
 
@@ -70,7 +69,7 @@ class EData extends DateTime
 
         $inizio = new DateTime('now');
 
-        for($i = 0; true; $i++) {
+        for($i  = 1; true; $i++) {
             $inizio->modify('+1 Day');
             $giorno = $inizio->format('D');
             if($giorno == 'Mon' && $i > 0) {
@@ -79,9 +78,9 @@ class EData extends DateTime
         }
 
         $inizio = $inizio->format('Y-m-d');
-        $fine = DateTime::createfromFormat('Y-m-d', $inizio);
+        $fine   = DateTime::createfromFormat('Y-m-d', $inizio);
         $fine->modify('+ 6 Days');
-        $fine = $fine->format('Y-m-d');
+        $fine   = $fine->format('Y-m-d');
 
         array_push($result, $inizio, $fine);
 
@@ -95,24 +94,13 @@ class EData extends DateTime
      */
     public static function getSettimanaScorsa(int $n): array {
         $result = [];
-
-        $inizio = new DateTime('now');
-
-        $k = ($n * 6);
-        if($n > 2) {$k += $n - 2;}
-
-        for($i = 0; true; $i++) {
-            $inizio->modify('-1 Day');
-            $giorno = $inizio->format('D');
-            if($giorno == 'Mon' && $i >= $k) {
-                break;
-            }
-        }
-
+        $tmp    = 'monday this week -';
+        $val    = 7 * $n;
+        $inizio = new DateTime($tmp . $val .' days');
+        $tmp    = 'sunday this week -';
+        $fine   = new DateTime($tmp . $val .' days');
         $inizio = $inizio->format('Y-m-d');
-        $fine = DateTime::createfromFormat('Y-m-d',$inizio);
-        $fine->modify('+ 6 Days');
-        $fine = $fine->format('Y-m-d');
+        $fine   = $fine->format('Y-m-d');
 
         array_push($result, $inizio, $fine);
 
@@ -144,8 +132,9 @@ class EData extends DateTime
      * @return string, risultato della trasformazione da minuti ad ore e minuti.
      */
     public static function hoursandmins($time, $format = '%02d:%02d') {
-        $hours = floor($time / 60);
+        $hours   = floor($time / 60);
         $minutes = ($time % 60);
+
         return sprintf($format, $hours, $minutes);
     }
 }

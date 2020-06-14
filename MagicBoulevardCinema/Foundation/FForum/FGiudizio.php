@@ -12,16 +12,16 @@ class FGiudizio
      * Nome della classe.
      * @var string
      */
-    private static string $className = "FGiudizio";
+    private static string $className  = "FGiudizio";
 
     /**
-     * Nome della corrispondente tabella presente sul DB.
+     * Nome della corrispondente tabella presente nel DB.
      * @var string
      */
-    private static string $tableName = "Giudizio";
+    private static string $tableName  = "Giudizio";
 
     /**
-     * Insieme delle colonne presenti nella tabella sul DB che verrà sostituita in fase di binding.
+     * Insieme delle colonne presenti nella tabella nel DB che verrà sostituita in fase di binding.
      * @var string
      */
     private static string $valuesName = "(:idUtente,:idFilm,:commento,:punteggio,:titolo,:datapubblicazione)";
@@ -37,13 +37,12 @@ class FGiudizio
      * @param $giudizio, oggetto dal quale si vogliono prelevare i valori.
      * @return mixed|void
      */
-    public function associate(PDOStatement $sender, $giudizio)
-    {
-        $sender->bindValue(':idUtente', $giudizio->getUtente()->getId(), PDO::PARAM_INT);
-        $sender->bindValue(':idFilm', $giudizio->getFilm()->getId(), PDO::PARAM_INT);
-        $sender->bindValue(':commento', $giudizio->getCommento(), PDO::PARAM_STR);
-        $sender->bindValue(':punteggio', strval($giudizio->getPunteggio()), PDO::PARAM_STR);
-        $sender->bindValue(':titolo', $giudizio->getTitle(), PDO::PARAM_STR);
+    public function associate(PDOStatement $sender, $giudizio) {
+        $sender->bindValue(':idUtente',          $giudizio->getUtente()->getId(),     PDO::PARAM_INT);
+        $sender->bindValue(':idFilm',            $giudizio->getFilm()->getId(),       PDO::PARAM_INT);
+        $sender->bindValue(':commento',          $giudizio->getCommento(),            PDO::PARAM_STR);
+        $sender->bindValue(':punteggio',         strval($giudizio->getPunteggio()),   PDO::PARAM_STR);
+        $sender->bindValue(':titolo',            $giudizio->getTitle(),               PDO::PARAM_STR);
         $sender->bindValue(':datapubblicazione', $giudizio->getDataPubblicazioneDB(), PDO::PARAM_STR);
     }
     //----------------- GETTER --------------------
@@ -57,7 +56,7 @@ class FGiudizio
     }
 
     /**
-     * Funzione che ritorna il nome della tabella presente sul DB.
+     * Funzione che ritorna il nome della tabella presente nel DB.
      * @return string
      */
     public static function getTableName() {
@@ -73,12 +72,13 @@ class FGiudizio
     }
 
     /**
-     * Funzione che permette di salvare un giudizio sul DB.
+     * Funzione che permette di salvare un giudizio nel DB.
      * @param EGiudizio $giudizio, giudizio da salvare.
      */
     public static function save(EGiudizio $giudizio) {
         $db = FDatabase::getInstance();
-        $db->saveToDB(self::getClassName(),$giudizio);
+
+        $db->saveToDB(self::getClassName(), $giudizio);
     }
 
 
@@ -88,12 +88,11 @@ class FGiudizio
      * @param string $row, colonna nella quale cercare il valore.
      * @return array, array di EGiudizio.
      */
-    public static function load(string  $value, string $row): array
-    {
-        $db = FDatabase::getInstance();
+    public static function load(string $value, string $row): array {
+        $db     = FDatabase::getInstance();
+
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
-        if ($result == null || sizeof($result) == 0)
-        {
+        if ($result == null || sizeof($result) == 0) {
             return [];
         }
 
@@ -107,15 +106,14 @@ class FGiudizio
      * @param $row, prima colonna nella quale cercare il valore.
      * @param $value2, secondo valore necessario ad indetificare l'oggetto.
      * @param $row2, secondo valore necessario ad indetificare l'oggetto.
-     * @return EGiudizio, oggetto EGiudizio.
+     * @return EGiudizio|null, oggetto EGiudizio.
      */
-    public static function loadDoppio($value,$row,$value2,$row2): EGiudizio
-    {
-        $db = FDatabase::getInstance();
-        $result = $db->loadFromDBDebole(self::getClassName(),$value,$row,$value2,$row2);
-        if($result === null)
-        {
-            return $result;
+    public static function loadDoppio($value, $row, $value2, $row2) {
+        $db     = FDatabase::getInstance();
+
+        $result = $db->loadFromDBDebole(self::getClassName(), $value, $row, $value2, $row2);
+        if($result === null) {
+            return null;
         }
 
         return self::parseResult($result)[0];
@@ -131,13 +129,10 @@ class FGiudizio
      * @param $newrow, colonna nella quale inserire il nuovo valore.
      * @return bool, esito dell'operazione.
      */
-    public static function update($value,$row,$value2,$row2,$newvalue,$newrow): bool
-    {
+    public static function update($value, $row, $value2, $row2, $newvalue, $newrow): bool {
         $db = FDatabase::getInstance();
-        if($db->updateTheDBDebole(self::getClassName(),$value,$row,$value2,$row2,$newvalue,$newrow)){
-            return true;
-        }
-        return false;
+
+        return $db->updateTheDBDebole(self::getClassName(), $value, $row, $value2, $row2, $newvalue, $newrow);
     }
 
     /**
@@ -148,13 +143,10 @@ class FGiudizio
      * @param $row2, seconda colonna nella quale cercare il valore.
      * @return bool, esito dell'operazione.
      */
-    public static function delete($value,$row,$value2,$row2): bool
-    {
+    public static function delete($value, $row, $value2, $row2): bool {
         $db = FDatabase::getInstance();
-        if($db->deleteFromDBDebole(self::getClassName(),$value,$row,$value2,$row2)){
-            return true;
-        }
-        return false;
+
+        return $db->deleteFromDBDebole(self::getClassName(), $value, $row, $value2, $row2);
     }
 
     /**
@@ -164,17 +156,19 @@ class FGiudizio
      */
     public static function parseResult($result): array {
         $return = [];
+
         foreach ($result as $row) {
             $idRegistrato = $row["idUtente"];
-            $film = $row["idFilm"];
-            $punteggio = floatval($row["punteggio"]);
-            $commento = $row["commento"];
-            $utente = FUtente::load($idRegistrato,"id");
-            $film = FFilm::load($film,"id");
-            $titolo = $row["titolo"];
-            $data = DateTime::createfromFormat('Y-m-d', $row["datapubblicazione"]);
+            $film         = $row["idFilm"];
+            $punteggio    = floatval($row["punteggio"]);
+            $commento     = $row["commento"];
+            $utente       = FUtente::load($idRegistrato,"id");
+            $film         = FFilm::load($film,"id");
+            $titolo       = $row["titolo"];
+            $data         = DateTime::createfromFormat('Y-m-d', $row["datapubblicazione"]);
             array_push($return,new EGiudizio($commento, $punteggio, $film[0], $utente, $titolo, $data));
         }
+
         return $return;
     }
 

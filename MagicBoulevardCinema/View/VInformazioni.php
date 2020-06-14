@@ -1,7 +1,7 @@
 <?php
 
 /**
- * La classe Informazioni permette di mostrare alcune schermate contenenti delle informazioni sul nostro sito (costi dei biglietti, informazioni su di noi e pagina di aiuto).
+ * La classe Informazioni permette di mostrare alcune schermate contenenti delle informazioni sul sito (costi dei biglietti, informazioni su di noi e pagina di aiuto).
  * Class VInformazioni
  * @access public
  * @author Lofrumento - Di Santo - Susanna
@@ -17,10 +17,10 @@ class VInformazioni
     public static function getCosti(EUtente $utente) {
         $smarty = StartSmarty::configuration();
 
-        $smarty->assign("path", $GLOBALS["path"]);
-        $smarty->assign("utente", $utente);
-        $smarty->assign("price", $GLOBALS["prezzi"]);
-        $smarty->assign("extra", $GLOBALS["extra"]);
+        $smarty->assign("path",     $GLOBALS["path"]);
+        $smarty->assign("utente",   $utente);
+        $smarty->assign("price",    $GLOBALS["prezzi"]);
+        $smarty->assign("extra",    $GLOBALS["extra"]);
 
         $smarty->display("costi.tpl");
     }
@@ -33,8 +33,8 @@ class VInformazioni
     public static function getAbout(EUtente $utente) {
         $smarty = StartSmarty::configuration();
 
-        $smarty->assign("path", $GLOBALS["path"]);
-        $smarty->assign("utente", $utente);
+        $smarty->assign("path",     $GLOBALS["path"]);
+        $smarty->assign("utente",   $utente);
 
         $smarty->display("about.tpl");
     }
@@ -47,8 +47,8 @@ class VInformazioni
     public static function getHelp(EUtente $utente) {
         $smarty = StartSmarty::configuration();
 
-        $smarty->assign("path", $GLOBALS["path"]);
-        $smarty->assign("utente", $utente);
+        $smarty->assign("path",     $GLOBALS["path"]);
+        $smarty->assign("utente",   $utente);
 
         $smarty->display("aiuto.tpl");
     }

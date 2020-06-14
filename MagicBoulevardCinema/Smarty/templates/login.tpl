@@ -41,13 +41,13 @@
 				<div class="col-12">
 					<div class="sign__content">
 						<!-- authorization form -->
-						<form action="{$path}Utente/login" method="POST" class="sign__form">
+						<form action="{$path}Utente/login" method="POST" onsubmit="return validate()" class="sign__form">
 							<a href="/MagicBoulevardCinema" class="sign__logo">
 								<img src="{$path}Smarty/img/logo.svg" alt="">
 							</a>
 
 							<div class="sign__group">
-								<input name="username" type="text" value="{$username}" class="sign__input" placeholder="Username/Email">
+								<input name="username" id="username" type="text" value="{$username}" class="sign__input" placeholder="Username/Email">
 							</div>
 
 							{if $error}
@@ -57,7 +57,7 @@
 							{/if}
 
 							<div class="sign__group">
-								<input name="password" type="password" class="sign__input" placeholder="Password">
+								<input name="password" id="password" type="password" class="sign__input" placeholder="Password">
 							</div>
 
 							<div class="sign__group sign__group--checkbox">
@@ -82,6 +82,15 @@
 		<meta http-equiv="refresh" content="0;url=/MagicBoulevardCinema/noJS.html">
 	</noscript>
 	<!-- JS -->
+	<script>
+		function validate() {
+			if($("#username").val() === "" || $("#password").val === ""){
+				alert('Compilare entrambi i campi prima di inviare');
+				return false;
+			}
+			return true;
+		}
+	</script>
 	<script src="{$path}Smarty/js/jquery-3.3.1.min.js"></script>
 	<script src="{$path}Smarty/js/bootstrap.bundle.min.js"></script>
 	<script src="{$path}Smarty/js/owl.carousel.min.js"></script>

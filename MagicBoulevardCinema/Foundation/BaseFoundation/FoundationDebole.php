@@ -17,7 +17,7 @@ interface FoundationDebole
     public static function associate(PDOStatement $sender, $object1, $object2);
 
     /**
-     * Funzione che permette di caricare un oggetto dal DB dati un valori ed una colonna. Ritorna un array con i valori che corrispondono alla ricerca.
+     * Funzione che permette di caricare un oggetto dal DB dati un valore ed una colonna. Ritorna un array con i valori che corrispondono alla ricerca.
      * @param string $value, valore da usare per identificare l'oggetto.
      * @param string $row, colonna nella quale cercare il valore.
      * @return mixed, insieme delle righe risultanti.
@@ -26,10 +26,10 @@ interface FoundationDebole
 
     /**
      * Funzione che permette di aggiornare un oggetto nel DB sulla base di un valore ed una colonna. Ritorna l'esito dell'operazione
-     * @param $value, valore necessario ad indetificare l'oggetto.
+     * @param $value, valore necessario ad indentificare l'oggetto.
      * @param $row, colonna nella quale cercare il valore.
-     * @param $value2, secondo valore necessario ad indetificare l'oggetto.
-     * @param $row2, secondo valore necessario ad indetificare l'oggetto.
+     * @param $value2, secondo valore necessario ad indentificare l'oggetto.
+     * @param $row2, secondo valore necessario ad indentificare l'oggetto.
      * @param $newvalue, valore che si vuole inserire.
      * @param $newrow, colonna nella quale inserire il nuovo valore.
      * @return mixed, risultato dell'operazione.
@@ -40,8 +40,8 @@ interface FoundationDebole
      * Funzione che pemrette di eliminare un oggetto dal DB sulla base di un valore ed una colonna. Ritorna l'esito dell'operazione
      * @param $value, valore da usare per identificare l'oggetto.
      * @param $row, colonna nella quale cercare il valore.
-     * @param $value2, secondo valore necessario ad indetificare l'oggetto.
-     * @param $row2, secondo valore necessario ad indetificare l'oggetto.
+     * @param $value2, secondo valore necessario ad indentificare l'oggetto.
+     * @param $row2, secondo valore necessario ad indentificare l'oggetto.
      * @return mixed, insieme delle righe risultanti.
      */
     public static function delete($value, $row, $value2, $row2);

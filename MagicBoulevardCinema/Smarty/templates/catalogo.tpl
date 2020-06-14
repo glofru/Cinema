@@ -91,9 +91,9 @@
 									<div class="card__wrap">
 										<div class="card__description"> <p>Data di uscita: <br> {$item->getDataRilascioString()}</p></div>
 										<ul class="card__list">
-											{if ($item->getetaConsigliata() != "")}
+											{if ($item->getEtaConsigliata() != "")}
 											<ul class="card__list">
-												<li>{$item->getetaConsigliata()}</li>
+												<li>{$item->getEtaConsigliata()}</li>
 											</ul>
 											{/if}
 										</ul>
@@ -151,9 +151,9 @@
 													<a href="{$path}Film/show/?film={$item->getId()}#acquista" >Voto utenti: {$punteggio[$i][$key]}</a>
 												</span>
 											{/if}
-											{if ($item->getetaConsigliata() != "")}
+											{if ($item->getEtaConsigliata() != "")}
 												<ul class="card__list">
-													<li>{$item->getetaConsigliata()}</li>
+													<li>{$item->getEtaConsigliata()}</li>
 												</ul>
 											{/if}
 										</div>
@@ -207,9 +207,9 @@
 													<span class="card__category">
 													<a href="{$path}Film/show/?film={$item->getId()}#acquista" >Voto utenti: {$punteggio[$item->getId()]}</a>
 												</span>
-												{if ($item->getetaConsigliata() != "")}
+												{if ($item->getEtaConsigliata() != "")}
 													<ul class="card__list">
-														<li>{$item->getetaConsigliata()}</li>
+														<li>{$item->getEtaConsigliata()}</li>
 													</ul>
 												{/if}
 											</div>

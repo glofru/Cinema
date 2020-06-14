@@ -23,6 +23,7 @@ class ESalaVirtuale extends ESalaFisica implements JsonSerializable
      */
     public function __construct(int $numeroSala, int $nFile, int $nPostiFila, bool $disponibile) {
         parent::__construct($numeroSala, $nFile, $nPostiFila, $disponibile);
+
         $this->init($nFile, $nPostiFila);
     }
 
@@ -42,10 +43,12 @@ class ESalaVirtuale extends ESalaFisica implements JsonSerializable
      */
     private function init($nFile, $nPostiFila) {
         $this->posti = array();
+
         $value = 65; //65 = A
         for ($i = 0; $i < $nFile; $i++) {
             $fila = chr($value+$i);
             $this->posti[$fila] = array();
+
             for ($j = 0; $j < $nPostiFila; $j++) {
                 $numeroPosto = $j + 1;
                 $this->posti[$fila][$numeroPosto] = new EPosto($fila, $numeroPosto);
@@ -60,19 +63,16 @@ class ESalaVirtuale extends ESalaFisica implements JsonSerializable
         return $this->posti;
     }
 
-//------------- ALTRI METODI ----------------
-
     /**
      * @return array|mixed, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFULL.
      */
     public function jsonSerialize () {
-        return
-            [
-                'numero'   => $this->getNumeroSala(),
-                'posti' => $this->getPosti(),
-                'nFile' => $this->getNFile(),
-                'nPostiFila' => $this->getNPostiFila()
-            ];
+        return [
+            'numero'     => $this->getNumeroSala(),
+            'posti'      => $this->getPosti(),
+            'nFile'      => $this->getNFile(),
+            'nPostiFila' => $this->getNPostiFila()
+        ];
     }
 
     /**
@@ -119,8 +119,7 @@ class ESalaVirtuale extends ESalaFisica implements JsonSerializable
      * @return bool, risultato booleano del controllo.
      * @throws Exception
      */
-    public function occupaPosto(EPosto $posto): bool
-    {
+    public function occupaPosto(EPosto $posto): bool {
         if (!$this->isPostoOccupato($posto)) {
             $this->posti[$posto->getFila()][$posto->getNumeroPosto()]->setIsOccupato(true);
             return true;
@@ -135,8 +134,7 @@ class ESalaVirtuale extends ESalaFisica implements JsonSerializable
      * @return bool, risultato booleano del controllo.
      * @throws Exception
      */
-    public function liberaPosto(EPosto $posto): bool
-    {
+    public function liberaPosto(EPosto $posto): bool {
         if ($this->isPostoOccupato($posto)) {
             $this->posti[$posto->getFila()][$posto->getNumeroPosto()]->setIsOccupato(false);
             return true;
@@ -146,24 +144,18 @@ class ESalaVirtuale extends ESalaFisica implements JsonSerializable
     }
 
     /**
-     * Funzione che ritorna il numero di posti nella sala.
-     * @return int, numero di posti in sala.
-     */
-    public function getNumeroPosti(): int {
-        return sizeof($this->getPosti());
-    }
-    /**
      * Funzione che conta il numero dei posti liberi in sala.
      * @return int, numero dei posti liberi in sala.
      */
-    public function getNumeroPostiLiberi(): int
-    {
+    public function getNumeroPostiLiberi(): int {
         $count = 0;
+
         foreach ($this->getPosti() as $elem){
             if($elem->isOccupato() === false){
                 $count += 1;
             }
         }
+
         return $count;
     }
     /**

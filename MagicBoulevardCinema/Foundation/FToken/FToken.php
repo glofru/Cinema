@@ -12,16 +12,16 @@ class FToken implements Foundation
      * Nome della classe.
      * @var string
      */
-    private static string $className = "FToken";
+    private static string $className  = "FToken";
 
     /**
-     * Nome della corrispondente tabella presente sul DB.
+     * Nome della corrispondente tabella presente nel DB.
      * @var string
      */
-    private static string $tableName = "Token";
+    private static string $tableName  = "Token";
 
     /**
-     * Insieme delle colonne presenti nella tabella sul DB che verrà sostituita in fase di binding.
+     * Insieme delle colonne presenti nella tabella nel DB che verrà sostituita in fase di binding.
      * @var string
      */
     private static string $valuesName = "(:value,:creationDate,:creationHour,:idUtente)";
@@ -34,10 +34,10 @@ class FToken implements Foundation
      */
     public static function associate(PDOStatement $sender, $token){
         if ($token instanceof EToken) {
-            $sender->bindValue(':value', $token->getValue(), PDO::PARAM_STR);
-            $sender->bindValue(':creationDate', $token->getCreationdateDB(), PDO::PARAM_STR);
-            $sender->bindValue(':creationHour', $token->getCreationHour(), PDO::PARAM_STR);
-            $sender->bindValue(':idUtente', $token->getUtente()->getId(), PDO::PARAM_STR);
+            $sender->bindValue(':value',        $token->getValue(),           PDO::PARAM_STR);
+            $sender->bindValue(':creationDate', $token->getCreationdateDB(),  PDO::PARAM_STR);
+            $sender->bindValue(':creationHour', $token->getCreationHour(),    PDO::PARAM_STR);
+            $sender->bindValue(':idUtente',     $token->getUtente()->getId(), PDO::PARAM_STR);
         } else {
             die("Not a token!!");
         }
@@ -52,7 +52,7 @@ class FToken implements Foundation
     }
 
     /**
-     * Funzione che ritorna il nome della tabella presente sul DB.
+     * Funzione che ritorna il nome della tabella presente nel DB.
      * @return string
      */
     public static function getTableName(): string {
@@ -75,11 +75,12 @@ class FToken implements Foundation
      * @throws Exception
      */
     public static function load(string $value, string $row) {
-        $db = FDatabase::getInstance();
+        $db     = FDatabase::getInstance();
+
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
 
-        $row = $result[0];
-        $value = $row["value"];
+        $row    = $result[0];
+        $value  = $row["value"];
         $creationDate = new DateTime($row["creationDate"] . "T" . $row["creationHour"]);
 
         $utente = FUtente::load($row["idUtente"], "id");
@@ -89,7 +90,7 @@ class FToken implements Foundation
 
     /**
      * Funzione che permette di aggiornare un oggetto Token nel DB. Ritorna l'esito dell'operazione.
-     * @param $value, valore necessario ad indetificare l'oggetto.
+     * @param $value, valore necessario ad indentificare l'oggetto.
      * @param $row, colonna nella quale cercare il valore.
      * @param $newvalue, valore che si vuole inserire.
      * @param $newrow, colonna nella quale inserire il nuovo valore.
@@ -103,7 +104,7 @@ class FToken implements Foundation
 
     /**
      * Funzione che elimina un oggetto nel DB. Ritorna l'esito dell'operazione.
-     * @param $value, valore necessario ad indetificare l'oggetto.
+     * @param $value, valore necessario ad indentificare l'oggetto.
      * @param $row, colonna nella quale cercare il valore.
      * @return bool, risultato dell'operazione.
      */
@@ -119,6 +120,7 @@ class FToken implements Foundation
      */
     public static function save(EToken $token) {
         $db = FDatabase::getInstance();
+
         $db->saveToDB(self::getClassName(), $token);
     }
 }

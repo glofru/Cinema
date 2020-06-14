@@ -10,24 +10,6 @@
 class VAdmin
 {
     /**
-     * Funzione che permette di mostrare la schermata di aggiunta di film.
-     * @param array $attori, insieme degli attori presenti nel nostro DB.
-     * @param array $registi, insieme dei registi presenti nel nostro DB.
-     * @throws SmartyException
-     */
-    public static function addFilm(array $attori, array $registi)
-    {
-        $smarty = StartSmarty::configuration();
-
-        $smarty->assign("path", $GLOBALS["path"]);
-        $smarty->assign("attori", $attori);
-        $smarty->assign("registi", $registi);
-        $smarty->assign("generi", EGenere::getAll());
-
-        $smarty->display("addFilm.tpl");
-    }
-
-    /**
      * Funzione che permette di visualizzare la schermata di gestione degli utenti. Da questa è possibile visualizzare gli utenti bannati ed eventualmente bannarne altri.
      * @param array $bannati, insieme degli utenti bannati.
      * @param EAdmin $utente, utente che richiede la pagina.
@@ -37,10 +19,10 @@ class VAdmin
     public static function gestioneUtenti(array $bannati, EAdmin $utente, $status = null) {
         $smarty = StartSmarty::configuration();
 
-        $smarty->assign("path", $GLOBALS["path"]);
-        $smarty->assign("bannati", $bannati);
-        $smarty->assign("utente", $utente);
-        $smarty->assign("status", $status);
+        $smarty->assign("path",     $GLOBALS["path"]);
+        $smarty->assign("bannati",  $bannati);
+        $smarty->assign("utente",   $utente);
+        $smarty->assign("status",   $status);
 
         $smarty->display("gestioneUtenti.tpl");
     }
@@ -52,11 +34,42 @@ class VAdmin
     public static function modificaPrezzo() {
         $smarty = StartSmarty::configuration();
 
-        $smarty->assign("path", $GLOBALS["path"]);
-        $smarty->assign("price", $GLOBALS["prezzi"]);
-        $smarty->assign("extra", $GLOBALS["extra"]);
+        $smarty->assign("path",     $GLOBALS["path"]);
+        $smarty->assign("price",    $GLOBALS["prezzi"]);
+        $smarty->assign("extra",    $GLOBALS["extra"]);
 
         $smarty->display("modificaPrezzi.tpl");
+    }
+
+    public static function gestioneFilm(EUtente $utente, array $attori, array $registi, array $persone, $statoFilm = null, $statoPersona = null, $data = null, $ok = false) {
+        $smarty = StartSmarty::configuration();
+
+        $smarty->assign("path",             $GLOBALS["path"]);
+        $smarty->assign("utente",           $utente);
+        $smarty->assign("attori",           $attori);
+        $smarty->assign("registi",          $registi);
+        $smarty->assign("generi",           EGenere::getAll());
+        $smarty->assign("persone",          $persone);
+        $smarty->assign("errorAddFilm",     $statoFilm);
+        $smarty->assign("errorAddPersona",  $statoPersona);
+
+        if ($statoFilm && !$ok) {
+            $smarty->assign("titolo",           $_POST["titolo"]);
+            $smarty->assign("descrizione",      $_POST["descrizione"]);
+            $smarty->assign("genere",           $_POST["genere"]);
+            $smarty->assign("durata",           $_POST["durata"]);
+            $smarty->assign("trailerURL",       $_POST["trailerURL"]);
+            $smarty->assign("votoCritica",      $_POST["votoCritica"]);
+            $smarty->assign("dataRilascio",     $_POST["dataRilascio"]);
+            $smarty->assign("paese",            $_POST["paese"]);
+            $smarty->assign("etaConsigliata",   $_POST["etaConsigliata"]);
+        } if ($statoPersona && !$ok) {
+            $smarty->assign("nome",             $_POST["nome"]);
+            $smarty->assign("cognome",          $_POST["cognome"]);
+            $smarty->assign("imdbURL",          $_POST["imdbURL"]);
+        }
+
+        $smarty->display("gestioneFilm.tpl");
     }
 
     /**
@@ -72,19 +85,19 @@ class VAdmin
     public static function gestioneSale(array $sale, EUtente $utente, $e = null, $nSala = null, $nFile = null, $nPosti = null) {
         $smarty = StartSmarty::configuration();
 
-        $smarty->assign("path", $GLOBALS["path"]);
-        $smarty->assign("sale", $sale);
-        $smarty->assign("utente", $utente);
-        $smarty->assign("status", $e);
-        $smarty->assign("nSala", $nSala);
-        $smarty->assign("nFile", $nFile);
-        $smarty->assign("nPosti", $nPosti);
+        $smarty->assign("path",     $GLOBALS["path"]);
+        $smarty->assign("sale",     $sale);
+        $smarty->assign("utente",   $utente);
+        $smarty->assign("status",   $e);
+        $smarty->assign("nSala",    $nSala);
+        $smarty->assign("nFile",    $nFile);
+        $smarty->assign("nPosti",   $nPosti);
 
         $smarty->display("gestioneSale.tpl");
     }
 
     /**
-     * Funzione che permette di vsiualizzare le programmazioni delle proiezioni che avverranno nel cinema. Da qui è possibile aggiungere delle proiezioni oppure modificarle.
+     * Funzione che permette di visualizzare le programmazioni delle proiezioni che avverranno nel cinema. Da qui è possibile aggiungere delle proiezioni oppure modificarle.
      * @param EUtente $utente, utente che richiede la pagina.
      * @param array $films, insieme dei film in proiezione.
      * @param array $sale, insieme delle sale fisiche.
@@ -101,18 +114,18 @@ class VAdmin
     public static function gestioneProgrammazione(EUtente $utente, array $films, array $sale, EElencoProgrammazioni $programmazioni, array $locandine, $film = null, $nSala = null, $ora = null, $inizio = null, $fine = null, $error = null) {
         $smarty = StartSmarty::configuration();
 
-        $smarty->assign("path", $GLOBALS["path"]);
-        $smarty->assign("utente", $utente);
-        $smarty->assign("films", $films);
-        $smarty->assign("sale", $sale);
-        $smarty->assign("film", $film);
-        $smarty->assign("programmazioni", $programmazioni);
-        $smarty->assign("locandine", $locandine);
-        $smarty->assign("sala", intval($nSala));
-        $smarty->assign("ora", $ora);
-        $smarty->assign("inizio", $inizio);
-        $smarty->assign("fine", $fine);
-        $smarty->assign("error", $error);
+        $smarty->assign("path",             $GLOBALS["path"]);
+        $smarty->assign("utente",           $utente);
+        $smarty->assign("films",            $films);
+        $smarty->assign("sale",             $sale);
+        $smarty->assign("film",             $film);
+        $smarty->assign("programmazioni",   $programmazioni);
+        $smarty->assign("locandine",        $locandine);
+        $smarty->assign("sala",             intval($nSala));
+        $smarty->assign("ora",              $ora);
+        $smarty->assign("inizio",           $inizio);
+        $smarty->assign("fine",             $fine);
+        $smarty->assign("error",            $error);
 
         $smarty->display("gestioneProgrammazione.tpl");
     }
@@ -126,9 +139,9 @@ class VAdmin
     public static function modificaProgrammazione(EUtente $utente, EProgrammazioneFilm $programmazioneFilm) {
         $smarty = StartSmarty::configuration();
 
-        $smarty->assign("path", $GLOBALS["path"]);
-        $smarty->assign("utente", $utente);
-        $smarty->assign("programmazione", $programmazioneFilm);
+        $smarty->assign("path",             $GLOBALS["path"]);
+        $smarty->assign("utente",           $utente);
+        $smarty->assign("programmazione",   $programmazioneFilm);
 
         $smarty->display("modificaProgrammazione.tpl");
     }
@@ -157,19 +170,33 @@ class VAdmin
     }
 
     /**
-     * Schermata che permette di moficare le informazioni su un film.
+     * Schermata che permette di modificare le informazioni riguardanti un film.
      * @param EFilm $film, film che si vuole modificare.
      * @param $copertina, locandina del film.
      * @throws SmartyException
      */
-    public static function modificafilm(EFilm $film, $copertina){
+    public static function modificafilm(EFilm $film, $copertina, array $attori, array $registi, $errore = null){
         $smarty = StartSmarty::configuration();
 
-        $smarty->assign("path", $GLOBALS["path"]);
-        $smarty->assign("film", $film);
-        $smarty->assign("copertina", $copertina);
-        $smarty->assign("generi", EGenere::getAll());
+        $smarty->assign("path",         $GLOBALS["path"]);
+        $smarty->assign("film",         $film);
+        $smarty->assign("copertina",    $copertina);
+        $smarty->assign("attori",       $attori);
+        $smarty->assign("registi",      $registi);
+        $smarty->assign("generi",       EGenere::getAll());
+        $smarty->assign("errore",       $errore);
 
         $smarty->display("modificaFilm.tpl");
+    }
+
+    public static function modificaPersona(EUtente $utente, EPersona $persona, $errore = null){
+        $smarty = StartSmarty::configuration();
+
+        $smarty->assign("path",         $GLOBALS["path"]);
+        $smarty->assign("utente",       $utente);
+        $smarty->assign("persona",      $persona);
+        $smarty->assign("errore",       $errore);
+
+        $smarty->display("modificaPersona.tpl");
     }
 }

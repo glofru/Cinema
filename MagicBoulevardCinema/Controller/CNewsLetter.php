@@ -19,8 +19,9 @@ class CNewsLetter
         if($_SERVER['REQUEST_METHOD']=="GET" && $_GET["token"] === "S3ndM34M41l") {
             $ns = FPersistentManager::getInstance()->loadAll("ENewsLetter");
             if(sizeof($ns->getListaUtenticonPreferenze()[0]) > 0) {
-                $date = EData::getSettimanaProssima();
+                $date    = EData::getSettimanaProssima();
                 $results = CUtility::getProiezioni($date);
+
                 foreach ($ns->getListaUtenticonPreferenze()[0] as $utente) {
                     CMail::newsLetter($utente, $date, $results);
                 }
@@ -32,7 +33,7 @@ class CNewsLetter
 
     /**
      * Funzione, da richiamare quando viene caricato un nuovo film nel sistema, che permette di individuare gli utenti iscritti alla newsletter
-     * quelli con genere prefertio quello del film appena inserito.
+     * quelli con genere preferito quello del film appena inserito.
      * Per ognuno viene inviata una mail con le informazioni sul nuovo film appena inserito.
      * @throws \PHPMailer\PHPMailer\Exception
      */
@@ -42,10 +43,11 @@ class CNewsLetter
         } else {
             $film = FPersistentManager::getInstance()->load($_SESSION["idFilm"], "id", "EFilm")[0];
             unset($_SESSION["idFilm"]);
+
             if (isset($film)) {
                 $ns = FPersistentManager::getInstance()->loadAll("ENewsLetter");
                 $pref = $film->getGenere();
-                print_r($ns->getListaUtenticonPreferenze());
+
                 foreach ($ns->getListaUtenticonPreferenze()[1] as $key => $genere) {
                     foreach ($genere as $g) {
                         if ($g === $pref) {

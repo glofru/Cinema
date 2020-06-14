@@ -7,16 +7,21 @@
 class CMain
 {
 
+    public static function badRequest () {
+        header("HTTP/1.1 400 Bad Request");
+        header("Location: /MagicBoulevardCinema/400.html");
+        die;
+    }
     /**
      * Funzione che permette di visualizzare una pagina 401 Unauthorised, con relativa intestazione HTTP, se l'utente tenta di accedere ad una pagina per la quale non è autorizzato.
      */
     public static function unauthorized() {
-        header("HTTP/1.1 401 Unauthorized ");
+        header("HTTP/1.1 401 Unauthorized");
         header("Location: /MagicBoulevardCinema/401.html");
         die;
     }
     /**
-     * Funzione che mette a disposizione la vsiualizzazione d una pagina 403 forbidden con relativa intestazione HTTP.
+     * Funzione che mette a disposizione la visualizzazione ad una pagina 403 forbidden con relativa intestazione HTTP.
      * Da richiamare se l'utente accede ad una pagina riservata ad utilizzo interno dei gestori.
      */
     public static function forbidden() {
@@ -26,7 +31,7 @@ class CMain
     }
 
     /**
-     * Funzione che richiama una pagina 404 Not Found, con relativa intestazione HTTP, se l'utente cerca una pagina inesistente sul nsotro server.
+     * Funzione che richiama una pagina 404 Not Found, con relativa intestazione HTTP, se l'utente cerca una pagina inesistente sul server.
      */
     public static function notFound() {
         header("HTTP/1.1 404 Not Found");
@@ -43,24 +48,30 @@ class CMain
         die;
     }
 
+    public static function internalServerError() {
+        header("HTTP/1.1 500 Internal Server Error");
+        header("Location: /MagicBoulevardCinema/500.html");
+        die;
+    }
+
     /**
      * Funzione principale dell'applicazione che viene invocata ogni volta che viene richiesta una pagina. Svolge le seguenti funzioni:
      *
      * 1) Modifica temporanemanete le variabili, presenti nel PHP.ini, 'session.gc_probability' e 'session.gc_divisor' al fine di aumentare le possibilità di lanciare il GC delle sessioni.
-     * Questo è stato fatto in quanto i nostri utenti regsitrati dovrebbero avere nei loro attributi anche informazioni di pagamento. Di conseguenza è meglio fare sì che se l'utente non ha
+     * Questo è stato fatto in quanto i nostri utenti registrati dovrebbero avere nei loro attributi anche informazioni di pagamento. Di conseguenza è meglio fare sì che se l'utente non ha
      * effettuato il logout comunque il sito abbia più probabilità di eliminarne i dati di sessione.
      *
      * 2) Controlla se è stata richiesta la sezione 'api'. In questo caso si interroga il CGestoreREST per ottenere in output oggetti in formato JSON.
      *
-     * 3) Se non è stata rihciamata la sezione 'api' controlla se è presente in sessione un utente Non Registrato. Nel sostro sito un oggetto salvato in sessione del tipo utente Non Registrato
+     * 3) Se non è stata richiamata la sezione 'api' controlla se è presente in sessione un utente Non Registrato. Nel sostro sito un oggetto salvato in sessione del tipo utente Non Registrato
      * deve esistere solo se la pagina richiesta è quella di confermaAcquisto. Altrimenti deve essere cancellata la sessione di quell'utente.
      *
      * 4) Se l'utente è un Utente Registrato loggato viene controllato se la password presente in sessione è la stessa presente sul DB. Questo per fare sì che se la password viene modificata
-     * allora l'utente attualmente registrato venga eliminato dalla sessione e costretto l'utente a rieseguire il login. Utile nel caso di appropriazione dell'account da parte di un'entità malevola.
+     * allora l'utente attualmente registrato venga eliminato dalla sessione e costretto l'utente a rieffettuare l'operzione di login. Utile nel caso di appropriazione dell'account da parte di un'entità malevola.
      * L'utente può resettare la password e 'cacciare' chi abbia preso l'account. Oppure se vittima di ciò può contattarci per risolvere la questione.
      *
-     * 5) Se l'uetnte è un utente registrato loggato allora viene controllato se non sia stato bannato. Questo per fare sì che un ban di un amministratore abbia effetto non appena l'utente
-     * cerchi di acricare una pagina diversa da quella in cui è. In questo modo una volta bannato un utente non può più eseguire nessuna azione. Se bannato viene quind eliminato dalla sessione.
+     * 5) Se l'utente è un utente registrato loggato allora viene controllato se non sia stato bannato. Questo per fare sì che un ban di un amministratore abbia effetto non appena l'utente
+     * cerchi di caricare una pagina diversa da quella in cui è. In questo modo una volta bannato un utente non può più eseguire nessuna operazione. Se bannato viene quindi eliminato dalla sessione.
      *
      * 6) Se non è presente un cookie con le preferenze ne viene istanziato uno nuovo. Durata del cookie 30 giorni. non contiene dati particolarmente sensibili quindi può essere tenuto per un ungo periodo di tempo.
      *
@@ -71,23 +82,27 @@ class CMain
      *
      *
      *
-     * @param string $url, url richiesto dall'utente.
+     * @param string $url , url richiesto dall'utente.
+     * @throws SmartyException
      */
-    public static function run(string $url)
-    {
+    public static function run(string $url) {
+        if(!isset($GLOBALS["domain"])){
+            $GLOBALS["domain"] = $_SERVER['SERVER_NAME'];
+        }
+
+        if(!isset($_COOKIE["preferences"])){
+             setcookie("preferences", serialize(CUtente::getUtente()->preferences(null)), time()+(86400*30), '/');
+        }
+
         ini_set('session.gc_probability', 10);
         ini_set('session.gc_divisor', 200);
         $parsed_url = parse_url($url);
-        $path = $parsed_url["path"];
-        $isApi = strstr($path, "/api/");
+        $path       = $parsed_url["path"];
+        $isApi      = strstr($path, "/api/");
 
         if ($isApi === false) {
             //GESTIONE UTENTE NON REGISTRATO
-            $pass = !CUtente::isLogged() && isset($_SESSION["nonRegistrato"]) && $path == "/Acquisto/confermaAcquisto";
-
-            if(!$pass && isset($_SESSION["nonRegistrato"])){
-                CUtente::logout(false);
-            } else if (!$pass && CUtente::isLogged()) {
+            if (CUtente::isLogged()) {
                 //Check ban e cambio password dal database
                 $check = FPersistentManager::getInstance()->load(CUtente::getUtente()->getId(), "id", "EUtente");
                 if ($check->isBanned()) {
@@ -97,16 +112,19 @@ class CMain
                     CUtente::logout(false);
                     VError::error(0, "La password è stata cambiata!");
                 }
-            } else if(!CUtente::isLogged()) {
-                CUtente::getUtente();
+            } else {
+                if (isset($_SESSION["nonRegistrato"])) {
+                    if ($path != "/MagicBoulevardCinema/Acquisto/confermaAcquisto") {
+                        CUtente::logout(false);
+                    }
+                } else {
+                    if (!isset($_SESSION["visitatore"])) {
+                        CUtente::createVisitor();
+                    }
+                }
             }
 
-
-            if(!isset($_COOKIE["preferences"])){
-                setcookie("preferences", CUtente::getUtente()->preferences(null), 86400 * 30, '/');
-            }
-
-            if ($path == "/MagicBoulevardCinema/" || $path == "/MagicBoulevardCinema/index.php") {
+            if ($path === "/" || $path === "/MagicBoulevardCinema/" || $path === "/MagicBoulevardCinema/index.php") {
                 CHome::showHome();
             } else {
                 $res = explode("/", $path);
@@ -138,13 +156,20 @@ class CMain
                 } catch (ReflectionException $e) {
                    self::notFound();
                 }
-                $controller::$function();
+
+                try {
+                    $controller::$function();
+                } catch (Exception $e) {
+                    self::internalServerError();
+                }
             }
         } else {
             $api = explode("/", $path);
+
             array_shift($api);
             array_shift($api);
             array_shift($api);
+
             if ($api[0] !== "GestoreREST") {
                 self::notFound();
             } else {
@@ -152,11 +177,15 @@ class CMain
                 if (method_exists("CGestoreREST", $function)) {
                     $function = $api[1];
                     $controller = "CGestoreREST";
-                    $controller::$function();
+
+                    try {
+                        $controller::$function();
+                    } catch (Exception $e) {
+                        self::internalServerError();
+                    }
                 } else {
                     self::notFound();
                 }
-
             }
         }
     }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * La classe Home permette di ottenere la schermata principale del npstro sito.
+ * La classe Home permette di ottenere la schermata principale del sito.
  * Class VHome
  * @access public
  * @author Lofrumento - Di Santo - Susanna
@@ -12,7 +12,7 @@ class VHome
     /**
      * Funzione che permette di ottenere in output i film di prossima usciti. I film in programmazione nella settimana scorsa, in questa e nella prossima. I film consigliati per l'utente.
      * @param $filmProssimi, film in prossima uscita.
-     * @param $immaginiProssimi, locandinde dei film in prossima sucita.
+     * @param $immaginiProssimi, locandinde dei film in prossima uscita.
      * @param $filmConsigliati, film consigliati per l'utente.
      * @param $immaginiConsigliati, locandinde dei film consigliati.
      * @param $filmProgrammazione, film in programmazione questa settimana.
@@ -22,7 +22,7 @@ class VHome
      * @param $filmSettimanaScorsa, film in programmazione nella settimana scorsa.
      * @param $immaginiSettimanaScorsa, locandine dei film in programmazione la settimana scorsa.
      * @param $punteggioSettimanaScorsa, media voti dei giudizi espressi dagli utenti sui film in programmazione la settimana scorsa.
-     * @param $dateSettimanaScorsa, date nelle quali i film della settimaan scorsa erano in proiezione.
+     * @param $dateSettimanaScorsa, date nelle quali i film della settimana scorsa erano in proiezione.
      * @param $filmSettimanaProssima, film in programmazione nella settimana scorsa.
      * @param $immaginiSettimanaProssima, locandinde dei film in programmazione la settimana prossima.
      * @param $punteggioSettimanaProssima, media voti dei giudizi espressi dagli utenti sui film in programmazione la settimana prossima.
@@ -34,24 +34,24 @@ class VHome
     {
         $smarty = StartSmarty::configuration();
 
-        $smarty->assign("path", $GLOBALS["path"]);
-        $smarty->assign("filmProssimi", $filmProssimi);
-        $smarty->assign("immaginiProssimi", $immaginiProssimi);
-        $smarty->assign("filmConsigliati", $filmConsigliati);
-        $smarty->assign("immaginiConsigliati", $immaginiConsigliati);
-        $smarty->assign("filmProgrammazione", $filmProgrammazione);
-        $smarty->assign("immaginiProgrammazione", $immaginiProgrammazione);
-        $smarty->assign("punteggioProgrammazione", $punteggioProgrammazione);
-        $smarty->assign("dateProgrammazione", $dateProgrammazione);
-        $smarty->assign("filmSettimanaProssima", $filmSettimanaProssima);
-        $smarty->assign("immaginiSettimanaProssima", $immaginiSettimanaProssima);
-        $smarty->assign("punteggioSettimanaProssima",$punteggioSettimanaProssima);
-        $smarty->assign("dateSettimanaProssima", $dateSettimanaProssima);
-        $smarty->assign("filmSettimanaScorsa", $filmSettimanaScorsa);
-        $smarty->assign("immaginiSettimanaScorsa", $immaginiSettimanaScorsa);
-        $smarty->assign("punteggioSettimanaScorsa", $punteggioSettimanaScorsa);
-        $smarty->assign("dateSettimanaScorsa", $dateSettimanaScorsa);
-        $smarty->assign("utente", $utente);
+        $smarty->assign("path",                         $GLOBALS["path"]);
+        $smarty->assign("filmProssimi",                 $filmProssimi);
+        $smarty->assign("immaginiProssimi",             $immaginiProssimi);
+        $smarty->assign("filmConsigliati",              $filmConsigliati);
+        $smarty->assign("immaginiConsigliati",          $immaginiConsigliati);
+        $smarty->assign("filmProgrammazione",           $filmProgrammazione);
+        $smarty->assign("immaginiProgrammazione",       $immaginiProgrammazione);
+        $smarty->assign("punteggioProgrammazione",      $punteggioProgrammazione);
+        $smarty->assign("dateProgrammazione",           $dateProgrammazione);
+        $smarty->assign("filmSettimanaProssima",        $filmSettimanaProssima);
+        $smarty->assign("immaginiSettimanaProssima",    $immaginiSettimanaProssima);
+        $smarty->assign("punteggioSettimanaProssima",   $punteggioSettimanaProssima);
+        $smarty->assign("dateSettimanaProssima",        $dateSettimanaProssima);
+        $smarty->assign("filmSettimanaScorsa",          $filmSettimanaScorsa);
+        $smarty->assign("immaginiSettimanaScorsa",      $immaginiSettimanaScorsa);
+        $smarty->assign("punteggioSettimanaScorsa",     $punteggioSettimanaScorsa);
+        $smarty->assign("dateSettimanaScorsa",          $dateSettimanaScorsa);
+        $smarty->assign("utente",                       $utente);
 
         $smarty->display("home.tpl");
     }

@@ -33,13 +33,13 @@
     <title>Magic Boulevard Cinema - Dove i sogni diventano realtà</title>
 
 </head>
-<body class="body" {if (!$utente->isAdmin())}onload="changing(document.getElementById('newsletter').checked)"{/if}>
+<body class="body" {if (!$utente->isAdmin())}onload="changing(document.getElementById('newsletter').checked, '{$errore}')"{/if}>
 
 {include file="header.tpl"}
 
 
 <!-- details -->
-<section class="section details">
+<section class="section details" >
     <!-- details background -->
     <div class="details__bg" data-bg="{$path}Smarty/img/home/home__bg.jpg"></div>
     <!-- end details background -->
@@ -101,10 +101,12 @@
                                 </div>
                             </div>
                             <!-- News Letter --->
+                            {if !$utente->isAdmin()}
                             <div class="sign__group sign__group--checkbox">
-                                <input id="newsletter" name="newsletter" type="checkbox" {if !$utente->isAdmin()}{if $isASub === true}checked="checked" {else}{/if}onchange="changing(this.checked)"{/if} >
+                                <input id="newsletter" name="newsletter" type="checkbox"{if $isASub === true}checked="checked"{/if} onchange="changing(this.checked)">
                                 <label for="newsletter">Iscrivimi alla newsletter</label>
                             </div>
+                            {/if}
                             <div id="content"></div>
                             <!-- end card content -->
                         </div>
@@ -134,7 +136,7 @@
 <script src="{$path}Smarty/js/main.js"></script>
 
 <script>
-    function changing(me){
+    function changing(me, str){
         if(me === true){
             document.querySelector('#content').insertAdjacentHTML(
                 'beforebegin',
@@ -156,6 +158,9 @@
             )
         } else {
             document.getElementById("checklist").remove();
+        }
+        if(str !== ""){
+            alert(str);
         }
     }
     $(document).ready(function() {

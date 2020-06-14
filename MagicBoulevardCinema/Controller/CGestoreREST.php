@@ -14,7 +14,8 @@ class CGestoreREST
      */
     public static function proiezioniSettimanali() {
         $settimana = EData::getSettimana();
-        $elenco = FPersistentManager::getInstance()->loadBetween($settimana[0], $settimana[1], "EProiezione");
+        $elenco    = FPersistentManager::getInstance()->loadBetween($settimana[0], $settimana[1], "EProiezione");
+
         VGestoreREST::showJSON($elenco);
     }
 
@@ -23,7 +24,8 @@ class CGestoreREST
      */
     public static function proiezioniSettimanaProssima() {
         $settimana = EData::getSettimanaProssima();
-        $elenco = FPersistentManager::getInstance()->loadBetween($settimana[0], $settimana[1], "EProiezione");
+        $elenco    = FPersistentManager::getInstance()->loadBetween($settimana[0], $settimana[1], "EProiezione");
+
         VGestoreREST::showJSON($elenco);
     }
 
@@ -32,30 +34,33 @@ class CGestoreREST
      */
     public static function proiezioniSettimanaScorsa() {
         $settimana = EData::getSettimanaScorsa(1);
-        $elenco = FPersistentManager::getInstance()->loadBetween($settimana[0], $settimana[1], "EProiezione");
+        $elenco    = FPersistentManager::getInstance()->loadBetween($settimana[0], $settimana[1], "EProiezione");
+
         VGestoreREST::showJSON($elenco);
     }
 
     /**
-     * Funzione che riporta l'insieme di film che non sono ancora usciti ma sono prossimi al rilascio.
+     * Funzione che riporta l'insieme di film che non sono ancora usciti ma prossimi al rilascio.
      */
     public static function filmProssimi() {
         $data = EData::getDateProssime();
         $film = FPersistentManager::getInstance()->loadBetween($data[0], $data[1], "EFilm");
+
         VGestoreREST::showJSONArray($film);
     }
 
     /**
      * Funzione che simula la richiesta di un token per l'accesso alla piattaforma. Decodificata la email dell'utente dal formato JSON viene controllaata la reale esistenza nel DB di quest'ultima.
-     * Se esiste si provede ad inviare un token univoco.
+     * Se esiste si provvede ad inviare un token univoco.
      */
     public static function myToken() {
-        $whois = json_decode('php://input',true); //Torna un tipo associativo
+        $whois  = json_decode('php://input',true); //Torna un tipo associativo
         $utente = FPersistentManager::getInstance()->load($whois["email"], "email", "EUtente");
+
         if(isset($utente)) {
             VGestoreREST::showJSON(uniqid());
         } else {
-            VGestoreREST::showJSON("ERRORE NELLA RICHIESTA");
+            VGestoreREST::showJSON("Errore");
         }
     }
 }

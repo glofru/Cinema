@@ -38,7 +38,7 @@
 	{include file="header.tpl"}
 
 	<!-- page title -->
-	<section class="section section--first section--bg" data-bg="Smarty/img/section/section.jpg">
+	<section class="section section--first section--bg" data-bg="{$path}Smarty/img/section/section.jpg">
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
@@ -200,7 +200,7 @@
 				<!-- partner -->
 				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
 					<a href="#" class="partner">
-						<img src="Smarty/img/partners/themeforest-light-background.png" alt="" class="partner__img">
+						<img src="{$path}Smarty/img/partners/themeforest-light-background.png" alt="" class="partner__img">
 					</a>
 				</div>
 				<!-- end partner -->
@@ -208,7 +208,7 @@
 				<!-- partner -->
 				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
 					<a href="#" class="partner">
-						<img src="Smarty/img/partners/audiojungle-light-background.png" alt="" class="partner__img">
+						<img src="{$path}Smarty/img/partners/audiojungle-light-background.png" alt="" class="partner__img">
 					</a>
 				</div>
 				<!-- end partner -->
@@ -216,7 +216,7 @@
 				<!-- partner -->
 				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
 					<a href="#" class="partner">
-						<img src="Smarty/img/partners/codecanyon-light-background.png" alt="" class="partner__img">
+						<img src="{$path}Smarty/img/partners/codecanyon-light-background.png" alt="" class="partner__img">
 					</a>
 				</div>
 				<!-- end partner -->
@@ -224,7 +224,7 @@
 				<!-- partner -->
 				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
 					<a href="#" class="partner">
-						<img src="Smarty/img/partners/photodune-light-background.png" alt="" class="partner__img">
+						<img src="{$path}Smarty/img/partners/photodune-light-background.png" alt="" class="partner__img">
 					</a>
 				</div>
 				<!-- end partner -->
@@ -232,7 +232,7 @@
 				<!-- partner -->
 				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
 					<a href="#" class="partner">
-						<img src="Smarty/img/partners/activeden-light-background.png" alt="" class="partner__img">
+						<img src="{$path}Smarty/img/partners/activeden-light-background.png" alt="" class="partner__img">
 					</a>
 				</div>
 				<!-- end partner -->
@@ -240,7 +240,7 @@
 				<!-- partner -->
 				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
 					<a href="#" class="partner">
-						<img src="Smarty/img/partners/3docean-light-background.png" alt="" class="partner__img">
+						<img src="{$path}Smarty/img/partners/3docean-light-background.png" alt="" class="partner__img">
 					</a>
 				</div>
 				<!-- end partner -->

@@ -12,7 +12,7 @@ class VFilm
     /**
      * Funzione che mostra tutti i dettagli su di un film.
      * @param EFilm $film, film da mostrare.
-     * @param bool $autoplay, se il trailer del film debba partire in automatico appena caricata la pagina.
+     * @param bool $autoplay, indica se il trailer del film debba partire in automatico appena caricata la pagina.
      * @param EMedia $copertina, locandina del film.
      * @param array $filmconsigliati, film consigliati sulla base del genere del film.
      * @param array $imgconsigliati, locandine dei film consigliati.
@@ -27,19 +27,19 @@ class VFilm
     {
         $smarty = StartSmarty::configuration();
 
-        $smarty->assign("path", $GLOBALS["path"]);
-        $smarty->assign("film", $film);
-        $smarty->assign("consigli", $filmconsigliati);
-        $smarty->assign("autoplay", $autoplay);
-        $smarty->assign("locandina", $copertina);
-        $smarty->assign("immagini", $imgconsigliati);
-        $smarty->assign("registi", $film->getRegisti());
-        $smarty->assign("attori", $film->getAttori());
-        $smarty->assign("recensioni", $reviews);
-        $smarty->assign("propic", $propic);
-        $smarty->assign("canView", $canView);
-        $smarty->assign("programmazioneFilm", $programmazioneFilm);
-        $smarty->assign("utente", $utente);
+        $smarty->assign("path",                 $GLOBALS["path"]);
+        $smarty->assign("utente",               $utente);
+        $smarty->assign("film",                 $film);
+        $smarty->assign("consigli",             $filmconsigliati);
+        $smarty->assign("autoplay",             $autoplay);
+        $smarty->assign("locandina",            $copertina);
+        $smarty->assign("immagini",             $imgconsigliati);
+        $smarty->assign("registi",              $film->getRegisti());
+        $smarty->assign("attori",               $film->getAttori());
+        $smarty->assign("recensioni",           $reviews);
+        $smarty->assign("propic",               $propic);
+        $smarty->assign("canView",              $canView);
+        $smarty->assign("programmazioneFilm",   $programmazioneFilm);
 
         $smarty->display("film.tpl");
     }

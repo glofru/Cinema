@@ -11,10 +11,10 @@ class CFilm
 {
     /**
      * Funzione accessibile solo via GET che reperisce, dato l'id di un film, tutte le informazioni sul film e la relativa locandina. Si appoggia a getReview e getProgrammazione per completare l'operazione.
-     * Inoltre la funzione incrementa, fra le preferenze dell'utente, le visite al genere del film caricato per poi salvare le preferenze aggiornate nel cookie.
+     * Inoltre la funzione incrementa, nelle preferenze dell'utente, le visite al genere del film caricato per poi salvare le preferenze aggiornate nel cookie.
+     * @throws SmartyException
      */
-    public static function show()
-    {
+    public static function show() {
         if ($_SERVER["REQUEST_METHOD"] === "GET") {
             $pm = FPersistentManager::getInstance();
 
@@ -22,8 +22,7 @@ class CFilm
 
             $film = $pm->load($_GET["film"], "id", "EFilm")[0];
 
-            CUtente::getUtente()->incrementPreference($film->getGenere(), $_COOKIE['preferences']);
-            setcookie("preferences", serialize(CUtente::getUtente()->preferences($_COOKIE['preferences'])), 86400 * 30, '/');
+            setcookie("preferences", serialize(CUtente::getUtente()->incrementPreference($film->getGenere(), $_COOKIE['preferences'])), time()+(86400 * 30), '/');
 
             $filmC = $pm->load($film->getGenere(), "Genere", "EFilm");
             foreach ($filmC as $key => $f) {
@@ -32,7 +31,7 @@ class CFilm
                 }
             }
 
-            $filmC = array_values($filmC);
+            $filmC     = array_values($filmC);
             if (sizeof($filmC) > 6) {
                 $filmC = array_slice($filmC, 0, 6);
             }
@@ -47,7 +46,6 @@ class CFilm
             $programmazioneFilm = self::getProgrammazione($film);
 
             $utente = CUtente::getUtente();
-            $isAdmin = $utente !== null && $utente->isAdmin();
 
             $reviews = self::getReview($film, $utente);
 
@@ -58,21 +56,21 @@ class CFilm
     }
 
     /**
-     * Funzione che permette di indivdua se l'utente che ha richiesto la pagina del film possa o meno rilasciare un commento.
-     * Solo gli utenti registrati possono rilasciare in commento e solo uno per film.
+     * Funzione che permette di indivduare se l'utente che ha richiesto la pagina del film possa o meno rilasciare un commento.
+     * Solo gli utenti registrati possono rilasciare un solo commento per film.
      * Inoltre carica tutti i commenti espressi sul film e le immagini del rpofilo degli utenti che hanno espresso uno di questi giudizi.
      *
      * @param EFilm $film, film di cui si vogliono reperire i giudizi.
      * @param $utente, l'utente che ha richiesto la pagina.
-     * @return array, array contenente l'insieme dei giudizi l'insieme delle immagini del profilo degli utenti che hanno espresso un giudizio ed un booleano per indicare se l'utente possa o meno esprirere un giudizio sul film.
+     * @return array, array contenente l'insieme dei giudizi, l'insieme delle immagini del profilo degli utenti che hanno espresso un giudizio ed un booleano per indicare se l'utente possa o meno esprirere un giudizio relativo a un film.
      */
     private static function getReview(EFilm $film, $utente) {
-        $reviews = FPersistentManager::getInstance()->load($film->getId(), "idFilm", "EGiudizio");
+        $reviews   = FPersistentManager::getInstance()->load($film->getId(), "idFilm", "EGiudizio");
 
-        $canWrite = false;
+        $canWrite  = false;
 
         if(CUtente::isLogged() && !$utente->isAdmin()){
-            $data = $film->getDataRilascio();
+            $data  = $film->getDataRilascio();
             $today = new DateTime('now + 1 Week');
 
             if($data < $today) {
@@ -94,21 +92,25 @@ class CFilm
 
         $result = [];
         array_push($result, $reviews, $img, $canWrite);
+
         return $result;
     }
 
     /**
-     * Funzione che permette, dato un film, di recuperarne le proiezioni. Una volta recuperate viene controllato se l'orario di inizio di quetse non sia già stato passato.
+     * Funzione che permette, dato un film, di recuperarne le proiezioni. Una volta recuperate viene controllato se l'orario di inizio di queste non sia già stato passato.
      * Lasciando come risultato un oggetto EProgrammazioneFilm con le proieizoni non ancora avvenute del film indicato.
      * @param EFilm $film, film dal quale reperire le proiezioni.
      * @return EProgrammazioneFilm, insieme delle proiezioni non ancora avvenute.
      */
     private static function getProgrammazione(EFilm $film): EProgrammazioneFilm {
         $elenco = FPersistentManager::getInstance()->load($film->getId(), "idFilm", "EProiezione");
+
         $programmazioneFilm = $elenco->getElencoProgrammazioni()[0];
+
         if (!isset($programmazioneFilm)){
             $programmazioneFilm = new EProgrammazioneFilm();
         }
+
         return EProgrammazioneFilm::amIStillGood($programmazioneFilm);
     }
 
@@ -120,24 +122,24 @@ class CFilm
     public static function getFilmData(array $film): array {
         $result = [];
 
-        $pm = FPersistentManager::getInstance();
+        $pm     = FPersistentManager::getInstance();
 
-        $punteggi = [];
+        $punteggi        = [];
         $immaginiCercate = [];
-        $giudizi = [];
+        $giudizi         = [];
 
         foreach($film as $f) {
             array_push($immaginiCercate, $pm->load($f->getId(), "idFilm", "EMedia"));
-            array_push($giudizi, $pm->load($f->getId(), "idFilm", "EGiudizio"));
+            array_push($giudizi,         $pm->load($f->getId(), "idFilm", "EGiudizio"));
         }
 
         foreach($giudizi as $g) {
             if(sizeof($g) > 0) {
                 $p = EGiudizio::getMedia($g);
-            }
-            else {
+            } else {
                 $p = 0;
             }
+
             array_push($punteggi, $p);
         }
 

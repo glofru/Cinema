@@ -34,8 +34,7 @@ class EMail
      * @param string $subject, oggetto della email.
      * @param string $body, contenuto della email.
      */
-    public function __construct(string $to, string $name, string $subject, string $body)
-    {
+    public function __construct(string $to, string $name, string $subject, string $body) {
         $this->setTo($to);
         $this->setName($name);
         $this->setSubject($subject);
@@ -45,66 +44,56 @@ class EMail
     /**
      * @return string, indirizzo email del destinatario.
      */
-    public function getTo(): string
-    {
+    public function getTo(): string {
         return $this->to;
     }
 
     /**
      * @param string $to, indirizzo email del destinatario.
      */
-    public function setTo(string $to): void
-    {
+    public function setTo(string $to): void {
         $this->to = $to;
     }
 
     /**
      * @return string, nome del destinatario.
      */
-    public function getName(): string
-    {
+    public function getName(): string {
         return $this->name;
     }
 
     /**
      * @param string $name, nome del destinatario.
      */
-    public function setName(string $name): void
-    {
+    public function setName(string $name): void {
         $this->name = $name;
     }
 
     /**
      * @return string, oggetto della email.
      */
-    public function getSubject(): string
-    {
+    public function getSubject(): string {
         return $this->subject;
     }
 
     /**
      * @param string $subject, oggetto della mail.
      */
-    public function setSubject(string $subject): void
-    {
+    public function setSubject(string $subject): void {
         $this->subject = $subject;
     }
 
     /**
      * @return string, corpo della email.
      */
-    public function getBody(): string
-    {
+    public function getBody(): string {
         return $this->body;
     }
 
     /**
      * @param string $body, corpo della email.
      */
-    public function setBody(string $body): void
-    {
+    public function setBody(string $body): void {
         $this->body = $body;
     }
-
-
 }

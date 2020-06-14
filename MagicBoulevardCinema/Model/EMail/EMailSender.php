@@ -17,7 +17,7 @@ class EMailSender
     /**
      * @var string, indirizzo dell'account di posta che invierà la mail.
      */
-    private static string $user = "help.magicboulevard@gmail.com";
+    private static string $user     = "help.magicboulevard@gmail.com";
 
     /**
      * @var string, password della casella di posta.
@@ -27,11 +27,11 @@ class EMailSender
     /**
      * @var string, inidirizzo del server SMTP.
      */
-    private static string $host = "smtp.gmail.com";
+    private static string $host     = "smtp.gmail.com";
     /**
      * @var string, porta alla quale collegarsi al server SMTP.
      */
-    private static string $port = "587";
+    private static string $port     = "587";
 
     /**
      * EMailSender constructor.

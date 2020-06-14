@@ -50,20 +50,20 @@
 					<!-- end content title -->
 
 					<!-- authorization form -->
-					<form action="{$path}Utente/loginNonRegistrato" method="POST" class="sign__form">
+					<form action="{$path}Utente/loginNonRegistrato" method="POST" onsubmit="return validate()" class="sign__form">
 						<a href="/MagicBoulevardCinema" class="sign__logo">
-							<img src="Smarty/img/logo.svg" alt="">
+							<img src="{$path}Smarty/img/logo.svg" alt="">
 						</a>
 
 						<div class="sign__group">
-							<input name="email" type="text" value="{$email}" class="sign__input" placeholder="Email">
+							<input name="email" id="email" type="text" value="{$email}" class="sign__input" placeholder="Email">
 						</div>
 
 						<div class="sign__group">
-							<input name="password" type="password" class="sign__input" placeholder="Codice">
+							<input name="password" id="password" type="password" class="sign__input" placeholder="Codice">
 						</div>
 
-						<button class="sign__btn" type="submit">Accedi</button>
+						<button class="sign__btn" type="submit" style="width: 200px">Accedi</button>
 
 						<span class="sign__text"><a href="{$path}Utente/forgotPassword">Password dimenticata?</a></span>
 					</form>
@@ -138,9 +138,9 @@
 										<a style="font-size:20px;">{$item->getPosto()}</a>
 									</span>
 											<div class="card__wrap">
-												{if ($item->getProiezione()->getFilm()->getetaConsigliata() != "")}
+												{if ($item->getProiezione()->getFilm()->getEtaConsigliata() != "")}
 													<ul class="card__list">
-														<li>{$item->getProiezione()->getFilm()->getetaConsigliata()}</li>
+														<li>{$item->getProiezione()->getFilm()->getEtaConsigliata()}</li>
 													</ul>
 												{/if}
 											</div>
@@ -219,14 +219,22 @@
 	function result(value){
 		alert(value);
 	}
-	
-	function control() {
-		if($("#toBan").val().length < 6){
-			alert("L'utente ha uno username di almeno 7 caratteri");
+
+	function validate() {
+		if($("#email").val() === "" || $("#password").val === ""){
+			alert('Compilare entrambi i campi prima di inviare');
 			return false;
-		} else {
-			return true;
+		} else if (!isEmail($("#email").val())){
+			alert('Inserire una e-mail valida!');
+			return false;
 		}
+		return true;
+	}
+
+	function isEmail(email) {
+		let exp = /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/;
+
+		return email.match(exp) != null;
 	}
 </script>
 <script src="{$path}Smarty/js/jquery-3.3.1.min.js"></script>

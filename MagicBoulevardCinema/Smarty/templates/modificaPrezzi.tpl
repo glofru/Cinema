@@ -42,7 +42,7 @@
                     <!-- authorization form -->
                     <form id="form" action="{$path}Admin/modificaPrezzi" class="sign__form" method="POST">
                         {*                        <a href="index.html" class="sign__logo">*}
-                        <img src="Smarty/img/logo.svg" alt="">
+                        <img src="{$path}Smarty/img/logo.svg" class="sign__logo" alt="">
                         {*                        </a>*}
 
                         <!-- Lunedì -->

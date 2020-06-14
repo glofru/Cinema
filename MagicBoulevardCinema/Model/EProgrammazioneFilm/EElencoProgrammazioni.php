@@ -19,9 +19,6 @@
         $this->elencoProgrammazioni = [];
     }
 
-//-------------- SETTER ----------------------
-
-//----------------- GETTER --------------------
     /**
      * @return array, insieme delle programmazioni di un film.
      */
@@ -29,7 +26,6 @@
         return $this->elencoProgrammazioni;
     }
 
-//------------- ALTRI METODI ----------------
     /**
      * Aggiunge una programmazione all'insieme.
      * @param EProgrammazionefilm $programmazione, programmazione da aggiungere all'insieme.
@@ -43,7 +39,7 @@
      * @param EProiezione $proiezione, proiezione che si vuole aggiungere.
      */
     public function addProiezione(EProiezione $proiezione) {
-        $programmazioneFilm = $this->getIfExistsProgrammazioneFilm($proiezione->getFilm());
+        $programmazioneFilm     = $this->getIfExistsProgrammazioneFilm($proiezione->getFilm());
 
         if ($programmazioneFilm != null) {
             $programmazioneFilm->addProiezione($proiezione);
@@ -76,6 +72,7 @@
      */
     public function rimuoviProgrammazione(EProgrammazioneFilm $programmazione): bool{
         $result = array_search($programmazione, $this->getElencoProgrammazioni());
+
         if($result !== ""){
             unset($this->getElencoProgrammazioni()[$result]);
             return true;
@@ -87,11 +84,9 @@
     /**
      * @return array[]|mixed, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFUL.
      */
-    public function jsonSerialize ()
-    {
-        return
-            [
-                'elencoProgrammazioni'   => $this->getElencoProgrammazioni(),
-            ];
+    public function jsonSerialize () {
+        return [
+            'elencoProgrammazioni' => $this->getElencoProgrammazioni(),
+        ];
     }
 }

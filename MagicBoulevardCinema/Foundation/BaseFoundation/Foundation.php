@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Interfaccia alla quale si appoggiano tutte le classi Foundation che sono entità non deboli. Contiene solo i metodi CRUD, implementati in maniera differente per ogni classe.
+ * Interfaccia alla quale si appoggiano tutte le classi Foundation che sono entità non deboli. Contiene solo i metodi CRUD.
  * @author Lofrumento - Di Santo - Susanna
  * @package Foundation
  */
@@ -34,7 +34,7 @@ interface Foundation
     public static function update($value, $row, $newvalue, $newrow);
 
     /**
-     * Funzione che pemrette di eliminare un oggetto dal DB sulla base di un valore ed una colonna. Ritorna l'esito dell'operazione
+     * Funzione che permette di eliminare un oggetto dal DB sulla base di un valore ed una colonna. Ritorna l'esito dell'operazione
      * @param $value, valore da usare per identificare l'oggetto.
      * @param $row, colonna nella quale cercare il valore.
      * @return mixed, insieme delle righe risultanti.

@@ -92,7 +92,7 @@
 <script>
     function erase(idFilm, idUtente) {
         let form = $("#form");
-        form.attr("action", "/Giudizio/delete");
+        form.attr("action", "/MagicBoulevardCinema/Giudizio/delete");
 
         form.append("<input type='hidden' name='film' value='" + idFilm + "' />");
         form.append("<input type='hidden' name='utente' value='" + idUtente + "' />");

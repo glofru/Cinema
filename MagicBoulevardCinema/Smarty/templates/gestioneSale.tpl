@@ -97,12 +97,13 @@
 													<div>
 												<div class="col-12">
 													<h2 class="section__title section__title--center">Sala {$item->getNumeroSala()}</h2>
+													<h2 class="card__description section__title--center" style="color: white">File: {$item->getNFile()}<br>Numero posti per fila: {$item->getNPostiFila()}<br>Capienza: {$item->getNumeroPosti()} posti.</h2>
 												</div>
 													<div class="sign__group sign__group--checkbox">
 														<input id="remember{$item->getNumeroSala()}" name="sala{$item->getNumeroSala()}" type="checkbox" {if ($item->isDisponibile())} checked="checked" {else} {/if}>
 														<label for="remember{$item->getNumeroSala()}">Disponibile</label>
 													</div>
-													</div>
+												</div>
 												{/foreach}
 										<button type="submit" style="margin: auto" class="form__btn align-content-center">Conferma</button>
 											</form>

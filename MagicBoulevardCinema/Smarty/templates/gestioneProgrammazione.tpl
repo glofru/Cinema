@@ -162,7 +162,7 @@
                                 <!-- Sala -->
                                 <h3 style="color: white">Sala</h3>
                                 <div class="sign__group">
-                                    <input id="roomChosen" list="rooms" type="number" class="sign__input" value="{if isset($sala) && $sala != 0}{$sala}{/if}" name="sala" placeholder="Sala">
+                                    <input id="roomChosen" list="rooms" type="number" min="0" class="sign__input" value="{if isset($sala) && $sala != 0}{$sala}{/if}" name="sala" placeholder="Sala">
 
                                     <datalist id="rooms">
                                         {foreach $sale as $s}

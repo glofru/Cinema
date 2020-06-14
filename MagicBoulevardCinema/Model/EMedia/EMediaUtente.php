@@ -24,35 +24,33 @@ class EMediaUtente extends EMedia
      * @param $immagine, contenuto del file.
      * @param EUtente $utente, utente al quale appartiene l'immagine del profilo.
      */
-    public function __construct(string $fileName, string $mimeType, DateTime $date, $immagine, EUtente $utente)
-    {
+    public function __construct(string $fileName, string $mimeType, DateTime $date, $immagine, EUtente $utente) {
         parent::__construct($fileName, $mimeType, $date, $immagine);
+
         $this->setUtente($utente);
     }
 
     /**
      * @return EUtente, utente al quale appartiene l'immagine del profilo.
      */
-    public function getUtente(): EUtente
-    {
+    public function getUtente(): EUtente {
         return $this->utente;
     }
 
     /**
      * @param EUtente $utente, utente al quale appartiene l'immagine del profilo.
      */
-    public function setUtente(EUtente $utente): void
-    {
+    public function setUtente(EUtente $utente): void {
         $this->utente = $utente;
     }
 
     /**
      * @return array|mixed, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFUL.
      */
-    public function jsonSerialize()
-    {
-        $temp = parent::jsonSerialize();
+    public function jsonSerialize() {
+        $temp           = parent::jsonSerialize();
         $temp["utente"] = $this->utente->getId();
+
         return $temp;
     }
 }

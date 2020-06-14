@@ -60,8 +60,7 @@ class EUtente implements JsonSerializable
      * @param string $password, password dell'utente.
      * @throws Exception, se almeno uno dei parametri passato al costruttore non rispetta la relativa sintassi.
      */
-    public function __construct(string $nome, string $cognome, string $username, string $email, string $password, bool $isBanned)
-    {
+    public function __construct(string $nome, string $cognome, string $username, string $email, string $password, bool $isBanned) {
         if ($this instanceof ENonRegistrato) {
             $this->nome = "";
             $this->cognome = "";
@@ -69,7 +68,6 @@ class EUtente implements JsonSerializable
             $this->setEmail($email);
             $this->password = $password;
             $this->isBanned = false;
-
         } else if ($this instanceof EVisitatore) {
             $this->nome = "";
             $this->cognome = "";
@@ -92,8 +90,7 @@ class EUtente implements JsonSerializable
     /**
      * @return string, nome dell'utente.
      */
-    public function getNome()
-    {
+    public function getNome() {
         return $this->nome;
     }
 
@@ -101,8 +98,7 @@ class EUtente implements JsonSerializable
      * @param string $nome, nome dell'utente.
      * @throws Exception, se il nome non rispetta la sintassi accettata.
      */
-    public function setNome($nome)
-    {
+    public function setNome($nome) {
         if (EInputChecker::getInstance()->isNome($nome)) {
             str_replace("\'", "'", $nome);
             $this->nome = $nome;
@@ -114,8 +110,7 @@ class EUtente implements JsonSerializable
     /**
      * @return string, cognome dell'utente.
      */
-    public function getCognome()
-    {
+    public function getCognome() {
         return $this->cognome;
     }
 
@@ -123,8 +118,7 @@ class EUtente implements JsonSerializable
      * @param string $cognome, cognome dell'utente.
      * @throws Exception,se il cognome non rispetta la sintassi accettata.
      */
-    public function setCognome($cognome)
-    {
+    public function setCognome($cognome) {
         if (EInputChecker::getInstance()->isNome($cognome)) {
             $this->cognome = $cognome;
         } else {
@@ -135,8 +129,7 @@ class EUtente implements JsonSerializable
     /**
      * @return string, username dell'utente.
      */
-    public function getUsername()
-    {
+    public function getUsername() {
         return $this->username;
     }
 
@@ -144,8 +137,7 @@ class EUtente implements JsonSerializable
      * @param string $username, username dell'utente.
      * @throws Exception, se l'username non rispetta la sintassi accettata.
      */
-    public function setUsername($username)
-    {
+    public function setUsername($username) {
         if (EInputChecker::getInstance()->isUsername($username)) {
             $this->username = $username;
         } else {
@@ -156,8 +148,7 @@ class EUtente implements JsonSerializable
     /**
      * @return string, password dell'utente.
      */
-    public function getPassword()
-    {
+    public function getPassword() {
         return $this->password;
     }
 
@@ -165,8 +156,7 @@ class EUtente implements JsonSerializable
      * @param string $password, password dell'utente.
      * @throws Exception, se la password non rispetta la sintassi accettata.
      */
-    public function setPassword($password)
-    {
+    public function setPassword($password) {
         if (EInputChecker::getInstance()->isPassword($password)) {
             $this->password = $password;
         } else {
@@ -177,8 +167,7 @@ class EUtente implements JsonSerializable
     /**
      * @return string, email dell'utente.
      */
-    public function getEmail()
-    {
+    public function getEmail() {
         return $this->email;
     }
 
@@ -186,8 +175,7 @@ class EUtente implements JsonSerializable
      * @param string $email, email dell'utente.
      * @throws Exception, se il nome non rispetta la sintassi accettata.
      */
-    public function setEmail($email)
-    {
+    public function setEmail($email) {
         if (EInputChecker::getInstance()->isEmail($email)) {
             $this->email = $email;
         } else {
@@ -267,6 +255,7 @@ class EUtente implements JsonSerializable
     public function preferences ($cookie) {
         if(!isset($cookie)) {
             $generi = EGenere::getAll();
+
             foreach ($generi as $key) {
                 $this->setPreference($key, 0);
             }
@@ -282,14 +271,14 @@ class EUtente implements JsonSerializable
      * @return array|bool, ritorna un array con i film da mostrare per ogni genere oppure true se l'array contiene 0 per ogni genere.
      */
     public function getPreferences() {
-        $isEmpty = true;
+        $isEmpty     = true;
         $temp_values = [];
-        $all = 0;
+        $all         = 0;
 
         foreach($this->getPreferencesArray() as $key => $a) {
             if($a !== 0) {
                 $isEmpty = false;
-                $all += $a;
+                $all    += $a;
                 $temp_values[$key] = $a;
             }
         }
@@ -323,13 +312,13 @@ class EUtente implements JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'nome' => $this->getNome(),
-            'cognome' => $this->getCognome(),
-            'username' => $this->getUsername(),
-            'password' => $this->getPassword(),
-            'email' => $this->getEmail(),
-            'isBanned' => $this->isBanned(),
-            'isAdmin' => $this->isAdmin(),
+            'nome'         => $this->getNome(),
+            'cognome'      => $this->getCognome(),
+            'username'     => $this->getUsername(),
+            'password'     => $this->getPassword(),
+            'email'        => $this->getEmail(),
+            'isBanned'     => $this->isBanned(),
+            'isAdmin'      => $this->isAdmin(),
             'isRegistrato' => $this->isRegistrato(),
             'isVisitatore' => $this->isVisitatore(),
         ];

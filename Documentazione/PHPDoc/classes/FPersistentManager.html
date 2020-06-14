@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>API Documentation</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    <!--[if lt IE 9]>
+    <script src="../js/html5.js"></script>
+    <![endif]-->
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit--><script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">API Documentation</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">                    <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">622</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">                                    <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">                                    <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">    <section class="row-fluid">
+        <div class="span2 sidebar">    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">                    <a class="accordion-toggle" data-toggle="collapse" data-target="#namespace-746179573"></a>                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-746179573" class="accordion-body collapsein">
+                <div class="accordion-inner">
+                    <ul>                            <li class="interface"><a href="../classes/Foundation.html">Foundation</a></li>                            <li class="interface"><a href="../classes/FoundationDebole.html">FoundationDebole</a></li>                            <li class="class"><a href="../classes/CAcquisto.html">CAcquisto</a></li>                            <li class="class"><a href="../classes/CAdmin.html">CAdmin</a></li>                            <li class="class"><a href="../classes/CCatalogo.html">CCatalogo</a></li>                            <li class="class"><a href="../classes/CFilm.html">CFilm</a></li>                            <li class="class"><a href="../classes/CGestoreREST.html">CGestoreREST</a></li>                            <li class="class"><a href="../classes/CGiudizio.html">CGiudizio</a></li>                            <li class="class"><a href="../classes/CHome.html">CHome</a></li>                            <li class="class"><a href="../classes/CInformazioni.html">CInformazioni</a></li>                            <li class="class"><a href="../classes/CMail.html">CMail</a></li>                            <li class="class"><a href="../classes/CMain.html">CMain</a></li>                            <li class="class"><a href="../classes/CNewsLetter.html">CNewsLetter</a></li>                            <li class="class"><a href="../classes/CRicerca.html">CRicerca</a></li>                            <li class="class"><a href="../classes/CUtente.html">CUtente</a></li>                            <li class="class"><a href="../classes/CUtility.html">CUtility</a></li>                            <li class="class"><a href="../classes/EAdmin.html">EAdmin</a></li>                            <li class="class"><a href="../classes/EData.html">EData</a></li>                            <li class="class"><a href="../classes/EInputChecker.html">EInputChecker</a></li>                            <li class="class"><a href="../classes/EVisitatore.html">EVisitatore</a></li>                            <li class="class"><a href="../classes/FPersistentManager.html">FPersistentManager</a></li>                            <li class="class"><a href="../classes/VAcquisto.html">VAcquisto</a></li>                            <li class="class"><a href="../classes/VAdmin.html">VAdmin</a></li>                            <li class="class"><a href="../classes/VCatalogo.html">VCatalogo</a></li>                            <li class="class"><a href="../classes/VError.html">VError</a></li>                            <li class="class"><a href="../classes/VFilm.html">VFilm</a></li>                            <li class="class"><a href="../classes/VGestoreREST.html">VGestoreREST</a></li>                            <li class="class"><a href="../classes/VHome.html">VHome</a></li>                            <li class="class"><a href="../classes/VInformazioni.html">VInformazioni</a></li>                            <li class="class"><a href="../classes/VRicerca.html">VRicerca</a></li>                            <li class="class"><a href="../classes/VUtente.html">VUtente</a></li>                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav><a href="../namespaces/default.html">\</a> <i class="icon-level-up"></i>                    </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\</small>FPersistentManager</h1>
+                    <p><em>La classe FPersistentManager si presenta come interfaccia fra le classi del package Foundation e le classi Controller che la interrogano per effettuare le operazioni CRUD sul database.</em></p>                    
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">                                    <a href="../classes/FPersistentManager.html#method_getInstance" class="">getInstance()</a><br />                                    <a href="../classes/FPersistentManager.html#method_save" class="">save()</a><br />                                    <a href="../classes/FPersistentManager.html#method_savePostiNuovaSala" class="">savePostiNuovaSala()</a><br />                                    <a href="../classes/FPersistentManager.html#method_saveNS" class="">saveNS()</a><br />                                    <a href="../classes/FPersistentManager.html#method_saveProgrammazione" class="">saveProgrammazione()</a><br />                                    <a href="../classes/FPersistentManager.html#method_load" class="">load()</a><br />                                    <a href="../classes/FPersistentManager.html#method_loadbannati" class="">loadbannati()</a><br />                                    <a href="../classes/FPersistentManager.html#method_loadLike" class="">loadLike()</a><br />                                    <a href="../classes/FPersistentManager.html#method_loadDebole" class="">loadDebole()</a><br />                                    <a href="../classes/FPersistentManager.html#method_loadBetween" class="">loadBetween()</a><br />                                    <a href="../classes/FPersistentManager.html#method_loadAll" class="">loadAll()</a><br />                                    <a href="../classes/FPersistentManager.html#method_loadAllSF" class="">loadAllSF()</a><br />                                    <a href="../classes/FPersistentManager.html#method_delete" class="">delete()</a><br />                                    <a href="../classes/FPersistentManager.html#method_deleteDebole" class="">deleteDebole()</a><br />                                    <a href="../classes/FPersistentManager.html#method_update" class="">update()</a><br />                                    <a href="../classes/FPersistentManager.html#method_updateDebole" class="">updateDebole()</a><br />                                    <a href="../classes/FPersistentManager.html#method_occupaPosti" class="">occupaPosti()</a><br />                                    <a href="../classes/FPersistentManager.html#method_login" class="">login()</a><br />                                    <a href="../classes/FPersistentManager.html#method_signup" class="">signup()</a><br />                                    <a href="../classes/FPersistentManager.html#method_updatePasswordUser" class="">updatePasswordUser()</a><br />                                    <a href="../classes/FPersistentManager.html#method_loadFilmByFilter" class="">loadFilmByFilter()</a><br />                                    <a href="../classes/FPersistentManager.html#method_isASub" class="">isASub()</a><br />                                    <a href="../classes/FPersistentManager.html#method_isSovrappostaProiezione" class="">isSovrappostaProiezione()</a><br />                                    <a href="../classes/FPersistentManager.html#method_exists" class="">exists()</a><br />                            </section>
+                            <section class="span4">                                    <em>No public properties found</em>                            </section>
+                            <section class="span4">                                    <em>No constants found</em>                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">                                    <em>No protected methods found</em>                            </section>
+                            <section class="span4">                                    <em>No protected properties found</em>                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">                                    <a href="../classes/FPersistentManager.html#method___construct" class="">__construct()</a><br />                                    <a href="../classes/FPersistentManager.html#method_getClass" class="">getClass()</a><br />                            </section>
+                            <section class="span4">                                    <a href="../classes/FPersistentManager.html#property_instance" class="">$instance</a><br />                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/Foundation.FPersistentManager.html"><div class="path-wrapper">Foundation/FPersistentManager.php</div></a></dd>                        <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">Foundation</div></dd>                        <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">                                <div class="namespace-wrapper">\FPersistentManager</div>
+                            </dd>                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">                        <tr>
+                            <th>access
+                            </th>
+                            <td><p>public</p>                            </td>
+                        </tr>                        <tr>
+                            <th>author
+                            </th>
+                            <td><p>Lofrumento - Di Santo - Susanna</p>                            </td>
+                        </tr>                    </table>
+                </aside>
+            </div>            <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_instance" name="property_instance" class="anchor"></a>
+            <article class="property">
+                <h3 class="private">$instance</h3>
+                <pre class="signature">$instance :\FPersistentManager</pre>
+                <p><em></em></p>                <h4>Type</h4><a href="../classes/FPersistentManager.html">\FPersistentManager</a>&mdash;Istanza del PersistenManager, gestito come Singleton.            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>            <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getInstance" name="method_getInstance" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">getInstance()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getInstance(): \FPersistentManager</pre>
+                <p><em></em></p>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+                    <h4>Returns</h4><a href="../classes/FPersistentManager.html">\FPersistentManager</a>            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>                <span class="label label-info">static</span>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_save" name="method_save" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">save()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">save(  <span class="argument">$istanza</span>)</pre>
+                <p><em>Funzione che permette di salvare nel DB una istanza di una classe Entity.</em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td></td>
+                                <td>$istanza</td>
+                                <td></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_savePostiNuovaSala" name="method_savePostiNuovaSala" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">savePostiNuovaSala()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">savePostiNuovaSala(\EProiezione  <span class="argument">$pro</span>)</pre>
+                <p><em></em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td>\EProiezione</td>
+                                <td>$pro</td>
+                                <td></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_saveNS" name="method_saveNS" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">saveNS()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">saveNS(  <span class="argument">$utente</span>,  <span class="argument">$preferenze</span>)</pre>
+                <p><em>Funzione che permette di salvare nel DB le preferenze di Newsletter di un utente.</em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td></td>
+                                <td>$utente</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$preferenze</td>
+                                <td></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_saveProgrammazione" name="method_saveProgrammazione" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">saveProgrammazione()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">saveProgrammazione(\EProgrammazioneFilm  <span class="argument">$programmazioneFilm</span>): \bool,</pre>
+                <p><em>Funzione che prende in input la programmazione di un particolare film e salva nel DB le proiezioni associate. Ritorna l&#039;esito dell&#039;operazione.</em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td>\EProgrammazioneFilm</td>
+                                <td>$programmazioneFilm</td>
+                                <td></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+                    <h4>Returns</h4>\bool,                        &mdash;<p>esito dell'operazione.</p>            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_load" name="method_load" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">load()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">load(  <span class="argument">$value</span>,  <span class="argument">$row</span>,  <span class="argument">$class</span>): \mixed,</pre>
+                <p><em>Funzione che permette dato un valore una colonna ed una classe di repererire dal DB un oggetto. Può tornare un array di oggetti oppure null.</em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td></td>
+                                <td>$value</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$row</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$class</td>
+                                <td></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+                    <h4>Returns</h4>\mixed,                        &mdash;<p>array di oggetti o null.</p>            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_loadbannati" name="method_loadbannati" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">loadbannati()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">loadbannati(): array|\null,</pre>
+                <p><em>Funzione che permette di reperire dalla persistenza tutti gli utenti bannati dagli amministratori. Ritorna un array di utenti oppure null in caso di errore.</em></p>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+                    <h4>Returns</h4>array|\null,                        &mdash;<p>array di oggetti o null.</p>            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_loadLike" name="method_loadLike" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">loadLike()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">loadLike(  <span class="argument">$value</span>,  <span class="argument">$row</span>,  <span class="argument">$class</span>): \mixed,</pre>
+                <p><em>Funzione che permette di reperire oggetti dal DB fornendo un valore (value) ed una colonna (row) nella quale cercare valori simili a value, usato per la ricerca film ad esempio.</em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td></td>
+                                <td>$value</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$row</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$class</td>
+                                <td></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+                    <h4>Returns</h4>\mixed,                        &mdash;<p>array di oggetti.</p>            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_loadDebole" name="method_loadDebole" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">loadDebole()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">loadDebole(  <span class="argument">$value</span>,  <span class="argument">$row</span>,  <span class="argument">$value2</span>,  <span class="argument">$row2</span>,  <span class="argument">$class</span>): \mixed,</pre>
+                <p><em>Funzione che permette di caricare oggetti dal database se questi sono entità deboli. Necessitano, quindi, di due valori e due colonne. Viene restituito un oggetto o null.</em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td></td>
+                                <td>$value</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$row</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$value2</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$row2</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$class</td>
+                                <td></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+                    <h4>Returns</h4>\mixed,                        &mdash;<p>oggetto o null.</p>            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_loadBetween" name="method_loadBetween" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">loadBetween()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">loadBetween(  <span class="argument">$inizio</span>,  <span class="argument">$fine</span>,  <span class="argument">$class</span>): \array,</pre>
+                <p><em>Funzione che permette di effettuare una ricerca nel DB attraverso un intervallo di valori. Usato ad esempio nella ricerca film per ottenere quali siano stati rilasciati in un deterinato intervallo di tempo.</em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td></td>
+                                <td>$inizio</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$fine</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$class</td>
+                                <td></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+                    <h4>Returns</h4>\array,                        &mdash;<p>array di oggetti.</p>            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_loadAll" name="method_loadAll" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">loadAll()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">loadAll(  <span class="argument">$class</span>): \mixed,</pre>
+                <p><em>Funzione che permette di reperire tutti gli oggetti presenti sul DB di una particolare classe passata come input. Torna un array o una istanza di EElencoProgrammazioni.</em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td></td>
+                                <td>$class</td>
+                                <td></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+                    <h4>Returns</h4>\mixed,                        &mdash;<p>array di oggetti o una istanza di EElencoProgrammazioni.</p>            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_loadAllSF" name="method_loadAllSF" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">loadAllSF()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">loadAllSF(): \int,</pre>
+                <p><em>Funzione che ritorna il numero di sale fisiche attualemnte presenti nel DB.</em></p>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+                    <h4>Returns</h4>\int,                        &mdash;<p>numero di SaleFisiche.</p>            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_delete" name="method_delete" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">delete()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">delete(  <span class="argument">$value</span>,  <span class="argument">$row</span>,  <span class="argument">$class</span>): \bool,</pre>
+                <p><em>Funzione che permette di eliminare un oggetto dal DB dato un valore ed una colonna.</em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td></td>
+                                <td>$value</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$row</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$class</td>
+                                <td></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+                    <h4>Returns</h4>\bool,                        &mdash;<p>esito dell'operazione.</p>            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_deleteDebole" name="method_deleteDebole" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">deleteDebole()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">deleteDebole(  <span class="argument">$value</span>,  <span class="argument">$row</span>,  <span class="argument">$value2</span>,  <span class="argument">$row2</span>,  <span class="argument">$class</span>): \bool,</pre>
+                <p><em>Funzione che permette di eliminare un oggetto dal DB se l&#039;entità è debole. Quindi gli vengono forniti due valori e due colonne. Ritorna l&#039;esito dell&#039;operazione.</em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td></td>
+                                <td>$value</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$row</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$value2</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$row2</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$class</td>
+                                <td></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+                    <h4>Returns</h4>\bool,                        &mdash;<p>esito dell'operazione.</p>            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_update" name="method_update" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">update()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">update(  <span class="argument">$value</span>,  <span class="argument">$row</span>,  <span class="argument">$newValue</span>,  <span class="argument">$newRow</span>,  <span class="argument">$class</span>): \bool,</pre>
+                <p><em>Funzione che permette di aggiornare un oggetto salvato nel DB. Ritorna l&#039;esito dell&#039;operazione.</em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td></td>
+                                <td>$value</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$row</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$newValue</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$newRow</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$class</td>
+                                <td></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+                    <h4>Returns</h4>\bool,                        &mdash;<p>esito dell'operazione.</p>            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_updateDebole" name="method_updateDebole" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">updateDebole()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">updateDebole(  <span class="argument">$value</span>,  <span class="argument">$row</span>,  <span class="argument">$value2</span>,  <span class="argument">$row2</span>,  <span class="argument">$newValue</span>,  <span class="argument">$newRow</span>,  <span class="argument">$class</span>): \bool,</pre>
+                <p><em>Funzione che permette di aggiornare il DB se l&#039;entità è debole. Ritorna l&#039;esito dell&#039;operazione.</em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td></td>
+                                <td>$value</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$row</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$value2</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$row2</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$newValue</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$newRow</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$class</td>
+                                <td></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+                    <h4>Returns</h4>\bool,                        &mdash;<p>esito dell'operazione.</p>            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_occupaPosti" name="method_occupaPosti" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">occupaPosti()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">occupaPosti(array  <span class="argument">$biglietti</span>): boolean|\null,</pre>
+                <p><em>Funzione che permette, dato un insieme di biglietti, di prenotare i posti relativi ad ogni bilgietto. Ritorna l&#039;esito dell&#039;operazione.</em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td>array</td>
+                                <td>$biglietti</td>
+                                <td></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+                    <h4>Returns</h4>boolean|\null,                        &mdash;<p>esito dell'opreazione.</p>            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_login" name="method_login" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">login()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">login(\string  <span class="argument">$value</span>,\string  <span class="argument">$password</span>,\bool  <span class="argument">$isMail</span>): mixed|null</pre>
+                <p><em>Funzione che permette attraverso username o email, la password ed un valore (che identifica se è stato passato un username od una mail) di controllare se le credenziali appartengano ad un utente. Torna un Utente oppure null.</em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td>\string</td>
+                                <td>$value</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td>\string</td>
+                                <td>$password</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td>\bool</td>
+                                <td>$isMail</td>
+                                <td></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+                    <h4>Returns</h4>mixed|null            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_signup" name="method_signup" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">signup()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">signup(\EUtente  <span class="argument">$utente</span>)</pre>
+                <p><em>Funzione che permette, dato un utente, di registrarlo nel DB.</em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td>\EUtente</td>
+                                <td>$utente</td>
+                                <td><p>, utente da registrare.</p></td>
+                            </tr>                    </table>                    <h4>Throws</h4>
+                    <dl>                            <dt>\Exception</dt>
+                            <dd></dd>                    </dl>            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_updatePasswordUser" name="method_updatePasswordUser" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">updatePasswordUser()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">updatePasswordUser(\EUtente  <span class="argument">$utente</span>)</pre>
+                <p><em>Funzione che permette, dato un utente, di modificarne la password.</em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td>\EUtente</td>
+                                <td>$utente</td>
+                                <td><p>, utente a cui aggiornare la password.</p></td>
+                            </tr>                    </table>                    <h4>Throws</h4>
+                    <dl>                            <dt>\Exception</dt>
+                            <dd></dd>                    </dl>            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_loadFilmByFilter" name="method_loadFilmByFilter" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">loadFilmByFilter()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">loadFilmByFilter(  <span class="argument">$genere</span>,\float  <span class="argument">$votoInizio</span>,\float  <span class="argument">$votoFine</span>,\DateTime  <span class="argument">$annoInizio</span>,\DateTime  <span class="argument">$annoFine</span>): \array,</pre>
+                <p><em>Funzione che permette di caricare oggetti EFilm dal DB sulla base di alcuni filtri impostati dall&#039;utente. Ritorna un array contente gli oggetti che rispettano i criteri.</em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td></td>
+                                <td>$genere</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td>\float</td>
+                                <td>$votoInizio</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td>\float</td>
+                                <td>$votoFine</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td>\DateTime</td>
+                                <td>$annoInizio</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td>\DateTime</td>
+                                <td>$annoFine</td>
+                                <td></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+                    <h4>Returns</h4>\array,                        &mdash;<p>array di EFilm.</p>            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_isASub" name="method_isASub" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">isASub()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">isASub(\EUtente  <span class="argument">$utente</span>): \bool,</pre>
+                <p><em>Funzione che permette di individuare se un utente è iscritto o meno alla Newsletter.</em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td>\EUtente</td>
+                                <td>$utente</td>
+                                <td></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+                    <h4>Returns</h4>\bool,                        &mdash;<p>se l'utente è iscritto alla newsletter.</p>            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_isSovrappostaProiezione" name="method_isSovrappostaProiezione" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">isSovrappostaProiezione()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">isSovrappostaProiezione(\EProiezione  <span class="argument">$proiezione</span>)</pre>
+                <p><em></em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td>\EProiezione</td>
+                                <td>$proiezione</td>
+                                <td></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_exists" name="method_exists" class="anchor"></a>
+            <article class="method">
+                <h3 class="public">exists()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">exists(\EUtente  <span class="argument">$utente</span>,  <span class="argument">$isMail</span>)</pre>
+                <p><em></em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td>\EUtente</td>
+                                <td>$utente</td>
+                                <td></td>
+                            </tr>                            <tr>
+                                <td></td>
+                                <td>$isMail</td>
+                                <td></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="private">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct()</pre>
+                <p><em>FPersistentManager constructor.</em></p>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getClass" name="method_getClass" class="anchor"></a>
+            <article class="method">
+                <h3 class="private">getClass()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getClass(string  <span class="argument">$class</span>): string</pre>
+                <p><em>Funzione che provvede a sostituire il nome delle classi Entity che richiamano il PM con le rispettive classi in Foundation.</em></p>                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">                            <tr>
+                                <td>string</td>
+                                <td>$class</td>
+                                <td><p>, classe entity che sta chiamando il PersistentManager.</p></td>
+                            </tr>                    </table>
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+
+Warning: count(): Parameter must be an array or an object that implements Countable in phar:///opt/lampp/htdocs/phpDocumentor.phar/vendor/twig/twig/lib/Twig/Extension/Core.php on line 1293
+                    <h4>Returns</h4>string            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>            <dl>            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">                    <tr><td colspan="2"><em>None found</em></td></tr>            </table>
+        </aside>
+    </div>        </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">FPersistentManager.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/Foundation/FPersistentManager.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">                            <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">                            <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">                            <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    onJune 14th, 2020 at 20:07.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>

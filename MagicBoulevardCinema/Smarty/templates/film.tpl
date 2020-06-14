@@ -138,6 +138,10 @@
             </a>
         </div>
     </form>
+    <form action="{$path}Admin/eliminaFilm" method="post" onsubmit="return check()">
+        <input type="hidden" name="idFilm" value="{$film->getId()}">
+        <button type="submit" class="section__btn align-content-center">Elimina Film</button>
+    </form>
     {/if}
 </section>
 <!-- end details -->
@@ -149,15 +153,15 @@
             <div class="row">
                 <div class="col-12">
                     <!-- Title -->
-                    <h2 class="content__title">Prenota il tuo posto</h2>
+                    <h2 class="content__title">{if !$utente->isAdmin()}Prenota il tuo posto{else}Situazione spettacoli{/if}</h2>
                     <!-- content tabs nav -->
                     <ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist">
                         {foreach $programmazioneFilm->getProiezioni() as $key => $pro}
                         <li class="nav-item">
                             {if $key == 0}
-                            <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true"> {$pro->getDataRed()}</a>
+                            <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true" style="width: 40px"> {$pro->getDataRed()}</a>
                             {else}
-                            <a class="nav-link" data-toggle="tab" href="#tab-{$key+1}" role="tab" aria-controls="tab-{$key+1}" aria-selected="true"> {$pro->getDataRed()}</a>
+                            <a class="nav-link" data-toggle="tab" href="#tab-{$key+1}" role="tab" aria-controls="tab-{$key+1}" aria-selected="true" style="width: 40px"> {$pro->getDataRed()}</a>
                             {/if}
                         </li>
                         {/foreach}
@@ -270,7 +274,7 @@
                                                 <img class="reviews__avatar" src="{$propic[$key]->getImmagineHTML()}" alt="">
                                                 <span class="reviews__name" style="display: inline-block">{$rev->getTitle()}</span>
 
-                                                {if $utente->isRegistrato() && ($rev->getUtente()->getId() == $utente->getId() || $utente->isAdmin())}
+                                                {if ($utente->isRegistrato() && $rev->getUtente()->getId() == $utente->getId()) || $utente->isAdmin()}
                                                     <span class="reviews__name" style="display: inline-block; position: relative; float: right; bottom: -7px">
                                                     <a style="line-height: normal" class="dropdown-toggle header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenuMore" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon ion-ios-more"></i></a>
                                                     <ul class="dropdown-menu header__dropdown-menu" aria-labelledby="dropdownMenuMore">
@@ -342,7 +346,7 @@
                             <div class="card__content">
                                 <h3 class="card__title"><a href="{$path}Film/show/?film={$film->getId()}&autoplay=true">{$film->getNome()}</a></h3>
                                 <span class="card__category">
-										<a href="Film/show/?film={$film->getId()}&autoplay=true">{$film->getGenere()}</a>
+										<a href="{$path}Film/show/?film={$film->getId()}&autoplay=true">{$film->getGenere()}</a>
                                     </span>
                                 {if ($film->getVotoCritica() != '0')}
                                 <span class="card__rate"><i class="icon ion-ios-star"></i>{$film->getVotoCritica()}</span>
@@ -498,6 +502,10 @@
         form.append("<input type='hidden' name='utente' value='" + idUtente + "' />");
 
         form.submit();
+    }
+
+    function check() {
+        return confirm("Sei sicuro di voler cancellare il film? Questa azione è irreversibile!");
     }
 </script>
 

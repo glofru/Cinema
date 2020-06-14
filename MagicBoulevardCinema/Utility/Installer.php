@@ -63,7 +63,7 @@ class Installer
 
     /**
      * Funzione principale che mostra le varie schermate di installazione necessarie a poter configurare correttamente l'applicazione.
-     * Viene inoltre controllato se si disponga di una versioen di PHP pari almeno alla 7.4.0 che i cookie siano abilitati e che il codice Javascript venga eseguito.
+     * Viene inoltre controllato se si disponga di una versione di PHP pari almeno alla 7.4.0 che i cookie siano abilitati e che il codice Javascript venga eseguito.
      * @throws SmartyException
      */
     public static function start()
@@ -139,6 +139,9 @@ class Installer
                 }
 
                 FPersistentManager::getInstance()->signup($utente);
+                $data = new DateTime();
+                $media = new EMediaUtente('','',$data, '', $utente);
+                FPersistentManager::getInstance()->save($media);
                 unset($utente);
                 header("Location: /MagicBoulevardCinema");
             } elseif (!self::checkPhysical()){
@@ -193,7 +196,7 @@ class Installer
     }
 
     /**
-     * Funzione che permette di salvare nel file di configurazione dle cinema le variabili globali contenenti i costi dei biglietti per ogni giornata ed il sovrapprezzo.
+     * Funzione che permette di salvare nel file di configurazione del cinema le variabili globali contenenti i costi dei biglietti per ogni giornata ed il sovrapprezzo.
      * @param float $Mon
      * @param float $Tue
      * @param float $Wed
@@ -223,7 +226,7 @@ class Installer
     }
 
     /**
-     * funzione che permette di istanziare il file di conigurazione del DB con all'interno i dati necessari a potersi connettere alla base dati.
+     * funzione che permette di istanziare il file di configurazione del DB con all'interno i dati necessari a potersi connettere alla base dati.
      * @param string $dbname
      * @param string $username
      * @param string $pwd

@@ -45,10 +45,12 @@ class EPosto implements JsonSerializable
      */
     public static function fromString(string $posto, bool $occupato): array {
         $posti = [];
+
         $lock = explode(";", $posto);
         foreach ($lock as $elem) {
             array_push($posti, self::fromDB($elem, $occupato));
         }
+
         return $posti;
     }
 
@@ -60,22 +62,25 @@ class EPosto implements JsonSerializable
      */
     public static function fromDB(string $posto, bool $occupato): EPosto {
         $elem = explode("_", $posto);
+
         return new EPosto($elem[0], $elem[1], $occupato);
 
     }
-//-------------- SETTER ----------------------
+
     /**
      * @param string $fila, lettera assegnata alla fila.
      */
     public function setFila(string $fila){
         $this->fila = $fila;
     }
+
     /**
      * @param int $numeroPosto, numero assegnato al numeroposto.
      */
     public function setNumeroPosto(int $numeroPosto){
         $this->numeroPosto = $numeroPosto;
     }
+
     /**
      * @param bool $occupato, disponibilità del numeroposto.
      */
@@ -83,19 +88,20 @@ class EPosto implements JsonSerializable
         $this->occupato = $occupato;
     }
 
-//----------------- GETTER --------------------
     /**
      * @return string, fila nella quale si trova il numeroposto.
      */
     public function getFila(): string {
         return $this->fila;
     }
+
     /**
      * @return int, numero di numeroposto.
      */
     public function getNumeroPosto(): int{
         return $this->numeroPosto;
     }
+
     /**
      * @return bool, disponibilità del numeroposto.
      */
@@ -120,25 +126,20 @@ class EPosto implements JsonSerializable
         return $this->getFila() . "_" . $this->getNumeroPosto();
     }
 
-//------------- ALTRI METODI ----------------
-
     /**
      * @return array|mixed, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFULL.
      */
-    public function jsonSerialize ()
-    {
-        return
-            [
-                'fila'   => $this->getFila(),
-                'numeroposto' => $this->getNumeroPosto(),
-                'occupato'   => $this->isOccupato(),
-            ];
+    public function jsonSerialize () {
+        return [
+            'fila'        => $this->getFila(),
+            'numeroposto' => $this->getNumeroPosto(),
+            'occupato'    => $this->isOccupato(),
+        ];
     }
     /**
      * @return string
      */
-    public function __toString(): string
-    {
+    public function __toString(): string {
         return " Fila: " .$this->getFila() . " Posto: " . strval($this->getNumeroPosto());
     }
 

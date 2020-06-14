@@ -12,16 +12,16 @@ class FSala implements Foundation
      * Nome della classe.
      * @var string
      */
-    private static string $className = "FSala";
+    private static string $className  = "FSala";
 
     /**
-     * Nome della corrispondente tabella presente sul DB.
+     * Nome della corrispondente tabella presente nel DB.
      * @var string
      */
-    private static string $tableName = "SalaFisica";
+    private static string $tableName  = "SalaFisica";
 
     /**
-     * Insieme delle colonne presenti nella tabella sul DB che verrà sostituita in fase di binding.
+     * Insieme delle colonne presenti nella tabella nel DB che verrà sostituita in fase di binding.
      * @var string
      */
     private static string $valuesName = "(:nSala,:nFile,:nPostiFila,:disponibile)";
@@ -39,10 +39,10 @@ class FSala implements Foundation
      */
     public static function associate(PDOStatement $sender, $salaFisica){
         if ($salaFisica instanceof ESalaFisica) {
-            $sender->bindValue(':nSala', $salaFisica->getNumeroSala(), PDO::PARAM_INT);
-            $sender->bindValue(':nFile', $salaFisica->getNFile(), PDO::PARAM_INT);
-            $sender->bindValue(':nPostiFila', $salaFisica->getNPostiFila(), PDO::PARAM_STR);
-            $sender->bindValue(':disponibile', $salaFisica->isDisponibile(), PDO::PARAM_STR);
+            $sender->bindValue(':nSala',        $salaFisica->getNumeroSala(), PDO::PARAM_INT);
+            $sender->bindValue(':nFile',        $salaFisica->getNFile(),      PDO::PARAM_INT);
+            $sender->bindValue(':nPostiFila',   $salaFisica->getNPostiFila(), PDO::PARAM_STR);
+            $sender->bindValue(':disponibile',  $salaFisica->isDisponibile(), PDO::PARAM_STR);
         } else {
             die("Not a phisical room!!");
         }
@@ -58,7 +58,7 @@ class FSala implements Foundation
     }
 
     /**
-     * Funzione che ritorna il nome della tabella presente sul DB.
+     * Funzione che ritorna il nome della tabella presente nel DB.
      * @return string
      */
     public static function getTableName() {
@@ -76,20 +76,22 @@ class FSala implements Foundation
 //------------- ALTRI METODI ----------------
 
     /**
-     * Funzione che permette di salvare una SalaFisica sul DB.
+     * Funzione che permette di salvare una SalaFisica nel DB.
      * @param ESalaFisica $salaFisica, SalaFisica da salvare.
      */
     public static function save(ESalaFisica $salaFisica) {
         $db = FDatabase::getInstance();
+
         $db->saveToDB(self::getClassName(),$salaFisica);
     }
 
     /**
-     * Funzione che ritorna il numero di SaleFisiche attualemnte presente nel DB
+     * Funzione che ritorna il numero di SaleFisiche attualemnte presenti nel DB
      * @return int, numero di SaleFisiche presenti nel DB.
      */
     public static function nLoadAll(): int {
         $db = FDatabase::getInstance();
+
         $result = $db->loadAll(self::getClassName());
 
         return sizeof($result);
@@ -101,18 +103,21 @@ class FSala implements Foundation
      */
     public static function loadAll(): array {
         $db = FDatabase::getInstance();
+
         $result = $db->loadAll(self::getClassName());
+
         return self::parseResult($result);
     }
 
     /**
      * Funzione che permette di caricare una sala dal DB. Si appoggia alla funzione parseResult per ottenere come risultato un array di ESalaFisica.
-     * @param string $nSala, valore necessario ad indetificare l'oggetto.
+     * @param string $nSala, valore necessario ad indentificare l'oggetto.
      * @param string $row, colonna nella quale cercare il valore.
      * @return array, array di ESalaFisica.
      */
     public static function load (string $nSala, string $row): array {
         $db = FDatabase::getInstance();
+
         $result = $db->loadFromDB(self::getClassName(), intval($nSala), $row);
 
         return self::parseResult($result);
@@ -120,12 +125,13 @@ class FSala implements Foundation
 
     /**
      * Funzione che permette di caricare una sala dal DB. Si appoggia alla funzione parseResult per ottenere come risultato un array di ESalaVirtuale.
-     * @param string $nSala, valore necessario ad indetificare l'oggetto.
+     * @param string $nSala, valore necessario ad indentificare l'oggetto.
      * @param string $row, colonna nella quale cercare il valore.
      * @return array, array di ESalaVirtuale.
      */
     public static function loadVirtuale (string $nSala, string $row): array {
         $db = FDatabase::getInstance();
+
         $result = $db->loadFromDB(self::getClassName(), intval($nSala), $row);
 
         return self::parseResult($result, false);
@@ -133,7 +139,7 @@ class FSala implements Foundation
 
     /**
      * Funzione che permette di aggiornare un oggetto Sala nel DB. Ritorna l'esito dell'operazione.
-     * @param $value, valore necessario ad indetificare l'oggetto.
+     * @param $value, valore necessario ad indentificare l'oggetto.
      * @param $row, colonna nella quale cercare il valore.
      * @param $newvalue, valore che si vuole inserire.
      * @param $newrow, colonna nella quale inserire il nuovo valore.
@@ -147,7 +153,7 @@ class FSala implements Foundation
 
     /**
      * Funzione che elimina un oggetto nel DB. Ritorna l'esito dell'operazione.
-     * @param $value, valore necessario ad indetificare l'oggetto.
+     * @param $value, valore necessario ad indentificare l'oggetto.
      * @param $row, colonna nella quale cercare il valore.
      * @return bool, risultato dell'operazione.
      */
@@ -159,17 +165,18 @@ class FSala implements Foundation
 
     /**
      * Funzione che, dato un array di righe ritornate dal DB, permette di ricostruire oggetti della classe ESalaFisica o ESalaVirtuale.
-     * @param array $result, righe del database che si vuole 'parsare'.
-     * @param bool $fisica, booleano per identificare se si vuole restituito un oggetto ESalaFisica o ESalaVirtuale.
+     * @param array $result , righe del database che si vuole 'parsare'.
+     * @param bool $fisica , booleano per identificare se si vuole restituito un oggetto ESalaFisica o ESalaVirtuale.
      * @return array, array di ESalaFisica o array di ESalaVirtuale.
+     * @throws Exception
      */
     private static function parseResult(array $result, bool $fisica = true): array {
         $return = [];
 
         foreach ($result as $row) {
-            $nSala = $row["nSala"];
-            $nFile = $row["nFile"];
-            $nPostiFila = $row["nPostiFila"];
+            $nSala       = $row["nSala"];
+            $nFile       = $row["nFile"];
+            $nPostiFila  = $row["nPostiFila"];
             $disponibile = boolval($row["disponibile"]);
 
             if ($fisica) {

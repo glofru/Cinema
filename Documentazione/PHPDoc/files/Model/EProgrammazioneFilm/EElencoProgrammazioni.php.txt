@@ -1,0 +1,92 @@
+<?php
+/**
+ * Nella classe ElencoProgrammazioni sono i presenti attributi e metodi per la creazione e gestione dell'insieme contente oggetti EProgramazioneFilm.
+ * @access public
+ * @author Lofrumento - Di Santo - Susanna
+ * @package Model
+ */class EElencoProgrammazioni implements JsonSerializable
+{
+    /**
+     * Insieme delle programmazioni di un film
+     * @AttributeType array
+     */
+    private array $elencoProgrammazioni;
+
+    /**
+     * EElencoProgrammazioni constructor.
+     */
+    public function __construct() {
+        $this->elencoProgrammazioni = [];
+    }
+
+    /**
+     * @return array, insieme delle programmazioni di un film.
+     */
+    public function getElencoProgrammazioni(): array {
+        return $this->elencoProgrammazioni;
+    }
+
+    /**
+     * Aggiunge una programmazione all'insieme.
+     * @param EProgrammazionefilm $programmazione, programmazione da aggiungere all'insieme.
+     */
+    public function addProgrammazioneFilm(EProgrammazioneFilm $programmazione) {
+        array_push($this->elencoProgrammazioni, $programmazione);
+    }
+
+    /**
+     * Funzione che, data una proiezione, cerca se è presente già una programmazioneFilm associata a quel film. Se è presente viene aggiunta a quest'ultima. Altrimenti viene creata una nuova EProgrammazioneFilm, a questa viene aggiunta la proiezione ed infine la nuova programmazioneFilm viene aggiunta all'elenco delle programmazioni contenute nella classe.
+     * @param EProiezione $proiezione, proiezione che si vuole aggiungere.
+     */
+    public function addProiezione(EProiezione $proiezione) {
+        $programmazioneFilm     = $this->getIfExistsProgrammazioneFilm($proiezione->getFilm());
+
+        if ($programmazioneFilm != null) {
+            $programmazioneFilm->addProiezione($proiezione);
+        } else {
+            $programmazioneFilm = new EProgrammazioneFilm();
+            $programmazioneFilm->addProiezione($proiezione);
+            $this->addProgrammazioneFilm($programmazioneFilm);
+        }
+    }
+
+    /**
+     * Funzione che cerca nell'elenco delle programmazioniFilm se è già presente una programmazione associata al film  che gli viene passato.
+     * @param EFilm $film, film del quale si vuole identificare se sia presente una programmazione.
+     * @return mixed|null, se presente viene tornata la programmazione del film.
+     */
+    public function getIfExistsProgrammazioneFilm(EFilm $film) {
+        foreach ($this->elencoProgrammazioni as $programmazione) {
+            if ($programmazione->getFilm()->getId() == $film->getId()) {
+                return $programmazione;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Funzione che rimuove una programmazione dall'insieme.
+     * @param EProgrammazionefilm $programmazione programmazione da rimuovere dall'insieme.
+     * @return bool, esito dell'operazione.
+     */
+    public function rimuoviProgrammazione(EProgrammazioneFilm $programmazione): bool{
+        $result = array_search($programmazione, $this->getElencoProgrammazioni());
+
+        if($result !== ""){
+            unset($this->getElencoProgrammazioni()[$result]);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return array[]|mixed, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFUL.
+     */
+    public function jsonSerialize () {
+        return [
+            'elencoProgrammazioni' => $this->getElencoProgrammazioni(),
+        ];
+    }
+}

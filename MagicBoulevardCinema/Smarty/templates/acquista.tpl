@@ -78,7 +78,7 @@
 					<form action="{$path}Acquisto/confermaAcquisto" method="POST">
 						<button class="filter__btn" type="submit">Acquista</button>
 					</form>
-					<button class="filter__btn" type="button" onclick="window.">Annulla</button>
+					<button class="filter__btn" type="button" onclick="window.location.href = '/MagicBoulevardCinema/Film/show?film={$biglietti[0]->getProiezione()->getFilm()->getId()}'">Annulla</button>
 					<!-- end filter btn -->
 				</div>
 			</div>
@@ -111,9 +111,9 @@
 									</span>
 
 									<div class="card__wrap">
-										{if ($item->getProiezione()->getFilm()->getetaConsigliata() != "")}
+										{if ($item->getProiezione()->getFilm()->getEtaConsigliata() != "")}
 											<ul class="card__list">
-												<li>{$item->getProiezione()->getFilm()->getetaConsigliata()}</li>
+												<li>{$item->getProiezione()->getFilm()->getEtaConsigliata()}</li>
 											</ul>
 										{/if}
 									</div>

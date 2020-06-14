@@ -32,19 +32,19 @@ class EBiglietto implements JsonSerializable
 
     /**
      * Id del biglietto.
-     * @var int
+     * @var string
      */
-    private int $id = 0;
+    private string $id;
 
     /**
      * EBiglietto constructor.
-     * @param EProiezione $proiezione, proiezione per la quale si è acquistato il biglietto.
-     * @param EPosto $posto, posto che si sta prenotando.
-     * @param EUtente $utente, utente che sta effettuando l'acquisto.
-     * @param float $costo, costo del biglietto.
-     * @param int $id, id del biglietto.
+     * @param EProiezione $proiezione , proiezione per la quale si è acquistato il biglietto.
+     * @param EPosto $posto , posto che si sta prenotando.
+     * @param EUtente $utente , utente che sta effettuando l'acquisto.
+     * @param float $costo , costo del biglietto.
+     * @param string $id , id del biglietto.
      */
-    public function __construct(EProiezione $proiezione, EPosto $posto, EUtente $utente, float $costo, int $id)
+    public function __construct(EProiezione $proiezione, EPosto $posto, EUtente $utente, float $costo, string $id)
     {
         $this->setProiezione($proiezione);
         $this->setPosto($posto);
@@ -53,7 +53,6 @@ class EBiglietto implements JsonSerializable
         $this->setId($id);
     }
 
-//-------------- SETTER ----------------------
     /**
      * @param EProiezione $proiezione, proiezione alla quale si vuole assistere.
      */
@@ -64,7 +63,7 @@ class EBiglietto implements JsonSerializable
      * @param EPosto $posto, posto che si sceglie di acquistare.
      */
     public function setPosto(EPosto $posto){
-    $this->posto = $posto;
+        $this->posto = $posto;
     }
     /**
      * @param EUtente $utente, utente che acquista il biglietto.
@@ -81,13 +80,12 @@ class EBiglietto implements JsonSerializable
     }
 
     /**
-     * @param int $id, id del biglietto.
+     * @param string $id, id del biglietto.
      */
-    public function setId(int $id){
+    public function setId(string $id){
         $this->id = $id;
     }
 
-//----------------- GETTER --------------------
     /**
      * @return EProiezione, la proiezione alla quale si vuole assistere.
      */
@@ -115,9 +113,9 @@ class EBiglietto implements JsonSerializable
     }
 
     /**
-     * @return int, id del biglietto.
+     * @return string, id del biglietto.
      */
-    public function getId(): int{
+    public function getId(): string{
         return $this->id;
     }
 
@@ -136,11 +134,14 @@ class EBiglietto implements JsonSerializable
      */
     public static function getPrezzofromProiezione(EProiezione $proiezione) {
         $dataProiezione = $proiezione->getDataProiezione();
-        $costo = $GLOBALS["prezzi"][$dataProiezione->format("D")];
-        $date = new DateTime('now + 7 Days');
-        if($dataProiezione > $date) {
-            $costo += $GLOBALS["extra"];
+
+        $costo          = $GLOBALS["prezzi"][$dataProiezione->format("D")];
+
+        $date           = new DateTime('now + 7 Days');
+        if($dataProiezione >= $date) {
+            $costo     += $GLOBALS["extra"];
         }
+
         return $costo;
     }
 
@@ -159,23 +160,20 @@ class EBiglietto implements JsonSerializable
     /**
      * @return array|mixed, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFUL.
      */
-    public function jsonSerialize ()
-    {
-        return
-            [
-                'id' => $this->$this->getId(),
-                'proiezione'   => $this->getProiezione(),
-                'posto' => $this->getPosto(),
-                'utente'   => $this->getUtente(),
-                'costo' => $this->getCosto(),
-            ];
+    public function jsonSerialize (){
+        return [
+            'id'         => $this->$this->getId(),
+            'proiezione' => $this->getProiezione(),
+            'posto'      => $this->getPosto(),
+            'utente'     => $this->getUtente(),
+            'costo'      => $this->getCosto(),
+        ];
     }
 
     /**
      * @return string
      */
-    public function __toString()
-    {
+    public function __toString() {
         return "Biglietto per il film: " . $this->getProiezione()->getFilm()->getNome() . "al posto " . $this->getPosto();
     }
 

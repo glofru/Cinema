@@ -12,12 +12,12 @@ class FFilm implements Foundation
      * Nome della classe.
      * @var string
      */
-    private static string $className = "FFilm";
+    private static string $className  = "FFilm";
     /**
      * Nome della corrispondente tabella presente sul DB.
      * @var string
      */
-    private static string $tableName = "Film";
+    private static string $tableName  = "Film";
     /**
      * Insieme delle colonne presenti nella tabella sul DB che verrà sostituita in fase di binding.
      * @var string
@@ -37,30 +37,29 @@ class FFilm implements Foundation
      */
     public static function associate(PDOStatement $sender, $film) {
         if ($film instanceof EFilm) {
-            $sender->bindValue(':id', NULL, PDO::PARAM_INT);
-            $sender->bindValue(':nome', $film->getNome(), PDO::PARAM_STR);
-            $sender->bindValue(':descrizione', $film->getDescrizione(), PDO::PARAM_STR);
-            $sender->bindValue(':durata', $film->getDurataString(), PDO::PARAM_STR);
-            $sender->bindValue(':trailerURL', $film->getTrailerURL(), PDO::PARAM_STR);
-            $sender->bindValue(':votoCritica', $film->getVotoCritica(), PDO::PARAM_STR);
-            $sender->bindValue(':dataRilascio', $film->getdataRilascioSQL(), PDO::PARAM_STR);
-            $sender->bindValue(':genere', $film->getGenere(), PDO::PARAM_STR);
-            $sender->bindValue(':attori', self::splitArray($film->getAttori()), PDO::PARAM_STR);
-            $sender->bindValue(':registi', self::splitArray($film->getRegisti()), PDO::PARAM_STR);
-            $sender->bindValue(':paese', $film->getPaese(), PDO::PARAM_STR);
-            $sender->bindValue(':etaConsigliata', $film->getEtaConsigliata(), PDO::PARAM_STR);
+            $sender->bindValue(':id',               NULL,                             PDO::PARAM_INT);
+            $sender->bindValue(':nome',             $film->getNome(),                       PDO::PARAM_STR);
+            $sender->bindValue(':descrizione',      $film->getDescrizione(),                PDO::PARAM_STR);
+            $sender->bindValue(':durata',           $film->getDurataString(),               PDO::PARAM_STR);
+            $sender->bindValue(':trailerURL',       $film->getTrailerURL(),                 PDO::PARAM_STR);
+            $sender->bindValue(':votoCritica',      $film->getVotoCritica(),                PDO::PARAM_STR);
+            $sender->bindValue(':dataRilascio',     $film->getdataRilascioSQL(),            PDO::PARAM_STR);
+            $sender->bindValue(':genere',           $film->getGenere(),                     PDO::PARAM_STR);
+            $sender->bindValue(':attori',           self::splitArray($film->getAttori()),   PDO::PARAM_STR);
+            $sender->bindValue(':registi',          self::splitArray($film->getRegisti()),  PDO::PARAM_STR);
+            $sender->bindValue(':paese',            $film->getPaese(),                      PDO::PARAM_STR);
+            $sender->bindValue(':etaConsigliata',   $film->getEtaConsigliata(),             PDO::PARAM_STR);
         } else {
             die("Not a film!!");
         }
     }
 
     /**
-     * Funzione ausiliaria che permette di ottenere da un array di attori o registi una stringa in forma consona per essere inserita nel DB.
+     * Funzione di utilità ausiliaria che permette di ottenere da un array di attori o registi una stringa in forma consona per essere inserita nel DB.
      * @param array $a, array di attori o registi.
      * @return string, stringa contente gli id degli attori o registi partecipanti al film sepratai da ';'.
      */
-    private static function splitArray(array $a): string
-    {
+    private static function splitArray(array $a): string {
         $s = "";
 
         foreach ($a as $value) {
@@ -68,23 +67,28 @@ class FFilm implements Foundation
         }
 
         $s = substr($s, 0, -1);
+
         return $s;
     }
 
     /**
-     * Funzione inversa allo splitArray che permette di riscostruire un array da una stringa di attori o registi
+     * Funzione inversa dello splitArray che permette di riscostruire un array da una stringa di attori o registi.
      * @param string $s, stringa contente gli id degli attori o registi partecipanti al film sepratai da ';'.
      * @return array, array di attori o registi.
      */
-    public static function recreateArray(string $s): array
-    {
+    public static function recreateArray(string $s): array {
         $return = [];
 
         if ($s == "") return $return;
 
         $temp = explode(";", $s);
         foreach ($temp as $e) {
-            array_push($return, FPersona::load($e, "id")[0]);
+            $pers  = FPersona::load($e, "id");
+            $p     = null;
+            if (sizeof($pers) > 0) {
+                $p = $pers[0];
+            }
+            array_push($return, $p);
         }
 
         return $return;
@@ -94,17 +98,15 @@ class FFilm implements Foundation
      * Funzione che ritorna il nome della classe.
      * @return string
      */
-    public static function getClassName()
-    {
+    public static function getClassName() {
         return self::$className;
     }
 
     /**
-     * Funzione che ritorna il nome della tabella presente sul DB.
+     * Funzione che ritorna il nome della tabella presente nel DB.
      * @return string
      */
-    public static function getTableName()
-    {
+    public static function getTableName() {
         return self::$tableName;
     }
 
@@ -112,17 +114,15 @@ class FFilm implements Foundation
      * Funzione che ritorna i valori delle colonne della tabella per il binding.
      * @return string
      */
-    public static function getValuesName()
-    {
+    public static function getValuesName() {
         return self::$valuesName;
     }
 
     /**
-     * Funzione che permette di salvare un film sul DB.
+     * Funzione che permette di salvare un film nel DB.
      * @param EFilm $film, film da salvare.
      */
-    public static function save(EFilm $film)
-    {
+    public static function save(EFilm $film) {
         $db = FDatabase::getInstance();
 
         $id = $db->saveToDB(self::getClassName(), $film);
@@ -136,8 +136,7 @@ class FFilm implements Foundation
      * @param string $row, colonna nella quale cercare il valore.
      * @return array, array di EFilm.
      */
-    public static function load(string $value, string $row): array
-    {
+    public static function load(string $value, string $row): array {
         $db = FDatabase::getInstance();
 
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
@@ -149,8 +148,7 @@ class FFilm implements Foundation
      * Funzione che permette di caricare tutti i film presenti nel DB. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti.
      * @return array, array con tutti gli EFilm nel database.
      */
-    public static function loadAll(): array
-    {
+    public static function loadAll(): array {
         $db = FDatabase::getInstance();
 
         $result = $db->loadAll(self::getClassName());
@@ -167,7 +165,7 @@ class FFilm implements Foundation
     public static function loadBetween($inizio,$fine) {
         $db = FDatabase::getInstance();
 
-        $result = $db->loadBetween(self::getClassName(),$inizio,$fine,"dataRilascio");
+        $result = $db->loadBetween(self::getClassName(), $inizio, $fine, "dataRilascio");
 
         return self::parseResult($result);
     }
@@ -194,8 +192,7 @@ class FFilm implements Foundation
      * @param $newRow, colonna nella quale inserire il nuovo valore.
      * @return bool, risultato dell'operazione.
      */
-    public static function update($value, $row, $newValue, $newRow): bool
-    {
+    public static function update($value, $row, $newValue, $newRow): bool {
         $db = FDatabase::getInstance();
 
         return $db->updateTheDB(self::getClassName(), $value, $row, $newValue, $newRow);
@@ -207,26 +204,23 @@ class FFilm implements Foundation
      * @param $row, colonna nella quale cercare il valore.
      * @return bool, risultato dell'operazione.
      */
-    public static function delete($value, $row): bool
-    {
+    public static function delete($value, $row): bool {
         $db = FDatabase::getInstance();
 
         return $db->deleteFromDB(self::getClassName(), $value, $row);
     }
 
     /**
-     * Funzione che permette di caricare un insieme di film a partire da un intervallo di date. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti se vi è almeno un risultato sennò torna un array vuoto.
+     * Funzione che permette di caricare un insieme di film a partire da un intervallo di date. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti se vi è almeno un risultato altrimenti torna un array vuoto.
      * @param string $dataInizio, data di inzio.
      * @param string $dataFine, data di fine.
-     * @return array, array di EFilm.
+     * @return array di EFilm.
      */
-    public static function ricercaPerData(string $dataInizio, string $dataFine)
-    {
-        $db = FDatabase::getInstance();
+    public static function ricercaPerData(string $dataInizio, string $dataFine): array {
+        $db     = FDatabase::getInstance();
 
         $result = $db->loadBetween(self::getClassName(), $dataInizio, $dataFine, "dataRilascio");
-        if ($result == null || sizeof($result) == 0)
-        {
+        if ($result == null || sizeof($result) == 0) {
             return [];
         }
 
@@ -234,17 +228,15 @@ class FFilm implements Foundation
     }
 
     /**
-     * Funzione che permette di caricare un insieme di film a partire da un particolare genere. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti se vi è almeno un risultato sennò torna un array vuoto.
+     * Funzione che permette di caricare un insieme di film a partire da un particolare genere. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti se vi è almeno un risultato altrimenti torna un array vuoto.
      * @param EGenere $genere, genere dei film che si sta cercando.
      * @return array, array di EFilm.
      */
-    public static function ricercaPerGenere(EGenere $genere)
-    {
-        $db = FDatabase::getInstance();
+    public static function ricercaPerGenere(EGenere $genere) {
+        $db     = FDatabase::getInstance();
 
         $result = $db->loadFromDB(self::getClassName(), $genere, "genere");
-        if ($result == null || sizeof($result) == 0)
-        {
+        if ($result == null || sizeof($result) == 0) {
             return [];
         }
 
@@ -252,7 +244,7 @@ class FFilm implements Foundation
     }
 
     /**
-     * Funzione che permette di caricare un insieme di film a partire da un nome. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti se vi è almeno un risultato sennò torna un array vuoto.
+     * Funzione che permette di caricare un insieme di film a partire da un nome. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti se vi è almeno un risultato altrimenti torna un array vuoto.
      * @param string $nome, nome del film che si sta cercando.
      * @return array, array di EFilm.
      */
@@ -277,7 +269,7 @@ class FFilm implements Foundation
      * @return array, array di EFilm.
      */
     public static function loadByFilter($genere, float $votoInizio, float $votoFine, DateTime $annoInizio, DateTime $annoFine) {
-        $db = FDatabase::getInstance();
+        $db     = FDatabase::getInstance();
 
         $result = $db->loadByFilter(self::getClassName(), $genere, $votoInizio, $votoFine, $annoInizio->format("Y-m-d"), $annoFine->format("Y-m-d"));
 
@@ -289,39 +281,35 @@ class FFilm implements Foundation
      * @param array $result, righe del database che si vuole 'parsare'.
      * @return array, array di EFilm.
      */
-    private static function parseResult(array $result): array
-    {
+    private static function parseResult(array $result): array {
         $return = array();
 
-        foreach ($result as $row)
-        {
-            $id = $row["id"];
-            $nome = $row["nome"];
-            $descrizione = $row["descrizione"];
-            $durata = explode(':',$row["durata"]);
+        foreach ($result as $row) {
+            $id             = $row["id"];
+            $nome           = $row["nome"];
+            $descrizione    = $row["descrizione"];
+            $durata         = explode(':',$row["durata"]);
 
             try {
-                $durata = new DateInterval ("PT" . $durata[0] . "H" . $durata[1] . "M");
+                $durata     = new DateInterval ("PT" . $durata[0] . "H" . $durata[1] . "M");
             } catch (Exception $e) {
-                $durata = null;
+                $durata     = null;
             }
 
-            $trailerURL = $row["trailerURL"];
-            $votoCritica = floatval($row["votoCritica"]);
-            $dataRilascio = DateTime::createFromFormat("Y-m-d", $row["dataRilascio"]);
-            $genere = EGenere::fromString($row["genere"]);
-            $paese = $row["paese"];
+            $trailerURL     = $row["trailerURL"];
+            $votoCritica    = floatval($row["votoCritica"]);
+            $dataRilascio   = DateTime::createFromFormat("Y-m-d", $row["dataRilascio"]);
+            $genere         = EGenere::fromString($row["genere"]);
+            $paese          = $row["paese"];
             $etaConsigliata = $row["etaConsigliata"];
-            $film = new EFilm($nome, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere, $paese, $etaConsigliata);
+            $film           = new EFilm($nome, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere, $paese, $etaConsigliata);
             $film->setId($id);
 
-            foreach (self::recreateArray($row["attori"]) as $attore)
-            {
+            foreach (self::recreateArray($row["attori"]) as $attore) {
                $film->addAttore($attore);
             }
 
-            foreach (self::recreateArray($row["registi"]) as $regista)
-            {
+            foreach (self::recreateArray($row["registi"]) as $regista) {
                 $film->addRegista($regista);
             }
 

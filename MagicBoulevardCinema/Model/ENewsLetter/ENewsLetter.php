@@ -26,7 +26,7 @@ class ENewsLetter implements JsonSerializable
      */
     public function __construct()
     {
-        $this->listaUtenti = array();
+        $this->listaUtenti     = array();
         $this->listaPreferenze = array();
     }
 
@@ -44,7 +44,9 @@ class ENewsLetter implements JsonSerializable
      */
     public function getListaUtenticonPreferenze(): array {
         $result = [];
+
         array_push($result, $this->listaUtenti, $this->listaPreferenze);
+
         return $result;
     }
 
@@ -56,12 +58,13 @@ class ENewsLetter implements JsonSerializable
      */
     public function modifyPreferenze(ERegistrato $utente, array $newPreferenze): bool {
         $value = array_search($utente, $this->listaUtenti);
+
         if($value !== false) {
             $this->listaPreferenze[$value] = $newPreferenze;
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -70,15 +73,18 @@ class ENewsLetter implements JsonSerializable
      */
     public function removeUtente(ERegistrato $utente): bool {
         $value = array_search($utente, $this->listaUtenti);
+
         if($value !== false) {
             unset($this->listaUtenti[$value]);
             unset($this->listaPreferenze[$value]);
+
             $this->listaUtenti = array_values($this->listaUtenti);
             $this->listaPreferenze = array_values($this->listaPreferenze);
+
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -88,15 +94,17 @@ class ENewsLetter implements JsonSerializable
      */
     public function preferencesDB(ERegistrato $utente) {
         $value = array_search($utente, $this->listaUtenti);
-        $res = "";
+        $res   = "";
+
         if($value !== false) {
             foreach ($this->listaPreferenze[$value] as $item) {
                 $res .= $item . ";";
             }
+
             return substr($res, 0, -1);
-        } else {
-            return "";
         }
+
+        return "";
     }
 
     /**
@@ -110,6 +118,7 @@ class ENewsLetter implements JsonSerializable
         } else {
             $res = explode(";", $prefs);
             $arr = [];
+            
             foreach ($res as $str) {
                 array_push($arr, EGenere::fromString($str));
             }

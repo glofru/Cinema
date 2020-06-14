@@ -26,8 +26,6 @@ class EProgrammazioneFilm implements JsonSerializable
         $this->proiezioni = array();
     }
 
-//-------------- SETTER ----------------------
-
     /**
      * @param EProiezione $proiezione, proiezione che si vuole inserire nell'insieme.
      */
@@ -43,7 +41,6 @@ class EProgrammazioneFilm implements JsonSerializable
         }
     }
 
-//----------------- GETTER --------------------
     /**
      * @return array, insieme delle proiezioni del film.
      */
@@ -106,7 +103,7 @@ class EProgrammazioneFilm implements JsonSerializable
 
         return $fasceOrarie;
     }
-//------------- ALTRI METODI ----------------
+
     /**
      * Funzione che rimuove una proiezione dall'insieme.
      * @param EProiezione $proiezione proiezione da rimuovere dall'insieme.
@@ -114,6 +111,7 @@ class EProgrammazioneFilm implements JsonSerializable
      */
     public function rimuoviProiezione(EProiezione $proiezione): bool{
         $result = array_search($proiezione,$this->getProiezioni());
+
         if($result !== ""){
             unset($this->getProiezioni()[$result]);
             return true;
@@ -128,10 +126,13 @@ class EProgrammazioneFilm implements JsonSerializable
      */
     public function getDateProiezione(): string {
         $dates = [];
+
         foreach($this->proiezioni as $pro) {
             array_push($dates, $pro->getDataProiezione());
         }
+
         usort($dates, "date_sort");
+
         $sun = "DOM:";
         $mon = "LUN:";
         $tue = "MAR:";
@@ -139,8 +140,10 @@ class EProgrammazioneFilm implements JsonSerializable
         $thu = "GIO:";
         $fri = "VEN:";
         $sat = "SAB:";
+
         $days = [];
         array_push($days, $mon, $tue, $wed, $thu, $fri, $sat, $sun);
+
         foreach($dates as $d) {
             switch($d->format("D")) {
                 case "Sun": $days[6] .= " " . $d->format("H:i"); break;
@@ -152,13 +155,17 @@ class EProgrammazioneFilm implements JsonSerializable
                 case "Sat": $days[5] .= " " . $d->format("H:i"); break;
             }
         }
+
         $result = "";
+
         foreach($days as $d){
             if(strlen($d) > 4) {
                 $result .= $d . "<br>";
             }
         }
+
         substr($result, 0, -1);
+
         return $result;
     }
 
@@ -169,7 +176,7 @@ class EProgrammazioneFilm implements JsonSerializable
      */
     public static function amIStillGood(EProgrammazioneFilm $proiezionifilm): EProgrammazioneFilm {
         $result = new EProgrammazioneFilm();
-        $today = new DateTime('now');
+        $today  = new DateTime('now');
 
         foreach($proiezionifilm->getProiezioni() as $pro) {
             if($pro->getDataProiezione() > $today) {
@@ -187,13 +194,11 @@ class EProgrammazioneFilm implements JsonSerializable
     /**
      * @return array|mixed, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFUL.
      */
-    public function jsonSerialize ()
-    {
-        return
-            [
-                'proiezioni' => $this->getProiezioni(),
-                'film' => $this->getFilm()->jsonSerialize()
-            ];
+    public function jsonSerialize () {
+        return [
+            'proiezioni' => $this->getProiezioni(),
+            'film'       => $this->getFilm()->jsonSerialize()
+        ];
     }
 
 }

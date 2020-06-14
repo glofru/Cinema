@@ -15,8 +15,7 @@ class VError
      * @param string $descrizione, nel caso in cui num sia 0 è possibile inserire un messaggio particolare da mostrare.
      * @throws SmartyException
      */
-    public static function error(int $num, string $descrizione = "")
-    {
+    public static function error(int $num, string $descrizione = "") {
         $smarty = StartSmarty::configuration();
 
         $smarty->assign("path", $GLOBALS["path"]);

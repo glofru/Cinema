@@ -12,13 +12,13 @@ class FBiglietto implements FoundationDebole
      * Nome della classe.
      * @var string
      */
-    private static string $className = "FBiglietto";
+    private static string $className  = "FBiglietto";
 
     /**
      * Nome della corrispondente tabella presente sul DB.
      * @var string
      */
-    private static string $tableName = "Biglietto";
+    private static string $tableName  = "Biglietto";
 
     /**
      * Insieme delle colonne presenti nella tabella sul DB che verrà sostituita in fase di binding.
@@ -41,15 +41,15 @@ class FBiglietto implements FoundationDebole
     public static function associate(PDOStatement $sender, $biglietto, $obj2 = null) {
         if ($biglietto instanceof EBiglietto) {
             $sender->bindValue(':idProiezione', $biglietto->getProiezione()->getId(), PDO::PARAM_INT);
-            $sender->bindValue(':posto', $biglietto->getPosto()->getId(), PDO::PARAM_STR);
-            $sender->bindValue(':idUtente',$biglietto->getUtente()->getId(),PDO::PARAM_INT);
-            $sender->bindValue(':costo',$biglietto->getCosto(),PDO::PARAM_STR);
-            $sender->bindValue(':id',$biglietto->getId(),PDO::PARAM_STR);
+            $sender->bindValue(':posto',        $biglietto->getPosto()->getId(),      PDO::PARAM_STR);
+            $sender->bindValue(':idUtente',     $biglietto->getUtente()->getId(),     PDO::PARAM_INT);
+            $sender->bindValue(':costo',        $biglietto->getCosto(),               PDO::PARAM_STR);
+            $sender->bindValue(':id',           $biglietto->getId(),                  PDO::PARAM_STR);
         } else {
             die("Not a ticket!!");
         }
     }
-//----------------- GETTER --------------------
+
     /**
      * Funzione che ritorna il nome della classe.
      * @return string
@@ -59,7 +59,7 @@ class FBiglietto implements FoundationDebole
     }
 
     /**
-     * Funzione che ritorna il nome della tabella presente sul DB.
+     * Funzione che ritorna il nome della tabella presente nel DB.
      * @return string
      */
     public static function getTableName() {
@@ -74,15 +74,16 @@ class FBiglietto implements FoundationDebole
         return self::$valuesName;
     }
 
-//------------- ALTRI METODI ----------------
-
     /**
-     * Funzione che permette di salvare un giudizio sul DB.
+     * Funzione che permette di salvare un giudizio nel DB.
      * @param EBiglietto $biglietto, biglietto da salvare.
      */
     public static function save(EBiglietto $biglietto) {
         $db = FDatabase::getInstance();
-        $db->saveToDB(self::getClassName(), $biglietto);
+
+        $id = $db->saveToDB(self::getClassName(), $biglietto);
+
+        $biglietto->setId($id);
     }
 
     /**
@@ -93,6 +94,7 @@ class FBiglietto implements FoundationDebole
      */
     public static function load($value, $row) {
         $db = FDatabase::getInstance();
+
         $result = $db->loadFromDB(self::getClassName(), $value, $row);
 
         return self::parseResult($result);
@@ -100,17 +102,18 @@ class FBiglietto implements FoundationDebole
 
     /**
      * Funzione che permette di caricare un giudizio dal DB passando due parametri in quanto entità debole. Si appoggia alla funzione parseResult per ottenere come risultato un array di oggetti.
-     * @param $value, primo valore necessario ad indetificare l'oggetto.
+     * @param $value, primo valore necessario ad indentificare l'oggetto.
      * @param $row, prima colonna nella quale cercare il valore.
-     * @param $value2, secondo valore necessario ad indetificare l'oggetto.
-     * @param $row2, secondo valore necessario ad indetificare l'oggetto.
-     * @return EBiglietto, oggetto EBiglietto.
+     * @param $value2, secondo valore necessario ad indentificare l'oggetto.
+     * @param $row2, secondo valore necessario ad indentificare l'oggetto.
+     * @return EBiglietto|null, oggetto EBiglietto.
      */
-    public static function loadDoppio($value, $row, $value2, $row2): EBiglietto {
+    public static function loadDoppio($value, $row, $value2, $row2) {
         $db = FDatabase::getInstance();
+
         $result = $db->loadFromDBDebole(self::getClassName(), $value, $row, $value2, $row2);
         if($result === null){
-            return $result;
+            return null;
         }
 
         return self::parseResult($result)[0];
@@ -118,36 +121,32 @@ class FBiglietto implements FoundationDebole
 
     /**
      * Funzione che permette di aggiornare un oggetto biglietto nel DB. Ritorna l'esito dell'operazione.
-     * @param $value, primo valore necessario ad indetificare l'oggetto.
+     * @param $value, primo valore necessario ad indentificare l'oggetto.
      * @param $row, prima colonna nella quale cercare il valore.
-     * @param $value2, secondo valore necessario ad indetificare l'oggetto.
-     * @param $row2, secondo valore necessario ad indetificare l'oggetto.
+     * @param $value2, secondo valore necessario ad indentificare l'oggetto.
+     * @param $row2, secondo valore necessario ad indentificare l'oggetto.
      * @param $newvalue, valore che si vuole inserire.
      * @param $newrow, colonna nella quale inserire il nuovo valore.
      * @return bool, esito dell'operazione.
      */
     public static function update($value, $row, $value2, $row2, $newvalue, $newrow): bool {
         $db = FDatabase::getInstance();
-        if($db->updateTheDBDebole(self::getClassName(), $value, $row, $value2, $row2, $newvalue, $newrow)){
-            return true;
-        }
-        return false;
+
+        return $db->updateTheDBDebole(self::getClassName(), $value, $row, $value2, $row2, $newvalue, $newrow);
     }
 
     /**
      * Funzione che elimina un oggetto nel DB. Ritorna l'esito dell'operazione.
-     * @param $value, primo valore necessario ad indetificare l'oggetto.
+     * @param $value, primo valore necessario ad indentificare l'oggetto.
      * @param $row, prima colonna nella quale cercare il valore.
-     * @param $value2, secondo valore necessario ad indetificare l'oggetto.
-     * @param $row2, secondo valore necessario ad indetificare l'oggetto.
+     * @param $value2, secondo valore necessario ad indentificare l'oggetto.
+     * @param $row2, secondo valore necessario ad indentificare l'oggetto.
      * @return bool, esito dell'operazione.
      */
     public static function delete($value, $row, $value2, $row2): bool {
         $db = FDatabase::getInstance();
-        if($db->deleteFromDBDebole(self::getClassName(), $value, $row, $value2, $row2)){
-            return true;
-        }
-        return false;
+
+        return $db->deleteFromDBDebole(self::getClassName(), $value, $row, $value2, $row2);
     }
 
     /**
@@ -155,28 +154,30 @@ class FBiglietto implements FoundationDebole
      * @param array $result, riga del database che si vuole 'parsare'.
      * @return array, arry di EBiglietto.
      */
-    private static function parseResult(array $result): array
-    {
+    private static function parseResult(array $result): array {
         $return = [];
+
         if(sizeof($result) === 0) {
             return $return;
         }
+
         foreach ($result as $row) {
             //PROIEZIONE
-            $id = $row["idProiezione"];
+            $id         = $row["idProiezione"];
             $proiezione = FProiezione::load($id, "id");
             //POSTO
-            $posto = $row["posto"];
-            $posto = FPosto::loadDoppio($proiezione->getElencoProgrammazioni()[0]->getProiezioni()[0]->getId(), $posto);
+            $posto      = $row["posto"];
+            $posto      = FPosto::loadDoppio($proiezione->getElencoProgrammazioni()[0]->getProiezioni()[0]->getId(), $posto);
 
             //UTENTE
-            $utente = FUtente::load(intval($row["idUtente"]), "id");
-            $costo = floatval($row["costo"]);
+            $utente     = FUtente::load(intval($row["idUtente"]), "id");
+            $costo      = floatval($row["costo"]);
 
             //ID
-            $id = $row["id"];
+            $id         = $row["id"];
             array_push($return, new EBiglietto($proiezione->getElencoProgrammazioni()[0]->getProiezioni()[0], $posto, $utente, $costo, $id));
         }
+
         return $return;
     }
 }

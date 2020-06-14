@@ -49,8 +49,7 @@ class EPersona implements JsonSerializable
      * @param bool $isAttore, se la persona è un attore.
      * @param bool $isRegista, se la persona è un regista.
      */
-    public function __construct(string $nome, string $cognome, string $imdbUrl, bool $isAttore, bool $isRegista)
-    {
+    public function __construct(string $nome, string $cognome, string $imdbUrl, bool $isAttore, bool $isRegista) {
         $this->setNome($nome);
         $this->setCognome($cognome);
         $this->setImdbUrl($imdbUrl);
@@ -61,64 +60,56 @@ class EPersona implements JsonSerializable
     /**
      * @return int, id della persona.
      */
-    public function getId(): int
-    {
+    public function getId(): int {
         return $this->id;
     }
 
     /**
      * @param int $id, id della persona.
      */
-    public function setId(int $id): void
-    {
+    public function setId(int $id): void {
         $this->id = $id;
     }
 
     /**
      * @return string, nome della persona.
      */
-    public function getNome(): string
-    {
+    public function getNome(): string {
         return $this->nome;
     }
 
     /**
      * @param string $nome, nome della persona.
      */
-    public function setNome(string $nome): void
-    {
+    public function setNome(string $nome): void {
         $this->nome = $nome;
     }
 
     /**
      * @return string, cognome della persona.
      */
-    public function getCognome(): string
-    {
+    public function getCognome(): string {
         return $this->cognome;
     }
 
     /**
      * @param string $cognome, cognome della persona.
      */
-    public function setCognome(string $cognome): void
-    {
+    public function setCognome(string $cognome): void {
         $this->cognome = $cognome;
     }
 
     /**
      * @return string, nome e cognome della persona.
      */
-    public function getFullName(): string
-    {
+    public function getFullName(): string {
         return $this->getNome() . " " . $this->getCognome();
     }
 
     /**
      * @return string, URL del sito IMDB.
      */
-    public function getImdbUrl(): string
-    {
+    public function getImdbUrl(): string {
         return $this->imdbUrl;
     }
 
@@ -127,59 +118,54 @@ class EPersona implements JsonSerializable
      */
     public function getImdbId(): string {
         $x = explode("/",$this->getImdbUrl());
+
         return $x[sizeof($x)-2];
     }
 
     /**
      * @param string $imdbUrl, URL del sito IMDB.
      */
-    public function setImdbUrl(string $imdbUrl): void
-    {
+    public function setImdbUrl(string $imdbUrl): void {
         $this->imdbUrl = $imdbUrl;
     }
 
     /**
      * @return bool, se la persona è un attore.
      */
-    public function isAttore(): bool
-    {
+    public function isAttore(): bool {
         return $this->isAttore;
     }
 
     /**
      * @param bool $isAttore, se la persona è un attore.
      */
-    public function setIsAttore(bool $isAttore): void
-    {
+    public function setIsAttore(bool $isAttore): void {
         $this->isAttore = $isAttore;
     }
 
     /**
      * @return bool, se la persona è un regista.
      */
-    public function isRegista(): bool
-    {
+    public function isRegista(): bool {
         return $this->isRegista;
     }
 
     /**
      * @param bool $isRegista, se la persona è un regista.
      */
-    public function setIsRegista(bool $isRegista): void
-    {
+    public function setIsRegista(bool $isRegista): void {
         $this->isRegista = $isRegista;
     }
 
     /**
      * @return mixed|void, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFUL.
      */
-    public function jsonSerialize()
-    {
+    public function jsonSerialize() {
         return [
-            'nome' => $this->getNome(),
-            'cognome' => $this->getCognome(),
-            'imdbUrl' => $this->getImdbUrl(),
-            'isAttore' => $this->isAttore(),
+            'nome'      => $this->getNome(),
+            'cognome'   => $this->getCognome(),
+            'imdbUrl'   => $this->getImdbUrl(),
+            'isAttore'  => $this->isAttore(),
             'isRegista' => $this->isRegista()
         ];
     }
