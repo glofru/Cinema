@@ -54,7 +54,7 @@
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link {if isset($status)}active{/if}" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="{isset($status)}">Ricerca utente da bannare</a>
+							<a class="nav-link {if isset($status)}active{/if}" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="{isset($status)}">Banna utente</a>
 						</li>
 					</ul>
 					<!-- end content tabs nav -->
@@ -70,7 +70,7 @@
 							<ul class="nav nav-tabs" role="tablist">
 								<li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Utenti bannati</a></li>
 
-								<li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Ricerca utente da bannare</a></li>
+								<li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Banna utente</a></li>
 							</ul>
 						</div>
 					</div>

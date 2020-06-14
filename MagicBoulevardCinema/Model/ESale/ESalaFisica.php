@@ -104,6 +104,14 @@ class ESalaFisica implements JsonSerializable
     }
 
     /**
+     * Ritorna il numero di posti totali.
+     * @return int
+     */
+    public function getNumeroPosti(): int {
+        return $this->getNFile() * $this->getNPostiFila();
+    }
+
+    /**
      * @return bool, disponibilità della sala ad essere utilizzata.
      */
     public function isDisponibile(): bool {

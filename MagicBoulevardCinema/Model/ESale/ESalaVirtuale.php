@@ -144,14 +144,6 @@ class ESalaVirtuale extends ESalaFisica implements JsonSerializable
     }
 
     /**
-     * Funzione che ritorna il numero di posti nella sala.
-     * @return int, numero di posti in sala.
-     */
-    public function getNumeroPosti(): int {
-        return sizeof($this->getPosti());
-    }
-
-    /**
      * Funzione che conta il numero dei posti liberi in sala.
      * @return int, numero dei posti liberi in sala.
      */
