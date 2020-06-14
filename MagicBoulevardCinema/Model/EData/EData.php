@@ -84,7 +84,7 @@ class EData extends DateTime
         $fine = $fine->format('Y-m-d');
 
         array_push($result, $inizio, $fine);
-        
+
         return $result;
     }
 
@@ -95,23 +95,12 @@ class EData extends DateTime
      */
     public static function getSettimanaScorsa(int $n): array {
         $result = [];
-
-        $inizio = new DateTime('now');
-
-        $k = ($n * 6);
-        if($n > 2) {$k += $n - 2;}
-
-        for($i = 0; true; $i++) {
-            $inizio->modify('-1 Day');
-            $giorno = $inizio->format('D');
-            if($giorno == 'Mon' && $i >= $k) {
-                break;
-            }
-        }
-
+        $tmp = 'monday this week -';
+        $val = 7 * $n;
+        $inizio = new DateTime($tmp . $val .' days');
+        $tmp = 'sunday this week -';
+        $fine = new DateTime($tmp . $val .' days');
         $inizio = $inizio->format('Y-m-d');
-        $fine = DateTime::createfromFormat('Y-m-d',$inizio);
-        $fine->modify('+ 6 Days');
         $fine = $fine->format('Y-m-d');
 
         array_push($result, $inizio, $fine);
