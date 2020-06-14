@@ -20,9 +20,9 @@ class CMail
         $link    = "http://" . $GLOBALS["domain"] . "/MagicBoulevardCinema/Utente/controlloBigliettiNonRegistrato/?";
 
         $subject = "Reset del tuo codice — Magic Boulevard Cinema";
-        $body    = "Ciao " . $utente->getEmail() . ",<br><br>" .
-            "Come da te richiesto  ecco il tuo novo codice per accedere ai tuoi biglietti acquistati." . "<b>" . $utente->getPassword() . "</b> <br>" .  "Adesso puoi controllare i tuoi biglietti acquistati " . "<a href='" . $link . "'>qui</a> ".
-            "ATTENZIONE: mail generata automaticamente, un eventuale risposta non verra' letta.";
+        $body    =  "Ciao " . $utente->getEmail() . ",<br><br>" .
+                    "Come da te richiesto  ecco il tuo novo codice per accedere ai tuoi biglietti acquistati." . "<b>" . $utente->getPassword() . "</b> <br>" .  "Adesso puoi controllare i tuoi biglietti acquistati " . "<a href='" . $link . "'>qui</a> ".
+                    "ATTENZIONE: mail generata automaticamente, un eventuale risposta non verra' letta.";
 
         $name    = $utente->getEmail();
 
@@ -35,6 +35,7 @@ class CMail
      * @param EToken $token , token di reset della password.
      * @return bool, esito dell'invio.
      * @throws \PHPMailer\PHPMailer\Exception
+     * @throws SmartyException
      */
     public static function sendForgotMail(EUtente $utente, EToken $token): bool {
         $link    = "http://" . $GLOBALS["domain"] . "/MagicBoulevardCinema/Utente/forgotPassword/?token=" . $token->getValue();
@@ -46,6 +47,11 @@ class CMail
             "ATTENZIONE: mail generata automaticamente, un eventuale risposta non verra' letta.";
 
         $name    = $utente->getNome() . " " . $utente->getCognome();
+
+        $smarty = StartSmarty::configuration();
+        $smarty->assign("path",   $GLOBALS["path"]);
+        $smarty->assign("utente", new ERegistrato("We", "Oh", "UILK", "a@b.com", "ciaociao", false));
+        $body = $smarty->fetch("header.tpl");
 
         return self::sendMail($utente->getEmail(), $subject, $body, $name);
     }
@@ -62,8 +68,13 @@ class CMail
 
         $tickets = "";
         foreach ($biglietti as $item) {
-            $tickets .= "Biglietto #" . $item->getId() . "<br>" . "Film: " . $item->getProiezione()->getFilm()->getNome() . "<br>" . "Sala: " . $item->getProiezione()->getSala()->getNumeroSala() . "<br>" . "Giono e Ora: " . $item->getProiezione()->getData() . " alle " . $item->getProiezione()->getOra() . "<br>". $item->getPosto() . "<br>" . "Prezzo: " . $item->getCosto() . " Euro<br>" .
-            "<img src=\"https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=". $item->getId() . "&choe=UTF-8\" title=\"Codice QR damostrare all'ingresso\" />" . "<br><br>";
+            $tickets .= "Biglietto #" . $item->getId() . "<br>" .
+                        "Film: " . $item->getProiezione()->getFilm()->getNome() . "<br>" .
+                        "Sala: " . $item->getProiezione()->getSala()->getNumeroSala() . "<br>" .
+                        "Giono e Ora: " . $item->getProiezione()->getData() . " alle " . $item->getProiezione()->getOra() . "<br>" .
+                        $item->getPosto() . "<br>" .
+                        "Prezzo: " . $item->getCosto() . " Euro<br>" .
+                        "<img src=\"https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=". $item->getId() . "&choe=UTF-8\" title=\"Codice QR damostrare all'ingresso\" />" . "<br><br>";
         }
 
         $body    = "Ciao " . $utente->getNome() . ",<br><br>questi sono i biglietti che hai appena acquistato: <br><br>" . $tickets . "Ti auguriamo una buona visione :)";
@@ -87,8 +98,12 @@ class CMail
 
         $tickets = "";
         foreach ($biglietti as $item) {
-            $tickets .= "Biglietto #" . $item->getId() . "<br>" . "Film: " . $item->getProiezione()->getFilm()->getNome() . "<br>" . "Sala: " . $item->getProiezione()->getSala()->getNumeroSala() . "<br>" . "Giono e Ora: " . $item->getProiezione()->getData() . " alle " . $item->getProiezione()->getOra() . "<br>". $item->getPosto() . "<br>" . "Prezzo: " . $item->getCosto() . " Euro<br>" .
-                "<img src=\"https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=". $item->getId() . "&choe=UTF-8\" title=\"Codice QR damostrare all'ingresso\" />" . "<br><br>";
+            $tickets .= "Biglietto #" . $item->getId() . "<br>" .
+                        "Film: " . $item->getProiezione()->getFilm()->getNome() . "<br>" .
+                        "Sala: " . $item->getProiezione()->getSala()->getNumeroSala() . "<br>" .
+                        "Giono e Ora: " . $item->getProiezione()->getData() . " alle " . $item->getProiezione()->getOra() . "<br>" .
+                        $item->getPosto() . "<br>" . "Prezzo: " . $item->getCosto() . " Euro<br>" .
+                        "<img src=\"https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=". $item->getId() . "&choe=UTF-8\" title=\"Codice QR damostrare all'ingresso\" />" . "<br><br>";
         }
 
         if(isset($uid)) {
@@ -130,7 +145,8 @@ class CMail
     public static function newsLetter(EUtente $utente,array $date, array $results): bool {
         $subject = "Proiezioni dal " . DateTime::createFromFormat('Y-m-d',$date[0])->format('d-m') . " al " . DateTime::createFromFormat('Y-m-d',$date[1])->format('d-m') . " - Magic Boulevard Cinema";
 
-        $body = "Ciao" . $utente->getNome() . " " . $utente->getCognome() . " ecco a te le proeizioni della prossima settimana: <br><br>";
+        $body = "Ciao" . $utente->getNome() . " " . $utente->getCognome() . "<br>" .
+                "ecco a te le proeizioni della prossima settimana: <br><br>";
 
         $immagini = $results[1];
         foreach ($results[0] as $key => $film) {
@@ -139,7 +155,11 @@ class CMail
                 $eta = "Eta' consigliata: " . $film->getEtaConsigliata() . "<br>";
             }
             $img = $immagini[$key]->getImmagineHTML(); //NELLE CASELLE DI POSTA LE IMMAGINI COME TESTO VENGONO FILTRATE ANDREBBEBRO CREATI DEI FILE DI IMMAGINE CON LE LOCANDINE ED HOSTATE SUL SITO PER POI ESSERE CHIAMATO IL PATH NEL SRC...
-            $body .="Film :" . $film->getNome() . "<br>" . "Data di rilascio" . $film->getDataRilascioString() . "<br>". $eta . "Durata: " . $film->getDurataMinuti() . "minuti" . "<br><br>" . "<b>Proiezioni</b>: " . "<br>" . $results[3][$key] . "<br>" . /*"<img src=\"$img\" alt=\"Locandina\" width=\"200\" height=\"300\"/>" .*/ "<br><br><br>";
+            $body .="Film :" . $film->getNome() . "<br>" .
+                    "Data di rilascio" . $film->getDataRilascioString() . "<br>" .
+                    $eta . "Durata: " . $film->getDurataMinuti() . " minuti" . "<br><br>" .
+                    "<b>Proiezioni</b>: " . "<br>" . $results[3][$key] . "<br>" .
+                    /*"<img src=\"$img\" alt=\"Locandina\" width=\"200\" height=\"300\"/>" .*/ "<br><br><br>";
             $name = $utente->getNome() . " " . $utente->getCognome();
         }
 
@@ -175,9 +195,15 @@ class CMail
         }
 
         $trailer = $film->getTrailerURL();
-        $body    = "Ciao" . $utente->getNome() . " " . $utente->getCognome() . ", volevamo avvisarti che nel nostro cinema è stato appena inserito un nuovo film del genere <b>" . $film->getGenere(). "</b>" . " ecco a te i dettagli: " .
-            "<br><br>" . "Titolo: " . $film->getNome() . "<br>" . "Data di rilascio: " . $film->getDataRilascioString() . "<br>" . $eta . "Durata: " . $film->getDurataMinuti() . "minuti" . "<br>" . $attori . "<br>" . $registi . "<br>" . "Puoi vedere il trailer del film <a href='$trailer'>qui</a>." .
-            "Speriamo di vederti presto nel nostro cinema :). <br>";
+        $body    =  "Ciao" . $utente->getNome() . " " . $utente->getCognome() . ",<br>" .
+                    "volevamo avvisarti che nel nostro cinema è stato appena inserito un nuovo film del genere <b>" . $film->getGenere(). "</b>" . " ecco a te i dettagli: " . "<br><br>" .
+                    "Titolo: " . $film->getNome() . "<br>" .
+                    "Data di rilascio: " . $film->getDataRilascioString() . "<br>" .
+                    $eta . "Durata: " . $film->getDurataMinuti() . "minuti" . "<br>" .
+                    $attori . "<br>" .
+                    $registi . "<br>" .
+                    "Puoi vedere il trailer del film <a href='$trailer'>qui</a><br>" .
+                    "Speriamo di vederti presto nel nostro cinema :). <br>";
         $name    = $utente->getNome() . " " . $utente->getCognome();
 
         return self::sendMail($utente->getEmail(), $subject, $body, $name);
@@ -191,7 +217,9 @@ class CMail
      */
     public static function newEntry(EUtente $utente): bool {
         $subject = "Benvenuto - Magic Boulevard Cinema";
-        $body    = "Ciao " . $utente->getNome() . ", grazie per esserti registrato sul nostro portale. Adesso puoi effettuare il login <a href='http://" . $GLOBALS["domain"] . "/MagicBoulevardCinema/Utente/login'><b>qui</b></a>.<br>Speriamo che il nostri contenuti siano di tuo gradimento e di facile utilizzo :)";
+        $body    =  "Ciao " . $utente->getNome() . ", <br>" .
+                    "grazie per esserti registrato sul nostro portale. Adesso puoi effettuare il login <a href='http://" . $GLOBALS["domain"] . "/MagicBoulevardCinema/Utente/login'><b>qui</b></a>. <br> " .
+                    "Speriamo che il nostri contenuti siano di tuo gradimento e di facile utilizzo :)";
         $name    = $utente->getNome() . " " . $utente->getCognome();
 
         return self::sendMail($utente->getEmail(), $subject, $body, $name);
@@ -205,7 +233,9 @@ class CMail
      */
     public static function modifiedPassword(EUtente $utente): bool {
         $subject = "Password modificata  - Magic Boulevard Cinema";
-        $body    = "Ciao " . $utente->getNome() . " " . $utente->getCognome() . " ti segnaliamo che la tua password è stata modificata. Puoi effettuare il login <a href='http://" . $GLOBALS["domain"] . "/MagicBoulevardCinema/Utente/login'><b>qui</b></a>.<br><br><b>ATTENZIONE</b>:Se non sei stato tu ad effettuare questa modifica <a href='http://" . $GLOBALS["domain"] . "/MagicBoulevardCinema/Utente/forgotPassword'>richiedi una nuova password</a>";
+        $body    =  "Ciao " . $utente->getNome() . " " . $utente->getCognome() . "<br>" .
+                    "ti segnaliamo che la tua password è stata modificata. Puoi effettuare il login <a href='http://" . $GLOBALS["domain"] . "/MagicBoulevardCinema/Utente/login'><b>qui</b></a>.<br><br>" .
+                    "<b>ATTENZIONE</b>:Se non sei stato tu ad effettuare questa modifica <a href='http://" . $GLOBALS["domain"] . "/MagicBoulevardCinema/Utente/forgotPassword'>richiedi una nuova password</a>";
         $name    = $utente->getNome() . " " . $utente->getCognome();
 
         return self::sendMail($utente->getEmail(), $subject, $body, $name);
