@@ -17,7 +17,7 @@ Per poter visitare le pagine web bisogna necessariamente avere cookie e Javascri
 
 L'installazione richiederà pochi e semplici passi:
 
-1. Copiare la cartella *MagicBoulevardCinema* del pacchetto fornito all'interno di
+1. Copiare la cartella *MagicBoulevardCinema* e il file *.htaccess* del pacchetto fornito all'interno di
 
    **Windows:** *C:\xampp\htdocs*
 
@@ -59,6 +59,8 @@ L'installazione richiederà pochi e semplici passi:
 7. Buon Magic Boulevard Cinema — Il cinema dei tuoi sogni!
     ![image-20200614132451336](/Users/gianluca/Library/Application Support/typora-user-images/image-20200614132451336.png)
 
+
+
 ## Uso admin
 
 L'amministratore potrà gestire a 360 gradi il portale. Dal menù a tendina in alto a destra potrà fare le seguenti azioni:
@@ -80,27 +82,43 @@ Se si cliccherà *modifica*, uscirà fuori una classica schermata di modifica.
 
 ### Gestione film
 
-Da qui si potrà gestire l'aggiunta di film e attori/registi: la schermata è divisa in due: *aggiunta film* e *aggiunta attore/regista*.
+Da qui si potrà gestire l'aggiunta di film e attori/registi: la schermata è divisa in tre: *aggiungi film*, *aggiungi attore/regista* e *modifica attore/regista*.
 
 #### Aggiunta film
 
 I campi necessari per l'aggiunta del film sono il titolo, la descrizione, la durata e la data di rilascio. I restanti parametri sono opzionali, tuttavia si consiglia di inserirli per fornire un'esperienza utente migliore. Importante sottolineare che per poter fruire del trailer sulla pagina del film esso dev'essere in forma `https://www.youtube.com/watch?v=aabbccddeeff`.
 
-![image-20200614134249393](/Users/gianluca/Library/Application Support/typora-user-images/image-20200614134249393.png)
+![image-20200614190734348](/Users/gianluca/Library/Application Support/typora-user-images/image-20200614190734348.png)
 
 Gli attori e i registi verranno consigliati tramite un menù a tendina e si potranno scegliere solamente quelli presenti in elenco.
 
 ![image-20200614135455287](/Users/gianluca/Library/Application Support/typora-user-images/image-20200614135455287.png)
 
-Una volta aggiunto si verrà reindirizzati sulla schermata del film, dal quale sarà possibile modificare il film, con una schermata identica a quella di aggiunta, o eliminarlo (previo consenso).
+Una volta aggiunto si verrà reindirizzati sulla schermata del film.
 
 ![image-20200614135019237](/Users/gianluca/Library/Application Support/typora-user-images/image-20200614135019237.png)
 
-#### Aggiungi attore/regista
+#### Modifica film
+
+Dalla schermata precedente si dovrà cliccare su *modifica film*. Si accederà ad una schermata analoga a quella di *aggiungi film* con il quale si potranno modificare i parametri.
+
+#### Elimina film
+
+Sempre dalla schermata precedente si dovrà cliccare su *elimina film*. Dopo la richiesta di conferma, in caso di esito positivo, il film verrà eliminato.
+
+#### Aggiunta attore/regista
 
 Per aggiungere un attore o regista bisognerà indicare nome, cognome, il suo riferimento al sito *imdb.com* e se esso è un attore o regista. Verrà confermata l'operazione in caso di successo.
 
-![image-20200614135054223](/Users/gianluca/Library/Application Support/typora-user-images/image-20200614135054223.png)
+![image-20200614190755973](/Users/gianluca/Library/Application Support/typora-user-images/image-20200614190755973.png)
+
+#### Modifica attore/regista
+
+Cliccando sulla schermata *modifica attore/regista* si vedrà l'elenco di attori e registi salvati. Basterà quindi cliccare *modifica* su quello scelto.
+
+![image-20200614190917330](/Users/gianluca/Library/Application Support/typora-user-images/image-20200614190917330.png)
+
+![image-20200614190933714](/Users/gianluca/Library/Application Support/typora-user-images/image-20200614190933714.png)
 
 ### Gestione programmazione
 
@@ -175,4 +193,3 @@ Dalla schermata *aggiungi sala* inserire il numero della sala, il numero di file
 Dalla schermata *gestione sale* sarà possibile vedere un riepilogo di tutte le sale e cambiare la loro disponibilità selezionando la checkbox e premendo il tasto conferma.
 
 ![image-20200614150221337](/Users/gianluca/Library/Application Support/typora-user-images/image-20200614150221337.png)
-
