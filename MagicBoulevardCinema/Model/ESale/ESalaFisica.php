@@ -39,8 +39,7 @@ class ESalaFisica implements JsonSerializable
      * @param bool $disponibile , disponibilità della sala.
      * @throws Exception
      */
-    public function __construct(int $numeroSala, int $nFile, int $nPostiFila, bool $disponibile)
-    {
+    public function __construct(int $numeroSala, int $nFile, int $nPostiFila, bool $disponibile) {
         $this->setNumeroSala($numeroSala);
         $this->setNFile($nFile);
         $this->setNPostiFila($nPostiFila);
@@ -50,8 +49,7 @@ class ESalaFisica implements JsonSerializable
     /**
      * @return int, numero della sala.
      */
-    public function getNumeroSala(): int
-    {
+    public function getNumeroSala(): int {
         return $this->numeroSala;
     }
 
@@ -59,19 +57,18 @@ class ESalaFisica implements JsonSerializable
      * @param int $numeroSala , numero della sala.
      * @throws Exception
      */
-    public function setNumeroSala(int $numeroSala): void
-    {
+    public function setNumeroSala(int $numeroSala): void {
         if($numeroSala <= 0) {
             throw (new Exception("Numero sala non valido"));
         }
+
         $this->numeroSala = $numeroSala;
     }
 
     /**
      * @return int, numero di file.
      */
-    public function getNFile(): int
-    {
+    public function getNFile(): int {
         return $this->nFile;
     }
 
@@ -79,19 +76,18 @@ class ESalaFisica implements JsonSerializable
      * @param int $nFile , numero di file.
      * @throws Exception
      */
-    public function setNFile(int $nFile): void
-    {
+    public function setNFile(int $nFile): void {
         if($nFile <= 0) {
             throw (new Exception("Numero fila non valido"));
         }
+
         $this->nFile = $nFile;
     }
 
     /**
      * @return int, numero di posti per fila.
      */
-    public function getNPostiFila(): int
-    {
+    public function getNPostiFila(): int {
         return $this->nPostiFila;
     }
 
@@ -99,39 +95,36 @@ class ESalaFisica implements JsonSerializable
      * @param int $nPostiFila , numero di posti per fila.
      * @throws Exception
      */
-    public function setNPostiFila(int $nPostiFila): void
-    {
+    public function setNPostiFila(int $nPostiFila): void {
         if($nPostiFila <= 0) {
             throw (new Exception("Numero posti per fila non valido"));
         }
+
         $this->nPostiFila = $nPostiFila;
     }
 
     /**
      * @return bool, disponibilità della sala ad essere utilizzata.
      */
-    public function isDisponibile(): bool
-    {
+    public function isDisponibile(): bool {
         return $this->disponibile;
     }
 
     /**
      * @param bool $disponibile, disponibilità della sala ad essere utilizzata.
      */
-    public function setDisponibile(bool $disponibile): void
-    {
+    public function setDisponibile(bool $disponibile): void {
         $this->disponibile = $disponibile;
     }
 
     /**
      * @return mixed|void, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFULL.
      */
-    public function jsonSerialize()
-    {
+    public function jsonSerialize() {
         return [
-            'numeroSala' => $this->getNumeroSala(),
-            'nFile' => $this->getNFile(),
-            'nPostiFila' => $this->getNPostiFila(),
+            'numeroSala'  => $this->getNumeroSala(),
+            'nFile'       => $this->getNFile(),
+            'nPostiFila'  => $this->getNPostiFila(),
             'disponibile' => $this->isDisponibile()
         ];
     }

@@ -47,8 +47,7 @@ class EGiudizio implements JsonSerializable
      * @param string $title, titolo del giudizio.
      * @param DateTime $dataPubblicazione, data di pubblicazione del giudizio.
      */
-    public function __construct(string $commento, float $punteggio, EFilm $film, EUtente $utente, string $title, DateTime $dataPubblicazione)
-    {
+    public function __construct(string $commento, float $punteggio, EFilm $film, EUtente $utente, string $title, DateTime $dataPubblicazione) {
         $this->setCommento($commento);
         $this->setPunteggio($punteggio);
         $this->setFilm($film);
@@ -60,48 +59,42 @@ class EGiudizio implements JsonSerializable
     /**
      * @return EFilm, film sul quale è stato espresso il giudizio.
      */
-    public function getFilm(): EFilm
-    {
+    public function getFilm(): EFilm {
         return $this->film;
     }
 
     /**
      * @param EFilm $film, film sul quale è stato espresso il giudizio.
      */
-    public function setFilm(EFilm $film): void
-    {
+    public function setFilm(EFilm $film): void {
         $this->film = $film;
     }
 
     /**
      * @return string, contenuto del giudizio espresso.
      */
-    public function getCommento(): string
-    {
+    public function getCommento(): string {
         return $this->commento;
     }
 
     /**
      * @param string $commento, contenuto del giudizio espresso.
      */
-    public function setCommento(string $commento): void
-    {
+    public function setCommento(string $commento): void {
         $this->commento = EInputChecker::getInstance()->comment($commento);
     }
 
     /**
      * @return float, punteggio assegnato al film.
      */
-    public function getPunteggio(): float
-    {
+    public function getPunteggio(): float {
         return $this->punteggio;
     }
 
     /**
      * @param float $punteggio, punteggio assegnato al film.
      */
-    public function setPunteggio(float $punteggio): void
-    {
+    public function setPunteggio(float $punteggio): void {
         $this->punteggio = $punteggio;
     }
 
@@ -183,15 +176,14 @@ class EGiudizio implements JsonSerializable
     /**
      * @return array|mixed, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFUL.
      */
-    public function jsonSerialize()
-    {
+    public function jsonSerialize() {
         return [
-            'film' => $this->getFilm(),
-            'titolo' => $this->getTitle(),
-            'commento' => $this->getCommento(),
-            'punteggio' => $this->getPunteggio(),
+            'film'              => $this->getFilm(),
+            'titolo'            => $this->getTitle(),
+            'commento'          => $this->getCommento(),
+            'punteggio'         => $this->getPunteggio(),
             'dataPubblicazione' => $this->getDataPubblicazione(),
-            'utente' => $this->getUtente()
+            'utente'            => $this->getUtente()
         ];
     }
 }

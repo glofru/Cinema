@@ -12,7 +12,7 @@ class EMedia implements JsonSerializable
 {
     /**
      * Id dell'immagine.
-     * @var string
+     * @var int
      */
     private int $id = 0;
     /**
@@ -44,8 +44,7 @@ class EMedia implements JsonSerializable
      * @param DateTime $date, data di caricamento del file.
      * @param $immagine, contenuto del file.
      */
-    public function __construct(string $fileName, string $mimeType, DateTime $date, $immagine)
-    {
+    public function __construct(string $fileName, string $mimeType, DateTime $date, $immagine) {
         $this->setFileName($fileName);
         $this->setMimeType($mimeType);
         $this->setDate($date);
@@ -56,70 +55,59 @@ class EMedia implements JsonSerializable
     /**
      * @return int, id dell'immagine.
      */
-    public function getId(): int
-    {
+    public function getId(): int {
         return $this->id;
     }
 
     /**
      * @param int $id, id dell'immagine.
      */
-    public function setId(int $id): void
-    {
+    public function setId(int $id): void {
         $this->id = $id;
     }
 
     /**
      * @return string, nome del file.
      */
-    public function getFileName(): string
-    {
+    public function getFileName(): string {
         return $this->fileName;
     }
 
     /**
      * @param string $fileName, nome del file.
      */
-    public function setFileName(string $fileName): void
-    {
+    public function setFileName(string $fileName): void {
         $this->fileName = $fileName;
     }
 
     /**
      * @return string, mimeType del file.
      */
-    public function getMimeType(): string
-    {
+    public function getMimeType(): string {
         return $this->mimeType;
     }
 
     /**
      * @param string $mimeType, mimeType del file.
      */
-    public function setMimeType(string $mimeType): void
-    {
+    public function setMimeType(string $mimeType): void {
         $this->mimeType = $mimeType;
     }
 
     /**
      * @return DateTime, data di caricamento del file.
      */
-    public function getDate(): DateTime
-    {
+    public function getDate(): DateTime {
         return $this->date;
     }
 
     /**
      * @param DateTime $date, data di caricamento dle file.
      */
-    public function setDate(DateTime $date): void
-    {
-        if ($date == null)
-        {
-            $date = time();
-        }
-        else
-        {
+    public function setDate(DateTime $date): void {
+        if ($date == null) {
+            $this->date = new DateTime();
+        } else {
             $this->date = $date;
         }
     }
@@ -127,24 +115,21 @@ class EMedia implements JsonSerializable
     /**
      * @return string, data di caricamento nel formato giorno-mese-anno.
      */
-    public function getDateString(): string
-    {
+    public function getDateString(): string {
         return $this->getDate()->format('d-m-Y');
     }
 
     /**
      * @return string, data di caricamento nel formato adatto ad essere caricato sul DB.
      */
-    public function getDateStringSQL(): string
-    {
+    public function getDateStringSQL(): string {
         return $this->getDate()->format('Y-m-d');
     }
 
     /**
      * @return mixed, contenuto del file immagine.
      */
-    public function getImmagine()
-    {
+    public function getImmagine() {
         return $this->immagine;
     }
 
@@ -154,28 +139,27 @@ class EMedia implements JsonSerializable
      */
     public function getImmagineHTML(): string{
         $mime = explode("/",$this->getMimeType());
+
         return ($this->getImmagine() === '/MagicBoulevardCinema/Smarty/img/user.png') ? $this->getImmagine() : "data:image/". $mime[1] . ";base64," . $this->getImmagine();
     }
 
     /**
      * @param mixed $immagine, contenuto del file immagine.
      */
-    public function setImmagine($immagine): void
-    {
+    public function setImmagine($immagine): void {
         $this->immagine = $immagine;
     }
 
     /**
      * @return array|mixed, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFUL.
      */
-    public function jsonSerialize()
-    {
+    public function jsonSerialize() {
         return [
-            'id' => $this->getId(),
+            'id'       => $this->getId(),
             'immagine' => $this->getImmagineHTML(),
             'fileName' => $this->getFileName(),
             'mimeType' => $this->getMimeType(),
-            'date' => $this->getDate()->format("Y-m-d h:i:s")
+            'date'     => $this->getDate()->format("Y-m-d h:i:s")
         ];
     }
 }

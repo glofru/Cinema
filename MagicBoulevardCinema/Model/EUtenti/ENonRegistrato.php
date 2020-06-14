@@ -25,32 +25,32 @@ class ENonRegistrato extends EUtente
     public function __construct(string $email, string $password)
     {
         parent::__construct("", "", "", $email, $password, false);
+
         $this->listaBiglietti = array();
     }
 
     /**
      * @return array, insieme dei biglietti acquistati dall'utente.
      */
-    public function getListaBiglietti(): array
-    {
+    public function getListaBiglietti(): array {
         return $this->listaBiglietti;
     }
 
     /**
      * @param EBiglietto $biglietto, biglietto acquistato dall'utente.
      */
-    public function addBiglietto(EBiglietto $biglietto): void
-    {
+    public function addBiglietto(EBiglietto $biglietto): void {
         array_push($this->listaBiglietti, $biglietto);
     }
 
     /**
      * @return array|mixed, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFULL.
      */
-    public function jsonSerialize()
-    {
+    public function jsonSerialize() {
         $temp = parent::jsonSerialize();
+
         $temp["biglietti"] = $this->getListaBiglietti();
+
         return $temp;
     }
 

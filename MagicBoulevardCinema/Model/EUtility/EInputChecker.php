@@ -26,6 +26,7 @@ class EInputChecker{
         if (self::$instance == null) {
             self::$instance = new EInputChecker();
         }
+
         return self::$instance;
     }
 
@@ -36,6 +37,7 @@ class EInputChecker{
      */
     public function isNome(string $nome): bool {
         $res = preg_replace("/^[a-zA-Z\ '-]$/", "", $nome);
+
         return $res == $nome;
     }
 
@@ -46,6 +48,7 @@ class EInputChecker{
      */
     public function isUsername(string $username): bool {
         $res = preg_replace("/[^a-zA-Z0-9]/", "", $username);
+
         return $res == $username && strlen($username) > 1;
     }
 
@@ -57,8 +60,8 @@ class EInputChecker{
     public function isImage($typefile): bool
     {
         $estensione = strtolower(strrchr($typefile, '/'));
-        switch($estensione)
-        {
+
+        switch($estensione) {
             case '/jpg':
             case '/jpeg':
             case '/gif':
@@ -103,9 +106,11 @@ class EInputChecker{
      */
     public function date(string $date): string {
         $temp = DateTime::createfromFormat('Y-m-d', $date);
+
         if($date === false) {
             return "";
         }
+
         return $date;
     }
 
@@ -116,9 +121,11 @@ class EInputChecker{
      */
     public function hour(string $hour): string {
         $res = strtotime($hour);
+
         if($res !== false){
             return "";
         }
+
         return $res;
     }
 

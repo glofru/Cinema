@@ -36,8 +36,7 @@ class EProiezione implements JsonSerializable
      * @param ESalaVirtuale $sala, sala nella quale avverrà la proiezione.
      * @param DateTime $dataproiezione, data ed ora della proiezione.
      */
-    public function __construct(EFilm $film, ESalaVirtuale $sala, DateTime $dataproiezione)
-    {
+    public function __construct(EFilm $film, ESalaVirtuale $sala, DateTime $dataproiezione) {
         $this->setFilm($film);
         $this->setSala($sala);
         $this->setDataProiezione($dataproiezione);
@@ -47,19 +46,19 @@ class EProiezione implements JsonSerializable
     /**
      * @param EFilm $film, film che verrà proiettato.
      */
-    public function setFilm(EFilm $film){
+    public function setFilm(EFilm $film) {
         $this->film = $film;
     }
     /**
      * @param ESalaVirtuale $sala, sala che ospiterà al proeizione.
      */
-    public function setSala(ESalaVirtuale $sala){
+    public function setSala(ESalaVirtuale $sala) {
         $this->sala = $sala;
     }
     /**
      * @param DateTime $dataProiezione, data ed orario di svolgimento della proiezione.
      */
-    public function setDataProiezione(DateTime $dataProiezione){
+    public function setDataProiezione(DateTime $dataProiezione) {
         $this->dataProiezione = clone $dataProiezione;
     }
 
@@ -125,27 +124,22 @@ class EProiezione implements JsonSerializable
         return $this->id;
     }
 
-//------------- ALTRI METODI ----------------
-
     /**
      * @return array|mixed, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFUL.
      */
-    public function jsonSerialize ()
-    {
-        return
-            [
-                'id' => $this->getId(),
-                'film'   => $this->getFilm(),
-                'sala' => $this->getSala(),
-                'dataProiezione'   => $this->getDataProiezione(),
-            ];
+    public function jsonSerialize () {
+        return [
+            'id'             => $this->getId(),
+            'film'           => $this->getFilm(),
+            'sala'           => $this->getSala(),
+            'dataProiezione' => $this->getDataProiezione(),
+        ];
     }
 
     /**
      * @return string
      */
-    public function __toString()
-    {
+    public function __toString() {
         return "Film: " . $this->getFilm()->getNome() . "data ed ora: " . $this->getDataProiezione()->format("Y-m-d H:i") . " nella sala: " . $this->getSala()->getNumeroSala();
     }
 

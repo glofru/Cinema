@@ -13,16 +13,14 @@ class EVisitatore extends EUtente
      * EVisitatore constructor.
      * @throws Exception, se almeno uno dei parametri passato al costruttore non rispetta la relativa sintassi.
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct("", "", "", "", "", false);
     }
 
     /**
      * @return array|mixed|void, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFULL.
      */
-    public function jsonSerialize()
-    {
+    public function jsonSerialize() {
         return parent::jsonSerialize();
     }
 }

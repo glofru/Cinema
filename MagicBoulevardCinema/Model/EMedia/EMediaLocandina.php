@@ -24,35 +24,33 @@ class EMediaLocandina extends EMedia
      * @param $immagine, contenuto del file.
      * @param EFilm $film, film al quale appartiene la locandina.
      */
-    public function __construct(string $fileName, string $mimeType, DateTime $date, $immagine, EFilm $film)
-    {
+    public function __construct(string $fileName, string $mimeType, DateTime $date, $immagine, EFilm $film) {
         parent::__construct($fileName, $mimeType, $date, $immagine);
+
         $this->setFilm($film);
     }
 
     /**
      * @return EFilm, film al quale appartiene la locandina.
      */
-    public function getFilm(): EFilm
-    {
+    public function getFilm(): EFilm {
         return $this->film;
     }
 
     /**
      * @param EFilm $film, film al quale appartiene la locandina.
      */
-    public function setFilm(EFilm $film): void
-    {
+    public function setFilm(EFilm $film): void {
         $this->film = $film;
     }
 
     /**
      * @return array|mixed, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFUL.
      */
-    public function jsonSerialize()
-    {
-        $temp = parent::jsonSerialize();
+    public function jsonSerialize() {
+        $temp         = parent::jsonSerialize();
         $temp["film"] = $this->film->getId();
+
         return $temp;
     }
 }

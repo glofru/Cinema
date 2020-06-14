@@ -85,8 +85,7 @@ class EFilm implements JsonSerializable
      * @param string $paese, paese di produzione del film.
      * @param string $etaConsigliata, età consigliata per la visione del film.
      */
-    public function __construct(string $nome, string $descrizione, DateInterval $durata, string $trailerURL, float $votoCritica, DateTime $dataDiRilascio, string $genere, string $paese, string $etaConsigliata)
-    {
+    public function __construct(string $nome, string $descrizione, DateInterval $durata, string $trailerURL, float $votoCritica, DateTime $dataDiRilascio, string $genere, string $paese, string $etaConsigliata) {
         $this->setNome($nome);
         $this->setDescrizione($descrizione);
         $this->setDurata($durata);
@@ -103,40 +102,35 @@ class EFilm implements JsonSerializable
     /**
      * @return int, Id del film.
      */
-    public function getId(): int
-    {
+    public function getId(): int {
         return $this->id;
     }
 
     /**
      * @param int $id, id del film sul DB.
      */
-    public function setId(int $id): void
-    {
+    public function setId(int $id): void {
         $this->id = $id;
     }
 
     /**
      * @return string, nome del film.
      */
-    public function getNome(): string
-    {
+    public function getNome(): string {
         return $this->nome;
     }
 
     /**
      * @param string $nome, nome del film.
      */
-    public function setNome(string $nome): void
-    {
+    public function setNome(string $nome): void {
         $this->nome = $nome;
     }
 
     /**
      * @return string, descrizione del film.
      */
-    public function getDescrizione(): string
-    {
+    public function getDescrizione(): string {
         return $this->descrizione;
     }
 
@@ -145,14 +139,12 @@ class EFilm implements JsonSerializable
      */
     public function getDescrizioneHTML(): string {
         if (strlen($this->getDescrizione()) > 249) {
-            $temp = substr($this->getDescrizione(),0,249);
+            $temp  = substr($this->getDescrizione(),0,249);
             $temp .= "...";
             return $temp;
         }
-        else
-        {
-            return $this->getDescrizione();
-        }
+
+        return $this->getDescrizione();
     }
 
     /**
@@ -160,28 +152,24 @@ class EFilm implements JsonSerializable
      */
     public function getDescrizioneHTMLLess(): string {
         if (strlen($this->getDescrizione()) > 167) {
-            $temp = substr($this->getDescrizione(),0,167);
+            $temp  = substr($this->getDescrizione(),0,167);
             $temp .= "...";
             return $temp;
         }
-        else
-        {
-            return $this->getDescrizione();
-        }
+
+        return $this->getDescrizione();
     }
     /**
      * @param string $descrizione, descrizione del film.
      */
-    public function setDescrizione(string $descrizione): void
-    {
+    public function setDescrizione(string $descrizione): void {
         $this->descrizione = $descrizione;
     }
 
     /**
      * @return DateInterval, durata del film.
      */
-    public function getDurata(): DateInterval
-    {
+    public function getDurata(): DateInterval {
         return $this->durata;
     }
 
@@ -217,16 +205,14 @@ class EFilm implements JsonSerializable
     /**
      * @param DateInterval $durata, durata del film.
      */
-    public function setDurata(DateInterval $durata): void
-    {
+    public function setDurata(DateInterval $durata): void {
         $this->durata = $durata;
     }
 
     /**
      * @return string, trailer del film.
      */
-    public function getTrailerURL(): string
-    {
+    public function getTrailerURL(): string {
         return $this->trailerURL;
     }
 
@@ -234,45 +220,42 @@ class EFilm implements JsonSerializable
      * @param bool $autoplay, se il trailer debba partire in automatico quando viene caricato l'URL.
      * @return string, stringa contenente l'URL del trailer su Youtube.
      */
-    public function getEmbedURL($autoplay = false): string
-    {
-        $videoID = explode("=", $this->getTrailerURL())[1];
-        $url = "https://youtube.com/embed/" . $videoID;
+    public function getEmbedURL($autoplay = false): string {
+        $videoID  = explode("=", $this->getTrailerURL())[1];
+        $url      = "https://youtube.com/embed/" . $videoID;
+
         if ($autoplay) {
             $url .= "?autoplay=1&mute=1&enablejsapi=1";
         }
+
         return $url;
     }
 
     /**
      * @param string $trailerURL, trailer del film.
      */
-    public function setTrailerURL(string $trailerURL): void
-    {
+    public function setTrailerURL(string $trailerURL): void {
         $this->trailerURL = $trailerURL;
     }
 
     /**
      * @return float, voto della critica specializzata.
      */
-    public function getVotoCritica(): float
-    {
+    public function getVotoCritica(): float {
         return $this->votoCritica;
     }
 
     /**
      * @param float $votoCritica, voto della critica specializzata.
      */
-    public function setVotoCritica(float $votoCritica): void
-    {
+    public function setVotoCritica(float $votoCritica): void {
         $this->votoCritica = $votoCritica;
     }
 
     /**
      * @return DateTime, data di rilascio del film.
      */
-    public function getDataRilascio(): DateTime
-    {
+    public function getDataRilascio(): DateTime {
         return $this->dataRilascio;
     }
 
@@ -300,40 +283,35 @@ class EFilm implements JsonSerializable
     /**
      * @param DateTime $dataRilascio, data di rilascio del film.
      */
-    public function setDataRilascio(DateTime $dataRilascio): void
-    {
+    public function setDataRilascio(DateTime $dataRilascio): void {
         $this->dataRilascio = $dataRilascio;
     }
 
     /**
      * @return string, genere del film.
      */
-    public function getGenere(): string
-    {
+    public function getGenere(): string {
         return $this->genere;
     }
 
     /**
      * @param string $genere, genere del film.
      */
-    public function setGenere(string $genere): void
-    {
+    public function setGenere(string $genere): void {
         $this->genere = $genere;
     }
 
     /**
      * @return array, insieme dei registi del film.
      */
-    public function getRegisti(): array
-    {
+    public function getRegisti(): array {
         return $this->registi;
     }
 
     /**
      * @param EPersona $regista, regista da aggiungere al film.
      */
-    public function addRegista(EPersona $regista): void
-    {
+    public function addRegista(EPersona $regista): void {
         if ($regista->isRegista() != true) {
             return;
         }
@@ -344,16 +322,14 @@ class EFilm implements JsonSerializable
     /**
      * @return array, insieme di attori che hanno partecipato al film.
      */
-    public function getAttori(): array
-    {
+    public function getAttori(): array {
         return $this->attori;
     }
 
     /**
      * @param EPersona $attore, attore da aggiungere al film.
      */
-    public function addAttore(EPersona $attore): void
-    {
+    public function addAttore(EPersona $attore): void {
         if ($attore->isAttore() != true) {
             return;
         }
@@ -402,21 +378,20 @@ class EFilm implements JsonSerializable
     /**
      * @return array|mixed, funzione che serializza il contenuto della classe in formato JSON, necessario per rendere l'applicazione RESTFUL.
      */
-    public function jsonSerialize()
-    {
+    public function jsonSerialize() {
         return [
-            'id' => $this->getId(),
-            'nome' => $this->getNome(),
-            'descrizione' => $this->getDescrizione(),
-            'durata' => $this->getDurata()->i,
-            'trailerURL' => $this->getTrailerURL(),
-            'votoCritica' => $this->getVotoCritica(),
+            'id'             => $this->getId(),
+            'nome'           => $this->getNome(),
+            'descrizione'    => $this->getDescrizione(),
+            'durata'         => $this->getDurata()->i,
+            'trailerURL'     => $this->getTrailerURL(),
+            'votoCritica'    => $this->getVotoCritica(),
             'dataDiRilascio' => $this->getDataRilascio()->format('d-m-Y'),
             'etaConsigliata' => $this->getEtaConsigliata(),
-            'paese' => $this->getPaese(),
-            'genere' => $this->getGenere(),
-            'attori' => $this->getAttori(),
-            'registi' => $this->getRegisti()
+            'paese'          => $this->getPaese(),
+            'genere'         => $this->getGenere(),
+            'attori'         => $this->getAttori(),
+            'registi'        => $this->getRegisti()
         ];
     }
 }
