@@ -56,7 +56,7 @@ class CMail
     }
 
     /**
-     * Funzione che invia ad un utente i biglietti acquistati. Mail specifica per utenti Registrati che continene anche un QR Code per l'identificazione dle biglietto.
+     * Funzione che invia ad un utente i biglietti acquistati. Mail specifica per utenti Registrati che continene anche un QR Code per l'identificazione del biglietto.
      * @param ERegistrato $utente , utente Registrato destinatario della mail e che ha effettuato l'acquisto.
      * @param array $biglietti , insieme dei biglietti acquistati.
      * @return bool, esito dell'invio.
@@ -80,7 +80,7 @@ class CMail
 
     /**
      * Funzione che invia una mail contenente i biglietti acquistati da un utente non Registrato. Contiene per ogni biglietto un QR Code per l'identififazione del bliglietto.
-     * Se è la prima volta che l'utente effettua un acquisto gli viene anche inviato il proprio codice univoco necessario a poer effettuare il login nella sezione apposita per consultare i biglietti acquistati.
+     * Se è la prima volta che l'utente effettua un acquisto gli viene anche inviato il proprio codice univoco necessario a poter effettuare il login nella sezione apposita per consultare i biglietti acquistati.
      * @param ENonRegistrato $utente , utente non Registrato destinatario della mail e che ha effettuato l'acquisto.
      * @param array $biglietti , insieme dei biglietti acquistati.
      * @param string|null $uid , codice univoco di accesso. Inviato solo se è il primo acquisto effettuato dall'utente.
@@ -109,7 +109,7 @@ class CMail
     }
 
     /**
-     * Funzione elementare che raccolti gli ementi necessari da inserire in una mail richiama l'entità che si occupa dell'invio delle email.
+     * Funzione elementare che, raccolti gli elementi necessari da inserire in una mail, richiama l'entità che si occupa dell'invio delle email.
      * @param string $to, indirizzo mail del destinatario.
      * @param string $subject, oggetto della mail.
      * @param string $body, corpo del messaggio.
@@ -154,7 +154,7 @@ class CMail
     /**
      * Funzione che invia una mail ad un utente, iscritto alla newsletter, informandolo che è stato caricato sul nostro sito un film con genere presente fra i suoi generi preferiti.
      * Viene, quindi, avvertito che prossimamente potrebbe essere in programmazione e quindi di controllare le programmazioni per essere al corrente di quando verrà proiettato.
-     * @param EUtente $utente, utente destinatario della mail e che abbia fra i suoi generi preferiti lo stesso geenre dle film appena caricato.
+     * @param EUtente $utente, utente destinatario della mail e che abbia fra i suoi generi preferiti lo stesso genere del film appena caricato.
      * @param EFilm $film, il film apena inserito nel sito.
      * @throws \PHPMailer\PHPMailer\Exception
      * @return bool, esito dell'invio.
@@ -203,7 +203,7 @@ class CMail
     }
 
     /**
-     * Funzione che avverte l'utente che la sua password è stata modificata. Nel caso non fosse stato lui ad eseguire l'operazione può contattare gli amministratori per provare a rislvere la sitauzione.
+     * Funzione che avverte l'utente che la sua password è stata modificata. Nel caso non fosse stato lui ad eseguire l'operazione può contattare gli amministratori per provare a risolvere la sitauzione.
      * @param EUtente $utente, utente destinatario della mail e che ha appena modificato la sua password.
      * @throws \PHPMailer\PHPMailer\Exception
      * @return bool, esito dell'invio.

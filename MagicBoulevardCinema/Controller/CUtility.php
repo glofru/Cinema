@@ -87,7 +87,7 @@ class CUtility
 
     /**
      * Funzione che permette, dato un intervallo di date, di ottenere tutti i film con almeno una proiezione nell'intervallo scelto.
-     * @param array $date, intervallo di date da cinsiderare.
+     * @param array $date, intervallo di date da considerare.
      * @return array, insieme di film, locandine, punteggio medio delle recensioni per ogni film e date delle proiezioni per ogni film.
      */
     public static function getProiezioni(array $date) {

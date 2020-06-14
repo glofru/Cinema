@@ -40,7 +40,7 @@ class CGestoreREST
     }
 
     /**
-     * Funzione che riporta l'insieme di film che non sono ancora usciti ma sono prossimi al rilascio.
+     * Funzione che riporta l'insieme di film che non sono ancora usciti ma prossimi al rilascio.
      */
     public static function filmProssimi() {
         $data = EData::getDateProssime();
@@ -51,7 +51,7 @@ class CGestoreREST
 
     /**
      * Funzione che simula la richiesta di un token per l'accesso alla piattaforma. Decodificata la email dell'utente dal formato JSON viene controllaata la reale esistenza nel DB di quest'ultima.
-     * Se esiste si provede ad inviare un token univoco.
+     * Se esiste si provvede ad inviare un token univoco.
      */
     public static function myToken() {
         $whois  = json_decode('php://input',true); //Torna un tipo associativo

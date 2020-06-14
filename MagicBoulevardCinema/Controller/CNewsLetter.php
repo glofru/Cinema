@@ -33,7 +33,7 @@ class CNewsLetter
 
     /**
      * Funzione, da richiamare quando viene caricato un nuovo film nel sistema, che permette di individuare gli utenti iscritti alla newsletter
-     * quelli con genere prefertio quello del film appena inserito.
+     * quelli con genere preferito quello del film appena inserito.
      * Per ognuno viene inviata una mail con le informazioni sul nuovo film appena inserito.
      * @throws \PHPMailer\PHPMailer\Exception
      */

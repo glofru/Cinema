@@ -21,7 +21,7 @@ class CMain
         die;
     }
     /**
-     * Funzione che mette a disposizione la vsiualizzazione d una pagina 403 forbidden con relativa intestazione HTTP.
+     * Funzione che mette a disposizione la visualizzazione ad una pagina 403 forbidden con relativa intestazione HTTP.
      * Da richiamare se l'utente accede ad una pagina riservata ad utilizzo interno dei gestori.
      */
     public static function forbidden() {
@@ -31,7 +31,7 @@ class CMain
     }
 
     /**
-     * Funzione che richiama una pagina 404 Not Found, con relativa intestazione HTTP, se l'utente cerca una pagina inesistente sul nsotro server.
+     * Funzione che richiama una pagina 404 Not Found, con relativa intestazione HTTP, se l'utente cerca una pagina inesistente sul server.
      */
     public static function notFound() {
         header("HTTP/1.1 404 Not Found");
@@ -58,20 +58,20 @@ class CMain
      * Funzione principale dell'applicazione che viene invocata ogni volta che viene richiesta una pagina. Svolge le seguenti funzioni:
      *
      * 1) Modifica temporanemanete le variabili, presenti nel PHP.ini, 'session.gc_probability' e 'session.gc_divisor' al fine di aumentare le possibilità di lanciare il GC delle sessioni.
-     * Questo è stato fatto in quanto i nostri utenti regsitrati dovrebbero avere nei loro attributi anche informazioni di pagamento. Di conseguenza è meglio fare sì che se l'utente non ha
+     * Questo è stato fatto in quanto i nostri utenti registrati dovrebbero avere nei loro attributi anche informazioni di pagamento. Di conseguenza è meglio fare sì che se l'utente non ha
      * effettuato il logout comunque il sito abbia più probabilità di eliminarne i dati di sessione.
      *
      * 2) Controlla se è stata richiesta la sezione 'api'. In questo caso si interroga il CGestoreREST per ottenere in output oggetti in formato JSON.
      *
-     * 3) Se non è stata rihciamata la sezione 'api' controlla se è presente in sessione un utente Non Registrato. Nel sostro sito un oggetto salvato in sessione del tipo utente Non Registrato
+     * 3) Se non è stata richiamata la sezione 'api' controlla se è presente in sessione un utente Non Registrato. Nel sostro sito un oggetto salvato in sessione del tipo utente Non Registrato
      * deve esistere solo se la pagina richiesta è quella di confermaAcquisto. Altrimenti deve essere cancellata la sessione di quell'utente.
      *
      * 4) Se l'utente è un Utente Registrato loggato viene controllato se la password presente in sessione è la stessa presente sul DB. Questo per fare sì che se la password viene modificata
-     * allora l'utente attualmente registrato venga eliminato dalla sessione e costretto l'utente a rieseguire il login. Utile nel caso di appropriazione dell'account da parte di un'entità malevola.
+     * allora l'utente attualmente registrato venga eliminato dalla sessione e costretto l'utente a rieffettuare l'operzione di login. Utile nel caso di appropriazione dell'account da parte di un'entità malevola.
      * L'utente può resettare la password e 'cacciare' chi abbia preso l'account. Oppure se vittima di ciò può contattarci per risolvere la questione.
      *
-     * 5) Se l'uetnte è un utente registrato loggato allora viene controllato se non sia stato bannato. Questo per fare sì che un ban di un amministratore abbia effetto non appena l'utente
-     * cerchi di acricare una pagina diversa da quella in cui è. In questo modo una volta bannato un utente non può più eseguire nessuna azione. Se bannato viene quind eliminato dalla sessione.
+     * 5) Se l'utente è un utente registrato loggato allora viene controllato se non sia stato bannato. Questo per fare sì che un ban di un amministratore abbia effetto non appena l'utente
+     * cerchi di caricare una pagina diversa da quella in cui è. In questo modo una volta bannato un utente non può più eseguire nessuna operazione. Se bannato viene quindi eliminato dalla sessione.
      *
      * 6) Se non è presente un cookie con le preferenze ne viene istanziato uno nuovo. Durata del cookie 30 giorni. non contiene dati particolarmente sensibili quindi può essere tenuto per un ungo periodo di tempo.
      *

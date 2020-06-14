@@ -26,7 +26,7 @@ class CCatalogo
     }
 
     /**
-     * Funzione che permette di ottenere le programmazioni delle settimane nell'intervallo compreso fra 2 settimane e 6 settimane fa. Accessibile solo via GET.
+     * Funzione che permette di ottenere le programmazioni delle settimane nell'intervallo compreso fra 2 e 6 settimane fa. Accessibile solo via GET.
      * @throws SmartyException
      */
     public static function programmazioniPassate() {
