@@ -155,9 +155,9 @@
                         {foreach $programmazioneFilm->getProiezioni() as $key => $pro}
                         <li class="nav-item">
                             {if $key == 0}
-                            <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true"> {$pro->getDataRed()}</a>
+                            <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true" style="width: 40px"> {$pro->getDataRed()}</a>
                             {else}
-                            <a class="nav-link" data-toggle="tab" href="#tab-{$key+1}" role="tab" aria-controls="tab-{$key+1}" aria-selected="true"> {$pro->getDataRed()}</a>
+                            <a class="nav-link" data-toggle="tab" href="#tab-{$key+1}" role="tab" aria-controls="tab-{$key+1}" aria-selected="true" style="width: 40px"> {$pro->getDataRed()}</a>
                             {/if}
                         </li>
                         {/foreach}

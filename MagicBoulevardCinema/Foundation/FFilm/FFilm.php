@@ -59,8 +59,7 @@ class FFilm implements Foundation
      * @param array $a, array di attori o registi.
      * @return string, stringa contente gli id degli attori o registi partecipanti al film sepratai da ';'.
      */
-    private static function splitArray(array $a): string
-    {
+    private static function splitArray(array $a): string {
         $s = "";
 
         foreach ($a as $value) {
@@ -320,13 +319,11 @@ class FFilm implements Foundation
             $film = new EFilm($nome, $descrizione, $durata, $trailerURL, $votoCritica, $dataRilascio, $genere, $paese, $etaConsigliata);
             $film->setId($id);
 
-            foreach (self::recreateArray($row["attori"]) as $attore)
-            {
+            foreach (self::recreateArray($row["attori"]) as $attore) {
                $film->addAttore($attore);
             }
 
-            foreach (self::recreateArray($row["registi"]) as $regista)
-            {
+            foreach (self::recreateArray($row["registi"]) as $regista) {
                 $film->addRegista($regista);
             }
 

@@ -92,7 +92,7 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- authorization form -->
-                    <form action="{$path}Admin/modificaFilm/?film={$film->getId()}" method="POST" class="sign__form" enctype="multipart/form-data">
+                    <form action="{$path}Admin/modificaFilm" onsubmit="return validate()" method="POST" class="sign__form" enctype="multipart/form-data">
                         <input type="hidden" name="film" value="{$film->getId()}">
 
                         <!-- Copertina -->
@@ -249,7 +249,7 @@
     let directors = [];
 
     {foreach $film->getAttori() as $att}
-    actors.push({$att->getId()});
+    actors.push("{$att->getId()}");
     var button = $("<button type='button' name='" + {$att->getId()} + "' class='sign__btn' style='width: 20px; height: 20px; display: inline'>X</button>");
     var list = $("#displayActors");
     var li = $("<li id='" + {$att->getId()} + "' style=\"color: white; text-align: right\"></li>").append('{$att->getFullName()}', " ", button);
@@ -261,7 +261,7 @@
     {/foreach}
 
     {foreach $film->getRegisti() as $reg}
-    directors.push({$reg->getId()});
+    directors.push("{$reg->getId()}");
     var button = $("<button type='button' name='" + {$reg->getId()} + "' class='sign__btn' style='width: 20px; height: 20px; display: inline'>X</button>");
     var list = $("#displayDirectors");
     var li = $("<li id='" + {$reg->getId()} + "' style=\"color: white; text-align: right\"></li>").append('{$reg->getFullName()}', " ", button);
