@@ -138,4 +138,23 @@ class FPersona implements Foundation
 
         return $return;
     }
+
+    public static function loadAll() {
+       $result = FDatabase::getInstance()->loadAll(self::getClassName());
+        $return = [];
+
+        foreach ($result as $row) {
+            $id         = $row["id"];
+            $nome       = $row["nome"];
+            $cognome    = $row["cognome"];
+            $imdbUrl    = $row["imdbURL"];
+            $isAttore   = $row["isAttore"];
+            $isRegista  = $row["isRegista"];
+            $p          = new EPersona($nome, $cognome, $imdbUrl, boolval($isAttore), boolval($isRegista));
+            $p->setId($id);
+            array_push($return, $p);
+        }
+
+        return $return;
+    }
 }

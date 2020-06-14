@@ -59,6 +59,8 @@
                         <li class="nav-item">
                             <a class="nav-link {if isset($errorAddPersona)}active{/if}" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Aggiungi attore/regista</a>
                         </li>
+
+                        <li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-2" aria-selected="false">Modifica attore/regista</a></li>
                     </ul>
                     <!-- end content tabs nav -->
 
@@ -74,6 +76,8 @@
                                 <li class="nav-item"><a class="nav-link active" id="1-tab" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">Aggiungi film</a></li>
 
                                 <li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Aggiungi attore/regista</a></li>
+
+                                <li class="nav-item"><a class="nav-link" id="2-tab" data-toggle="tab" href="#tab-3" role="tab" aria-controls="tab-2" aria-selected="false">Modifica attore/regista</a></li>
                             </ul>
                         </div>
                     </div>
@@ -251,10 +255,29 @@
                         </div>
                     </div>
                     <!-- end reviews -->
+                    <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="3-tab">
+                        <div class="row" style="align-content: center">
+                            <form action="{$path}Admin/modificaPersona" method="GET" class="form" enctype="multipart/form-data" style="margin: auto">
+                                <input type="hidden" id="persona" name="idPersona" value="">
+                                {foreach $persone as $p}
+                                <li class="reviews__item">
+                                    <div class="reviews__autor">
+                                        <span class="reviews__name" style="display: inline-block">{$p->getFullName()}</span>
+                                        <span class="reviews__time">{$p->getImdbId()}</span>
+                                        <input type="hidden" name="valore" value="{$p->getId()}">
+                                        <button class="sign__btn" onclick="send(this)" type="submit">Modifica</button>
+                                    </div>
+                                    <div></div>
+                                    {/foreach}
+                            </form>
+                            <!-- end authorization form -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <!-- end content tabs -->
+
     </div>
 </section>
 <!-- end content -->
@@ -437,6 +460,10 @@
         }
 
         return true;
+    }
+
+    function send(elem) {
+       alert(elem.value);
     }
 </script>
 

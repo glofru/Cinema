@@ -315,11 +315,11 @@ class CAdmin
         $utente  = CUtente::getUtente();
         $attori  = FPersistentManager::getInstance()->load("1", "isAttore", "EPersona");
         $registi = FPersistentManager::getInstance()->load("1", "isRegista", "EPersona");
-
+        $persone    = FPersistentManager::getInstance()->loadAll("EPersona");
         $method  = $_SERVER["REQUEST_METHOD"];
 
         if ($method === "GET") {
-            VAdmin::gestioneFilm($utente, $attori, $registi);
+            VAdmin::gestioneFilm($utente, $attori, $registi, $persone);
         } elseif ($method == "POST") {
             if (isset($_POST["addFilm"])) {
                 try {
@@ -371,7 +371,7 @@ class CAdmin
                         $film->addRegista($regista);
                     }
                 } catch (Exception $e) {
-                    VAdmin::gestioneFilm($utente, $attori, $registi, $e->getMessage(), null, $_POST);
+                    VAdmin::gestioneFilm($utente, $attori, $registi, $persone, $e->getMessage(), null, $_POST);
                     die;
                 }
 
@@ -412,7 +412,7 @@ class CAdmin
                     $status  = "Operazione avvenuta con successo";
                 }
 
-                VAdmin::gestioneFilm($utente, $attori, $registi, null, $status, $_POST, true);
+                VAdmin::gestioneFilm($utente, $attori, $registi, $persone, null, $status, $_POST, true);
             } else {
                 CMain::badRequest();
             }
@@ -716,6 +716,35 @@ class CAdmin
                 }
 
                 VAdmin::modificaProiezione($utente, $films, $sale, $cambioSala, $proiezione, $status);
+            }
+        } else {
+            CMain::methodNotAllowed();
+        }
+    }
+
+    public static function modificaPersona() {
+        self::checkAdmin();
+        if($_SERVER["REQUEST_METHOD"] === "GET"){
+            if(!isset($_GET["idPersona"])){
+                CMain::badRequest();
+            } else {
+                $persona = FPersistentManager::getInstance()->load($_GET["idPersona"], "id", "EPersona");
+                VAdmin::modificaPersona($persona);
+            }
+        } elseif ($_SERVER["REQUEST_METHOD"] === "POST") {
+            if(!isset($_POST["idPersona"])) {
+                CMain::badRequest();
+            } else {
+                if($_POST["nome"] === "" || $_POST["cognome"] === "" || $_POST["url"] === ""){
+                    VAdmin::modificaPersona(FPersistentManager::getInstance()->load($_POST["idPersona"], "id", "EPersona"), "Inseriti dati non validi");
+                }
+
+                FPersistentManager::getInstance()->update($_POST["idPersona"], "id", $_POST["nome"], "nome", "EPersona");
+                FPersistentManager::getInstance()->update($_POST["idPersona"], "id", $_POST["cognome"], "cognome", "EPersona");
+                FPersistentManager::getInstance()->update($_POST["idPersona"], "id", $_POST["imdbURL"], "imdbURL", "EPersona");
+                FPersistentManager::getInstance()->update($_POST["idPersona"], "id",$_POST["isAttore"] , "isAttore", "EPersona");
+                FPersistentManager::getInstance()->update($_POST["idPersona"], "id",$_POST["isRegista"] , "isRegista", "EPersona");
+                header("Location: /MagicBoulevardCinema/Admin/gestioneFilm/?");
             }
         } else {
             CMain::methodNotAllowed();
