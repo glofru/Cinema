@@ -41,7 +41,7 @@ class VAdmin
         $smarty->display("modificaPrezzi.tpl");
     }
 
-    public static function gestioneFilm(EUtente $utente, array $attori, array $registi, $erroreFilm = null, $errorePersona = null, $data = null) {
+    public static function gestioneFilm(EUtente $utente, array $attori, array $registi, $statoFilm = null, $statoPersona = null, $data = null, $ok = false) {
         $smarty = StartSmarty::configuration();
 
         $smarty->assign("path", $GLOBALS["path"]);
@@ -49,10 +49,10 @@ class VAdmin
         $smarty->assign("attori", $attori);
         $smarty->assign("registi", $registi);
         $smarty->assign("generi", EGenere::getAll());
-        $smarty->assign("errorAddFilm", $erroreFilm);
-        $smarty->assign("errorAddPersona", $errorePersona);
+        $smarty->assign("errorAddFilm", $statoFilm);
+        $smarty->assign("errorAddPersona", $statoPersona);
 
-        if ($erroreFilm) {
+        if ($statoFilm && !$ok) {
             $smarty->assign("titolo", $_POST["titolo"]);
             $smarty->assign("descrizione", $_POST["descrizione"]);
             $smarty->assign("genere", $_POST["genere"]);
@@ -62,8 +62,10 @@ class VAdmin
             $smarty->assign("dataRilascio", $_POST["dataRilascio"]);
             $smarty->assign("paese", $_POST["paese"]);
             $smarty->assign("etaConsigliata", $_POST["etaConsigliata"]);
-        } if ($errorePersona) {
-            //TODO
+        } if ($statoPersona && !ok) {
+            $smarty->assign("nome", $_POST["nome"]);
+            $smarty->assign("cognome", $_POST["cognome"]);
+            $smarty->assign("imdbURL", $_POST["imdbURL"]);
         }
 
         $smarty->display("gestioneFilm.tpl");
