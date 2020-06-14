@@ -65,15 +65,21 @@ class CAdmin
      */
     private static function ban($utente) {
         $pm     = FPersistentManager::getInstance();
-
-        $toBan = $pm->load($utente,"username","EUtente");
+        if($utente instanceof ERegistrato){
+            $toBan = $utente;
+        } else {
+            $toBan = $pm->load($utente,"username","EUtente");
+        }
 
         if(!isset($toBan)) {
             $status = "Utente non presente";
         } else {
             if (!$toBan->isAdmin() && !$toBan->isBanned()) {
-                $pm->update($utente, "username", true, "isBanned", "EUtente");
-
+                if($utente instanceof ERegistrato){
+                    $pm->update($toBan->getUsername(), "username", true, "isBanned", "EUtente");
+                } else {
+                    $pm->update($utente, "username", true, "isBanned", "EUtente");
+                }
                 return null;
             } else {
                 $status = "L'utente è già bannato o amministratore";
@@ -118,7 +124,8 @@ class CAdmin
         $method     = $_SERVER["REQUEST_METHOD"];
 
         if ($method == "POST") {
-            self::ban($_POST["utente"]);
+            $utente = FPersistentManager::getInstance()->load($_POST["utente"], 'id', "EUtente");
+            self::ban($utente);
             CGiudizio::delete();
         } else {
             CMain::methodNotAllowed();
