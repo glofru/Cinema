@@ -1,7 +1,7 @@
 <?php
 
 /**
- * La classe Catalogo contiene tutti i medoti necessari a mostrare le schermate contenenti i film i prossima usciti, i film presenti nelle programmazioni passate ed i film più apprezzati dall'utenza.
+ * La classe Catalogo contiene tutti i medoti necessari a mostrare le schermate contenenti i film che usciranno prossimamente, i film presenti nelle programmazioni passate ed i film più apprezzati dall'utenza.
  * Class VCatalogo
  * @access public
  * @author Lofrumento - Di Santo - Susanna
@@ -32,7 +32,7 @@ class VCatalogo
     }
 
     /**
-     * Funzione che permette di mostrare le programmazioni che il cinema ha proposto nell'inervallo 2 - 6 settimane fa.
+     * Funzione che permette di mostrare le programmazioni che il cinema ha proposto nell'inervallo di 2 - 6 settimane fa.
      * @param array $film, insieme dei film presenti.
      * @param array $immagini, locandine dei film.
      * @param array $punteggio, media voti degli utenti di ogni film.
@@ -60,8 +60,8 @@ class VCatalogo
     }
 
     /**
-     * Funzioen che permette di vedere la top 10 dei film più apprezzati dagli utenti.
-     * @param array $result, insieem di film e locandine.
+     * Funzione che permette di vedere la top 10 dei film più apprezzati dagli utenti.
+     * @param array $result, insieme di film e locandine.
      * @param $utente, utente che richiede la pagina.
      * @param array $consigliati, insieme dei film consigliati e delle rispettive locandine.
      * @throws SmartyException

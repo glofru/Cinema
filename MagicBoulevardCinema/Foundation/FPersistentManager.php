@@ -98,7 +98,7 @@ class FPersistentManager
     }
 
     /**
-     * Funzione che permette di reperire dalla persistenza tutti gli utenti bannati dagli amministratori. Ritorna un array di utenti oppure null in caso di errore. Torna un array di oggetti.
+     * Funzione che permette di reperire dalla persistenza tutti gli utenti bannati dagli amministratori. Ritorna un array di utenti oppure null in caso di errore.
      * @return array|null, array di oggetti o null.
      */
     public function loadbannati() {
@@ -106,7 +106,7 @@ class FPersistentManager
     }
 
     /**
-     * Funzione che permette di reperire oggetti dal DB fornendo un valore (value) ed una colonna (row) nella quale cercare valori simili a value, usato per la ricerca film ad esempio. Ritona un array di oggetti.
+     * Funzione che permette di reperire oggetti dal DB fornendo un valore (value) ed una colonna (row) nella quale cercare valori simili a value, usato per la ricerca film ad esempio.
      * @param $value, valore necessario ad indentificare l'oggetto.
      * @param $row, colonna nella quale cercare il valore.
      * @param $class, classe entity che sta chiamando il PM.
@@ -135,7 +135,7 @@ class FPersistentManager
     }
 
     /**
-     * Funzione che permette di effettuare una ricerca nel DB attraverso un intervallo di valori. Usato ad esempio nella ricerca film per ottenere quali siano stati rilasciati in un deterinato intervallo di tempo. Ritorna un array di oggetti.
+     * Funzione che permette di effettuare una ricerca nel DB attraverso un intervallo di valori. Usato ad esempio nella ricerca film per ottenere quali siano stati rilasciati in un deterinato intervallo di tempo.
      * @param $inizio, data di inizio.
      * @param $fine, data di fine.
      * @param $class, classe entity che sta chiamndo il PM.

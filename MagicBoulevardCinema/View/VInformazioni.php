@@ -1,7 +1,7 @@
 <?php
 
 /**
- * La classe Informazioni permette di mostrare alcune schermate contenenti delle informazioni sul nostro sito (costi dei biglietti, informazioni su di noi e pagina di aiuto).
+ * La classe Informazioni permette di mostrare alcune schermate contenenti delle informazioni sul sito (costi dei biglietti, informazioni su di noi e pagina di aiuto).
  * Class VInformazioni
  * @access public
  * @author Lofrumento - Di Santo - Susanna

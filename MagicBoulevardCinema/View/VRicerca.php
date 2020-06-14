@@ -1,7 +1,7 @@
 <?php
 
 /**
- * La classe Ricerca permette di ottenere una schermata con i film che corrispondoo ad i criteri di ricerca espressi dall'utente.
+ * La classe Ricerca permette di ottenere una schermata con i film che corrispondono ad i criteri di ricerca espressi dall'utente.
  * Class VRicerca
  * @access public
  * @author Lofrumento - Di Santo - Susanna

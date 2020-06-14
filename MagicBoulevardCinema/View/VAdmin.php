@@ -96,7 +96,7 @@ class VAdmin
     }
 
     /**
-     * Funzione che permette di vsiualizzare le programmazioni delle proiezioni che avverranno nel cinema. Da qui è possibile aggiungere delle proiezioni oppure modificarle.
+     * Funzione che permette di visualizzare le programmazioni delle proiezioni che avverranno nel cinema. Da qui è possibile aggiungere delle proiezioni oppure modificarle.
      * @param EUtente $utente, utente che richiede la pagina.
      * @param array $films, insieme dei film in proiezione.
      * @param array $sale, insieme delle sale fisiche.
@@ -169,7 +169,7 @@ class VAdmin
     }
 
     /**
-     * Schermata che permette di moficare le informazioni su un film.
+     * Schermata che permette di modificare le informazioni riguardanti un film.
      * @param EFilm $film, film che si vuole modificare.
      * @param $copertina, locandina del film.
      * @throws SmartyException
