@@ -149,7 +149,7 @@
             <div class="row">
                 <div class="col-12">
                     <!-- Title -->
-                    <h2 class="content__title">Prenota il tuo posto</h2>
+                    <h2 class="content__title">{if !$utente->isAdmin()}Prenota il tuo posto{else}Situazione spettacoli{/if}</h2>
                     <!-- content tabs nav -->
                     <ul class="nav nav-tabs content__tabs" id="content__tabs" role="tablist">
                         {foreach $programmazioneFilm->getProiezioni() as $key => $pro}
