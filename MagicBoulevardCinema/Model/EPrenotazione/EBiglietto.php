@@ -138,7 +138,7 @@ class EBiglietto implements JsonSerializable
         $costo          = $GLOBALS["prezzi"][$dataProiezione->format("D")];
 
         $date           = new DateTime('now + 7 Days');
-        if($dataProiezione > $date) {
+        if($dataProiezione >= $date) {
             $costo     += $GLOBALS["extra"];
         }
 
