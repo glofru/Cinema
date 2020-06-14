@@ -676,6 +676,10 @@ class CUtente
         }
     }
 
+    /**
+     * Funzione che permette ad un utente di eliminare il proprio profilo.
+     * @throws SmartyException
+     */
     public static function eliminaUtente()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
