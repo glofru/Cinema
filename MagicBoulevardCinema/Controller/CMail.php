@@ -107,7 +107,7 @@ class CMail
         }
 
         if(isset($uid)) {
-            $otp = "il tuo codice di accesso è: <b>" . $uid . "</b> e";
+            $otp = "il tuo codice di accesso e': <b>" . $uid . "</b> e";
         } else {
             $otp = "";
         }
@@ -196,7 +196,7 @@ class CMail
 
         $trailer = $film->getTrailerURL();
         $body    =  "Ciao" . $utente->getNome() . " " . $utente->getCognome() . ",<br>" .
-                    "volevamo avvisarti che nel nostro cinema è stato appena inserito un nuovo film del genere <b>" . $film->getGenere(). "</b>" . " ecco a te i dettagli: " . "<br><br>" .
+                    "volevamo avvisarti che nel nostro cinema e' stato appena inserito un nuovo film del genere <b>" . $film->getGenere(). "</b>" . " ecco a te i dettagli: " . "<br><br>" .
                     "Titolo: " . $film->getNome() . "<br>" .
                     "Data di rilascio: " . $film->getDataRilascioString() . "<br>" .
                     $eta . "Durata: " . $film->getDurataMinuti() . "minuti" . "<br>" .
@@ -234,7 +234,7 @@ class CMail
     public static function modifiedPassword(EUtente $utente): bool {
         $subject = "Password modificata  - Magic Boulevard Cinema";
         $body    =  "Ciao " . $utente->getNome() . " " . $utente->getCognome() . "<br>" .
-                    "ti segnaliamo che la tua password è stata modificata. Puoi effettuare il login <a href='http://" . $GLOBALS["domain"] . "/MagicBoulevardCinema/Utente/login'><b>qui</b></a>.<br><br>" .
+                    "ti segnaliamo che la tua password e' stata modificata. Puoi effettuare il login <a href='http://" . $GLOBALS["domain"] . "/MagicBoulevardCinema/Utente/login'><b>qui</b></a>.<br><br>" .
                     "<b>ATTENZIONE</b>:Se non sei stato tu ad effettuare questa modifica <a href='http://" . $GLOBALS["domain"] . "/MagicBoulevardCinema/Utente/forgotPassword'>richiedi una nuova password</a>";
         $name    = $utente->getNome() . " " . $utente->getCognome();
 
