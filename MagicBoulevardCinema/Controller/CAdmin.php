@@ -506,9 +506,7 @@ class CAdmin
         $error      = null;
 
         $method     = $_SERVER["REQUEST_METHOD"];
-        if($method !== "POST"){
-            CMain::methodNotAllowed();
-        } else{
+        if($method === "POST"){
             $idFilm     = $_POST["film"];
             $nSala      = $_POST["sala"];
             $orario     = $_POST["orario"];

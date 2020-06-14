@@ -101,10 +101,12 @@
                                 </div>
                             </div>
                             <!-- News Letter --->
+                            {if !$utente->isAdmin()}
                             <div class="sign__group sign__group--checkbox">
-                                <input id="newsletter" name="newsletter" type="checkbox" {if !$utente->isAdmin()}{if $isASub === true}checked="checked" {else}{/if}onchange="changing(this.checked)"{/if} >
+                                <input id="newsletter" name="newsletter" type="checkbox"{if $isASub === true}checked="checked"{/if} onchange="changing(this.checked)">
                                 <label for="newsletter">Iscrivimi alla newsletter</label>
                             </div>
+                            {/if}
                             <div id="content"></div>
                             <!-- end card content -->
                         </div>

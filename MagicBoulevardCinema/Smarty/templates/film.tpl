@@ -505,7 +505,7 @@
     }
 
     function check() {
-        return confirm("Sei sicuro di voler cancellare il tuo account? Questa azione è irreversibile!");
+        return confirm("Sei sicuro di voler cancellare il film? Questa azione è irreversibile!");
     }
 </script>
 
