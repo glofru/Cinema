@@ -41,7 +41,7 @@ L'installazione richiederà pochi e semplici passi:
 
    ```php
    session.cookie_secure=1
-   session.use_only_cookies=1
+   session.cookie_httponly=1
    session.name=MBC
    ```
 

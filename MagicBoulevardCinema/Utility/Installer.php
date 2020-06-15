@@ -23,8 +23,7 @@ class Installer
      * Funzione che controlla se tutte le 4 componenti di installazione sono state completate.
      * @return bool
      */
-    public static function checkInstall(): bool
-    {
+    public static function checkInstall(): bool {
         return self::checkInstallDB() && self::checkInstallCinema() && self::checkAdmin() && self::checkPhysical();
     }
 
@@ -90,10 +89,10 @@ class Installer
             }
         } elseif ($method == "POST") {
             if (!self::checkInstallDB()) {
-                $value = "";
-                $dbname = $_POST['dbname'];
-                $username = $_POST['username'];
-                $pwd = $_POST['password'];
+                $value      = "";
+                $dbname     = $_POST['dbname'];
+                $username   = $_POST['username'];
+                $pwd        = $_POST['password'];
                 $population = boolval($_POST["population"]);
                 if(version_compare(PHP_VERSION,'7.4.0', "<")){
                     $value .= "Versione di PHP inferiore alla 7.4.0, AGGIORNARLA per poter proseguire! <br>";
@@ -109,26 +108,27 @@ class Installer
                     die;
                 } else {
                     setcookie('cookie_enabled', '', time()-3600, '/');
-                    setcookie('js_enabled', '', time()-3600);
+                    setcookie('js_enabled',     '', time()-3600);
                     self::installDB($dbname, $username, $pwd, $population);
                 }
             } elseif (!self::checkInstallCinema()) {
-                $Mon = floatval($_POST["Mon"]);
-                $Tue = floatval($_POST["Tue"]);
-                $Wed = floatval($_POST["Wed"]);
-                $Thu = floatval($_POST["Thu"]);
-                $Fri = floatval($_POST["Fri"]);
-                $Sat = floatval($_POST["Sat"]);
-                $Sun = floatval($_POST["Sun"]);
-                $extra = floatval($_POST["extra"]);
+                $Mon    = floatval($_POST["Mon"]);
+                $Tue    = floatval($_POST["Tue"]);
+                $Wed    = floatval($_POST["Wed"]);
+                $Thu    = floatval($_POST["Thu"]);
+                $Fri    = floatval($_POST["Fri"]);
+                $Sat    = floatval($_POST["Sat"]);
+                $Sun    = floatval($_POST["Sun"]);
+                $extra  = floatval($_POST["extra"]);
                 self::installCinema($Mon, $Tue, $Wed, $Thu, $Fri, $Sat, $Sun, $extra);
 
             } elseif (!self::checkAdmin()){
-                $nome = $_POST["nome"];
-                $cognome = $_POST["cognome"];
-                $username = $_POST["username"];
-                $email = $_POST["email"];
-                $password = $_POST["password"];
+                $nome       = $_POST["nome"];
+                $cognome    = $_POST["cognome"];
+                $username   = $_POST["username"];
+                $email      = $_POST["email"];
+                $password   = $_POST["password"];
+
                 try {
                     $utente = new EAdmin($nome, $cognome, $username, $email, $password, false);
                 } catch (Exception $e) {
@@ -139,40 +139,48 @@ class Installer
                 }
 
                 FPersistentManager::getInstance()->signup($utente);
-                $data = new DateTime();
-                $media = new EMediaUtente('','',$data, '', $utente);
+
+                $data   = new DateTime();
+                $media  = new EMediaUtente('','',$data, '', $utente);
+
                 FPersistentManager::getInstance()->save($media);
                 unset($utente);
+
                 header("Location: /MagicBoulevardCinema");
             } elseif (!self::checkPhysical()){
-                $nSale = [];
-                $sale = [];
-                $n = sizeof($_POST);
+                $nSale  = [];
+                $sale   = [];
+                $n      = sizeof($_POST);
+
                 if(isset($_POST["numeroSala"])){
-                    $n = $n-4;
-                    $nSala = intval($_POST["numeroSala"]);
-                    $nFile = intval($_POST["file"]);
-                    $nPosti = intval($_POST["postiPerFila"]);
+                    $n           = $n-4;
+                    $nSala       = intval($_POST["numeroSala"]);
+                    $nFile       = intval($_POST["file"]);
+                    $nPosti      = intval($_POST["postiPerFila"]);
                     $disponibile = boolval($_POST["disponibile"]);
+
                     array_push($nSale, $nSala);
+
                     try {
                         $sala = new ESalaFisica($nSala, $nFile, $nPosti, $disponibile);
                     } catch (Exception $e) {
                         $smarty->assign("error", $e->getMessage());
+
                         $smarty->display("firstSaleFisiche.tpl"); die;
                     }
                     array_push($sale, $sala);
                 }
                 for($i=1;$i <= $n/4;$i++) {
-                     $nSala = intval($_POST["numeroSala" . strval($i)]);
-                     $nFile = intval($_POST["file" . strval($i)]);
-                     $nPosti = intval($_POST["postiPerFila" . strval($i)]);
+                     $nSala       = intval($_POST["numeroSala" . strval($i)]);
+                     $nFile       = intval($_POST["file" . strval($i)]);
+                     $nPosti      = intval($_POST["postiPerFila" . strval($i)]);
                      $disponibile = boolval($_POST["disponibile" . strval($i)]);
 
                     if(!in_array($nSala, $nSale)){
                         array_push($nSale, $nSala);
                     } else {
                         $smarty->assign("error", "Numero di sala ripetuto. Deve essere univoco");
+
                         $smarty->display("firstSaleFisiche.tpl"); die;
                     }
 
@@ -180,14 +188,17 @@ class Installer
                         $sala = new ESalaFisica($nSala, $nFile, $nPosti, $disponibile);
                     } catch (Exception $e) {
                         $smarty->assign("error", $e->getMessage());
+
                         $smarty->display("firstSaleFisiche.tpl"); die;
                     }
 
                     array_push($sale, $sala);
                 }
+
                 foreach ($sale as $item) {
                     FPersistentManager::getInstance()->save($item);
                 }
+
                 header("Location: /MagicBoulevardCinema");
             } else {
                 CHome::showHome();
