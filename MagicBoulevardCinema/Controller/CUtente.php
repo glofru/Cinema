@@ -71,7 +71,7 @@ class CUtente
 
                 if (!isset($utente)) {
                     VUtente::showCheckNonRegsitrato(CUtente::getUtente(), true, $email);
-                } else if ($utente->isRegistrato()) {
+                } else if ($utente->isRegistrato() || $utente->isAdmin()) {
                     VError::error(0, "Pagina destinata ad utenti non Registrati");
                 } else {
                     foreach (FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EBiglietto") as $b) {
@@ -372,7 +372,7 @@ class CUtente
      * @param EUtente|null $utente , utente da salvare.
      * @throws SmartyException
      */
-    public static function saveSession($utente = null) {
+    public static function saveSession(EUtente $utente) {
         ini_set('session.cookie_httponly', true);
 
         if(!isset($utente)) {

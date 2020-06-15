@@ -691,8 +691,6 @@ class CAdmin
                             $salaV  = ESalaVirtuale::fromSalaFisica($salaF);
                             $proiezione->setSala($salaV);
                             $changeSala = true;
-                            FPersistentManager::getInstance()->deleteDebole($proiezione->getId(), "id", "", "", "EPosto");
-                            FPersistentManager::getInstance()->savePostiNuovaSala($proiezione);
                         }
                     }
                 }
@@ -703,11 +701,14 @@ class CAdmin
                     if ($isSovrapposto) {
                         $status    = "La nuova proiezione si sovrappone con altre già esistente";
                     } else {
+
                         if ($changeOra) {
                             $pm->update($proiezione->getId(), "id", $proiezione->getDataProiezione()->format("H:i"), "ora", "EProiezione");
                         }
 
                         if ($changeSala) {
+                            FPersistentManager::getInstance()->deleteDebole($proiezione->getId(), "id", "", "", "EPosto");
+                            FPersistentManager::getInstance()->savePostiNuovaSala($proiezione);
                             $pm->update($proiezione->getId(), "id", $proiezione->getSala()->getNumeroSala(), "numerosala", "EProiezione");
                         }
 

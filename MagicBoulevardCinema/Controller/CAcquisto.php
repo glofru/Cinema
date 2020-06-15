@@ -114,6 +114,7 @@ class CAcquisto
             }
 
             $biglietti = unserialize($_SESSION["biglietti"]);
+            unset($_SESSION["biglietti"]);
             if(!$isNonRegistrato) {
                 foreach ($biglietti as $item) {
                     if ($item->getUtente()->getId() !== CUtente::getUtente()->getId()) {

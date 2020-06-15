@@ -66,8 +66,8 @@ class CGiudizio{
                 $pm->deleteDebole($idFilm, "idFilm", $idUtente, "idUtente", "EGiudizio");
                 if(!$utente->isAdmin()) {
                     $utente->removeGiudizio($giudizio);
+                    CUtente::saveSession($utente);
                 }
-                CUtente::saveSession($utente);
 
                 if(!isset($_POST["redirect"])) {
                     header("Location: /MagicBoulevardCinema/Film/show/?film=" . $idFilm);

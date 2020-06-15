@@ -61,7 +61,7 @@ class CCatalogo
      * @throws SmartyException
      */
     public static function piuApprezzati() {
-        if($_SERVER["REQUEST_METHOD"]) {
+        if($_SERVER["REQUEST_METHOD"] === "GET") {
             $utente      = CUtente::getUtente();
 
             $consigliati = CUtility::getConsigliati($utente);
@@ -105,6 +105,8 @@ class CCatalogo
             array_push($result, $filmApprezzati, $immaginiApprezzati, $punteggi);
 
             VCatalogo::piuApprezzati($result, $utente, $consigliati);
+        } else {
+            CMain::methodNotAllowed();
         }
     }
 }
