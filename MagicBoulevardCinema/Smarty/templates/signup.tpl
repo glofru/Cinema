@@ -187,7 +187,7 @@
     }
 
     function passwordIsValid(password) {
-        return password.length > 6;
+        return password.length > 5;
     }
 
     function checkPwd(pw1, pw2) {
