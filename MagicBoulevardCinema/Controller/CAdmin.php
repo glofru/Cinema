@@ -37,19 +37,19 @@ class CAdmin
         $pm     = FPersistentManager::getInstance();
         $utente = CUtente::getUtente();
 
-        if($_SERVER["REQUEST_METHOD"] === "GET") {
+        if($_SERVER["REQUEST_METHOD"] === "GET") { // rimanda alla schermata gestione utenti
             $bannati    = $pm->loadbannati();
             VAdmin::gestioneUtenti($bannati, $utente);
         } else if ($_SERVER["REQUEST_METHOD"] === "POST"){
-            if(isset($_POST["utente"])) {
+            if(isset($_POST["utente"])) { //se viene mandato campo utenete allora significa che vuoi bannare
                 $status = self::ban($_POST["utente"]);
-            } else if(isset($_POST["unban"])) {
+            } else if(isset($_POST["unban"])) { //se settato unban allora utanta viene unbannato
                 $status = self::unban($_POST["unban"]);
             } else {
                 $status = "ERRORE: IMPOSSIBILE ESEGUIRE L'OPERAZIONE";
             }
 
-            $bannati    = $pm->loadbannati();
+            $bannati    = $pm->loadbannati(); //ricaricati i bannati per l'agiornamento della pagina
             VAdmin::gestioneUtenti($bannati, $utente, $status);
         } else {
             CMain::methodNotAllowed();
@@ -84,16 +84,16 @@ class CAdmin
      */
     private static function ban($utente) {
         $pm     = FPersistentManager::getInstance();
-        if($utente instanceof ERegistrato) {
+        if($utente instanceof ERegistrato) { // solo il registato puo esere bannato
             $toBan = $utente;
         } else {
-            $toBan = $pm->load($utente,"username","EUtente");
+            $toBan = $pm->load($utente,"username","EUtente"); //carica l'utente da bannare attraverso l'id (schermata admin)
         }
 
         if(!isset($toBan)) {
             $status = "Utente non presente";
         } else {
-            if (!$toBan->isAdmin() && !$toBan->isBanned()) {
+            if (!$toBan->isAdmin() && !$toBan->isBanned()) { // il non registrato non puo essere bannato perche non ha l'username
                 if($utente instanceof ERegistrato){
                     $pm->update($toBan->getUsername(), "username", true, "isBanned", "EUtente");
                 } else {
@@ -137,7 +137,7 @@ class CAdmin
     /**
      * Funzione accessibile solo via metodo POST, che permette, nel caso in cui un utente abbia espresso un giudizio non consono, di cancellare il commento effettuato ed in contemporanea di bannare l'utente.
      */
-    public static function deleteAndBan() {
+    public static function deleteAndBan() { // utente viene passato da come oggetto utente (schermata commento)
         self::checkAdmin();
 
         $method     = $_SERVER["REQUEST_METHOD"];
@@ -145,7 +145,7 @@ class CAdmin
         if ($method == "POST") {
             $utente = FPersistentManager::getInstance()->load($_POST["utente"], 'id', "EUtente");
             self::ban($utente);
-            CGiudizio::delete();
+            CGiudizio::delete(); //cancella giudizio utente
         } else {
             CMain::methodNotAllowed();
         }
@@ -202,7 +202,7 @@ class CAdmin
 
         $pm         = FPersistentManager::getInstance();
 
-        $filmID     = isset($_GET["film"]) ? $_GET["film"] : $_POST["film"];
+        $filmID     = isset($_GET["film"]) ? $_GET["film"] : $_POST["film"]; //se passato in get lo prende in get altrimenti lo prende in post
         $film       = $pm->load($filmID, "id", "EFilm")[0];
         $copertina  = $pm->load($filmID,"idFilm","EMediaLocandina");
         $attori     = FPersistentManager::getInstance()->load("1", "isAttore", "EPersona");
@@ -439,8 +439,8 @@ class CAdmin
         if ($_SERVER["REQUEST_METHOD"] === "GET") {
             VAdmin::gestioneSale($sale, CUtente::getUtente());
         } elseif($_SERVER["REQUEST_METHOD"] === "POST") {
-            $operation = $_POST["op"];
-            if($operation === '1') {
+            $operation = $_POST["op"]; //caricata operazione
+            if($operation === '1') { //modifica disponibilita sale
                 foreach ($sale as $item) {
                     $disponibile = isset($_POST["sala" . strval($item->getNumeroSala())]);
                     if($item->isDisponibile() !== $disponibile) {
@@ -455,7 +455,7 @@ class CAdmin
                 }
 
                 VAdmin::gestioneSale($sale, CUtente::getUtente(), "Operazione avvenuta con successo!");
-            } else if($operation === '2') {
+            } else if($operation === '2') { // aggiunta nuova sala
                 $nSala       = intval($_POST["sala"]);
                 $nFile       = intval($_POST["file"]);
                 $nPosti      = intval($_POST["posti"]);
@@ -467,7 +467,7 @@ class CAdmin
                     die;
                 }
 
-                foreach ($sale as $item) {
+                foreach ($sale as $item) { //verifica esistenza sala
                     if($item->getNumeroSala() == $sala->getNumeroSala()) {
                         VAdmin::gestioneSale($sale, CUtente::getUtente(), "Sala già esistente!", $nSala, $nFile, $nPosti);
                         die;
@@ -559,7 +559,7 @@ class CAdmin
                 do {
                     $salaV      = ESalaVirtuale::fromSalaFisica($salaF);
                     $proiezione = new EProiezione($film, $salaV, $inizio);
-                    $inizio->modify("+1 day");
+                    $inizio->modify("+1 day"); //incrementa ogni giorno impostanto le programmazioni fino a datafine
 
                     $programmazione->addProiezione($proiezione);
                 } while ($inizio->getTimestamp() <= $fine->getTimestamp());
@@ -602,7 +602,7 @@ class CAdmin
     public static function modificaProgrammazione() {
         self::checkAdmin();
 
-        $method = $_SERVER["REQUEST_METHOD"];
+        $method = $_SERVER["REQUEST_METHOD"]; //richiama la schermata di modificaprogrammazione in post
 
         if ($method === "GET") {
             $idFilm         = $_GET["film"];
@@ -636,7 +636,7 @@ class CAdmin
         $proiezione     = $pm->load($idProiezione, "id", "EProiezione")->getElencoProgrammazioni()[0]->getProiezioni()[0];
 
         $biglietti      = $pm->load($proiezione->getId(), "idProiezione", "EBiglietto");
-        $cambioSala     = sizeof($biglietti) == 0;
+        $cambioSala     = sizeof($biglietti) == 0;// cambiosala è possibile solo se non ci sono biglietti venduti
 
         $utente         = CUtente::getUtente();
 

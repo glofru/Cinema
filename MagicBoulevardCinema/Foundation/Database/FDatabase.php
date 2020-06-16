@@ -427,6 +427,9 @@ class FDatabase
                     return false;
                 }
 
+                //i settaggi di occupazione e instaurazione di biglietto insieme per consistenza ,
+                // biglietti e posti insieme non separati infatti il commit alla fine (445)
+
                 $query  = "UPDATE Posti SET occupato = '1' WHERE idProiezione = '" . $item->getProiezione()->getId() . "' AND posizione = '" . $item->getPosto()->getId() . "';";
                 $sender = $this->db->prepare($query);
                 $sender->execute();

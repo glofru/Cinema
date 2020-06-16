@@ -1,17 +1,18 @@
+#specifica in caso di errore quale chiamare
 ErrorDocument 401 /MagicBoulevardCinema/401.html
 ErrorDocument 403 /MagicBoulevardCinema/403.html
 ErrorDocument 404 /MagicBoulevardCinema/404.html
 ErrorDocument 405 /MagicBoulevardCinema/405.html
 ErrorDocument 500 /MagicBoulevardCinema/500.html
 
-<IfModule mod_rewrite.c>
+<IfModule mod_rewrite.c> # il modulo che si sta usando e di apache che funziona a moduli abilitato di default
 
-RewriteEngine On
-RewriteBase /
-RewriteCond %{HTTPS} off
+RewriteEngine On #fa partire l'url successivo
+RewriteBase / #path relativo base
+RewriteCond %{HTTPS} off #se non hai fatto laccesso attraverso un protocollo non https allora vai riga 14 (load balancer)
 RewriteCond %{HTTP:X-Forwarded-Proto} !https
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301] #riscrivi url come host per 12 R=redirect 301 (301 definitivo 302 temporaneo) l=last (fermati qui)
 
-RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-f #risorsa richiesta non esiste e ti reinderizza all'index riga 17
 RewriteRule ^(.*)$ /MagicBoulevardCinema/index.php [L]
 </IfModule>

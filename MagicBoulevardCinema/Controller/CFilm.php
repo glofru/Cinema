@@ -18,20 +18,21 @@ class CFilm
         if ($_SERVER["REQUEST_METHOD"] === "GET") {
             $pm = FPersistentManager::getInstance();
 
-            $autoplay = isset($_GET["autoplay"]) && $_GET["autoplay"];
+            $autoplay = isset($_GET["autoplay"]) && $_GET["autoplay"]; //boolval
 
             $film = $pm->load($_GET["film"], "id", "EFilm")[0];
 
+            //aggiornate le preferenze nel cookie con il genere
             setcookie("preferences", serialize(CUtente::getUtente()->incrementPreference($film->getGenere(), $_COOKIE['preferences'])), time()+(86400 * 30), '/');
 
-            $filmC = $pm->load($film->getGenere(), "Genere", "EFilm");
+            $filmC = $pm->load($film->getGenere(), "Genere", "EFilm"); //film consigliati dal genere tranne se stesso
             foreach ($filmC as $key => $f) {
                 if ($f->getId() == $film->getId()) {
                     unset($filmC[$key]);
                 }
             }
 
-            $filmC     = array_values($filmC);
+            $filmC     = array_values($filmC); // se sono piu di 6 viene tagliato
             if (sizeof($filmC) > 6) {
                 $filmC = array_slice($filmC, 0, 6);
             }
@@ -69,7 +70,8 @@ class CFilm
 
         $canWrite  = false;
 
-        if(CUtente::isLogged() && !$utente->isAdmin()){
+        if(CUtente::isLogged() && !$utente->isAdmin()){// controlla se l'utente non è un admin e se il film non uescira
+            // tra una settimana in modo tale da non poterlo commentare
             $data  = $film->getDataRilascio();
             $today = new DateTime('now + 1 Week');
 
@@ -84,7 +86,7 @@ class CFilm
             }
         }
 
-        $img = [];
+        $img = []; //vengono caricate le propic utente e caricato tutto
         foreach($reviews as $loc) {
             $temp = FPersistentManager::getInstance()->load($loc->getUtente()->getId(),"idUtente","EMediaUtente");
             array_push($img,$temp);
@@ -111,7 +113,7 @@ class CFilm
             $programmazioneFilm = new EProgrammazioneFilm();
         }
 
-        return EProgrammazioneFilm::amIStillGood($programmazioneFilm);
+        return EProgrammazioneFilm::amIStillGood($programmazioneFilm); //controlla le programmazioni odierne per la prenotazione
     }
 
     /**

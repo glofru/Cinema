@@ -72,7 +72,7 @@ class Installer
         $method = $_SERVER["REQUEST_METHOD"];
 
         if ($method == "GET") {
-            if (!self::checkInstallDB()) {
+            if (!self::checkInstallDB()) { //se non è partita l'installazione ti fornisce un cookie sia il metodo che javascript
                 setcookie('cookie_enabled', 'Hello, there!', time()+3600, "/");
                 $smarty->assign("path", $GLOBALS["path"]);
                 $smarty->display("installationDB.tpl");
@@ -104,15 +104,16 @@ class Installer
                 if(!isset($_COOKIE['js_enabled'])) {
                     $value .= "Esecuzione di codice JS non abilitata! Per permetterci di funzionare abilitalo per favore!";
                 }
-                if(strlen($value) > 0) {
+                if(strlen($value) > 0) { //se value, serve per evitare errori
                     VError::error(0, $value);
                     die;
                 } else {
+                    //vengono tolti i cookie e installa il db
                     setcookie('cookie_enabled', '', time()-3600, '/');
                     setcookie('js_enabled', '', time()-3600);
                     self::installDB($dbname, $username, $pwd, $population);
                 }
-            } elseif (!self::checkInstallCinema()) {
+            } elseif (!self::checkInstallCinema()) { //interaccia dei prezzi
                 $Mon = floatval($_POST["Mon"]);
                 $Tue = floatval($_POST["Tue"]);
                 $Wed = floatval($_POST["Wed"]);
@@ -137,14 +138,14 @@ class Installer
                     $smarty->display("firstAdmin.tpl");
                     die;
                 }
-
+                //crea immagine di default per l'admin
                 FPersistentManager::getInstance()->signup($utente);
                 $data = new DateTime();
                 $media = new EMediaUtente('','',$data, '', $utente);
                 FPersistentManager::getInstance()->save($media);
                 unset($utente);
                 header("Location: /MagicBoulevardCinema");
-            } elseif (!self::checkPhysical()){
+            } elseif (!self::checkPhysical()){ //creazione delle sale
                 $nSale = [];
                 $sale = [];
                 $n = sizeof($_POST);
@@ -188,7 +189,7 @@ class Installer
                 foreach ($sale as $item) {
                     FPersistentManager::getInstance()->save($item);
                 }
-                header("Location: /MagicBoulevardCinema");
+                header("Location: /MagicBoulevardCinema"); //home utente loggato
             } else {
                 CHome::showHome();
             }

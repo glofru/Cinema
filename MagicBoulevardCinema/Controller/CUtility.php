@@ -47,9 +47,9 @@ class CUtility
         $utente->preferences($_COOKIE["preferences"]);
 
         $result   = [];
-        if($utente->getPreferences() === true) {
+        if($utente->getPreferences() === true) { //prefernze vuote
             $date = EData::getDatePassate();
-            $filmConsigliati = $pm->loadBetween($date[1], $date[0], "EFilm");
+            $filmConsigliati = $pm->loadBetween($date[1], $date[0], "EFilm"); //caricati film a caso
 
             shuffle($filmConsigliati);
             if(sizeof($filmConsigliati) > 6) {

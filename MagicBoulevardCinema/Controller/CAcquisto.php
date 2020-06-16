@@ -28,12 +28,12 @@ class CAcquisto
             } elseif (isset($_POST["mail"]) && EInputChecker::getInstance()->isEmail($_POST["mail"])) { //Utente non registrato
                 $mail   = $_POST["mail"];
 
-                $utente = FUtente::load($mail, "email");
+                $utente = FUtente::load($mail, "email"); // vedere se l'utente gia esiste nel database
 
-                if (isset($utente) && ($utente->isRegistrato() || $utente->isAdmin())) {
+                if (isset($utente) && ($utente->isRegistrato() || $utente->isAdmin())) { //se è registrato o admin
                     VUtente::loginForm($mail, false);
                 } else {
-                    if (!isset($utente)) {
+                    if (!isset($utente)) { // nuovo utente non registrato
                         try {
                             $utente = new ENonRegistrato($mail, "");
                         } catch (Exception $e) {
@@ -69,19 +69,19 @@ class CAcquisto
     private static function loadBiglietti(int $id, string $str, $utente) {
         $pm         = FPersistentManager::getInstance();
 
-        $posti      = EPosto::fromString($str, true);
+        $posti      = EPosto::fromString($str, true); // ritorna array di posti da stringa
         $proiezione = $pm->load($id, "id", "EProiezione")->getElencoProgrammazioni()[0]->getProiezioni()[0];
         $locandina  = $pm->load($proiezione->getFilm()->getId(), "idFilm", "EMedia");
         $biglietti  = [];
         $totale     = 0;
 
         foreach ($posti as $key => $posto) {
-            $costo  = EBiglietto::getPrezzofromProiezione($proiezione);
-            array_push($biglietti, new EBiglietto($proiezione, $posto, $utente, $costo, uniqid()));
+            $costo  = EBiglietto::getPrezzofromProiezione($proiezione); // data la proiezione ricava il prezzo
+            array_push($biglietti, new EBiglietto($proiezione, $posto, $utente, $costo, uniqid())); //uniqd id biglietto
             $totale += $costo;
         }
 
-        if(sizeof($biglietti) > 0) {
+        if(sizeof($biglietti) > 0) { //se si hanno biglietti vensono salvati nella sessione
             $serialized            = serialize($biglietti);
             $_SESSION["biglietti"] = $serialized;
 
@@ -108,15 +108,15 @@ class CAcquisto
 
             if(!CUtente::isLogged() && isset($_SESSION["nonRegistrato"])) {
                 $isNonRegistrato = true;
-            } else if (!isset($_SESSION["biglietti"])  || CUtente::getUtente()->isAdmin()) {
+            } else if (!isset($_SESSION["biglietti"])  || CUtente::getUtente()->isAdmin()) { //non puo comprare admin da errore
                 VError::error(100);
                 die;
             }
 
-            $biglietti = unserialize($_SESSION["biglietti"]);
+            $biglietti = unserialize($_SESSION["biglietti"]); //reperiti biglietti dalla sessione
             if(!$isNonRegistrato) {
                 foreach ($biglietti as $item) {
-                    if ($item->getUtente()->getId() !== CUtente::getUtente()->getId()) {
+                    if ($item->getUtente()->getId() !== CUtente::getUtente()->getId()) { //id utente diverso id utente biglietto
                         VError::error(100);
                         die;
                     }
@@ -128,19 +128,19 @@ class CAcquisto
             if($isNonRegistrato) {
                 $utente = unserialize($_SESSION["nonRegistrato"]);
             } else {
-                $utente  = CUtente::getUtente();
+                $utente  = CUtente::getUtente(); //richiama il session di utente
             }
 
-            if(!$utente->isRegistrato()) {
-                $utenteDB   = FUtente::load($utente->getEmail(), "email");
-                if(!isset($utenteDB)) {
-                    $uid    = uniqid();
+            if(!$utente->isRegistrato()) { // se è un utente non registrato
+                $utenteDB   = FUtente::load($utente->getEmail(), "email"); // si controlla email sul db
+                if(!isset($utenteDB)) { // se non ha effettuato nessun acquisto
+                    $uid    = uniqid(); //si crea una nuova password e si salva sul db
                     $utente->setPassword($uid);
 
-                    FPersistentManager::getInstance()->signup($utente);
-                } else {
+                    FPersistentManager::getInstance()->signup($utente); // si crea l'utente nel db
+                } else { //se ha acquistato in precedenza
                     $utente = $utenteDB;
-                    $uid    = null;
+                    $uid    = null; // non si setta la password dovrebbe gia averla
                 }
             }
 
@@ -150,7 +150,9 @@ class CAcquisto
                 }
             }
 
-            $result = $pm->occupaPosti($biglietti);
+            $result = $pm->occupaPosti($biglietti); //mutua esclusione Fdatabase (Riga 409) dove il For update
+                                                    // non permette ne di leggere ne di scrivere (Share mode) motore di mysequel innodb perche permette
+                                                    // di fare il lock in una singola riga a differenza di mysequel
 
             if ($result === null) {
                 VError::error(0, "Posto non presente nella sala."); //Il posto non esisteva
@@ -160,20 +162,23 @@ class CAcquisto
                 die;
             } else {
                 if (!$utente->isRegistrato()) {
-                    CMail::sendTicketsNonRegistrato($utente, $biglietti, $uid);
+                    CMail::sendTicketsNonRegistrato($utente, $biglietti, $uid); //biglietto inviato tramite email
+                    // se uid settato prima viene mandata la password , se non è settato non viene mandato niente perche ha gia acquistato
 
-                    unset($uid);
-                    CUtente::logout(false);
+                    unset($uid);// password dato sensibile
+                    CUtente::logout(false); //utente viene cacciato, l'utente non registrato viene considerato
+                    // come visitatore tranne nella fase di acquisto che ha una sessione di non registrato
+                    // (per invogliare il visitatore ad iscriversi)
 
                     header("Location: /MagicBoulevardCinema/Utente/controlloBigliettiNonRegistrato");
-                } else {
+                } else { //registrato
                     foreach ($biglietti as $b) {
-                        $utente->addBiglietto($b);
+                        $utente->addBiglietto($b); // aagiunti i biglietti all'array di biglietti di utente
                     }
-                    $_SESSION["utente"] = serialize($utente);
-                    CMail::sendTickets($utente, $biglietti);
+                    $_SESSION["utente"] = serialize($utente); // viene serializzato per essere aggiornato
+                    CMail::sendTickets($utente, $biglietti); //biglietti inviati via email
 
-                    header("Location: /MagicBoulevardCinema/Utente/bigliettiAcquistati");
+                    header("Location: /MagicBoulevardCinema/Utente/bigliettiAcquistati"); //schermata di biglietti
                 }
             }
         } else {

@@ -85,18 +85,19 @@ class CMain
      * @param string $url , url richiesto dall'utente.
      * @throws SmartyException
      */
-    public static function run(string $url) {
+    public static function run(string $url) { //prende url
         if(!isset($GLOBALS["domain"])){
-            $GLOBALS["domain"] = $_SERVER['SERVER_NAME'];
+            $GLOBALS["domain"] = $_SERVER['SERVER_NAME']; //verifica variabile globale e la imposta come il nome del server
         }
 
-        if(!isset($_COOKIE["preferences"])){
-             setcookie("preferences", serialize(CUtente::getUtente()->preferences(null)), time()+(86400*30), '/');
+        if(!isset($_COOKIE["preferences"])){ //se non è settato ti setta le preferenze da visitatore (tenere conto visitatori sito)
+             setcookie("preferences", serialize(CUtente::getUtente()->preferences(null)), time()+(86400*30), '/'); //30 giorni
         }
 
-        ini_set('session.gc_probability', 10);
-        ini_set('session.gc_divisor', 200);
-        $parsed_url = parse_url($url);
+        ini_set('session.gc_probability', 10); //settare le variabili di php.ini prob e div al client con i valori 10 e 200
+        ini_set('session.gc_divisor', 200); // prob favorevoli, se div totali
+        // garbage collector con valori piu alti per cancellare dati da che ci sono modalita di acquisto e quindi dati sensibili
+        $parsed_url = parse_url($url);//prende il path e controlla se ce /api/ (102)
         $path       = $parsed_url["path"];
         $isApi      = strstr($path, "/api/");
 
@@ -106,20 +107,20 @@ class CMain
                 //Check ban e cambio password dal database
                 $check = FPersistentManager::getInstance()->load(CUtente::getUtente()->getId(), "id", "EUtente");
                 if ($check->isBanned()) {
-                    CUtente::logout(false);
+                    CUtente::logout(false); //logout forzato
                     VError::error(4);
-                } else if (CUtente::getUtente()->getPassword() !== $check->getPassword()){
+                } else if (CUtente::getUtente()->getPassword() !== $check->getPassword()){//password diversa per password cambiata
                     CUtente::logout(false);
                     VError::error(0, "La password è stata cambiata!");
                 }
             } else {
                 if (isset($_SESSION["nonRegistrato"])) {
                     if ($path != "/MagicBoulevardCinema/Acquisto/confermaAcquisto") {
-                        CUtente::logout(false);
+                        CUtente::logout(false);//non registrato esiste solo durante lacquisto del biglietto
                     }
                 } else {
-                    if (!isset($_SESSION["visitatore"])) {
-                        CUtente::createVisitor();
+                    if (!isset($_SESSION["visitatore"])) { //se non sei visitatore
+                        CUtente::createVisitor(); //se non sei registarto ok altrimenti ti crea sessione amministratore
                     }
                 }
             }
@@ -127,44 +128,44 @@ class CMain
             if ($path === "/" || $path === "/MagicBoulevardCinema/" || $path === "/MagicBoulevardCinema/index.php") {
                 CHome::showHome();
             } else {
-                $res = explode("/", $path);
+                $res = explode("/", $path); //parsing path
 
                 array_shift($res);
                 array_shift($res);
-                $controller = "C" . $res[0];
+                $controller = "C" . $res[0]; //nome classe con C davanti
 
                 try {
-                    $class = new ReflectionClass($controller);
-                } catch (ReflectionException $e) {
+                    $class = new ReflectionClass($controller); // Reflection servono per fornire un interfaccia per
+                } catch (ReflectionException $e) { //ottenere informazioni su  classi e metodi
                     CMain::notFound();
                 }
 
                 if($class->getName() === "CUtility"){
-                    CMain::forbidden();
+                    CMain::forbidden(); //perche riservata ad admin
                 }
 
 
-                $function = $res[1];
+                $function = $res[1]; //si prende la funzione
 
                 try {
-                    $reflection = $class->getMethod($function);
+                    $reflection = $class->getMethod($function); //richiama metodo classe
                         
                     if(!$reflection->isPublic()){
-                        CMain::forbidden();
+                        CMain::forbidden();//solo se è publico, perche
                     }
 
-                } catch (ReflectionException $e) {
+                } catch (ReflectionException $e) { // non trovato
                    self::notFound();
                 }
 
                 try {
-                    $controller::$function();
-                } catch (Exception $e) {
+                    $controller::$function(); //richiama il controller con la funzione
+                } catch (Exception $e) { //se ci sta qualche probema manda in errore de3l server
                     self::internalServerError();
                 }
             }
         } else {
-            $api = explode("/", $path);
+            $api = explode("/", $path); //api stessa cosa con arrayshift in piu per togliere lo slash
 
             array_shift($api);
             array_shift($api);
@@ -174,7 +175,7 @@ class CMain
                 self::notFound();
             } else {
                 $function = $api[1];
-                if (method_exists("CGestoreREST", $function)) {
+                if (method_exists("CGestoreREST", $function)) { //controla se cgestore rest ha il metodo
                     $function = $api[1];
                     $controller = "CGestoreREST";
 

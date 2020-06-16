@@ -21,12 +21,12 @@ class CUtente
      * Allora salva il contenuto in un cookie. Successivamente richiama la funzione chekLogin per sapere se il login è valido o meno.
      * @throws SmartyException
      */
-    public static function login() {
+    public static function login() { //vede se un utente è loggato
         if (self::isLogged()) {
             header("Location: /MagicBoulevardCinema");
         } elseif ($_SERVER["REQUEST_METHOD"] == "GET") {
             if(isset($_COOKIE["remember"])){
-                VUtente::loginForm($_COOKIE["remember"], false, 1);
+                VUtente::loginForm($_COOKIE["remember"], false, 1); //cookie remember per il nome
             } else {
                 VUtente::loginForm();
             }
@@ -35,7 +35,7 @@ class CUtente
             $username = $_POST["username"];
             $password = $_POST["password"];
             if(isset($_POST["remember"])) {
-                setcookie("remember", $username, time() + time() + (168 * 3600),"/");
+                setcookie("remember", $username, time() + time() + (168 * 3600),"/"); //cookie remember per il nome per 7gg
             } else {
                 setcookie("remember", "", time() + time() - (168 * 3600),"/");
             }
@@ -58,7 +58,7 @@ class CUtente
      * @throws SmartyException
      */
     public static function loginNonRegistrato() {
-        if(self::isLogged()){
+        if(self::isLogged()){ //se utente loggato, riportato alla home
             header("Location: /MagicBoulevardCinema");
         } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -70,9 +70,9 @@ class CUtente
                 $utente   = FPersistentManager::getInstance()->login($email, $password, true);
 
                 if (!isset($utente)) {
-                    VUtente::showCheckNonRegsitrato(CUtente::getUtente(), true, $email);
+                    VUtente::showCheckNonRegsitrato(CUtente::getUtente(), true, $email); //riporta alla schermata di login perche isget=true
                 } else if ($utente->isRegistrato()) {
-                    VError::error(0, "Pagina destinata ad utenti non Registrati");
+                    VError::error(0, "Pagina destinata ad utenti non Registrati"); //si suppone che l'admin non faccia il login qua
                 } else {
                     foreach (FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EBiglietto") as $b) {
                         $utente->addBiglietto($b);
@@ -120,7 +120,7 @@ class CUtente
             session_unset();
             session_destroy();
             setcookie("PHPSESSID", "", time() - 3600, "/");
-            self::createVisitor();
+            self::createVisitor();// ti fa diventare visitatore
         }
 
         if ($redirect) {
@@ -373,7 +373,7 @@ class CUtente
      * @throws SmartyException
      */
     public static function saveSession($utente = null) {
-        ini_set('session.cookie_httponly', true);
+        ini_set('session.cookie_httponly', true); //abilitare i cookie solo sulle richieste http
 
         if(!isset($utente)) {
             VError::error(100);
@@ -496,7 +496,7 @@ class CUtente
      * Funzione che permette di sapere se un utente è attualmente loggato nel nostro sito.
      * @return bool, esito del controllo.
      */
-    public static function isLogged(): bool {
+    public static function isLogged(): bool { //settato cookie e utente di sessione
         if (isset($_COOKIE["PHPSESSID"])) {
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
@@ -568,7 +568,7 @@ class CUtente
         if ($method == "GET") {
             if (isset($_GET["token"])) {
                 $token = FPersistentManager::getInstance()->load($_GET["token"], "value", "EToken");
-                if(!$token->amIValid()) {
+                if(!$token->amIValid()) { //vede se il token poassato è valido e in caso affermativo lo cancella
                     FPersistentManager::getInstance()->delete($token->getValue(), "value", "EToken");
                     unset($token);
                 }
