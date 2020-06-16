@@ -238,7 +238,6 @@
 
     function removeRow (input) {
         input.parentNode.remove();
-        a -=1;
     }
 </script>
 
