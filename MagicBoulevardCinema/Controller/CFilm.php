@@ -51,7 +51,7 @@ class CFilm
 
             VFilm::show($film, $autoplay, $copertina, $filmC, $locandine, $reviews[0], $reviews[1], $programmazioneFilm, $reviews[2], $utente);
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 

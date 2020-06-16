@@ -11,14 +11,14 @@ $GLOBALS["path"] = "/MagicBoulevardCinema/";
 
 if (Installer::checkInstall()) {
     try {
-        CMain::run($_SERVER["REQUEST_URI"]);
+        CFrontController::run($_SERVER["REQUEST_URI"]);
     } catch (SmartyException $e) {
-        CMain::internalServerError();
+        CFrontController::internalServerError();
     }
 } else {
     try {
         Installer::start();
     } catch (SmartyException $e) {
-        CMain::internalServerError();
+        CFrontController::internalServerError();
     }
 }

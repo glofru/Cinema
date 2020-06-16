@@ -41,7 +41,7 @@ class CUtente
             }
             self::checkLogin($username, $password);
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -93,7 +93,7 @@ class CUtente
                 VUtente::showCheckNonRegsitrato(CUtente::getUtente(), true);
             }
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -189,7 +189,7 @@ class CUtente
     public static function show() {
         if($_SERVER['REQUEST_METHOD'] == "GET") {
             if(!isset($_GET["id"])){
-                CMain::notFound();
+                CFrontController::notFound();
             } else {
                 $pm = FPersistentManager::getInstance();
 
@@ -230,7 +230,7 @@ class CUtente
 
             }
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -341,7 +341,7 @@ class CUtente
                    VUtente::modifica($utente, FPersistentManager::getInstance()->load($utente->getId(),"idUtente","EMediaUtente"), EGenere::getAll(), FPersistentManager::getInstance()->isASub($utente), explode(";", FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "FNewsLetter")));
                 }
             } else {
-                CMain::unauthorized();
+                CFrontController::unauthorized();
             }
         } elseif ($method === "GET") {
             $id = $_GET["id"];
@@ -354,10 +354,10 @@ class CUtente
 
                 VUtente::modifica($utente, $propic, EGenere::getAll(), FPersistentManager::getInstance()->isASub($utente), explode(";", FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "FNewsLetter")));
             } else {
-                CMain::unauthorized();
+                CFrontController::unauthorized();
             }
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -488,7 +488,7 @@ class CUtente
                 header("Location: /MagicBoulevardCinema");
             }
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -546,10 +546,10 @@ class CUtente
 
                 VUtente::showBiglietti($biglietti, $immagini, $utente);
             } else {
-                CMain::unauthorized();
+                CFrontController::unauthorized();
             }
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -657,7 +657,7 @@ class CUtente
             CMail::modifiedPassword($utente);
             VUtente::loginForm();
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -675,10 +675,10 @@ class CUtente
                     VUtente::showCommenti($giudizi, $utente, $propic);
                 }
             } else {
-                CMain::unauthorized();
+                CFrontController::unauthorized();
             }
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -695,7 +695,7 @@ class CUtente
                 die;
             }
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -706,7 +706,7 @@ class CUtente
     public static function eliminaUtente() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if(!CUtente::isLogged()){
-                CMain::unauthorized();
+                CFrontController::unauthorized();
             }
 
             if(isset($_POST["idUtente"]) && CUtente::getUtente()->getId() == $_POST["idUtente"]) {
@@ -714,10 +714,10 @@ class CUtente
 
                 FPersistentManager::getInstance()->delete($_POST["idUtente"], "id", "EUtente");
             } else {
-                CMain::badRequest();
+                CFrontController::badRequest();
             }
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 

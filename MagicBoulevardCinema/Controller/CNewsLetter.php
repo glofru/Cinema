@@ -27,7 +27,7 @@ class CNewsLetter
                 }
             }
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -39,7 +39,7 @@ class CNewsLetter
      */
     public static function addedNewFilm() {
         if (!CUtente::isLogged() || !CUtente::getUtente()->isAdmin()) {
-            CMain::forbidden();
+            CFrontController::forbidden();
         } else {
             $film = FPersistentManager::getInstance()->load($_SESSION["idFilm"], "id", "EFilm")[0];
             unset($_SESSION["idFilm"]);

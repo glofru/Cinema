@@ -1,10 +1,10 @@
 <?php
 
 /**
- * La classe Main o FrontController dispone di metodi necessari alla corretta gestione di tutte le richieste effettuate sul nsotro sito. Ad ogni richiesta di una pagina viene interpellato al fine di ottenere il risultato atteso.
- * Class CMain
+ * La classe FrontController dispone di metodi necessari alla corretta gestione di tutte le richieste effettuate sul nsotro sito. Ad ogni richiesta di una pagina viene interpellato al fine di ottenere il risultato atteso.
+ * Class CFrontController
  */
-class CMain
+class CFrontController
 {
 
     public static function badRequest () {
@@ -136,11 +136,11 @@ class CMain
                 try {
                     $class = new ReflectionClass($controller);
                 } catch (ReflectionException $e) {
-                    CMain::notFound();
+                    CFrontController::notFound();
                 }
 
                 if($class->getName() === "CUtility"){
-                    CMain::forbidden();
+                    CFrontController::forbidden();
                 }
 
 
@@ -150,7 +150,7 @@ class CMain
                     $reflection = $class->getMethod($function);
                         
                     if(!$reflection->isPublic()){
-                        CMain::forbidden();
+                        CFrontController::forbidden();
                     }
 
                 } catch (ReflectionException $e) {

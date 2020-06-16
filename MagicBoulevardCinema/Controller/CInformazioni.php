@@ -18,7 +18,7 @@ class CInformazioni
         if($_SERVER["REQUEST_METHOD"] === "GET") {
             VInformazioni::getCosti(CUtente::getUtente());
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -30,7 +30,7 @@ class CInformazioni
         if($_SERVER["REQUEST_METHOD"] === "GET") {
             VInformazioni::getAbout(CUtente::getUtente());
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -42,7 +42,7 @@ class CInformazioni
         if($_SERVER["REQUEST_METHOD"] === "GET") {
             VInformazioni::getHelp(CUtente::getUtente());
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 }

@@ -18,7 +18,7 @@ class CAdmin
      */
     private static function checkAdmin() {
         if(!CUtente::isLogged() || !CUtente::getUtente()->isAdmin()) {
-            CMain::unauthorized();
+            CFrontController::unauthorized();
             die;
         }
     }
@@ -52,7 +52,7 @@ class CAdmin
             $bannati    = $pm->loadbannati();
             VAdmin::gestioneUtenti($bannati, $utente, $status);
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -64,14 +64,14 @@ class CAdmin
 
         if(($_SERVER["REQUEST_METHOD"] === "POST")) {
             if(!isset($_POST["idFilm"])) {
-                CMain::badRequest();
+                CFrontController::badRequest();
             } else {
                 FPersistentManager::getInstance()->delete($_POST["idFilm"], 'id', "EFilm");
 
                 header("Location: /MagicBoulevardCinema/");
             }
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -147,7 +147,7 @@ class CAdmin
             self::ban($utente);
             CGiudizio::delete();
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -184,7 +184,7 @@ class CAdmin
 
             header("Location: /MagicBoulevardCinema");
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -401,7 +401,7 @@ class CAdmin
                 $isRegista = boolval($_POST["regista"]);
 
                 if ($nome === null || $cognome === null || $imdbURL === null) {
-                    CMain::badRequest();
+                    CFrontController::badRequest();
                 } elseif ($nome === "" || $cognome === "" || $imdbURL === "") {
                     $status  = "Compila tutti i campi";
                 } elseif (!($isAttore || $isRegista)) {
@@ -414,10 +414,10 @@ class CAdmin
 
                 VAdmin::gestioneFilm($utente, $attori, $registi, $persone, null, $status, $_POST, true);
             } else {
-                CMain::badRequest();
+                CFrontController::badRequest();
             }
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -483,7 +483,7 @@ class CAdmin
                 VError::error(0, "Azione non valida");
             }
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -616,7 +616,7 @@ class CAdmin
 
             VAdmin::modificaProgrammazione($utente, $programmazione);
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -721,7 +721,7 @@ class CAdmin
                 VAdmin::modificaProiezione($utente, $films, $sale, $cambioSala, $proiezione, $status);
             }
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -733,14 +733,14 @@ class CAdmin
         self::checkAdmin();
         if($_SERVER["REQUEST_METHOD"] === "GET"){
             if(!isset($_GET["idPersona"])){
-                CMain::badRequest();
+                CFrontController::badRequest();
             } else {
                 $persona = FPersistentManager::getInstance()->load($_GET["idPersona"], "id", "EPersona")[0];
                 VAdmin::modificaPersona(CUtente::getUtente(), $persona);
             }
         } elseif ($_SERVER["REQUEST_METHOD"] === "POST") {
             if(!isset($_POST["idPersona"])) {
-                CMain::badRequest();
+                CFrontController::badRequest();
             } else {
                 if($_POST["nome"] == "" || $_POST["cognome"] == "" || $_POST["url"] == "") {
                     VAdmin::modificaPersona(CUtente::getUtente(), FPersistentManager::getInstance()->load($_POST["idPersona"], "id", "EPersona")[0], "Inseriti dati non validi");
@@ -754,7 +754,7 @@ class CAdmin
                 header("Location: /MagicBoulevardCinema/Admin/gestioneFilm/?");
             }
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 }

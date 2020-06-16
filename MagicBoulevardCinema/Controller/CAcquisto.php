@@ -49,7 +49,7 @@ class CAcquisto
                 VError::error(8);
             }
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -178,7 +178,7 @@ class CAcquisto
                 }
             }
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 }

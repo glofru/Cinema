@@ -16,7 +16,7 @@ class CGiudizio{
     public static function add() {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             if (!CUtente::isLogged()) {
-                CMain::unauthorized();
+                CFrontController::unauthorized();
             }
 
             $utente = CUtente::getUtente();
@@ -43,7 +43,7 @@ class CGiudizio{
                 header("Location: /MagicBoulevardCinema/Film/show/?film=" . $idFilm);
             }
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -75,10 +75,10 @@ class CGiudizio{
                     header("Location: /MagicBoulevardCinema/Utente/showCommenti/");
                 }
             } else {
-                CMain::methodNotAllowed();
+                CFrontController::methodNotAllowed();
             }
         } else {
-            CMain::unauthorized();
+            CFrontController::unauthorized();
         }
     }
 }

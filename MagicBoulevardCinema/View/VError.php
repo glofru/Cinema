@@ -52,7 +52,7 @@ class VError
                 $error_description = "C'è stato un problema, riprova.";
                 break;
             case 10:
-                $error_description = "Estensione immagine non accettata";
+                $error_description = "Estensione immagine non accettata.";
                 break;
             case 100:
             default:

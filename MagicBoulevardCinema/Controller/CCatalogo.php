@@ -21,7 +21,7 @@ class CCatalogo
 
             VCatalogo::prossimeUscite($result, $utente, $consigliati);
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -52,7 +52,7 @@ class CCatalogo
             }
             VCatalogo::programmazioniPassate($film, $immagini, $punteggio, $date, $utente, $consigliati, $toShow);
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -106,7 +106,7 @@ class CCatalogo
 
             VCatalogo::piuApprezzati($result, $utente, $consigliati);
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 }

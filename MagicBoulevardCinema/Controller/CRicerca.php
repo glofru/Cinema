@@ -34,7 +34,7 @@ class CRicerca
             VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente);
         }
         else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 
@@ -69,7 +69,7 @@ class CRicerca
 
             VRicerca::showResult($film, $data[0], $data[1], $consigliati[0], $consigliati[1], $utente, $genere, $annoI, $annoF, $votoInizio, $votoFine);
         } else {
-            CMain::methodNotAllowed();
+            CFrontController::methodNotAllowed();
         }
     }
 }
