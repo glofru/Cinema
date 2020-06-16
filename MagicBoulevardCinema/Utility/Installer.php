@@ -150,7 +150,7 @@ class Installer
                 $sale = [];
                 $n = sizeof($_POST);
                 if(isset($_POST["numeroSala"])){
-                    $n = $n-4;
+                    $n = $n-4; //serve per il post delle sale fisiche che hanno 4 parametri quindi per ogni blocco aggiunto si settano i prametri della sala precedente per  prende i nuovi parametri
                     $nSala = intval($_POST["numeroSala"]);
                     $nFile = intval($_POST["file"]);
                     $nPosti = intval($_POST["postiPerFila"]);
@@ -164,7 +164,7 @@ class Installer
                     }
                     array_push($sale, $sala);
                 }
-                for($i=1;$i <= $n/4;$i++) {
+                for($i=1;$i <= $n/4;$i++) { //raggruppati a gruppi di 4 (gestisce tutti i casi normali "nuovi")
                      $nSala = intval($_POST["numeroSala" . strval($i)]);
                      $nFile = intval($_POST["file" . strval($i)]);
                      $nPosti = intval($_POST["postiPerFila" . strval($i)]);
@@ -209,7 +209,7 @@ class Installer
      */
     private static function installCinema(float $Mon, float $Tue, float $Wed, float $Thu, float $Fri, float $Sat, float $Sun, float $extra) {
         $script = '<?php ' . PHP_EOL .
-            '$GLOBALS[\'extra\']= ' . $extra . ';' . PHP_EOL .
+            '$GLOBALS[\'extra\']= ' . $extra . ';' . PHP_EOL . // \' serve per scrivere l'apice PHP_eol endo of line
             '$GLOBALS[\'prezzi\']= [' . PHP_EOL .
             '   "Mon" => ' . $Mon . ',' . PHP_EOL .
             '   "Tue" => ' . $Tue . ',' . PHP_EOL .

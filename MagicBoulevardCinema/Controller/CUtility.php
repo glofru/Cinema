@@ -57,19 +57,19 @@ class CUtility
             }
         } else {
             $filmConsigliati = [];
-            $cookie          = $utente->getPreferences();
+            $cookie          = $utente->getPreferences();//ritorna la media ponderata  di film da mostrare per ogni genere
 
-            foreach($cookie as $key => $c) {
+            foreach($cookie as $key => $c) { //per ogni genere carica tutti i film
                 if($c !== 0) {
                     $f = $pm->load($key, "Genere", "EFilm");
 
-                    shuffle($f);
-                    if(sizeof($f) > $c) {
+                    shuffle($f);//mischia l'array in modo da non mostrare i primi presenti sul database
+                    if(sizeof($f) > $c) { //ci sono piu film di quelli che bisogna mostrare
                         $f = array_slice($f, 0,$c);
                     }
 
                     foreach($f as $elem) {
-                        array_push($filmConsigliati, $elem);
+                        array_push($filmConsigliati, $elem);//aggiunge ai consigliati
                     }
                 }
             }

@@ -82,7 +82,7 @@ class CAdmin
      * @param $utente, utente da bannare.
      * @return string|null, esito del ban.
      */
-    private static function ban($utente) {
+    private static function ban($utente) { //viene passato l'username dell'utente
         $pm     = FPersistentManager::getInstance();
         if($utente instanceof ERegistrato) { // solo il registato puo esere bannato
             $toBan = $utente;
@@ -137,7 +137,7 @@ class CAdmin
     /**
      * Funzione accessibile solo via metodo POST, che permette, nel caso in cui un utente abbia espresso un giudizio non consono, di cancellare il commento effettuato ed in contemporanea di bannare l'utente.
      */
-    public static function deleteAndBan() { // utente viene passato da come oggetto utente (schermata commento)
+    public static function deleteAndBan() { // utente viene passato come oggetto utente (schermata commento)
         self::checkAdmin();
 
         $method     = $_SERVER["REQUEST_METHOD"];

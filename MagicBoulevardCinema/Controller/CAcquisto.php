@@ -31,7 +31,7 @@ class CAcquisto
                 $utente = FUtente::load($mail, "email"); // vedere se l'utente gia esiste nel database
 
                 if (isset($utente) && ($utente->isRegistrato() || $utente->isAdmin())) { //se è registrato o admin
-                    VUtente::loginForm($mail, false);
+                    VUtente::loginForm($mail, false); // error viene usato se il login non ha avuto successo
                 } else {
                     if (!isset($utente)) { // nuovo utente non registrato
                         try {
@@ -146,7 +146,7 @@ class CAcquisto
 
             foreach ($biglietti as $item) {
                 if (!$utente->isRegistrato()) {
-                    $item->setUtente($utente);
+                    $item->setUtente($utente); //se un utente è un non registrato probabilmente gli e stata cambiata la password e quindi deve essere cambiato l'utente per mantenerlo consistente
                 }
             }
 

@@ -135,7 +135,7 @@ class CMain
                 $controller = "C" . $res[0]; //nome classe con C davanti
 
                 try {
-                    $class = new ReflectionClass($controller); // Reflection servono per fornire un interfaccia per
+                    $class = new ReflectionClass($controller); // Reflection fornisce informazioni su gli oggetti passati
                 } catch (ReflectionException $e) { //ottenere informazioni su  classi e metodi
                     CMain::notFound();
                 }
@@ -151,7 +151,7 @@ class CMain
                     $reflection = $class->getMethod($function); //richiama metodo classe
                         
                     if(!$reflection->isPublic()){
-                        CMain::forbidden();//solo se è publico, perche
+                        CMain::forbidden(); //solo se non è publico, perche se è privato non puo essere visto da esterno
                     }
 
                 } catch (ReflectionException $e) { // non trovato
