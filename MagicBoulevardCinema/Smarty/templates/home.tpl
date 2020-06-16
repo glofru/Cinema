@@ -5,7 +5,7 @@
 	<script>
 		function ready(){
 			if (!navigator.cookieEnabled) {
-				alert('Caro utente, ti invitiamo ad abilitare i cookie sul nostro sito per permetterti un\'esperienza migliore e personalizzata in bae alle tue preferenze.');
+				alert('Caro utente, ti invitiamo ad abilitare i cookie sul nostro sito per permetterti un\'esperienza migliore e personalizzata in base alle tue preferenze.');
 			}
 		}
 		document.addEventListener("DOMContentLoaded", ready);
