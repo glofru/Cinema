@@ -284,10 +284,13 @@ class Installer
         if ($population) {
             try {
                 $populationFile = file_get_contents("populate.sql");
-
+                $populationFilePart2 = file_get_contents("populatePart2.sql");
                 $db->beginTransaction();
                 $db->exec($populationFile);
+                $db->exec($populationFilePart2);
                 $db->commit();
+                
+
             } catch (PDOException $e) {
                 $db->rollBack();
                 VError::error(2);
