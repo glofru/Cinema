@@ -41,8 +41,7 @@ class CNewsLetter
         if (!CUtente::isLogged() || !CUtente::getUtente()->isAdmin()) {
             CFrontController::forbidden();
         } else {
-            $film = FPersistentManager::getInstance()->load($_SESSION["idFilm"], "id", "EFilm")[0];
-            unset($_SESSION["idFilm"]);
+            $film = FPersistentManager::getInstance()->load(CSessionManager::getInstance()->loadFilmID(), "id", "EFilm")[0];
 
             if (isset($film)) {
                 $ns = FPersistentManager::getInstance()->loadAll("ENewsLetter");

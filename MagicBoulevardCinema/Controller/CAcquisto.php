@@ -82,8 +82,7 @@ class CAcquisto
         }
 
         if(sizeof($biglietti) > 0) {
-            $serialized            = serialize($biglietti);
-            $_SESSION["biglietti"] = $serialized;
+            CSessionManager::getInstance()->saveBiglietti($biglietti);
 
             VAcquisto::showAcquisto($biglietti, $locandina, $utente, $totale);
         } else {
@@ -105,16 +104,14 @@ class CAcquisto
     public static function confermaAcquisto() {
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $isNonRegistrato     = false;
-
-            if(!CUtente::isLogged() && isset($_SESSION["nonRegistrato"])) {
+            $biglietti           = CSessionManager::getInstance()->loadBiglietti();
+            if(!CUtente::isLogged() && CUtente::getUtente()->isNonRegistrato()) {
                 $isNonRegistrato = true;
-            } else if (!isset($_SESSION["biglietti"])  || CUtente::getUtente()->isAdmin()) {
+            } else if (!isset($biglietti)  || CUtente::getUtente()->isAdmin()) {
                 VError::error(100);
                 die;
             }
 
-            $biglietti = unserialize($_SESSION["biglietti"]);
-            unset($_SESSION["biglietti"]);
             if(!$isNonRegistrato) {
                 foreach ($biglietti as $item) {
                     if ($item->getUtente()->getId() !== CUtente::getUtente()->getId()) {
@@ -126,11 +123,7 @@ class CAcquisto
 
             $pm = FPersistentManager::getInstance();
 
-            if($isNonRegistrato) {
-                $utente = unserialize($_SESSION["nonRegistrato"]);
-            } else {
-                $utente  = CUtente::getUtente();
-            }
+            $utente = CSessionManager::getInstance()->getUtente();
 
             if(!$utente->isRegistrato()) {
                 $utenteDB   = FUtente::load($utente->getEmail(), "email");
@@ -171,7 +164,7 @@ class CAcquisto
                     foreach ($biglietti as $b) {
                         $utente->addBiglietto($b);
                     }
-                    $_SESSION["utente"] = serialize($utente);
+                    CSessionManager::getInstance()->saveUtente($utente);
                     CMail::sendTickets($utente, $biglietti);
 
                     header("Location: /MagicBoulevardCinema/Utente/bigliettiAcquistati");

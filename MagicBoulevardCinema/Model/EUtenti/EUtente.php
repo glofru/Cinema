@@ -247,6 +247,10 @@ class EUtente implements JsonSerializable
         return $this instanceof EVisitatore;
     }
 
+    public function isNonRegistrato() : bool {
+        return $this instanceof ENonRegistrato;
+    }
+
     /**
      * Funzione che assegna all'insieme delle preferenze le preferenze prese dal cookie. Se questo è vuoto viene istanziato un nuovo array.
      * @param $cookie, valore del cookie che contiene le informazioni sulle preferenze.

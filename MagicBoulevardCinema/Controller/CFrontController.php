@@ -113,12 +113,13 @@ class CFrontController
                     VError::error(11);
                 }
             } else {
-                if (isset($_SESSION["nonRegistrato"])) {
+                $utete = CUtente::getUtente();
+                if (isset($utente) && $utente->isNonRegistrato()) {
                     if ($path != "/MagicBoulevardCinema/Acquisto/confermaAcquisto") {
                         CUtente::logout(false);
                     }
                 } else {
-                    if (!isset($_SESSION["visitatore"])) {
+                    if (!$utente->isVisitatore()) {
                         CUtente::createVisitor();
                     }
                 }

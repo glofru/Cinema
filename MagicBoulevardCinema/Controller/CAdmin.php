@@ -384,7 +384,7 @@ class CAdmin
                 $data               = file_get_contents($tempCop["tmp_name"]);
                 $data               = base64_encode($data);
                 $copertina          = new EMediaLocandina($name, $mimeType, $time, $data, $film);
-                $_SESSION["idFilm"] = $film->getId();
+                CSessionManager::getInstance()->saveFilmId($film->getId());
 
                 FPersistentManager::getInstance()->save($copertina);
 

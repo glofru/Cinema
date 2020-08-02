@@ -52,12 +52,12 @@ class CMail
 
     /**
      * Funzione che invia ad un utente i biglietti acquistati. Mail specifica per utenti Registrati che continene anche un QR Code per l'identificazione del biglietto.
-     * @param ERegistrato $utente , utente Registrato destinatario della mail e che ha effettuato l'acquisto.
+     * @param EUtente $utente , utente Registrato destinatario della mail e che ha effettuato l'acquisto.
      * @param array $biglietti , insieme dei biglietti acquistati.
      * @return bool, esito dell'invio.
      * @throws \PHPMailer\PHPMailer\Exception
      */
-    public static function sendTickets(ERegistrato $utente, array $biglietti) {
+    public static function sendTickets(EUtente $utente, array $biglietti) {
         $subject = "I tuoi bilgietti - Magic Boulevard Cinema";
 
         $tickets = "";
@@ -81,13 +81,13 @@ class CMail
     /**
      * Funzione che invia una mail contenente i biglietti acquistati da un utente non Registrato. Contiene per ogni biglietto un QR Code per l'identififazione del bliglietto.
      * Se è la prima volta che l'utente effettua un acquisto gli viene anche inviato il proprio codice univoco necessario a poter effettuare il login nella sezione apposita per consultare i biglietti acquistati.
-     * @param ENonRegistrato $utente , utente non Registrato destinatario della mail e che ha effettuato l'acquisto.
+     * @param EUtente $utente , utente non Registrato destinatario della mail e che ha effettuato l'acquisto.
      * @param array $biglietti , insieme dei biglietti acquistati.
      * @param string|null $uid , codice univoco di accesso. Inviato solo se è il primo acquisto effettuato dall'utente.
      * @return bool, esito dell'operaizone.
      * @throws \PHPMailer\PHPMailer\Exception
      */
-    public static function sendTicketsNonRegistrato(ENonRegistrato $utente, array $biglietti, $uid = null) {
+    public static function sendTicketsNonRegistrato(EUtente $utente, array $biglietti, $uid = null) {
         $subject = "I tuoi bilgietti - Magic Boulevard Cinema";
 
         $tickets = "";
