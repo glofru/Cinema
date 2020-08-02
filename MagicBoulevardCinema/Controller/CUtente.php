@@ -72,7 +72,7 @@ class CUtente
                 if (!isset($utente)) {
                     VUtente::showCheckNonRegsitrato(CUtente::getUtente(), true, $email);
                 } else if ($utente->isRegistrato() || $utente->isAdmin()) {
-                    VError::error(0, "Pagina destinata ad utenti non Registrati");
+                    VError::error(16);
                 } else {
                     foreach (FPersistentManager::getInstance()->load($utente->getId(), "idUtente", "EBiglietto") as $b) {
                         $utente->addBiglietto($b);
@@ -225,7 +225,7 @@ class CUtente
 
                     VUtente::show($toShow, $canModify, $propic, $giudizi, $isASub, $prefs);
                 } else {
-                    VError::error(0,"Utente non trovato.");
+                    VError::error(17);
                 }
 
             }
@@ -573,7 +573,7 @@ class CUtente
                     unset($token);
                 }
                 if (!isset($token)) {
-                    VError::error(0, "Richiedi di inviarti un nuovo link, questo potrebbe essere scaduto.");
+                    VError::error(18);
                     die;
                 }
 
@@ -609,7 +609,7 @@ class CUtente
                     //Salvataggio token
                     FPersistentManager::getInstance()->save($token);
                 } else {
-                    VError::error(0, "C'è stato un errore. Riprova più tardi.");
+                    VError::error(19);
                     die;
                 }
             }
@@ -634,7 +634,7 @@ class CUtente
                 unset($token);
             }
             if (!isset($token)) {
-                VError::error(0, "Richiedi di inviarti un nuovo link, questo potrebbe essere scaduto.");
+                VError::error(18);
                 die;
             }
 
@@ -691,7 +691,7 @@ class CUtente
             if(!CUtente::isLogged()){
                 VUtente::showCheckNonRegsitrato(CUtente::getUtente(),true);
             } else {
-                VError::error(0, "Area riservata agli utenti <b>non registrati</b> presso il nostro portale");
+                VError::error(20);
                 die;
             }
         } else {

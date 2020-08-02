@@ -95,16 +95,16 @@ class Installer
                 $pwd        = $_POST['password'];
                 $population = boolval($_POST["population"]);
                 if(version_compare(PHP_VERSION,'7.4.0', "<")){
-                    $value .= "Versione di PHP inferiore alla 7.4.0, AGGIORNARLA per poter proseguire! <br>";
+                    $value = 22;
                 }
                 if(!isset($_COOKIE['cookie_enabled'])) {
-                    $value .= "Cookie non abilitati! Per permetterci di funzionare abilitarli per favore! <br>";
+                    $value = 23;
                 }
                 if(!isset($_COOKIE['js_enabled'])) {
-                    $value .= "Esecuzione di codice JS non abilitata! Per permetterci di funzionare abilitalo per favore!";
+                    $value = 24;
                 }
-                if(strlen($value) > 0) {
-                    VError::error(0, $value);
+                if(isset($value)) {
+                    VError::error($value);
                     die;
                 } else {
                     setcookie('cookie_enabled', '', time()-3600, '/');
@@ -272,7 +272,7 @@ class Installer
             fclose($file);
             $dir = scandir('.');
             if(!in_array(self::$confDB, $dir)) {
-                VError::error(0, "I diritti di scrittura in questa cartella ci impediscono di creare le configurazioni. Modificane i diritti e riprova."); die;
+                VError::error(21); die;
             }
         } catch (PDOException $e) {
             $db->rollBack();
@@ -289,7 +289,7 @@ class Installer
                 $db->exec($populationFile);
                 $db->exec($populationFilePart2);
                 $db->commit();
-                
+
 
             } catch (PDOException $e) {
                 $db->rollBack();

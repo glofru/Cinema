@@ -24,9 +24,6 @@ class VError
         }
 
         switch ($num) {
-            case 0:
-                $error_description = $descrizione;
-                break;
             case 1:
                 $error_description = "Errore nell'accesso al Database.";
                 break;
@@ -53,6 +50,48 @@ class VError
                 break;
             case 10:
                 $error_description = "Estensione immagine non accettata.";
+                break;
+            case 11:
+                $error_description = "La password è stata cambiata!";
+                break;
+            case 12:
+                $error_description = "Posto non presente nella sala.";
+                break;
+            case 13:
+                $error_description = "Almeno uno dei posti che voleva acquistare è stato già occupato. La invitiamo a riprovare!";
+                break;
+            case 14:
+                $error_description = "Azione non valida";
+                break;
+            case 15:
+                $error_description = "Un admin non può esprimere giudizi su un film.";
+                break;
+            case 16:
+                $error_description = "Pagina destinata ad utenti non Registrati";
+                break;
+            case 17:
+                $error_description = "Utente non trovato.";
+                break;
+            case 18:
+                $error_description = "Richiedi di inviarti un nuovo link, questo potrebbe essere scaduto.";
+                break;
+            case 19:
+                $error_description = "C'è stato un errore. Riprova più tardi.";
+                break;
+            case 20:
+                $error_description = "Area riservata agli utenti <b>non registrati</b> presso il nostro portale";
+                break;
+            case 21:
+                $error_description = "I diritti di scrittura in questa cartella ci impediscono di creare le configurazioni. Modificane i diritti e riprova.";
+                break;
+            case 22:
+                $error_description = "Versione di PHP inferiore alla 7.4.0, AGGIORNARLA per poter proseguire! <br>";
+                break;
+            case 23:
+                $error_description = "Cookie non abilitati! Per permetterci di funzionare abilitarli per favore! <br>";
+                break;
+            case 24:
+                $error_description = "Esecuzione di codice JS non abilitata! Per permetterci di funzionare abilitalo per favore!";
                 break;
             case 100:
             default:

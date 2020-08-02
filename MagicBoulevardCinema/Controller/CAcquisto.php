@@ -154,10 +154,10 @@ class CAcquisto
             $result = $pm->occupaPosti($biglietti);
 
             if ($result === null) {
-                VError::error(0, "Posto non presente nella sala."); //Il posto non esisteva
+                VError::error(12); //Il posto non esisteva
                 die;
             } else if (!$result) {
-                VError::error(0, "Almeno uno dei posti che voleva acquistare è stato già occupato. La invitiamo a riprovare!");
+                VError::error(13);
                 die;
             } else {
                 if (!$utente->isRegistrato()) {

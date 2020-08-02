@@ -480,7 +480,7 @@ class CAdmin
 
                 VAdmin::gestioneSale($sale, CUtente::getUtente(), "Operazione avvenuta con successo!");
             } else {
-                VError::error(0, "Azione non valida");
+                VError::error(14);
             }
         } else {
             CFrontController::methodNotAllowed();

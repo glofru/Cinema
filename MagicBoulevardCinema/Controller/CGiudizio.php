@@ -21,7 +21,7 @@ class CGiudizio{
 
             $utente = CUtente::getUtente();
             if ($utente->isAdmin()) {
-                VError::error(0, "Un admin non può esprimere giudizi su un film.");
+                VError::error(15);
             } else {
                 $pm = FPersistentManager::getInstance();
 
