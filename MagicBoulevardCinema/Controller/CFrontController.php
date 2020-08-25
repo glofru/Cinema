@@ -6,7 +6,9 @@
  */
 class CFrontController
 {
-
+    /**
+     * Funzione che permette di visualizzare una pagina 400 Bad request, con relativa intestazione HTTP, se l'utente tenta di accedere ad una pagina non valida.
+     */
     public static function badRequest () {
         header("HTTP/1.1 400 Bad Request");
         header("Location: /MagicBoulevardCinema/400.html");
@@ -48,6 +50,9 @@ class CFrontController
         die;
     }
 
+    /**
+     * Funzione che mostra una pagina 500 Metod InternalServerError, con relativa intestazione HTTP, se la nostra applicazione dovesse riscontrare un errore irrecuperabile e/o non gestibile.
+     */
     public static function internalServerError() {
         header("HTTP/1.1 500 Internal Server Error");
         header("Location: /MagicBoulevardCinema/500.html");
