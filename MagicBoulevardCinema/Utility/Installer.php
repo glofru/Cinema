@@ -12,12 +12,12 @@ class Installer
      * Nome del file di configurazione del DB.
      * @var string
      */
-    private static string $confDB = "configDB.conf.php";
+    private static $confDB = "configDB.conf.php";
     /**
      * Nome del file di configurazione dei prezzi dei biglietti del cinema.
      * @var string
      */
-    private static string $confCinema = "configCinema.conf.php";
+    private static $confCinema = "configCinema.conf.php";
 
     /**
      * Funzione che controlla se tutte le 4 componenti di installazione sono state completate.
@@ -67,6 +67,10 @@ class Installer
      */
     public static function start()
     {
+        if(version_compare(PHP_VERSION,'7.4.0', "<")){
+            VError::error(22);
+            die;
+        }
         $smarty = StartSmarty::configuration();
         $method = $_SERVER["REQUEST_METHOD"];
 
@@ -89,14 +93,11 @@ class Installer
             }
         } elseif ($method == "POST") {
             if (!self::checkInstallDB()) {
-                $value      = "";
+                $value      = NULL;
                 $dbname     = $_POST['dbname'];
                 $username   = $_POST['username'];
                 $pwd        = $_POST['password'];
                 $population = boolval($_POST["population"]);
-                if(version_compare(PHP_VERSION,'7.4.0', "<")){
-                    $value = 22;
-                }
                 if(!isset($_COOKIE['cookie_enabled'])) {
                     $value = 23;
                 }
@@ -287,9 +288,10 @@ class Installer
                 $populationFilePart2 = file_get_contents("populatePart2.sql");
                 $db->beginTransaction();
                 $db->exec($populationFile);
+                $db->commit();
+                $db->beginTransaction();
                 $db->exec($populationFilePart2);
                 $db->commit();
-
 
             } catch (PDOException $e) {
                 $db->rollBack();

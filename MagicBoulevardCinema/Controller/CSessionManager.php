@@ -86,14 +86,14 @@ class CSessionManager
         return isset($_COOKIE["PHPSESSID"]) && isset($_SESSION["utente"]);
     }
 
-    public function getUtente(): EUtente {
+    public function getUtente() {
         $this->beginTheSession();
         if(isset($_SESSION["utente"])){
            $utente =  $_SESSION["utente"];
         } else {
             $utente =  $_SESSION["nonRegistrato"];
         }
-        return $utente;
+        return isset($utente) ? unserialize($utente) : NULL;
     }
 
     public function getVisitatore(): EVisitatore {

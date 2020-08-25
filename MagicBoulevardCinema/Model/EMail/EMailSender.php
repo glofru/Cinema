@@ -44,7 +44,7 @@ class EMailSender
      * @throws Exception, eccezione nel caso l'invio riscontri un problema.
      */
     public static function send(EMail $email): bool {
-        $sender = new PHPMailer(true);
+        $sender = new PHPMailer(false);
 
         $sender->isSMTP();
         $sender->Host = self::$host;

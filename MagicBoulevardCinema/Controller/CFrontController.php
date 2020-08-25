@@ -119,7 +119,7 @@ class CFrontController
                         CUtente::logout(false);
                     }
                 } else {
-                    if (!$utente->isVisitatore()) {
+                    if (!isset($utente)) {
                         CUtente::createVisitor();
                     }
                 }
